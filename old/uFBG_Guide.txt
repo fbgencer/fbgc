@@ -1,0 +1,48 @@
+[uFBG - Guide 23.01.2018 ~ 01:43]
+-This guide explains how uFBG works and the idea of behind it.
+
+>>Titles
+	{ Core }
+	=>Core Libraries
+	=>Lexer
+	=>Parser
+		-Parsing algorithm
+	=>Bytecodes generator
+		-Bytecodes
+	=>VirtualMachine 
+
+	{ Structure }
+		-Variables
+		-Mathematics
+		-Condition blocks
+		-Loops
+
+____|CORE LIBRARIES|____
+
+->include.h
+	all anchestor libraries are added in this file. 
+	fbgtoken type is determined inside. Currently, it is unsigned char.
+
+
+
+->tokens.h 
+	All primitive data type enum code, tokens and their names are included inside tokens.h
+->token_control.h
+	It determines token types like str,num,hex,bin etc.. 
+	also return token code. 
+->error.h
+
+____|LEXER|____
+
+Lexer produce token name and their values. If token type is string, string vector at that time has value of this token. Likewise, if token type is integer then int vector has value of this token. Each token is transformed by lexer.h, parser take lexer's output and just looks tokens type. When parser see a valuable token(str,double,int etc..) takes is value from vector and that value will be deleted. 
+Lexer push onto the vector and parser begin to read from first element of lexer output.
+
+**Syntax check can be done by lexer. *** 
+
+
+
+____|PARSER|____
+____|BYTECODE GENERATOR|____
+
+
+

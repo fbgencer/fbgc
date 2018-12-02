@@ -1,0 +1,408 @@
+==================[INPUT STRING]=================
+
+{xy = 0b010100 __fbgencer8__ }
+==================[WHILE LOOP BEGIN]=================
+
+rule_reader is called rule_ptr:$0 $b *$0$1
+FLAG : {*:0 $:1}, PATTERN: STR_MATCH:0
+check char is called mobile:x 
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 0 for :[x]y = 0b010100 __fbgencer8__ 
+FLAG Table:0
+Current token : INT
+++++++++++[CHECK = 0 CASE]++++++++++
+
+==================[CHANGING the RULE]=================
+
+Yeni rule : [[]0]
+rule_reader is called rule_ptr:[0]
+tablo acildi
+FLAG : {*:0 $:0}, PATTERN: STR_MATCH:
+check char is called mobile:x 
+=====[read_rule_table]$$$$$$$$$$$$$$$$$$$$$$$
+size:3
+---------------------------------------
+Inputs[0]:d
+rule_reader is called rule_ptr:d
+FLAG : {*:0 $:0}, PATTERN:d STR_MATCH:
+check char is called mobile:x 
+Inside for loop >> Check : 0
+---------------------------------------
+Inputs[1]:$.
+rule_reader is called rule_ptr:$.
+FLAG : {*:0 $:1}, PATTERN: STR_MATCH:.
+check char is called mobile:x 
+Inside for loop >> Check : 0
+---------------------------------------
+Inputs[2]:$j
+rule_reader is called rule_ptr:$j
+FLAG : {*:0 $:1}, PATTERN: STR_MATCH:j
+check char is called mobile:x 
+Inside for loop >> Check : 0
+^^^^^^^^^^^^^^^^^^^^^^ERROR VERMELI^^^^^^^^^^^^^^^^^^^
+Ras Rule : 
+Ras str : xy = 0b010100 __fbgencer8__ 
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 0 for :[x]y = 0b010100 __fbgencer8__ 
+FLAG Table:0
+Current token : INT
+++++++++++[CHECK = 0 CASE]++++++++++
+
+==================[CHANGING the RULE]=================
+
+Yeni rule : [*]o
+rule_reader is called rule_ptr:*o
+FLAG : {*:1 $:0}, PATTERN:o STR_MATCH:
+check char is called mobile:x 
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 0 for :[x]y = 0b010100 __fbgencer8__ 
+FLAG Table:0
+Current token : OP
+++++++++++[CHECK = 0 CASE]++++++++++
+
+==================[CHANGING the RULE]=================
+
+Yeni rule : [l]$_ *ld$_
+rule_reader is called rule_ptr:l$_ *ld$_
+FLAG : {*:0 $:1}, PATTERN:l STR_MATCH:_
+check char is called mobile:x 
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 1 for :[x]y = 0b010100 __fbgencer8__ 
+FLAG Table:0
+Current token : WORD
+###[Satisfied rule section :l$_]###
+rule_reader is called rule_ptr:*ld$_
+FLAG : {*:1 $:1}, PATTERN:ld STR_MATCH:_
+check char is called mobile:y 
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 1 for :x[y] = 0b010100 __fbgencer8__ 
+FLAG Table:0
+Current token : WORD
+###[Satisfied rule section :l$_ *ld$_]###
+check char is called mobile:  
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 0 for :xy[ ]= 0b010100 __fbgencer8__ 
+FLAG Table:0
+Current token : WORD
+++++++++++[CHECK = 0 CASE]++++++++++
+
+==================[TOKEN IS FOUND]=================
+
+--------------------------------------------------
+[xy : WORD]
+--------------------------------------------------
+
+
+
+check char is called mobile:= 
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 0 for :xy [=] 0b010100 __fbgencer8__ 
+FLAG Table:0
+Current token : INT
+++++++++++[CHECK = 0 CASE]++++++++++
+
+==================[MOVING IN RULE]=================
+
+rule_reader is called rule_ptr:$0 $b *$0$1
+FLAG : {*:0 $:1}, PATTERN: STR_MATCH:0
+check char is called mobile:= 
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 0 for :xy [=] 0b010100 __fbgencer8__ 
+FLAG Table:0
+Current token : INT
+++++++++++[CHECK = 0 CASE]++++++++++
+
+==================[CHANGING the RULE]=================
+
+Yeni rule : [[]0]
+rule_reader is called rule_ptr:[0]
+tablo acildi
+FLAG : {*:0 $:0}, PATTERN: STR_MATCH:
+check char is called mobile:= 
+=====[read_rule_table]$$$$$$$$$$$$$$$$$$$$$$$
+size:3
+---------------------------------------
+Inputs[0]:d
+rule_reader is called rule_ptr:d
+FLAG : {*:0 $:0}, PATTERN:d STR_MATCH:
+check char is called mobile:= 
+Inside for loop >> Check : 0
+---------------------------------------
+Inputs[1]:$.
+rule_reader is called rule_ptr:$.
+FLAG : {*:0 $:1}, PATTERN: STR_MATCH:.
+check char is called mobile:= 
+Inside for loop >> Check : 0
+---------------------------------------
+Inputs[2]:$j
+rule_reader is called rule_ptr:$j
+FLAG : {*:0 $:1}, PATTERN: STR_MATCH:j
+check char is called mobile:= 
+Inside for loop >> Check : 0
+^^^^^^^^^^^^^^^^^^^^^^ERROR VERMELI^^^^^^^^^^^^^^^^^^^
+Ras Rule : 
+Ras str : = 0b010100 __fbgencer8__ 
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 0 for :xy [=] 0b010100 __fbgencer8__ 
+FLAG Table:0
+Current token : INT
+++++++++++[CHECK = 0 CASE]++++++++++
+
+==================[CHANGING the RULE]=================
+
+Yeni rule : [*]o
+rule_reader is called rule_ptr:*o
+FLAG : {*:1 $:0}, PATTERN:o STR_MATCH:
+check char is called mobile:= 
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 1 for :xy [=] 0b010100 __fbgencer8__ 
+FLAG Table:0
+Current token : OP
+###[Satisfied rule section :*o]###
+check char is called mobile:  
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 0 for :xy =[ ]0b010100 __fbgencer8__ 
+FLAG Table:0
+Current token : OP
+++++++++++[CHECK = 0 CASE]++++++++++
+
+==================[TOKEN IS FOUND]=================
+
+--------------------------------------------------
+[= : OP]
+--------------------------------------------------
+
+
+
+check char is called mobile:0 
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 0 for :xy = [0]b010100 __fbgencer8__ 
+FLAG Table:0
+Current token : INT
+++++++++++[CHECK = 0 CASE]++++++++++
+
+==================[MOVING IN RULE]=================
+
+rule_reader is called rule_ptr:$0 $b *$0$1
+FLAG : {*:0 $:1}, PATTERN: STR_MATCH:0
+check char is called mobile:0 
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 1 for :xy = [0]b010100 __fbgencer8__ 
+FLAG Table:0
+Current token : INT
+###[Satisfied rule section :$0]###
+rule_reader is called rule_ptr:$b *$0$1
+FLAG : {*:0 $:1}, PATTERN: STR_MATCH:b
+check char is called mobile:b 
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 1 for :xy = 0[b]010100 __fbgencer8__ 
+FLAG Table:0
+Current token : INT
+###[Satisfied rule section :$0 $b]###
+rule_reader is called rule_ptr:*$0$1
+FLAG : {*:1 $:1}, PATTERN: STR_MATCH:01
+check char is called mobile:0 
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 1 for :xy = 0b[0]10100 __fbgencer8__ 
+FLAG Table:0
+Current token : INT
+###[Satisfied rule section :$0 $b *$0$1]###
+check char is called mobile:1 
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 1 for :xy = 0b0[1]0100 __fbgencer8__ 
+FLAG Table:0
+Current token : INT
+check char is called mobile:0 
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 1 for :xy = 0b01[0]100 __fbgencer8__ 
+FLAG Table:0
+Current token : INT
+check char is called mobile:1 
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 1 for :xy = 0b010[1]00 __fbgencer8__ 
+FLAG Table:0
+Current token : INT
+check char is called mobile:0 
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 1 for :xy = 0b0101[0]0 __fbgencer8__ 
+FLAG Table:0
+Current token : INT
+check char is called mobile:0 
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 1 for :xy = 0b01010[0] __fbgencer8__ 
+FLAG Table:0
+Current token : INT
+check char is called mobile:  
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 0 for :xy = 0b010100[ ]__fbgencer8__ 
+FLAG Table:0
+Current token : INT
+++++++++++[CHECK = 0 CASE]++++++++++
+
+==================[TOKEN IS FOUND]=================
+
+--------------------------------------------------
+[0b010100 : INT]
+--------------------------------------------------
+
+
+
+check char is called mobile:_ 
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 0 for :xy = 0b010100 [_]_fbgencer8__ 
+FLAG Table:0
+Current token : INT
+++++++++++[CHECK = 0 CASE]++++++++++
+
+==================[MOVING IN RULE]=================
+
+rule_reader is called rule_ptr:$0 $b *$0$1
+FLAG : {*:0 $:1}, PATTERN: STR_MATCH:0
+check char is called mobile:_ 
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 0 for :xy = 0b010100 [_]_fbgencer8__ 
+FLAG Table:0
+Current token : INT
+++++++++++[CHECK = 0 CASE]++++++++++
+
+==================[CHANGING the RULE]=================
+
+Yeni rule : [[]0]
+rule_reader is called rule_ptr:[0]
+tablo acildi
+FLAG : {*:0 $:0}, PATTERN: STR_MATCH:
+check char is called mobile:_ 
+=====[read_rule_table]$$$$$$$$$$$$$$$$$$$$$$$
+size:3
+---------------------------------------
+Inputs[0]:d
+rule_reader is called rule_ptr:d
+FLAG : {*:0 $:0}, PATTERN:d STR_MATCH:
+check char is called mobile:_ 
+Inside for loop >> Check : 0
+---------------------------------------
+Inputs[1]:$.
+rule_reader is called rule_ptr:$.
+FLAG : {*:0 $:1}, PATTERN: STR_MATCH:.
+check char is called mobile:_ 
+Inside for loop >> Check : 0
+---------------------------------------
+Inputs[2]:$j
+rule_reader is called rule_ptr:$j
+FLAG : {*:0 $:1}, PATTERN: STR_MATCH:j
+check char is called mobile:_ 
+Inside for loop >> Check : 0
+^^^^^^^^^^^^^^^^^^^^^^ERROR VERMELI^^^^^^^^^^^^^^^^^^^
+Ras Rule : 
+Ras str : __fbgencer8__ 
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 0 for :xy = 0b010100 [_]_fbgencer8__ 
+FLAG Table:0
+Current token : INT
+++++++++++[CHECK = 0 CASE]++++++++++
+
+==================[CHANGING the RULE]=================
+
+Yeni rule : [*]o
+rule_reader is called rule_ptr:*o
+FLAG : {*:1 $:0}, PATTERN:o STR_MATCH:
+check char is called mobile:_ 
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 0 for :xy = 0b010100 [_]_fbgencer8__ 
+FLAG Table:0
+Current token : OP
+++++++++++[CHECK = 0 CASE]++++++++++
+
+==================[CHANGING the RULE]=================
+
+Yeni rule : [l]$_ *ld$_
+rule_reader is called rule_ptr:l$_ *ld$_
+FLAG : {*:0 $:1}, PATTERN:l STR_MATCH:_
+check char is called mobile:_ 
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 1 for :xy = 0b010100 [_]_fbgencer8__ 
+FLAG Table:0
+Current token : WORD
+###[Satisfied rule section :l$_]###
+rule_reader is called rule_ptr:*ld$_
+FLAG : {*:1 $:1}, PATTERN:ld STR_MATCH:_
+check char is called mobile:_ 
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 1 for :xy = 0b010100 _[_]fbgencer8__ 
+FLAG Table:0
+Current token : WORD
+###[Satisfied rule section :l$_ *ld$_]###
+check char is called mobile:f 
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 1 for :xy = 0b010100 __[f]bgencer8__ 
+FLAG Table:0
+Current token : WORD
+check char is called mobile:b 
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 1 for :xy = 0b010100 __f[b]gencer8__ 
+FLAG Table:0
+Current token : WORD
+check char is called mobile:g 
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 1 for :xy = 0b010100 __fb[g]encer8__ 
+FLAG Table:0
+Current token : WORD
+check char is called mobile:e 
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 1 for :xy = 0b010100 __fbg[e]ncer8__ 
+FLAG Table:0
+Current token : WORD
+check char is called mobile:n 
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 1 for :xy = 0b010100 __fbge[n]cer8__ 
+FLAG Table:0
+Current token : WORD
+check char is called mobile:c 
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 1 for :xy = 0b010100 __fbgen[c]er8__ 
+FLAG Table:0
+Current token : WORD
+check char is called mobile:e 
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 1 for :xy = 0b010100 __fbgenc[e]r8__ 
+FLAG Table:0
+Current token : WORD
+check char is called mobile:r 
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 1 for :xy = 0b010100 __fbgence[r]8__ 
+FLAG Table:0
+Current token : WORD
+check char is called mobile:8 
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 1 for :xy = 0b010100 __fbgencer[8]__ 
+FLAG Table:0
+Current token : WORD
+check char is called mobile:_ 
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 1 for :xy = 0b010100 __fbgencer8[_]_ 
+FLAG Table:0
+Current token : WORD
+check char is called mobile:_ 
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 1 for :xy = 0b010100 __fbgencer8_[_] 
+FLAG Table:0
+Current token : WORD
+check char is called mobile:  
+$$$$$$$$$$$$$$$$$$$$$$$$
+Check 0 for :xy = 0b010100 __fbgencer8__[ ]
+FLAG Table:0
+Current token : WORD
+++++++++++[CHECK = 0 CASE]++++++++++
+
+==================[TOKEN IS FOUND]=================
+
+--------------------------------------------------
+[__fbgencer8__ : WORD]
+--------------------------------------------------
+
+
+
+[xy : WORD]
+[= : OP]
+[0b010100 : INT]
+[__fbgencer8__ : WORD]
