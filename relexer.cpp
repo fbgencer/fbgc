@@ -30,9 +30,7 @@ typedef struct{
 typedef struct{
 	string rule_pattern;
 	string char_match;
-	fbgc_bool flag_star;
-	fbgc_bool flag_dollar;
-	fbgc_bool flag_table;
+	fbgc_bool flag_plus,flag_star,flag_backslash,flag_table;
 	uint8_t rule_section;
 	const char *rule_ptr;
 	fbgc_bool check;
@@ -51,46 +49,53 @@ rule_arrange_struct *check_char(rule_arrange_struct * ras);
 
 rule_arrange_struct *rule_reader(rule_arrange_struct * ras){
 	fprintf(fl,"%s is called rule_ptr:%s\n",__FUNCTION__,ras->rule_ptr);
-	ras->flag_dollar = ras->flag_star = 0;
+	ras->flag_backslash = ras->flag_plus = ras->flag_star = 0;
 	ras->rule_pattern =string("");
   	ras->char_match=string("");
 
 	while(*(ras->rule_ptr) != ' ' && *(ras->rule_ptr) != '\0'){
 
-		if(*(ras->rule_ptr) == '*') {
+		if(*(ras->rule_ptr) == LXR_META_PLUS) {
+			ras->flag_plus = 1;
+		}
+		else if(*(ras->rule_ptr) == LXR_META_STAR){
+			fprintf(fl, "\n***************************STAR okunuyor\n\n" );
 			ras->flag_star = 1;
 		}
-		else if(*(ras->rule_ptr) == '$') {
-			ras->flag_dollar = 1;
+		else if(*(ras->rule_ptr) == LXR_META_BACKSLASH) {
+			ras->flag_backslash = 1;
 			(ras->rule_ptr)++;
 			ras->char_match.push_back(*(ras->rule_ptr));
 		}
-		else if(*(ras->rule_ptr) == '['){
+		else if(*(ras->rule_ptr) == LXR_META_TABLE){
 			//first assume just one char number
+
+			(ras->rule_ptr)++;
 			ras->flag_table = 1;
 			fprintf(fl,"tablo acildi\n");
-			ras->table_ptr = lexer_table+(*((ras->rule_ptr)+1) - '0');
-			(ras->rule_ptr) += 5; // sweep to the end [i]
+			ras->table_ptr = lexer_table+(*((ras->rule_ptr)) - '0');
+			(ras->rule_ptr) ++; // sweep to the end [i]
 			ras->table_state = 0;
 		}
 		else if(fun_index(*(ras->rule_ptr)) != LXR_PATTERN_NUM){
 			ras->rule_pattern.push_back(*(ras->rule_ptr)); 
 		}
 		else {
+			printf("Rule UNDEFINED: %c\n",*(ras->rule_ptr) );
 			error("UNDEFINED RULE PATTERN");
 			return NULL;
 		}
 		if(*(ras->rule_ptr) != '\0')(ras->rule_ptr)++;
 	}
 	ras->rule_section++;
-	fprintf(fl,"FLAG : {*:%d $:%d}, PATTERN:%s STR_MATCH:%s\n",
-	ras->flag_star,ras->flag_dollar,ras->rule_pattern.c_str(),ras->char_match.c_str());	
+	fprintf(fl,"FLAG : {+:%d *:%d $:%d}, PATTERN:%s STR_MATCH:%s\n",
+	ras->flag_plus,ras->flag_star,ras->flag_backslash,ras->rule_pattern.c_str(),ras->char_match.c_str());	
 	if(*(ras->rule_ptr) == ' ') ras->rule_ptr++;
 	return ras;
 }
 rule_arrange_struct *read_rule_table(rule_arrange_struct *ras){
 
-	fprintf(fl,"=====[%s]$$$$$$$$$$$$$$$$$$$$$$$\n",__FUNCTION__);
+	fprintf(fl,"\n^^^^^^^^^^^^^^^^^^^^[%s]^^^^^^^^^^^^^^^^^^^^\n\n",__FUNCTION__);
 
 	fprintf(fl,"size:%d\n",ras->table_ptr->size ); // so the matrix is size+1 x size 
 	uint8_t const size = ras->table_ptr->size;
@@ -105,7 +110,8 @@ rule_arrange_struct *read_rule_table(rule_arrange_struct *ras){
 	int koruyucu = 0;
 
 
-	while(*(ras->mobile_ptr) != '\0' ) { 
+	while(*(ras->mobile_ptr) != '\0' ) {
+
 		for(uint8_t i = 0; i<size; i++){
 			ras->rule_section = 0;
 			ras->rule_ptr = ras->table_ptr->inputs[i]; // okunacak yeni kurallar tablodan alınır
@@ -135,7 +141,7 @@ rule_arrange_struct *read_rule_table(rule_arrange_struct *ras){
 
 				}
 				koruyucu++;
-				if(koruyucu >= 50) break;
+				if(koruyucu >= 100) break;
 			}
 
 			fprintf(fl,"Inside for loop >> Check : %d\n",ras->check);
@@ -202,13 +208,18 @@ rule_arrange_struct *check_char(rule_arrange_struct * ras){
   	for(uint8_t i = 0; i<ras->rule_pattern.size(); i++){
   		ras->check = ras->check || comparator[fun_index(ras->rule_pattern[i])](*(ras->mobile_ptr));
   	}
-  	if(ras->flag_dollar){
+  	if(ras->flag_backslash){
   		for(uint8_t i = 0; i<ras->char_match.size(); i++){
   			ras->check = ras->check || (ras->char_match[i] == *(ras->mobile_ptr));
   		}
   	}
   	if(ras->flag_table){
   		ras = read_rule_table(ras);
+  	}
+  	if(ras->flag_star){
+  		if(ras->check == 0) {
+  			fprintf(fl, "+$+$check ediyorum :%d\n",ras->check);	
+  		}
   	}
 	return ras;
 }
@@ -248,16 +259,16 @@ uint8_t regex_lexer(const string &str){
   	#define BREAKER 3000
 
   	while(*(ras->mobile_ptr) != '\0'){	break_loop++;
-  		if( ras->flag_star == 0 && ras->flag_table == 0){
+  		if( ras->flag_plus == 0 && ras->flag_table == 0 && ras->flag_star == 0){
   			ras = rule_reader(ras);
 	  	}
 
 	  	
 	  	ras = check_char(ras);
-	  	fprintf(fl, "$$$$$$$$$$$$$$$$$$$$$$$$\n");
+		//fprintf(fl, "###########\n");
 	  	fprintf(fl,"Check %d for :",ras->check); pretty_print_pointer(fl,buffer,ras->mobile_ptr);
-	  	fprintf(fl,"FLAG Table:%d\n",ras->flag_table );
-	  	fprintf(fl, "Current token : %s\n",TYPES_ARRAY[ras->current_token].c_str());
+	  	//fprintf(fl,"FLAG Table:%d\n",ras->flag_table );
+	  	//fprintf(fl, "Current token : %s\n",TYPES_ARRAY[ras->current_token].c_str());
 	  	if(ras->flag_table){
 	  		fprintf(fl,"EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE:%d\n",ras->flag_table );
 	  		ras->flag_table = 0;
@@ -270,10 +281,13 @@ uint8_t regex_lexer(const string &str){
 	  		//fprintf(fl, "tablo bunu bulamadi \n");
 	  	}
 
-
+	  	if(ras->flag_star && ras->check == 0 ){
+	  		satisfied_rule_section = ras->rule_section;
+	  	}
 
 	  	if(ras->check){
 	  		(ras->mobile_ptr)++;
+	  		fprintf(fl, "satisfied_rule_section :%d %d\n",ras->rule_section,satisfied_rule_section );
 	  		if(!(ras->flag_table) && satisfied_rule_section != ras->rule_section){
 	  			satisfied_rule_section = ras->rule_section;
 	  			satisfied_rule_section_str = string((rule_struct_ptr+current_rule_index)->rule, ras->rule_ptr);
@@ -291,6 +305,7 @@ uint8_t regex_lexer(const string &str){
 	  		//move into the current rule
 	  		if(satisfied_rule_section == ras->rule_section && *(ras->rule_ptr) != '\0'){
 	  			block_print(fl,"MOVING IN RULE");
+	  			ras->flag_plus = 0;
 	  			ras->flag_star = 0;
 	  		}
 	  		else if(current_rule_index < (RULE_NUMBER-1) && satisfied_rule_section != ras->rule_section){
@@ -300,7 +315,7 @@ uint8_t regex_lexer(const string &str){
 	  			ras->rule_ptr = (rule_struct_ptr+current_rule_index)->rule;
 	  			ras->current_token = (rule_struct_ptr+current_rule_index)->token;
 	  			satisfied_rule_section = ras->rule_section = 0;
-	  			ras->flag_star = ras->flag_table = 0;
+	  			ras->flag_plus = ras->flag_table = 0;
 
 	  			fprintf(fl, "Yeni rule : ");
 	  			pretty_print_pointer(fl,(rule_struct_ptr+current_rule_index)->rule,ras->rule_ptr);
@@ -335,6 +350,8 @@ uint8_t regex_lexer(const string &str){
 						
 						satisfied_rule_section_str = string("");
 						satisfied_rule_section = ras->rule_section = 0;
+						ras->flag_plus = ras->flag_table = ras->flag_star = ras->flag_backslash = 0;
+
 						
 						while(*((ras->mobile_ptr)) == ' ') ras->mobile_ptr++;
 						if(*(ras->mobile_ptr) == '\0') break;
@@ -373,7 +390,7 @@ uint8_t regex_lexer(const string &str){
 int main(){
 
 
-	string lexerinput = "xy = 0b010100 __fbgencer8__ ";
+	string lexerinput = "x = y ==== 12j 1.23j 12 1.2 ";
 	
 	/*char buffer1[] = "d+ $. d+";
   	char buffer2[] = "d+ $. d+";
@@ -399,7 +416,7 @@ int main(){
 	  			pretty_print_pointer(fl,(rule_struct_ptr+current_rule_index)->rule,rule_ptr);
 
 	  			if(*rule_ptr == '*') flags[LXR_META_STAR] = 1;
-	  			else if(*rule_ptr == '$') {flags[LXR_META_DOLLAR] = 1;
+	  			else if(*rule_ptr == '$') {flags[LXR_META_BACKSLASH] = 1;
 	  					rule_ptr++;
 	  					tempstr.push_back(*rule_ptr);
 				}
@@ -411,6 +428,6 @@ int main(){
 	  			}
 	  			rule_ptr++;
 	  		}
-	  		fprintf(fl,"FLAG : {*:%d $:%d}, PATTERN:%s STR_MATCH:%s\n--------------\n",flags[LXR_META_STAR],flags[LXR_META_DOLLAR],pattern_str.c_str(),tempstr.c_str());
+	  		fprintf(fl,"FLAG : {*:%d $:%d}, PATTERN:%s STR_MATCH:%s\n--------------\n",flags[LXR_META_STAR],flags[LXR_META_BACKSLASH],pattern_str.c_str(),tempstr.c_str());
 	  		if(*rule_ptr != '\0') rule_ptr++;
 	  		*/

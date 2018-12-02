@@ -50,7 +50,7 @@ typedef struct{
 
 static token_table_struct table_0 = {
 	.size = 3,
-	.inputs = (const char*[]){"d","$.","$j"},
+	.inputs = (const char*[]){"d","\\.","\\j"},
 	.states = (const uint8_t[]){1,2,4,  1,2,3,  2,4,3,  0,0,0},
 	.tokens = (const ufbg_token[]){INT,DOUBLE,COMPLEX}
 };
@@ -58,15 +58,18 @@ static token_table_struct table_0 = {
 static const token_table_struct lexer_table[] = {table_0};
 #define TOKEN_TABLE_SIZE 1
 
-#define RULE_NUMBER 4
+#define RULE_NUMBER 5
 static ufbg_lexer_rule_struct ufbg_lexer_rule_holder [] = 
 {
-	{"$0 $b *$0$1",INT},
+	{"\\0 \\b \\0\\1+",INT},
+	{"\\0 \\x hd+",HEX},
+	{"l\\_ ld\\_*",WORD},
+	{"o+",OP},
 	{"[0]",INT}, //123.875
-	{"*o",OP},
-	{"l$_ *ld$_",WORD},
 };
 /*
+	
+	
 	{"*d $. *d $j",COMPLEX},
 	
 	{"*d $j",COMPLEX}, //123j
@@ -126,30 +129,18 @@ fbgc_bool (*comparator[COMPARATOR_FUNCTION_SIZE])(const char) =
 	is_all
 };
 
-
-#define LXR_META_STAR 0 // for * metach
-#define LXR_META_DOLLAR 1 //for $ metach
-#define LXR_META_TABLE 2
-
-#define LXR_FLAGS_NUM 3 //it has to be equal last one + 1
+#define LXR_META_PLUS '+'
+#define LXR_META_STAR '*'
+#define LXR_META_BACKSLASH '\\'
+#define LXR_META_TABLE '['
 
 
-const char * flag_array[]{
-	"l","d","o","*","$","t","n","><","$","b","h","s"
-};
+#define LXR_META_PLUS_INDEX 0 // for + metach
+#define LXR_META_STAR_INDEX 0 // for * metach
+#define LXR_META_BACKSLASH_INDEX 1 //for \ metach
+#define LXR_META_TABLE_INDEX 2
 
-/*
-				else if(*rule_ptr == '['){ flags[LXR_META_TABLE] = 1;
-					uint8_t table_id = *(rule_ptr+1) - '0';
-					rule_ptr += 4;
-					current_table_ptr = lexer_table+table_id;
-					block_print(fl,"**");
-					for(int i = 0; i<current_table_ptr->size; i++){
-						fprintf(fl,"Input[%d] : %s\n",i,current_table_ptr->inputs[i]);
-					} 
-					block_print(fl,"**");
-				}
-*/
+#define LXR_FLAGS_NUM 4 //it has to be equal last one + 1
 
 #endif
 
