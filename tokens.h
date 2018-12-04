@@ -45,7 +45,7 @@ enum TYPES{
 	/*Loops*/
 	FOR,WHILE,UNTIL,JUMP,BREAK,CONT,
 	/*If-Else*/
-	IF,ELSE,ELSIF,
+	IF,ELSE,ELIF,
 	/*Logical*/
 	AND,OR,NOT,
 	//Some Special cases
@@ -84,7 +84,7 @@ const string TYPES_ARRAY[]={
 	/*Loops*/
 	"FOR","WHILE","UNTIL","JUMP","BREAK","CONT",
 	/*If-Else*/
-	"IF","ELSE","ELSIF",
+	"IF","ELSE","ELIF",
 	/*Logical*/
 	"AND","OR","NOT",
 	//Some Special cases
@@ -112,8 +112,8 @@ const string TYPES_ARRAY[]={
 || T== UPLUS || T == LOWER || T == GREATER || T == LO_EQ || T == GR_EQ || T == EQ_EQ \
 || T == IS_EQ || T == NOT_EQ|| T== AND_OP|| T == OR_OP || T == NOT_OP)
 
-#define isFUNCTIONABLE(T)(T == IF || T == ELSIF || T == WHILE)
-#define isCONDITION(T)(T == IF||T==ELSIF||T == ELSE)
+#define isFUNCTIONABLE(T)(T == IF || T == ELIF || T == WHILE)
+#define isCONDITION(T)(T == IF||T==ELIF||T == ELSE)
 #define isLOOP(T) (T == WHILE || T == FOR || T == UNTIL)
 
 
@@ -168,11 +168,11 @@ const static token_struct operator_token_array[]={
 	{COLDIV,":/"},
 
 };
-//#define is_token_RESERVED_WORD(T)(T==IF || T==ELSIF || T== ELSE || T== END|| T==BEGIN || T==FOR || T==WHILE||)
+//#define is_token_RESERVED_WORD(T)(T==IF || T==ELIF || T== ELSE || T== END|| T==BEGIN || T==FOR || T==WHILE||)
 const static token_struct reserved_words_token_array[]={
 	{IF,"if"},
 	{ELSE,"else"},
-	{ELSIF,"elsif"},
+	{ELIF,"elif"},
 	{END,"end"},
 	{BEGIN,"begin"},
 	{FOR,"for"},
