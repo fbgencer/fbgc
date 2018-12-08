@@ -1,5 +1,6 @@
 #include "relexer.h"
 
+
 void pretty_print_pointer(const char *buffer ,const char * ptr){
 	long int where = ptr-buffer;
 	//printf("%s |ptr-> ",buffer);
@@ -11,11 +12,11 @@ void pretty_print_pointer(const char *buffer ,const char * ptr){
 	printf("\n");	
 }
 
-#define DEBUG 
+//#define DEBUG 
 
 typedef struct{
 	string str;
-	ufbg_token token;
+	fbgc_token token;
 }token_and_string;
 
 
@@ -28,7 +29,7 @@ typedef struct{
 	fbgc_bool check;
 	const token_table_struct *table_ptr;
 	uint8_t table_state;
-	ufbg_token current_token; 
+	fbgc_token current_token; 
 }rule_arrange_struct;
 
 void rule_reader(rule_arrange_struct * ras);
@@ -39,7 +40,7 @@ void rule_reader(rule_arrange_struct * ras){
 	
 	ras->flag_char_match = ras->flag_plus = ras->flag_star = 0;
 	ras->rule_pattern =string("");
-  	ras->char_match=string("");
+  	ras->char_match = string("");
   	//printf("ras->rule_ptr %s\n",ras->rule_ptr );
 
 	if(*(ras->rule_ptr) !='\0') ras->rule_section++;
@@ -61,16 +62,21 @@ void rule_reader(rule_arrange_struct * ras){
 			ras->table_ptr = lexer_table+(*((ras->rule_ptr)) - '0');
 			(ras->rule_ptr) ++; // sweep to the end [i]
 			ras->table_state = 0;
-		}
+		}		
 		else if(*(ras->rule_ptr) == LXR_META_BACKSLASH){
 			ras->rule_ptr++; 
 			//printf("Backslash Next %c\n",*ras->rule_ptr );
 			if(fun_index(*(ras->rule_ptr)) < LXR_PATTERN_NUM)
 				ras->rule_pattern.push_back(*(ras->rule_ptr)); 
-			else if(*(ras->rule_ptr) == LXR_META_PLUS || *(ras->rule_ptr) == LXR_META_STAR) {			
+			else if(*(ras->rule_ptr) == LXR_META_PLUS || *(ras->rule_ptr) == LXR_META_STAR
+				||*(ras->rule_ptr) == ' '
+			) {			
 				ras->char_match.push_back(*(ras->rule_ptr++));
 			}
-			else error("UNDEFINED RULE PATTERN");
+			else {
+				printf("Undefined rule c:%c d:%d\n",*(ras->rule_ptr),*(ras->rule_ptr));
+				error("UNDEFINED RULE PATTERN");
+			}
 		}
 		else{
 			//printf("Match icin char :%c\n",*((ras->rule_ptr)));
@@ -195,14 +201,16 @@ void read_rule_table(rule_arrange_struct *ras){
 //#undef DEBUG
 
 
-uint8_t regex_lexer(const string &str){
-	char *buffer = (char*) malloc((str.size()+1)*sizeof(char));
-	strcpy(buffer,str.c_str());
+uint8_t regex_lexer(){
+	const char * buffer = "1+2j x=5.123123; 1.2E+3j wow _x_f ";
+	//(char*) malloc((str.size()+1)*sizeof(char)); strcpy(buffer,str.c_str());
 	//char *mobile_ptr = buffer;
-	const char *first_ptr = buffer;// this shows the first char location for each token
+	const char *first_ptr = buffer;
+
+	//buffer;// this shows the first char location for each token
   	
-  	ufbg_lexer_rule_struct * rule_struct_ptr = ufbg_lexer_rule_holder;
-  	rule_arrange_struct * ras =(rule_arrange_struct*) malloc(sizeof(rule_arrange_struct));
+  	const fbgc_lexer_rule_struct * rule_struct_ptr = fbgc_lexer_rule_holder;
+  	rule_arrange_struct * ras = (rule_arrange_struct *) malloc(sizeof(rule_arrange_struct));
   	ras->rule_ptr = rule_struct_ptr->rule; //rule pointer travels between different token rules
 	ras->current_token = rule_struct_ptr->token;
 	uint8_t current_rule_index = 0;
@@ -215,10 +223,8 @@ uint8_t regex_lexer(const string &str){
 
   	uint8_t satisfied_rule_section = 0;
 
-  	
-
   	std::vector<token_and_string> token_vector;
-
+  	
 
   	int break_loop = 0;
   	#define BREAKER 3000
@@ -226,7 +232,9 @@ uint8_t regex_lexer(const string &str){
   	while(*(ras->mobile_ptr) != '\0'){	break_loop++;
   		
   		if( ras->flag_plus == 0 && ras->flag_table == 0 && ras->flag_star == 0){
+  			#ifdef DEBUG
   			pretty_print_pointer(rule_struct_ptr->rule,ras->rule_ptr);
+  			#endif
   			rule_reader(ras);
 	  	}
 	  	check_char(ras);
@@ -296,7 +304,7 @@ uint8_t regex_lexer(const string &str){
 	  				#ifdef DEBUG 
 	  				printf("-------------{Check the previous rule}---------------\n");
 	  				#endif
-
+	  				printf("previous Rule :%s\n",satisfied_rule_section_str.c_str());
 		  			if(strncmp(ras->rule_ptr,satisfied_rule_section_str.c_str(),satisfied_rule_section_str.size()) == 0){
 		  				ras->rule_ptr += satisfied_rule_section_str.size();
 		  				if(*(ras->rule_ptr) ==' ') ras->rule_ptr++;
@@ -359,22 +367,30 @@ uint8_t regex_lexer(const string &str){
   		
 	}
 
-	FILE *fl = fopen("relexer.txt","w");
+	///*FILE *fl = fopen("relexer.txt","w");
+	//fprintf(fl, "Input:\n%s\n-----------------------\n",buffer);
+	//printf( "Input:\n%s\n-----------------------\n",buffer);
+	
 	for(int i = 0; i<token_vector.size(); i++){
-		fprintf(fl,"[%s : %s]\n",token_vector[i].str.c_str(), TYPES_ARRAY[token_vector[i].token].c_str() );
-		printf("[%s : %s]\n",token_vector[i].str.c_str(), TYPES_ARRAY[token_vector[i].token].c_str() );
+		cout<<token_vector[i].str<<":"<<TYPES_ARRAY[token_vector[i].token]<<endl;
+		//fprintf(fl,"[%s : %s]\n",token_vector[i].str.c_str(), TYPES_ARRAY[token_vector[i].token].c_str() );
+		//printf("[%s : %s]\n",token_vector[i].str.c_str(), TYPES_ARRAY[token_vector[i].token].c_str() );
 	}
 
-	fclose(fl);
 	free(ras);
-	free(buffer);
+	//free(buffer);
+	
+	
 
 	return 1;
 }
 
 int main(){
 
-regex_lexer(string("'f b' x = '' "));
+  	int x = regex_lexer();
+
+	return 0;
+	
 /*	string lexerinput; //" 'f _ b _ g' 1.2e "
 	while(lexerinput != "exit")
 {	
@@ -384,25 +400,17 @@ regex_lexer(string("'f b' x = '' "));
 	regex_lexer(lexerinput);
 }
 */
+ /* string line;
+  ifstream myfile ("relexer_test.txt");
+  if (myfile.is_open())
+  {
+    while ( getline (myfile,line) )
+    {
+      cout << line << '\n';
+    }
+    myfile.close();
+  }
+  else cout << "Unable to open file"; 
+  */
 
-//	printf("%ld\n",RULE_NUMBER );
-	//regex_lexer(string("elif "));
-	//string lexerinput = "1E+2 1E-2 1E88554154j .213123 x _ + xy x_ _x_x ____ _x123_ ";
-	//_Complex x = 3i;
-	//printf("%d\n",x);
-	
-	/*char buffer1[] = "d+ $. d+";
-  	char buffer2[] = "d+ $. d+";
-	for(char *qs = buffer1; qs<buffer1+strlen(buffer1); qs++){
-		pretty_print_pointer(buffer1,qs);
-	}*/
-
-	//printf("MEMcmp:%d\n",strncmp( buffer2,buffer1,strlen(buffer1)));
-	
-	//"'>> e l i f<<' _x12_ + a1b2c4 aAbBcCdDeEfF_gGhHiI ____fbg___ _____ f_b_g 123456 123.323 1E16 1E-12 0x42 0b010100 'LOLnaber' > => ";
-	//12323 \"FbG123===\" 'fbg' 2.232 _x_2 3.312
-
-	
-	
-	return 0;
 }

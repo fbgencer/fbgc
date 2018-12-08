@@ -6,20 +6,6 @@
 
 
 /*
-std::vector<ufbg_token> lextok;
-std::vector<string> lexstr;
-std::vector<string> lexword;
-std::vector<int> lexint;
-std::vector<double> lexdouble;
-*/
-
-typedef struct{
-	ufbg_token token;
-	const char *rule;
-}ufbg_lexer_rule_struct;
-
-
-/*
 	d: digit [0-9]
 	l: letter[a-zA-Z]
 	o : operator
@@ -28,7 +14,7 @@ typedef struct{
 	* : at least one occurance
 	z: all matching, any character, operator, number except \t \n
 	+ : Since we don't have or operator, + is going to try match following immediately after previous one
-	><: takes real strings inside it and tries to match, for example >ufbg< is going to match as exactly ufbg in the string
+	><: takes real strings inside it and tries to match, for example >fbgc< is going to match as exactly fbgc in the string
 
 */
 /*
@@ -43,14 +29,25 @@ Complex 4	0	0	0	0
 */
 // how to initialize 2d array in struct ? 
 
+
+typedef struct{
+	fbgc_token token;
+	const char *rule;
+}fbgc_lexer_rule_struct;
+
+
+
+//==========================================================================
+
 typedef struct{
 	const uint8_t input_size,token_size;
 	const char ** inputs;
 	const uint8_t * states;
-	const ufbg_token * tokens;
+	const fbgc_token * tokens;
 }token_table_struct;
 
-static token_table_struct table_0 = {
+/*
+token_table_struct table_0 = {
 	.input_size = 4,
 	.token_size = 4,
 	.inputs = (const char*[]){"\\d",".","j","E \\+\\-*"},
@@ -61,71 +58,53 @@ static token_table_struct table_0 = {
 	  3,0,4,0, //exponential double
 	  0,0,0,0, //complex
 	},
-	.tokens = (const ufbg_token[]){INT,DOUBLE,DOUBLE,COMPLEX}
-};
+	.tokens = (const fbgc_token[]){INT,DOUBLE,DOUBLE,COMPLEX}
+};*/
 
-static const token_table_struct lexer_table[] = {table_0};
+token_table_struct lexer_table[] = 
+{
+	{
+		.input_size = 4,
+		.token_size = 4,
+		.inputs = (const char*[]){"\\d",".","j","E \\+\\-*"},
+		.states = (const uint8_t[])
+		{ 1,2,5,0, //begin  
+		  1,2,4,3, //int
+		  2,0,4,3, //double
+		  3,0,4,0, //exponential double
+		  0,0,0,0, //complex
+		},
+		.tokens = (const fbgc_token[]){INT,DOUBLE,DOUBLE,COMPLEX}
+	}	
+};
 #define TOKEN_TABLE_SIZE 1
 
+//==========================================================================
+
 //#define RULE_NUMBER 7
-#define RULE_NUMBER sizeof(ufbg_lexer_rule_holder)/sizeof(ufbg_lexer_rule_struct)
-static ufbg_lexer_rule_struct ufbg_lexer_rule_holder [] = 
+#define RULE_NUMBER sizeof(fbgc_lexer_rule_holder)/sizeof(fbgc_lexer_rule_struct)
+static const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] = 
 {
 	{INT,"0 b 01+"},
 	{HEX,"0 x \\h\\d+"},
-	{STRING,"' \\ \\.\\t\\n\\\"* '"},
+	{STRING,"' \\ \\.\\t\\n\"* '"},
 	{WORD,"\\l_ \\l\\d_*"},
 	{OP,"\\o+"},
-	{INT,"[0]"}, //123.875	
+	{INT,"#0"}, //123.875
+	{LPARA,"("},
+	{RPARA,")"},
+	{LBRACE,"{"},
+	{RBRACE,"}"},
+	{LBRACK,"["},
+	{RBRACK,"]"}	
 };
 
 
-/*
-
-
-static ufbg_lexer_rule_struct ufbg_lexer_rule_holder [] = 
-{
-	{INT,"\\0 \\b \\0\\1+"},
-	{HEX,"\\0 \\x hd+"},
-	{STRING,"\\' .tn\\\"* \\'"},
-	{WORD,"l\\_ ld\\_*"},
-	{INC,"\\+ \\+"},
-	{OP,"o+"},
-	{INT,"[0]"}, //123.875
-
-};
-*/
-
-#define RULE_NUMBER sizeof(ufbg_lexer_rule_holder)/sizeof(ufbg_lexer_rule_struct)
-
-/*
-	
-	
-	{"*d $. *d $j",COMPLEX},
-	
-	{"*d $j",COMPLEX}, //123j
-	{"*d $f",DOUBLE}, //123j
-	{"*d",INT},//12346
-	{"l$_ *ld$_",WORD},
-	{"*o",OP}, // ==, ++, -, *	
-	{"$0 $b *$0$1",INT},	
-	{"*d $. *d $j",COMPLEX}, //1234.56547j
-	{"(4) $j",COMPLEX},	// .012345j		
-	{">0b< *$0$1",INT},//0b0101 // binary	
-	{">0x< *hd", INT}, // 0xAF
-	{"l$_ *ld$_",WORD}, // abc,a12b,a1_,_1_,_2_,____,a_2_b
-	{"*o",OP}, // ==, ++, -, *
-	{"$. *d",DOUBLE},
-	{"*d $E d$+$- *d", DOUBLE}, //5E8,5E+3,5E-3
-	{"$\" *tnz $\"",STRING}, //"u\nf\nb\ng" z:
-	{"$' *tnz $'",STRING},//'fbgc'
-		
-*/
-
+#define RULE_NUMBER sizeof(fbgc_lexer_rule_holder)/sizeof(fbgc_lexer_rule_struct)
 
 #define fbgc_bool uint8_t
 
-fbgc_bool is_digit(const char c){return (c>='0' &&c<= '9');}
+fbgc_bool is_digit(const char c){return (c>='0' && c<= '9');}
 fbgc_bool is_letter(const char c) {return ( (c>='a' && c<='z' ) || (c>='A' && c <='Z')); }
 fbgc_bool is_operator(const char c){ return
     (  c == '+' || c == '-' || c == '*' || c == '/' || c == '='
@@ -136,7 +115,6 @@ fbgc_bool is_hexadecimal(const char c) {return( c >= 'a' && c <= 'f' )|| ( c >= 
 fbgc_bool is_all(const char c){ return ( c>=32 && c<=126 && c!='\'' && c!='"' );}
 fbgc_bool is_newline(const char c){return c == '\n';}
 fbgc_bool is_tab(const char c){return c == '\t';}
-
 
 #define COMPARATOR_FUNCTION_SIZE 7
 
@@ -166,7 +144,7 @@ fbgc_bool (*comparator[COMPARATOR_FUNCTION_SIZE])(const char) =
 #define LXR_META_PLUS '+'
 #define LXR_META_STAR '*'
 #define LXR_META_BACKSLASH '\\'
-#define LXR_META_TABLE '['
+#define LXR_META_TABLE '#'
 
 
 #define LXR_META_PLUS_INDEX 0 // for + metach

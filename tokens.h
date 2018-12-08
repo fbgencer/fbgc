@@ -1,6 +1,8 @@
 #ifndef TOKENS_H
 #define TOKENS_H
-#include "include.h"
+//#include "include.h"
+
+
 
 //uFBG token struct takes token name and tokencode
 // ufbg token is unsigneg char , its a token code
@@ -8,8 +10,8 @@
 
 
 typedef struct {
-	ufbg_token tokencode;
-	string name;
+	fbgc_token tokencode;
+	const char * name;
 }token_struct;
 
 
@@ -42,11 +44,11 @@ enum TYPES{
 	DOT,TWO_DOT,THREE_DOT,TWO_COLON,
 
 	PARA,LPARA,RPARA,LBRACE,RBRACE, LBRACK,RBRACK,
-	/*Loops*/
+	//Loops
 	FOR,WHILE,UNTIL,JUMP,BREAK,CONT,
-	/*If-Else*/
+	//If-Else
 	IF,ELSE,ELIF,
-	/*Logical*/
+	//Logical
 	AND,OR,NOT,
 	//Some Special cases
 	SPACE,TAB,NLINE, 
@@ -54,7 +56,8 @@ enum TYPES{
 	RETURN,IS,DEL,ARG,COMMA,
 	HALT
 };
-const string TYPES_ARRAY[]={
+
+const char * TYPES_ARRAY[]={
 	"UNKNOWN",
 	"BEGIN","END","END_LOOP","END_FUN","RESET",
 	"INT","DOUBLE","COMPLEX","HEX","INDEX_L","INDEX_S",
@@ -81,11 +84,11 @@ const string TYPES_ARRAY[]={
 	"DOT","TWO_DOT","THREE_DOT","TWO_COLON",
 
 	"PARA","LPARA","RPARA","LBRACE","RBRACE", "LBRACK","RBRACK",
-	/*Loops*/
+	//Loops
 	"FOR","WHILE","UNTIL","JUMP","BREAK","CONT",
-	/*If-Else*/
+	//If-Else
 	"IF","ELSE","ELIF",
-	/*Logical*/
+	//Logical
 	"AND","OR","NOT",
 	//Some Special cases
 	"SPACE", "TAB","NLINE", 
@@ -201,60 +204,19 @@ const static token_struct paranthesis_token_array[]={
 	{RBRACK,"]"},
 };
 
-
-/*
-//Basic type checkers
-#define is_digit(x) ( (x>='0' && x<= '9') )
-#define is_letter(x) ( (x>='a' && x<='z' ) || (x>='A' && x<='Z'))
-#define is_underscore(x)(x=='_')
-#define is_singlequote(x)(x=='\'')
-#define is_quote(x)(x=='\"')
-#define is_backslash(x)(x=='\\')
-#define is_unary(x)(x=='-' || x== '+')
-#define is_dot(x)(x=='.')
-//Check current char is op or not.
-#define is_operator(c)(\
-c == '+' || c == '-' || c == '*' || c == '/'||c == '='\
-|| c == '^' || c == '?'||c == '<' ||c == '>'\
-|| c == '%' || c == '~'||c == '>' || c == '|' || c== ';'\
-||c == '&' || c == ':'||c == '!'||c=='$')
-
-#define is_paranthesis(c)(c == '(' || c == ')' || c == '[' || c == ']' || c== '{' || c == '}')
-#define is_hexadecimal(c) ((c >= 'a' && c <= 'f' )|| (c >= 'A' && c <= 'F' ))
-#define is_complex(c) (c == 'j' || c == 'i')
-#define is_newline(c)(c == '\n')
-#define is_tab(c)(c == '\t')
-#define is_space(c)(c == ' ')
-*/
-//#define isallowlet(c) ( ishex(c) || iscomplex(c))
-/*
-bool isop_str(const string &str){
-  for(uint8_t i = 0; i<sizeof(ops)/sizeof(token_struct); i++)
-    if(str == ops[i].name) return 1;
-  return 0;
-}*/
-
-/*
-ufbg_token get_paranthesis_code(const string &str){
-  for(uint8_t i = 0; i<sizeof(paras)/sizeof(token_struct); i++)
-    if(str == paras[i].name) return paras[i].tokencode;
-  return 0;
-}
-*/
-ufbg_token get_operator_code(const string &str){
+fbgc_token get_operator_code(const char *str){
   for( const token_struct * ptr = operator_token_array; ptr < ( operator_token_array + (sizeof(operator_token_array)/sizeof(token_struct)) ); ptr++ ) 
   	if(str == ptr->name ) return ptr->tokencode;
   return 0;
 }
 
-ufbg_token get_reserved_word_code(const string &str){ 
+fbgc_token get_reserved_word_code(const char *str){ 
   for( 
   	const token_struct * ptr = reserved_words_token_array; 
   	ptr < ( reserved_words_token_array + (sizeof(reserved_words_token_array)/sizeof(token_struct)) ); ptr++ ) 
   	if(str == ptr->name ) return ptr->tokencode;
   return 0;
 }
-
 
 #endif
 

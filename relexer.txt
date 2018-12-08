@@ -1,4 +1,4 @@
-['f b' : STRING]
-[x : WORD]
-[= : OP]
-['' : STRING]
+Input:
+1.213E2j 
+-----------------------
+[1.213E2j : COMPLEX]
