@@ -1,6 +1,18 @@
-#include "double_object.h"
+#ifndef FBGC_DOUBLE_OBJECTH
+#define FBGC_DOUBLE_OBJECTH
 
 
+struct fbgc_double_object{
+    struct fbgc_object base;
+    double *data;
+    uint8_t size;  
+};
+
+struct
+fbgc_object * add_fbgc_double_object(struct fbgc_object *, double inc_data);
+
+void print_fbgc_double_object(struct fbgc_object *);
+void free_fbgc_double_object(struct fbgc_object * );
 
 
 struct
@@ -32,3 +44,5 @@ void free_fbgc_double_object(struct fbgc_object * obj){
     free(dbo);
 }
 
+
+#endif

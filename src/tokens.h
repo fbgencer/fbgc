@@ -1,9 +1,8 @@
 #ifndef TOKENS_H
 #define TOKENS_H
-#include "include.h"
+#include <stdint.h>
 
-//fbgc token struct takes token name and tokencode
-
+typedef uint8_t fbgc_token;
 typedef struct {
 	fbgc_token tokencode;
 	const char * name;
@@ -116,7 +115,7 @@ const char * TYPES_ARRAY[]={
 
 
 
-const static token_struct operator_token_array[]={
+static const token_struct operator_token_array[]={
 	{ASSIGN,"="},
 	{PLUS,"+"},
 	{MINUS,"-"},
@@ -167,7 +166,7 @@ const static token_struct operator_token_array[]={
 
 };
 
-const static token_struct reserved_words_token_array[]={
+static const token_struct reserved_words_token_array[]={
 	{IF,"if"},
 	{ELSE,"else"},
 	{ELIF,"elif"},
@@ -190,7 +189,7 @@ const static token_struct reserved_words_token_array[]={
 	{END_FUN,"endfun"}
 };
 
-const static token_struct paranthesis_token_array[]={
+static const token_struct paranthesis_token_array[]={
 	{LPARA,"("},
 	{RPARA,")"},
 	{LBRACE,"{"},
