@@ -1,8 +1,9 @@
 #ifndef TOKENS_H
 #define TOKENS_H
-#include <stdint.h>
+
 
 typedef uint8_t fbgc_token;
+
 typedef struct {
 	fbgc_token tokencode;
 	const char * name;
@@ -198,6 +199,13 @@ static const token_struct paranthesis_token_array[]={
 	{RBRACK,"]"},
 };
 
+fbgc_token get_operator_code(const char *str);
+fbgc_token get_reserved_word_code(const char *str);
+
+
+
+
+
 fbgc_token get_operator_code(const char *str){
   for( const token_struct * ptr = operator_token_array; ptr < ( operator_token_array + (sizeof(operator_token_array)/sizeof(token_struct)) ); ptr++ ) 
   	if(str == ptr->name ) return ptr->tokencode;
@@ -211,6 +219,7 @@ fbgc_token get_reserved_word_code(const char *str){
   	if(str == ptr->name ) return ptr->tokencode;
   return 0;
 }
+
 
 #endif
 

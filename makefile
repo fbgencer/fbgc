@@ -3,16 +3,8 @@ OBJ = ${SRC:.c=.o}
 
 CC = gcc
 PREFIX = /usr/local
-CFLAGS = -W
+CFLAGS = -Wall
 LDFLAGS += -lm
-
-# MinGW gcc support
-# TODO: improve
-
-clang = $(shell which clang 2> /dev/null)
-ifeq (, $(clang))
-	CC = gcc
-endif
 
 # deps
 
@@ -27,7 +19,6 @@ endif
 
 CFLAGS += -I src
 
-# output
 
 OUT = fbgc
 ifdef SystemRoot
@@ -39,7 +30,8 @@ $(OUT): $(OBJ)
 
 %.o: %.c
 	@$(CC) -c $(CFLAGS) $< -o $@
-	@printf "Finished succesfully.." $@
+	@printf "Finished succesfully..\n" $@
+
 
 #test: test_runner
 #	@./$<
