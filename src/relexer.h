@@ -1,6 +1,10 @@
 #ifndef RELEXER_H
 #define RELEXER_H
-//#include "tokens.h"
+
+#include "fbgc.h"
+#include <iostream>
+#include <vector>
+using namespace std;
 //#include "error.h"
 
 

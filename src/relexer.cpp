@@ -202,13 +202,9 @@ void read_rule_table(rule_arrange_struct *ras){
 
 
 uint8_t regex_lexer(){
-	const char * buffer = "0b 0101 0xFF 0x 1+2j x=5.123123; 1.2E+3j wow _x_f alper alam";
-	//(char*) malloc((str.size()+1)*sizeof(char)); strcpy(buffer,str.c_str());
-	//char *mobile_ptr = buffer;
+	const char * buffer = "0b0101 0xFF 1+2j x=5.123123; 1.2E+3j wow _x_f alper alam";
 	const char *first_ptr = buffer;
 
-	//buffer;// this shows the first char location for each token
-  	
   	const fbgc_lexer_rule_struct * rule_struct_ptr = fbgc_lexer_rule_holder;
   	rule_arrange_struct * ras = (rule_arrange_struct *) malloc(sizeof(rule_arrange_struct));
   	ras->rule_ptr = rule_struct_ptr->rule; //rule pointer travels between different token rules
@@ -225,10 +221,6 @@ uint8_t regex_lexer(){
 
   	std::vector<token_and_string> token_vector;
   	
-  	aguvenguven
-  	ozguven
-  	bguven
-
   	int break_loop = 0;
   	#define BREAKER 3000
 
@@ -307,8 +299,9 @@ uint8_t regex_lexer(){
 	  			if(satisfied_rule_section_str.size()>0){ 
 	  				#ifdef DEBUG 
 	  				printf("-------------{Check the previous rule}---------------\n");
-	  				#endif
 	  				printf("previous Rule :%s\n",satisfied_rule_section_str.c_str());
+	  				#endif
+	  				
 		  			if(strncmp(ras->rule_ptr,satisfied_rule_section_str.c_str(),satisfied_rule_section_str.size()) == 0){
 		  				ras->rule_ptr += satisfied_rule_section_str.size();
 		  				if(*(ras->rule_ptr) ==' ') ras->rule_ptr++;

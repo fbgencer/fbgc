@@ -2,16 +2,21 @@
 
 
 int main(){
+	//defisdsad
+	double dbar[] = {9.8,8.7,7.6,6.5};
+	struct fbgc_object * head, * iter;
+	head = new_fbgc_double_object(10.0);
+	iter = head;
+	for(int i = 0; i<sizeof(dbar)/sizeof(double); i++){
+		struct fbgc_object *db = new_fbgc_double_object(dbar[i]);
+		iter->next = db;
+		iter = db;
+	}
 	
+	print_fbgc_object_ll(head);
+	free_fbgc_object_ll(head);
 
-	struct fbgc_object *db1 = new_fbgc_double_object(3.123);
-	struct fbgc_object *db2 = new_fbgc_double_object_from_str("1.123e3");
-	
-	connect_fbgc_objects(db1,db2);
-	print_fbgc_object_ll(db1);
-
-	free_fbgc_double_object(db1);
-	free_fbgc_double_object(db2);
+	error("oh no");
 
 	return 0;
 }

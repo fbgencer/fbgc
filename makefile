@@ -1,51 +1,24 @@
+
 SRC = $(wildcard src/*.c)
 OBJ = ${SRC:.c=.o}
 
-CC = gcc
-PREFIX = /usr/local
-CFLAGS = -Wall
-LDFLAGS += -lm
-
-# deps
-
-#CFLAGS += -I deps/linenoise
-#OBJ += deps/linenoise/linenoise.o
-#OBJ += deps/linenoise/utf8.o
-
-# test
-
-#TEST_SRC = $(shell find src/*.c test/*.c | sed '/fbgc/d')
-#TEST_OBJ = ${TEST_SRC:.c=.o}
-
-CFLAGS += -I src
+CC=gcc
+CFLAGS=-c -Wall
+LDFLAGS= 
 
 
 OUT = fbgc
-ifdef SystemRoot
-	OUT = fbgc.exe
-endif
+all: fbgc
+
+#fbgc: tokens.o double_object.o fbgc_object.o fbgc.o
+#	$(CC) tokens.o fbgc_object.o double_object.o fbgc.o -o fbgc
 
 $(OUT): $(OBJ)
 	$(CC) $^ $(LDFLAGS) -o $@
 
 %.o: %.c
 	@$(CC) -c $(CFLAGS) $< -o $@
-	@printf "Finished succesfully..\n" $@
-
-
-#test: test_runner
-#	@./$<
-
-#test_runner: $(TEST_OBJ)
-#	$(CC) $^ $(LDFLAGS) -o $@
-
-install: fbgc
-	install fbgc $(PREFIX)/bin
-
-uninstall:
-	rm $(PREFIX)/bin/fbgc
+	@printf "Succesfully compiled and linked..\n" $@
 
 clean:
-	rm -f fbgc test_runner $(OBJ) $(TEST_OBJ)
-
-.PHONY: clean test install uninstall
+	rm -f fbgc $(OBJ)
