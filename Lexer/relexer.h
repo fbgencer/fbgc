@@ -1,8 +1,13 @@
 #ifndef RELEXER_H
 #define RELEXER_H
 
+/*
+	TO DO
+	-add skip sequences
+	
 
-//#include <iostream>
+
+*/
 
 #include <string.h>
 #include <stdio.h>
@@ -77,15 +82,21 @@ static const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] =
 	{HEX,"0x \\h\\d\\+"},
 	{OP,"\\o\\+"},
 	{INT,"\\#0"}, //# for table		
-	{STRING,"' \\ \\.\\t\\n\"\\* '"},
+	{STRING,"' \\s\\.\\t\\n\"\\* '"},
 	{WORD,"_\\l _\\l\\d\\*"},	
 
 };
 
+
+
+	//bsr_fbg@hotmail.com
+	//example mail {ARG,"_|+|-|.\\l\\d\\+ @ -\\l\\d\\+ . co m\\*"},
+
 /*
 
+		
 
-	
+	{SPACE,"\\+\\n\\t\\s"},
 	{LPARA,"("},
 	{RPARA,")"},
 	{LBRACE,"{"},
@@ -155,9 +166,9 @@ fbgc_bool is_hexadecimal(const char c) {return( c >= 'a' && c <= 'f' )|| ( c >= 
 fbgc_bool is_all(const char c){ return ( c>=32 && c<=126 && c!='\'' && c!='"' );}
 fbgc_bool is_newline(const char c){return c == '\n';}
 fbgc_bool is_tab(const char c){return c == '\t';}
+fbgc_bool is_white_space(const char c){return c == ' ';}
 
-
-#define COMPARATOR_FUNCTION_SIZE 7
+#define COMPARATOR_FUNCTION_SIZE 8
 
 #define LXR_DIGIT 0 //for digit:d
 #define LXR_LETTER 1 //for letter:l
@@ -175,9 +186,10 @@ x == 'o' ? 0x04 :\
 x == 'h' ? 0x08 :\
 x == '.' ? 0x10 :\
 x == 'n' ? 0x20 :\
-x == 't' ? 0x40 : 0;})
+x == 't' ? 0x40 :\
+x == 's' ? 0x80 :0;})
 
-#define IS_SPECIAL_CHAR(x)(x == 'd' || x == 'l' || x == 'o' || x == 'h' || x == '.' || x == 'n' || x == 't')
+#define IS_SPECIAL_CHAR(x)(x == 'd' || x == 'l' || x == 'o' || x == 'h' || x == '.' || x == 'n' || x == 't' || x == 's')
 
 #define GET_PATTERN_FUNCTION_INDEX(x)({\
 x == 0x01 ? 0 :\
@@ -186,7 +198,8 @@ x == 0x04 ? 2 :\
 x == 0x08 ? 3 :\
 x == 0x10 ? 4 :\
 x == 0x20 ? 5 :\
-x == 0x40 ? 6: 7;})
+x == 0x40 ? 6 :\
+x == 0x80 ? 7 :8;})
 
 fbgc_bool (*comparator[COMPARATOR_FUNCTION_SIZE])(const char) = 
 {
@@ -196,7 +209,8 @@ fbgc_bool (*comparator[COMPARATOR_FUNCTION_SIZE])(const char) =
 	is_hexadecimal,
 	is_all, //4
 	is_newline, //5
-	is_tab //6
+	is_tab, //6
+	is_white_space,
 };
 
 fbgc_bool check_character_with_pattern(const char c, uint8_t pattern_flag){

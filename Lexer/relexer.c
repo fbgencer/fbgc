@@ -41,7 +41,7 @@ void pretty_print_pointer(const char *buffer ,const char * ptr){
 	printf("\n");	
 }
 
-//#define DEBUG 
+#define DEBUG 
 
 
 typedef struct{
@@ -79,7 +79,9 @@ void rule_reader(rule_arrange_struct * ras){
 
 			if( IS_METACHAR(*(ras->rule_ptr))){
 				ras->metachar_flag |= SET_METACHARACTER_FLAG_FROM_RULE(*(ras->rule_ptr));
-				
+				#ifdef DEBUG
+				rgb_printf(110,"metachar_flag : 0x%X\n",ras->metachar_flag);
+				#endif
 				if(IS_METACHAR_TABLE_OPEN(ras->metachar_flag)){
 					//first assume just one char number
 					(ras->rule_ptr)++;
@@ -98,7 +100,7 @@ void rule_reader(rule_arrange_struct * ras){
 		}
 		else{
 
-			//rgb_printf(010,"<Character sequence catching> rule: %c\n",*ras->rule_ptr);
+			rgb_printf(010,"<Character sequence catching> rule: %c\n",*ras->rule_ptr);
 			if(ras->char_match_begin == NULL)
 				ras->char_match_begin = ras->rule_ptr;
 
@@ -356,12 +358,14 @@ uint8_t regex_lexer(const char *buffer){
 								*((ras->mobile_ptr)) == '\t' )
 							ras->mobile_ptr++;
 
-						if(*(ras->mobile_ptr) == '\0') break;
+						if(*(ras->mobile_ptr) < 5) break;
+						rgb_printf(011,"after match : %d\n",*(ras->mobile_ptr));
 						first_ptr = (ras->mobile_ptr);
 					}
 					else {
 						if(current_rule_index == RULE_NUMBER-1){
-							printf("last rule but token couldn't find\n");
+							rgb_printf(100,"last rule but token couldn't find\n");
+
 							break;
 						}
 					}
@@ -388,7 +392,8 @@ uint8_t regex_lexer(const char *buffer){
 
 
 int main(){
-	const char * buffer = "1.2312312312312312312312312454354343545647587768 1j*2.123E23j+2j x = 23 'lolll\tdnasd' abcdef x=5.123123; 1.2E+3j wow _x_f alper alam ";
+	const char * buffer = " 1 2 j    + 2 5 ";
+	//"1.2312312312312312312312312454354343545647587768 1j*2.123E23j+2j x = 23 'lolll\tdnasd' abcdef x=5.123123; 1.2E+3j wow _x_f alper alam ";
   	regex_lexer(buffer);
 
 	return 0;
