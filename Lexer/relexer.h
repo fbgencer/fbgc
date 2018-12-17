@@ -1,12 +1,14 @@
 #ifndef RELEXER_H
 #define RELEXER_H
 
-#include <iostream>
-#include <vector>
-#include "tokens.h"
-#include <cstring>
-using namespace std;
 
+//#include <iostream>
+
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include "tokens.h"
 //#include "error.h"
 
 
@@ -55,7 +57,7 @@ token_table_struct lexer_table[] =
 		.token_size = 4,
 		.inputs = (const char*[]){"\\d",".","j","E \\+\\-\\*"},
 		.states = (const uint8_t[])
-		{ 1,2,5,0, //begin  
+		{ 1,2,5,5, //begin  
 		  1,2,4,3, //int
 		  2,0,4,3, //double
 		  3,0,4,0, //exponential double
@@ -76,10 +78,12 @@ static const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] =
 	{OP,"\\o\\+"},
 	{INT,"\\#0"}, //# for table		
 	{STRING,"' \\ \\.\\t\\n\"\\* '"},
-	{WORD,"_\\l _\\l\\d\\*"},
+	{WORD,"_\\l _\\l\\d\\*"},	
+
 };
 
 /*
+
 
 	
 	{LPARA,"("},
@@ -164,7 +168,7 @@ fbgc_bool is_tab(const char c){return c == '\t';}
 #define LXR_TAB 6
 #define LXR_PATTERN_NUM 7
 
-#define GET_PATTERN_FLAG_FROM_RULE(x)({\
+#define SET_PATTERN_FLAG_FROM_RULE(x)({\
 x == 'd' ? 0x01 :\
 x == 'l' ? 0x02 :\
 x == 'o' ? 0x04 :\
@@ -227,7 +231,7 @@ fbgc_bool check_character_with_pattern(const char c, uint8_t pattern_flag){
 
 #define IS_METACHAR(x)(x == '+' || x == '*' || x == '#' || x == '\\' || x == '|' || x == ' ')
 
-#define GET_METACHARACTER_FLAG_FROM_RULE(x)({\
+#define SET_METACHARACTER_FLAG_FROM_RULE(x)({\
 x == '+' ? 0x01:\
 x == '*' ? 0x02:\
 x == '\\' ? 0x04:\
