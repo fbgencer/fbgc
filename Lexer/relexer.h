@@ -53,7 +53,7 @@ token_table_struct lexer_table[] =
 	{
 		.input_size = 4,
 		.token_size = 4,
-		.inputs = (const char*[]){"\\d",".","j","E \\+\\-*"},
+		.inputs = (const char*[]){"\\d",".","j","E \\+\\-\\*"},
 		.states = (const uint8_t[])
 		{ 1,2,5,0, //begin  
 		  1,2,4,3, //int
@@ -71,24 +71,33 @@ token_table_struct lexer_table[] =
 #define RULE_NUMBER sizeof(fbgc_lexer_rule_holder)/sizeof(fbgc_lexer_rule_struct)
 static const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] = 
 {
-	{INT,"0 b 01+"},
-	{HEX,"0 x \\h\\d+"},	
-	{STRING,"' \\ \\.\\t\\n\"* '"},
-	{WORD,"\\l_ \\l\\d_*"},
-	{OP,"\\o+"},
-	{INT,"#0"}, //# for table
+	{BIN,"0b 0|1\\+"},
+	{HEX,"0x \\h\\d\\+"},
+	{OP,"\\o\\+"},
+	{INT,"\\#0"}, //# for table		
+	{STRING,"' \\ \\.\\t\\n\"\\* '"},
+	{WORD,"_\\l _\\l\\d\\*"},
+};
+
+/*
+
+	
 	{LPARA,"("},
 	{RPARA,")"},
 	{LBRACE,"{"},
 	{RBRACE,"}"},
 	{LBRACK,"["},
 	{RBRACK,"]"}
-
-};
+*/
 
 #define RULE_NUMBER sizeof(fbgc_lexer_rule_holder)/sizeof(fbgc_lexer_rule_struct)
 
 #define fbgc_bool uint8_t
+
+
+//=======================[SPECIAL CHARACTERS]=====================
+
+
 
 fbgc_bool is_digit(const char c){return (c>='0' && c<= '9');}
 fbgc_bool is_letter(const char c) {return ( (c>='a' && c<='z' ) || (c>='A' && c <='Z')); }
@@ -164,6 +173,8 @@ x == '.' ? 0x10 :\
 x == 'n' ? 0x20 :\
 x == 't' ? 0x40 : 0;})
 
+#define IS_SPECIAL_CHAR(x)(x == 'd' || x == 'l' || x == 'o' || x == 'h' || x == '.' || x == 'n' || x == 't')
+
 #define GET_PATTERN_FUNCTION_INDEX(x)({\
 x == 0x01 ? 0 :\
 x == 0x02 ? 1 :\
@@ -198,10 +209,23 @@ fbgc_bool check_character_with_pattern(const char c, uint8_t pattern_flag){
 }
 
 
+//============================[METACHARACTERS]==========================
+
 #define LXR_META_PLUS '+'
 #define LXR_META_STAR '*'
 #define LXR_META_BACKSLASH '\\'
 #define LXR_META_TABLE '#'
+#define LXR_META_OR '|'
+
+#define LXR_META_PLUS_INDEX 0 // for + metach
+#define LXR_META_STAR_INDEX 1 // for * metach
+#define LXR_META_BACKSLASH_INDEX 2 //for \ metach
+#define LXR_META_TABLE_INDEX 3
+#define LXR_META_OR_INDEX 4
+
+#define LXR_FLAGS_NUM 5 //it has to be equal last one + 1
+
+#define IS_METACHAR(x)(x == '+' || x == '*' || x == '#' || x == '\\' || x == '|' || x == ' ')
 
 #define GET_METACHARACTER_FLAG_FROM_RULE(x)({\
 x == '+' ? 0x01:\
@@ -228,12 +252,6 @@ x == '#' ? 0x08:0;})
 #define SET_METACHAR_TABLE_FLAG_OPEN(x)( x |= 0b00001000)
 
 
-#define LXR_META_PLUS_INDEX 0 // for + metach
-#define LXR_META_STAR_INDEX 1 // for * metach
-#define LXR_META_BACKSLASH_INDEX 2 //for \ metach
-#define LXR_META_TABLE_INDEX 3
-
-#define LXR_FLAGS_NUM 4 //it has to be equal last one + 1
 
 #endif
 
