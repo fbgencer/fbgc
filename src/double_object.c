@@ -23,7 +23,7 @@ fbgc_object * new_fbgc_double_object_from_substr(char * db_str_begin,char * db_s
 
 void print_fbgc_double_object(struct fbgc_object * obj){
     struct fbgc_double_object * dbo = (struct fbgc_double_object*) obj;
-    printf("[Double] :{%f}\n",dbo->content);   
+    printf("\033[1;31m[Double]\033[0m :{%f}\n",dbo->content);   
 }
 
 void free_fbgc_double_object(struct fbgc_object * obj){

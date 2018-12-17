@@ -18,7 +18,7 @@ $(OUT): $(OBJ)
 
 %.o: %.c
 	@$(CC) -c $(CFLAGS) $< -o $@
-	@printf "Succesfully compiled and linked..\n" $@
+	$(info    "Succesfully compiled")
 
 clean:
 	rm -f fbgc $(OBJ)
