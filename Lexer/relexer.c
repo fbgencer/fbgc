@@ -1,7 +1,7 @@
 #include "relexer.h"
 #include <stdarg.h>
 
-void rgb_printf(char color,const char *format, ...) {
+void cprintf(char color,const char *format, ...) {
 
 
 #define ANSI_COLOR_BLACK   "\x1b[30m" //000
@@ -35,138 +35,235 @@ void pretty_print_pointer(const char *buffer ,const char * ptr){
 	//printf("%s |ptr-> ",buffer);
 	for (int i = 0; i < strlen(buffer); ++i){
 		if(i== where) printf("[");
-		rgb_printf(100,"%c",*(buffer+i));
+		cprintf(100,"%c",*(buffer+i));
 		if(i== where) printf("]");
 	}
 	printf("\n");	
 }
 
-#define DEBUG 
+//#define DEBUG 
 
 
 typedef struct{
-	const char * char_match_begin, * char_match_end;
+	const char * char_match_begin;
+	uint8_t char_match_e;
 	fbgc_bool pattern_flag;
 	fbgc_bool metachar_flag;
 	fbgc_bool check;
+	
+	fbgc_token current_token; 
+
 	uint8_t rule_section;
 	const char *rule_ptr, *mobile_ptr;
-	const token_table_struct *table_ptr;
+
+	uint8_t table_index;
 	uint8_t table_state;
-	fbgc_token current_token; 
+	
 }rule_arrange_struct;
+
+
+typedef struct{
+	const char * char_match_begin;
+	uint8_t char_match_end;
+	uint8_t pattern_flag;
+	uint8_t metachar_flag;
+	uint8_t table_index;
+}rule_flag_struct;
 
 
 void rule_reader(rule_arrange_struct * ras);
 void read_rule_table(rule_arrange_struct * ras);
 void check_char(rule_arrange_struct * ras);
 
+
+const char * rule_reader_v2(rule_flag_struct * rfs,const char * rule_ptr){
+	
+	rfs->metachar_flag = rfs->pattern_flag = rfs->char_match_end = 0;
+  	rfs->char_match_begin = NULL;
+
+	while(*rule_ptr != '\0'){
+		if(*rule_ptr == LXR_META_ESCAPE){
+			rule_ptr++; //eat escape char
+
+			if( IS_METACHAR(*rule_ptr) ){
+				rfs->metachar_flag |= SET_METACHARACTER_FLAG_FROM_RULE(*rule_ptr);
+
+				if(IS_METACHAR_TABLE_OPEN(rfs->metachar_flag)){
+					//first assume just one char number is entered
+					rule_ptr++;
+					rfs->table_index = (*rule_ptr++ - '0');
+					return rule_ptr;
+					//here we are assuming that there is no rule other than this!!!!
+				}					
+			}
+			else if( IS_SPECIAL_CHAR(*rule_ptr) ){
+				rfs->pattern_flag |= SET_PATTERN_FLAG_FROM_RULE(*rule_ptr);
+				if(rfs->pattern_flag == 0)
+					printf("Undefined rule rfs->rule_ptr c:%c d:%d\n",*rule_ptr,*rule_ptr);
+			}
+		}
+		else{
+			if(rfs->char_match_begin == NULL){
+				rfs->char_match_begin = rule_ptr;
+			}
+			rfs->char_match_end++;
+		}
+
+		rule_ptr++;
+		
+		if(*rule_ptr == ' '){
+			return ++rule_ptr;
+		}
+	}
+	return rule_ptr;
+}
+
+uint8_t check_char_v2(rule_flag_struct *rfs,const char ** buffer_ptr){
+
+	uint8_t check;
+
+  	if(rfs->char_match_end>0){
+
+  		uint8_t i1 = 0,i2 = 0;
+
+  		while(i2 != rfs->char_match_end ){
+			while(*(rfs->char_match_begin+i2) != LXR_META_OR && i2 != rfs->char_match_end){
+	  			i2++;
+	  		}
+		  	if(!strncmp(*buffer_ptr,rfs->char_match_begin+i1 ,i2-i1)){
+		  		*buffer_ptr += i2-i1;
+		  		return 1;
+		  	}
+		  	//cprintf(101,"mobile : %c,str comp:%d and p2:[%c]\n",*buffer_ptr,rfs->check,*(rfs->char_match_begin+i2));
+		  	if(*(rfs->char_match_begin+i2) == LXR_META_OR){
+		  		i1 = ++i2;
+			}	
+  		}
+  	}
+	if(rfs->pattern_flag){
+		check = (
+				((rfs->pattern_flag & 0x01) && isdigit(*(*buffer_ptr))) ||
+				((rfs->pattern_flag & 0x02) && isalpha(*(*buffer_ptr))) ||
+				((rfs->pattern_flag & 0x04) && ispunct(*(*buffer_ptr))) || 
+				((rfs->pattern_flag & 0x08) && isxdigit(*(*buffer_ptr)))||
+				((rfs->pattern_flag & 0x10) && isprint(*(*buffer_ptr))) ||
+				((rfs->pattern_flag & 0x20) && isspace(*(*buffer_ptr))) ||
+				((rfs->pattern_flag & 0x40) && *(*buffer_ptr) == ' ' ) ); 
+		*buffer_ptr += check;
+	}
+	return check;
+}
+
+
 void rule_reader(rule_arrange_struct * ras){
 	
-	
-	ras->metachar_flag = 0;
-  	ras->char_match_begin = ras->char_match_end = NULL;
-  	ras->pattern_flag = 0;
-
+	ras->metachar_flag = ras->pattern_flag = ras->char_match_e = 0;
+  	ras->char_match_begin = NULL;
 
 	if(*(ras->rule_ptr) !='\0') ras->rule_section++;
-	while(*(ras->rule_ptr) != ' ' && *(ras->rule_ptr) != '\0'){
-	
-		if(*(ras->rule_ptr) == LXR_META_BACKSLASH){
-			SET_METACHAR_BACKSLASH_FLAG_CLOSE(ras->metachar_flag);
-			//rgb_printf(110,"backslash flag\n");
+
+	while(*ras->rule_ptr != '\0'){
+		if(*(ras->rule_ptr) == LXR_META_ESCAPE){
+			
 			ras->rule_ptr++; 
 
 			if( IS_METACHAR(*(ras->rule_ptr))){
 				ras->metachar_flag |= SET_METACHARACTER_FLAG_FROM_RULE(*(ras->rule_ptr));
-				#ifdef DEBUG
-				rgb_printf(110,"metachar_flag : 0x%X\n",ras->metachar_flag);
-				#endif
+
 				if(IS_METACHAR_TABLE_OPEN(ras->metachar_flag)){
 					//first assume just one char number
 					(ras->rule_ptr)++;
-					//burayi daha flexible yap
-					ras->table_ptr = lexer_table+(*((ras->rule_ptr)) - '0');
-					(ras->rule_ptr) ++; // sweep to the end [i]
+					ras->table_index = (*((ras->rule_ptr++)) - '0');
 					ras->table_state = 0;
 				}					
 			}
 			else if( IS_SPECIAL_CHAR(*(ras->rule_ptr)) ){
 				ras->pattern_flag |= SET_PATTERN_FLAG_FROM_RULE(*(ras->rule_ptr));
 				if(ras->pattern_flag == 0)
-				printf("Undefined rule ras->rule_ptr c:%c d:%d\n",*(ras->rule_ptr),*(ras->rule_ptr));
+					printf("Undefined rule ras->rule_ptr c:%c d:%d\n",*(ras->rule_ptr),*(ras->rule_ptr));
 			}
-
 		}
 		else{
-
-			rgb_printf(010,"<Character sequence catching> rule: %c\n",*ras->rule_ptr);
-			if(ras->char_match_begin == NULL)
+			if(ras->char_match_begin == NULL){
 				ras->char_match_begin = ras->rule_ptr;
-
-			ras->char_match_end = ras->rule_ptr+1;
-			
+			}
+			ras->char_match_e++;
 		}
 
+		if(*(ras->rule_ptr) != '\0'){
+			ras->rule_ptr++;
+		}
 
-		if(*(ras->rule_ptr) != '\0')(ras->rule_ptr)++;
-	
-
+		if(*(ras->rule_ptr) == ' '){
+			ras->rule_ptr++;
+			break;
+		}
 	}
-	
-	if(*(ras->rule_ptr) == ' ') ras->rule_ptr++;
 }
 
 void check_char(rule_arrange_struct * ras){
 
 	#ifdef DEBUG
-	//printf("<%s> pattern_flag : [0x%x]\n",__FUNCTION__,ras->pattern_flag);
+	printf("<%s> pattern_flag : [0x%x]\n",__FUNCTION__,ras->pattern_flag);
 	#endif
 	ras->check = 0;
-	ras->check = check_character_with_pattern(*(ras->mobile_ptr),ras->pattern_flag);
 
-  	if(!ras->check && ras->char_match_begin != ras->char_match_end){
-  		//rgb_printf(101,"char matchers are not equal:pretty:");
-  		//pretty_print_pointer(ras->char_match_begin,ras->char_match_end);
-  		const char * p1 = ras->char_match_begin;
-  		const char * p2 = p1; 
-  		//rgb_printf(111,"============================\n");
-  		while(p2 != ras->char_match_end){
-			while(*p2 != '|' && p2 != ras->char_match_end){
-				//rgb_printf(111,"p2:[%c]",*p2);
-	  			p2++;
+	if(!IS_METACHAR_TABLE_OPEN(ras->metachar_flag)){
+		//ras->check = check_character_with_pattern(*(ras->mobile_ptr),ras->pattern_flag);
+		ras->check = (
+			((ras->pattern_flag & 0x01) && isdigit(*(ras->mobile_ptr))) ||
+			((ras->pattern_flag & 0x02) && isalpha(*(ras->mobile_ptr))) ||
+			((ras->pattern_flag & 0x04) && ispunct(*(ras->mobile_ptr))) ||
+			((ras->pattern_flag & 0x04) && ispunct(*(ras->mobile_ptr))) ||
+			((ras->pattern_flag & 0x08) && isxdigit(*(ras->mobile_ptr)))||
+			((ras->pattern_flag & 0x10) && isprint(*(ras->mobile_ptr))) ||
+			((ras->pattern_flag & 0x20) && isspace(*(ras->mobile_ptr))) ||
+			((ras->pattern_flag & 0x20) && *(ras->mobile_ptr) == ' ' ) );
+
+		
+	 
+	}
+	if(!ras->check){
+	  	if(ras->char_match_e>0){
+	  		#ifdef DEBUG
+	  		cprintf(101,"char matchers are not equal:pretty:");
+	  		pretty_print_pointer(ras->char_match_begin,ras->char_match_begin+ras->char_match_e);
+	  		#endif
+
+	  		uint8_t i1 = 0,i2 = 0;
+
+	  		
+	  		while(ras->char_match_begin+i2 != ras->char_match_begin+ras->char_match_e){
+				while(*(ras->char_match_begin+i2) != '|' && i2 != ras->char_match_e){
+		  			i2++;
+		  		}
+			  	if(!strncmp(ras->mobile_ptr,ras->char_match_begin+i1 ,i2-i1)){
+			  		ras->check = 1;
+			  		ras->mobile_ptr += i2-i1-1;
+			  		break;
+			  	}
+			  	//cprintf(101,"mobile : %c,str comp:%d and p2:[%c]\n",*ras->mobile_ptr,ras->check,*(ras->char_match_begin+i2));
+			  	if(*(ras->char_match_begin+i2) == '|'){
+			  		//cprintf(111,"p2 is or moving \n");
+			  		i1 = ++i2;
+				}	
 	  		}
-		  	//printf("\n");
-		  	//printf("mb: %c,p1 :%c, p2: %c, p2-p1 : %ld\n",*ras->mobile_ptr,*p1,*p2,p2-p1 );
-		  	if(!strncmp(ras->mobile_ptr,p1,p2-p1)){
-		  		ras->check = 1;
-		  		if(p2-p1 > 1) ras->mobile_ptr += p2-p1-1;
-		  		//printf("check:1 after comp ras {%s}breaking..\n",ras->mobile_ptr );
-		  		break;
-		  	}
-		  	//rgb_printf(101,"mobile : %c,str comp:%d and p2:[%c]\n",*ras->mobile_ptr,ras->check,*p2);
-		  	if(*p2 == '|'){
-		  		//rgb_printf(111,"p2 is or moving \n");
-		  		p1 = ++p2;
-			}	
-  		}
+	  	}else if(IS_METACHAR_TABLE_OPEN(ras->metachar_flag)){
+	  		read_rule_table(ras);
+	  	}
+	}
 
-  		//rgb_printf(111,"=============[while finished]==============\n");
-  	}
-  	
-  	if(IS_METACHAR_TABLE_OPEN(ras->metachar_flag)){
-  		read_rule_table(ras);
-  	}
+
   	#ifdef DEBUG
-  	//printf("<%s> ending ras check : %d\n",__FUNCTION__,ras->check);
+  	printf("<%s> ending ras check : %d\n",__FUNCTION__,ras->check);
   	#endif
 
 }
 
 void read_rule_table(rule_arrange_struct *ras){
 
-	uint8_t const input_size = ras->table_ptr->input_size;
-	uint8_t const token_size = ras->table_ptr->token_size;
+	uint8_t const input_size = (lexer_table+ras->table_index)->input_size;
+	uint8_t const token_size = (lexer_table+ras->table_index)->token_size;
 	const char * hold_rule_ptr = ras->rule_ptr;
 	const char * hold_mobile_ptr = ras->mobile_ptr;
 	
@@ -175,10 +272,9 @@ void read_rule_table(rule_arrange_struct *ras){
 	int koruyucu = 0;
 
 	while(*(ras->mobile_ptr) != '\0' ) {
-
 		for(uint8_t i = 0; i<input_size; i++){
 			ras->rule_section = 0;
-			ras->rule_ptr = ras->table_ptr->inputs[i]; // okunacak yeni kurallar tablodan alınır
+			ras->rule_ptr = (lexer_table+ras->table_index)->inputs[i]; // okunacak yeni kurallar tablodan alınır
 
 			while(*(ras->rule_ptr) != '\0'){
 				//alınan ilk kural için flagleri belirleyelim
@@ -196,8 +292,8 @@ void read_rule_table(rule_arrange_struct *ras){
 					if( !ras->check  && IS_METACHAR_STAR_OPEN(ras->metachar_flag)) {
 						ras->check = 1;
 					}
-					else if(ras->table_ptr->states[i + (token_size * ras->table_state)] > token_size){
-						//rgb_printf(011,"there must be an error\n");
+					else if((lexer_table+ras->table_index)->states[i + (token_size * ras->table_state)] > token_size){
+						//cprintf(011,"there must be an error\n");
 						ras->check = 0;
 					}
 					break;
@@ -209,12 +305,12 @@ void read_rule_table(rule_arrange_struct *ras){
 			if(ras->check){
 				match_occured = 1;
 				//check 1 ise tabloda yeni bir state'e gitmemiz gerekiyor.
-				uint8_t dummy_state = ras->table_ptr->states[i + (token_size * ras->table_state)];
+				uint8_t dummy_state = (lexer_table+ras->table_index)->states[i + (token_size * ras->table_state)];
 				
 				if(dummy_state == 0){
 					//state returned to beginning, do not change the state
 					
-					ras->current_token = ras->table_ptr->tokens[ras->table_state-1];
+					ras->current_token = (lexer_table+ras->table_index)->tokens[ras->table_state-1];
 					ras->check = 0;
 					
 					SET_METACHAR_TABLE_FLAG_OPEN(ras->metachar_flag);
@@ -222,8 +318,8 @@ void read_rule_table(rule_arrange_struct *ras){
 				else{
 					//succesfully moving
 					
-					ras->table_state = ras->table_ptr->states[i + (token_size * ras->table_state)];
-					ras->current_token = ras->table_ptr->tokens[ras->table_state-1];
+					ras->table_state = (lexer_table+ras->table_index)->states[i + (token_size * ras->table_state)];
+					ras->current_token = (lexer_table+ras->table_index)->tokens[ras->table_state-1];
 					SET_METACHAR_TABLE_FLAG_OPEN(ras->metachar_flag);
 					
 				}
@@ -254,37 +350,35 @@ uint8_t regex_lexer(const char *buffer){
 	
 	const char *first_ptr = buffer;
 	
-	rgb_printf(110,"Input : %s\n================\n",buffer);
+	cprintf(110,"Input : %s\n================\n",buffer);
 	
 
-  	const fbgc_lexer_rule_struct * rule_struct_ptr = fbgc_lexer_rule_holder;
   	rule_arrange_struct * ras = (rule_arrange_struct *) malloc(sizeof(rule_arrange_struct));
-  	ras->rule_ptr = rule_struct_ptr->rule; //rule pointer travels between different token rules
-	ras->current_token = rule_struct_ptr->token;
+  	ras->current_token = (fbgc_lexer_rule_holder)->token;
+  	ras->rule_ptr = (fbgc_lexer_rule_holder)->rule; //rule pointer travels between different token rules
+
 	uint8_t current_rule_index = 0;
-	ras->mobile_ptr = buffer;
+	
+	ras->mobile_ptr = first_ptr;
 	 
-
-  	ras->char_match_begin = ras->char_match_end = NULL;
-
   	uint8_t satisfied_rule_section = 0;
 
   	
-  	int break_loop = 0;
+  	
   	#define BREAKER 3000
 
-  	while(*(ras->mobile_ptr) != '\0'){	break_loop++;
-  		
+  	for(int break_loop = 0;break_loop<BREAKER;break_loop++){
+  			
   		if( !IS_METACHAR_PLUS_OPEN(ras->metachar_flag) && !IS_METACHAR_TABLE_OPEN(ras->metachar_flag) && !IS_METACHAR_STAR_OPEN(ras->metachar_flag)){
   			#ifdef DEBUG
-  			pretty_print_pointer((rule_struct_ptr+current_rule_index)->rule,ras->rule_ptr);
+  			pretty_print_pointer(((fbgc_lexer_rule_holder)+current_rule_index)->rule,ras->rule_ptr);
   			#endif
   			rule_reader(ras);
 	  	}
 	  	check_char(ras);
 
 	  	#ifdef DEBUG
-	  	rgb_printf(110,"Reading str:");
+	  	cprintf(110,"Reading str:");
 	  	pretty_print_pointer(first_ptr,ras->mobile_ptr);
 	  	printf("Check : %d\n",ras->check );
 	  	#endif
@@ -326,8 +420,8 @@ uint8_t regex_lexer(const char *buffer){
 	  			//we finished the rule but we couldn't catch a sequence, take next rule
 	  			
 	  			current_rule_index++;
-	  			ras->rule_ptr = (rule_struct_ptr+current_rule_index)->rule;
-	  			ras->current_token = (rule_struct_ptr+current_rule_index)->token;
+	  			ras->rule_ptr = ((fbgc_lexer_rule_holder)+current_rule_index)->rule;
+	  			ras->current_token = ((fbgc_lexer_rule_holder)+current_rule_index)->token;
 	  			satisfied_rule_section = ras->rule_section = 0;
 	  			
 	  			ras->metachar_flag = 0;
@@ -336,35 +430,30 @@ uint8_t regex_lexer(const char *buffer){
 	  			
 					if(first_ptr != (ras->mobile_ptr) && satisfied_rule_section == ras->rule_section &&*(ras->rule_ptr) == '\0'){
 						
-						char * tempstr = (char *) malloc(sizeof(char) * ((ras->mobile_ptr - first_ptr)+1) );
-						strncpy(tempstr,first_ptr,(ras->mobile_ptr - first_ptr));
-						tempstr[(ras->mobile_ptr - first_ptr)] = '\0';
-						rgb_printf(111,"--------------[TOKEN IS FOUND]-------\n");
-						rgb_printf(101,"[%s : %s]\n\n",tempstr, TYPES_ARRAY[ras->current_token] );
-						
-						
-						free(tempstr);
+						if(ras->current_token != SPACE ){
+							char * tempstr = (char *) malloc(sizeof(char) * ((ras->mobile_ptr - first_ptr)+1) );
+							strncpy(tempstr,first_ptr,(ras->mobile_ptr - first_ptr));
+							tempstr[(ras->mobile_ptr - first_ptr)] = '\0';
+							cprintf(111,"--------------[TOKEN IS FOUND]-------\n");
+							cprintf(101,"[%s : %s]\n\n",tempstr, TYPES_ARRAY[ras->current_token] );
+							free(tempstr);
+						}
 						
 						current_rule_index = 0;
-						ras->rule_ptr = rule_struct_ptr->rule;
-						ras->current_token = rule_struct_ptr->token;
+						ras->rule_ptr = (fbgc_lexer_rule_holder)->rule;
+						ras->current_token = (fbgc_lexer_rule_holder)->token;
 
 						satisfied_rule_section = ras->rule_section = 0;
 						ras->metachar_flag = 0;
 
-						
-						while(	*((ras->mobile_ptr)) == ' '  || 
-								*((ras->mobile_ptr)) == '\n' || 
-								*((ras->mobile_ptr)) == '\t' )
-							ras->mobile_ptr++;
 
 						if(*(ras->mobile_ptr) < 5) break;
-						rgb_printf(011,"after match : %d\n",*(ras->mobile_ptr));
+						
 						first_ptr = (ras->mobile_ptr);
 					}
 					else {
 						if(current_rule_index == RULE_NUMBER-1){
-							rgb_printf(100,"last rule but token couldn't find\n");
+							cprintf(100,"last rule but token couldn't find\n");
 
 							break;
 						}
@@ -372,15 +461,7 @@ uint8_t regex_lexer(const char *buffer){
 	  		}
 	  	}
 	  	
-
-  		if(break_loop > BREAKER){
-  			
-  			break;
-  		}
-  		ras->check = 0;
-
-  		
-  		
+  		ras->check = 0;  		
 	}
 
 	free(ras);
@@ -388,13 +469,21 @@ uint8_t regex_lexer(const char *buffer){
 }
 
 
-
-
-
 int main(){
-	const char * buffer = " 1 2 j    + 2 5 ";
+	//const char * buffer = "0b000000011111101";
 	//"1.2312312312312312312312312454354343545647587768 1j*2.123E23j+2j x = 23 'lolll\tdnasd' abcdef x=5.123123; 1.2E+3j wow _x_f alper alam ";
-  	regex_lexer(buffer);
+  	//regex_lexer(buffer);
+
+	rule_flag_struct rfs;
+	const char *rule = "0b 1|0!+";
+	const char *buf = "0b11";
+
+	rule = rule_reader_v2(&rfs,rule);
+	uint8_t check = check_char_v2(&rfs,&buf);
+
+
+	cprintf(111,"Rule:%s Buf:%s Check:%d\n",rule,buf,check);
+	//printf("size : %d %d\n",sizeof(char*),sizeof(char**) );
 
 	return 0;
 }

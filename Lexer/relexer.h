@@ -13,21 +13,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <ctype.h>
 #include "tokens.h"
 //#include "error.h"
 
 
 /*
 	d: digit [0-9]
-	l: letter[a-zA-Z]
+	w: letter[a-zA-Z]
 	o : operator
-	h: hexadecimal [0-F]  
-	$ : for only one character to see its real value, if you want to match l, do not put l, put $l
-	* : at least one occurance
-	z: all matching, any character, operator, number except \t \n
-	+ : Since we don't have or operator, + is going to try match following immediately after previous one
-	><: takes real strings inside it and tries to match, for example >fbgc< is going to match as exactly fbgc in the string
-
+	h: hexadecimal [0-9a-fA-F]
+	  
 */
 /*
 
@@ -60,7 +56,7 @@ token_table_struct lexer_table[] =
 	{
 		.input_size = 4,
 		.token_size = 4,
-		.inputs = (const char*[]){"\\d",".","j","E \\+\\-\\*"},
+		.inputs = (const char*[]){"!d",".","j","E !+!-!*"},
 		.states = (const uint8_t[])
 		{ 1,2,5,5, //begin  
 		  1,2,4,3, //int
@@ -78,13 +74,7 @@ token_table_struct lexer_table[] =
 #define RULE_NUMBER sizeof(fbgc_lexer_rule_holder)/sizeof(fbgc_lexer_rule_struct)
 static const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] = 
 {
-	{BIN,"0b 0|1\\+"},
-	{HEX,"0x \\h\\d\\+"},
-	{OP,"\\o\\+"},
-	{INT,"\\#0"}, //# for table		
-	{STRING,"' \\s\\.\\t\\n\"\\* '"},
-	{WORD,"_\\l _\\l\\d\\*"},	
-
+	{BIN,"0b 1|0!+"},
 };
 
 
@@ -93,10 +83,16 @@ static const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] =
 	//example mail {ARG,"_|+|-|.\\l\\d\\+ @ -\\l\\d\\+ . co m\\*"},
 
 /*
-
+	{SPACE,"!+!s"},
+	
+	{HEX,"0x !h!+"},
+	{OP,"!o!+"},
+	{INT,"!#0"}, //# for table		
+	{STRING,"' !s!.!* '"},
+	{WORD,"_!w _!w!d!*"},
 		
 
-	{SPACE,"\\+\\n\\t\\s"},
+	
 	{LPARA,"("},
 	{RPARA,")"},
 	{LBRACE,"{"},
@@ -112,66 +108,10 @@ static const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] =
 
 //=======================[SPECIAL CHARACTERS]=====================
 
-
-
-fbgc_bool is_digit(const char c){return (c>='0' && c<= '9');}
-fbgc_bool is_letter(const char c) {return ( (c>='a' && c<='z' ) || (c>='A' && c <='Z')); }
-fbgc_bool is_operator(const char c){ 
-	return 
-	(c>= 42 && c<= 47) // * + , - , /
-	|| (c>= 35 && c<=38 ) // # $ % & 
-	|| (c>= 58 && c<=64) // : ; < = > ? @ 
-	|| c == '^' || c=='~' || c == '|'; // ^ ~ |
-}
-/*
-old op definition
-	(  c == '+' || c == '-' || c == '*' || c == '/' || c == '='
-	|| c == '^' || c == '?' || c == '<' || c == '>' || c == '%' || c == '~'
-	|| c == '|' || c == ';' || c == '&' || c == ':' || c == '!' || c == '$')
-
-Use range to define operators
-look at this table repsentation
-from 35 to 38 is operator
-from 42 to 64 is operator
-33 : ! op
-34 : " 
-35 : # op
-36 : $ op
-37 : % op
-38 : & op
-39 : ' op
-40 : (
-41 : )
-42 : * op
-43 : + op
-44 : , op
-45 : - op
-46 : . op
-47 : / op
-
-58 : : op
-59 : ; op
-60 : < op
-61 : = op
-62 : > op
-63 : ? op
-64 : @ op
-94 : ^ op
-124 : | op
-126 : ~ op
-*/
-
-
-fbgc_bool is_hexadecimal(const char c) {return( c >= 'a' && c <= 'f' )|| ( c >= 'A' &&c <= 'F' );}
-fbgc_bool is_all(const char c){ return ( c>=32 && c<=126 && c!='\'' && c!='"' );}
-fbgc_bool is_newline(const char c){return c == '\n';}
-fbgc_bool is_tab(const char c){return c == '\t';}
-fbgc_bool is_white_space(const char c){return c == ' ';}
-
 #define COMPARATOR_FUNCTION_SIZE 8
 
 #define LXR_DIGIT 0 //for digit:d
-#define LXR_LETTER 1 //for letter:l
+#define LXR_LETTER 1 //for letter:w
 #define	LXR_OPERATOR 2 //for op : o
 #define LXR_HEXADECIMAL 3
 #define LXR_ALL 4
@@ -181,57 +121,22 @@ fbgc_bool is_white_space(const char c){return c == ' ';}
 
 #define SET_PATTERN_FLAG_FROM_RULE(x)({\
 x == 'd' ? 0x01 :\
-x == 'l' ? 0x02 :\
+x == 'w' ? 0x02 :\
 x == 'o' ? 0x04 :\
 x == 'h' ? 0x08 :\
 x == '.' ? 0x10 :\
-x == 'n' ? 0x20 :\
-x == 't' ? 0x40 :\
-x == 's' ? 0x80 :0;})
+x == 's' ? 0x20 :\
+x == ' ' ? 0x40 :0;})
 
-#define IS_SPECIAL_CHAR(x)(x == 'd' || x == 'l' || x == 'o' || x == 'h' || x == '.' || x == 'n' || x == 't' || x == 's')
+#define IS_SPECIAL_CHAR(x)(x == 'd' || x == 'w' || x == 'o' || x == 'h' || x == '.' || x == 's' || x == ' ')
 
-#define GET_PATTERN_FUNCTION_INDEX(x)({\
-x == 0x01 ? 0 :\
-x == 0x02 ? 1 :\
-x == 0x04 ? 2 :\
-x == 0x08 ? 3 :\
-x == 0x10 ? 4 :\
-x == 0x20 ? 5 :\
-x == 0x40 ? 6 :\
-x == 0x80 ? 7 :8;})
-
-fbgc_bool (*comparator[COMPARATOR_FUNCTION_SIZE])(const char) = 
-{
-	is_digit , //0
-	is_letter, //1
-	is_operator,
-	is_hexadecimal,
-	is_all, //4
-	is_newline, //5
-	is_tab, //6
-	is_white_space,
-};
-
-fbgc_bool check_character_with_pattern(const char c, uint8_t pattern_flag){
-	//first check the pattern flag
-	fbgc_bool result = 0;
-	uint8_t flag_controller = 0x01;
-	while(!result && flag_controller != 0 && flag_controller<=pattern_flag){
-		if(pattern_flag & flag_controller) {
-			result = comparator[GET_PATTERN_FUNCTION_INDEX(flag_controller)](c);
-		}
-		flag_controller <<= 1;
-	}
-	return result;
-}
 
 
 //============================[METACHARACTERS]==========================
 
 #define LXR_META_PLUS '+'
 #define LXR_META_STAR '*'
-#define LXR_META_BACKSLASH '\\'
+#define LXR_META_ESCAPE '!'
 #define LXR_META_TABLE '#'
 #define LXR_META_OR '|'
 
@@ -243,13 +148,12 @@ fbgc_bool check_character_with_pattern(const char c, uint8_t pattern_flag){
 
 #define LXR_FLAGS_NUM 5 //it has to be equal last one + 1
 
-#define IS_METACHAR(x)(x == '+' || x == '*' || x == '#' || x == '\\' || x == '|' || x == ' ')
+#define IS_METACHAR(x)(x == '+' || x == '*' || x == '#')
 
 #define SET_METACHARACTER_FLAG_FROM_RULE(x)({\
 x == '+' ? 0x01:\
 x == '*' ? 0x02:\
-x == '\\' ? 0x04:\
-x == '#' ? 0x08:0;})
+x == '#' ? 0x04:0;})
 
 
 #define IS_METACHAR_PLUS_OPEN(x)(x & 0x01)
