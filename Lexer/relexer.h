@@ -71,10 +71,14 @@ token_table_struct lexer_table[] =
 
 //==========================================================================
 
+
 #define RULE_NUMBER sizeof(fbgc_lexer_rule_holder)/sizeof(fbgc_lexer_rule_struct)
 static const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] = 
 {
-	{BIN,"0b 1|0!+"},
+	{ELIF,"a|e|i|o|u"}	,
+
+
+
 };
 
 
@@ -84,11 +88,11 @@ static const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] =
 
 /*
 	{SPACE,"!+!s"},
-	
-	{HEX,"0x !h!+"},
+	{BIN,"0b 1|0!+"},
+	{HEX,"0x !x!+"},
+	{STRING,"' !s!d!w!* '"},	
 	{OP,"!o!+"},
-	{INT,"!#0"}, //# for table		
-	{STRING,"' !s!.!* '"},
+	{INT,"!d!+"}, //# for table
 	{WORD,"_!w _!w!d!*"},
 		
 
@@ -123,12 +127,20 @@ static const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] =
 x == 'd' ? 0x01 :\
 x == 'w' ? 0x02 :\
 x == 'o' ? 0x04 :\
-x == 'h' ? 0x08 :\
+x == 'x' ? 0x08 :\
 x == '.' ? 0x10 :\
 x == 's' ? 0x20 :\
 x == ' ' ? 0x40 :0;})
 
-#define IS_SPECIAL_CHAR(x)(x == 'd' || x == 'w' || x == 'o' || x == 'h' || x == '.' || x == 's' || x == ' ')
+/*
+x == 'D' ? ~0x01:\
+x == 'W' ? ~0x02:\
+x == 'O' ? ~0x04:\
+x == 'X' ? ~0x08:\
+x == 'S' ? ~0x40:\
+*/
+
+#define IS_SPECIAL_CHAR(x)(x == 'd' || x == 'w' || x == 'o' || x == 'x' || x == '.' || x == 's' || x == ' ')
 
 
 
@@ -139,6 +151,7 @@ x == ' ' ? 0x40 :0;})
 #define LXR_META_ESCAPE '!'
 #define LXR_META_TABLE '#'
 #define LXR_META_OR '|'
+#define LXR_META_NOT '^'
 
 #define LXR_META_PLUS_INDEX 0 // for + metach
 #define LXR_META_STAR_INDEX 1 // for * metach
@@ -148,7 +161,7 @@ x == ' ' ? 0x40 :0;})
 
 #define LXR_FLAGS_NUM 5 //it has to be equal last one + 1
 
-#define IS_METACHAR(x)(x == '+' || x == '*' || x == '#')
+#define IS_METACHAR(x)(x == '+' || x == '*' || x == '#' || x == '^')
 
 #define SET_METACHARACTER_FLAG_FROM_RULE(x)({\
 x == '+' ? 0x01:\
