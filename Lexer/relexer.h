@@ -75,13 +75,24 @@ token_table_struct lexer_table[] =
 #define RULE_NUMBER sizeof(fbgc_lexer_rule_holder)/sizeof(fbgc_lexer_rule_struct)
 static const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] = 
 {
-	{ELIF,"a|e|i|o|u"}	,
+	{SPACE,"!+!s"},
+	{BIN,"0b 1|0!+"},
+	{HEX,"0x !x!+"},
+	{STRING,"' _!s!d!w!* '"},
+	{COMPLEX,"!d!+ . !d!+ j"},
+	{COMPLEX,"!d!+ j"}, 
+	{DOUBLE,". !d!+"}, 
+	{DOUBLE,"!d!+ . !d!+"}, 
+	{INT,"!d!+"}, 	
+	{OP,"!o!+"},
+	//# for table
+	{WORD,"_!w _!w!d!*"},
 
 
 
 };
 
-
+	
 
 	//bsr_fbg@hotmail.com
 	//example mail {ARG,"_|+|-|.\\l\\d\\+ @ -\\l\\d\\+ . co m\\*"},
@@ -96,7 +107,7 @@ static const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] =
 	{WORD,"_!w _!w!d!*"},
 		
 
-	
+	\"(\\.|[^"\\])*\"
 	{LPARA,"("},
 	{RPARA,")"},
 	{LBRACE,"{"},
@@ -171,8 +182,8 @@ x == '#' ? 0x04:0;})
 
 #define IS_METACHAR_PLUS_OPEN(x)(x & 0x01)
 #define IS_METACHAR_STAR_OPEN(x)(x & 0x02)
-#define IS_METACHAR_BACKSLASH_OPEN(x)(x & 0x04)
-#define IS_METACHAR_TABLE_OPEN(x)(x & 0x08)
+#define IS_METACHAR_TABLE_OPEN(x)(x & 0x04)
+//#define IS_METACHAR_TABLE_OPEN(x)(x & 0x08)
 
 #define SET_METACHAR_PLUS_FLAG_CLOSE(x)(x &= 0b11111110) // for plus flag is 0x01
 #define SET_METACHAR_PLUS_FLAG_OPEN(x) (x |=  0b00000001)
@@ -180,12 +191,13 @@ x == '#' ? 0x04:0;})
 #define SET_METACHAR_STAR_FLAG_CLOSE(x)(x &= 0b11111101)// for star flag is 0x02
 #define SET_METACHAR_STAR_FLAG_OPEN(x)( x |= 0b00000010)
 
-#define SET_METACHAR_BACKSLASH_FLAG_CLOSE(x)(x &= 0b11111011) // for backslash flag is 0x04
-#define SET_METACHAR_BACKSLASH_FLAG_OPEN(x)( x |= 0b00000100)
+#define SET_METACHAR_TABLE_FLAG_CLOSE(x)(x &= 0b11111011) // for backslash flag is 0x04
+#define SET_METACHAR_TABLE_FLAG_OPEN(x)( x |= 0b00000100)
 
+/*
 #define SET_METACHAR_TABLE_FLAG_CLOSE(x)(x &= 0b11110111) //// for table flag is 0x08
 #define SET_METACHAR_TABLE_FLAG_OPEN(x)( x |= 0b00001000)
-
+*/
 
 
 #endif
