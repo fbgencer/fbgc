@@ -2,8 +2,7 @@
 
 *Small language and calculator in C*
 
--Lexer
--Parser
--Parser Tree Generation
-
+1. Lexer (+)
+2. Parser (-)
+3. Parser Tree Generation (-)
 
