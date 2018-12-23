@@ -75,6 +75,15 @@ token_table_struct lexer_table[] =
 #define RULE_NUMBER sizeof(fbgc_lexer_rule_holder)/sizeof(fbgc_lexer_rule_struct)
 static const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] = 
 {
+	{INT,"!#0"},
+};
+
+	
+
+	//bsr_fbg@hotmail.com
+	//example mail {ARG,"_|+|-|.\\l\\d\\+ @ -\\l\\d\\+ . co m\\*"},
+
+/*
 	{SPACE,"!+!s"},
 	{BIN,"0b 1|0!+"},
 	{HEX,"0x !x!+"},
@@ -87,25 +96,6 @@ static const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] =
 	{OP,"!o!+"},
 	//# for table
 	{WORD,"_!w _!w!d!*"},
-
-
-
-};
-
-	
-
-	//bsr_fbg@hotmail.com
-	//example mail {ARG,"_|+|-|.\\l\\d\\+ @ -\\l\\d\\+ . co m\\*"},
-
-/*
-	{SPACE,"!+!s"},
-	{BIN,"0b 1|0!+"},
-	{HEX,"0x !x!+"},
-	{STRING,"' !s!d!w!* '"},	
-	{OP,"!o!+"},
-	{INT,"!d!+"}, //# for table
-	{WORD,"_!w _!w!d!*"},
-		
 
 	\"(\\.|[^"\\])*\"
 	{LPARA,"("},

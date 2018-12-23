@@ -41,7 +41,7 @@ void pretty_print_pointer(const char *buffer ,const char * ptr){
 	printf("\n");	
 }
 
-//#define DEBUG 
+#define DEBUG 
 
 
 typedef struct{
@@ -395,21 +395,17 @@ uint8_t regex_lexer_v2(const char *first_ptr){
 					cprintf(100,"Sts rule sec:%d, rule_sec:%d, *rule_ptr:%c\n",satisfied_rule_section,rule_section,*rule_ptr);
 				#endif
 
-				/*if(IS_METACHAR_TABLE_OPEN(rfs.metachar_flag) || inside_table_flag){
+				if(IS_METACHAR_TABLE_OPEN(rfs.metachar_flag) || inside_table_flag){
 					#ifdef DEBUG
 						cprintf(110,"[Table is opened]\n");
 					#endif
 			
-					if( !inside_table_flag ){
+					
 						rule_ptr = (lexer_table+rfs.table_index)->inputs[table_input_iter];
 						rule_section = 0;
-						inside_table_flag = 1;
-					}
-					else 
-						break;
-						
+						inside_table_flag = 1;	
 				}
-				else break;*/
+				else break;
 			//}
 		}
 
@@ -419,26 +415,28 @@ uint8_t regex_lexer_v2(const char *first_ptr){
 		#endif		
 		if(check ||  IS_METACHAR_STAR_OPEN(rfs.metachar_flag)) satisfied_rule_section = rule_section;
 
-		/*if(check && inside_table_flag){
-			uint8_t dummy_state = (lexer_table+rfs.table_index)->states[table_input_iter + ((lexer_table+rfs.table_index)->token_size * table_state)];
-			
+		if(check && inside_table_flag){
+			uint8_t dummy_state = (lexer_table+rfs.table_index)->states[table_input_iter + ((lexer_table+rfs.table_index)->token_size * table_state) - 1];
+			cprintf(111,"Dummy state:  %d, Table State :%d\n",dummy_state,table_state);
 			if(dummy_state == 0){
 				//state returned to beginning, do not change the state
 				check = 0;
 				//SET_METACHAR_TABLE_FLAG_OPEN(ras->metachar_flag);
 			}
+			//else 
 			else{
 				//succesfully moving
 				table_state = dummy_state;
+				table_input_iter = 0;
 			}
 			current_token = (lexer_table+rfs.table_index)->tokens[table_state-1];
 			cprintf(100,"breaking.. and current_token : %s\n",TYPES_ARRAY[current_token]);
-			break;			
+			//break;			
 		}else if(!check && inside_table_flag){
 			cprintf(111,"check 0 but table!\n");
 			table_input_iter++;
 			
-		}*/
+		}
 		 
 
 
@@ -637,7 +635,7 @@ int main(){
 	//"1.2312312312312312312312312454354343545647587768 1j*2.123E23j+2j x = 23 'lolll\tdnasd' abcdef x=5.123123; 1.2E+3j wow _x_f alper alam ";
 	//regex_lexer(buffer);
 
-	const char *str = ".123 1.23 100 'abc_12_def' lol = 123.213 fbg 13.14j 10j";
+	const char *str = ".123";
 	regex_lexer_v2(str);
 
 	/*rule_flag_struct rfs;
