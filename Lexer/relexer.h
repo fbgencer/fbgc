@@ -75,7 +75,21 @@ token_table_struct lexer_table[] =
 #define RULE_NUMBER sizeof(fbgc_lexer_rule_holder)/sizeof(fbgc_lexer_rule_struct)
 static const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] = 
 {
-	{INT,"!#0"},
+	{SPACE,"!+!s"},
+	{BIN,"0b 1|0!+"},
+	{HEX,"0x !x!+"},
+	{STRING,"' _!s!d!w!* '"},
+	{COMPLEX,"!d!+ . !d!+ j"},
+	{COMPLEX,"!d!+ j"}, 
+	{DOUBLE,". !d!+"}, 
+	{DOUBLE,"!d!+ . !d!+"}, 
+	{INT,"!d!+"}, 	
+	{OP,"!o!+"},
+	//# for table
+	{WORD,"_!w _!w!d!*"},
+
+
+
 };
 
 	
@@ -96,7 +110,7 @@ static const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] =
 	{OP,"!o!+"},
 	//# for table
 	{WORD,"_!w _!w!d!*"},
-
+	
 	\"(\\.|[^"\\])*\"
 	{LPARA,"("},
 	{RPARA,")"},

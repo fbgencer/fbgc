@@ -4,7 +4,7 @@
 
 
 
-static const char * TYPES_ARRAY[]={
+const char * object_name_array[]={
 	"UNKNOWN",
 	"BEGIN","END","END_LOOP","END_FUN","RESET",
 	"INT","DOUBLE","COMPLEX","HEX","INDEX_L","INDEX_S",
@@ -44,27 +44,7 @@ static const char * TYPES_ARRAY[]={
 	"HALT"
 };
 
-#define is_token_OP(T)(T>=OP && T< PARA)
-#define is_token_NUM(T)(T>= INT && T<WORD) //INT,DOUBLE,COMPLEX
-#define is_token_INT(T) (T == INT)
-#define is_token_DOUBLE(T) (T == DOUBLE)
-#define is_token_STRING(T) (T == STRING)
-#define is_token_PARA(T)(T>=PARA && T<= RBRACK)
-#define is_token_BINARY_OP(T)(T == PLUS || T == MINUS || T == MULT || T == DIV || T == POWER1 || T == POWER2 || T == DIVDIV \
-|| T == LOWER || T == GREATER || T == LO_EQ || T == GR_EQ || T == EQ_EQ || T == IS_EQ || T == NOT_EQ|| T== AND_OP|| T == OR_OP )
-#define is_token_UNARY_OP(T)(T ==  UMINUS || T == UPLUS || T == INC || T == DECR)
 
-#define is_token_VAR(T)(T==VAR )
-#define is_token_FUN(T)(T>=FUN && T<= UFUN)
-#define is_token_WORD(T)(T==WORD)
-
-#define is_token_BASIC_OPERATOR(T)(T == PLUS || T == MINUS || T == MULT || T == DIV || T == UMINUS\
-|| T== UPLUS || T == LOWER || T == GREATER || T == LO_EQ || T == GR_EQ || T == EQ_EQ \
-|| T == IS_EQ || T == NOT_EQ|| T== AND_OP|| T == OR_OP || T == NOT_OP)
-
-#define isFUNCTIONABLE(T)(T == IF || T == ELIF || T == WHILE)
-#define isCONDITION(T)(T == IF||T==ELIF||T == ELSE)
-#define isLOOP(T) (T == WHILE || T == FOR || T == UNTIL)
 
 
 
