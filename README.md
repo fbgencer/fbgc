@@ -1,2 +1,8 @@
-# fbgc
-Small Language and Calculator in C
+## Welcome to fbgC
+
+*Small language and calculator in C*
+
+1. Lexer (+)
+2. Parser (-)
+3. Parser Tree Generation (-)
+
