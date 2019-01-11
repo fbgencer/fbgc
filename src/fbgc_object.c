@@ -42,6 +42,11 @@ void print_fbgc_object_ll(struct fbgc_object * head){
 	}
 	printf("\033[1;37m[-----------------------------]\033[0m\n");
 } 
+/*
+void delete_object_fbgc_object_ll(struct fbgc_object * head,struct fbgc_object * obj){
+	free(fbgc_object);
+}
+*/
 void free_fbgc_object_ll(struct fbgc_object * head){
 		struct fbgc_int_object * head_int = (struct fbgc_int_object*) head;
 	struct fbgc_object * iter = head_int->base.next;
@@ -51,7 +56,6 @@ void free_fbgc_object_ll(struct fbgc_object * head){
 		free_fbgc_object(iter);	
 		iter = temp;	
 	}
-	
 	head_int->content = 0;
 }
 

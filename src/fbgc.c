@@ -10,14 +10,65 @@ int main(){
 	tail =  new_fbgc_int_object(100);
 	iter = head; 
 
-	push_fbgc_object_ll(&head,&tail,new_fbgc_double_object(3.14));
+	//8 * ( 5 + 10 / ( 2 - 3 ) ) 
+	//Expected :8,5,10,2,3,-,/,+,*
+	/*
+	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(8));
+	push_fbgc_object_ll(&head,&tail,new_fbgc_object(MULT));
+	push_fbgc_object_ll(&head,&tail,new_fbgc_object(LPARA));
+	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(5));
+	push_fbgc_object_ll(&head,&tail,new_fbgc_object(PLUS));
+	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(10));
+	push_fbgc_object_ll(&head,&tail,new_fbgc_object(DIV));
+	push_fbgc_object_ll(&head,&tail,new_fbgc_object(LPARA));
+	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(2));
+	push_fbgc_object_ll(&head,&tail,new_fbgc_object(MINUS));
+	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(3));
+	push_fbgc_object_ll(&head,&tail,new_fbgc_object(RPARA));		
+	push_fbgc_object_ll(&head,&tail,new_fbgc_object(RPARA));	
+	*/
+
+	//((2+3))
+	/*
+	push_fbgc_object_ll(&head,&tail,new_fbgc_object(LPARA));
+	push_fbgc_object_ll(&head,&tail,new_fbgc_object(LPARA));
+	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(2));
+	push_fbgc_object_ll(&head,&tail,new_fbgc_object(MINUS));
+	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(3));
+	push_fbgc_object_ll(&head,&tail,new_fbgc_object(RPARA));		
+	push_fbgc_object_ll(&head,&tail,new_fbgc_object(RPARA));	
+	*/
+
+
+	//3.14/8*78+112
+	
+	/*push_fbgc_object_ll(&head,&tail,new_fbgc_double_object(3.14));
 	push_fbgc_object_ll(&head,&tail,new_fbgc_object(DIV));
 	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(8));
 	push_fbgc_object_ll(&head,&tail,new_fbgc_object(MULT));
 	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(78));
-	/*push_fbgc_object_ll(&head,&tail,new_fbgc_double_object(5010));
+	push_fbgc_object_ll(&head,&tail,new_fbgc_object(PLUS));
+	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(112));
+	*/
+
+
+
+	//3.14/((8*78+112)-5)
+	
+	push_fbgc_object_ll(&head,&tail,new_fbgc_double_object(3.14));
+	push_fbgc_object_ll(&head,&tail,new_fbgc_object(DIV));
+	push_fbgc_object_ll(&head,&tail,new_fbgc_object(LPARA));
+	push_fbgc_object_ll(&head,&tail,new_fbgc_object(LPARA));	
+	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(8));
 	push_fbgc_object_ll(&head,&tail,new_fbgc_object(MULT));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(8));*/
+	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(78));
+	push_fbgc_object_ll(&head,&tail,new_fbgc_object(PLUS));
+	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(112));
+	push_fbgc_object_ll(&head,&tail,new_fbgc_object(RPARA));
+	push_fbgc_object_ll(&head,&tail,new_fbgc_object(MINUS));
+	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(5));			
+	push_fbgc_object_ll(&head,&tail,new_fbgc_object(RPARA));		
+		
 
 
 	print_fbgc_object_ll(head);
