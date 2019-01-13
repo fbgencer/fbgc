@@ -34,10 +34,7 @@ uint8_t operator_precedence(fbgc_token T){
 
 
 /*
-	3+2*2 : [3]->[+]->[2]->[*]->[2]
-	
-	
- head ->  +,*
+
 */
 
 struct
@@ -73,7 +70,7 @@ fbgc_object * op_stack_pop(struct fbgc_object * head){
 struct 
 fbgc_object * parser(struct fbgc_object * head){
 	
-	printf("\033[1;37m[PARSER]\033[0m\n");
+	cprintf(111,"==[PARSER]==\n");
 
 	struct fbgc_int_object * head_int = (struct fbgc_int_object*) head;
 	struct fbgc_object * iter = head_int->base.next;
@@ -83,8 +80,9 @@ fbgc_object * parser(struct fbgc_object * head){
 
 	for(int i = 0; i<head_int->content; i++){
 
-		print_fbgc_object_ll(head);
-		cprintf(110,"-->>[%d] = {%s}\n",i,object_name_array[iter->type]);
+
+		
+		cprintf(110,"Input >>> [%d] = {%s}\n",i,object_name_array[iter->type]);
 		if(is_fbgc_NUMBER(iter->type)){
 			//this is number do not touch
 			iter_prev = iter;
@@ -155,6 +153,7 @@ fbgc_object * parser(struct fbgc_object * head){
 			
 		}
 		iter = iter_prev->next;
+		print_fbgc_object_ll(head);
 	}
 	
 	if(!op_stack_empty(op_stack_head)){

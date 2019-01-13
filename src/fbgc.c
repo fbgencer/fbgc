@@ -55,6 +55,7 @@ int main(){
 
 	//3.14/((8*78+112)-5)
 	
+	/*
 	push_fbgc_object_ll(&head,&tail,new_fbgc_double_object(3.14));
 	push_fbgc_object_ll(&head,&tail,new_fbgc_object(DIV));
 	push_fbgc_object_ll(&head,&tail,new_fbgc_object(LPARA));
@@ -68,7 +69,24 @@ int main(){
 	push_fbgc_object_ll(&head,&tail,new_fbgc_object(MINUS));
 	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(5));			
 	push_fbgc_object_ll(&head,&tail,new_fbgc_object(RPARA));		
-		
+	*/
+
+	//(-(-10*20+32)-40)
+	//10,-,20,*,32,+,-,40,-
+	push_fbgc_object_ll(&head,&tail,new_fbgc_object(LPARA));
+	push_fbgc_object_ll(&head,&tail,new_fbgc_object(UMINUS));	
+	push_fbgc_object_ll(&head,&tail,new_fbgc_object(LPARA));
+	push_fbgc_object_ll(&head,&tail,new_fbgc_object(UMINUS));		
+	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(10));
+	push_fbgc_object_ll(&head,&tail,new_fbgc_object(MULT));
+	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(20));
+	push_fbgc_object_ll(&head,&tail,new_fbgc_object(PLUS));
+	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(32));
+	push_fbgc_object_ll(&head,&tail,new_fbgc_object(RPARA));
+	push_fbgc_object_ll(&head,&tail,new_fbgc_object(MINUS));
+	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(40));			
+	push_fbgc_object_ll(&head,&tail,new_fbgc_object(RPARA));
+
 
 
 	print_fbgc_object_ll(head);
@@ -81,7 +99,6 @@ int main(){
 
 	free_fbgc_int_object(head);
 	free_fbgc_int_object(tail);
-
 
 	/*double dbar[] = {3.14,2.727585};
 	struct fbgc_object * head, * iter;
@@ -104,6 +121,46 @@ int main(){
 	print_fbgc_object_ll(head);
 	free_fbgc_object_ll(head);*/
 
+
 	printf("\033[1;33m[%s]\033[0m\n","=======================================================================");
 	return 0;
 }
+
+/*
+
+a^-2
+
+M:a,2,-^
+O:^,
+G:expr
+
+
+a-^2
+
+M:a,
+O:- -> ^ cannot come because G has no id or something..
+G:
+
+Birden fazla
+a+2*3
+b-^10
+
+It couldnt catch invalid input
+M:a,2,3,*,+,b,10,^,-
+O:
+G:exp
+
+parsed like (a+2*3)-(b^10)
+
+How to solve ?
+
+Always reduce the grammar stack !!
+M:a,2,3,*,+
+O:         now we have b as an input but we have also a grammar top expression, delete the expr and push id
+G:expr
+
+M:a,2,3,*,+,b,
+O:-,
+G:
+
+*/

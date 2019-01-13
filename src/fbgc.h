@@ -15,6 +15,7 @@
 #include "error.h"
 
 #include "fbgc_object.h"
+#include "linked_list.h"
 #include "double_object.h"
 #include "int_object.h"
 

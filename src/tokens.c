@@ -12,6 +12,7 @@ const char * object_name_array[]={
 	"VAR",
 	"FUN","CFUN","UFUN",
 	"STRING",
+	"LINKED_LIST",
 	"OP",
 	"PLUS","UPLUS","MINUS","UMINUS",
 	"MULT","DIV","MOD","Q_MARK","POWER1","POWER2","INC","DECR",

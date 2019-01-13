@@ -5,6 +5,7 @@ struct fbgc_double_object{
     struct fbgc_object base;
     double content;
 };
+#define cast_fbgc_object_as_double(x)(((struct fbgc_double_object*) x))
 
 struct fbgc_object * new_fbgc_double_object(double);
 struct fbgc_object * new_fbgc_double_object_from_str(const char *);
