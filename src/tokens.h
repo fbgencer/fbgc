@@ -50,7 +50,14 @@ enum TYPES{
 	SPACE,TAB,NLINE, 
 	EOS, // end of string
 	RETURN,IS,DEL,ARG,COMMA,
-	HALT
+	HALT,
+	IDENTIFIER,
+	NUMBER,
+	EXPRESSION,
+	CLOSED_EXPRESSION,
+	COMP_EXPRESSION,
+	CLOSED_COMP_EXPRESSION,
+	ASSIGNMENT,
 };
 extern const char * object_name_array[];
 

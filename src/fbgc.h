@@ -19,6 +19,7 @@
 #include "double_object.h"
 #include "int_object.h"
 
+#include "grammar.h"
 #include "parser.h"
 
 

@@ -1,6 +1,7 @@
 #include "fbgc.h"
 
 
+
 uint8_t operator_precedence(fbgc_token T){
 	
 	/*
@@ -43,7 +44,7 @@ fbgc_object * op_stack_push(struct fbgc_object * head,struct fbgc_object * obj){
 	//[head]-> [op2]->[op1]->NULL;
 	//[head]-> [op3]->[op2]->[op1]->NULL;	
 
-	printf("\033[1;32m[Op Stack : Pushed:%s]\033[0m\n",object_name_array[obj->type]); 
+	//printf("\033[1;32m[Op Stack : Pushed:%s]\033[0m\n",object_name_array[obj->type]); 
 	obj->next = head->next;
 	head->next = obj;	
 	
@@ -59,16 +60,26 @@ fbgc_object * op_stack_pop(struct fbgc_object * head){
 	//[head]-> [op3]->[op2]->[op1]	
 	//Assume we want to pop op3, just derefence it do not free!
 
-	printf("\033[1;32m[Op Stack : Popped:%s]\033[0m\n",object_name_array[head->next->type]); 
+	//printf("\033[1;32m[Op Stack : Popped:%s]\033[0m\n",object_name_array[head->next->type]); 
 	head->next = head->next->next;
-
-
 	return (struct fbgc_object*) head;
+}
+
+void op_stack_print(struct fbgc_object *head){
+	struct fbgc_object * iter = head->next;
+	cprintf(111,"[O]->");
+	
+	while(iter != NULL){
+		cprintf(101,"[%s]->",object_name_array[iter->type]);
+		iter = iter->next;
+	}
+	cprintf(100,"NULL\n");
+
 }
 
 
 struct 
-fbgc_object * parser(struct fbgc_object * head){
+fbgc_object * parser(struct fbgc_object * head,struct fbgc_object * tail){
 	
 	cprintf(111,"==[PARSER]==\n");
 
@@ -78,11 +89,11 @@ fbgc_object * parser(struct fbgc_object * head){
 	struct fbgc_object * op_stack_head = new_fbgc_object(0);//make just 0 we are using for just head
 	
 
-	for(int i = 0; i<head_int->content; i++){
+	for(int i = 0; i<3000 && iter != tail ; i++){
 
 
 		
-		cprintf(110,"Input >>> [%d] = {%s}\n",i,object_name_array[iter->type]);
+		//cprintf(010,"Input >>> [%d] = {%s}\n",i,object_name_array[iter->type]);
 		if(is_fbgc_NUMBER(iter->type)){
 			//this is number do not touch
 			iter_prev = iter;
@@ -107,8 +118,7 @@ fbgc_object * parser(struct fbgc_object * head){
 					//connect list again
 					iter_prev->next->next = iter->next; 
 					//make the iter_prev proper
-					iter_prev = iter_prev->next;
-					
+					iter_prev = iter_prev->next;		
 				}while( !op_stack_empty(op_stack_head) && operator_precedence(op_stack_top(op_stack_head)->type) >= operator_precedence(iter->type));
 			}
 			
@@ -140,10 +150,9 @@ fbgc_object * parser(struct fbgc_object * head){
 			//op_stack_head = op_stack_push(op_stack_head,iter);
 			
 			if(op_stack_top(op_stack_head)->type == LPARA){
-				cprintf(111,"Hit the left para! content:%d i:%d\n",head_int->content,i);
+				//cprintf(111,"Hit the left para! content:%d i:%d\n",head_int->content,i);
 				//now we have free paranthesis object by hand and also change the size of the main list
-				head_int->content -= 2;
-				i-=2;
+				head_int->content -=2;
 				struct fbgc_object * dummy_for_lpara = op_stack_top(op_stack_head);
 				op_stack_head = op_stack_pop(op_stack_head);
 				free_fbgc_object(dummy_for_lpara);
@@ -153,7 +162,8 @@ fbgc_object * parser(struct fbgc_object * head){
 			
 		}
 		iter = iter_prev->next;
-		print_fbgc_object_ll(head);
+		//op_stack_print(op_stack_head);
+		//print_fbgc_object_ll(head);
 	}
 	
 	if(!op_stack_empty(op_stack_head)){
