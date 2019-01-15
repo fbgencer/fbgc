@@ -51,6 +51,7 @@ enum TYPES{
 	EOS, // end of string
 	RETURN,IS,DEL,ARG,COMMA,
 	HALT,
+	VALID,
 	IDENTIFIER,
 	NUMBER,
 	EXPRESSION,

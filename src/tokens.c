@@ -43,6 +43,7 @@ const char * object_name_array[]={
 	"EOS", // end of string
 	"RETURN","IS","DEL","ARG","COMMA",
 	"HALT",
+	"VALID",
 	"IDENTIFIER",
 	"NUMBER",
 	"EXPRESSION",

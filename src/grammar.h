@@ -5,6 +5,12 @@
 	Change these keywords!!
 */
 
+void grammar_push(struct fbgc_object ** gm_head,fbgc_token type);
+uint8_t grammar_seek_left(struct fbgc_object ** grammar_stack,fbgc_token op );
+uint8_t grammar_seek_right(struct fbgc_object ** grammar_stack,fbgc_token op );
+
+void grammar_stack_print(struct fbgc_object * grammar_stack);
+
 
 
 

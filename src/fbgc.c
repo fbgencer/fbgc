@@ -3,17 +3,33 @@
 
 int main(){
 	
+
+
+
+
+	cprintf(110,"\n\n\n\n\n[=======================================================================]\n"); 
+
 	struct fbgc_object * head = new_fbgc_ll_object();
-	for(int i = 0; i<30; i++)
-	head = push_back_fbgc_ll_object(head,new_fbgc_int_object(i));
-	for(int i = 50; i<100; i++)
-	head = push_front_fbgc_ll_object(head,new_fbgc_double_object(i));
+	
+	//2+4*(8)
+	head = push_back_fbgc_ll_object(head,new_fbgc_int_object(2));
+	head = push_back_fbgc_ll_object(head,new_fbgc_object(LPARA));
+	//head = push_back_fbgc_ll_object(head,new_fbgc_int_object(8));	
+	head = push_back_fbgc_ll_object(head,new_fbgc_object(RPARA));	
+	head = push_back_fbgc_ll_object(head,new_fbgc_object(MULT));
+	//head = push_back_fbgc_ll_object(head,new_fbgc_object(PLUS));
+	head = push_back_fbgc_ll_object(head,new_fbgc_int_object(4));
+	head = push_back_fbgc_ll_object(head,new_fbgc_object(PLUS));
+
+
 	print_fbgc_ll_object(head);
+	
+	head = parser(head);
+
+	print_fbgc_ll_object(head);
+
 	free_fbgc_ll_object(head); 
 
-
-
-	printf("\033[1;33m[%s]\033[0m\n","======================================================================="); 
 	/*struct fbgc_object * head, * tail, * iter;
 
 	head = new_fbgc_int_object(0);
@@ -144,7 +160,8 @@ int main(){
 	free_fbgc_object_ll(head);*/
 
 
-	printf("\033[1;33m[%s]\033[0m\n","=======================================================================");
+	
+	cprintf(110,"[=======================================================================]\n\n\n\n\n\n"); 
 	return 0;
 }
 
