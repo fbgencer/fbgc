@@ -26,6 +26,7 @@ fbgc_object * pop_back_fbgc_ll_object(struct fbgc_object *head);
 #define back_fbgc_ll_object(head)(cast_fbgc_object_as_ll(head)->tail->next);
 
 void print_fbgc_ll_object(struct fbgc_object * head);
+void print_fbgc_ll_object_as_str(struct fbgc_object * head);
 
 void print_fbgc_object_ll(struct fbgc_object *);
 void free_fbgc_object_ll(struct fbgc_object *);

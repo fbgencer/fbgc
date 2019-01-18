@@ -15,7 +15,7 @@ enum TYPES{
 	//PRIMITIVE DATA
 	UNKNOWN=0, // always give zero for unknown
 	BEGIN,END,END_LOOP,END_FUN,RESET,
-	INT,DOUBLE,COMPLEX,HEX,INDEX_L,INDEX_S,
+	INT,DOUBLE,COMPLEX,HEX,BIN,INDEX_L,INDEX_S,
 	WORD,
 	VAR,
 	FUN,CFUN,UFUN,
@@ -70,7 +70,12 @@ static const token_struct reserved_words_token_array[];
 static const token_struct paranthesis_token_array[];
 
 fbgc_token get_operator_code(const char *str);
+fbgc_token get_operator_code_from_substr(const char *str1,const char *str2);
 fbgc_token get_reserved_word_code(const char *str);
+fbgc_token get_reserved_word_code_from_substr(const char *str1,const char *str2);
+
+
+const char * get_token_as_str(fbgc_token tok);
 
 
 #define is_fbgc_OPERATOR(T)(T>=OP && T< PARA)

@@ -10,6 +10,7 @@
 #include <assert.h>
 #include <errno.h>
 #include <stdarg.h>
+#include <ctype.h>
 
 #include "tokens.h"
 #include "error.h"
@@ -18,7 +19,9 @@
 #include "linked_list.h"
 #include "double_object.h"
 #include "int_object.h"
+#include "str_object.h"
 
+#include "relexer.h"
 #include "grammar.h"
 #include "parser.h"
 

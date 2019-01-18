@@ -9,158 +9,39 @@ int main(){
 
 	cprintf(110,"\n\n\n\n\n[=======================================================================]\n"); 
 
-	struct fbgc_object * head = new_fbgc_ll_object();
+	/*struct fbgc_object * head = new_fbgc_ll_object();
 	
 	//2+4*(8)
+	//x = 1+2
+	head = push_back_fbgc_ll_object(head,new_fbgc_str_object("fbgencer"));
+	head = push_back_fbgc_ll_object(head,new_fbgc_object(ASSIGN));
 	head = push_back_fbgc_ll_object(head,new_fbgc_int_object(2));
-	head = push_back_fbgc_ll_object(head,new_fbgc_object(LPARA));
-	//head = push_back_fbgc_ll_object(head,new_fbgc_int_object(8));	
-	head = push_back_fbgc_ll_object(head,new_fbgc_object(RPARA));	
-	head = push_back_fbgc_ll_object(head,new_fbgc_object(MULT));
-	//head = push_back_fbgc_ll_object(head,new_fbgc_object(PLUS));
-	head = push_back_fbgc_ll_object(head,new_fbgc_int_object(4));
 	head = push_back_fbgc_ll_object(head,new_fbgc_object(PLUS));
+	head = push_back_fbgc_ll_object(head,new_fbgc_int_object(10));
+	head = push_back_fbgc_ll_object(head,new_fbgc_object(MULT));
+	head = push_back_fbgc_ll_object(head,new_fbgc_int_object(8));	
+
+	head = push_back_fbgc_ll_object(head,new_fbgc_object(PLUS));
+	//head = push_back_fbgc_ll_object(head,new_fbgc_object(LPARA));
+	head = push_back_fbgc_ll_object(head,new_fbgc_int_object(8));	
+	//head = push_back_fbgc_ll_object(head,new_fbgc_object(RPARA));	
+	head = push_back_fbgc_ll_object(head,new_fbgc_object(MULT));
+	head = push_back_fbgc_ll_object(head,new_fbgc_int_object(4));
 
 
 	print_fbgc_ll_object(head);
 	
+	//head = parser(head);
+
+	print_fbgc_ll_object(head);
+
+	free_fbgc_ll_object(head); */
+	struct fbgc_object * head = new_fbgc_ll_object();
+	regex_lexer(&head,"3.2+1 ");
 	head = parser(head);
-
 	print_fbgc_ll_object(head);
+	free_fbgc_ll_object(head);
 
-	free_fbgc_ll_object(head); 
-
-	/*struct fbgc_object * head, * tail, * iter;
-
-	head = new_fbgc_int_object(0);
-	tail =  new_fbgc_int_object(100);
-	iter = head; */
-
-
-	//2+4*(8)
-	//push_fbgc_object_ll(&head,&tail,new_fbgc_object(LPARA));
-	/*push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(2));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_object(PLUS));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(4));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_object(MULT));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_object(LPARA));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(8));	
-	push_fbgc_object_ll(&head,&tail,new_fbgc_object(RPARA));	*/	
-	//push_fbgc_object_ll(&head,&tail,new_fbgc_object(RPARA));
-
-	//8 * ( 5 + 10 / ( 2 - 3 ) ) 
-	//Expected :8,5,10,2,3,-,/,+,*
-	/*
-	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(8));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_object(MULT));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_object(LPARA));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(5));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_object(PLUS));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(10));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_object(DIV));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_object(LPARA));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(2));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_object(MINUS));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(3));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_object(RPARA));		
-	push_fbgc_object_ll(&head,&tail,new_fbgc_object(RPARA));	
-	*/
-
-	//((2+3))
-	/*
-	push_fbgc_object_ll(&head,&tail,new_fbgc_object(LPARA));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_object(LPARA));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(2));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_object(MINUS));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(3));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_object(RPARA));		
-	push_fbgc_object_ll(&head,&tail,new_fbgc_object(RPARA));	
-	*/
-
-
-	//3.14/8*78+112
-	
-	/*push_fbgc_object_ll(&head,&tail,new_fbgc_double_object(3.14));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_object(DIV));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(8));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_object(MULT));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(78));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_object(PLUS));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(112));
-	*/
-
-
-
-	//3.14/((8*78+112)-5)
-	
-	/*
-	push_fbgc_object_ll(&head,&tail,new_fbgc_double_object(3.14));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_object(DIV));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_object(LPARA));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_object(LPARA));	
-	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(8));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_object(MULT));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(78));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_object(PLUS));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(112));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_object(RPARA));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_object(MINUS));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(5));			
-	push_fbgc_object_ll(&head,&tail,new_fbgc_object(RPARA));		
-	*/
-
-	//(-(-10*20+32)-40)
-	//10,-,20,*,32,+,-,40,-
-	/*push_fbgc_object_ll(&head,&tail,new_fbgc_object(LPARA));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_object(UMINUS));	
-	push_fbgc_object_ll(&head,&tail,new_fbgc_object(LPARA));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_object(UMINUS));		
-	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(10));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_object(MULT));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(20));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_object(PLUS));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(32));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_object(RPARA));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_object(MINUS));
-	push_fbgc_object_ll(&head,&tail,new_fbgc_int_object(40));			
-	push_fbgc_object_ll(&head,&tail,new_fbgc_object(RPARA));*/
-
-
-
-	/*print_fbgc_object_ll(head);
-
-	head = parser(head,tail);
-
-	print_fbgc_object_ll(head);
-
-	free_fbgc_object_ll(head);
-
-	free_fbgc_int_object(head);
-	free_fbgc_int_object(tail);*/
-
-	/*double dbar[] = {3.14,2.727585};
-	struct fbgc_object * head, * iter;
-	head = new_fbgc_double_object(10.0);
-	iter = head;
-	for(int i = 0; i<sizeof(dbar)/sizeof(double); i++){
-		struct fbgc_object *db = new_fbgc_double_object(dbar[i]); 
-		iter->next = db; 
-		iter = iter->next;
-	}
-
-	fbgc_token tokenlist[] = {PLUS,MINUS,MULT,DIV};
-
-	for(int i = 0; i<sizeof(tokenlist)/sizeof(fbgc_token); i++){
-		struct fbgc_object *o = new_fbgc_object(tokenlist[i]);
-		iter->next = o;
-		iter = iter->next;
-	}
-	
-	print_fbgc_object_ll(head);
-	free_fbgc_object_ll(head);*/
-
-
-	
 	cprintf(110,"[=======================================================================]\n\n\n\n\n\n"); 
 	return 0;
 }

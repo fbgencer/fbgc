@@ -7,7 +7,7 @@
 const char * object_name_array[]={
 	"UNKNOWN",
 	"BEGIN","END","END_LOOP","END_FUN","RESET",
-	"INT","DOUBLE","COMPLEX","HEX","INDEX_L","INDEX_S",
+	"INT","DOUBLE","COMPLEX","HEX","BIN","INDEX_L","INDEX_S",
 	"WORD",
 	"VAR",
 	"FUN","CFUN","UFUN",
@@ -141,16 +141,50 @@ static const token_struct paranthesis_token_array[]={
 };
 
 
-fbgc_token get_operator_code(const char *str){
-  for( const token_struct * ptr = operator_token_array; ptr < ( operator_token_array + (sizeof(operator_token_array)/sizeof(token_struct)) ); ptr++ ) 
-  	if(str == ptr->name ) return ptr->tokencode;
-  return 0;
-}
 
-fbgc_token get_reserved_word_code(const char *str){ 
+const char * get_token_as_str(fbgc_token tok){
+	for( const token_struct * ptr = operator_token_array; ptr < ( operator_token_array + (sizeof(operator_token_array)/sizeof(token_struct)) ); ptr++ ) 
+  		if(tok ==  ptr->tokencode) return ptr->name;
+
+	for( const token_struct * ptr = paranthesis_token_array; ptr < ( paranthesis_token_array + (sizeof(paranthesis_token_array)/sizeof(token_struct)) ); ptr++ ) 
+  		if(tok ==  ptr->tokencode) return ptr->name;
+
   for( 
   	const token_struct * ptr = reserved_words_token_array; 
   	ptr < ( reserved_words_token_array + (sizeof(reserved_words_token_array)/sizeof(token_struct)) ); ptr++ ) 
-  	if(str == ptr->name ) return ptr->tokencode;
-  return 0;
+  	if(tok == ptr->tokencode ) return ptr->name;
+
+  return NULL;
+} 
+
+
+fbgc_token get_operator_code(const char *str){
+  for( const token_struct * ptr = operator_token_array; ptr < ( operator_token_array + (sizeof(operator_token_array)/sizeof(token_struct)) ); ptr++ ) 
+  	if(!memcmp(str,ptr->name,strlen(str)) ) return ptr->tokencode;
+  return UNKNOWN;
+}
+
+
+fbgc_token get_operator_code_from_substr(const char *str1,const char *str2){
+  for( const token_struct * ptr = operator_token_array; ptr < ( operator_token_array + (sizeof(operator_token_array)/sizeof(token_struct)) ); ptr++ ) 
+  	if(!memcmp(str1,ptr->name,str2-str1) ) return ptr->tokencode;
+  return UNKNOWN;
+}
+
+fbgc_token get_reserved_word_code(const char *str){ 
+
+  for( 
+  	const token_struct * ptr = reserved_words_token_array; 
+  	ptr < ( reserved_words_token_array + (sizeof(reserved_words_token_array)/sizeof(token_struct)) ); ptr++ ) 
+  	if(!memcmp(str,ptr->name,strlen(str))) return ptr->tokencode;
+  return UNKNOWN;
+}
+
+fbgc_token get_reserved_word_code_from_substr(const char *str1, const char *str2){ 
+
+  for( 
+  	const token_struct * ptr = reserved_words_token_array; 
+  	ptr < ( reserved_words_token_array + (sizeof(reserved_words_token_array)/sizeof(token_struct)) ); ptr++ ) 
+  	if(!memcmp(str1,ptr->name,str2-str1)) return ptr->tokencode;
+  return UNKNOWN;
 }

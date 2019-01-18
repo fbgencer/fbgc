@@ -81,7 +81,7 @@ void op_stack_print(struct fbgc_object *head){
 struct 
 fbgc_object * parser(struct fbgc_object * head_obj){
 	
-	cprintf(111,"==[PARSER]==\n");
+	cprintf(111,"\t\t\t\t==[PARSER]==\n");
 
 	struct fbgc_ll_object * head = cast_fbgc_object_as_ll(head_obj);
 	struct fbgc_object * iter = head->base.next;
@@ -93,7 +93,7 @@ fbgc_object * parser(struct fbgc_object * head_obj){
 
 	for(int i = 0; i<3000 && gm_error != 0 && iter != head->tail ; i++){
 
-		cprintf(010,"<<<<<<<<<<<<<<<<<<<<<<[%d] = {%s}>>>>>>>>>>>>>>>>>>>>>>\n",i,object_name_array[iter->type]);
+		cprintf(010,"----------------------[%d] = {%s}-----------------------\n",i,object_name_array[iter->type]);
 		if(is_fbgc_NUMBER(iter->type)){
 			//this is number do not touch
 			iter_prev = iter;
@@ -111,6 +111,10 @@ fbgc_object * parser(struct fbgc_object * head_obj){
 			if( !op_stack_empty(op_stack_head) && operator_precedence(op_stack_top(op_stack_head)->type) >= operator_precedence(iter->type)){
 				do{
 
+					/*if(op_stack_top(op_stack_head)->type) {
+						basic_operator_handler(parser_stack2.back());
+					}*/
+
 					gm_error = grammar_seek_right(&gm_stack_head,op_stack_top(op_stack_head)->type);
 					//Insert top op to the list  
 					iter_prev->next = op_stack_top(op_stack_head);
@@ -124,7 +128,7 @@ fbgc_object * parser(struct fbgc_object * head_obj){
 				}while( !op_stack_empty(op_stack_head) && operator_precedence(op_stack_top(op_stack_head)->type) >= operator_precedence(iter->type));
 			}
 			
-			gm_error =grammar_seek_left(&gm_stack_head,iter->type);
+			gm_error = grammar_seek_left(&gm_stack_head,iter->type);
 			op_stack_head = op_stack_push(op_stack_head,iter);
 			//print_fbgc_object(iter);
 		}
@@ -152,7 +156,7 @@ fbgc_object * parser(struct fbgc_object * head_obj){
 			}
 			//op_stack_head = op_stack_push(op_stack_head,iter);
 				
-			gm_error =grammar_seek_left(&gm_stack_head,RPARA);
+			gm_error = grammar_seek_left(&gm_stack_head,RPARA);
 
 			if(op_stack_top(op_stack_head)->type == LPARA){
 				//cprintf(111,"Hit the left para! content:%d i:%d\n",head_int->content,i);
@@ -165,6 +169,8 @@ fbgc_object * parser(struct fbgc_object * head_obj){
 			}
 			
 		}
+
+
 		iter = iter_prev->next;
 		print_fbgc_ll_object(head);
 		op_stack_print(op_stack_head);
@@ -188,47 +194,3 @@ fbgc_object * parser(struct fbgc_object * head_obj){
 	grammar_free(gm_stack_head);
 	return (struct fbgc_object*) head;
 }
-/*
-		else if(isOP(lextok[i])){
-			printf("OPERATOR : {%s}\n",TYPES_ARRAY[lextok[i]].c_str());
-
-			//UNARYLERI DUZELT!!!!!!!!!!!!!!!!!
-			//unary durumları
-				//x=-5+3, x=-(-(-2)) , 
-				// arkası operator|para|iter=sıfır önu kesinlikle sayı,var olmalı
-				//unary -> (num|var|word|RPARA) unary (num|var|word|LPARA)
-			if(lextok[i] == MINUS || lextok[i] == PLUS){
-				if( (i == 0||isOP(lextok[i-1])||lextok[i-1] == LPARA) && 
-					(isNUM(lextok[i+1])|| isWORD(lextok[i+1])|| isVAR(lextok[i+1])||
-					lextok[i+1] == RPARA || lextok[i+1] == LPARA)
-					
-				  ){ 
-				  		printf("UNARY SITUATION OCCURED\n");
-						lextok[i] += 1;
-						printf("OPERATOR : {%s}\n",TYPES_ARRAY[lextok[i]].c_str());  
-						//if current token minus, minus+1 = unary minus is arranged.
-						//Same as for plus. No need to know plus or minus.
-					} 
-			}
-
-			//If operator is not unary type operator
-			//if operator at the end of the stack2 is higher precedence or equal when compare
-			//to current one then it must push onto the main stack. 
-			if(parser_stack2.size() != 0 && opcompare(parser_stack2.back(),lextok[i])>=1){
-				do{
-				
-					if(isBASIC_OPERATOR(parser_stack2.back())) {
-						basic_operator_handler(parser_stack2.back());
-						parser_stack2.pop_back();	
-					}
-					else {
-						parser_stack.push_back(parser_stack2.back()); 
-						parser_stack2.pop_back();
-					}
-
-				}while(opcompare(parser_stack2.back(),lextok[i])>=1);
-			}
-
-			parser_stack2.push_back(lextok[i]);
-}
-*/

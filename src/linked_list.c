@@ -90,7 +90,9 @@ void print_fbgc_ll_object(struct fbgc_object * head){
 	while(iter!=head_ll->tail){
 		if(iter->type == INT) cprintf(011,"{%d}",cast_fbgc_object_as_int(iter)->content);   
 		else if(iter->type == DOUBLE) cprintf(011,"{%f}",cast_fbgc_object_as_double(iter)->content); 
-		else cprintf(011,"{%s}",object_name_array[iter->type]);		
+		else if(iter->type == STRING) cprintf(011,"{%s}",cast_fbgc_object_as_str(iter)->content);
+		//else cprintf(011,"{%s}",object_name_array[iter->type]);
+		else cprintf(011,"{%s}",get_token_as_str(iter->type));		
 		iter = iter->next;
 	}
 	cprintf(101,"<->[T]\n");
@@ -146,10 +148,12 @@ void print_fbgc_object_ll(struct fbgc_object * head){
 		iter = iter->next;
 	}	
 	cprintf(101,"<->[T]\n");
-	//cprintf(111,"[-----------------------------]\n");
-
-	
+	//cprintf(111,"[-----------------------------]\n");	
 } 
+
+
+
+
 
 void free_fbgc_object_ll(struct fbgc_object * head){
 	struct fbgc_int_object * head_int = (struct fbgc_int_object*) head;
