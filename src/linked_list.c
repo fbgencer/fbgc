@@ -6,15 +6,16 @@ fbgc_object * new_fbgc_ll_object(void){
 	struct fbgc_ll_object *llo =  (struct fbgc_ll_object*) malloc(sizeof(struct fbgc_ll_object));
     llo->base.type = LINKED_LIST;
     llo->size = 0;
-   	llo->tail = (struct fbgc_object*) malloc(sizeof(struct fbgc_object));
+   	llo->tail = new_fbgc_object(LINKED_LIST);
    	llo->tail->next = (struct fbgc_object *) llo;
    	llo->base.next = llo->tail;
     return (struct fbgc_object*) llo;
 }
 
 void free_fbgc_ll_object(struct fbgc_object * head){
-    struct fbgc_ll_object *head_ll = cast_fbgc_object_as_ll(head);
-    struct fbgc_object * iter = head_ll->base.next;
+  
+  struct fbgc_ll_object *head_ll = cast_fbgc_object_as_ll(head);
+  struct fbgc_object * iter = head_ll->base.next;
 	struct fbgc_object * temp = iter;
 	while(iter!=head_ll->tail){
 		temp = iter->next;
@@ -70,32 +71,36 @@ fbgc_object * pop_front_fbgc_ll_object(struct fbgc_object *head){
 struct
 fbgc_object * pop_back_fbgc_ll_object(struct fbgc_object *head){
     //cast head as ll so we can change its content as our list size
-    struct fbgc_ll_object * head_ll = cast_fbgc_object_as_ll(head);
+  struct fbgc_ll_object * head_ll = cast_fbgc_object_as_ll(head);
  	struct fbgc_object * iter = head_ll->base.next;
  	while(iter->next != head_ll->tail->next) iter = iter->next;
  	iter->next = head_ll->tail;
  	head_ll->tail->next = iter;
-   	head_ll->size--;
-   	return (struct fbgc_object *) head_ll; 	
+  head_ll->size--;
+  return (struct fbgc_object *) head_ll; 	
 }
 
 
 
-void print_fbgc_ll_object(struct fbgc_object * head){
+void print_fbgc_ll_object(struct fbgc_object * head,const char *s1){
 	struct fbgc_ll_object * head_ll = cast_fbgc_object_as_ll(head);
 	struct fbgc_object * iter = head_ll->base.next;
-	
-	cprintf(101,"[H]->");
+
+
+	cprintf(101,"[%s]->",s1);
 
 	while(iter!=head_ll->tail){
-		if(iter->type == INT) cprintf(011,"{%d}",cast_fbgc_object_as_int(iter)->content);   
-		else if(iter->type == DOUBLE) cprintf(011,"{%f}",cast_fbgc_object_as_double(iter)->content); 
-		else if(iter->type == STRING) cprintf(011,"{%s}",cast_fbgc_object_as_str(iter)->content);
-		//else cprintf(011,"{%s}",object_name_array[iter->type]);
-		else cprintf(011,"{%s}",get_token_as_str(iter->type));		
+		if(iter->type == INT) cprintf(011,"{%d:INT}",cast_fbgc_object_as_int(iter)->content);   
+		else if(iter->type == DOUBLE) cprintf(011,"{%f:DB}",cast_fbgc_object_as_double(iter)->content); 
+		else if(iter->type == STRING || iter->type == WORD) cprintf(011,"{%s:%s}",cast_fbgc_object_as_str(iter)->content,object_name_array[iter->type]);
+	//	else if(iter->type == WORD) cprintf(011,"{WORD}");
+    //else cprintf(011,"{%s}",object_name_array[iter->type]);
+		else if(is_fbgc_OPERATOR(iter->type)) cprintf(011,"{%s:%s}",get_token_as_str(iter->type),object_name_array[iter->type]);
+    else cprintf(011,"{%s}",object_name_array[iter->type]);		
 		iter = iter->next;
 	}
 	cprintf(101,"<->[T]\n");
+
 }
 
 //===============================================================================

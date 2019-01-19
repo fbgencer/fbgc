@@ -18,6 +18,8 @@ Complex 4	0	0	0	0
 */
 
 
+//#define DEBUG
+
 static const token_table_struct lexer_table[1] = 
 {
 	{
@@ -35,6 +37,7 @@ static const token_table_struct lexer_table[1] =
 	}	
 };
 
+
 static const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] = 
 {
 	{SPACE,"!+!s"},
@@ -49,10 +52,10 @@ static const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] =
 	{OP,"!o!+"},
 	//# for table
 	{WORD,"_!w _!w!d!*"},
-
-
-
 };
+
+#define RULE_NUMBER sizeof(fbgc_lexer_rule_holder)/sizeof(fbgc_lexer_rule_struct)
+
 
 void pretty_print_pointer(const char *buffer ,const char * ptr){
 	int where = ptr-buffer;
@@ -240,9 +243,8 @@ void read_rule_table(rule_arrange_struct *ras){
 	}
 }*/
 
-
 uint8_t regex_lexer(struct fbgc_object ** head_obj, const char *first_ptr){
-	//cprintf(110,"Input : %s\n",first_ptr);
+	cprintf(111,"\n------------[relexer_begin : %s]-----------\n",first_ptr);
 	rule_flag_struct rfs = {.char_match_begin = NULL,.char_match_end=0, .pattern_flag = 0, .metachar_flag = 0, .table_index = 0};
 
 	uint8_t current_rule_index = 0;
@@ -258,7 +260,7 @@ uint8_t regex_lexer(struct fbgc_object ** head_obj, const char *first_ptr){
 
 	struct fbgc_ll_object * head = cast_fbgc_object_as_ll(*head_obj);
 
-	for(;*mobile_ptr != '\0';){
+	for(;;){
 		#ifdef DEBUG
 			cprintf(110,"buffer:");
 			pretty_print_pointer(first_ptr,mobile_ptr);
@@ -293,7 +295,7 @@ uint8_t regex_lexer(struct fbgc_object ** head_obj, const char *first_ptr){
 			//why rule_ptr != 0 WHYYYYYY
 			if(satisfied_rule_section == rule_section && *rule_ptr != '\0'){
 				#ifdef DEBUG
-				cprintf(010,"-------------{MOVING IN THE RULE, NEXT}---------------\n");
+				cprintf(111,"-------------{MOVING IN THE RULE, NEXT}---------------\n");
 				#endif
 				rfs.metachar_flag = 0;
 			}
@@ -301,21 +303,26 @@ uint8_t regex_lexer(struct fbgc_object ** head_obj, const char *first_ptr){
 				if(first_ptr != mobile_ptr && satisfied_rule_section == rule_section && *rule_ptr == '\0'){
 					if(current_token != SPACE ){
 					//#ifdef DEBUG
-						/*char * tempstr = (char *) malloc(sizeof(char) * ((mobile_ptr - first_ptr)+1) );
+						char * tempstr = (char *) malloc(sizeof(char) * ((mobile_ptr - first_ptr)+1) );
 						strncpy(tempstr,first_ptr,(mobile_ptr - first_ptr));
 						tempstr[(mobile_ptr - first_ptr)] = '\0';
-						cprintf(111,"--------------[TOKEN IS FOUND]-------\n");
-						cprintf(101,"[%s : %s]\n\n",tempstr, object_name_array[current_token] );
-						free(tempstr);*/
+						//cprintf(111,"--------------[TOKEN IS FOUND]-------\n");
+						cprintf(101,"['%s' : %s]",tempstr, object_name_array[current_token] );
+						free(tempstr);
+					
 						head = push_back_fbgc_ll_object(head,new_fbgc_object_from_substr(first_ptr,mobile_ptr,current_token));
+						
 					//#endif
 					}
 						current_rule_index = 0;
+						if(*mobile_ptr == '\0') break;
+						//while(*mobile_ptr == ' ') mobile_ptr++; //eat space! 
 						first_ptr = mobile_ptr;
+
 				}
 				else if(current_rule_index < (RULE_NUMBER-1) && satisfied_rule_section != rule_section){
 					#ifdef DEBUG
-					cprintf(010,"-------------{CHANGING THE RULE}---------------\n");
+					cprintf(111,"-------------{CHANGING THE RULE}---------------\n");
 					#endif	 
 					current_rule_index++;
 					mobile_ptr = first_ptr;
@@ -332,7 +339,6 @@ uint8_t regex_lexer(struct fbgc_object ** head_obj, const char *first_ptr){
 					}
 				}
 
-				
 				rule_ptr = (fbgc_lexer_rule_holder+current_rule_index)->rule;
 				current_token = (fbgc_lexer_rule_holder+current_rule_index)->token;
 				satisfied_rule_section = rule_section = 0;
@@ -343,7 +349,7 @@ uint8_t regex_lexer(struct fbgc_object ** head_obj, const char *first_ptr){
 		}
 	}
 
-
+	cprintf(111,"\n---------[relexer_end]--------\n");
 	return 1;
 }
 

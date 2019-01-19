@@ -4,30 +4,16 @@
 
 uint8_t operator_precedence(fbgc_token T){
 	
-	/*
-	if(T == INC || T == DECR || T == UMINUS || T == UPLUS  ) return 10;
-	else if(T == DIV  || T == MULT || T == MOD || T==POWER1 || T == POWER2 || T==DIVDIV){return 9;}
-	else if(T == PLUS || T == MINUS || T== NOT_OP ) return 8;
-	else if(T == LSHIFT || T == RSHIFT ) return 7;
-	else if(T == LOWER || T == GREATER || T == LO_EQ || T == GR_EQ) return 6;
-	else if(T == EQ_EQ || T == NOT_EQ   || T == IS_EQ) return 5; //ise degisebilr dene 
-	else if(T == AND_OP ) return 4;
-	else if(T == OR_OP) return 3;
-	else if(T == ASSIGN ||T == PLUS_ASSIGN || T == MIN_ASSIGN || 
-		T == MULT_ASSIGN || T == DIV_ASSIGN	) return 2;
-	else if(T == COMMA  || T == LPARA || T == RPARA) return 1;
-  	else return 0; 	
-  	*/
 	switch(T){
 		case INC: case DECR: case UMINUS: case UPLUS: return 10;
-		case DIV: case MULT: case MOD: case POWER1: case POWER2: case DIVDIV: return 9;
+		case SLASH: case STAR: case MOD: case CARET: case STARSTAR: case SLASHSLASH: return 9;
 		case PLUS: case MINUS: case NOT_OP: return 8;
 		case LSHIFT: case RSHIFT: return 7;
 		case LOWER: case GREATER: case LO_EQ: case  GR_EQ: return 6;
 		case  EQ_EQ: case NOT_EQ: case IS_EQ: return 5;
 		case AND_OP: return 4;
 		case OR_OP: return 3;
-		case ASSIGN: case PLUS_ASSIGN: case MIN_ASSIGN: case MULT_ASSIGN: case DIV_ASSIGN: return 2;
+		case ASSIGN: case PLUS_ASSIGN: case MINUS_ASSIGN: case STAR_ASSIGN: case SLASH_ASSIGN: return 2;
 		case COMMA: case LPARA: case RPARA: return 1;
 		default: return 0;	
 	}
@@ -81,23 +67,29 @@ void op_stack_print(struct fbgc_object *head){
 struct 
 fbgc_object * parser(struct fbgc_object * head_obj){
 	
-	cprintf(111,"\t\t\t\t==[PARSER]==\n");
+	cprintf(111,"--------------[parser_begin]-------------\n");
 
 	struct fbgc_ll_object * head = cast_fbgc_object_as_ll(head_obj);
 	struct fbgc_object * iter = head->base.next;
 	struct fbgc_object * iter_prev = head; //note that iter_prev->next is iter, always this is the case!
-	struct fbgc_object * op_stack_head = new_fbgc_object(0);//make just 0 we are using for just head
-	struct fbgc_object * gm_stack_head = new_fbgc_object(0); //grammar stack head
-
+	struct fbgc_object * op_stack_head = new_fbgc_object(UNKNOWN);//make just 0 we are using for just head
+	struct fbgc_object * gm_stack_head = new_fbgc_ll_object();
+	gm_stack_head = push_back_fbgc_ll_object(gm_stack_head,new_fbgc_object(UNKNOWN));
 	uint8_t gm_error = 1;
 
-	for(int i = 0; i<3000 && gm_error != 0 && iter != head->tail ; i++){
+	for(int i = 0; i<300 && gm_error != 0 && iter != head->tail ; i++){
 
 		cprintf(010,"----------------------[%d] = {%s}-----------------------\n",i,object_name_array[iter->type]);
 		if(is_fbgc_NUMBER(iter->type)){
 			//this is number do not touch
 			iter_prev = iter;
-			grammar_push(&gm_stack_head,NUMBER);
+			//grammar_push(&gm_stack_head,iter);
+			grammar_seek_left(gm_stack_head,iter);
+		}
+		else if(iter->type == WORD){
+			//this is word do not touch
+			iter_prev = iter;
+			//grammar_push(&gm_stack_head,iter);		
 		}
 		else if(is_fbgc_OPERATOR(iter->type)){
 			
@@ -111,11 +103,7 @@ fbgc_object * parser(struct fbgc_object * head_obj){
 			if( !op_stack_empty(op_stack_head) && operator_precedence(op_stack_top(op_stack_head)->type) >= operator_precedence(iter->type)){
 				do{
 
-					/*if(op_stack_top(op_stack_head)->type) {
-						basic_operator_handler(parser_stack2.back());
-					}*/
-
-					gm_error = grammar_seek_right(&gm_stack_head,op_stack_top(op_stack_head)->type);
+					gm_error = grammar_seek_right(gm_stack_head,op_stack_top(op_stack_head));
 					//Insert top op to the list  
 					iter_prev->next = op_stack_top(op_stack_head);
 					//Pop top from stack
@@ -128,22 +116,23 @@ fbgc_object * parser(struct fbgc_object * head_obj){
 				}while( !op_stack_empty(op_stack_head) && operator_precedence(op_stack_top(op_stack_head)->type) >= operator_precedence(iter->type));
 			}
 			
-			gm_error = grammar_seek_left(&gm_stack_head,iter->type);
+			gm_error = grammar_seek_left(gm_stack_head,iter);
 			op_stack_head = op_stack_push(op_stack_head,iter);
 			//print_fbgc_object(iter);
 		}
 		else if(iter->type == LPARA){
+			grammar_seek_left(gm_stack_head,iter);
 			iter_prev->next = iter->next;
 			op_stack_head = op_stack_push(op_stack_head,iter);
-			//iter = iter_prev->next;
-			//print_fbgc_object(iter);
+			
+
 		}
 		else if(iter->type == RPARA){
 
 			iter_prev->next = iter->next;
 			while(op_stack_top(op_stack_head)->type != LPARA){
 				//Insert top op to the list  
-				gm_error =grammar_seek_right(&gm_stack_head,op_stack_top(op_stack_head)->type);
+				gm_error =grammar_seek_right(gm_stack_head,op_stack_top(op_stack_head));
 				iter_prev->next = op_stack_top(op_stack_head);
 				//Pop top from stack
 				op_stack_head = op_stack_pop(op_stack_head);
@@ -156,7 +145,7 @@ fbgc_object * parser(struct fbgc_object * head_obj){
 			}
 			//op_stack_head = op_stack_push(op_stack_head,iter);
 				
-			gm_error = grammar_seek_left(&gm_stack_head,RPARA);
+			gm_error = grammar_seek_left(gm_stack_head,iter);
 
 			if(op_stack_top(op_stack_head)->type == LPARA){
 				//cprintf(111,"Hit the left para! content:%d i:%d\n",head_int->content,i);
@@ -172,9 +161,9 @@ fbgc_object * parser(struct fbgc_object * head_obj){
 
 
 		iter = iter_prev->next;
-		print_fbgc_ll_object(head);
+		print_fbgc_ll_object(head_obj,"M");
 		op_stack_print(op_stack_head);
-		grammar_stack_print(gm_stack_head);
+		print_fbgc_ll_object(gm_stack_head,"GM");
 
 	}
 	
@@ -182,15 +171,21 @@ fbgc_object * parser(struct fbgc_object * head_obj){
 		cprintf(011,"Op stack is not empty!\n");
 		//now iter shows the tail of the main list 
 		while(!op_stack_empty(op_stack_head)){
-			gm_error = grammar_seek_right(&gm_stack_head,op_stack_top(op_stack_head)->type);
+			gm_error = grammar_seek_right(gm_stack_head,op_stack_top(op_stack_head));
 			iter_prev->next = op_stack_top(op_stack_head);
 			op_stack_head = op_stack_pop(op_stack_head);
 			iter_prev = iter_prev->next;
 		}
 		iter_prev->next = iter;	
+
+		print_fbgc_ll_object(head_obj,"M");
+		op_stack_print(op_stack_head);
+		print_fbgc_ll_object(gm_stack_head,"GM");		
 	}
 
 	free_fbgc_object(op_stack_head);
-	grammar_free(gm_stack_head);
+	free_fbgc_ll_object(gm_stack_head);
+	
+	cprintf(111,"--------------[parser_end]-------------\n");
 	return (struct fbgc_object*) head;
 }

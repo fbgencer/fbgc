@@ -104,7 +104,6 @@ uint8_t match_and_replace(const char * inc_rule_ptr,char buffer[],const char *re
 	{RBRACK,"]"}
 */
 
-#define RULE_NUMBER sizeof(fbgc_lexer_rule_holder)/sizeof(fbgc_lexer_rule_struct)
 
 #define fbgc_bool uint8_t
 

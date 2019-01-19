@@ -10,7 +10,7 @@ fbgc_object * new_fbgc_object(fbgc_token token){
 }
 
 struct
-fbgc_object * new_fbgc_object_from_str(char *str, fbgc_token token){
+fbgc_object * new_fbgc_object_from_str(const char *str, fbgc_token token){
 	struct fbgc_object *obj = NULL;
 
 	switch(token){
@@ -39,20 +39,23 @@ fbgc_object * new_fbgc_object_from_str(char *str, fbgc_token token){
 						//handle symbol table!
 					}
 		break;
+		default:
+			cprintf(111,"Undefined token inside new object creation !\n\n");
+		break;
 	}
 
     return (struct fbgc_object*) obj;
 }
 
 struct
-fbgc_object * new_fbgc_object_from_substr(char *str1,char*str2, fbgc_token token){
+fbgc_object * new_fbgc_object_from_substr(const char *str1,const char*str2, fbgc_token token){
 	struct fbgc_object *obj = NULL;
 
 	switch(token){
 		case INT: 
 		case BIN:
 		case HEX:
-					obj = new_fbgc_int_object_from_substr(str1,str2); 
+					obj = new_fbgc_int_object_from_substr(str1,str2,token);
 					break;
 		
 		case DOUBLE: 
@@ -68,12 +71,19 @@ fbgc_object * new_fbgc_object_from_substr(char *str1,char*str2, fbgc_token token
 					}
 					break;
 		case WORD:
-					obj = new_fbgc_object(get_reserved_word_code_from_substr(str1,str2));
-					if(obj->type == UNKNOWN){
+					token = get_reserved_word_code_from_substr(str1,str2);
+					if(token == UNKNOWN){
+						obj = new_fbgc_str_object_from_substr(str1,str2);
 						obj->type = WORD;
 						//handle symbol table!
+					}else {
+						obj = new_fbgc_object(token);
 					}
 		break;
+		default:
+			cprintf(111,"Undefined token inside new object creation !\n\n");
+		break;
+		
 	}
 
     return (struct fbgc_object*) obj;
@@ -100,6 +110,6 @@ void print_fbgc_object(struct fbgc_object * self){
 }
 
 void free_fbgc_object(struct fbgc_object * self){
-	if(self->type == STRING) free_fbgc_str_object(self);
+	if(self->type == STRING || self->type == WORD) free_fbgc_str_object(self);
 	else free(self);
 }

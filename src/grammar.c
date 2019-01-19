@@ -62,126 +62,87 @@
 	comparison_expr: ('&' | '|' | '==' | '>' | '<' | '>=' | '<=') (expression | atom)
 	arithmetic_expr: ('+' | '-' | '*' | '/') (expression | atom)
 	unary_expr: unary_op (expression | atom)
-	unary_op: (binary_op | '(' )* ('+' | '-') 
+	unary_op: (binary_op | '(' )* ('+' | '-' | ++ | --) 
 	
 
 	:> if operator is & it becomes AND, if '+' it becomes plus etc.
 	binary_op: (atom | expression) ('+' | '-' | '*' | '/' | '&' | '|' | '==')
 
-	atom: INT|DOUBLE|STR|WORD 
+	SYNTAX :> 
+		return : stack incoming_obj 
 
-	
+	atom: INT|DOUBLE|STR|WORD 	
 */
 
 
 
+uint8_t grammar_seek_left(struct fbgc_object * gm_head,struct fbgc_object * obj ){
 
-void grammar_push(struct fbgc_object ** gm_head,fbgc_token type){
-	//grammar head is already created
+	fbgc_token left = get_fbgc_object_type(top_fbgc_ll_object(gm_head));
+	fbgc_token obj_type = get_fbgc_object_type(obj);
+	cprintf(111,"Left :[%s], obj_type:[%s]\n",object_name_array[left],object_name_array[obj_type]);
 
-	if((*gm_head)->next == NULL || (*gm_head)->next->type != VALID){
-		struct fbgc_object *temp = new_fbgc_object(type);
-		temp->next = (*gm_head)->next;
-		(*gm_head)->next = temp;
-		cprintf(111,"Grammar pushed :%s\n",object_name_array[type]);
-	}
+	//two number cannot be in the state side by side, left is the last pushed in the array
 	
-	if((*gm_head)->next->type == VALID){
-		(*gm_head)->next->type = type;
-		cprintf(111,"Grammar just changed to :%s\n",object_name_array[type]);
+	if(!is_fbgc_NUMBER(left) && is_fbgc_NUMBER(obj_type)){
+		if(!is_fbgc_BINARY_OPERATOR(left) && !is_fbgc_UNARY_OPERATOR(left)) gm_head = push_front_fbgc_ll_object(gm_head,new_fbgc_object(NUMBER));
+		else top_fbgc_ll_object(gm_head)->type = NUMBER;
 	}
+	else if( (is_fbgc_BINARY_OPERATOR(left) || left == LPARA || left == UNKNOWN) && is_fbgc_UNARY_OPERATOR(obj_type)){
+		if(obj_type == PLUS) obj->type = UPLUS;
+		else if(obj_type == MINUS) obj->type = UMINUS;	
+		top_fbgc_ll_object(gm_head)->type = obj->type;
 
-}
-
-
-uint8_t grammar_seek_left(struct fbgc_object ** grammar_stack,fbgc_token op ){
-
-	return 1;
-	fbgc_token top = (*grammar_stack)->next->type;
-
-	switch(op){
-		case PLUS: 
-		case MINUS:
-		case MULT:
-		case DIV:
-		case RPARA:
-
-			if(top == IDENTIFIER || top == EXPRESSION || top == NUMBER){
-				cprintf(111,"Valid!\n");
-				(*grammar_stack)->next->type = VALID;
-				return 1;
-			}
-			
-			cprintf(111,"\nThe left side of %s is not valid operand!\n",object_name_array[op]);
+	}
+	else if(is_fbgc_BINARY_OPERATOR(obj_type)){
+		if(is_fbgc_NUMBER(left) || left == EXPRESSION || left == IDENTIFIER){
+			top_fbgc_ll_object(gm_head)->type = obj_type;
+		}
+		else {
+			cprintf(111,"\nThe left side of %s is not valid operand!\n",object_name_array[obj->type]);
 			return 0;
-			
-		case ASSIGN:
-			if(top == IDENTIFIER){
-				(*grammar_stack)->next->type = VALID;
-				return 1;
-			}
-			cprintf(111,"\nThe left side of assignment operator must be identifier!\n");
-			return 0;			
-		default: return 0;
+		}
 	}
-
-}
-
-
-uint8_t grammar_seek_right(struct fbgc_object ** grammar_stack,fbgc_token op ){
+	else if(obj_type == LPARA && left != LPARA){
+		gm_head = push_front_fbgc_ll_object(gm_head,new_fbgc_object(LPARA));
+	}
+	else if(obj_type == RPARA){
+		if(left == EXPRESSION || is_fbgc_NUMBER(left)) top_fbgc_ll_object(gm_head)->type = CLOSED_EXPRESSION;
+		else {
+			cprintf(111,"\nThe left side of %s is not valid operand!\n",object_name_array[obj->type]);
+			return 0;
+		}
+	}
 	return 1;
-	fbgc_token top = (*grammar_stack)->next->type;
-	//cprintf(001,"Coming! [%s]\n",object_name_array[op]);
-
-	switch(op){
-		case PLUS: 
-		case MINUS:
-		case MULT:
-		case DIV:
-			if(top == IDENTIFIER || top == EXPRESSION || top == NUMBER){
-				cprintf(111,"Correct type ! now operator can be pushed\n");
-				(*grammar_stack)->next->type = EXPRESSION;
-				return 1;
-			}else {
-				cprintf(111,"\nThe left side of the operator is not valid operand!\n");
-				return 0;
-			}
-			break;
-		case ASSIGN:
-			if(top == IDENTIFIER){
-				(*grammar_stack)->next->type = ASSIGNMENT;
-				return 1;
-			}else {
-				cprintf(111,"\nThe left side of assignment operator must be identifier!\n");
-				return 0;
-			}
-			break;				
-		default: break;
-	}
-}
-
-void grammar_stack_print(struct fbgc_object * grammar_stack){
-	struct fbgc_object * iter = grammar_stack->next;
-	
-	cprintf(001,"[G]->");
-
-	while(iter != NULL){
-		cprintf(001,"[%s]->",object_name_array[iter->type]);
-		iter = iter->next;
-	}
-	cprintf(100,"NULL\n");
-
 }
 
 
-void grammar_free(struct fbgc_object * grammar_stack){
-	struct fbgc_object * iter = grammar_stack->next, *temp = iter;
-	
-	while(iter != NULL){
-		temp = iter->next;
-		free_fbgc_object(iter);	
-		iter = temp;	
-	}
-	free_fbgc_object(grammar_stack);
+uint8_t grammar_seek_right(struct fbgc_object * gm_head,struct fbgc_object * obj){
 
+	fbgc_token right = get_fbgc_object_type(top_fbgc_ll_object(gm_head));
+	fbgc_token obj_type = get_fbgc_object_type(obj);
+	cprintf(111,"Right :[%s], obj_type:[%s]\n",object_name_array[right],object_name_array[obj_type]);
+
+	//two number cannot be in the state side by side, top is the last pushed in the array
+	
+	if((is_fbgc_BINARY_OPERATOR(obj_type) || is_fbgc_UNARY_OPERATOR(obj_type)) && (right == EXPRESSION || right == NUMBER || right == IDENTIFIER)){
+			top_fbgc_ll_object(gm_head)->type = EXPRESSION;
+	}
+	/*else if( (is_fbgc_BINARY_OPERATOR(top) || top == LPARA || top == UNKNOWN) && is_fbgc_UNARY_OPERATOR(obj_type)){
+		if(obj_type == PLUS) obj->type = UPLUS;
+		else if(obj_type == MINUS) obj->type = UMINUS;	
+		top_fbgc_ll_object(gm_head)->type = obj_type;
+
+	}
+	else if(is_fbgc_BINARY_OPERATOR(obj_type)){
+		if(is_fbgc_NUMBER(top) || top == EXPRESSION || top == IDENTIFIER){
+			top_fbgc_ll_object(gm_head)->type = obj_type;
+		}
+		else {
+			cprintf(111,"\nThe left side of %s is not valid operand!\n",object_name_array[obj->type]);
+		}
+	}
+	else if(obj_type == LPARA && top != LPARA){
+		gm_head = push_front_fbgc_ll_object(gm_head,new_fbgc_object(LPARA));
+	}*/
 }

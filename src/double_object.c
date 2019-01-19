@@ -15,7 +15,7 @@ fbgc_object * new_fbgc_double_object_from_str(const char * db_str){
 }
 
 struct
-fbgc_object * new_fbgc_double_object_from_substr(char * db_str_begin,char * db_str_end){
+fbgc_object * new_fbgc_double_object_from_substr(const char * db_str_begin,const char * db_str_end){
 	//now we don't wanna check inf or overlfow issue but later we are going to check them
   	return new_fbgc_double_object(strtod (db_str_begin, &db_str_end));
 }

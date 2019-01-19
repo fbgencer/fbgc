@@ -9,7 +9,7 @@ struct fbgc_double_object{
 
 struct fbgc_object * new_fbgc_double_object(double);
 struct fbgc_object * new_fbgc_double_object_from_str(const char *);
-struct fbgc_object * new_fbgc_double_object_from_substr(char *,char *);
+struct fbgc_object * new_fbgc_double_object_from_substr(const char *,const char *);
 
 void print_fbgc_double_object(struct fbgc_object *);
 void free_fbgc_double_object(struct fbgc_object * );

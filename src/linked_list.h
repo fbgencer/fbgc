@@ -22,10 +22,10 @@ fbgc_object * pop_front_fbgc_ll_object(struct fbgc_object *head);
 struct
 fbgc_object * pop_back_fbgc_ll_object(struct fbgc_object *head);
 
-#define top_fbgc_ll_object(head)(head.base->next);
-#define back_fbgc_ll_object(head)(cast_fbgc_object_as_ll(head)->tail->next);
+#define top_fbgc_ll_object(head)(head->next)
+#define back_fbgc_ll_object(head)(cast_fbgc_object_as_ll(head)->tail->next)
 
-void print_fbgc_ll_object(struct fbgc_object * head);
+void print_fbgc_ll_object(struct fbgc_object * head,const char *s1);
 void print_fbgc_ll_object_as_str(struct fbgc_object * head);
 
 void print_fbgc_object_ll(struct fbgc_object *);

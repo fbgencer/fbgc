@@ -21,6 +21,7 @@
 #include "int_object.h"
 #include "str_object.h"
 
+#include "symbol_table.h"
 #include "relexer.h"
 #include "grammar.h"
 #include "parser.h"
