@@ -10,8 +10,10 @@ int main(){
 	char line[100];
 	FILE *input_file = fopen("ex.fbgc","r");
     
+
+
     while (fgets(line, sizeof(line), input_file)) {
-		regex_lexer(&head,line);
+		if(!regex_lexer(&head,line)) return 0;
     }
     fclose(input_file);
     print_fbgc_ll_object(head,"Main");

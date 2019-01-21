@@ -10,7 +10,7 @@ typedef struct {
 }token_struct;
 
 #define UNKNOWN 0
-#define NUMBER 1
+#define ATOM 1
 #define INT 2
 #define HEX 3
 #define BIN 4
@@ -22,7 +22,7 @@ typedef struct {
 #define VAR 10
 #define FUN 11
 #define MATRIX 12
-#define ARRAY 13
+#define LIST 13
 #define LINKED_LIST 14
 #define OP 15
 #define PLUS 16
@@ -34,31 +34,31 @@ typedef struct {
 #define CARET 22
 #define OR_OP 23
 #define AND_OP 24
-#define ASSIGN 25
-#define PLUS_ASSIGN 26
-#define MINUS_ASSIGN 27
-#define STAR_ASSIGN 28
-#define SLASH_ASSIGN 29
-#define CONST_ASSIGN 30
-#define GREATER 31
-#define LOWER 32
-#define LO_EQ 33
-#define GR_EQ 34
-#define EQ_EQ 35
-#define NOT_EQ 36
-#define IS_EQ 37
-#define IF_THEN 38
-#define R_ARROW 39
-#define L_ARROW 40
-#define COL_LO 41
-#define RW_ARROW 42
-#define LW_ARROW 43
-#define COLSTAR 44
-#define COLSLASH 45
-#define SLASHSLASH 46
-#define COLON 47
-#define RSHIFT 48
-#define LSHIFT 49
+#define GREATER 25
+#define LOWER 26
+#define LO_EQ 27
+#define GR_EQ 28
+#define EQ_EQ 29
+#define NOT_EQ 30
+#define IS_EQ 31
+#define IF_THEN 32
+#define R_ARROW 33
+#define L_ARROW 34
+#define COL_LO 35
+#define RW_ARROW 36
+#define LW_ARROW 37
+#define COLSTAR 38
+#define COLSLASH 39
+#define SLASHSLASH 40
+#define COLON 41
+#define RSHIFT 42
+#define LSHIFT 43
+#define ASSIGN 44
+#define PLUS_ASSIGN 45
+#define MINUS_ASSIGN 46
+#define STAR_ASSIGN 47
+#define SLASH_ASSIGN 48
+#define CONST_ASSIGN 49
 #define INC 50
 #define DECR 51
 #define UPLUS 52
@@ -89,18 +89,29 @@ typedef struct {
 #define IF 77
 #define ELSE 78
 #define ELIF 79
-#define AND 80
-#define OR 81
-#define NOT 82
-#define SPACE 83
-#define TAB 84
-#define NEWLINE 85
-#define RETURN 86
-#define EXPRESSION 87
-#define CLOSED_EXPRESSION 88
-#define COMP_EXPRESSION 89
-#define CLOSED_COMP_EXPRESSION 90
-#define ASSIGNMENT 91
+#define END 80
+#define AND 81
+#define OR 82
+#define NOT 83
+#define SPACE 84
+#define TAB 85
+#define NEWLINE 86
+#define RETURN 87
+#define EXPRESSION 88
+#define ASSIGNMENT 89
+#define STATEMENT 90
+#define ASSIGNMENT_EXPRESSION 91
+#define UNARY_EXPRESSION 92
+#define BINARY_EXPRESSION 93
+#define BALANCED_IDENTIFIER_LIST 94
+#define UNBALANCED_IDENTIFIER_LIST 95
+#define BALANCED_EXPR_LIST 96
+#define UNBALANCED_EXPR_LIST 97
+#define PARA_EMPTY 98
+#define PARA_EXPRESSION 99
+#define PARA_ASSIGNMENT_EXPRESSION 100
+#define PARA_BALANCED_EXPR_LIST 101
+#define PARA_IDENTIFIER_LIST 102
 
 
 
@@ -122,17 +133,28 @@ const char * get_token_as_str(fbgc_token tok);
 
 #define is_fbgc_OPERATOR(T)(T>=OP && T< PARA)
 #define is_fbgc_IDENTIFIER(T)(T>=IDENTIFIER && T<=FUN)
-#define is_fbgc_NUMBER(T)(T>= NUMBER && T<=COMPLEX)
+#define is_fbgc_ATOM(T)(T>= ATOM && T<=COMPLEX)
 #define is_fbgc_INT(T) (T == INT)
 #define is_fbgc_DOUBLE(T) (T == DOUBLE)
 #define is_fbgc_STRING(T) (T == STRING)
 #define is_fbgc_PARA(T)(T>=PARA && T<= RBRACK)
 #define is_fbgc_BINARY_OPERATOR(T)(T>=PLUS && T<= LSHIFT)
-#define is_fbgc_UNARY_OPERATOR(T)((T>=INC && T<=NOT_OP)|| T == PLUS || T == MINUS )
+#define is_fbgc_UNARY_OPERATOR(T)((T>=INC && T<=NOT_OP) )
+#define is_fbgc_ASSIGNMENT_OPERATOR(T)(T>= ASSIGN && T<= CONST_ASSIGN)
 #define is_fbgc_VAR(T)(T == VAR )
 #define is_fbgc_FUN(T)(T == FUN)
 #define is_fbgc_WORD(T)(T == WORD)
 
+#define is_fbgc_MATRIX(x)(x == MATRIX)
+
+#define is_fbgc_START(x)(x == LINKED_LIST)
+#define is_fbgc_LIST(x) (x == LIST)
+#define is_fbgc_PARA_EXPRESSION(x)(x == PARA_EXPRESSION)
+#define is_fbgc_EXPRESSION(x)(x == ATOM || x == EXPRESSION || x == UNARY_EXPRESSION ||x==BINARY_EXPRESSION||\
+is_fbgc_PARA_EXPRESSION(x) || is_fbgc_MATRIX(x) || is_fbgc_LIST(x))
+
+#define is_fbgc_ASSIGNMENT(x)(x==ASSIGNMENT_EXPRESSION || x == PARA_ASSIGNMENT_EXPRESSION)
+#define is_fbgc_STATEMENT(x)(x == STATEMENT || is_fbgc_EXPRESSION(x) || is_fbgc_ASSIGNMENT(x))
 
 
 

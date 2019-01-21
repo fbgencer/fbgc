@@ -30,8 +30,8 @@ void free_fbgc_ll_object(struct fbgc_object * head){
 
 struct
 fbgc_object * push_front_fbgc_ll_object(struct fbgc_object * head,struct fbgc_object * obj){
-    //cast head as ll so we can change its content as our list size
-    struct fbgc_ll_object * head_ll = cast_fbgc_object_as_ll(head);
+     //cast head as ll so we can change its content as our list size
+     struct fbgc_ll_object * head_ll = cast_fbgc_object_as_ll(head);
    	//connect the list
    	 
    	//[H] <-> [T] 
@@ -62,22 +62,34 @@ fbgc_object * push_back_fbgc_ll_object(struct fbgc_object * head,struct fbgc_obj
 struct
 fbgc_object * pop_front_fbgc_ll_object(struct fbgc_object *head){
     //cast head as ll so we can change its content as our list size
-    struct fbgc_ll_object * head_ll = cast_fbgc_object_as_ll(head);
+     struct fbgc_ll_object * head_ll = cast_fbgc_object_as_ll(head);
  	head_ll->base.next =  head_ll->base.next->next;
-   	head_ll->size--;
+     head_ll->size--;
    	return (struct fbgc_object *) head_ll; 	
 }
 
 struct
-fbgc_object * pop_back_fbgc_ll_object(struct fbgc_object *head){
+fbgc_object * delete_front_fbgc_ll_object(struct fbgc_object *head){
     //cast head as ll so we can change its content as our list size
-  struct fbgc_ll_object * head_ll = cast_fbgc_object_as_ll(head);
+     struct fbgc_ll_object * head_ll = cast_fbgc_object_as_ll(head);
+     struct fbgc_object * temp = head_ll->base.next;
+     head_ll->base.next =  head_ll->base.next->next;
+     free_fbgc_object(temp);
+     head_ll->size--;
+     return (struct fbgc_object *) head_ll;  
+}
+
+
+struct
+fbgc_object * pop_back_fbgc_ll_object(struct fbgc_object *head){
+     //cast head as ll so we can change its content as our list size
+     struct fbgc_ll_object * head_ll = cast_fbgc_object_as_ll(head);
  	struct fbgc_object * iter = head_ll->base.next;
  	while(iter->next != head_ll->tail->next) iter = iter->next;
  	iter->next = head_ll->tail;
  	head_ll->tail->next = iter;
-  head_ll->size--;
-  return (struct fbgc_object *) head_ll; 	
+     head_ll->size--;
+     return (struct fbgc_object *) head_ll; 	
 }
 
 
@@ -94,7 +106,7 @@ void print_fbgc_ll_object(struct fbgc_object * head,const char *s1){
 		else if(iter->type == DOUBLE) cprintf(011,"{%f:DB}",cast_fbgc_object_as_double(iter)->content); 
 		else if(iter->type == STRING || iter->type == WORD) cprintf(011,"{%s:%s}",cast_fbgc_object_as_str(iter)->content,object_name_array[iter->type]);
 	//	else if(iter->type == WORD) cprintf(011,"{WORD}");
-    //else cprintf(011,"{%s}",object_name_array[iter->type]);
+     //else cprintf(011,"{%s}",object_name_array[iter->type]);
 		else if(is_fbgc_OPERATOR(iter->type)) cprintf(011,"{%s:%s}",get_token_as_str(iter->type),object_name_array[iter->type]);
     else cprintf(011,"{%s}",object_name_array[iter->type]);		
 		iter = iter->next;

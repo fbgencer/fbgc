@@ -48,8 +48,14 @@ static const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] =
 	{COMPLEX,"!d!+ j"}, 
 	{DOUBLE,". !d!+"}, 
 	{DOUBLE,"!d!+ . !d!+"}, 
-	{INT,"!d!+"}, 	
-	{OP,"!o!+"},
+	{INT,"!d!+"},
+	{LPARA,"("},
+	{RPARA,")"},
+	{LBRACE,"{"},
+	{RBRACE,"}"},
+	{LBRACK,"["},
+	{RBRACK,"]"},		
+	{OP,"+|-|**|^|*|/|<|>|=|=>|<=|,!+"},
 	//# for table
 	{WORD,"_!w _!w!d!*"},
 };
@@ -287,7 +293,7 @@ uint8_t regex_lexer(struct fbgc_object ** head_obj, const char *first_ptr){
 		#endif		
 		if(check ||  IS_METACHAR_STAR_OPEN(rfs.metachar_flag)) satisfied_rule_section = rule_section;
 
-		if(!check || *mobile_ptr == '\0'){
+		if(!check || *mobile_ptr == '\0' || (check && *rule_ptr == '\0')){
 			#ifdef DEBUG
 				cprintf(010,"-------------{CHECK = 0}---------------\n");
 				cprintf(010,"Sts rule sec:%d, rule_sec:%d, *rule_ptr:%c\n",satisfied_rule_section,rule_section,*rule_ptr);
@@ -331,6 +337,7 @@ uint8_t regex_lexer(struct fbgc_object ** head_obj, const char *first_ptr){
 					if(current_rule_index == RULE_NUMBER-1){
 						cprintf(111,"last rule but token couldn't find\n");
 						//first_ptr = ++mobile_ptr;
+						return 0;
 						
 					}
 					else {

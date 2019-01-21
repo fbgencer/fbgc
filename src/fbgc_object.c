@@ -26,7 +26,8 @@ fbgc_object * new_fbgc_object_from_str(const char *str, fbgc_token token){
 		case STRING: 
 					obj = new_fbgc_str_object(str); 
 					break;
-		case OP: 
+		case OP: 	
+					cprintf(111,"Obj str:[%s]\n",str);
 					obj = new_fbgc_object(get_operator_code(str));
 					if(obj->type == UNKNOWN){
 						cprintf(100,"Undefined operator!\n");
@@ -64,6 +65,12 @@ fbgc_object * new_fbgc_object_from_substr(const char *str1,const char*str2, fbgc
 		case STRING: 
 					obj = new_fbgc_str_object_from_substr(str1,str2); 
 					break;
+		case LPARA:			
+		case RPARA:
+		case LBRACE:
+		case RBRACE:
+		case LBRACK:
+		case RBRACK:
 		case OP: 
 					obj = new_fbgc_object(get_operator_code_from_substr(str1,str2));
 					if(obj->type == UNKNOWN){
@@ -80,6 +87,9 @@ fbgc_object * new_fbgc_object_from_substr(const char *str1,const char*str2, fbgc
 						obj = new_fbgc_object(token);
 					}
 		break;
+		case COMMA:
+			obj = new_fbgc_object(COMMA);
+			break;
 		default:
 			cprintf(111,"Undefined token inside new object creation !\n\n");
 		break;

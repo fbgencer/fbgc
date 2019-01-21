@@ -74,13 +74,13 @@ fbgc_object * parser(struct fbgc_object * head_obj){
 	struct fbgc_object * iter_prev = head; //note that iter_prev->next is iter, always this is the case!
 	struct fbgc_object * op_stack_head = new_fbgc_object(UNKNOWN);//make just 0 we are using for just head
 	struct fbgc_object * gm_stack_head = new_fbgc_ll_object();
-	gm_stack_head = push_back_fbgc_ll_object(gm_stack_head,new_fbgc_object(UNKNOWN));
+	gm_stack_head = push_back_fbgc_ll_object(gm_stack_head,new_fbgc_object(LINKED_LIST));
 	uint8_t gm_error = 1;
 
-	for(int i = 0; i<300 && gm_error != 0 && iter != head->tail ; i++){
+	for(int i = 0; i<30 && gm_error != 0 && iter != head->tail ; i++){
 
 		cprintf(010,"----------------------[%d] = {%s}-----------------------\n",i,object_name_array[iter->type]);
-		if(is_fbgc_NUMBER(iter->type)){
+		if(is_fbgc_ATOM(iter->type)){
 			//this is number do not touch
 			iter_prev = iter;
 			//grammar_push(&gm_stack_head,iter);
@@ -129,8 +129,11 @@ fbgc_object * parser(struct fbgc_object * head_obj){
 		}
 		else if(iter->type == RPARA){
 
+			
+			//if(!gm_error) goto END_OF_THE_PARSER;
+
 			iter_prev->next = iter->next;
-			while(op_stack_top(op_stack_head)->type != LPARA){
+			while( op_stack_top(op_stack_head) != NULL && op_stack_top(op_stack_head)->type != LPARA){
 				//Insert top op to the list  
 				gm_error =grammar_seek_right(gm_stack_head,op_stack_top(op_stack_head));
 				iter_prev->next = op_stack_top(op_stack_head);
@@ -140,14 +143,12 @@ fbgc_object * parser(struct fbgc_object * head_obj){
 				iter_prev->next->next = iter->next; 
 				//make the iter_prev proper
 				iter_prev = iter_prev->next;
-				
-				//}
 			}
 			//op_stack_head = op_stack_push(op_stack_head,iter);
 				
 			gm_error = grammar_seek_left(gm_stack_head,iter);
 
-			if(op_stack_top(op_stack_head)->type == LPARA){
+			if(op_stack_top(op_stack_head) != NULL && op_stack_top(op_stack_head)->type == LPARA){
 				//cprintf(111,"Hit the left para! content:%d i:%d\n",head_int->content,i);
 				//now we have free paranthesis object by hand and also change the size of the main list
 				head->size-=2;
@@ -155,6 +156,10 @@ fbgc_object * parser(struct fbgc_object * head_obj){
 				op_stack_head = op_stack_pop(op_stack_head);
 				free_fbgc_object(dummy_for_lpara);
 				free_fbgc_object(iter);
+			}
+			else {
+				goto END_OF_THE_PARSER;
+
 			}
 			
 		}
@@ -182,6 +187,8 @@ fbgc_object * parser(struct fbgc_object * head_obj){
 		op_stack_print(op_stack_head);
 		print_fbgc_ll_object(gm_stack_head,"GM");		
 	}
+
+	END_OF_THE_PARSER:
 
 	free_fbgc_object(op_stack_head);
 	free_fbgc_ll_object(gm_stack_head);

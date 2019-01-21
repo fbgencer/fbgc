@@ -1,12 +1,9 @@
 #include "fbgc.h"
 
 
-
-
-
 const char * object_name_array[]={
 	"UNKNOWN",
-	"NUMBER",
+	"ATOM",
 	"INT",
 	"HEX",
 	"BIN",
@@ -18,7 +15,7 @@ const char * object_name_array[]={
 	"VAR",
 	"FUN",
 	"MATRIX",
-	"ARRAY",
+	"LIST",
 	"LINKED_LIST",
 	"OP",
 	"PLUS",
@@ -30,12 +27,6 @@ const char * object_name_array[]={
 	"CARET",
 	"OR_OP",
 	"AND_OP",
-	"ASSIGN",
-	"PLUS_ASSIGN",
-	"MINUS_ASSIGN",
-	"STAR_ASSIGN",
-	"SLASH_ASSIGN",
-	"CONST_ASSIGN",
 	"GREATER",
 	"LOWER",
 	"LO_EQ",
@@ -55,6 +46,12 @@ const char * object_name_array[]={
 	"COLON",
 	"RSHIFT",
 	"LSHIFT",
+	"ASSIGN",
+	"PLUS_ASSIGN",
+	"MINUS_ASSIGN",
+	"STAR_ASSIGN",
+	"SLASH_ASSIGN",
+	"CONST_ASSIGN",
 	"INC",
 	"DECR",
 	"UPLUS",
@@ -85,6 +82,7 @@ const char * object_name_array[]={
 	"IF",
 	"ELSE",
 	"ELIF",
+	"END",
 	"AND",
 	"OR",
 	"NOT",
@@ -93,10 +91,21 @@ const char * object_name_array[]={
 	"NEWLINE",
 	"RETURN",
 	"EXPRESSION",
-	"CLOSED_EXPRESSION",
-	"COMP_EXPRESSION",
-	"CLOSED_COMP_EXPRESSION",
 	"ASSIGNMENT",
+	"STATEMENT",
+	"ASSIGNMENT_EXPRESSION",
+	"UNARY_EXPRESSION",
+	"BINARY_EXPRESSION",
+	"BALANCED_IDENTIFIER_LIST",
+	"UNBALANCED_IDENTIFIER_LIST",
+	"BALANCED_EXPR_LIST",
+	"UNBALANCED_EXPR_LIST",
+	"PARA_EMPTY",
+	"PARA_EXPRESSION",
+	"PARA_ASSIGNMENT_EXPRESSION",
+	"PARA_BALANCED_EXPR_LIST",
+	"PARA_IDENTIFIER_LIST",
+
 };
 
 
@@ -117,6 +126,7 @@ static const token_struct operator_token_array[]={
 	{SLASH,"/"},
 	{DOT,"."},
 	{MOD,"%"},
+	{COMMA,","},
 	{CARET,"^"},
 	{STARSTAR,"**"},
 	{UPLUS,"+"}, //delete these
