@@ -28,6 +28,7 @@ uint8_t compare_operators(fbgc_token stack_top, fbgc_token obj_type){
 	// stack_top >= obj_type => return 1;
 	// stack_top < obj_type => return 0;
 
+	//cprintf(010,"stack_top[%s] obj_type[%s]\n",object_name_array[stack_top],object_name_array[obj_type]);
 	if(stack_top == obj_type){
 		switch(stack_top){
 			case LPARA:
@@ -37,7 +38,10 @@ uint8_t compare_operators(fbgc_token stack_top, fbgc_token obj_type){
 			return 0;
 		}
 	}
-	return operator_precedence(stack_top) >= operator_precedence(obj_type);
+	else if(obj_type == LPARA) return 0; //work about this
+	else if(obj_type == LBRACK) return 0;
+	//precedence of the operators have to change according to their positions
+	return (operator_precedence(stack_top) >= operator_precedence(obj_type));
 }
 
 
@@ -58,7 +62,7 @@ struct fbgc_object * parser(struct fbgc_object * head_obj){
 
 
 
-	for(int i = 0; i<300 && (iter != head->tail)  ; i++){
+	for(int i = 0; i<300 && (iter != head->tail); i++){
 
 		cprintf(010,"----------------------[%d] = {%s}-----------------------\n",i,object_name_array[iter->type]);
 		if(is_fbgc_ATOM(iter->type)){
@@ -105,7 +109,7 @@ struct fbgc_object * parser(struct fbgc_object * head_obj){
 						break;
 					}
 					else {
-						cprintf(111,"GOTO END_OF_THE_PARSER\n");
+						cprintf(111,"GOTO END_OF_THE_PARSER Syntax Error\n");
 						//delete_front_fbgc_ll_object(op_stack_head);
 						free_fbgc_object(iter);
 						goto END_OF_THE_PARSER;
@@ -114,7 +118,7 @@ struct fbgc_object * parser(struct fbgc_object * head_obj){
 			}
 		
 			gm_error = grammar_seek_left(gm_stack_head,iter);
-			
+
 			if(iter->type == RPARA){
 				if(iter_prev->type == COMMA) iter_prev->type = INT;
 				free_fbgc_object(iter);
@@ -159,7 +163,6 @@ struct fbgc_object * parser(struct fbgc_object * head_obj){
 		}	
 
 		iter = iter_prev->next;
-		print_fbgc_object(iter);
 		print_fbgc_ll_object(head_obj,"M");
 		print_fbgc_ll_object(op_stack_head,"O");
 		print_fbgc_ll_object(gm_stack_head,"GM");

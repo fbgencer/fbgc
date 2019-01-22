@@ -176,6 +176,8 @@
 
 uint8_t grammar_seek_left(struct fbgc_object * gm_head,struct fbgc_object * obj ){
 
+	return 1;
+
 	#define GM_LEFT get_fbgc_object_type(top_fbgc_ll_object(gm_head))
 	#define change_top(x)(top_fbgc_ll_object(gm_head)->type = x)
 	
@@ -290,6 +292,9 @@ uint8_t grammar_seek_left(struct fbgc_object * gm_head,struct fbgc_object * obj 
 
 
 uint8_t grammar_seek_right(struct fbgc_object * gm_head,struct fbgc_object * obj){
+
+	
+	return 1;
 
 	#define GM_RIGHT get_fbgc_object_type(top_fbgc_ll_object(gm_head))
 	#define change_top(x)(top_fbgc_ll_object(gm_head)->type = x)

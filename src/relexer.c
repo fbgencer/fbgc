@@ -36,7 +36,9 @@ static const token_table_struct lexer_table[1] =
 		.tokens = (const fbgc_token[]){INT,DOUBLE,DOUBLE,COMPLEX}
 	}	
 };
+/*
 
+*/
 
 static const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] = 
 {
@@ -55,8 +57,7 @@ static const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] =
 	{RBRACE,"}"},
 	{LBRACK,"["},
 	{RBRACK,"]"},		
-	{OP,"+|-|**|^|*|/|<|>|=|=>|<=|,|;!+"},
-	//# for table
+	{OP,"+|-|**|^|*|/|<|>|=|=>|<=|,|;!+"},	
 	{WORD,"_!w _!w!d!*"},
 };
 
@@ -79,7 +80,7 @@ void pretty_print_pointer(const char *buffer ,const char * ptr){
 const char * rule_reader(rule_flag_struct * rfs,const char * rule_ptr){
 	
 	#ifdef DEBUG
-		cprintf(001,"rule_reader , rule_ptr:%s\n",rule_ptr);
+		cprintf(001,"inside rule_reader , rule_ptr:%s\n",rule_ptr);
 	#endif
 
 	rfs->metachar_flag = rfs->pattern_flag = rfs->char_match_end = 0;
@@ -282,7 +283,7 @@ uint8_t regex_lexer(struct fbgc_object ** head_obj, const char *first_ptr){
 				rule_section++;
 
 				#ifdef DEBUG
-					cprintf(100,"Sts rule sec:%d, rule_sec:%d, *rule_ptr:%c\n",satisfied_rule_section,rule_section,*rule_ptr);
+					cprintf(001,"After rule reader call,sts rule sec:%d, rule_sec:%d, *rule_ptr:%c\n",satisfied_rule_section,rule_section,*rule_ptr);
 				#endif
 			//}
 		}
@@ -292,10 +293,10 @@ uint8_t regex_lexer(struct fbgc_object ** head_obj, const char *first_ptr){
 			cprintf(100,"Called check char, mobile_ptr:%s, check:%d\n",mobile_ptr,check);
 		#endif		
 		if(check ||  IS_METACHAR_STAR_OPEN(rfs.metachar_flag)) satisfied_rule_section = rule_section;
-
-		if(!check || *mobile_ptr == '\0' || (check && *rule_ptr == '\0')){
+		//(check && *rule_ptr == '\0')
+		if(!check || *mobile_ptr == '\0' || (check && *rule_ptr == '\0' &&!IS_METACHAR_PLUS_OPEN(rfs.metachar_flag) &&!IS_METACHAR_STAR_OPEN(rfs.metachar_flag))){
 			#ifdef DEBUG
-				cprintf(010,"-------------{CHECK = 0}---------------\n");
+				cprintf(010,"-------------{CHECK = %d}---------------\n",check);
 				cprintf(010,"Sts rule sec:%d, rule_sec:%d, *rule_ptr:%c\n",satisfied_rule_section,rule_section,*rule_ptr);
 			#endif
 			//why rule_ptr != 0 WHYYYYYY
