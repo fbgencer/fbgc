@@ -127,12 +127,13 @@ void print_fbgc_ll_object(struct fbgc_object * head,const char *s1){
 	cprintf(101,"[%s]->",s1);
 
 	while(iter!=head_ll->tail){
-		if(iter->type == INT) cprintf(011,"{%d:INT}",cast_fbgc_object_as_int(iter)->content);   
+		if(iter->type == INT) cprintf(011,"{%d}",cast_fbgc_object_as_int(iter)->content);   
 		else if(iter->type == DOUBLE) cprintf(011,"{%f:DB}",cast_fbgc_object_as_double(iter)->content); 
 		else if(iter->type == STRING || iter->type == WORD) cprintf(011,"{%s:%s}",cast_fbgc_object_as_str(iter)->content,object_name_array[iter->type]);
 	//	else if(iter->type == WORD) cprintf(011,"{WORD}");
      //else cprintf(011,"{%s}",object_name_array[iter->type]);
-		else if(is_fbgc_OPERATOR(iter->type)) cprintf(011,"{%s:%s}",get_token_as_str(iter->type),object_name_array[iter->type]);
+		//else if(is_fbgc_OPERATOR(iter->type)) cprintf(011,"{%s:%s}",get_token_as_str(iter->type),object_name_array[iter->type]);
+        else if(is_fbgc_OPERATOR(iter->type)) cprintf(011,"{%s}",get_token_as_str(iter->type));
         else cprintf(011,"{%s}",object_name_array[iter->type]);		
 		iter = iter->next;
 	}

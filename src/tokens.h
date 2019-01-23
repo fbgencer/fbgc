@@ -91,34 +91,37 @@ typedef struct {
 #define IF 79
 #define ELSE 80
 #define ELIF 81
-#define END 82
-#define AND 83
-#define OR 84
-#define NOT 85
-#define SPACE 86
-#define TAB 87
-#define NEWLINE 88
-#define RETURN 89
-#define EXPRESSION 90
-#define ASSIGNMENT 91
-#define STATEMENT 92
-#define ASSIGNMENT_EXPRESSION 93
-#define UNARY_EXPRESSION 94
-#define BINARY_EXPRESSION 95
-#define BALANCED_IDENTIFIER_LIST 96
-#define UNBALANCED_IDENTIFIER_LIST 97
-#define BALANCED_EXPR_LIST 98
-#define UNBALANCED_EXPR_LIST 99
-#define LPARA_EMPTY 100
-#define LPARA_EXPRESSION 101
-#define LPARA_ASSIGNMENT_EXPRESSION 102
-#define LPARA_BALANCED_EXPR_LIST 103
-#define LPARA_IDENTIFIER_LIST 104
-#define PARA_EMPTY 105
-#define PARA_EXPRESSION 106
-#define PARA_ASSIGNMENT_EXPRESSION 107
-#define PARA_BALANCED_EXPR_LIST 108
-#define PARA_IDENTIFIER_LIST 109
+#define IF_BEGIN 82
+#define ELSE_BEGIN 83
+#define BEGIN 84
+#define END 85
+#define START 86
+#define FINISH 87
+#define AND 88
+#define OR 89
+#define NOT 90
+#define SPACE 91
+#define TAB 92
+#define NEWLINE 93
+#define RETURN 94
+#define EXPRESSION 95
+#define ASSIGNMENT 96
+#define STATEMENT 97
+#define ASSIGNMENT_EXPRESSION 98
+#define UNARY_EXPRESSION 99
+#define BINARY_EXPRESSION 100
+#define BALANCED_IDENTIFIER_LIST 101
+#define UNBALANCED_IDENTIFIER_LIST 102
+#define BALANCED_EXPRESSION_LIST 103
+#define UNBALANCED_EXPRESSION_LIST 104
+#define VOID_EXPRESSION 105
+#define PARA_VOID_EXPRESSION 106
+#define PARA_EXPRESSION 107
+#define PARA_ASSIGNMENT_EXPRESSION 108
+#define PARA_BALANCED_EXPR_LIST 109
+#define PARA_IDENTIFIER_LIST 110
+
+
 
 
 
@@ -153,7 +156,9 @@ const char * get_token_as_str(fbgc_token tok);
 
 #define is_fbgc_MATRIX(x)(x == MATRIX)
 
-#define is_fbgc_START(x)(x == LINKED_LIST)
+#define is_fbgc_FUNCTIONABLE(x)(x == IF || x == ELIF || x == ELSE)
+
+#define is_fbgc_START(x)(x == START || x == BEGIN || x == IF_BEGIN)
 #define is_fbgc_LIST(x) (x == LIST)
 #define is_fbgc_PARA_EXPRESSION(x)(x == PARA_EXPRESSION)
 #define is_fbgc_EXPRESSION(x)(x == ATOM || x == EXPRESSION || x == UNARY_EXPRESSION ||x==BINARY_EXPRESSION||\

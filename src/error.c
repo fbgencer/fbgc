@@ -13,9 +13,14 @@ void cprintf(char color,const char *format, ...) {
 #define ANSI_COLOR_WHITE   "\033[1;37m" //111
 #define ANSI_COLOR_RESET   "\033[0m" //0
 
+
+//#define CLOSE_PRINTF
+
+
     va_list args;
       
     va_start(args, format);
+    #ifndef CLOSE_PRINTF
     if(color == 100) printf(ANSI_COLOR_RED); 
     else if(color == 010) printf(ANSI_COLOR_GREEN);
     else if(color == 001) printf(ANSI_COLOR_BLUE);
@@ -26,7 +31,10 @@ void cprintf(char color,const char *format, ...) {
     else if(color == 111) printf(ANSI_COLOR_WHITE);
     
     vprintf(format, args); printf("\033[0m");
+    #endif
     va_end(args);
+
+
 }
 
 int error(const char *x){

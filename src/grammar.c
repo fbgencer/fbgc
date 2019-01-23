@@ -171,183 +171,291 @@
 
 */
 
+uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 
+	#define gm_left (gm->top)
+	cprintf(100,"Seek LEFT:[%s], OBJ:[%s] flag{0x%X}\n",object_name_array[gm_left],object_name_array[get_fbgc_object_type(obj)],gm->flag);
 
-
-uint8_t grammar_seek_left(struct fbgc_object * gm_head,struct fbgc_object * obj ){
-
-	return 1;
-
-	#define GM_LEFT get_fbgc_object_type(top_fbgc_ll_object(gm_head))
-	#define change_top(x)(top_fbgc_ll_object(gm_head)->type = x)
-	
-	cprintf(111,"Left :[%s], obj_type:[%s]\n",object_name_array[GM_LEFT],object_name_array[get_fbgc_object_type(obj)]);
-
-
-	if(is_fbgc_ATOM(get_fbgc_object_type(obj)) || is_fbgc_IDENTIFIER(get_fbgc_object_type(obj))){
-		if(  is_fbgc_BINARY_OPERATOR(GM_LEFT)|| is_fbgc_UNARY_OPERATOR(GM_LEFT) || GM_LEFT == UNBALANCED_EXPR_LIST || is_fbgc_START(GM_LEFT) ){
-			change_top(ATOM);
-		}
-		//else if(GM_LEFT == LPARA || GM_LEFT == LBRACE || GM_LEFT == LBRACK) 
-		//	gm_head = push_front_fbgc_ll_object(gm_head,new_fbgc_object(ATOM));
+	if( (is_fbgc_ATOM(get_fbgc_object_type(obj)) || is_fbgc_IDENTIFIER(get_fbgc_object_type(obj)) ) 
+		&& 
+		( is_fbgc_BINARY_OPERATOR(gm_left) || 
+			is_fbgc_UNARY_OPERATOR(gm_left)  || 
+			gm_left == UNBALANCED_EXPRESSION_LIST  || 
+			gm_left == LPARA ||
+			gm_left == LBRACK || gm_left == IF_BEGIN || gm_left == BEGIN || gm_left == ELSE || gm_left == SEMICOLON ||
+			is_fbgc_START(gm_left) ))
+	{
+		gm->top = ATOM;
 	}
-	/*else if(get_fbgc_object_type(obj) == LPARA &&
-			(is_fbgc_BINARY_OPERATOR(GM_LEFT) ||
-			is_fbgc_UNARY_OPERATOR(GM_LEFT)  ||
-			is_fbgc_ASSIGNMENT_OPERATOR(GM_LEFT) ||
-		 	GM_LEFT == UNBALANCED_EXPR_LIST || 
-		 	is_fbgc_START(GM_LEFT) ))
+	else if(get_fbgc_object_type(obj) == LPARA &&
+			(is_fbgc_BINARY_OPERATOR(gm_left) ||
+			is_fbgc_UNARY_OPERATOR(gm_left)  ||
+			is_fbgc_ASSIGNMENT_OPERATOR(gm_left) ||
+		 	gm_left == UNBALANCED_EXPRESSION_LIST || 
+		 	gm_left == LPARA || gm_left == IF || gm_left == ELIF ||
+		 	is_fbgc_START(gm_left) ))
+	{	
+		//just valid do not touch the top
+		gm->top = LPARA;
+	}
+	else if(get_fbgc_object_type(obj) == LBRACK &&
+			(is_fbgc_BINARY_OPERATOR(gm_left) ||
+			is_fbgc_UNARY_OPERATOR(gm_left)  ||
+			is_fbgc_ASSIGNMENT_OPERATOR(gm_left) ||
+		 	gm_left == UNBALANCED_EXPRESSION_LIST || 
+		 	is_fbgc_START(gm_left)) )
 	{
-			change_top(LPARA);		
-	}*/
-	/*else if(get_fbgc_object_type(obj) == LBRACK &&
-			(is_fbgc_BINARY_OPERATOR(GM_LEFT) ||
-			is_fbgc_UNARY_OPERATOR(GM_LEFT)  ||
-			is_fbgc_ASSIGNMENT_OPERATOR(GM_LEFT) ||
-		 	GM_LEFT == UNBALANCED_EXPR_LIST || 
-		 	is_fbgc_START(GM_LEFT) ))
+		gm->top = LBRACK;		
+	}
+	else if( (is_fbgc_UNARY_OPERATOR(get_fbgc_object_type(obj)) || get_fbgc_object_type(obj) == PLUS ||get_fbgc_object_type(obj) == MINUS) 
+			&& 
+			(is_fbgc_BINARY_OPERATOR(gm_left) || gm_left == LPARA || is_fbgc_START(gm_left)) )
+
 	{
-			change_top(LBRACK);		
-	}*/
-	else if(get_fbgc_object_type(obj) == LBRACE &&
-			(is_fbgc_BINARY_OPERATOR(GM_LEFT) ||
-			is_fbgc_UNARY_OPERATOR(GM_LEFT)  ||
-			is_fbgc_ASSIGNMENT_OPERATOR(GM_LEFT) ||
-		 	GM_LEFT == UNBALANCED_EXPR_LIST || 
-		 	is_fbgc_START(GM_LEFT) ))
-	{
-			change_top(LBRACE);		
-	}	
-	else if( (is_fbgc_UNARY_OPERATOR(get_fbgc_object_type(obj)) || get_fbgc_object_type(obj) == PLUS ||get_fbgc_object_type(obj) == MINUS) && 
-		(is_fbgc_BINARY_OPERATOR(GM_LEFT) || GM_LEFT == LPARA || is_fbgc_START(GM_LEFT)) ){
 		if(get_fbgc_object_type(obj) == PLUS) obj->type = UPLUS;
 		else if(get_fbgc_object_type(obj) == MINUS) obj->type = UMINUS;	
-		//if(GM_LEFT == LPARA || GM_LEFT == LBRACE || GM_LEFT == LBRACK) 
-		//	gm_head = push_front_fbgc_ll_object(gm_head,new_fbgc_object(obj->type));
-		//else 
-			change_top(get_fbgc_object_type(obj));		
+		gm->top = get_fbgc_object_type(obj);		
 	}
-	else if(is_fbgc_BINARY_OPERATOR(get_fbgc_object_type(obj)) && is_fbgc_EXPRESSION(GM_LEFT)){
+	else if(is_fbgc_BINARY_OPERATOR(get_fbgc_object_type(obj)) && is_fbgc_EXPRESSION(gm_left)){
 		//cprintf(111,"binar->expr");
-		change_top(get_fbgc_object_type(obj));
+		gm->top = get_fbgc_object_type(obj);
 	}
-	else if(is_fbgc_ASSIGNMENT_OPERATOR(get_fbgc_object_type(obj)) && GM_LEFT == IDENTIFIER){
-		change_top(get_fbgc_object_type(obj));
+	else if(is_fbgc_ASSIGNMENT_OPERATOR(get_fbgc_object_type(obj)) && gm_left == IDENTIFIER){
+		gm->top = get_fbgc_object_type(obj);
 	}
-	else if(get_fbgc_object_type(obj) == COMMA && is_fbgc_EXPRESSION(GM_LEFT) ){
-		change_top(UNBALANCED_EXPR_LIST);
+	else if(get_fbgc_object_type(obj) == COMMA && is_fbgc_EXPRESSION(gm_left) ){
+		gm->top = UNBALANCED_EXPRESSION_LIST;
 	}	
-	else if(get_fbgc_object_type(obj) == COMMA && GM_LEFT == IDENTIFIER ){
-		change_top(UNBALANCED_IDENTIFIER_LIST);
+	else if(get_fbgc_object_type(obj) == COMMA && gm_left == IDENTIFIER ){
+		gm->top = UNBALANCED_IDENTIFIER_LIST;
 	}
-	else if(get_fbgc_object_type(obj) == RBRACK && GM_LEFT == BALANCED_EXPR_LIST){
-		delete_front_fbgc_ll_object(gm_head);
-		if(GM_LEFT == LBRACK) change_top(MATRIX);
-		else cprintf(111,"Error occured for rbrack->matrix\n");			
-	}
-	else if(get_fbgc_object_type(obj) == RBRACE && GM_LEFT == BALANCED_EXPR_LIST){
-		delete_front_fbgc_ll_object(gm_head);
-		if(GM_LEFT == LBRACE) change_top(LIST);
-		else cprintf(111,"Error occured for rbrace->list\n");			
-	}
-	else if(get_fbgc_object_type(obj) == ELIF && is_fbgc_STATEMENT(GM_LEFT)){
-		delete_front_fbgc_ll_object(gm_head);
-		if(GM_LEFT == IF) change_top(ELIF);
-		else cprintf(111,"error at elif\n");		
-	}
-	else if(get_fbgc_object_type(obj) == ELSE && is_fbgc_STATEMENT(GM_LEFT)){
-		delete_front_fbgc_ll_object(gm_head);
-		if(GM_LEFT == IF || GM_LEFT == ELIF) change_top(ELSE);
-		else cprintf(111,"error at else\n");		
+	else if(get_fbgc_object_type(obj) == RPARA && is_grammar_LPARA_flag_open(gm->flag) && gm_left == VOID_EXPRESSION){
+		grammar_close_LPARA_flag(gm->flag);
+		gm->top = PARA_VOID_EXPRESSION;
 	}	
-	else if(get_fbgc_object_type(obj) == END && is_fbgc_STATEMENT(GM_LEFT)){
-		delete_front_fbgc_ll_object(gm_head);
-		if(GM_LEFT == IF || GM_LEFT == ELIF || GM_LEFT == ELSE || GM_LEFT == WHILE || GM_LEFT == UNTIL)
-			change_top(ELSE);
-		else cprintf(111,"error at end\n");		
+	else if(get_fbgc_object_type(obj) == RPARA && is_grammar_LPARA_flag_open(gm->flag) && is_fbgc_EXPRESSION(gm_left)){	
+		grammar_close_LPARA_flag(gm->flag);
+		gm->top = PARA_EXPRESSION;
 	}
-	else if(get_fbgc_object_type(obj) == RPARA && GM_LEFT == LPARA_EMPTY){
-		change_top(PARA_EMPTY);
+	else if(get_fbgc_object_type(obj) == RPARA  && is_grammar_LPARA_flag_open(gm->flag) && gm_left == ASSIGNMENT_EXPRESSION){
+		grammar_close_LPARA_flag(gm->flag);
+		gm->top = PARA_ASSIGNMENT_EXPRESSION;		
+	}
+	else if(get_fbgc_object_type(obj) == RPARA  && is_grammar_LPARA_flag_open(gm->flag) && (is_fbgc_EXPRESSION(gm_left) || gm_left == BALANCED_EXPRESSION_LIST) ){
+		grammar_close_LPARA_flag(gm->flag);
+		gm->top = (PARA_BALANCED_EXPR_LIST);			
+	}
+	else if(get_fbgc_object_type(obj) == RPARA  && is_grammar_LPARA_flag_open(gm->flag) && gm_left == BALANCED_IDENTIFIER_LIST){
+		grammar_close_LPARA_flag(gm->flag);
+		gm->top = (PARA_IDENTIFIER_LIST);
+	}
+	else if(get_fbgc_object_type(obj) == RBRACK && is_grammar_LBRACK_flag_open(gm->flag) && gm_left == BALANCED_EXPRESSION_LIST){
+		grammar_close_LBRACK_flag(gm->flag);
+		gm->top = (MATRIX);		
+	}
+	else if(get_fbgc_object_type(obj) == SEMICOLON){
+		gm->top = SEMICOLON;
+	}
+	else if(get_fbgc_object_type(obj) == IF_BEGIN && (gm_left == BEGIN || gm_left == ELSE_BEGIN)){
+		gm->top = IF_BEGIN;
+		//grammar_open_BEGIN_flag(gm->flag);
 	}	
-	else if(get_fbgc_object_type(obj) == RPARA && GM_LEFT == LPARA_EXPRESSION){	
-		change_top(PARA_EXPRESSION);
+	else if(get_fbgc_object_type(obj) == IF && (is_fbgc_STATEMENT(gm_left) ||gm_left == ELSE || gm_left == ELIF ||gm_left == SEMICOLON|| is_fbgc_START(gm_left))){
+		gm->top = (IF);		
 	}
-	else if(get_fbgc_object_type(obj) == RPARA && GM_LEFT == LPARA_ASSIGNMENT_EXPRESSION){
-		change_top(PARA_ASSIGNMENT_EXPRESSION);		
-	}
-	else if(get_fbgc_object_type(obj) == RPARA && GM_LEFT == LPARA_BALANCED_EXPR_LIST ){
-		change_top(PARA_BALANCED_EXPR_LIST);;			
-	}
-	else if(get_fbgc_object_type(obj) == RPARA && GM_LEFT == BALANCED_IDENTIFIER_LIST){
-		change_top(PARA_IDENTIFIER_LIST);
+	else if(get_fbgc_object_type(obj) == ELIF &&  is_grammar_BEGIN_flag_open(gm->flag) && gm_left == IF_BEGIN ){
+		gm->top = (ELIF);		
 	}	
-	else {
-		cprintf(111,"ERROR at seek left\n");
+	else if(get_fbgc_object_type(obj) == ELSE &&  is_grammar_BEGIN_flag_open(gm->flag) && gm_left == IF_BEGIN ){
+		gm->top = (ELSE);		
+	}		
+	else if(get_fbgc_object_type(obj) == END && is_grammar_BEGIN_flag_open(gm->flag) && (gm_left == IF_BEGIN || gm_left == ELSE_BEGIN)){
+		grammar_close_BEGIN_flag(gm->flag);
+		gm->top = START;
+	}
+	else{
+		cprintf(110,"ERROR\t");
+		cprintf(100,"Unexpected grammar for L:[%s], Ob:[%s] flag{0x%X}\n",object_name_array[gm_left],object_name_array[get_fbgc_object_type(obj)],gm->flag);
 		return 0;
-	}	
+	}
 
-
+	#undef gm_left 
 	return 1;
 }
 
 
-uint8_t grammar_seek_right(struct fbgc_object * gm_head,struct fbgc_object * obj){
+uint8_t gm_seek_right(struct fbgc_grammar * gm, struct fbgc_object * obj){
 
+	#define gm_right (gm->top)
+	cprintf(100,"Seek right: OBJ:[%s] Right:[%s] flag{0x%X}\n",object_name_array[get_fbgc_object_type(obj)],object_name_array[gm_right],gm->flag);
 	
-	return 1;
-
-	#define GM_RIGHT get_fbgc_object_type(top_fbgc_ll_object(gm_head))
-	#define change_top(x)(top_fbgc_ll_object(gm_head)->type = x)
-	
-	cprintf(111,"Obj_type:[%s] Right :[%s]\n",object_name_array[get_fbgc_object_type(obj)],object_name_array[GM_RIGHT]);
-
-	if(is_fbgc_UNARY_OPERATOR(get_fbgc_object_type(obj)) && is_fbgc_EXPRESSION(GM_RIGHT)){
-		change_top(UNARY_EXPRESSION);
+	if(is_fbgc_UNARY_OPERATOR(get_fbgc_object_type(obj)) && is_fbgc_EXPRESSION(gm_right)){
+		gm->top = (UNARY_EXPRESSION);
 	}
-	else if(is_fbgc_BINARY_OPERATOR(get_fbgc_object_type(obj)) && is_fbgc_EXPRESSION(GM_RIGHT)){
-		change_top(BINARY_EXPRESSION);
+	else if(is_fbgc_BINARY_OPERATOR(get_fbgc_object_type(obj)) && is_fbgc_EXPRESSION(gm_right)){
+		gm->top = (BINARY_EXPRESSION);
 	}
-	else if(is_fbgc_ASSIGNMENT_OPERATOR(get_fbgc_object_type(obj)) && is_fbgc_STATEMENT(GM_RIGHT)){
-		change_top(ASSIGNMENT_EXPRESSION);
+	else if(is_fbgc_ASSIGNMENT_OPERATOR(get_fbgc_object_type(obj)) && is_fbgc_STATEMENT(gm_right)){
+		gm->top = (ASSIGNMENT_EXPRESSION);
 	}
-	else if(get_fbgc_object_type(obj) == COMMA && is_fbgc_EXPRESSION(GM_RIGHT) ){
-		change_top(BALANCED_EXPR_LIST);
+	else if(get_fbgc_object_type(obj) == COMMA && is_fbgc_EXPRESSION(gm_right) ){
+		gm->top = (BALANCED_EXPRESSION_LIST);
 	}
-	else if(get_fbgc_object_type(obj) == COMMA && GM_RIGHT == IDENTIFIER ){
-		change_top(BALANCED_IDENTIFIER_LIST);
+	else if(get_fbgc_object_type(obj) == COMMA && gm_right == IDENTIFIER ){
+		gm->top = (BALANCED_IDENTIFIER_LIST);
 	}	
 	else if(
 		(get_fbgc_object_type(obj) == IF ||  
 		get_fbgc_object_type(obj) == ELIF ||
 		get_fbgc_object_type(obj) == WHILE ||
 		get_fbgc_object_type(obj) == UNTIL )
-		&& is_fbgc_PARA_EXPRESSION(GM_RIGHT)){
-		change_top(get_fbgc_object_type(obj));
+		&& is_fbgc_PARA_EXPRESSION(gm_right))
+	{
+		gm->top = BEGIN;
 	}
-	else if(get_fbgc_object_type(obj) == LPARA && GM_RIGHT == LPARA){
-		change_top(LPARA_EMPTY);
+	else if(get_fbgc_object_type(obj) == LPARA && gm_right == LPARA){
+		grammar_open_LPARA_flag(gm->flag);
 	}	
-	else if(get_fbgc_object_type(obj) == LPARA && is_fbgc_EXPRESSION(GM_RIGHT)){	
-		change_top(LPARA_EXPRESSION);
+	else if(get_fbgc_object_type(obj) == LPARA && is_fbgc_EXPRESSION(gm_right)){	
+		grammar_open_LPARA_flag(gm->flag);
 	}
-	else if(get_fbgc_object_type(obj) == LPARA && GM_RIGHT == ASSIGNMENT_EXPRESSION){
-		change_top(LPARA_ASSIGNMENT_EXPRESSION);		
+	else if(get_fbgc_object_type(obj) == LPARA && gm_right == ASSIGNMENT_EXPRESSION){
+		grammar_open_LPARA_flag(gm->flag);		
 	}
-	else if(get_fbgc_object_type(obj) == LPARA && (is_fbgc_EXPRESSION(GM_RIGHT) || GM_RIGHT == BALANCED_EXPR_LIST) ){
-		change_top(LPARA_BALANCED_EXPR_LIST);;			
+	else if(get_fbgc_object_type(obj) == LPARA && (is_fbgc_EXPRESSION(gm_right) || gm_right == BALANCED_EXPRESSION_LIST) ){
+		grammar_open_LPARA_flag(gm->flag);		
 	}
-	else if(get_fbgc_object_type(obj) == LPARA && GM_RIGHT == BALANCED_IDENTIFIER_LIST){
-		change_top(LPARA_IDENTIFIER_LIST);
+	else if(get_fbgc_object_type(obj) == LPARA && gm_right == BALANCED_IDENTIFIER_LIST){
+		grammar_open_LPARA_flag(gm->flag);
 	}
+	else if(get_fbgc_object_type(obj) == LBRACK && gm_right == BALANCED_EXPRESSION_LIST){
+		grammar_open_LBRACK_flag(gm->flag);
+	}
+	/*else if(
+		(get_fbgc_object_type(obj) == IF ||  
+		get_fbgc_object_type(obj) == ELIF ||
+		get_fbgc_object_type(obj) == WHILE ||
+		get_fbgc_object_type(obj) == UNTIL )
+		&& is_fbgc_PARA_EXPRESSION(gm_right))
+	{
+		gm->top = (get_fbgc_object_type(obj));
+	}*/
+	else if(get_fbgc_object_type(obj) == IF_BEGIN){
+		grammar_open_BEGIN_flag(gm->flag);
+		gm->top = IF_BEGIN;
+	}
+	else if(get_fbgc_object_type(obj) == ELSE_BEGIN){
+		grammar_open_BEGIN_flag(gm->flag);
+		gm->top = ELSE_BEGIN;
+	}			
 	else {
+		cprintf(110,"ERROR\t");
+		cprintf(100,"Unexpected grammar Ob:[%s] R:[%s] flag{0x%X}\n",object_name_array[get_fbgc_object_type(obj)],object_name_array[gm_right],gm->flag);
 		return 0;
 	}
+	#undef gm_right
+	return 1;
+}
+
+uint8_t grammar_seek_left(struct fbgc_object * gm_head,struct fbgc_object * obj ){
+
+	return 1;
+	/*if(is_fbgc_BINARY_OPERATOR(get_fbgc_object_type(obj)) && is_fbgc_EXPRESSION(gm_left)){
+		//cprintf(111,"binar->expr");
+		gm->top = (get_fbgc_object_type(obj));
+	}
+	else if(is_fbgc_ASSIGNMENT_OPERATOR(get_fbgc_object_type(obj)) && gm_left == IDENTIFIER){
+		gm->top = (get_fbgc_object_type(obj));
+	}
+	else if(get_fbgc_object_type(obj) == COMMA && is_fbgc_EXPRESSION(gm_left) ){
+		gm->top = (UNBALANCED_EXPR_LIST);
+	}	
+	else if(get_fbgc_object_type(obj) == COMMA && gm_left == IDENTIFIER ){
+		gm->top = (UNBALANCED_IDENTIFIER_LIST);
+	}
+	else if(get_fbgc_object_type(obj) == RBRACK && gm_left == BALANCED_EXPR_LIST){
+		delete_front_fbgc_ll_object(gm_head);
+		if(gm_left == LBRACK) gm->top = (MATRIX);
+		else cprintf(111,"Error occured for rbrack->matrix\n");			
+	}
+	else if(get_fbgc_object_type(obj) == RBRACE && gm_left == BALANCED_EXPR_LIST){
+		delete_front_fbgc_ll_object(gm_head);
+		if(gm_left == LBRACE) gm->top = (LIST);
+		else cprintf(111,"Error occured for rbrace->list\n");			
+	}
+	else if(get_fbgc_object_type(obj) == ELIF && is_fbgc_STATEMENT(gm_left)){
+		delete_front_fbgc_ll_object(gm_head);
+		if(gm_left == IF) gm->top = (ELIF);
+		else cprintf(111,"error at elif\n");		
+	}
+	else if(get_fbgc_object_type(obj) == ELSE && is_fbgc_STATEMENT(gm_left)){
+		delete_front_fbgc_ll_object(gm_head);
+		if(gm_left == IF || gm_left == ELIF) gm->top = (ELSE);
+		else cprintf(111,"error at else\n");		
+	}	
+	else if(get_fbgc_object_type(obj) == END && is_fbgc_STATEMENT(gm_left)){
+		delete_front_fbgc_ll_object(gm_head);
+		if(gm_left == IF || gm_left == ELIF || gm_left == ELSE || gm_left == WHILE || gm_left == UNTIL)
+			gm->top = (ELSE);
+		else cprintf(111,"error at end\n");		
+	}
+	
+	else {
+		cprintf(111,"ERROR at seek left\n");
+		return 0;
+	}	
+
+	return 1;*/
+ 	
+}
+
+
+uint8_t grammar_seek_right(struct fbgc_object * gm_head,struct fbgc_object * obj){
+
 
 	return 1;
 
-
-
-
+	/*if(is_fbgc_UNARY_OPERATOR(get_fbgc_object_type(obj)) && is_fbgc_EXPRESSION(gm_right)){
+		gm->top = (UNARY_EXPRESSION);
+	}
+	else if(is_fbgc_BINARY_OPERATOR(get_fbgc_object_type(obj)) && is_fbgc_EXPRESSION(gm_right)){
+		gm->top = (BINARY_EXPRESSION);
+	}
+	else if(is_fbgc_ASSIGNMENT_OPERATOR(get_fbgc_object_type(obj)) && is_fbgc_STATEMENT(gm_right)){
+		gm->top = (ASSIGNMENT_EXPRESSION);
+	}
+	else if(get_fbgc_object_type(obj) == COMMA && is_fbgc_EXPRESSION(gm_right) ){
+		gm->top = (BALANCED_EXPR_LIST);
+	}
+	else if(get_fbgc_object_type(obj) == COMMA && gm_right == IDENTIFIER ){
+		gm->top = (BALANCED_IDENTIFIER_LIST);
+	}	
+	else if(
+		(get_fbgc_object_type(obj) == IF ||  
+		get_fbgc_object_type(obj) == ELIF ||
+		get_fbgc_object_type(obj) == WHILE ||
+		get_fbgc_object_type(obj) == UNTIL )
+		&& is_fbgc_PARA_EXPRESSION(gm_right)){
+		gm->top = (get_fbgc_object_type(obj));
+	}
+	else if(get_fbgc_object_type(obj) == LPARA && gm_right == LPARA){
+		gm->top = (LPARA_EMPTY);
+	}	
+	else if(get_fbgc_object_type(obj) == LPARA && is_fbgc_EXPRESSION(gm_right)){	
+		gm->top = (LPARA_EXPRESSION);
+	}
+	else if(get_fbgc_object_type(obj) == LPARA && gm_right == ASSIGNMENT_EXPRESSION){
+		gm->top = (LPARA_ASSIGNMENT_EXPRESSION);		
+	}
+	else if(get_fbgc_object_type(obj) == LPARA && (is_fbgc_EXPRESSION(gm_right) || gm_right == BALANCED_EXPR_LIST) ){
+		gm->top = (LPARA_BALANCED_EXPR_LIST);;			
+	}
+	else if(get_fbgc_object_type(obj) == LPARA && gm_right == BALANCED_IDENTIFIER_LIST){
+		gm->top = (LPARA_IDENTIFIER_LIST);
+	}
+	else {
+		return 0;
+	}*/
 
 	//two number cannot be in the state side by side, top is the last pushed in the array
 	

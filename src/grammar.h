@@ -1,9 +1,43 @@
 #ifndef GRAMMAR_H
 #define GRAMMAR_H
 
-/*
-	Change these keywords!!
-*/
+//this is not an object no need to derive from base object 
+struct fbgc_grammar{
+	uint8_t flag; // From LSB to MSB LPARA|LBRACK|LBRACE|BEGIN
+	fbgc_token top;
+};
+
+#define FLAG_LPARA    0b00000001
+#define FLAG_LBRACK   0b00000010
+#define FLAG_LBRACE   0b00000100
+#define FLAG_BEGIN    0b00001000
+
+#define NOT_FLAG_LPARA    0b11111110
+#define NOT_FLAG_LBRACK   0b11111101
+#define NOT_FLAG_LBRACE   0b11111011
+#define NOT_FLAG_BEGIN    0b11110111
+
+#define grammar_open_LPARA_flag(x) (x |= FLAG_LPARA)
+#define grammar_open_LBRACK_flag(x)(x |= FLAG_LBRACK)
+#define grammar_open_LBRACE_flag(x)(x |= FLAG_LBRACE)
+#define grammar_open_BEGIN_flag(x) (x |= FLAG_BEGIN)
+
+#define grammar_close_LPARA_flag(x) (x &= NOT_FLAG_LPARA)
+#define grammar_close_LBRACK_flag(x)(x &= NOT_FLAG_LBRACK)
+#define grammar_close_LBRACE_flag(x)(x &= NOT_FLAG_LBRACE)
+#define grammar_close_BEGIN_flag(x) (x &= NOT_FLAG_BEGIN)
+
+#define is_grammar_LPARA_flag_open(x)( x & FLAG_LPARA )
+#define is_grammar_LBRACK_flag_open(x)( x & FLAG_LBRACK )
+#define is_grammar_LBRACE_flag_open(x)( x & FLAG_LBRACE )
+#define is_grammar_BEGIN_flag_open(x)( x & FLAG_BEGIN )
+
+
+
+
+
+uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj);
+uint8_t gm_seek_right(struct fbgc_grammar * gm, struct fbgc_object * obj);
 
 uint8_t grammar_seek_left(struct fbgc_object * grammar_stack,struct fbgc_object * obj);
 uint8_t grammar_seek_right(struct fbgc_object * grammar_stack,struct fbgc_object * obj);
