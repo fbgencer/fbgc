@@ -11,27 +11,23 @@
 #include <errno.h>
 #include <stdarg.h>
 #include <ctype.h>
+#include <math.h>
 
-#include "tokens.h"
-#include "error.h"
+#include "headers/tokens.h"
+#include "headers/error.h"
 
-#include "fbgc_object.h"
-#include "linked_list.h"
-#include "double_object.h"
-#include "int_object.h"
-#include "str_object.h"
+#include "headers/fbgc_object.h"
+#include "headers/linked_list.h"
+#include "headers/ref_object.h"
+#include "headers/double_object.h"
+#include "headers/int_object.h"
+#include "headers/str_object.h"
 
-#include "symbol_table.h"
-#include "relexer.h"
-#include "grammar.h"
-#include "parser.h"
+#include "headers/symbol_table.h"
+#include "headers/relexer.h"
+#include "headers/grammar.h"
+#include "headers/parser.h"
 
-
-
-
-/*
-#include "int_object.h"
-#include "var_object.h"*/
 
 
 #endif

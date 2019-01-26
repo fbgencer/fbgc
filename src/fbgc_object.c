@@ -9,44 +9,7 @@ fbgc_object * new_fbgc_object(fbgc_token token){
     return (struct fbgc_object*) o;
 }
 
-struct
-fbgc_object * new_fbgc_object_from_str(const char *str, fbgc_token token){
-	struct fbgc_object *obj = NULL;
 
-	switch(token){
-		case INT: 
-		case BIN:
-		case HEX:
-					obj = new_fbgc_int_object_from_str(str); 
-					break;
-		
-		case DOUBLE: 
-					obj = new_fbgc_double_object_from_str(str); 
-					break;
-		case STRING: 
-					obj = new_fbgc_str_object(str); 
-					break;
-		case OP: 	
-					cprintf(111,"Obj str:[%s]\n",str);
-					obj = new_fbgc_object(get_operator_code(str));
-					if(obj->type == UNKNOWN){
-						cprintf(100,"Undefined operator!\n");
-					}
-					break;
-		case WORD:
-					obj = new_fbgc_object(get_reserved_word_code(str));
-					if(obj->type == UNKNOWN){
-						obj->type = WORD;
-						//handle symbol table!
-					}
-		break;
-		default:
-			cprintf(111,"Undefined token inside new object creation !\n\n");
-		break;
-	}
-
-    return (struct fbgc_object*) obj;
-}
 
 struct
 fbgc_object * new_fbgc_object_from_substr(const char *str1,const char*str2, fbgc_token token){
@@ -80,6 +43,7 @@ fbgc_object * new_fbgc_object_from_substr(const char *str1,const char*str2, fbgc
 		case WORD:
 					token = get_reserved_word_code_from_substr(str1,str2);
 					if(token == UNKNOWN){
+						cprintf(111,"\nThis is not a keyword! \n");
 						obj = new_fbgc_str_object_from_substr(str1,str2);
 						obj->type = WORD;
 						//handle symbol table!
@@ -110,7 +74,11 @@ void print_fbgc_object(struct fbgc_object * self){
 			print_fbgc_double_object(self);
 		break;
 		case STRING:
+		case WORD:
 			print_fbgc_str_object(self);
+		break;
+		case REFERENCE:
+			print_fbgc_ref_object(self);
 		break;
 		default:
 			printf("\033[1;31m[%s]\033[0m\n",object_name_array[self->type]);  

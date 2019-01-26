@@ -30,7 +30,7 @@ void print_fbgc_str_object(struct fbgc_object * obj){
 }
 
 void free_fbgc_str_object(struct fbgc_object * obj){
-    struct fbgc_str_object *stro = cast_fbgc_object_as_str(obj);
+    struct fbgc_str_object * stro = cast_fbgc_object_as_str(obj);
     free(stro->content);
     free(stro);
 }

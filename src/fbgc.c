@@ -6,7 +6,30 @@ int main(){
 
 	cprintf(110,"\n\n\n\n\n[=======================================================================]\n"); 
 
-	struct fbgc_object * head = new_fbgc_ll_object(LINKED_LIST);
+	struct fbgc_object * sym = new_fbgc_symbol_table();
+	
+	struct fbgc_object * ref = new_fbgc_ref_object();
+	struct fbgc_object * ref2 = new_fbgc_ref_object();
+
+	struct fbgc_object * ino = new_fbgc_int_object(88);
+
+	
+	const char * ss = "x fbg ahah";
+	const char * s1 = ss+2;
+	const char * s2 = s1+3;
+
+	sym = new_fbgc_symbol_from_substr(sym,ref,s1,s2);
+	sym = new_fbgc_symbol_from_substr(sym,ref2,s1,s2);
+	
+	cast_fbgc_object_as_str((cast_fbgc_object_as_ref(ref)->content))->base.next = ino;
+	print_fbgc_object(ref);
+	print_fbgc_object(ref2);
+
+	free_fbgc_ref_object(ref2);
+	free_fbgc_ref_object(ref);
+	free_fbgc_symbol_table(sym);
+
+	/*struct fbgc_object * head = new_fbgc_ll_object(LINKED_LIST);
 	char line[100];
 	FILE *input_file = fopen("ex.fbgc","r");
     
@@ -17,7 +40,7 @@ int main(){
     fclose(input_file);
     print_fbgc_ll_object(head,"Main");
 	head = parser(head); print_fbgc_ll_object(head,"Main");
-	free_fbgc_ll_object(head);
+	free_fbgc_ll_object(head);*/
 
 	cprintf(110,"[=======================================================================]\n\n\n\n\n\n"); 
 	return 0;

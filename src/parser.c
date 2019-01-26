@@ -72,7 +72,7 @@ struct fbgc_object * parser(struct fbgc_object * head_obj){
 	for(int i = 0; i<300 && (iter != head->tail); i++){
 
 		cprintf(010,"----------------------[%d] = {%s}-----------------------\n",i,object_name_array[iter->type]);
-		if(is_fbgc_ATOM(iter->type)){
+		if(is_fbgc_ATOM(iter->type) || iter->type == WORD){
 			iter_prev = iter;
 			gm_error = gm_seek_left(&gm,iter);
 		}
