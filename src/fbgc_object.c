@@ -12,7 +12,7 @@ fbgc_object * new_fbgc_object(fbgc_token token){
 
 
 struct
-fbgc_object * new_fbgc_object_from_substr(const char *str1,const char*str2, fbgc_token token){
+fbgc_object * new_fbgc_object_from_substr(struct fbgc_object * field_obj,const char *str1,const char*str2, fbgc_token token){
 	struct fbgc_object *obj = NULL;
 
 	switch(token){
@@ -43,9 +43,8 @@ fbgc_object * new_fbgc_object_from_substr(const char *str1,const char*str2, fbgc
 		case WORD:
 					token = get_reserved_word_code_from_substr(str1,str2);
 					if(token == UNKNOWN){
-						cprintf(111,"\nThis is not a keyword! \n");
-						obj = new_fbgc_str_object_from_substr(str1,str2);
-						obj->type = WORD;
+						//cprintf(111,"\nThis is not a keyword! \n");
+						obj = new_fbgc_symbol_from_substr(cast_fbgc_object_as_field(field_obj)->global_table,str1,str2);
 						//handle symbol table!
 					}else {
 						obj = new_fbgc_object(token);

@@ -16,8 +16,10 @@ struct fbgc_object * assign_fbgc_ref_object(struct fbgc_object *ref, struct fbgc
 
 void print_fbgc_ref_object(struct fbgc_object * ref){
 	struct fbgc_str_object * obj = cast_fbgc_object_as_ref(ref)->content;
-	cprintf(111,"{Ref-> Name:%s} Content=",obj->content);
+	cprintf(100,"{%s",obj->content);
+	cprintf(111,":");
 	if(obj->base.next != NULL) print_fbgc_object(obj->base.next);
+	else cprintf(111,"NULL}");
 
 }
 

@@ -55,13 +55,15 @@ uint8_t compare_operators(fbgc_token stack_top, fbgc_token obj_type){
 
 #define is_pushable_in_main(x)(!is_fbgc_PARA(x) && x!= END && x!=IF_BEGIN && x!=ELSE_BEGIN && x!= SEMICOLON)
 
-struct fbgc_object * parser(struct fbgc_object * head_obj){
+uint8_t parser(struct fbgc_object ** field_obj){
 	
 	cprintf(111,"--------------[parser_begin]-------------\n");
 
-	struct fbgc_ll_object * head = cast_fbgc_object_as_ll(head_obj);
-	struct fbgc_object * iter = head_obj->next;
-	struct fbgc_object * iter_prev = head_obj; //note that iter_prev->next is iter, always this is the case!
+
+	struct fbgc_ll_object * head = cast_fbgc_object_as_ll( cast_fbgc_object_as_field(*field_obj)->head );
+	struct fbgc_object * head_obj =  cast_fbgc_object_as_field(*field_obj)->head;
+	struct fbgc_object * iter = head->base.next;
+	struct fbgc_object * iter_prev = (struct fbgc_object *)head; //note that iter_prev->next is iter, always this is the case!
 	struct fbgc_object * op_stack_head = new_fbgc_ll_object(STACK);
 	struct fbgc_grammar gm = {.flag = 0, .top = START};
 	
@@ -72,7 +74,7 @@ struct fbgc_object * parser(struct fbgc_object * head_obj){
 	for(int i = 0; i<300 && (iter != head->tail); i++){
 
 		cprintf(010,"----------------------[%d] = {%s}-----------------------\n",i,object_name_array[iter->type]);
-		if(is_fbgc_ATOM(iter->type) || iter->type == WORD){
+		if(is_fbgc_ATOM(iter->type) || iter->type == REFERENCE){
 			iter_prev = iter;
 			gm_error = gm_seek_left(&gm,iter);
 		}
@@ -244,5 +246,5 @@ struct fbgc_object * parser(struct fbgc_object * head_obj){
 	free_fbgc_ll_object(op_stack_head);
 	
 	cprintf(111,"--------------[parser_end]-------------\n");
-	return (struct fbgc_object*) head;
+	return 1;
 }

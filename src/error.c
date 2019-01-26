@@ -3,16 +3,17 @@
 void cprintf(char color,const char *format, ...) {
 
 
-#define ANSI_COLOR_BLACK   "\033[1;30m" //000
-#define ANSI_COLOR_RED     "\033[1;31m" //100
-#define ANSI_COLOR_GREEN   "\033[1;32m" //010
-#define ANSI_COLOR_YELLOW  "\033[1;33m" //011
-#define ANSI_COLOR_BLUE    "\033[1;34m" //001
-#define ANSI_COLOR_MAGENTA "\033[1;35m" //101
-#define ANSI_COLOR_CYAN    "\033[1;36m" //011
-#define ANSI_COLOR_WHITE   "\033[1;37m" //111
-#define ANSI_COLOR_RESET   "\033[0m" //0
+#define ANSI_COLOR_BLACK    "\033[1;30m" //000
+#define ANSI_COLOR_RED      "\033[1;31m" //100
+#define ANSI_COLOR_GREEN    "\033[1;32m" //010
+#define ANSI_COLOR_YELLOW   "\033[1;33m" //011
+#define ANSI_COLOR_BLUE     "\033[1;34m" //001
+#define ANSI_COLOR_MAGENTA  "\033[1;35m" //101
+#define ANSI_COLOR_CYAN     "\033[1;36m" //011
+#define ANSI_COLOR_WHITE    "\033[1;37m" //111
+#define ANSI_COLOR_RESET    "\033[0m" //0
 
+#define ANSI_COLOR_RED_UNDERLINE    "\e[4;31m"
 
 //#define CLOSE_PRINTF
 

@@ -57,7 +57,7 @@ static const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] =
 	{RBRACE,"}"},
 	{LBRACK,"["},
 	{RBRACK,"]"},		
-	{OP,"+|-|**|^|*|/|<|>|=|=>|<=|,|;!+"},	
+	{OP,"+|-|.|**|^|*|/|<|>|=|=>|<=|,|;!+"},	
 	{WORD,"_!w _!w!d!*"},
 };
 
@@ -250,9 +250,10 @@ void read_rule_table(rule_arrange_struct *ras){
 	}
 }*/
 
-uint8_t regex_lexer(struct fbgc_object ** head_obj, const char *first_ptr){
+uint8_t regex_lexer(struct fbgc_object ** field_obj, const char *first_ptr){
 	cprintf(111,"\n------------[relexer_begin : %s]-----------\n",first_ptr);
 	rule_flag_struct rfs = {.char_match_begin = NULL,.char_match_end=0, .pattern_flag = 0, .metachar_flag = 0, .table_index = 0};
+	if(*first_ptr == '\0') return 0;
 
 	uint8_t current_rule_index = 0;
 	uint8_t current_token = fbgc_lexer_rule_holder->token;
@@ -264,8 +265,6 @@ uint8_t regex_lexer(struct fbgc_object ** head_obj, const char *first_ptr){
 	uint8_t rule_section = 0;
 
 	uint8_t check;
-
-	struct fbgc_ll_object * head = cast_fbgc_object_as_ll(*head_obj);
 
 	for(;;){
 		#ifdef DEBUG
@@ -310,6 +309,7 @@ uint8_t regex_lexer(struct fbgc_object ** head_obj, const char *first_ptr){
 				if(first_ptr != mobile_ptr && satisfied_rule_section == rule_section && *rule_ptr == '\0'){
 					if(current_token != SPACE ){
 					//#ifdef DEBUG
+						
 						char * tempstr = (char *) malloc(sizeof(char) * ((mobile_ptr - first_ptr)+1) );
 						strncpy(tempstr,first_ptr,(mobile_ptr - first_ptr));
 						tempstr[(mobile_ptr - first_ptr)] = '\0';
@@ -317,7 +317,12 @@ uint8_t regex_lexer(struct fbgc_object ** head_obj, const char *first_ptr){
 						cprintf(101,"['%s' : %s]",tempstr, object_name_array[current_token] );
 						free(tempstr);
 					
-						head = push_back_fbgc_ll_object(head,new_fbgc_object_from_substr(first_ptr,mobile_ptr,current_token));
+						(cast_fbgc_object_as_field(*field_obj)->head) = 
+							push_back_fbgc_ll_object(
+								(cast_fbgc_object_as_field(*field_obj)->head),
+								 new_fbgc_object_from_substr(*field_obj,first_ptr,mobile_ptr,current_token)
+								);
+						if(current_token == WORD) print_fbgc_symbol_table((cast_fbgc_object_as_field(*field_obj)->global_table));
 						
 					//#endif
 					}

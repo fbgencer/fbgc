@@ -189,6 +189,7 @@ static const token_struct reserved_words_token_array[]={
 	{BREAK,"break"},
 	{CONT,"cont"},
 	{RETURN,"ret"},
+	{LOAD,"load"},
 	{JUMP,"jump"}
 };
 
@@ -231,10 +232,15 @@ fbgc_token get_reserved_word_code(const char *str){
 }
 
 fbgc_token get_reserved_word_code_from_substr(const char *str1, const char *str2){ 
-
+	
   for( 
   	const token_struct * ptr = reserved_words_token_array; 
-  	ptr < ( reserved_words_token_array + (sizeof(reserved_words_token_array)/sizeof(token_struct)) ); ptr++ ) 
-  	if(!memcmp(str1,ptr->name,str2-str1)) return ptr->tokencode;
+  	ptr < ( reserved_words_token_array + (sizeof(reserved_words_token_array)/sizeof(token_struct)) ); ptr++ ) {
+	  //	printf("ptr:%s s1:%s s2:%s result:%d\n",ptr->name,str1,str2,memcmp(str1,ptr->name,strlen(ptr->name)));
+	  	if(!memcmp(str1,ptr->name,strlen(ptr->name))){
+	  		return ptr->tokencode;
+	  	}
+ 	}
+
   return UNKNOWN;
 }

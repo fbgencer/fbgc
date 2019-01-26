@@ -141,7 +141,7 @@ const char * get_token_as_str(fbgc_token tok);
 
 
 #define is_fbgc_OPERATOR(T)(T>=OP && T<= RBRACK)
-#define is_fbgc_IDENTIFIER(T)(T>=IDENTIFIER && T<=FUN)
+#define is_fbgc_IDENTIFIER(T)(T>=IDENTIFIER && T<=REFERENCE)
 #define is_fbgc_ATOM(T)(T>= ATOM && T<=COMPLEX)
 #define is_fbgc_INT(T) (T == INT)
 #define is_fbgc_DOUBLE(T) (T == DOUBLE)
