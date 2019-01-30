@@ -65,25 +65,66 @@ fbgc_object * new_fbgc_object_from_substr(struct fbgc_object * field_obj,const c
 
 void print_fbgc_object(struct fbgc_object * self){
 	
-	switch(self->type){
-		case INT:
-			print_fbgc_int_object(self);
-		break;
-		case DOUBLE:
-			print_fbgc_double_object(self);
-		break;
-		case STRING:
-		case WORD:
-			print_fbgc_str_object(self);
-		break;
-		case REFERENCE:
-			print_fbgc_ref_object(self);
-		break;
-		default:
-			printf("\033[1;31m[%s]\033[0m\n",object_name_array[self->type]);  
-		break;
+	if(self != NULL){
 
+		switch(self->type){
+			case INT:
+				print_fbgc_int_object(self);
+			break;
+			case DOUBLE:
+				print_fbgc_double_object(self);
+			break;
+			case STRING:
+			case WORD:
+				print_fbgc_str_object(self);
+			break;
+			case REFERENCE:
+				print_fbgc_ref_object(self);
+			break;
+			default:
+				printf("\033[1;31m[%s]\033[0m\n",object_name_array[self->type]);  
+			break;
+
+		}
 	}
+}
+
+
+int convert_fbgc_object_to_int(struct fbgc_object * obj){
+
+	if(get_fbgc_object_type(obj) == INT) return cast_fbgc_object_as_int(obj)->content;
+	
+	if(obj != NULL){
+		switch(obj->type){
+			case DOUBLE: 
+				return (int)(cast_fbgc_object_as_double(obj)->content);
+			default :
+				cprintf(111,"Error at int conversion!\n");
+				return -1;					
+		}
+	} 
+	
+	return 0;
+}
+
+double convert_fbgc_object_to_double(struct fbgc_object * obj){
+	if(get_fbgc_object_type(obj) == DOUBLE) return cast_fbgc_object_as_double(obj)->content;
+
+
+	if(obj != NULL){
+		switch(obj->type){
+			case INT:
+				return (double)(cast_fbgc_object_as_int(obj)->content);
+			default :
+				cprintf(111,"Error at double conversion!\n");
+				return -1;	
+		}
+	}
+	return 0;
+}
+
+char * convert_fbgc_object_to_string(struct fbgc_object * obj){
+	;
 }
 
 void free_fbgc_object(struct fbgc_object * self){

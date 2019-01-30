@@ -42,6 +42,20 @@ int main(){
 	//head = parser(head); print_fbgc_ll_object(head,"Main");
 	free_fbgc_ll_object(head);*/
 
+   /* struct fbgc_object * a = new_fbgc_int_object(-10);
+    struct fbgc_object * b = new_fbgc_double_object(5.5);
+
+    struct fbgc_object * c = call_fbgc_binary_op(STAR,a,b);
+
+    print_fbgc_object(a);
+	print_fbgc_object(b);
+    print_fbgc_object(c);
+
+    free_fbgc_object(a);
+    free_fbgc_object(b);
+    free_fbgc_object(c);
+    */
+
 	struct fbgc_object * main_field = new_fbgc_field_object();
 
 
@@ -50,17 +64,17 @@ int main(){
     
     while (fgets(line, sizeof(line), input_file)){
     	if(line[0] == ':' && line[1] == '>') continue; 
-    	line[strlen(line)-1] = '\0';
+    	if(line[strlen(line)] == '\n') line[strlen(line)-1] = ';';
 		regex_lexer(&main_field,line);
-
-	    print_fbgc_ll_object(cast_fbgc_object_as_field(main_field)->head,"Main");
-		//parser(&main_field);  print_fbgc_ll_object(cast_fbgc_object_as_field(main_field)->head,"Main");
-
-				
     }
+
+    print_fbgc_ll_object(cast_fbgc_object_as_field(main_field)->head,"Main");
+	parser(&main_field);  print_fbgc_ll_object(cast_fbgc_object_as_field(main_field)->head,"Main");
+	interpreter(&main_field);
     fclose(input_file);
  	
  	free_fbgc_field_object(main_field);
+
 	cprintf(110,"[=======================================================================]\n\n\n\n\n\n"); 
 	return 0;
 }

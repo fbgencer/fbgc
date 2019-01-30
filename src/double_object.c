@@ -20,6 +20,44 @@ fbgc_object * new_fbgc_double_object_from_substr(const char * db_str_begin,const
   	return new_fbgc_double_object(strtod (db_str_begin, &db_str_end));
 }
 
+struct
+fbgc_object * add_fbgc_double_object(struct fbgc_object * a,struct fbgc_object * b){
+    //you have to check before calling this function, a and b must be double type 
+    double a1 = convert_fbgc_object_to_double(a);
+    double b1 = convert_fbgc_object_to_double(b);
+    
+    return new_fbgc_double_object(a1+b1);
+}
+
+struct
+fbgc_object * subtract_fbgc_double_object(struct fbgc_object * a,struct fbgc_object * b){
+    //you have to check before calling this function, a and b must be double type 
+    double a1 = convert_fbgc_object_to_double(a);
+    double b1 = convert_fbgc_object_to_double(b);
+    
+    return new_fbgc_double_object(a1-b1);
+}
+
+struct
+fbgc_object * multiply_fbgc_double_object(struct fbgc_object * a,struct fbgc_object * b){
+    //you have to check before calling this function, a and b must be double type 
+    double a1 = convert_fbgc_object_to_double(a);
+    double b1 = convert_fbgc_object_to_double(b);
+    
+    return new_fbgc_double_object(a1 * b1);
+}
+
+struct
+fbgc_object * divide_fbgc_double_object(struct fbgc_object * a,struct fbgc_object * b){
+    //you have to check before calling this function, a and b must be double type 
+    double a1 = convert_fbgc_object_to_double(a);
+    double b1 = convert_fbgc_object_to_double(b);
+    
+    //if b1 is 0 check before!!!!
+
+    return new_fbgc_double_object(a1 / b1);
+}
+
 
 void print_fbgc_double_object(struct fbgc_object * obj){
     struct fbgc_double_object * dbo = (struct fbgc_double_object*) obj;

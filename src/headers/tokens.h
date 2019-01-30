@@ -142,7 +142,7 @@ const char * get_token_as_str(fbgc_token tok);
 
 #define is_fbgc_OPERATOR(T)(T>=OP && T<= RBRACK)
 #define is_fbgc_IDENTIFIER(T)(T>=IDENTIFIER && T<=REFERENCE)
-#define is_fbgc_ATOM(T)(T>= ATOM && T<=COMPLEX)
+#define is_fbgc_ATOM(T)(T>= ATOM && T<=STRING)
 #define is_fbgc_INT(T) (T == INT)
 #define is_fbgc_DOUBLE(T) (T == DOUBLE)
 #define is_fbgc_STRING(T) (T == STRING)
@@ -156,12 +156,12 @@ const char * get_token_as_str(fbgc_token tok);
 
 #define is_fbgc_MATRIX(x)(x == MATRIX)
 
-#define is_fbgc_FUNCTIONABLE(x)(x == IF || x == ELIF || x == ELSE)
+#define is_fbgc_FUNCTIONABLE(x)(x == IF || x == ELIF || x == ELSE || x == WHILE || x == LOAD)
 
 #define is_fbgc_START(x)(x == START || x == BEGIN || x == IF_BEGIN)
 #define is_fbgc_LIST(x) (x == LIST)
 #define is_fbgc_PARA_EXPRESSION(x)(x == PARA_EXPRESSION)
-#define is_fbgc_EXPRESSION(x)(x == ATOM || x == EXPRESSION || x == UNARY_EXPRESSION ||x==BINARY_EXPRESSION||\
+#define is_fbgc_EXPRESSION(x)(x == ATOM || x == IDENTIFIER || x == REFERENCE || x == EXPRESSION || x == UNARY_EXPRESSION ||x==BINARY_EXPRESSION||\
 is_fbgc_PARA_EXPRESSION(x) || is_fbgc_MATRIX(x) || is_fbgc_LIST(x))
 
 #define is_fbgc_ASSIGNMENT(x)(x==ASSIGNMENT_EXPRESSION || x == PARA_ASSIGNMENT_EXPRESSION)

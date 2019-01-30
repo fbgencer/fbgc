@@ -187,13 +187,14 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 	{
 		gm->top = ATOM;
 	}
-	else if(  is_fbgc_IDENTIFIER(get_fbgc_object_type(obj))  
+	else if(  (is_fbgc_IDENTIFIER(get_fbgc_object_type(obj))  || get_fbgc_object_type(obj) == REFERENCE)
 		&& 
 		( is_fbgc_BINARY_OPERATOR(gm_left) || 
 			is_fbgc_UNARY_OPERATOR(gm_left)  || 
 			gm_left == UNBALANCED_EXPRESSION_LIST  || 
-			gm_left == LPARA ||
-			gm_left == LBRACK || gm_left == IF_BEGIN || gm_left == BEGIN || gm_left == ELSE || gm_left == SEMICOLON ||
+			gm_left == LPARA || is_fbgc_ASSIGNMENT_OPERATOR(gm_left) ||
+			gm_left == LBRACK || 
+			gm_left == IF_BEGIN || gm_left == BEGIN || gm_left == ELSE || gm_left == SEMICOLON ||
 			is_fbgc_START(gm_left) ))
 	{
 		gm->top = IDENTIFIER;
@@ -284,6 +285,9 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 		grammar_close_BEGIN_flag(gm->flag);
 		gm->top = START;
 	}
+	else if(get_fbgc_object_type(obj) == LOAD){
+		gm->top = START;
+	}
 	else{
 		cprintf(110,"ERROR\t");
 		cprintf(100,"Unexpected grammar for L:[%s], Ob:[%s] flag{0x%X}\n",object_name_array[gm_left],object_name_array[get_fbgc_object_type(obj)],gm->flag);
@@ -358,6 +362,9 @@ uint8_t gm_seek_right(struct fbgc_grammar * gm, struct fbgc_object * obj){
 	else if(get_fbgc_object_type(obj) == ELSE_BEGIN){
 		grammar_open_BEGIN_flag(gm->flag);
 		gm->top = ELSE_BEGIN;
+	}
+	else if(get_fbgc_object_type(obj) == LOAD && is_fbgc_ATOM(gm_right)){
+		;
 	}			
 	else {
 		cprintf(110,"ERROR\t");

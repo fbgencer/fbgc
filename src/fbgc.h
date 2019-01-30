@@ -23,14 +23,16 @@
 #include "headers/int_object.h"
 #include "headers/str_object.h"
 
-#include "headers/symbol_table.h"
+#include "headers/operator.h"
 
+#include "headers/symbol_table.h"
 #include "headers/field_object.h"
 
 
 #include "headers/relexer.h"
 #include "headers/grammar.h"
 #include "headers/parser.h"
+#include "headers/interpreter.h"
 
 
 

@@ -25,22 +25,21 @@ struct fbgc_object * new_fbgc_symbol_from_substr(struct fbgc_object * table_obj,
 		if(cmp == 0) {
 			//
 			cprintf(110,"Found in the symbol table!\n");
-			ref_obj = assign_fbgc_ref_object(ref_obj,&(cast_fbgc_object_as_str(table->symbols[i])->base));
-			break;
+			ref_obj = initialize_fbgc_ref_object(ref_obj,&(cast_fbgc_object_as_str(table->symbols[i])->base));
+			return (struct fbgc_object *) ref_obj;
 		}
 	}
-
-	if(cmp != 0){
-		struct fbgc_object * temp_obj =  new_fbgc_str_object_from_substr(str1,str2);
-		temp_obj->type = WORD;
-		//print_fbgc_str_object(temp_obj);
-		if(table->size > 0 && table->size % 2 == 0){
-			table->symbols = (struct fbgc_str_object **) realloc(table->symbols,sizeof(struct fbgc_str_object **)*(table->size+2));
-		}
-		table->symbols[table->size] = temp_obj;
-		ref_obj = assign_fbgc_ref_object(ref_obj,&(cast_fbgc_object_as_str(table->symbols[table->size])->base));
-		table->size++;
+	cprintf(110,"New symbol!!\n");
+	struct fbgc_object * temp_obj =  new_fbgc_str_object_from_substr(str1,str2);
+	temp_obj->type = WORD;
+	//print_fbgc_str_object(temp_obj);
+	if(table->size > 0 && table->size % 2 == 0){
+		table->symbols = (struct fbgc_str_object **) realloc(table->symbols,sizeof(struct fbgc_str_object **)*(table->size+2));
 	}
+	table->symbols[table->size] = temp_obj;
+	ref_obj = initialize_fbgc_ref_object(ref_obj,&(cast_fbgc_object_as_str(table->symbols[table->size])->base));
+	table->size++;
+	
 	return (struct fbgc_object *) ref_obj;
 }
 
@@ -54,7 +53,7 @@ uint8_t is_variable_in_sym_table_exist(struct fbgc_object * table,struct fbgc_ob
 void print_fbgc_symbol_table(struct fbgc_object * table_obj){
 	struct fbgc_symbol_table * table = (struct fbgc_symbol_table *) table_obj;
 	struct fbgc_str_object * temp_str = NULL;
-	cprintf(010,"\n+++++++++++++++++SYMBOL_TABLE++++++++++++++++\n");
+	cprintf(010,"[SYMBOL_TABLE]: ");
 	for(int i = 0; i<table->size; i++){
 		temp_str = cast_fbgc_object_as_str(table->symbols[i]);
 		cprintf(110,"{%s : ",temp_str->content);
@@ -64,19 +63,32 @@ void print_fbgc_symbol_table(struct fbgc_object * table_obj){
 		else cprintf(110,"NULL}\n");
 	}
 
-
-	cprintf(010,"++++++++++++++++++++++++++++++++++++++++++++++\n\n");
 }
-
+/*
+	x--->5
+	y----^
+*/
 
 void free_fbgc_symbol_table(struct fbgc_object * table_obj){
 	struct fbgc_symbol_table * table = (struct fbgc_symbol_table *) table_obj;
-
+	cprintf(011,"Free symbol table size :%d!\n",table->size);
 	for(uint8_t i = 0; i<table->size; i++ ){
 		if(cast_fbgc_object_as_str(table->symbols[i])->base.next != NULL){
-			free_fbgc_object(cast_fbgc_object_as_str(table->symbols[i])->base.next);
+			cprintf(011,"Base.next != NULL\n");
+			//actual object that is held by identifier
+			struct fbgc_object * temp = cast_fbgc_object_as_str(table->symbols[i])->base.next;
+
+			for(uint8_t q = i+1; q <(table->size) && cast_fbgc_object_as_str(table->symbols[q])->base.next != NULL; q++){
+				if( cast_fbgc_object_as_str(table->symbols[q])->base.next == temp){
+					cast_fbgc_object_as_str(table->symbols[q])->base.next = NULL;
+					cprintf(100,"Variables shows same object! var[%d]\n",q);
+				}
+
+			}
+			free_fbgc_object(temp);
 		}
-		free_fbgc_str_object( (struct fbgc_object *) table->symbols[i] );
+
+		free_fbgc_object( (struct fbgc_object *) table->symbols[i] );
 	}
 
 	free(table->symbols);

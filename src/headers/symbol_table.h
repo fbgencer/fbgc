@@ -11,7 +11,6 @@ struct fbgc_symbol_table{
 };
 
 
-
 struct fbgc_object * new_fbgc_symbol_table(void);
 struct fbgc_object * new_fbgc_symbol(struct fbgc_object * table,const char * str1,const char * str2);
 struct fbgc_object * get_fbgc_symbol(struct fbgc_object * var);

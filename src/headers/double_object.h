@@ -7,9 +7,22 @@ struct fbgc_double_object{
 };
 #define cast_fbgc_object_as_double(x)(((struct fbgc_double_object*) x))
 
+
+
 struct fbgc_object * new_fbgc_double_object(double);
 struct fbgc_object * new_fbgc_double_object_from_str(const char *);
 struct fbgc_object * new_fbgc_double_object_from_substr(const char *,const char *);
+
+struct
+fbgc_object * add_fbgc_double_object(struct fbgc_object * a,struct fbgc_object * b);
+struct
+fbgc_object * subtract_fbgc_double_object(struct fbgc_object * a,struct fbgc_object * b);
+struct
+fbgc_object * multiply_fbgc_double_object(struct fbgc_object * a,struct fbgc_object * b);
+struct
+fbgc_object * divide_fbgc_double_object(struct fbgc_object * a,struct fbgc_object * b);
+
+
 
 void print_fbgc_double_object(struct fbgc_object *);
 void free_fbgc_double_object(struct fbgc_object * );

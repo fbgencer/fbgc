@@ -57,7 +57,7 @@ static const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] =
 	{RBRACE,"}"},
 	{LBRACK,"["},
 	{RBRACK,"]"},		
-	{OP,"+|-|.|**|^|*|/|<|>|=|=>|<=|,|;!+"},	
+	{OP,"+|-|.|**|^|*|/|<|>|=>|<=|=|,|;|?!+"},	
 	{WORD,"_!w _!w!d!*"},
 };
 

@@ -12,6 +12,7 @@ fbgc_object * new_fbgc_int_object(int int_content){
 
 struct
 fbgc_object * new_fbgc_int_object_from_str(const char * int_str){
+
   	return new_fbgc_int_object(strtol(int_str,NULL,10));
 }
 
@@ -24,6 +25,43 @@ fbgc_object * new_fbgc_int_object_from_substr(const char * int_str_begin,const c
     return new_fbgc_int_object(strtol(int_str_begin, &int_str_end,base));
 }
 
+struct
+fbgc_object * add_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b){
+    //you have to check before calling this function, a and b must be int type 
+    int a1 = convert_fbgc_object_to_int(a);
+    int b1 = convert_fbgc_object_to_int(b);
+    
+    return new_fbgc_int_object(a1+b1);
+}
+
+struct
+fbgc_object * subtract_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b){
+    //you have to check before calling this function, a and b must be int type 
+    int a1 = convert_fbgc_object_to_int(a);
+    int b1 = convert_fbgc_object_to_int(b);
+    
+    return new_fbgc_int_object(a1-b1);
+}
+
+struct
+fbgc_object * multiply_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b){
+    //you have to check before calling this function, a and b must be int type 
+    int a1 = convert_fbgc_object_to_int(a);
+    int b1 = convert_fbgc_object_to_int(b);
+    
+    return new_fbgc_int_object(a1 * b1);
+}
+
+struct
+fbgc_object * divide_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b){
+    //you have to check before calling this function, a and b must be int type 
+    int a1 = convert_fbgc_object_to_int(a);
+    int b1 = convert_fbgc_object_to_int(b);
+    
+    //if b1 is 0 check before!!!!
+
+    return new_fbgc_int_object(a1 / b1);
+}
 
 void print_fbgc_int_object(struct fbgc_object * obj){
     struct fbgc_int_object * into = (struct fbgc_int_object*) obj;
@@ -35,5 +73,6 @@ void free_fbgc_int_object(struct fbgc_object * obj){
     #ifdef DEBUG
     	//fprintf(fbgc_log_file,"int Deleting..");
     #endif
-    free(into);
+    if(into != NULL)
+        free(into);
 }

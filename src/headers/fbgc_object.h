@@ -12,6 +12,12 @@ struct fbgc_object{
 struct fbgc_object * new_fbgc_object(fbgc_token);
 struct fbgc_object * new_fbgc_object_from_str(const char *str1,fbgc_token token);
 struct fbgc_object * new_fbgc_object_from_substr(struct fbgc_object * field,const char *str1,const char*str2, fbgc_token token);
+
+
+int convert_fbgc_object_to_int(struct fbgc_object * );
+double convert_fbgc_object_to_double(struct fbgc_object * );
+char * convert_fbgc_object_to_string(struct fbgc_object * );
+
 void print_fbgc_object(struct fbgc_object *);
 void free_fbgc_object(struct fbgc_object *);
 

@@ -8,10 +8,29 @@ struct fbgc_object * new_fbgc_ref_object(){
     return (struct fbgc_object*) refo;
 }
 
-struct fbgc_object * assign_fbgc_ref_object(struct fbgc_object *ref, struct fbgc_object * obj){
+struct fbgc_object * initialize_fbgc_ref_object(struct fbgc_object *ref, struct fbgc_object * obj){
 	struct fbgc_ref_object * refo = cast_fbgc_object_as_ref(ref);
 	refo->content = obj;
 	return (struct fbgc_object*) refo; 
+}
+
+struct fbgc_object * assign_var_to_fbgc_ref_object(struct fbgc_object *ref,struct fbgc_object * obj){
+	struct fbgc_ref_object * refo = cast_fbgc_object_as_ref(ref);
+	if(refo != NULL && refo->content != NULL){
+
+		if(refo->content->next != NULL) free_fbgc_object(refo->content->next);
+		refo->content->next = obj;
+	}else{
+		cprintf(100,"Undefined variable !\n");
+	}
+	return (struct fbgc_object*) refo; 	
+}
+
+struct fbgc_object * get_var_from_fbgc_ref_object(struct fbgc_object *ref){
+	if(ref != NULL && ref->type == REFERENCE){
+		return cast_fbgc_object_as_ref(ref)->content->next;
+	}
+	return (struct fbgc_object*) ref; 	
 }
 
 void print_fbgc_ref_object(struct fbgc_object * ref){
@@ -22,8 +41,7 @@ void print_fbgc_ref_object(struct fbgc_object * ref){
 	else cprintf(111,"NULL}");
 
 }
-
-
+ 
 
 void free_fbgc_ref_object(struct fbgc_object * refo){
 	//do not delete reference object, only delete yourself!

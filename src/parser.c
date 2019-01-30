@@ -6,7 +6,7 @@ uint8_t operator_precedence(fbgc_token T){
 	
 	switch(T){
 
-		case IF: return 25;
+		case IF:case LOAD: return 25;
 		case INC: case DECR: case UMINUS: case UPLUS: return 20;
 		case SLASH: case STAR: case MOD: case CARET: case STARSTAR: case SLASHSLASH: return 18;
 		case PLUS: case MINUS: case NOT_OP: return 16;
@@ -78,7 +78,8 @@ uint8_t parser(struct fbgc_object ** field_obj){
 			iter_prev = iter;
 			gm_error = gm_seek_left(&gm,iter);
 		}
-		else if(is_fbgc_OPERATOR(iter->type) || is_fbgc_FUNCTIONABLE(iter->type) || iter->type == IF_BEGIN || iter->type == ELSE_BEGIN ||
+		else if(is_fbgc_OPERATOR(iter->type) || is_fbgc_FUNCTIONABLE(iter->type) 
+			|| iter->type == IF_BEGIN || iter->type == ELSE_BEGIN ||
 			iter->type == BEGIN || iter->type == END){
 			
 			//take the op object from main list and connect previous one to the next one 
