@@ -115,6 +115,7 @@ const char * object_name_array[]={
 	"PARA_ASSIGNMENT_EXPRESSION",
 	"PARA_BALANCED_EXPR_LIST",
 	"PARA_IDENTIFIER_LIST",
+	"PREPROCESSOR",
 };
 
 

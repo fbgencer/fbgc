@@ -29,7 +29,7 @@ struct fbgc_object * new_fbgc_symbol_from_substr(struct fbgc_object * table_obj,
 			return (struct fbgc_object *) ref_obj;
 		}
 	}
-	cprintf(110,"New symbol!!\n");
+	//cprintf(110,"New symbol!!\n");
 	struct fbgc_object * temp_obj =  new_fbgc_str_object_from_substr(str1,str2);
 	temp_obj->type = WORD;
 	//print_fbgc_str_object(temp_obj);
@@ -40,6 +40,9 @@ struct fbgc_object * new_fbgc_symbol_from_substr(struct fbgc_object * table_obj,
 	ref_obj = initialize_fbgc_ref_object(ref_obj,&(cast_fbgc_object_as_str(table->symbols[table->size])->base));
 	table->size++;
 	
+	//cprintf(100,"Succesfully added in the symbol table\n");
+	//print_fbgc_symbol_table(table_obj);
+
 	return (struct fbgc_object *) ref_obj;
 }
 
@@ -49,6 +52,15 @@ struct fbgc_object * get_fbgc_symbol(struct fbgc_object * var);
 uint8_t is_variable_in_sym_table_exist(struct fbgc_object * table,struct fbgc_object * var){
 
 }
+
+struct fbgc_object * load_module_in_symbol_table(struct fbgc_object * table_obj,struct fbgc_object * module){
+	struct fbgc_symbol_table * table = (struct fbgc_symbol_table *) table_obj;
+	//first seek in our C modules
+	//after search .fbgc modules!
+
+	
+}
+
 
 void print_fbgc_symbol_table(struct fbgc_object * table_obj){
 	struct fbgc_symbol_table * table = (struct fbgc_symbol_table *) table_obj;
@@ -64,10 +76,6 @@ void print_fbgc_symbol_table(struct fbgc_object * table_obj){
 	}
 
 }
-/*
-	x--->5
-	y----^
-*/
 
 void free_fbgc_symbol_table(struct fbgc_object * table_obj){
 	struct fbgc_symbol_table * table = (struct fbgc_symbol_table *) table_obj;
@@ -81,7 +89,7 @@ void free_fbgc_symbol_table(struct fbgc_object * table_obj){
 			for(uint8_t q = i+1; q <(table->size) && cast_fbgc_object_as_str(table->symbols[q])->base.next != NULL; q++){
 				if( cast_fbgc_object_as_str(table->symbols[q])->base.next == temp){
 					cast_fbgc_object_as_str(table->symbols[q])->base.next = NULL;
-					cprintf(100,"Variables shows same object! var[%d]\n",q);
+					//cprintf(100,"Variables shows same object! var[%d]\n",q);
 				}
 
 			}

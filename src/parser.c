@@ -53,7 +53,7 @@ uint8_t compare_operators(fbgc_token stack_top, fbgc_token obj_type){
 }
 
 
-#define is_pushable_in_main(x)(!is_fbgc_PARA(x) && x!= END && x!=IF_BEGIN && x!=ELSE_BEGIN && x!= SEMICOLON)
+#define is_pushable_in_main(x)(!is_fbgc_PARA(x) && x!= END && x!=IF_BEGIN && x!=ELSE_BEGIN && x!= SEMICOLON && x!= LOAD)
 
 uint8_t parser(struct fbgc_object ** field_obj){
 	
@@ -71,7 +71,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 
 
 
-	for(int i = 0; i<300 && (iter != head->tail); i++){
+	for(int i = 0; i<3000 && (iter != head->tail); i++){
 
 		cprintf(010,"----------------------[%d] = {%s}-----------------------\n",i,object_name_array[iter->type]);
 		if(is_fbgc_ATOM(iter->type) || iter->type == REFERENCE){
@@ -80,7 +80,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 		}
 		else if(is_fbgc_OPERATOR(iter->type) || is_fbgc_FUNCTIONABLE(iter->type) 
 			|| iter->type == IF_BEGIN || iter->type == ELSE_BEGIN ||
-			iter->type == BEGIN || iter->type == END){
+			iter->type == BEGIN || iter->type == END || iter->type == LOAD){
 			
 			//take the op object from main list and connect previous one to the next one 
 			//[H]->[2]->[+]->[3] => [H]->[2]->[3], now iter shows the operator iter->next is [3] but we will change that too 
@@ -138,6 +138,11 @@ uint8_t parser(struct fbgc_object ** field_obj){
 					}
 					else if(iter->type == IF_BEGIN && get_fbgc_object_type(top_fbgc_ll_object(op_stack_head)) == ELSE_BEGIN){
 						//cprintf(111,"LAN\n");
+						break;
+					}
+					else if(iter->type == SEMICOLON && get_fbgc_object_type(top_fbgc_ll_object(op_stack_head)) == LOAD ){
+						cprintf(011,"seek_library_and_add!\n");
+						//seek_library_and_add(iter);
 						break;
 					}					
 					else {
@@ -213,6 +218,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 				}
 			}
 			else if(iter->type == SEMICOLON){
+				cprintf(010,"Haha semicolon\n");
 				free_fbgc_object(iter);
 				iter  = iter_prev->next;
 				head->size--;				
@@ -243,6 +249,9 @@ uint8_t parser(struct fbgc_object ** field_obj){
 	}
 
 	END_OF_THE_PARSER:
+
+	//make the linked list connection proper
+	head->tail->next = iter_prev;
 
 	free_fbgc_ll_object(op_stack_head);
 	

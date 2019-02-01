@@ -185,7 +185,7 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 			gm_left == LBRACK || gm_left == IF_BEGIN || gm_left == BEGIN || gm_left == ELSE || gm_left == SEMICOLON ||
 			is_fbgc_START(gm_left) ) )
 	{
-		gm->top = ATOM;
+		gm->top =get_fbgc_object_type(obj);
 	}
 	else if(  (is_fbgc_IDENTIFIER(get_fbgc_object_type(obj))  || get_fbgc_object_type(obj) == REFERENCE)
 		&& 
@@ -204,7 +204,7 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 			is_fbgc_UNARY_OPERATOR(gm_left)  ||
 			is_fbgc_ASSIGNMENT_OPERATOR(gm_left) ||
 		 	gm_left == UNBALANCED_EXPRESSION_LIST || 
-		 	gm_left == LPARA || gm_left == IF || gm_left == ELIF ||
+		 	gm_left == LPARA || gm_left == IF || gm_left == ELIF || gm_left == LOAD || 
 		 	is_fbgc_START(gm_left) ))
 	{	
 		//just valid do not touch the top
@@ -285,8 +285,11 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 		grammar_close_BEGIN_flag(gm->flag);
 		gm->top = START;
 	}
-	else if(get_fbgc_object_type(obj) == LOAD){
-		gm->top = START;
+	else if(get_fbgc_object_type(obj) == LOAD && gm_left == START){
+		gm->top = LOAD;
+	}
+	else if(get_fbgc_object_type(obj) == STRING && gm_left == LOAD){
+		gm->top = PREPROCESSOR; //is it ?
 	}
 	else{
 		cprintf(110,"ERROR\t");
@@ -363,8 +366,8 @@ uint8_t gm_seek_right(struct fbgc_grammar * gm, struct fbgc_object * obj){
 		grammar_open_BEGIN_flag(gm->flag);
 		gm->top = ELSE_BEGIN;
 	}
-	else if(get_fbgc_object_type(obj) == LOAD && is_fbgc_ATOM(gm_right)){
-		;
+	else if(get_fbgc_object_type(obj) == LOAD && gm_right == PREPROCESSOR){
+		gm->top = STATEMENT;
 	}			
 	else {
 		cprintf(110,"ERROR\t");

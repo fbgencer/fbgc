@@ -59,18 +59,22 @@ int main(){
 	struct fbgc_object * main_field = new_fbgc_field_object();
 
 
-	char line[100];
+	char line[50] = {0};
 	FILE *input_file = fopen("ex.fbgc","r");
     
     while (fgets(line, sizeof(line), input_file)){
     	if(line[0] == ':' && line[1] == '>') continue; 
-    	if(line[strlen(line)] == '\n') line[strlen(line)-1] = ';';
+    	//if(line[strlen(line)] == '\n') line[strlen(line)-1] = ';';
+    	//if(line[strlen(line)] != ';') line[strlen(line)] = ';';
 		regex_lexer(&main_field,line);
+	    print_fbgc_ll_object(cast_fbgc_object_as_field(main_field)->head,"Main");	
+		parser(&main_field);  print_fbgc_ll_object(cast_fbgc_object_as_field(main_field)->head,"Main");	
+		interpreter(&main_field);    	
     }
 
-    print_fbgc_ll_object(cast_fbgc_object_as_field(main_field)->head,"Main");
-	parser(&main_field);  print_fbgc_ll_object(cast_fbgc_object_as_field(main_field)->head,"Main");
-	interpreter(&main_field);
+    
+	
+	
     fclose(input_file);
  	
  	free_fbgc_field_object(main_field);

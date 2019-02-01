@@ -123,6 +123,7 @@ typedef struct {
 #define PARA_ASSIGNMENT_EXPRESSION 110
 #define PARA_BALANCED_EXPR_LIST 111
 #define PARA_IDENTIFIER_LIST 112
+#define	PREPROCESSOR 113
 
 
 extern const char * object_name_array[];
@@ -156,12 +157,12 @@ const char * get_token_as_str(fbgc_token tok);
 
 #define is_fbgc_MATRIX(x)(x == MATRIX)
 
-#define is_fbgc_FUNCTIONABLE(x)(x == IF || x == ELIF || x == ELSE || x == WHILE || x == LOAD)
+#define is_fbgc_FUNCTIONABLE(x)(x == IF || x == ELIF || x == ELSE || x == WHILE)
 
 #define is_fbgc_START(x)(x == START || x == BEGIN || x == IF_BEGIN)
 #define is_fbgc_LIST(x) (x == LIST)
 #define is_fbgc_PARA_EXPRESSION(x)(x == PARA_EXPRESSION)
-#define is_fbgc_EXPRESSION(x)(x == ATOM || x == IDENTIFIER || x == REFERENCE || x == EXPRESSION || x == UNARY_EXPRESSION ||x==BINARY_EXPRESSION||\
+#define is_fbgc_EXPRESSION(x)(is_fbgc_ATOM(x) || x == IDENTIFIER || x == REFERENCE || x == EXPRESSION || x == UNARY_EXPRESSION ||x==BINARY_EXPRESSION||\
 is_fbgc_PARA_EXPRESSION(x) || is_fbgc_MATRIX(x) || is_fbgc_LIST(x))
 
 #define is_fbgc_ASSIGNMENT(x)(x==ASSIGNMENT_EXPRESSION || x == PARA_ASSIGNMENT_EXPRESSION)

@@ -59,6 +59,7 @@ static const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] =
 	{RBRACK,"]"},		
 	{OP,"+|-|.|**|^|*|/|<|>|=>|<=|=|,|;|?!+"},	
 	{WORD,"_!w _!w!d!*"},
+	//{PREPROCESSOR, "#load"},
 };
 
 #define RULE_NUMBER sizeof(fbgc_lexer_rule_holder)/sizeof(fbgc_lexer_rule_struct)

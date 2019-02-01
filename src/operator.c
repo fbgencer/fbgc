@@ -21,6 +21,9 @@
 
 struct fbgc_object * fbgc_binary_add(struct fbgc_object * a, struct fbgc_object * b){
 
+
+	if(a == NULL || b == NULL) return NULL;
+
 	fbgc_token tok_ab = 
 	(get_fbgc_object_type(a) > get_fbgc_object_type(b)) ? 
 	get_fbgc_object_type(a) : 
@@ -46,6 +49,8 @@ struct fbgc_object * fbgc_binary_add(struct fbgc_object * a, struct fbgc_object 
 
 struct fbgc_object * fbgc_binary_minus(struct fbgc_object * a, struct fbgc_object * b){
 	
+	if(a == NULL || b == NULL) return NULL;
+
 	fbgc_token tok_ab = 
 	(get_fbgc_object_type(a) > get_fbgc_object_type(b)) ? 
 	get_fbgc_object_type(a) : 
@@ -71,6 +76,8 @@ struct fbgc_object * fbgc_binary_minus(struct fbgc_object * a, struct fbgc_objec
 
 struct fbgc_object * fbgc_binary_star(struct fbgc_object * a, struct fbgc_object * b){
 	
+	if(a == NULL || b == NULL) return NULL;
+
 	fbgc_token tok_ab = 
 	(get_fbgc_object_type(a) > get_fbgc_object_type(b)) ? 
 	get_fbgc_object_type(a) : 
@@ -97,6 +104,9 @@ struct fbgc_object * fbgc_binary_star(struct fbgc_object * a, struct fbgc_object
 
 struct fbgc_object * fbgc_binary_slash(struct fbgc_object * a, struct fbgc_object * b){
 	
+	
+	if(a == NULL || b == NULL) return NULL;
+
 	fbgc_token tok_ab = 
 	(get_fbgc_object_type(a) > get_fbgc_object_type(b)) ? 
 	get_fbgc_object_type(a) : 

@@ -10,7 +10,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 	struct fbgc_object * stack = new_fbgc_ll_object(STACK);
 	
 
-	for(int i = 0; i<100 && (iter != head->tail); i++){
+	for(int i = 0; i<1000 && (iter != head->tail); i++){
 		cprintf(010,"----------------------[%d] = {%s}-----------------------\n",i,object_name_array[iter->type]);
 		if(is_fbgc_ATOM(get_fbgc_object_type(iter))){
 
@@ -28,18 +28,27 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			struct fbgc_object * o1 = top_fbgc_ll_object(stack);
 			stack = pop_front_fbgc_ll_object(stack);
 
-			stack = push_front_fbgc_ll_object(
-				stack,
-				call_fbgc_binary_op(
+
+			struct fbgc_object * res = call_fbgc_binary_op(
 					get_fbgc_object_type(iter),
 					get_var_from_fbgc_ref_object(o1),
-					get_var_from_fbgc_ref_object(o2))
-				);
-			iter_prev->next = iter->next;
+					get_var_from_fbgc_ref_object(o2));
 
-			free_fbgc_object(o1);
-			free_fbgc_object(o2);
-			free_fbgc_object(iter);
+			if(res != NULL) {
+				stack = push_front_fbgc_ll_object(stack,res);
+				iter_prev->next = iter->next;
+
+				free_fbgc_object(o1);
+				free_fbgc_object(o2);
+				free_fbgc_object(iter);				
+			}
+			else {
+				cprintf(100,"Error undefined identifier!\n");
+				free_fbgc_object(o1);
+				free_fbgc_object(o2);				
+				break;
+
+			}
 
 		}
 		else if(is_fbgc_ASSIGNMENT_OPERATOR(get_fbgc_object_type(iter))){
@@ -68,6 +77,9 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 		print_fbgc_symbol_table(cast_fbgc_object_as_field(*field_obj)->global_table);
 		cprintf(111,"-------------------------------------------\n");
 	}
+
+	//make the linked list connection proper
+	head->tail->next = iter_prev;
 
 
 	free_fbgc_ll_object(stack);

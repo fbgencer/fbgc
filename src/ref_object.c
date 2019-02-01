@@ -27,7 +27,10 @@ struct fbgc_object * assign_var_to_fbgc_ref_object(struct fbgc_object *ref,struc
 }
 
 struct fbgc_object * get_var_from_fbgc_ref_object(struct fbgc_object *ref){
-	if(ref != NULL && ref->type == REFERENCE){
+	if(ref == NULL){
+		cprintf(100,"Error reference object is not defined !\n");
+	}
+	else if(ref->type == REFERENCE){
 		return cast_fbgc_object_as_ref(ref)->content->next;
 	}
 	return (struct fbgc_object*) ref; 	
