@@ -1,6 +1,10 @@
 #ifndef GRAMMAR_H
 #define GRAMMAR_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 //this is not an object no need to derive from base object 
 struct fbgc_grammar{
 	uint8_t flag; // From LSB to MSB LPARA|LBRACK|LBRACE|BEGIN
@@ -45,7 +49,9 @@ uint8_t grammar_seek_right(struct fbgc_object * grammar_stack,struct fbgc_object
 void grammar_stack_print(struct fbgc_object * grammar_stack);
 
 
-
+#ifdef  __cplusplus
+}
+#endif
 
 
 #endif

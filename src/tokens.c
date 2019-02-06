@@ -1,12 +1,11 @@
 #include "fbgc.h"
 
-
 const char * object_name_array[]={
 	"UNKNOWN",
 	"ATOM",
 	"INT",
-	"HEX",
-	"BIN",
+	"INT16",
+	"INT2",
 	"DOUBLE",
 	"COMPLEX",
 	"STRING",
@@ -122,7 +121,7 @@ const char * object_name_array[]={
 
 
 
-static const token_struct operator_token_array[]={
+const token_struct operator_token_array[]={
 	{LPARA,"("},
 	{RPARA,")"},
 	{LBRACE,"{"},
@@ -179,7 +178,7 @@ static const token_struct operator_token_array[]={
 
 };
 
-static const token_struct reserved_words_token_array[]={
+const token_struct reserved_words_token_array[]={
 	{IF,"if"},
 	{ELSE,"else"},
 	{ELIF,"elif"},
@@ -193,7 +192,6 @@ static const token_struct reserved_words_token_array[]={
 	{LOAD,"load"},
 	{JUMP,"jump"}
 };
-
 
 
 const char * get_token_as_str(fbgc_token tok){

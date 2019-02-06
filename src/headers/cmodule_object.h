@@ -3,8 +3,17 @@
 
 /*
 	module name : math
-	module functions
-	
+	module functions : sin,cos...
+	module constant	: pi, e,
 */
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
+#ifdef  __cplusplus
+}
+#endif
 
 #endif

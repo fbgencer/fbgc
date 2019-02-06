@@ -1,6 +1,10 @@
 #ifndef FBGC_STR_OBJECTH
 #define FBGC_STR_OBJECTH
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 struct fbgc_str_object{
     struct fbgc_object base;
     char * content;
@@ -14,6 +18,8 @@ void print_fbgc_str_object(struct fbgc_object *);
 void free_fbgc_str_object(struct fbgc_object * );
 
 
-
+#ifdef  __cplusplus
+}
+#endif
 
 #endif

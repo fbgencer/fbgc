@@ -19,7 +19,7 @@
 
 */
 
-struct fbgc_object * fbgc_binary_add(struct fbgc_object * a, struct fbgc_object * b){
+struct fbgc_object * fbgc_binary_plus(struct fbgc_object * a, struct fbgc_object * b){
 
 
 	if(a == NULL || b == NULL) return NULL;
@@ -132,13 +132,6 @@ struct fbgc_object * fbgc_binary_slash(struct fbgc_object * a, struct fbgc_objec
 
 
 
-struct fbgc_object * (*fbgc_binary_op[])(struct fbgc_object *, struct fbgc_object *) =
-{
-	fbgc_binary_add,
-	fbgc_binary_minus,
-	fbgc_binary_star,
-	fbgc_binary_slash
-};
 
 
 
@@ -158,7 +151,15 @@ void fbgc_assignment_assign(struct fbgc_object * a, struct fbgc_object * b ){
 }
 
 
-void (*fbgc_assignment_op[])(struct fbgc_object *, struct fbgc_object *) =
+
+struct fbgc_object * (*fbgc_binary_op[4])(struct fbgc_object *, struct fbgc_object *) =
+{
+	fbgc_binary_plus,
+	fbgc_binary_minus,
+	fbgc_binary_star,
+	fbgc_binary_slash
+};
+void (*fbgc_assignment_op[1])(struct fbgc_object *, struct fbgc_object *) =
 {
 	fbgc_assignment_assign,
 };

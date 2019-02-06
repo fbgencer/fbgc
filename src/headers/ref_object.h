@@ -1,6 +1,10 @@
 #ifndef FBGC_REF_OBJECTH
 #define FBGC_REF_OBJECTH
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 struct fbgc_ref_object{
     struct fbgc_object base;
    	struct fbgc_object * content;
@@ -17,6 +21,8 @@ void print_fbgc_ref_object(struct fbgc_object * ref);
 
 void free_fbgc_ref_object(struct fbgc_object * refo);
 
-
+#ifdef  __cplusplus
+}
+#endif
 
 #endif

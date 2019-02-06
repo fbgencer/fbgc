@@ -1,6 +1,9 @@
 #ifndef FBGC_H
 #define FBGC_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #include <stdlib.h>
 #include <inttypes.h>
@@ -34,6 +37,8 @@
 #include "headers/parser.h"
 #include "headers/interpreter.h"
 
-
+#ifdef  __cplusplus
+}
+#endif
 
 #endif

@@ -1,6 +1,9 @@
 #ifndef FBGC_INT_OBJECTH
 #define FBGC_INT_OBJECTH
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 struct fbgc_int_object{
     struct fbgc_object base;
@@ -27,6 +30,8 @@ void print_fbgc_int_object(struct fbgc_object *);
 void free_fbgc_int_object(struct fbgc_object * );
 
 
-
+#ifdef  __cplusplus
+}
+#endif
 
 #endif

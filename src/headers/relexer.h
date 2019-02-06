@@ -1,6 +1,10 @@
 #ifndef RELEXER_H
 #define RELEXER_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct{
 	const char * char_match_begin;
 	uint8_t char_match_end;
@@ -32,15 +36,15 @@ typedef struct{
 
 
 
-static const token_table_struct lexer_table[1];
+extern const token_table_struct lexer_table[1];
 #define TOKEN_TABLE_SIZE sizeof(lexer_table)/sizeof(token_table_struct)
-	
 
 //==========================================================================
 
 
-static const fbgc_lexer_rule_struct fbgc_lexer_rule_holder[];
+extern const fbgc_lexer_rule_struct fbgc_lexer_rule_holder[];
 #define RULE_NUMBER sizeof(fbgc_lexer_rule_holder)/sizeof(fbgc_lexer_rule_struct)
+
 
 
 void pretty_print_pointer(const char *buffer ,const char * ptr);
@@ -186,6 +190,9 @@ x == '#' ? 0x04:0;})
 #define SET_METACHAR_TABLE_FLAG_OPEN(x)( x |= 0b00001000)
 */
 
+#ifdef  __cplusplus
+}
+#endif
 
 #endif
 

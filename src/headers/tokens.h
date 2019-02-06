@@ -1,6 +1,9 @@
 #ifndef TOKENS_H
 #define TOKENS_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef uint8_t fbgc_token;
 
@@ -13,8 +16,8 @@ typedef struct {
 #define UNKNOWN 0
 #define ATOM 1
 #define INT 2
-#define HEX 3
-#define BIN 4
+#define INT16 3
+#define INT2 4
 #define DOUBLE 5
 #define COMPLEX 6
 #define STRING 7
@@ -125,11 +128,9 @@ typedef struct {
 #define PARA_IDENTIFIER_LIST 112
 #define	PREPROCESSOR 113
 
-
 extern const char * object_name_array[];
-
-static const token_struct operator_token_array[];
-static const token_struct reserved_words_token_array[];
+extern const token_struct operator_token_array[];
+extern const token_struct reserved_words_token_array[];
 
 
 fbgc_token get_operator_code(const char *str);
@@ -167,6 +168,17 @@ is_fbgc_PARA_EXPRESSION(x) || is_fbgc_MATRIX(x) || is_fbgc_LIST(x))
 
 #define is_fbgc_ASSIGNMENT(x)(x==ASSIGNMENT_EXPRESSION || x == PARA_ASSIGNMENT_EXPRESSION)
 #define is_fbgc_STATEMENT(x)(x == STATEMENT || is_fbgc_EXPRESSION(x) || is_fbgc_ASSIGNMENT(x))
+
+
+
+#ifdef  __cplusplus
+}
+#endif
+
+
+
+
+
 
 
 

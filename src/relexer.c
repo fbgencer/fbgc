@@ -20,7 +20,7 @@ Complex 4	0	0	0	0
 
 //#define DEBUG
 
-static const token_table_struct lexer_table[1] = 
+const token_table_struct lexer_table[1] = 
 {
 	{
 		.input_size = 4,
@@ -35,16 +35,13 @@ static const token_table_struct lexer_table[1] =
 		},
 		.tokens = (const fbgc_token[]){INT,DOUBLE,DOUBLE,COMPLEX}
 	}	
-};
-/*
+};	
 
-*/
-
-static const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] = 
+const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] = 
 {
 	{SPACE,"!+!s"},
-	{BIN,"0b 1|0!+"},
-	{HEX,"0x !x!+"},
+	{INT2,"0b 1|0!+"},
+	{INT16,"0x !x!+"},
 	{STRING,"' _!s!d!w!* '"},
 	{COMPLEX,"!d!+ . !d!+ j"},
 	{COMPLEX,"!d!+ j"}, 
@@ -62,18 +59,22 @@ static const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] =
 	//{PREPROCESSOR, "#load"},
 };
 
-#define RULE_NUMBER sizeof(fbgc_lexer_rule_holder)/sizeof(fbgc_lexer_rule_struct)
 
+
+
+#ifdef DEBUG
 
 void pretty_print_pointer(const char *buffer ,const char * ptr){
-	int where = ptr-buffer;
-	for (int i = 0; i < strlen(buffer); ++i){
+	unsigned int where = ptr-buffer;
+	for (unsigned int i = 0; i < strlen(buffer); ++i){
 		if(i== where) printf("[");
 		cprintf(110,"%c",*(buffer+i));
 		if(i== where) printf("]");
 	}
 	printf("\n");	
 }
+
+#endif
 
 
 

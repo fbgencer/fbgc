@@ -1,7 +1,9 @@
 #ifndef OPERATOR_H
 #define OPERATOR_H
 
-
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 struct fbgc_object * fbgc_binary_plus(struct fbgc_object *, struct fbgc_object *);
 struct fbgc_object * fbgc_binary_minus(struct fbgc_object *, struct fbgc_object *);
@@ -11,8 +13,9 @@ struct fbgc_object * fbgc_binary_slash(struct fbgc_object *, struct fbgc_object 
 void fbgc_assignment_assign(struct fbgc_object *, struct fbgc_object *);
 
 
-struct fbgc_object * (*fbgc_binary_op[])(struct fbgc_object *, struct fbgc_object *);
-void (*fbgc_assignment_op[])(struct fbgc_object *, struct fbgc_object *);
+extern struct fbgc_object * (*fbgc_binary_op[4])(struct fbgc_object *, struct fbgc_object *);
+extern void (*fbgc_assignment_op[1])(struct fbgc_object *, struct fbgc_object *);
+
 
 
 // usage of this call definition is just calling binary function from its token
@@ -22,5 +25,11 @@ void (*fbgc_assignment_op[])(struct fbgc_object *, struct fbgc_object *);
 
 #define call_fbgc_binary_op(token,a,b)(fbgc_binary_op[token - PLUS](a,b))
 #define call_fbgc_assignment_op(token,a,b)(fbgc_assignment_op[token - ASSIGN](a,b))
+
+
+#ifdef  __cplusplus
+}
+#endif
+
 
 #endif

@@ -72,7 +72,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 		iter = iter_prev->next;
 		
-		print_fbgc_ll_object(head,"Main");
+		print_fbgc_ll_object(cast_fbgc_object_as_field(*field_obj)->head,"Main");
 		print_fbgc_ll_object(stack,"Stack");
 		print_fbgc_symbol_table(cast_fbgc_object_as_field(*field_obj)->global_table);
 		cprintf(111,"-------------------------------------------\n");

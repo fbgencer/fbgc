@@ -12,13 +12,13 @@ fbgc_object * new_fbgc_object(fbgc_token token){
 
 
 struct
-fbgc_object * new_fbgc_object_from_substr(struct fbgc_object * field_obj,const char *str1,const char*str2, fbgc_token token){
+fbgc_object * new_fbgc_object_from_substr(struct fbgc_object * field_obj,const char *str1, const char*str2, fbgc_token token){
 	struct fbgc_object *obj = NULL;
 
 	switch(token){
 		case INT: 
-		case BIN:
-		case HEX:
+		case INT2:
+		case INT16:
 					obj = new_fbgc_int_object_from_substr(str1,str2,token);
 					break;
 		
@@ -65,7 +65,7 @@ fbgc_object * new_fbgc_object_from_substr(struct fbgc_object * field_obj,const c
 
 void print_fbgc_object(struct fbgc_object * self){
 	
-	if(self != NULL){
+	if(self != NULL){ 
 
 		switch(self->type){
 			case INT:
@@ -123,9 +123,6 @@ double convert_fbgc_object_to_double(struct fbgc_object * obj){
 	return 0;
 }
 
-char * convert_fbgc_object_to_string(struct fbgc_object * obj){
-	;
-}
 
 void free_fbgc_object(struct fbgc_object * self){
 	if(self->type == STRING || self->type == WORD) free_fbgc_str_object(self);

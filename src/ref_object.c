@@ -37,7 +37,7 @@ struct fbgc_object * get_var_from_fbgc_ref_object(struct fbgc_object *ref){
 }
 
 void print_fbgc_ref_object(struct fbgc_object * ref){
-	struct fbgc_str_object * obj = cast_fbgc_object_as_ref(ref)->content;
+	struct fbgc_str_object * obj = (struct fbgc_str_object *)(cast_fbgc_object_as_ref(ref)->content);
 	cprintf(100,"{%s",obj->content);
 	cprintf(111,":");
 	if(obj->base.next != NULL) print_fbgc_object(obj->base.next);

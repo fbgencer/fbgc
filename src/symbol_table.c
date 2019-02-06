@@ -7,7 +7,7 @@ struct fbgc_object * new_fbgc_symbol_table(void){
     table->base.next = NULL;
     table->size = 0;
 
-    table->symbols = (struct fbgc_str_object **) malloc(sizeof(struct fbgc_str_object **) * 2);
+    table->symbols = (struct fbgc_object **) malloc(sizeof(struct fbgc_str_object **) * 2);
     table->symbols[0] = NULL;
 	table->symbols[1] = NULL;
     return (struct fbgc_object*) table;
@@ -34,7 +34,7 @@ struct fbgc_object * new_fbgc_symbol_from_substr(struct fbgc_object * table_obj,
 	temp_obj->type = WORD;
 	//print_fbgc_str_object(temp_obj);
 	if(table->size > 0 && table->size % 2 == 0){
-		table->symbols = (struct fbgc_str_object **) realloc(table->symbols,sizeof(struct fbgc_str_object **)*(table->size+2));
+		table->symbols = (struct fbgc_object **) realloc(table->symbols,sizeof(struct fbgc_str_object **)*(table->size+2));
 	}
 	table->symbols[table->size] = temp_obj;
 	ref_obj = initialize_fbgc_ref_object(ref_obj,&(cast_fbgc_object_as_str(table->symbols[table->size])->base));
@@ -48,11 +48,7 @@ struct fbgc_object * new_fbgc_symbol_from_substr(struct fbgc_object * table_obj,
 
 struct fbgc_object * get_fbgc_symbol(struct fbgc_object * var);
 
-
-uint8_t is_variable_in_sym_table_exist(struct fbgc_object * table,struct fbgc_object * var){
-
-}
-
+/*
 struct fbgc_object * load_module_in_symbol_table(struct fbgc_object * table_obj,struct fbgc_object * module){
 	struct fbgc_symbol_table * table = (struct fbgc_symbol_table *) table_obj;
 	//first seek in our C modules
@@ -60,7 +56,7 @@ struct fbgc_object * load_module_in_symbol_table(struct fbgc_object * table_obj,
 
 	
 }
-
+*/
 
 void print_fbgc_symbol_table(struct fbgc_object * table_obj){
 	struct fbgc_symbol_table * table = (struct fbgc_symbol_table *) table_obj;

@@ -1,6 +1,10 @@
 #ifndef FIELD_OBJECT_H
 #define FIELD_OBJECT_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 struct fbgc_field_object{
 	struct fbgc_object base;
 	struct fbgc_object * head; // main tree list, it's a linked list object
@@ -13,4 +17,10 @@ struct fbgc_field_object{
 
 struct fbgc_object * new_fbgc_field_object(void);
 void free_fbgc_field_object(struct fbgc_object * field_obj);
+
+
+#ifdef  __cplusplus
+}
+#endif
+
 #endif

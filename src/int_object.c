@@ -19,10 +19,12 @@ fbgc_object * new_fbgc_int_object_from_str(const char * int_str){
 struct
 fbgc_object * new_fbgc_int_object_from_substr(const char * int_str_begin,const char * int_str_end,fbgc_token base){
 	//now we don't wanna check inf or overlfow issue but later we are going to check them
-  	if(base == INT) base = 10;
-    else if(base == HEX) base = 16;
-    else if(base == BIN) base = 2;
-    return new_fbgc_int_object(strtol(int_str_begin, &int_str_end,base));
+
+    if(base == INT) base = 10;
+    else if(base == INT16) {base = 16; int_str_begin+=2;}  //eat 0x
+    else if(base == INT2) {base = 2; int_str_begin+=2;} //eat 0b
+    return new_fbgc_int_object(strtol(int_str_begin, NULL,base));
+    //&int_str_end
 }
 
 struct
