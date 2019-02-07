@@ -132,9 +132,18 @@ void print_fbgc_ll_object(struct fbgc_object * head,const char *s1){
 		if(iter->type == INT) cprintf(011,"{%d}",cast_fbgc_object_as_int(iter)->content);   
 		else if(iter->type == DOUBLE) cprintf(011,"{%f:DB}",cast_fbgc_object_as_double(iter)->content); 
 		else if(iter->type == STRING || iter->type == WORD) cprintf(011,"{%s:%s}",cast_fbgc_object_as_str(iter)->content,object_name_array[iter->type]);
-	    else if(iter->type == REFERENCE) print_fbgc_ref_object(iter);
-    //	else if(iter->type == WORD) cprintf(011,"{WORD}");
-     //else cprintf(011,"{%s}",object_name_array[iter->type]);
+	  else if(iter->type == REFERENCE){
+      cprintf(011,"{REF:}{");
+      print_fbgc_ref_object(iter);
+      cprintf(011,"}");
+    }
+    else if(iter->type == TUPLE) {
+      cprintf(011,"{TUPLE}:{ (");
+      print_fbgc_tuple_object(iter);
+      cprintf(011,") }");
+    }
+    
+    //else cprintf(011,"{%s}",object_name_array[iter->type]);
 		//else if(is_fbgc_OPERATOR(iter->type)) cprintf(011,"{%s:%s}",get_token_as_str(iter->type),object_name_array[iter->type]);
         else if(is_fbgc_OPERATOR(iter->type)) cprintf(011,"{%s}",get_token_as_str(iter->type));
         else cprintf(011,"{%s}",object_name_array[iter->type]);		

@@ -25,6 +25,7 @@ extern "C" {
 #include "headers/double_object.h"
 #include "headers/int_object.h"
 #include "headers/str_object.h"
+#include "headers/tuple_object.h"	
 
 #include "headers/operator.h"
 

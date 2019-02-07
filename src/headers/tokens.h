@@ -12,7 +12,6 @@ typedef struct {
 	const char * name;
 }token_struct;
 
-
 #define UNKNOWN 0
 #define ATOM 1
 #define INT 2
@@ -26,107 +25,106 @@ typedef struct {
 #define VAR 10
 #define FUN 11
 #define REFERENCE 12
-#define MATRIX 13
-#define LIST 14
-#define LINKED_LIST 15
-#define LINKED_LIST_TAIL 16
-#define STACK 17
-#define OP 18
-#define PLUS 19
-#define MINUS 20
-#define STAR 21
-#define SLASH 22
-#define MOD 23
-#define STARSTAR 24
-#define CARET 25
-#define OR_OP 26
-#define AND_OP 27
-#define GREATER 28
-#define LOWER 29
-#define LO_EQ 30
-#define GR_EQ 31
-#define EQ_EQ 32
-#define NOT_EQ 33
-#define IS_EQ 34
-#define IF_THEN 35
-#define R_ARROW 36
-#define L_ARROW 37
-#define COL_LO 38
-#define RW_ARROW 39
-#define LW_ARROW 40
-#define COLSTAR 41
-#define COLSLASH 42
-#define SLASHSLASH 43
-#define COLON 44
-#define RSHIFT 45
-#define LSHIFT 46
-#define ASSIGN 47
-#define PLUS_ASSIGN 48
-#define MINUS_ASSIGN 49
-#define STAR_ASSIGN 50
-#define SLASH_ASSIGN 51
-#define CONST_ASSIGN 52
-#define INC 53
-#define DECR 54
-#define UPLUS 55
-#define UMINUS 56
-#define NOT_OP 57
-#define SEMICOLON 58
-#define TWO_DOT 59
-#define THREE_DOT 60
-#define TWO_COLON 61
-#define TILDE 62
-#define COMMA 63
-#define DOT 64
-#define QUESTION_MARK 65
-#define DOLLAR 66
-#define PARA 67
-#define LPARA 68
-#define RPARA 69
-#define LBRACE 70
-#define RBRACE 71
-#define LBRACK 72
-#define RBRACK 73
-#define FOR 74
-#define WHILE 75
-#define UNTIL 76
-#define JUMP 77
-#define BREAK 78
-#define CONT 79
-#define IF 80
-#define ELSE 81
-#define ELIF 82
-#define IF_BEGIN 83
-#define ELSE_BEGIN 84
-#define BEGIN 85
-#define END 86
-#define START 87
-#define FINISH 88
-#define LOAD 89
-#define AND 90
-#define OR 91
-#define NOT 92
-#define SPACE 93
-#define TAB 94
-#define NEWLINE 95
-#define RETURN 96
-#define EXPRESSION 97
-#define ASSIGNMENT 98
-#define STATEMENT 99
-#define ASSIGNMENT_EXPRESSION 100
-#define UNARY_EXPRESSION 101
-#define BINARY_EXPRESSION 102
-#define BALANCED_IDENTIFIER_LIST 103
-#define UNBALANCED_IDENTIFIER_LIST 104
-#define BALANCED_EXPRESSION_LIST 105
-#define UNBALANCED_EXPRESSION_LIST 106
-#define VOID_EXPRESSION 107
-#define PARA_VOID_EXPRESSION 108
-#define PARA_EXPRESSION 109
-#define PARA_ASSIGNMENT_EXPRESSION 110
-#define PARA_BALANCED_EXPR_LIST 111
-#define PARA_IDENTIFIER_LIST 112
-#define	PREPROCESSOR 113
+#define LIST 13
+#define RAW_MATRIX 14
+#define MATRIX 15
+#define NUPLE 16
+#define MONUPLE 17
+#define RAW_TUPLE 18
+#define TUPLE 19
+#define LINKED_LIST 20
+#define LINKED_LIST_TAIL 21
+#define STACK 22
+#define OP 23
+#define PLUS 24
+#define MINUS 25
+#define STAR 26
+#define SLASH 27
+#define MOD 28
+#define STARSTAR 29
+#define CARET 30
+#define OR_OP 31
+#define AND_OP 32
+#define GREATER 33
+#define LOWER 34
+#define LO_EQ 35
+#define GR_EQ 36
+#define EQ_EQ 37
+#define NOT_EQ 38
+#define IS_EQ 39
+#define IF_THEN 40
+#define R_ARROW 41
+#define L_ARROW 42
+#define COL_LO 43
+#define RW_ARROW 44
+#define LW_ARROW 45
+#define COLSTAR 46
+#define COLSLASH 47
+#define SLASHSLASH 48
+#define COLON 49
+#define RSHIFT 50
+#define LSHIFT 51
+#define ASSIGN 52
+#define PLUS_ASSIGN 53
+#define MINUS_ASSIGN 54
+#define STAR_ASSIGN 55
+#define SLASH_ASSIGN 56
+#define CONST_ASSIGN 57
+#define INC 58
+#define DECR 59
+#define UPLUS 60
+#define UMINUS 61
+#define NOT_OP 62
+#define SEMICOLON 63
+#define TWO_DOT 64
+#define THREE_DOT 65
+#define TWO_COLON 66
+#define TILDE 67
+#define COMMA 68
+#define DOT 69
+#define QUESTION_MARK 70
+#define DOLLAR 71
+#define PARA 72
+#define LPARA 73
+#define RPARA 74
+#define LBRACE 75
+#define RBRACE 76
+#define LBRACK 77
+#define RBRACK 78
+#define FOR 79
+#define WHILE 80
+#define UNTIL 81
+#define JUMP 82
+#define BREAK 83
+#define CONT 84
+#define IF 85
+#define ELSE 86
+#define ELIF 87
+#define IF_BEGIN 88
+#define ELSE_BEGIN 89
+#define BEGIN 90
+#define END 91
+#define START 92
+#define FINISH 93
+#define LOAD 94
+#define AND 95
+#define OR 96
+#define NOT 97
+#define SPACE 98
+#define TAB 99
+#define NEWLINE 100
+#define RETURN 101
+#define EXPRESSION 102
+#define ASSIGNMENT 103
+#define STATEMENT 104
+#define ASSIGNMENT_EXPRESSION 105
+#define UNARY_EXPRESSION 106
+#define BINARY_EXPRESSION 107
+#define BALANCED_EXPRESSION_LIST 108
+#define UNBALANCED_EXPRESSION_LIST 109
+
+
+
 
 extern const char * object_name_array[];
 extern const token_struct operator_token_array[];
@@ -157,16 +155,16 @@ const char * get_token_as_str(fbgc_token tok);
 #define is_fbgc_WORD(T)(T == WORD)
 
 #define is_fbgc_MATRIX(x)(x == MATRIX)
+#define is_fbgc_TUPLE(x)(x == NUPLE || x == MONUPLE  || x == RAW_TUPLE ||x == TUPLE)
 
 #define is_fbgc_FUNCTIONABLE(x)(x == IF || x == ELIF || x == ELSE || x == WHILE)
 
 #define is_fbgc_START(x)(x == START || x == BEGIN || x == IF_BEGIN)
 #define is_fbgc_LIST(x) (x == LIST)
-#define is_fbgc_PARA_EXPRESSION(x)(x == PARA_EXPRESSION)
 #define is_fbgc_EXPRESSION(x)(is_fbgc_ATOM(x) || x == IDENTIFIER || x == REFERENCE || x == EXPRESSION || x == UNARY_EXPRESSION ||x==BINARY_EXPRESSION||\
-is_fbgc_PARA_EXPRESSION(x) || is_fbgc_MATRIX(x) || is_fbgc_LIST(x))
+is_fbgc_TUPLE(x) || is_fbgc_MATRIX(x) || is_fbgc_LIST(x))
 
-#define is_fbgc_ASSIGNMENT(x)(x==ASSIGNMENT_EXPRESSION || x == PARA_ASSIGNMENT_EXPRESSION)
+#define is_fbgc_ASSIGNMENT(x)(x==ASSIGNMENT_EXPRESSION)
 #define is_fbgc_STATEMENT(x)(x == STATEMENT || is_fbgc_EXPRESSION(x) || is_fbgc_ASSIGNMENT(x))
 
 

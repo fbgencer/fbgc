@@ -67,7 +67,7 @@ fbgc_object * divide_fbgc_int_object(struct fbgc_object * a,struct fbgc_object *
 
 void print_fbgc_int_object(struct fbgc_object * obj){
     struct fbgc_int_object * into = (struct fbgc_int_object*) obj;
-    printf("\033[1;31m[Int]\033[0m :{%d}\n",into->content);   
+    printf("\033[1;31m[Int]\033[0m :{%d}",into->content);   
 }
 
 void free_fbgc_int_object(struct fbgc_object * obj){

@@ -38,6 +38,21 @@ void cprintf(char color,const char *format, ...) {
 
 }
 
+void fbgc_assert(int cond,const char *format, ...) {
+
+    if(cond){
+
+    va_list args;
+    va_start(args, format);
+    #ifndef CLOSE_PRINTF
+    printf(ANSI_COLOR_YELLOW);
+    printf("Assert: ");
+    vprintf(format, args); printf("\033[0m");
+    #endif
+    va_end(args);        
+    }
+}
+
 int error(const char *x){
     
       printf("\n[ERROR code]: %s\n",x);

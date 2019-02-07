@@ -26,7 +26,7 @@ struct fbgc_object * new_fbgc_str_object_from_substr(const char * str1,const cha
 
 void print_fbgc_str_object(struct fbgc_object * obj){
     struct fbgc_str_object * stro = (struct fbgc_str_object*) obj;
-    printf("\033[1;31m[String]\033[0m :{%s}\n",stro->content);   
+    printf("\033[1;31m[String]\033[0m :{%s}",stro->content);   
 }
 
 void free_fbgc_str_object(struct fbgc_object * obj){

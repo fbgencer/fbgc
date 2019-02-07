@@ -10,7 +10,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 	struct fbgc_object * stack = new_fbgc_ll_object(STACK);
 	
 
-	for(int i = 0; i<1000 && (iter != head->tail); i++){
+	for(int i = 0; i<3000 && (iter != head->tail); i++){
 		cprintf(010,"----------------------[%d] = {%s}-----------------------\n",i,object_name_array[iter->type]);
 		if(is_fbgc_ATOM(get_fbgc_object_type(iter))){
 
@@ -43,13 +43,12 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				free_fbgc_object(iter);				
 			}
 			else {
-				cprintf(100,"Error undefined identifier!\n");
+				cprintf(100,"NULL operator return!\n");
 				free_fbgc_object(o1);
 				free_fbgc_object(o2);				
 				break;
 
 			}
-
 		}
 		else if(is_fbgc_ASSIGNMENT_OPERATOR(get_fbgc_object_type(iter))){
 			struct fbgc_object * o2 = top_fbgc_ll_object(stack);
@@ -66,8 +65,21 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			if(o2->type == REFERENCE) free_fbgc_object(o2);
 			free_fbgc_object(iter);			
 		}
+		else if(get_fbgc_object_type(iter) == RAW_TUPLE){
+			struct fbgc_object * to = new_fbgc_tuple_object(cast_fbgc_object_as_int(top_fbgc_ll_object(stack))->content);
+			stack = delete_front_fbgc_ll_object(stack);
+			for(int q = cast_fbgc_object_as_tuple(to)->size - 1; q>=0; q--){
+				set_object_in_fbgc_tuple_object(to,top_fbgc_ll_object(stack),q);
+				stack = pop_front_fbgc_ll_object(stack);
+			}
+			iter_prev->next = iter->next;
+			free_fbgc_object(iter);
+			stack = push_front_fbgc_ll_object(stack,to);
+		}
 		else {
+			fbgc_assert(get_fbgc_object_type(iter) == TUPLE,"tuple fuck !\n");
 			cprintf(101,"Undefined token in interpreter\n");
+			break;
 		}
 
 		iter = iter_prev->next;

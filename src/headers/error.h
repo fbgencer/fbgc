@@ -8,6 +8,9 @@ extern "C" {
 int error(const char *x);
 int error2(const char* fmt, ...);
 
+void fbgc_assert(int cond,const char* fmt, ...);
+
+
 void cprintf(char color,const char *format, ...);
 
 

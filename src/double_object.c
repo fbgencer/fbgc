@@ -61,7 +61,7 @@ fbgc_object * divide_fbgc_double_object(struct fbgc_object * a,struct fbgc_objec
 
 void print_fbgc_double_object(struct fbgc_object * obj){
     struct fbgc_double_object * dbo = (struct fbgc_double_object*) obj;
-    printf("\033[1;31m[Double]\033[0m :{%f}\n",dbo->content);   
+    printf("\033[1;31m[Double]\033[0m :{%f}",dbo->content);   
 }
 
 void free_fbgc_double_object(struct fbgc_object * obj){

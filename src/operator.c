@@ -40,6 +40,7 @@ struct fbgc_object * fbgc_binary_plus(struct fbgc_object * a, struct fbgc_object
 			return add_fbgc_double_object(a,b);
 		case COMPLEX: return NULL;
 		case STRING: return NULL;
+		case TUPLE: return add_fbgc_tuple_object(a,b);
 		default:
 			cprintf(100,"Error at binary add\n");
 		return NULL;	

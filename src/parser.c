@@ -160,8 +160,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 
 			gm_error = gm_seek_left(&gm,iter);
 
-			if(iter->type == RPARA){
-				
+			/*if(iter->type == RPARA){
 				if(is_fbgc_FUNCTIONABLE(get_fbgc_object_type(top_fbgc_ll_object(op_stack_head)))) {
 					if(	get_fbgc_object_type(top_fbgc_ll_object(op_stack_head))== IF || 
 						get_fbgc_object_type(top_fbgc_ll_object(op_stack_head))== ELIF)
@@ -169,26 +168,23 @@ uint8_t parser(struct fbgc_object ** field_obj){
 					else
 						head_obj = insert_next_fbgc_ll_object(head_obj,iter_prev,new_fbgc_object(BEGIN));
 					cprintf(110,"[%s] object is inserted into main list\n",object_name_array[get_fbgc_object_type(iter_prev->next)]);
-
 				}	
 				if(iter_prev->type == COMMA) iter_prev->type = INT;
 				free_fbgc_object(iter);
 				head->size--;	
-
-				
-
-
-			}
-			else if(iter->type == RBRACK){
-				if(iter_prev->type != COMMA){
-					struct fbgc_object * comma_as_int = new_fbgc_int_object(1);
-					comma_as_int->type = INT;					
-					head_obj = insert_next_fbgc_ll_object(head_obj,iter_prev,comma_as_int);
-					iter_prev = iter_prev->next;
-				}else{
-					iter_prev->type = INT;
+			}*/
+			if(iter->type == RBRACK || iter->type == RPARA){
+				if(gm.top == RAW_MATRIX || gm.top == RAW_TUPLE){
+					if(iter_prev->type != COMMA){
+						cprintf(111,"Previous is not comma!\n");
+						struct fbgc_object * comma_as_int = new_fbgc_int_object(1);
+						comma_as_int->type = INT;					
+						head_obj = insert_next_fbgc_ll_object(head_obj,iter_prev,comma_as_int);
+						iter_prev = iter_prev->next;
+					} else iter_prev->type = INT;
 				}
-				head_obj = insert_next_fbgc_ll_object(head_obj,iter_prev,new_fbgc_object(MATRIX));
+
+				head_obj = insert_next_fbgc_ll_object(head_obj,iter_prev,new_fbgc_object(gm.top));
 				free_fbgc_object(iter);
 				iter_prev = iter_prev->next;
 				head->size--;	
