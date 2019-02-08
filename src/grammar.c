@@ -231,7 +231,7 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 		//cprintf(111,"binar->expr");
 		gm->top = get_fbgc_object_type(obj);
 	}
-	else if(is_fbgc_ASSIGNMENT_OPERATOR(get_fbgc_object_type(obj)) && gm_left == IDENTIFIER){
+	else if(is_fbgc_ASSIGNMENT_OPERATOR(get_fbgc_object_type(obj)) && (gm_left == IDENTIFIER || gm_left == RAW_TUPLE)){
 		gm->top = get_fbgc_object_type(obj);
 	}
 	else if(get_fbgc_object_type(obj) == COMMA && is_fbgc_EXPRESSION(gm_left) ){

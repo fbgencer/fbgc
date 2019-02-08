@@ -67,10 +67,11 @@ void print_fbgc_symbol_table(struct fbgc_object * table_obj){
 		cprintf(110,"{%s : ",temp_str->content);
 		if(temp_str->base.next != NULL){
 			print_fbgc_object(temp_str->base.next);
+			cprintf(110,"}");
 		}
 		else cprintf(110,"NULL");
 	}
-	cprintf(110,"}\n");
+	cprintf(110,"\n");
 
 }
 

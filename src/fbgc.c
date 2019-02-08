@@ -59,7 +59,7 @@ int main(){
 	struct fbgc_object * main_field = new_fbgc_field_object();
 
 
-	char line[50] = {0};
+	char line[100] = {0};
 	FILE *input_file = fopen("ex.fbgc","r");
     
     while (fgets(line, sizeof(line), input_file)){

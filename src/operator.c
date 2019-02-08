@@ -21,13 +21,14 @@
 
 struct fbgc_object * fbgc_binary_plus(struct fbgc_object * a, struct fbgc_object * b){
 
-
 	if(a == NULL || b == NULL) return NULL;
 
 	fbgc_token tok_ab = 
 	(get_fbgc_object_type(a) > get_fbgc_object_type(b)) ? 
 	get_fbgc_object_type(a) : 
 	get_fbgc_object_type(b) ;
+
+cprintf(110,"[%s](%s,%s)->%s\n",__FUNCTION__,object_name_array[a->type],object_name_array[b->type],object_name_array[tok_ab]);
 
 	switch(tok_ab){
 		case INT:
@@ -141,7 +142,15 @@ struct fbgc_object * fbgc_binary_slash(struct fbgc_object * a, struct fbgc_objec
 // a=b
 void fbgc_assignment_assign(struct fbgc_object * a, struct fbgc_object * b ){
 	cprintf(001,"Trying to assign!\n");
-	if(get_fbgc_object_type(b) != REFERENCE){
+	
+	if(get_fbgc_object_type(a) == TUPLE && get_fbgc_object_type(b) == TUPLE){
+		if(cast_fbgc_object_as_tuple(a)->size == cast_fbgc_object_as_tuple(b)->size){
+			for(int i = 0; i<cast_fbgc_object_as_tuple(a)->size; i++){
+				fbgc_assignment_assign(cast_fbgc_object_as_tuple(a)->contents[i],cast_fbgc_object_as_tuple(b)->contents[i]);
+			}
+		}
+	}
+	else if(get_fbgc_object_type(b) != REFERENCE){
 		a = assign_var_to_fbgc_ref_object(a,b);
 	}
 	else{
