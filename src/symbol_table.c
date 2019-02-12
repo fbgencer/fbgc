@@ -58,6 +58,21 @@ struct fbgc_object * load_module_in_symbol_table(struct fbgc_object * table_obj,
 }
 */
 
+
+uint8_t is_object_referenced_in_symbol_table(struct fbgc_object * table_obj,struct fbgc_object * ref,struct fbgc_object * obj){
+	struct fbgc_symbol_table * table = (struct fbgc_symbol_table *) table_obj;
+	cprintf(111,"searching :"); print_fbgc_object(obj); printf("\n");
+	for(uint8_t i = 0; i<table->size; i++ ){
+		if(cast_fbgc_object_as_str(table->symbols[i])->base.next != NULL && cast_fbgc_object_as_str(table->symbols[i])->base.next == obj 
+			&& cast_fbgc_object_as_str(table->symbols[i]) != cast_fbgc_object_as_str(cast_fbgc_object_as_ref(ref)->content)){	
+			return 1;
+		}
+
+	}
+	cprintf(111,"Returning zero, object is not referenced before!\n");
+	return 0;
+}
+
 void print_fbgc_symbol_table(struct fbgc_object * table_obj){
 	struct fbgc_symbol_table * table = (struct fbgc_symbol_table *) table_obj;
 	struct fbgc_str_object * temp_str = NULL;
@@ -69,7 +84,7 @@ void print_fbgc_symbol_table(struct fbgc_object * table_obj){
 			print_fbgc_object(temp_str->base.next);
 			cprintf(110,"}");
 		}
-		else cprintf(110,"NULL");
+		else cprintf(110,"NULL}");
 	}
 	cprintf(110,"\n");
 
@@ -80,7 +95,6 @@ void free_fbgc_symbol_table(struct fbgc_object * table_obj){
 	cprintf(011,"Free symbol table size :%d!\n",table->size);
 	for(uint8_t i = 0; i<table->size; i++ ){
 		if(cast_fbgc_object_as_str(table->symbols[i])->base.next != NULL){
-			cprintf(011,"Base.next != NULL\n");
 			//actual object that is held by identifier
 			struct fbgc_object * temp = cast_fbgc_object_as_str(table->symbols[i])->base.next;
 
@@ -98,6 +112,5 @@ void free_fbgc_symbol_table(struct fbgc_object * table_obj){
 	}
 
 	free(table->symbols);
-	table->size = 0;
 	free(table);
 }

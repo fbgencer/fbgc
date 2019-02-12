@@ -21,7 +21,7 @@ uint8_t operator_precedence(fbgc_token T){
 		case RPARA: return 5;
 		case LBRACK: return 4;
 		case RBRACK: return 3;
-		case SEMICOLON: return 3;
+		case SEMICOLON: return 2;
 		case BEGIN:case IF_BEGIN:  case ELSE_BEGIN: case ELIF: case ELSE: return 1;
 		case END: return 0;
 		default: return 0;	
@@ -71,9 +71,11 @@ uint8_t parser(struct fbgc_object ** field_obj){
 
 
 
-	for(int i = 0; i<3000 && (iter != head->tail); i++){
+	for(int i = 0; i<50 && (iter != head->tail); i++){
 
-		cprintf(010,"----------------------[%d] = {%s}-----------------------\n",i,object_name_array[iter->type]);
+		cprintf(010,"----------------------[%d] = {%s:",i,object_name_array[iter->type]);
+		print_fbgc_object(iter);
+		cprintf(010,"}-----------------------\n");
 		if(is_fbgc_ATOM(iter->type) || iter->type == REFERENCE){
 			iter_prev = iter;
 			gm_error = gm_seek_left(&gm,iter);
@@ -144,7 +146,10 @@ uint8_t parser(struct fbgc_object ** field_obj){
 						cprintf(011,"seek_library_and_add!\n");
 						//seek_library_and_add(iter);
 						break;
-					}					
+					}
+					else if(iter->type == SEMICOLON && get_fbgc_object_type(top_fbgc_ll_object(op_stack_head)) == LBRACK ){
+						break;
+					}										
 					else {
 						cprintf(111,"GOTO END_OF_THE_PARSER Syntax Error :");
 						cprintf(011,"Op Top :[%s], Iter:[%s]\n",object_name_array[get_fbgc_object_type(top_fbgc_ll_object(op_stack_head))],object_name_array[iter->type]);
@@ -214,10 +219,22 @@ uint8_t parser(struct fbgc_object ** field_obj){
 				}
 			}
 			else if(iter->type == SEMICOLON){
-				cprintf(010,"Haha semicolon\n");
+				if(is_grammar_LBRACK_flag_open(gm.flag)){
+					if(iter_prev->type != COMMA){
+						cprintf(111,"Previous is not comma!\n");
+						struct fbgc_object * comma_as_int = new_fbgc_int_object(1);
+						comma_as_int->type = INT;					
+						head_obj = insert_next_fbgc_ll_object(head_obj,iter_prev,comma_as_int);
+						iter_prev = iter_prev->next;
+					} else iter_prev->type = INT;
+
+					head_obj = insert_next_fbgc_ll_object(head_obj,iter_prev,new_fbgc_object(ROW));
+					iter_prev = iter_prev->next;					
+				}
+				
 				free_fbgc_object(iter);
-				iter  = iter_prev->next;
-				head->size--;				
+				head->size--;		
+						
 			}
 			else if(iter->type == ELSE){
 				head_obj = insert_next_fbgc_ll_object(head_obj,iter_prev,iter);

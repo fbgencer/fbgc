@@ -10,11 +10,11 @@ struct fbgc_object * fbgc_binary_minus(struct fbgc_object *, struct fbgc_object 
 struct fbgc_object * fbgc_binary_star(struct fbgc_object *, struct fbgc_object *);
 struct fbgc_object * fbgc_binary_slash(struct fbgc_object *, struct fbgc_object *);
 
-void fbgc_assignment_assign(struct fbgc_object *, struct fbgc_object *);
+void fbgc_assignment_assign(struct fbgc_object *,struct fbgc_object *, struct fbgc_object *);
 
 
 extern struct fbgc_object * (*fbgc_binary_op[4])(struct fbgc_object *, struct fbgc_object *);
-extern void (*fbgc_assignment_op[1])(struct fbgc_object *, struct fbgc_object *);
+extern void (*fbgc_assignment_op[1])(struct fbgc_object *,struct fbgc_object *, struct fbgc_object *);
 
 
 
@@ -24,7 +24,7 @@ extern void (*fbgc_assignment_op[1])(struct fbgc_object *, struct fbgc_object *)
 // See tokens.h file
 
 #define call_fbgc_binary_op(token,a,b)(fbgc_binary_op[token - PLUS](a,b))
-#define call_fbgc_assignment_op(token,a,b)(fbgc_assignment_op[token - ASSIGN](a,b))
+#define call_fbgc_assignment_op(token,table,a,b)(fbgc_assignment_op[token - ASSIGN](table,a,b))
 
 
 #ifdef  __cplusplus

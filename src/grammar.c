@@ -159,17 +159,21 @@
 	UNTIL:
 		'UNTIL' PARA_EXPRESSION
 
-
-
-	[1,2,3,4,5]
-	M:1,2,3,4,5
-	O:[ , , , , ]
-	G:expr
+	a = [1;2]; 
+	b = [5,10,20]; 
+	c = [a,[b;8,9,10]]
 	
-	1,2,+,3,4,*,2,build_matrix
-		
-
+	c:
+	    1    5   10   20
+	    2    8    9   10			
+	
+	M:  
+	O: 
+	G:
+	
 */
+
+
 
 uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 
@@ -204,7 +208,7 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 			is_fbgc_UNARY_OPERATOR(gm_left)  ||
 			is_fbgc_ASSIGNMENT_OPERATOR(gm_left) ||
 		 	gm_left == UNBALANCED_EXPRESSION_LIST || 
-		 	gm_left == LPARA || gm_left == IF || gm_left == ELIF || gm_left == LOAD || 
+		 	gm_left == LPARA || gm_left == IF || gm_left == ELIF || gm_left == LOAD || gm_left == SEMICOLON ||
 		 	is_fbgc_START(gm_left) ))
 	{	
 		gm->top = LPARA;
@@ -213,12 +217,14 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 			(is_fbgc_BINARY_OPERATOR(gm_left) ||
 			is_fbgc_UNARY_OPERATOR(gm_left)  ||
 			is_fbgc_ASSIGNMENT_OPERATOR(gm_left) ||
-		 	gm_left == UNBALANCED_EXPRESSION_LIST || 
+		 	gm_left == UNBALANCED_EXPRESSION_LIST || gm_left == LBRACK || gm_left == SEMICOLON
+		 	|| gm_left == IDENTIFIER ||
 		 	is_fbgc_START(gm_left)) )
 	{
 		gm->top = LBRACK;		
 	}
-	else if( (is_fbgc_UNARY_OPERATOR(get_fbgc_object_type(obj)) || get_fbgc_object_type(obj) == PLUS ||get_fbgc_object_type(obj) == MINUS) 
+	else if( (is_fbgc_UNARY_OPERATOR(get_fbgc_object_type(obj)) ||
+			 get_fbgc_object_type(obj) == PLUS ||get_fbgc_object_type(obj) == MINUS) 
 			&& 
 			(is_fbgc_BINARY_OPERATOR(gm_left) || gm_left == LPARA || is_fbgc_START(gm_left)) )
 
@@ -253,6 +259,9 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 		grammar_close_LBRACK_flag(gm->flag);
 		gm->top = (RAW_MATRIX);		
 	}
+	/*else if(get_fbgc_object_type(obj) == SEMICOLON && gm_left == BALANCED_EXPRESSION_LIST){
+		gm->top = ROW;
+	}*/
 	else if(get_fbgc_object_type(obj) == SEMICOLON){
 		gm->top = SEMICOLON;
 	}

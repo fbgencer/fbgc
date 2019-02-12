@@ -138,9 +138,9 @@ void print_fbgc_ll_object(struct fbgc_object * head,const char *s1){
       cprintf(011,"}");
     }
     else if(iter->type == TUPLE) {
-      cprintf(011,"{TUPLE}:{ (");
+      cprintf(011,"{TUPLE}:{");
       print_fbgc_tuple_object(iter);
-      cprintf(011,") }");
+      cprintf(011,"}");
     }
     
     //else cprintf(011,"{%s}",object_name_array[iter->type]);

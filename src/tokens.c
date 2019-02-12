@@ -111,6 +111,7 @@ const char * object_name_array[]={
 	"BINARY_EXPRESSION",
 	"BALANCED_EXPRESSION_LIST",
 	"UNBALANCED_EXPRESSION_LIST",
+	"ROW",
 };
 
 

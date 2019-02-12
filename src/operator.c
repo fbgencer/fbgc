@@ -140,22 +140,26 @@ struct fbgc_object * fbgc_binary_slash(struct fbgc_object * a, struct fbgc_objec
 //Assignment
 
 // a=b
-void fbgc_assignment_assign(struct fbgc_object * a, struct fbgc_object * b ){
+void fbgc_assignment_assign(struct fbgc_object * table, struct fbgc_object * a, struct fbgc_object * b ){
 	cprintf(001,"Trying to assign!\n");
 	
 	if(get_fbgc_object_type(a) == TUPLE && get_fbgc_object_type(b) == TUPLE){
 		if(cast_fbgc_object_as_tuple(a)->size == cast_fbgc_object_as_tuple(b)->size){
 			for(int i = 0; i<cast_fbgc_object_as_tuple(a)->size; i++){
-				fbgc_assignment_assign(cast_fbgc_object_as_tuple(a)->contents[i],cast_fbgc_object_as_tuple(b)->contents[i]);
+				fbgc_assignment_assign(table,cast_fbgc_object_as_tuple(a)->contents[i],cast_fbgc_object_as_tuple(b)->contents[i]);
 			}
+			//cast_fbgc_object_as_tuple(a)->size = 0;			
+
 		}
 	}
 	else if(get_fbgc_object_type(b) != REFERENCE){
-		a = assign_var_to_fbgc_ref_object(a,b);
+		cprintf(001,"Working on x = constant\n");
+		a = assign_var_to_fbgc_ref_object(table,a,b);
 	}
 	else{
 		cprintf(001,"Working on x = y\n");
-		a = assign_var_to_fbgc_ref_object(a,get_var_from_fbgc_ref_object(b));
+		//struct fbgc_object 
+		a = assign_var_to_fbgc_ref_object(table,a,get_var_from_fbgc_ref_object(b));
 	}
 
 }
@@ -169,7 +173,7 @@ struct fbgc_object * (*fbgc_binary_op[4])(struct fbgc_object *, struct fbgc_obje
 	fbgc_binary_star,
 	fbgc_binary_slash
 };
-void (*fbgc_assignment_op[1])(struct fbgc_object *, struct fbgc_object *) =
+void (*fbgc_assignment_op[1])(struct fbgc_object *,struct fbgc_object *, struct fbgc_object *) =
 {
 	fbgc_assignment_assign,
 };

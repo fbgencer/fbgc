@@ -122,6 +122,7 @@ typedef struct {
 #define BINARY_EXPRESSION 107
 #define BALANCED_EXPRESSION_LIST 108
 #define UNBALANCED_EXPRESSION_LIST 109
+#define ROW 110
 
 
 
@@ -154,7 +155,7 @@ const char * get_token_as_str(fbgc_token tok);
 #define is_fbgc_FUN(T)(T == FUN)
 #define is_fbgc_WORD(T)(T == WORD)
 
-#define is_fbgc_MATRIX(x)(x == MATRIX)
+#define is_fbgc_MATRIX(x)(x == MATRIX || x == RAW_MATRIX)
 #define is_fbgc_TUPLE(x)(x == NUPLE || x == MONUPLE  || x == RAW_TUPLE ||x == TUPLE)
 
 #define is_fbgc_FUNCTIONABLE(x)(x == IF || x == ELIF || x == ELSE || x == WHILE)

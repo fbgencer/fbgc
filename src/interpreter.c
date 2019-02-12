@@ -56,13 +56,17 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			struct fbgc_object * o1 = top_fbgc_ll_object(stack);
 			stack = pop_front_fbgc_ll_object(stack);
 
-			call_fbgc_assignment_op(get_fbgc_object_type(iter),o1,o2);
+			call_fbgc_assignment_op(get_fbgc_object_type(iter),cast_fbgc_object_as_field(*field_obj)->global_table,o1,o2);
 			
 			iter_prev->next = iter->next;
-			// x = 5;
 
-			free_fbgc_object(o1);
+			
 			if(o2->type == REFERENCE) free_fbgc_object(o2);
+			else if(o1->type == TUPLE && o2->type == TUPLE){
+				cast_fbgc_object_as_tuple(o2)->size = 0;
+				free_fbgc_object(o2);
+			}
+			free_fbgc_object(o1);
 			free_fbgc_object(iter);			
 		}
 		else if(get_fbgc_object_type(iter) == RAW_TUPLE){
@@ -76,6 +80,18 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			free_fbgc_object(iter);
 			stack = push_front_fbgc_ll_object(stack,to);
 		}
+		else if(get_fbgc_object_type(iter) == NUPLE || get_fbgc_object_type(iter) == MONUPLE){
+			
+			iter_prev->next = iter->next;
+			free_fbgc_object(iter);
+		}
+		/*else if(get_fbgc_object_type(iter) == RAW_MATRIX){
+
+			struct fbgc_object * mato = new_fbgc_matrix_object(cast_fbgc_object_as_int(top_fbgc_ll_object(stack))->content);
+			append_row_to_fbgc_matrix_object(mato,top_fbgc_ll_object(stack));
+			stack = push_front_fbgc_ll_object(stack,mato);
+		}*/
+
 		else {
 			fbgc_assert(get_fbgc_object_type(iter) == TUPLE,"tuple fuck !\n");
 			cprintf(101,"Undefined token in interpreter\n");
@@ -93,7 +109,8 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 	//make the linked list connection proper
 	head->tail->next = iter_prev;
 
-
 	free_fbgc_ll_object(stack);
+	cprintf(111,"--------------[INTERPRETER END]-------------\n");
+
 	return 1;
 }
