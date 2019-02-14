@@ -80,7 +80,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			free_fbgc_object(iter);
 			stack = push_front_fbgc_ll_object(stack,to);
 		}
-		else if(get_fbgc_object_type(iter) == NUPLE || get_fbgc_object_type(iter) == MONUPLE){
+		else if(get_fbgc_object_type(iter) == MONUPLE){
 			
 			iter_prev->next = iter->next;
 			free_fbgc_object(iter);
@@ -92,6 +92,17 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			stack = push_front_fbgc_ll_object(stack,mato);
 		}*/
 
+		else if(get_fbgc_object_type(iter) == CFUN){
+			struct fbgc_object * o2 = top_fbgc_ll_object(stack);
+			stack = pop_front_fbgc_ll_object(stack);
+			struct fbgc_object * o1 = cfun_object_call(iter,o2);
+
+			stack = push_front_fbgc_ll_object(stack,o1);
+			iter_prev->next = iter->next;
+			free_fbgc_object(o2);
+			free_fbgc_object(iter);
+
+		}
 		else {
 			fbgc_assert(get_fbgc_object_type(iter) == TUPLE,"tuple fuck !\n");
 			cprintf(101,"Undefined token in interpreter\n");

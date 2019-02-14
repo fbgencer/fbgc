@@ -12,6 +12,7 @@ const char * object_name_array[]={
 	"IDENTIFIER",
 	"WORD",
 	"VAR",
+	"CFUN",
 	"FUN",
 	"REFERENCE",
 	"LIST",
@@ -103,6 +104,7 @@ const char * object_name_array[]={
 	"TAB",
 	"NEWLINE",
 	"RETURN",
+	"ROW",
 	"EXPRESSION",
 	"ASSIGNMENT",
 	"STATEMENT",
@@ -111,7 +113,7 @@ const char * object_name_array[]={
 	"BINARY_EXPRESSION",
 	"BALANCED_EXPRESSION_LIST",
 	"UNBALANCED_EXPRESSION_LIST",
-	"ROW",
+
 };
 
 

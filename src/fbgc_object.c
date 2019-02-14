@@ -20,14 +20,14 @@ fbgc_object * new_fbgc_object_from_substr(struct fbgc_object * field_obj,const c
 		case INT2:
 		case INT16:
 					obj = new_fbgc_int_object_from_substr(str1,str2,token);
-					break;
+					return obj;
 		
 		case DOUBLE: 
 					obj = new_fbgc_double_object_from_substr(str1,str2); 
-					break;
+					return obj;
 		case STRING: 
-					obj = new_fbgc_str_object_from_substr(str1,str2); 
-					break;
+					obj = new_fbgc_str_object_from_substr(str1+1,str2-1); 
+					return obj;
 		case LPARA:			
 		case RPARA:
 		case LBRACE:
@@ -39,20 +39,25 @@ fbgc_object * new_fbgc_object_from_substr(struct fbgc_object * field_obj,const c
 					if(obj->type == UNKNOWN){
 						cprintf(100,"Undefined operator!\n");
 					}
-					break;
+					return obj;
 		case WORD:
 					token = get_reserved_word_code_from_substr(str1,str2);
 					if(token == UNKNOWN){
-						//cprintf(111,"\nThis is not a keyword! \n");
+						//cprintf(111,"\nThis is not a keyword! \n"); it must be something idor function or class etc.
+						//is this substring refers to a c function ?
+						obj = get_cfun_obj_from_substr(field_obj,str1,str2);
+						if(obj!= NULL) return obj;
+
 						obj = new_fbgc_symbol_from_substr(cast_fbgc_object_as_field(field_obj)->global_table,str1,str2);
 						//handle symbol table!
 					}else {
-						obj = new_fbgc_object(token);
+						return new_fbgc_object(token);
+						 
 					}
 		break;
 		case COMMA:
-			obj = new_fbgc_object(COMMA);
-			break;
+			return new_fbgc_object(COMMA);
+
 		default:
 			cprintf(111,"Undefined token inside new object creation !\n\n");
 		break;

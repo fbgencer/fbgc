@@ -26,7 +26,8 @@ extern "C" {
 #include "headers/int_object.h"
 #include "headers/str_object.h"
 #include "headers/matrix_object.h"
-#include "headers/tuple_object.h"	
+#include "headers/tuple_object.h"
+#include "headers/cmodule_object.h"
 
 #include "headers/operator.h"
 
@@ -38,6 +39,11 @@ extern "C" {
 #include "headers/grammar.h"
 #include "headers/parser.h"
 #include "headers/interpreter.h"
+
+#include "headers/fbgc_io.h"
+
+#include "headers/cmodules.h"
+
 
 #ifdef  __cplusplus
 }

@@ -42,7 +42,7 @@ const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] =
 	{SPACE,"!+!s"},
 	{INT2,"0b 1|0!+"},
 	{INT16,"0x !x!+"},
-	{STRING,"' _!s!d!w!* '"},
+	{STRING,"' \\n|+|-|.|**|^|*|/|<|>|=>|<=|=|,|:|;|?|_!s!d!w!* '"},
 	{COMPLEX,"!d!+ . !d!+ j"},
 	{COMPLEX,"!d!+ j"}, 
 	{DOUBLE,". !d!+"}, 

@@ -126,7 +126,7 @@ void print_fbgc_ll_object(struct fbgc_object * head,const char *s1){
 	struct fbgc_ll_object * head_ll = cast_fbgc_object_as_ll(head);
 	struct fbgc_object * iter = head_ll->base.next;
 
-	cprintf(101,"[%s]->",s1);
+/*	cprintf(101,"[%s]->",s1);
 
 	while(iter!=head_ll->tail){
 		if(iter->type == INT) cprintf(011,"{%d}",cast_fbgc_object_as_int(iter)->content);   
@@ -151,6 +151,6 @@ void print_fbgc_ll_object(struct fbgc_object * head,const char *s1){
 	}
 	if(head_ll->base.type == LINKED_LIST) cprintf(101,"<->[T]\n");
     else cprintf(101,"->NULL\n");
-
+*/
 }
 

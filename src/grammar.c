@@ -209,6 +209,7 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 			is_fbgc_ASSIGNMENT_OPERATOR(gm_left) ||
 		 	gm_left == UNBALANCED_EXPRESSION_LIST || 
 		 	gm_left == LPARA || gm_left == IF || gm_left == ELIF || gm_left == LOAD || gm_left == SEMICOLON ||
+		 	gm_left == IDENTIFIER ||
 		 	is_fbgc_START(gm_left) ))
 	{	
 		gm->top = LPARA;
@@ -243,7 +244,7 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 	else if(get_fbgc_object_type(obj) == COMMA && is_fbgc_EXPRESSION(gm_left) ){
 		gm->top = UNBALANCED_EXPRESSION_LIST;
 	}	
-	else if(get_fbgc_object_type(obj) == RPARA  && is_grammar_LPARA_flag_open(gm->flag) &&  gm_left == BALANCED_EXPRESSION_LIST ){
+	else if(get_fbgc_object_type(obj) == RPARA  && is_grammar_LPARA_flag_open(gm->flag) &&  (gm_left == BALANCED_EXPRESSION_LIST || gm_left == UNBALANCED_EXPRESSION_LIST) ){
 		grammar_close_LPARA_flag(gm->flag);
 		gm->top = RAW_TUPLE;			
 	}
@@ -316,6 +317,9 @@ uint8_t gm_seek_right(struct fbgc_grammar * gm, struct fbgc_object * obj){
 	else if(get_fbgc_object_type(obj) == COMMA && is_fbgc_EXPRESSION(gm_right) ){
 		gm->top = (BALANCED_EXPRESSION_LIST);
 	}
+	else if(get_fbgc_object_type(obj) == COMMA && gm_right == UNBALANCED_EXPRESSION_LIST ){
+		;
+	}	
 	else if(
 		(get_fbgc_object_type(obj) == IF ||  
 		get_fbgc_object_type(obj) == ELIF ||
@@ -325,10 +329,16 @@ uint8_t gm_seek_right(struct fbgc_grammar * gm, struct fbgc_object * obj){
 	{
 		gm->top = BEGIN;
 	}
+	else if(get_fbgc_object_type(obj) == LOAD && is_fbgc_TUPLE(gm_right)){
+		gm->top = LOAD;
+	}
+	else if(get_fbgc_object_type(obj) == CFUN && is_fbgc_TUPLE(gm_right)){
+		gm->top = CFUN;
+	}	
 	else if(get_fbgc_object_type(obj) == LPARA && gm_right == LPARA){
 		grammar_open_LPARA_flag(gm->flag);
 	}
-	else if(get_fbgc_object_type(obj) == LPARA && (is_fbgc_EXPRESSION(gm_right) || gm_right == BALANCED_EXPRESSION_LIST) ){
+	else if(get_fbgc_object_type(obj) == LPARA && (is_fbgc_EXPRESSION(gm_right) || gm_right == BALANCED_EXPRESSION_LIST || gm_right == UNBALANCED_EXPRESSION_LIST) ){
 		grammar_open_LPARA_flag(gm->flag);		
 	}
 	else if(get_fbgc_object_type(obj) == LBRACK && (is_fbgc_EXPRESSION(gm_right) || gm_right == BALANCED_EXPRESSION_LIST)){

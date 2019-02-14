@@ -6,7 +6,7 @@ uint8_t operator_precedence(fbgc_token T){
 	
 	switch(T){
 
-		case IF:case LOAD: return 25;
+		case IF:case LOAD: case CFUN: return 25;
 		case INC: case DECR: case UMINUS: case UPLUS: return 20;
 		case SLASH: case STAR: case MOD: case CARET: case STARSTAR: case SLASHSLASH: return 18;
 		case PLUS: case MINUS: case NOT_OP: return 16;
@@ -53,7 +53,8 @@ uint8_t compare_operators(fbgc_token stack_top, fbgc_token obj_type){
 }
 
 
-#define is_pushable_in_main(x)(!is_fbgc_PARA(x) && x!= END && x!=IF_BEGIN && x!=ELSE_BEGIN && x!= SEMICOLON && x!= LOAD)
+#define is_pushable_in_main(x)(!is_fbgc_PARA(x) && \
+x!= END && x!=IF_BEGIN && x!=ELSE_BEGIN && x!= SEMICOLON && x!= LOAD)
 
 uint8_t parser(struct fbgc_object ** field_obj){
 	
@@ -82,7 +83,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 		}
 		else if(is_fbgc_OPERATOR(iter->type) || is_fbgc_FUNCTIONABLE(iter->type) 
 			|| iter->type == IF_BEGIN || iter->type == ELSE_BEGIN ||
-			iter->type == BEGIN || iter->type == END || iter->type == LOAD){
+			iter->type == BEGIN || iter->type == END || iter->type == LOAD || iter->type == CFUN){
 			
 			//take the op object from main list and connect previous one to the next one 
 			//[H]->[2]->[+]->[3] => [H]->[2]->[3], now iter shows the operator iter->next is [3] but we will change that too 
@@ -188,10 +189,11 @@ uint8_t parser(struct fbgc_object ** field_obj){
 						iter_prev = iter_prev->next;
 					} else iter_prev->type = INT;
 				}
-
-				head_obj = insert_next_fbgc_ll_object(head_obj,iter_prev,new_fbgc_object(gm.top));
+				if(gm.top != MONUPLE){
+					head_obj = insert_next_fbgc_ll_object(head_obj,iter_prev,new_fbgc_object(gm.top));
+					iter_prev = iter_prev->next;
+				}
 				free_fbgc_object(iter);
-				iter_prev = iter_prev->next;
 				head->size--;	
 			}
 			else if(iter->type == END){
