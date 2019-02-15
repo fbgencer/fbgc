@@ -9,6 +9,7 @@ struct fbgc_field_object{
 	struct fbgc_object base;
 	struct fbgc_object * head; // main tree list, it's a linked list object
 	struct fbgc_object * global_table; // field global symbol table 
+	struct fbgc_object * modules;
 	//later functions, classes etc will be added.
 };
 
@@ -16,6 +17,8 @@ struct fbgc_field_object{
 
 
 struct fbgc_object * new_fbgc_field_object(void);
+
+void load_module_in_field_object(struct fbgc_object * field_obj,const struct fbgc_cmodule * module);
 void free_fbgc_field_object(struct fbgc_object * field_obj);
 
 

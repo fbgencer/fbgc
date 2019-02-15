@@ -45,10 +45,8 @@ fbgc_object * new_fbgc_object_from_substr(struct fbgc_object * field_obj,const c
 					if(token == UNKNOWN){
 						//cprintf(111,"\nThis is not a keyword! \n"); it must be something idor function or class etc.
 						//is this substring refers to a c function ?
-						obj = get_cfun_obj_from_substr(field_obj,str1,str2);
-						if(obj!= NULL) return obj;
 
-						obj = new_fbgc_symbol_from_substr(cast_fbgc_object_as_field(field_obj)->global_table,str1,str2);
+						obj = new_fbgc_symbol_from_substr(field_obj,str1,str2);
 						//handle symbol table!
 					}else {
 						return new_fbgc_object(token);

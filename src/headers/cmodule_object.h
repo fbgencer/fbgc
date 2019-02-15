@@ -17,10 +17,14 @@ struct fbgc_cfunction{
     struct fbgc_object * (* function)(struct fbgc_object *);
 };
 
-struct fbgc_cmodule_object{
-    struct fbgc_object base;
+struct fbgc_cmodule{
     const char *name;
     const struct fbgc_cfunction ** functions;
+};
+
+struct fbgc_cmodule_object{
+    struct fbgc_object base;
+    const struct fbgc_cmodule * module;
 };
 
 
@@ -34,16 +38,17 @@ struct fbgc_cfun_object{
 
 
 #define declare_new_fbgc_cfunction(fun_name)\
-struct fbgc_object * fun_name(struct fbgc_object *);\
-const struct fbgc_cfunction fun_name##_struct;
+struct fbgc_object * fun_name(struct fbgc_object * sm);\
+extern const struct fbgc_cfunction fun_name##_struct
 
 #define new_fbgc_cfunction(fun_name,str_fun_name)\
 const struct fbgc_cfunction fun_name##_struct  = {str_fun_name,fun_name};\
-struct fbgc_object * fun_name(struct fbgc_object * arg)
+extern struct fbgc_object * fun_name(struct fbgc_object * arg)\
 
 
 
 struct fbgc_object * new_fbgc_cfun_object( struct fbgc_object * (* function_obj)(struct fbgc_object *) );
+void print_fbgc_cmodule(const struct fbgc_cmodule * );
 void free_fbgc_cfun_object(struct fbgc_object * obj);
 
 #define cfun_object_call(cfuno,obj)(cast_fbgc_object_as_cfun(cfuno)->function(obj))

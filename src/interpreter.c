@@ -96,7 +96,11 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			struct fbgc_object * o2 = top_fbgc_ll_object(stack);
 			stack = pop_front_fbgc_ll_object(stack);
 			struct fbgc_object * o1 = cfun_object_call(iter,o2);
-
+			if(o1 == NULL){
+				cprintf(111,"Cfunction returned NULL immeadiately stopped!\n");
+				free_fbgc_object(o2);
+				break;
+			}
 			stack = push_front_fbgc_ll_object(stack,o1);
 			iter_prev->next = iter->next;
 			free_fbgc_object(o2);

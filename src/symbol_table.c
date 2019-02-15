@@ -12,19 +12,25 @@ struct fbgc_object * new_fbgc_symbol_table(void){
 	table->symbols[1] = NULL;
     return (struct fbgc_object*) table;
 }
-struct fbgc_object * new_fbgc_symbol_from_substr(struct fbgc_object * table_obj,const char * str1,const char * str2){
+
+
+
+struct fbgc_object * new_fbgc_symbol_from_substr(struct fbgc_object * field_obj,const char * str1,const char * str2){
+	
+	struct fbgc_object * o = new_cfun_object_from_substr(field_obj,str1,str2);
+	if(o!=NULL) return o;
+
 	//first compare incoming str with the old identifiers
-	struct fbgc_symbol_table * table = (struct fbgc_symbol_table *) table_obj;
+	struct fbgc_symbol_table * table = (struct fbgc_symbol_table *) cast_fbgc_object_as_field(field_obj)->global_table;
 	struct fbgc_object * ref_obj = new_fbgc_ref_object();
 
-
-
+	
 	int8_t cmp = 1;
 	for(uint8_t i = 0; i<table->size; i++){
 		cmp = memcmp(str1,cast_fbgc_object_as_str(table->symbols[i])->content,str2-str1);
 		if(cmp == 0) {
 			//
-			cprintf(110,"Found in the symbol table!\n");
+			//cprintf(110,"Found in the symbol table!\n");
 			ref_obj = initialize_fbgc_ref_object(ref_obj,&(cast_fbgc_object_as_str(table->symbols[i])->base));
 			return (struct fbgc_object *) ref_obj;
 		}
@@ -44,6 +50,28 @@ struct fbgc_object * new_fbgc_symbol_from_substr(struct fbgc_object * table_obj,
 	//print_fbgc_symbol_table(table_obj);
 
 	return (struct fbgc_object *) ref_obj;
+}
+
+
+struct fbgc_object * new_cfun_object_from_substr(struct fbgc_object * field_obj,const char * str1,const char * str2){
+
+	struct fbgc_ll_object * ll = cast_fbgc_object_as_ll( cast_fbgc_object_as_field(field_obj)->modules );
+	struct fbgc_cmodule_object * cm = (struct fbgc_cmodule_object *)ll->base.next;
+	while(cm!= NULL && cm != ll->tail){
+		const struct fbgc_cfunction * cc = cm->module->functions[0];
+		//cprintf(111,"Functions:\n");
+		for (int i = 1; cc!=NULL; ++i){
+			if(!memcmp(str1,cc->name,str2-str1)){
+				cprintf(010,"\n**Function [%s] is founded in module [%s]**\n",cc->name,cm->module->name);
+				return new_fbgc_cfun_object(cc->function);
+			} 
+			//cprintf(101,"{%s}\n",cc->name);
+			cc = cm->module->functions[i];
+		}
+		cm = cm->base.next;
+	}
+
+	return NULL;
 }
 
 struct fbgc_object * get_fbgc_symbol(struct fbgc_object * var);

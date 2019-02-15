@@ -18,6 +18,7 @@ struct fbgc_object * new_fbgc_symbol(struct fbgc_object * ,const char * ,const c
 struct fbgc_object * get_fbgc_symbol(struct fbgc_object * );
 
 struct fbgc_object * new_fbgc_symbol_from_substr(struct fbgc_object * table_obj,const char * str1,const char * str2);
+struct fbgc_object * new_cfun_object_from_substr(struct fbgc_object * table_obj,const char * str1,const char * str2);
 
 uint8_t is_object_referenced_in_symbol_table(struct fbgc_object * table_obj,struct fbgc_object * ,struct fbgc_object * obj);
 struct fbgc_object * load_module_in_symbol_table(struct fbgc_object *,struct fbgc_object * );

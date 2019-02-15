@@ -27,7 +27,6 @@ void set_object_in_fbgc_tuple_object(struct fbgc_object * self,struct fbgc_objec
 	}
 }
 
-
 struct fbgc_object * add_fbgc_tuple_object(struct fbgc_object * a,struct fbgc_object * b){
     //(1,2,3) + 5 = (6,7,8);
     // (1,5) + (10,200) = (11,205);

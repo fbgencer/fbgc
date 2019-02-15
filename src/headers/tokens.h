@@ -164,7 +164,7 @@ const char * get_token_as_str(fbgc_token tok);
 #define is_fbgc_START(x)(x == START || x == BEGIN || x == IF_BEGIN)
 #define is_fbgc_LIST(x) (x == LIST)
 #define is_fbgc_EXPRESSION(x)(is_fbgc_ATOM(x) || x == IDENTIFIER || x == REFERENCE || x == EXPRESSION || x == UNARY_EXPRESSION ||x==BINARY_EXPRESSION||\
-is_fbgc_TUPLE(x) || is_fbgc_MATRIX(x) || is_fbgc_LIST(x))
+is_fbgc_TUPLE(x) || is_fbgc_MATRIX(x) || is_fbgc_LIST(x) || x == CFUN)
 
 #define is_fbgc_ASSIGNMENT(x)(x==ASSIGNMENT_EXPRESSION)
 #define is_fbgc_STATEMENT(x)(x == STATEMENT || is_fbgc_EXPRESSION(x) || is_fbgc_ASSIGNMENT(x))

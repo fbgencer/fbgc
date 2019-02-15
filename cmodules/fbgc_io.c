@@ -1,4 +1,5 @@
-#include "fbgc.h"
+#include "../src/fbgc.h"
+#include "fbgc_io.h"
 
 new_fbgc_cfunction(fbgc_print,"print")
 {
@@ -20,13 +21,22 @@ new_fbgc_cfunction(fbgc_read,"read"){
 	return arg;
 }
 
+/*
+struct fbgc_object * fbgc_io_module_init(){
+	struct fbgc_cmodule_object * fbgc_io_module = (struct fbgc_cmodule_object *)malloc(sizeof(fbgc_cmodule_object));
+	fbgc_io_module.base->next = NULL;
+	fbgc_io_module.base->type = UNKNOWN;
+	fbgc_io_module->name; 
+}*/
+ 
 
-
-const struct fbgc_cmodule_object fbgc_io_module = 
+//Work on this, is it possible to cast ?
+const struct fbgc_cmodule fbgc_io_module = 
 {
 	.name = "io",
 	.functions = (const struct fbgc_cfunction*[])
 	{
-		&fbgc_print_struct,&fbgc_read_struct
+		&fbgc_print_struct,&fbgc_read_struct,NULL
 	}
 };
+
