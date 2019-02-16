@@ -5,7 +5,7 @@ OBJ = ${SRC:.c=.o}
 
 CC=gcc
 CFLAGS=-c -Wall -lm
-LDFLAGS= 
+LDFLAGS += -lm 
 
 TEST_OBJ = ${TEST_SRC:.c=.o}
 

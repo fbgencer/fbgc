@@ -49,10 +49,8 @@ extern const fbgc_lexer_rule_struct fbgc_lexer_rule_holder[];
 
 void pretty_print_pointer(const char *buffer ,const char * ptr);
 const char * rule_reader(rule_flag_struct * rfs,const char * rule_ptr);
-uint8_t check_char(rule_flag_struct *rfs,const char ** buffer_ptr);
-
-
-uint8_t regex_lexer(struct fbgc_object **head_obj,const char *first_ptr);
+uint8_t check_char(rule_flag_struct *rfs,char ** buffer_ptr);
+uint8_t regex_lexer(struct fbgc_object **head_obj,char *first_ptr);
 
 
 uint8_t match(match_where *mw, const char * inc_rule_ptr, const char * buffer);

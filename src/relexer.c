@@ -36,13 +36,13 @@ const token_table_struct lexer_table[1] =
 		.tokens = (const fbgc_token[]){INT,DOUBLE,DOUBLE,COMPLEX}
 	}	
 };	
-
+//\\n|+|-|.|**|^|*|/|<|>|=>|<=|=|,|:|;|?|
 const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] = 
 {
 	{SPACE,"!+!s"},
 	{INT2,"0b 1|0!+"},
 	{INT16,"0x !x!+"},
-	{STRING,"' \\n|+|-|.|**|^|*|/|<|>|=>|<=|=|,|:|;|?|_!s!d!w!* '"},
+	{STRING,"' _|\\'!s!d!w!o!* '"},
 	{COMPLEX,"!d!+ . !d!+ j"},
 	{COMPLEX,"!d!+ j"}, 
 	{DOUBLE,". !d!+"}, 
@@ -54,11 +54,10 @@ const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] =
 	{RBRACE,"}"},
 	{LBRACK,"["},
 	{RBRACK,"]"},		
-	{OP,"+|-|.|**|^|*|/|<|>|=>|<=|=|,|;|?!+"},	
+	{OP,"!o!+"},	
 	{WORD,"_!w _!w!d!*"},
-	//{PREPROCESSOR, "#load"},
 };
-
+//+|-|.|**|^|*|/|<|>|=>|<=|=|,|;|?
 
 
 
@@ -128,7 +127,7 @@ const char * rule_reader(rule_flag_struct * rfs,const char * rule_ptr){
 	return rule_ptr;
 }
 
-uint8_t check_char(rule_flag_struct *rfs,const char ** buffer_ptr){
+uint8_t check_char(rule_flag_struct *rfs,char ** buffer_ptr){
 
 	/*#ifdef DEBUG
 	cprintf(001,"Called <%s> \n",__FUNCTION__);
@@ -157,7 +156,7 @@ uint8_t check_char(rule_flag_struct *rfs,const char ** buffer_ptr){
 		check = (
 				((rfs->pattern_flag & 0x01) && isdigit(*(*buffer_ptr))) ||
 				((rfs->pattern_flag & 0x02) && isalpha(*(*buffer_ptr))) ||
-				((rfs->pattern_flag & 0x04) && ispunct(*(*buffer_ptr))) || 
+				((rfs->pattern_flag & 0x04) && (ispunct(*(*buffer_ptr))) && (*(*buffer_ptr)) != '\'') || 
 				((rfs->pattern_flag & 0x08) && isxdigit(*(*buffer_ptr)))||
 				((rfs->pattern_flag & 0x10) && isprint(*(*buffer_ptr))) ||
 				((rfs->pattern_flag & 0x20) && isspace(*(*buffer_ptr))) ||
@@ -252,7 +251,7 @@ void read_rule_table(rule_arrange_struct *ras){
 	}
 }*/
 
-uint8_t regex_lexer(struct fbgc_object ** field_obj, const char *first_ptr){
+uint8_t regex_lexer(struct fbgc_object ** field_obj, char *first_ptr){
 	cprintf(111,"\n------------[relexer_begin : %s]-----------\n",first_ptr);
 	rule_flag_struct rfs = {.char_match_begin = NULL,.char_match_end=0, .pattern_flag = 0, .metachar_flag = 0, .table_index = 0};
 	if(*first_ptr == '\0') return 0;
@@ -261,7 +260,7 @@ uint8_t regex_lexer(struct fbgc_object ** field_obj, const char *first_ptr){
 	uint8_t current_token = fbgc_lexer_rule_holder->token;
 	const char * rule_ptr = (fbgc_lexer_rule_holder)->rule;
 
-	const char * mobile_ptr = first_ptr;
+	char * mobile_ptr = first_ptr;
 
 	uint8_t satisfied_rule_section = 0;
 	uint8_t rule_section = 0;
@@ -288,6 +287,17 @@ uint8_t regex_lexer(struct fbgc_object ** field_obj, const char *first_ptr){
 				#endif
 			//}
 		}
+
+		//When reading from file \n is actually becomes a c string \\n, so we have to convert them to match sequence
+		//Later try to implement this feature in regex module as catch_and_convert
+		//we use const pointer but for this they are not constant, we have fetch the input somehow converted ones 
+		/*if(*mobile_ptr == '\\')
+		{
+			if(*(mobile_ptr+1)  == '\'') memmove (mobile_ptr,mobile_ptr+1,strlen(mobile_ptr)); 
+
+		}	*/
+			//convert_to_escape_sequence(&mobile_ptr);
+		//=====================================
 
 		check = check_char(&rfs,&mobile_ptr);
 		#ifdef DEBUG

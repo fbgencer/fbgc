@@ -9,7 +9,7 @@ extern const struct fbgc_cmodule fbgc_math_module;
 
 declare_new_fbgc_cfunction(fbgc_sin);
 declare_new_fbgc_cfunction(fbgc_cos);
-declare_new_fbgc_cfunction(fbgc_tan);
+declare_new_fbgc_cfunction(fbgc_pi);
 
 
 #ifdef  __cplusplus
