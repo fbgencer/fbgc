@@ -2,7 +2,10 @@
 
 uint8_t interpreter(struct fbgc_object ** field_obj){
 
+	#ifdef INTERPRETER_DEBUG
 	cprintf(110,"---------------interpreter-------------------\n");
+	#endif
+
 
 	struct fbgc_ll_object * head = cast_fbgc_object_as_ll( cast_fbgc_object_as_field(*field_obj)->head );
 	struct fbgc_object * iter = head->base.next;
@@ -11,7 +14,10 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 	
 
 	for(int i = 0; i<3000 && (iter != head->tail); i++){
+		#ifdef INTERPRETER_DEBUG
 		cprintf(010,"----------------------[%d] = {%s}-----------------------\n",i,object_name_array[iter->type]);
+		#endif
+
 		if(is_fbgc_ATOM(get_fbgc_object_type(iter))){
 
 			iter_prev->next = iter->next;
@@ -116,17 +122,20 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 		iter = iter_prev->next;
 		
+		#ifdef INTERPRETER_DEBUG
 		print_fbgc_ll_object(cast_fbgc_object_as_field(*field_obj)->head,"Main");
 		print_fbgc_ll_object(stack,"Stack");
 		print_fbgc_symbol_table(cast_fbgc_object_as_field(*field_obj)->global_table);
 		cprintf(111,"-------------------------------------------\n");
+		#endif
 	}
 
 	//make the linked list connection proper
 	head->tail->next = iter_prev;
 
 	free_fbgc_ll_object(stack);
+	#ifdef INTERPRETER_DEBUG
 	cprintf(111,"--------------[INTERPRETER END]-------------\n");
-
+	#endif
 	return 1;
 }

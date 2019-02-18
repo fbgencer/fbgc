@@ -69,7 +69,6 @@ fbgc_object * new_fbgc_object_from_substr(struct fbgc_object * field_obj,const c
 void print_fbgc_object(struct fbgc_object * self){
 	
 	if(self != NULL){ 
-
 		switch(self->type){
 			case INT:
 				print_fbgc_int_object(self);
@@ -88,7 +87,7 @@ void print_fbgc_object(struct fbgc_object * self){
 				print_fbgc_tuple_object(self);
 			break;			
 			default:
-				printf("\033[1;31m[%s]\033[0m",object_name_array[self->type]);  
+				cprintf(100,object_name_array[self->type]);  
 			break;
 
 		}
@@ -132,7 +131,7 @@ double convert_fbgc_object_to_double(struct fbgc_object * obj){
 
 
 void free_fbgc_object(struct fbgc_object * self){
-	cprintf(111,"Free["); print_fbgc_object(self); cprintf(111,"]\n");
+	//cprintf(111,"Free["); print_fbgc_object(self); cprintf(111,"]\n");
 	if(self != NULL){
 		if(self->type == STRING || self->type == WORD) free_fbgc_str_object(self);
 		else if(self->type== TUPLE) free_fbgc_tuple_object(self);

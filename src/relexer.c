@@ -20,6 +20,7 @@ Complex 4	0	0	0	0
 
 //#define DEBUG
 
+
 const token_table_struct lexer_table[1] = 
 {
 	{
@@ -36,9 +37,14 @@ const token_table_struct lexer_table[1] =
 		.tokens = (const fbgc_token[]){INT,DOUBLE,DOUBLE,COMPLEX}
 	}	
 };	
-//\\n|+|-|.|**|^|*|/|<|>|=>|<=|=|,|:|;|?|
+
+//this must be deleted just a shot to see the system is it capable of doing this stuff
+#define COMMENT 220
+
+
 const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] = 
 {
+	{COMMENT,":>  !.!* \n"},
 	{SPACE,"!+!s"},
 	{INT2,"0b 1|0!+"},
 	{INT16,"0x !x!+"},
@@ -54,10 +60,13 @@ const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] =
 	{RBRACE,"}"},
 	{LBRACK,"["},
 	{RBRACK,"]"},		
-	{OP,"!o!+"},	
-	{WORD,"_!w _!w!d!*"},
+	{OP,"+|-|.|**|^|*|/|<|>|=>|<=|=|,|;|?!+"},	
+	{WORD,"_!w _!w!d!*"},	
 };
-//+|-|.|**|^|*|/|<|>|=>|<=|=|,|;|?
+
+	
+	/**/
+//
 
 
 
@@ -75,10 +84,45 @@ void pretty_print_pointer(const char *buffer ,const char * ptr){
 
 #endif
 
+char * fbgc_getline_from_file(char * s, int n, FILE *fp){
+   	int c;
+    char* cs = s;
+    while(--n > 0 && (c = getc(fp)) != EOF){
+    // put the input char into the current pointer position, then increment it
+    // if a newline entered, break
+    	switch((*cs++ = c)){
+    		case '\n': goto end_of_getline;
+    		case '\\': 
+    			switch( c = getc(fp)){
+					case 'a': *(cs-1) = '\a'; break;
+					case 'b': *(cs-1) = '\b'; break;
+					case 'e': *(cs-1) = '\e'; break;
+					case 'f': *(cs-1) = '\f'; break;
+					case 'n': *(cs-1) = '\n'; break;
+					case 'r': *(cs-1) = '\r'; break;
+					case 't': *(cs-1) = '\t'; break;
+					case 'v': *(cs-1) = '\v'; break;
+					//case '\'': *(cs) = '\''; break;
+					case '\\': *(cs-1) = '\\'; break;     				
+    				case EOF: 
+    					*(cs++) = '\n';
+    					goto end_of_getline;	
+    				default:
+    					*cs++ = c;
+    						
+    			} 
+    		break;	
+    	}          
+    }
+    end_of_getline:
+    *cs = (c == EOF) ? '\n':'\0'; //handle this, i added because of comment understanding...
+    *(cs+1)='\0';
+    return (c == EOF && cs == s) ? NULL : s;
+}
 
 
 
-const char * rule_reader(rule_flag_struct * rfs,const char * rule_ptr){
+static const char * rule_reader(rule_flag_struct * rfs,const char * rule_ptr){
 	
 	#ifdef DEBUG
 		cprintf(001,"inside rule_reader , rule_ptr:%s\n",rule_ptr);
@@ -127,7 +171,7 @@ const char * rule_reader(rule_flag_struct * rfs,const char * rule_ptr){
 	return rule_ptr;
 }
 
-uint8_t check_char(rule_flag_struct *rfs,char ** buffer_ptr){
+static uint8_t check_char(rule_flag_struct *rfs,char ** buffer_ptr){
 
 	/*#ifdef DEBUG
 	cprintf(001,"Called <%s> \n",__FUNCTION__);
@@ -251,8 +295,12 @@ void read_rule_table(rule_arrange_struct *ras){
 	}
 }*/
 
-uint8_t regex_lexer(struct fbgc_object ** field_obj, char *first_ptr){
-	cprintf(111,"\n------------[relexer_begin : %s]-----------\n",first_ptr);
+uint8_t regex_lexer(struct fbgc_object ** field_obj,char * first_ptr){
+	#ifdef LEXER_DEBUG
+	cprintf(111,"\n------------[RELEXER:%s]-----------\n",first_ptr);
+	#endif
+
+
 	rule_flag_struct rfs = {.char_match_begin = NULL,.char_match_end=0, .pattern_flag = 0, .metachar_flag = 0, .table_index = 0};
 	if(*first_ptr == '\0') return 0;
 
@@ -319,22 +367,22 @@ uint8_t regex_lexer(struct fbgc_object ** field_obj, char *first_ptr){
 			}
 			else{
 				if(first_ptr != mobile_ptr && satisfied_rule_section == rule_section && *rule_ptr == '\0'){
-					if(current_token != SPACE ){
+					if(current_token != SPACE  && current_token != COMMENT){
 					//#ifdef DEBUG
-						
-						char * tempstr = (char *) malloc(sizeof(char) * ((mobile_ptr - first_ptr)+1) );
-						strncpy(tempstr,first_ptr,(mobile_ptr - first_ptr));
-						tempstr[(mobile_ptr - first_ptr)] = '\0';
-						//cprintf(111,"--------------[TOKEN IS FOUND]-------\n");
-						cprintf(101,"['%s' : %s]",tempstr, object_name_array[current_token] );
-						free(tempstr);
+						#ifdef LEXER_DEBUG
+							char * tempstr = (char *) malloc(sizeof(char) * ((mobile_ptr - first_ptr)+1) );
+							strncpy(tempstr,first_ptr,(mobile_ptr - first_ptr));
+							tempstr[(mobile_ptr - first_ptr)] = '\0';
+							cprintf(101,"['%s' : %s]",tempstr, object_name_array[current_token] );
+							free(tempstr);
+						#endif
 					
 						(cast_fbgc_object_as_field(*field_obj)->head) = 
 							push_back_fbgc_ll_object(
 								(cast_fbgc_object_as_field(*field_obj)->head),
 								 new_fbgc_object_from_substr(*field_obj,first_ptr,mobile_ptr,current_token)
 								);
-						if(current_token == WORD) print_fbgc_symbol_table((cast_fbgc_object_as_field(*field_obj)->global_table));
+						//if(current_token == WORD) print_fbgc_symbol_table((cast_fbgc_object_as_field(*field_obj)->global_table));
 						
 					//#endif
 					}
@@ -374,11 +422,13 @@ uint8_t regex_lexer(struct fbgc_object ** field_obj, char *first_ptr){
 		}
 	}
 
+	#ifdef LEXER_DEBUG
 	cprintf(111,"\n---------[relexer_end]--------\n");
+	#endif
 	return 1;
 }
 
-
+/*
 uint8_t match(match_where *mw, const char * inc_rule_ptr, const char * buffer){
 
 	rule_flag_struct rfs = {.char_match_begin = NULL,.char_match_end=0, .pattern_flag = 0, .metachar_flag = 0, .table_index = 0};
@@ -437,8 +487,8 @@ uint8_t match(match_where *mw, const char * inc_rule_ptr, const char * buffer){
 	}
 	return 0;
 }
-
-
+*/
+/*
 uint8_t match_and_replace(const char * inc_rule_ptr,char buffer[],const char *replace_str){
 
 	rule_flag_struct rfs = {.char_match_begin = NULL,.char_match_end=0, .pattern_flag = 0, .metachar_flag = 0, .table_index = 0};
@@ -499,3 +549,4 @@ uint8_t match_and_replace(const char * inc_rule_ptr,char buffer[],const char *re
 	return 1;
 }
 
+*/

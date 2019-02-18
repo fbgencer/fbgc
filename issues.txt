@@ -1,3 +1,7 @@
 #1 Lexer cannot handle single quotation marks inside strings
 'fb\'gc' is validated as a string but string conversin for \' could not done.
 Also when reading from file \n reads as \\n (for c style) but fbgc_getline_from_file converts is this chars before sending to lexer.
+
+#2 change the reference and identifier stuff in the grammar because there is no restriction for identifier calling..
+
+#3

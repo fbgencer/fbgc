@@ -3,7 +3,7 @@ SRC = $(shell find src/*.c cmodules/*.c)
 #MODULES = $(wildcard cmodules/*.c)
 OBJ = ${SRC:.c=.o}
 
-CC=gcc
+CC=g++
 CFLAGS=-c -Wall -lm
 LDFLAGS += -lm 
 

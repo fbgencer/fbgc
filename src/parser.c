@@ -57,9 +57,9 @@ uint8_t compare_operators(fbgc_token stack_top, fbgc_token obj_type){
 x!= END && x!=IF_BEGIN && x!=ELSE_BEGIN && x!= SEMICOLON && x!= LOAD)
 
 uint8_t parser(struct fbgc_object ** field_obj){
-	
+	#ifdef PARSER_DEBUG
 	cprintf(111,"--------------[parser_begin]-------------\n");
-
+	#endif
 
 	struct fbgc_ll_object * head = cast_fbgc_object_as_ll( cast_fbgc_object_as_field(*field_obj)->head );
 	struct fbgc_object * head_obj =  cast_fbgc_object_as_field(*field_obj)->head;
@@ -72,11 +72,15 @@ uint8_t parser(struct fbgc_object ** field_obj){
 
 
 
-	for(int i = 0; i<50 && (iter != head->tail); i++){
+	for(int i = 0; i<500 && (iter != head->tail); i++){
 
+		#ifdef PARSER_DEBUG
 		cprintf(010,"----------------------[%d] = {%s:",i,object_name_array[iter->type]);
 		print_fbgc_object(iter);
 		cprintf(010,"}-----------------------\n");
+		#endif
+
+
 		if(is_fbgc_ATOM(iter->type) || iter->type == REFERENCE){
 			iter_prev = iter;
 			gm_error = gm_seek_left(&gm,iter);
@@ -121,14 +125,14 @@ uint8_t parser(struct fbgc_object ** field_obj){
 						head_obj = insert_next_fbgc_ll_object(head_obj,iter_prev,new_fbgc_object(JUMP));
 						iter_prev = iter_prev->next;
 						delete_front_fbgc_ll_object(op_stack_head);
-						cprintf(111,"LAN\n");
+						//cprintf(111,"LAN\n");
 						break;
 					}	
 					else if(iter->type == ELSE && get_fbgc_object_type(top_fbgc_ll_object(op_stack_head)) == IF_BEGIN){
 						head_obj = insert_next_fbgc_ll_object(head_obj,iter_prev,new_fbgc_object(JUMP));
 						iter_prev = iter_prev->next;
 						top_fbgc_ll_object(op_stack_head)->type = ELSE_BEGIN;
-						cprintf(111,"LAN2\n");
+						//cprintf(111,"LAN2\n");
 						break;
 					}									
 					else if(iter->type == END && get_fbgc_object_type(top_fbgc_ll_object(op_stack_head)) == IF_BEGIN){
@@ -160,9 +164,13 @@ uint8_t parser(struct fbgc_object ** field_obj){
 					}
 				}	
 			}
+			#ifdef PARSER_DEBUG
 				print_fbgc_ll_object(head_obj,"*M");
 				print_fbgc_ll_object(op_stack_head,"*O");
 				cprintf(101,"[*GM]:{Top:%s} Flag{0x%X} \n",object_name_array[gm.top],gm.flag);
+			#endif
+
+
 
 			gm_error = gm_seek_left(&gm,iter);
 
@@ -182,7 +190,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 			if(iter->type == RBRACK || iter->type == RPARA){
 				if(gm.top == RAW_MATRIX || gm.top == RAW_TUPLE){
 					if(iter_prev->type != COMMA){
-						cprintf(111,"Previous is not comma!\n");
+						//cprintf(111,"Previous is not comma!\n");
 						struct fbgc_object * comma_as_int = new_fbgc_int_object(1);
 						comma_as_int->type = INT;					
 						head_obj = insert_next_fbgc_ll_object(head_obj,iter_prev,comma_as_int);
@@ -202,7 +210,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 					get_fbgc_object_type(top_fbgc_ll_object(op_stack_head)) == ELSE_BEGIN) {
 					delete_front_fbgc_ll_object(op_stack_head);
 					head_obj = insert_next_fbgc_ll_object(head_obj,iter_prev,iter);
-					cprintf(011,"END object is inserted into main list\n");
+					//cprintf(011,"END object is inserted into main list\n");
 					iter_prev = iter;
 				}
 			}
@@ -223,7 +231,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 			else if(iter->type == SEMICOLON){
 				if(is_grammar_LBRACK_flag_open(gm.flag)){
 					if(iter_prev->type != COMMA){
-						cprintf(111,"Previous is not comma!\n");
+						//cprintf(111,"Previous is not comma!\n");
 						struct fbgc_object * comma_as_int = new_fbgc_int_object(1);
 						comma_as_int->type = INT;					
 						head_obj = insert_next_fbgc_ll_object(head_obj,iter_prev,comma_as_int);
@@ -255,9 +263,12 @@ uint8_t parser(struct fbgc_object ** field_obj){
 		if(!gm_error) goto END_OF_THE_PARSER;
 
 		iter = iter_prev->next;
-		print_fbgc_ll_object(head_obj,"M");
-		print_fbgc_ll_object(op_stack_head,"O");
-		cprintf(101,"[GM]:{Top:%s} Flag{0x%X} \n",object_name_array[gm.top],gm.flag);
+		
+		#ifdef PARSER_DEBUG
+			print_fbgc_ll_object(head_obj,"M");
+			print_fbgc_ll_object(op_stack_head,"O");
+			cprintf(101,"[GM]:{Top:%s} Flag{0x%X} \n",object_name_array[gm.top],gm.flag);
+		#endif
 
 
 
@@ -270,6 +281,9 @@ uint8_t parser(struct fbgc_object ** field_obj){
 
 	free_fbgc_ll_object(op_stack_head);
 	
+	#ifdef PARSER_DEBUG
 	cprintf(111,"--------------[parser_end]-------------\n");
+	#endif
+
 	return 1;
 }

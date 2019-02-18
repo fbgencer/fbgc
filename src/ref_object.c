@@ -21,7 +21,7 @@ struct fbgc_object * assign_var_to_fbgc_ref_object(struct fbgc_object * table, s
 			free_fbgc_object(refo->content->next);
 		}
 		refo->content->next = obj;
-		cprintf(010,"refo assigned!\n");
+		//cprintf(010,"refo assigned!\n");
 	}else{
 		cprintf(100,"Undefined variable !\n");
 	}
@@ -42,8 +42,12 @@ void print_fbgc_ref_object(struct fbgc_object * ref){
 	struct fbgc_str_object * obj = (struct fbgc_str_object *)(cast_fbgc_object_as_ref(ref)->content);
 	cprintf(100,"{%s",obj->content);
 	cprintf(111,":");
-	if(obj->base.next != NULL) print_fbgc_object(obj->base.next);
+	if(obj->base.next != NULL){
+		print_fbgc_object(obj->base.next);
+		cprintf(011,"}");
+	}
 	else cprintf(111,"NULL}");
+	
 
 }
  

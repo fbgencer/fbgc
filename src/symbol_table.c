@@ -27,7 +27,8 @@ struct fbgc_object * new_fbgc_symbol_from_substr(struct fbgc_object * field_obj,
 	
 	int8_t cmp = 1;
 	for(uint8_t i = 0; i<table->size; i++){
-		cmp = memcmp(str1,cast_fbgc_object_as_str(table->symbols[i])->content,str2-str1);
+		if(strlen(cast_fbgc_object_as_str(table->symbols[i])->content) != str2-str1) continue;
+		cmp = strncmp(str1,cast_fbgc_object_as_str(table->symbols[i])->content,str2-str1);
 		if(cmp == 0) {
 			//
 			//cprintf(110,"Found in the symbol table!\n");
@@ -57,18 +58,18 @@ struct fbgc_object * new_cfun_object_from_substr(struct fbgc_object * field_obj,
 
 	struct fbgc_ll_object * ll = cast_fbgc_object_as_ll( cast_fbgc_object_as_field(field_obj)->modules );
 	struct fbgc_cmodule_object * cm = (struct fbgc_cmodule_object *)ll->base.next;
-	while(cm!= NULL && cm != ll->tail){
+	while(cm!= NULL && (struct fbgc_object * )cm != ll->tail){
 		const struct fbgc_cfunction * cc = cm->module->functions[0];
 		//cprintf(111,"Functions:\n");
 		for (int i = 1; cc!=NULL; ++i){
 			if(!memcmp(str1,cc->name,str2-str1)){
-				cprintf(010,"\n**Function [%s] is founded in module [%s]**\n",cc->name,cm->module->name);
+				//cprintf(010,"\n**Function [%s] is founded in module [%s]**\n",cc->name,cm->module->name);
 				return new_fbgc_cfun_object(cc->function);
 			} 
 			//cprintf(101,"{%s}\n",cc->name);
 			cc = cm->module->functions[i];
 		}
-		cm = cm->base.next;
+		cm = (struct fbgc_cmodule_object * )cm->base.next;
 	}
 
 	return NULL;
@@ -89,7 +90,7 @@ struct fbgc_object * load_module_in_symbol_table(struct fbgc_object * table_obj,
 
 uint8_t is_object_referenced_in_symbol_table(struct fbgc_object * table_obj,struct fbgc_object * ref,struct fbgc_object * obj){
 	struct fbgc_symbol_table * table = (struct fbgc_symbol_table *) table_obj;
-	cprintf(111,"searching :"); print_fbgc_object(obj); printf("\n");
+	//cprintf(111,"searching :"); print_fbgc_object(obj); printf("\n");
 	for(uint8_t i = 0; i<table->size; i++ ){
 		if(cast_fbgc_object_as_str(table->symbols[i])->base.next != NULL && cast_fbgc_object_as_str(table->symbols[i])->base.next == obj 
 			&& cast_fbgc_object_as_str(table->symbols[i]) != cast_fbgc_object_as_str(cast_fbgc_object_as_ref(ref)->content)){	
@@ -97,7 +98,7 @@ uint8_t is_object_referenced_in_symbol_table(struct fbgc_object * table_obj,stru
 		}
 
 	}
-	cprintf(111,"Returning zero, object is not referenced before!\n");
+	//cprintf(111,"Returning zero, object is not referenced before!\n");
 	return 0;
 }
 
@@ -120,7 +121,7 @@ void print_fbgc_symbol_table(struct fbgc_object * table_obj){
 
 void free_fbgc_symbol_table(struct fbgc_object * table_obj){
 	struct fbgc_symbol_table * table = (struct fbgc_symbol_table *) table_obj;
-	cprintf(011,"Free symbol table size :%d!\n",table->size);
+	//cprintf(011,"Free symbol table size :%d!\n",table->size);
 	for(uint8_t i = 0; i<table->size; i++ ){
 		if(cast_fbgc_object_as_str(table->symbols[i])->base.next != NULL){
 			//actual object that is held by identifier
