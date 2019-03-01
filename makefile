@@ -3,9 +3,16 @@ SRC = $(shell find src/*.c cmodules/*.c)
 #MODULES = $(wildcard cmodules/*.c)
 OBJ = ${SRC:.c=.o}
 
-CC=g++
+CC=gcc
 CFLAGS=-c -Wall -lm
 LDFLAGS += -lm 
+
+#CFLAGS += -DCLOSE_PRINTF
+#CFLAGS += -DLEXER_DEBUG
+#CFLAGS += -DPARSER_DEBUG
+#CFLAGS += -DGRAMMAR_DEBUG
+CFLAGS += -DINTERPRETER_DEBUG
+CFLAGS += -DFREE_DEBUG
 
 TEST_OBJ = ${TEST_SRC:.c=.o}
 
@@ -21,7 +28,7 @@ $(OUT): $(OBJ)
 
 %.o: %.c
 	@$(CC) -c $(CFLAGS) $< -o $@ 
-	$(info    "Succesfully compiled")
+	$(info "Succesfully compiled:" $<)
 
 
 clean:

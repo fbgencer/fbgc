@@ -19,7 +19,7 @@ uint8_t operator_precedence(fbgc_token T){
 		case COMMA: return 8;
 		case LPARA: return 6;
 		case RPARA: return 5;
-		case LBRACK: return 4;
+		case LBRACK: case SUBSCRIPT:return 4;
 		case RBRACK: return 3;
 		case SEMICOLON: return 2;
 		case BEGIN:case IF_BEGIN:  case ELSE_BEGIN: case ELIF: case ELSE: return 1;
@@ -33,7 +33,6 @@ uint8_t compare_operators(fbgc_token stack_top, fbgc_token obj_type){
 	// stack_top >= obj_type => return 1;
 	// stack_top < obj_type => return 0;
 
-	//cprintf(010,"stack_top[%s] obj_type[%s]\n",object_name_array[stack_top],object_name_array[obj_type]);
 	if(stack_top == obj_type){
 		switch(stack_top){
 			case LPARA:
@@ -44,8 +43,7 @@ uint8_t compare_operators(fbgc_token stack_top, fbgc_token obj_type){
 			return 0;
 		}
 	}
-	else if(obj_type == LPARA) return 0; //work about this
-	else if(obj_type == LBRACK) return 0;
+	else if(obj_type == LPARA || obj_type == LBRACK) return 0; //work about this
 	//else if(obj_type == IF) return 0;
 	//else if(obj_type == IF_BEGIN) return 0;
 	//precedence of the operators have to change according to their positions
@@ -54,7 +52,7 @@ uint8_t compare_operators(fbgc_token stack_top, fbgc_token obj_type){
 
 
 #define is_pushable_in_main(x)(!is_fbgc_PARA(x) && \
-x!= END && x!=IF_BEGIN && x!=ELSE_BEGIN && x!= SEMICOLON && x!= LOAD)
+x!= END && x!=IF_BEGIN && x!=ELSE_BEGIN && x!= SEMICOLON && x!= LOAD && x!= SUBSCRIPT)
 
 uint8_t parser(struct fbgc_object ** field_obj){
 	#ifdef PARSER_DEBUG
@@ -110,7 +108,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 					head->size++;	
 				}
 				else{
-					//not pushables in main like paranthesis 
+					//not pushables in main, like paranthesis 
 					if(iter->type == RPARA && get_fbgc_object_type(top_fbgc_ll_object(op_stack_head)) == LPARA){
 						//balanced paranthesis, 
 						delete_front_fbgc_ll_object(op_stack_head);
@@ -118,9 +116,20 @@ uint8_t parser(struct fbgc_object ** field_obj){
 					}
 					else if(iter->type == RBRACK && get_fbgc_object_type(top_fbgc_ll_object(op_stack_head)) == LBRACK){
 						//balanced brackets
+						cprintf(111,"here\n");
 						delete_front_fbgc_ll_object(op_stack_head);
 						break;
 					}
+					else if(iter->type == RBRACK && get_fbgc_object_type(top_fbgc_ll_object(op_stack_head)) == SUBSCRIPT){
+						//balanced brackets
+						delete_front_fbgc_ll_object(op_stack_head);
+						break;
+					}					
+					else if(iter->type == RBRACE && get_fbgc_object_type(top_fbgc_ll_object(op_stack_head)) == LBRACE){
+						//balanced brackets
+						delete_front_fbgc_ll_object(op_stack_head);
+						break;
+					}					
 					else if(iter->type == ELIF && get_fbgc_object_type(top_fbgc_ll_object(op_stack_head)) == IF_BEGIN){
 						head_obj = insert_next_fbgc_ll_object(head_obj,iter_prev,new_fbgc_object(JUMP));
 						iter_prev = iter_prev->next;
@@ -170,8 +179,6 @@ uint8_t parser(struct fbgc_object ** field_obj){
 				cprintf(101,"[*GM]:{Top:%s} Flag{0x%X} \n",object_name_array[gm.top],gm.flag);
 			#endif
 
-
-
 			gm_error = gm_seek_left(&gm,iter);
 
 			/*if(iter->type == RPARA){
@@ -197,6 +204,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 						iter_prev = iter_prev->next;
 					} else iter_prev->type = INT;
 				}
+				//nuple or subscript
 				if(gm.top != MONUPLE){
 					head_obj = insert_next_fbgc_ll_object(head_obj,iter_prev,new_fbgc_object(gm.top));
 					iter_prev = iter_prev->next;
@@ -285,5 +293,5 @@ uint8_t parser(struct fbgc_object ** field_obj){
 	cprintf(111,"--------------[parser_end]-------------\n");
 	#endif
 
-	return 1;
+	return gm_error;
 }

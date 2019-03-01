@@ -14,6 +14,8 @@ struct fbgc_tuple_object{
 
 struct fbgc_object * new_fbgc_tuple_object(int size);
 void set_object_in_fbgc_tuple_object(struct fbgc_object * self,struct fbgc_object * obj,int index);
+struct fbgc_object * get_object_in_fbgc_tuple_object(struct fbgc_object * self,int index);
+
 void print_fbgc_tuple_object(struct fbgc_object *);
 void free_fbgc_tuple_object(struct fbgc_object * );
 

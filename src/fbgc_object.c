@@ -9,8 +9,6 @@ fbgc_object * new_fbgc_object(fbgc_token token){
     return (struct fbgc_object*) o;
 }
 
-
-
 struct
 fbgc_object * new_fbgc_object_from_substr(struct fbgc_object * field_obj,const char *str1, const char*str2, fbgc_token token){
 	struct fbgc_object *obj = NULL;
@@ -20,14 +18,13 @@ fbgc_object * new_fbgc_object_from_substr(struct fbgc_object * field_obj,const c
 		case INT2:
 		case INT16:
 					obj = new_fbgc_int_object_from_substr(str1,str2,token);
-					return obj;
-		
+					break;
 		case DOUBLE: 
 					obj = new_fbgc_double_object_from_substr(str1,str2); 
-					return obj;
+					break;
 		case STRING: 
 					obj = new_fbgc_str_object_from_substr(str1+1,str2-1); 
-					return obj;
+					break;
 		case LPARA:			
 		case RPARA:
 		case LBRACE:
@@ -36,10 +33,11 @@ fbgc_object * new_fbgc_object_from_substr(struct fbgc_object * field_obj,const c
 		case RBRACK:
 		case OP: 
 					obj = new_fbgc_object(get_operator_code_from_substr(str1,str2));
-					if(obj->type == UNKNOWN){
+					if(get_fbgc_object_type(obj) == UNKNOWN){
 						cprintf(100,"Undefined operator!\n");
+						obj = NULL;
 					}
-					return obj;
+					break;
 		case WORD:
 					token = get_reserved_word_code_from_substr(str1,str2);
 					if(token == UNKNOWN){
@@ -49,13 +47,13 @@ fbgc_object * new_fbgc_object_from_substr(struct fbgc_object * field_obj,const c
 						obj = new_fbgc_symbol_from_substr(field_obj,str1,str2);
 						//handle symbol table!
 					}else {
-						return new_fbgc_object(token);
+						obj  = new_fbgc_object(token);
 						 
 					}
 		break;
 		case COMMA:
-			return new_fbgc_object(COMMA);
-
+			obj = new_fbgc_object(COMMA);
+			break;
 		default:
 			cprintf(111,"Undefined token inside new object creation !\n\n");
 		break;
@@ -67,9 +65,9 @@ fbgc_object * new_fbgc_object_from_substr(struct fbgc_object * field_obj,const c
 
 
 void print_fbgc_object(struct fbgc_object * self){
-	
+
 	if(self != NULL){ 
-		switch(self->type){
+		switch(get_fbgc_object_type(self)){
 			case INT:
 				print_fbgc_int_object(self);
 			break;
@@ -87,7 +85,7 @@ void print_fbgc_object(struct fbgc_object * self){
 				print_fbgc_tuple_object(self);
 			break;			
 			default:
-				cprintf(100,object_name_array[self->type]);  
+				cprintf(100,"[%s]",object_type_as_str(self));  
 			break;
 
 		}
@@ -101,7 +99,7 @@ int convert_fbgc_object_to_int(struct fbgc_object * obj){
 	if(get_fbgc_object_type(obj) == INT) return cast_fbgc_object_as_int(obj)->content;
 	
 	if(obj != NULL){
-		switch(obj->type){
+		switch(get_fbgc_object_type(obj)){
 			case DOUBLE: 
 				return (int)(cast_fbgc_object_as_double(obj)->content);
 			default :
@@ -116,9 +114,8 @@ int convert_fbgc_object_to_int(struct fbgc_object * obj){
 double convert_fbgc_object_to_double(struct fbgc_object * obj){
 	if(get_fbgc_object_type(obj) == DOUBLE) return cast_fbgc_object_as_double(obj)->content;
 
-
 	if(obj != NULL){
-		switch(obj->type){
+		switch(get_fbgc_object_type(obj)){
 			case INT:
 				return (double)(cast_fbgc_object_as_int(obj)->content);
 			default :
@@ -130,13 +127,51 @@ double convert_fbgc_object_to_double(struct fbgc_object * obj){
 }
 
 
+void claim_ownership(struct fbgc_object * self){
+	
+	if(self != NULL){ 
+		cprintf(011,"claim_ownership for [%s]\n",object_type_as_str(self));
+		switch(get_fbgc_object_type(self)){
+			case TUPLE:
+				self->type |= 0x80;
+				/*for(unsigned int i = 0; i<cast_fbgc_object_as_tuple(self)->size; i++){
+					claim_ownership(cast_fbgc_object_as_tuple(self)->contents[i]);
+				}*/
+			break;	
+			case REFERENCE:
+				claim_ownership(cast_fbgc_object_as_ref(self)->content->next);
+			break;		
+			default:
+				self->type |= 0x80; 
+			break;
+
+		}
+	}
+	else cprintf(111,"NULL object cannot !!\n");
+}
+
+
 void free_fbgc_object(struct fbgc_object * self){
-	//cprintf(111,"Free["); print_fbgc_object(self); cprintf(111,"]\n");
-	if(self != NULL){
-		if(self->type == STRING || self->type == WORD) free_fbgc_str_object(self);
-		else if(self->type== TUPLE) free_fbgc_tuple_object(self);
-		else if(self->type == REFERENCE) free_fbgc_ref_object(self);
-		else free(self);		
+		#ifdef FREE_DEBUG
+			if(self == NULL) cprintf(100,"Null deleting..\n");
+		#endif			
+
+	if(self != NULL && (self->type & 0x80) != 0x80 ){
+		#ifdef FREE_DEBUG
+		cprintf(110,"Freeing["); print_fbgc_object(self); cprintf(110,"]\n");
+		#endif			
+		switch(self->type) {
+			case STRING:
+			case WORD:
+				free_fbgc_str_object(self);
+				break;
+			case TUPLE:
+				free_fbgc_tuple_object(self);
+				break;
+			default:
+				free(self);
+				break;
+		}
 	}
 
 }

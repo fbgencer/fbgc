@@ -12,6 +12,9 @@ struct fbgc_symbol_table{
 	//capacity is always size + 2
 };
 
+#define cast_fbgc_object_as_symbol_table(x)((struct fbgc_symbol_table *)x)
+
+
 
 struct fbgc_object * new_fbgc_symbol_table(void);
 struct fbgc_object * new_fbgc_symbol(struct fbgc_object * ,const char * ,const char * );
@@ -22,6 +25,8 @@ struct fbgc_object * new_cfun_object_from_substr(struct fbgc_object * table_obj,
 
 uint8_t is_object_referenced_in_symbol_table(struct fbgc_object * table_obj,struct fbgc_object * ,struct fbgc_object * obj);
 struct fbgc_object * load_module_in_symbol_table(struct fbgc_object *,struct fbgc_object * );
+
+void claim_ownership_in_symbol_table(struct fbgc_object * table_obj);
 
 void print_fbgc_symbol_table(struct fbgc_object * );
 void free_fbgc_symbol_table(struct fbgc_object * );

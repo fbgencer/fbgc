@@ -15,6 +15,7 @@ struct fbgc_grammar{
 #define FLAG_LBRACK   0b00000010
 #define FLAG_LBRACE   0b00000100
 #define FLAG_BEGIN    0b00001000
+//#define FLAG_SUBSCRIPT 
 
 #define NOT_FLAG_LPARA    0b11111110
 #define NOT_FLAG_LBRACK   0b11111101

@@ -142,6 +142,7 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 			gm_left == UNBALANCED_EXPRESSION_LIST  || 
 			gm_left == LPARA || is_fbgc_ASSIGNMENT_OPERATOR(gm_left) ||
 			gm_left == LBRACK || gm_left == IF_BEGIN || gm_left == BEGIN || gm_left == ELSE || gm_left == SEMICOLON ||
+			gm_left == SUBSCRIPT ||
 			is_fbgc_START(gm_left) ) )
 	{
 		gm->top =get_fbgc_object_type(obj);
@@ -151,12 +152,12 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 		( is_fbgc_BINARY_OPERATOR(gm_left) || 
 			is_fbgc_UNARY_OPERATOR(gm_left)  || 
 			gm_left == UNBALANCED_EXPRESSION_LIST  || 
-			gm_left == LPARA || is_fbgc_ASSIGNMENT_OPERATOR(gm_left) ||
-			gm_left == LBRACK || 
+			is_fbgc_ASSIGNMENT_OPERATOR(gm_left) ||
+			gm_left == LBRACK ||  gm_left == LPARA || gm_left == LBRACE ||
 			gm_left == IF_BEGIN || gm_left == BEGIN || gm_left == ELSE || gm_left == SEMICOLON ||
 			is_fbgc_START(gm_left) ))
 	{
-		gm->top = IDENTIFIER;
+		gm->top = get_fbgc_object_type(obj);
 	}	
 	else if(get_fbgc_object_type(obj) == LPARA &&
 			(is_fbgc_BINARY_OPERATOR(gm_left) ||
@@ -164,21 +165,31 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 			is_fbgc_ASSIGNMENT_OPERATOR(gm_left) ||
 		 	gm_left == UNBALANCED_EXPRESSION_LIST || 
 		 	gm_left == LPARA || gm_left == IF || gm_left == ELIF || gm_left == LOAD || gm_left == SEMICOLON ||
-		 	gm_left == IDENTIFIER ||
+		 	is_fbgc_IDENTIFIER(gm_left) ||
 		 	is_fbgc_START(gm_left) ))
 	{	
 		gm->top = LPARA;
 	}
+	else if(get_fbgc_object_type(obj) == LBRACK && (gm_left == REFERENCE || gm_left == SUBSCRIPT))
+	{
+		obj->type = gm->top = SUBSCRIPT;
+
+	}	
 	else if(get_fbgc_object_type(obj) == LBRACK &&
 			(is_fbgc_BINARY_OPERATOR(gm_left) ||
 			is_fbgc_UNARY_OPERATOR(gm_left)  ||
 			is_fbgc_ASSIGNMENT_OPERATOR(gm_left) ||
 		 	gm_left == UNBALANCED_EXPRESSION_LIST || gm_left == LBRACK || gm_left == SEMICOLON
-		 	|| gm_left == IDENTIFIER ||
-		 	is_fbgc_START(gm_left)) )
+		 	|| is_fbgc_START(gm_left)) )
 	{
 		gm->top = LBRACK;		
 	}
+	else if(get_fbgc_object_type(obj) == LBRACE &&
+			(is_fbgc_TUPLE(gm_left))
+			)
+	{
+		gm->top = LBRACE;		
+	}	
 	else if( (is_fbgc_UNARY_OPERATOR(get_fbgc_object_type(obj)) ||
 			 get_fbgc_object_type(obj) == PLUS ||get_fbgc_object_type(obj) == MINUS) 
 			&& 
@@ -193,17 +204,17 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 		//cprintf(111,"binar->expr");
 		gm->top = get_fbgc_object_type(obj);
 	}
-	else if(is_fbgc_ASSIGNMENT_OPERATOR(get_fbgc_object_type(obj)) && (gm_left == IDENTIFIER || gm_left == RAW_TUPLE)){
+	else if(is_fbgc_ASSIGNMENT_OPERATOR(get_fbgc_object_type(obj)) && (gm_left == REFERENCE ||gm_left == SUBSCRIPT ||  gm_left == RAW_TUPLE)){
 		gm->top = get_fbgc_object_type(obj);
 	}
-	else if(get_fbgc_object_type(obj) == COMMA && is_fbgc_EXPRESSION(gm_left) ){
+	else if(get_fbgc_object_type(obj) == COMMA && (is_fbgc_EXPRESSION(gm_left) || gm_left == ASSIGNMENT_EXPRESSION) ){
 		gm->top = UNBALANCED_EXPRESSION_LIST;
 	}	
 	else if(get_fbgc_object_type(obj) == RPARA  && is_grammar_LPARA_flag_open(gm->flag) &&  (gm_left == BALANCED_EXPRESSION_LIST || gm_left == UNBALANCED_EXPRESSION_LIST) ){
 		grammar_close_LPARA_flag(gm->flag);
 		gm->top = RAW_TUPLE;			
 	}
-	else if(get_fbgc_object_type(obj) == RPARA && is_grammar_LPARA_flag_open(gm->flag) && is_fbgc_EXPRESSION(gm_left)){	
+	else if(get_fbgc_object_type(obj) == RPARA && is_grammar_LPARA_flag_open(gm->flag) && (is_fbgc_EXPRESSION(gm_left) || gm_left == ASSIGNMENT_EXPRESSION) ){	
 		grammar_close_LPARA_flag(gm->flag);
 		gm->top = MONUPLE;
 	}	
@@ -211,10 +222,16 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 		grammar_close_LPARA_flag(gm->flag);
 		gm->top = NUPLE;
 	}	
-	else if(get_fbgc_object_type(obj) == RBRACK && is_grammar_LBRACK_flag_open(gm->flag) && (gm_left == BALANCED_EXPRESSION_LIST || is_fbgc_EXPRESSION(gm_left)) ){
+	else if(get_fbgc_object_type(obj) == RBRACK &&  is_grammar_LBRACK_flag_open(gm->flag) && gm_left == SUBSCRIPT ){
+		grammar_close_LBRACK_flag(gm->flag);
+		gm->top = SUBSCRIPT;		
+	}		
+	else if(get_fbgc_object_type(obj) == RBRACK && is_grammar_LBRACK_flag_open(gm->flag) && 
+		(gm_left == BALANCED_EXPRESSION_LIST || is_fbgc_EXPRESSION(gm_left)) ){
 		grammar_close_LBRACK_flag(gm->flag);
 		gm->top = (RAW_MATRIX);		
 	}
+
 	/*else if(get_fbgc_object_type(obj) == SEMICOLON && gm_left == BALANCED_EXPRESSION_LIST){
 		gm->top = ROW;
 	}*/
@@ -259,7 +276,7 @@ uint8_t gm_seek_right(struct fbgc_grammar * gm, struct fbgc_object * obj){
 
 	#define gm_right (gm->top)
 	#ifdef GRAMMAR_DEBUG
-	cprintf(100,"Seek right: OBJ:[%s] Right:[%s] flag{0x%X}\n",object_name_array[get_fbgc_object_type(obj)],object_name_array[gm_right],gm->flag);
+	cprintf(001,"Seek right: OBJ:[%s] Right:[%s] flag{0x%X}\n",object_name_array[get_fbgc_object_type(obj)],object_name_array[gm_right],gm->flag);
 	#endif	
 
 
@@ -272,7 +289,7 @@ uint8_t gm_seek_right(struct fbgc_grammar * gm, struct fbgc_object * obj){
 	else if(is_fbgc_ASSIGNMENT_OPERATOR(get_fbgc_object_type(obj)) && is_fbgc_STATEMENT(gm_right)){
 		gm->top = (ASSIGNMENT_EXPRESSION);
 	}
-	else if(get_fbgc_object_type(obj) == COMMA && is_fbgc_EXPRESSION(gm_right) ){
+	else if(get_fbgc_object_type(obj) == COMMA && (is_fbgc_EXPRESSION(gm_right) || gm_right == ASSIGNMENT_EXPRESSION) ){
 		gm->top = (BALANCED_EXPRESSION_LIST);
 	}
 	else if(get_fbgc_object_type(obj) == COMMA && gm_right == UNBALANCED_EXPRESSION_LIST ){
@@ -296,12 +313,20 @@ uint8_t gm_seek_right(struct fbgc_grammar * gm, struct fbgc_object * obj){
 	else if(get_fbgc_object_type(obj) == LPARA && gm_right == LPARA){
 		grammar_open_LPARA_flag(gm->flag);
 	}
-	else if(get_fbgc_object_type(obj) == LPARA && (is_fbgc_EXPRESSION(gm_right) || gm_right == BALANCED_EXPRESSION_LIST || gm_right == UNBALANCED_EXPRESSION_LIST) ){
+	else if(get_fbgc_object_type(obj) == LPARA && (is_fbgc_EXPRESSION(gm_right) || gm_right == ASSIGNMENT_EXPRESSION|| gm_right == BALANCED_EXPRESSION_LIST || gm_right == UNBALANCED_EXPRESSION_LIST) ){
 		grammar_open_LPARA_flag(gm->flag);		
 	}
+	else if(get_fbgc_object_type(obj) == SUBSCRIPT && is_fbgc_EXPRESSION(gm_right) ){
+		grammar_open_LBRACK_flag(gm->flag);
+		gm->top = SUBSCRIPT;
+	}	
 	else if(get_fbgc_object_type(obj) == LBRACK && (is_fbgc_EXPRESSION(gm_right) || gm_right == BALANCED_EXPRESSION_LIST)){
 		grammar_open_LBRACK_flag(gm->flag);
 	}
+	else if(get_fbgc_object_type(obj) == LBRACE && (is_fbgc_EXPRESSION(gm_right) || gm_right == SEMICOLON)){
+		grammar_open_LBRACE_flag(gm->flag);
+	}
+	
 	/*else if(
 		(get_fbgc_object_type(obj) == IF ||  
 		get_fbgc_object_type(obj) == ELIF ||

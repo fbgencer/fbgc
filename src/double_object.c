@@ -60,14 +60,9 @@ fbgc_object * divide_fbgc_double_object(struct fbgc_object * a,struct fbgc_objec
 
 
 void print_fbgc_double_object(struct fbgc_object * obj){
-    struct fbgc_double_object * dbo = (struct fbgc_double_object*) obj;
-    cprintf(011,"%f",dbo->content);   
+    cprintf(011,"%f",cast_fbgc_object_as_double(obj)->content);   
 }
 
 void free_fbgc_double_object(struct fbgc_object * obj){
-    struct fbgc_double_object *dbo = (struct fbgc_double_object*) obj;
-    #ifdef DEBUG
-    	//fprintf(fbgc_log_file,"Double Deleting..");
-    #endif
-    free(dbo);
+    free(obj);
 }

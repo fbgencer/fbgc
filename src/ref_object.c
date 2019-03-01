@@ -14,40 +14,44 @@ struct fbgc_object * initialize_fbgc_ref_object(struct fbgc_object *ref, struct 
 	return (struct fbgc_object*) refo; 
 }
 
-struct fbgc_object * assign_var_to_fbgc_ref_object(struct fbgc_object * table, struct fbgc_object *ref,struct fbgc_object * obj){
-	struct fbgc_ref_object * refo = cast_fbgc_object_as_ref(ref);
+void assign_var_to_fbgc_ref_object(struct fbgc_object * ref,struct fbgc_object * obj){
+	#define refo cast_fbgc_object_as_ref(ref)
+
 	if(refo != NULL && refo->content != NULL){
-		if(refo->content->next != NULL && !is_object_referenced_in_symbol_table(table,ref,refo->content->next)){
-			free_fbgc_object(refo->content->next);
-		}
 		refo->content->next = obj;
-		//cprintf(010,"refo assigned!\n");
 	}else{
+		//should we delete this kind of errors ? 
 		cprintf(100,"Undefined variable !\n");
 	}
-	return (struct fbgc_object*) refo; 	
+	return ref; 	
+	#undef refo
 }
+
+
 
 struct fbgc_object * get_var_from_fbgc_ref_object(struct fbgc_object *ref){
-	if(ref == NULL){
-		cprintf(100,"Error reference object is not defined !\n");
-	}
-	else if(ref->type == REFERENCE){
+	if(get_fbgc_object_type(ref) == REFERENCE){
+		claim_ownership(ref);
 		return cast_fbgc_object_as_ref(ref)->content->next;
 	}
-	return (struct fbgc_object*) ref; 	
+	return  ref;
 }
 
+
+
 void print_fbgc_ref_object(struct fbgc_object * ref){
-	struct fbgc_str_object * obj = (struct fbgc_str_object *)(cast_fbgc_object_as_ref(ref)->content);
-	cprintf(100,"{%s",obj->content);
-	cprintf(111,":");
-	if(obj->base.next != NULL){
-		print_fbgc_object(obj->base.next);
-		cprintf(011,"}");
-	}
-	else cprintf(111,"NULL}");
-	
+	//if(cast_fbgc_object_as_ref(ref)->content->type == STRING){
+		struct fbgc_str_object * obj = (struct fbgc_str_object *)(cast_fbgc_object_as_ref(ref)->content);
+		if(obj->content != NULL)cprintf(100,"{%s",obj->content);
+		cprintf(111,":");
+		if(obj->base.next != NULL){
+			print_fbgc_object(obj->base.next);
+			cprintf(011,"}");
+		}
+		else cprintf(111,"NULL}");		
+	//}
+
+	//print_fbgc_object(cast_fbgc_object_as_ref(ref)->content);
 
 }
  

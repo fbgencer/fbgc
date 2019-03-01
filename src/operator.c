@@ -140,10 +140,11 @@ struct fbgc_object * fbgc_binary_slash(struct fbgc_object * a, struct fbgc_objec
 //Assignment
 
 // a=b
-void fbgc_assignment_assign(struct fbgc_object * table, struct fbgc_object * a, struct fbgc_object * b ){
-	//cprintf(001,"Trying to assign!\n");
+void fbgc_assignment_assign(struct fbgc_object * a, struct fbgc_object * b ){
 	
-	if(get_fbgc_object_type(a) == TUPLE && get_fbgc_object_type(b) == TUPLE){
+	assign_var_to_fbgc_ref_object(a,get_var_from_fbgc_ref_object(b));
+
+	/*if(get_fbgc_object_type(a) == TUPLE && get_fbgc_object_type(b) == TUPLE){
 		if(cast_fbgc_object_as_tuple(a)->size == cast_fbgc_object_as_tuple(b)->size){
 			for(int i = 0; i<cast_fbgc_object_as_tuple(a)->size; i++){
 				fbgc_assignment_assign(table,cast_fbgc_object_as_tuple(a)->contents[i],cast_fbgc_object_as_tuple(b)->contents[i]);
@@ -160,7 +161,7 @@ void fbgc_assignment_assign(struct fbgc_object * table, struct fbgc_object * a, 
 		//cprintf(001,"Working on x = y\n");
 		//struct fbgc_object 
 		a = assign_var_to_fbgc_ref_object(table,a,get_var_from_fbgc_ref_object(b));
-	}
+	}*/
 
 }
 
@@ -173,7 +174,24 @@ struct fbgc_object * (*fbgc_binary_op[4])(struct fbgc_object *, struct fbgc_obje
 	fbgc_binary_star,
 	fbgc_binary_slash
 };
-void (*fbgc_assignment_op[1])(struct fbgc_object *,struct fbgc_object *, struct fbgc_object *) =
+void (*fbgc_assignment_op[1])(struct fbgc_object *, struct fbgc_object *) =
 {
 	fbgc_assignment_assign,
 };
+
+
+struct fbgc_object * call_get_item_with_index(struct fbgc_object * var,struct fbgc_object *index){
+	cprintf(111,"index:%s,vaR:%s\n",object_type_as_str(index),object_type_as_str(var));
+
+	if(get_fbgc_object_type(var) != TUPLE && get_fbgc_object_type(var) != MATRIX) return NULL;
+	if(get_fbgc_object_type(index) != INT ) return NULL;
+	
+	switch(get_fbgc_object_type(var)){
+		case TUPLE:
+			return get_object_in_fbgc_tuple_object(var,cast_fbgc_object_as_int(index)->content);
+		default:
+			return NULL;
+	}
+
+
+}

@@ -19,7 +19,7 @@ static struct fbgc_object * fbgc_print(struct fbgc_object * arg)
 	if(arg->type == TUPLE){
 		for(unsigned int i = 0; i<cast_fbgc_object_as_tuple(arg)->size; i++){
 			print_fbgc_object(cast_fbgc_object_as_tuple(arg)->contents[i]);		
-			//printf(" ");
+			//printf(" tp");
 		}
 	} 
 	else print_fbgc_object(arg);

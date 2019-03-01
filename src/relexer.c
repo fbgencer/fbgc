@@ -38,6 +38,8 @@ const token_table_struct lexer_table[1] =
 	}	
 };	
 
+//1.2-E2
+
 //this must be deleted just a shot to see the system is it capable of doing this stuff
 #define COMMENT 220
 
@@ -49,17 +51,13 @@ const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] =
 	{INT2,"0b 1|0!+"},
 	{INT16,"0x !x!+"},
 	{STRING,"' _|\\'!s!d!w!o!* '"},
+	//{DOUBLE,"!d!+ . !d!+ E +|-!* !d!+"}, 	//just experimental, it works..
 	{COMPLEX,"!d!+ . !d!+ j"},
 	{COMPLEX,"!d!+ j"}, 
 	{DOUBLE,". !d!+"}, 
 	{DOUBLE,"!d!+ . !d!+"}, 
 	{INT,"!d!+"},
-	{LPARA,"("},
-	{RPARA,")"},
-	{LBRACE,"{"},
-	{RBRACE,"}"},
-	{LBRACK,"["},
-	{RBRACK,"]"},		
+	{OP,"(|)|[|]|{|}"},	
 	{OP,"+|-|.|**|^|*|/|<|>|=>|<=|=|,|;|?!+"},	
 	{WORD,"_!w _!w!d!*"},	
 };
@@ -297,7 +295,10 @@ void read_rule_table(rule_arrange_struct *ras){
 
 uint8_t regex_lexer(struct fbgc_object ** field_obj,char * first_ptr){
 	#ifdef LEXER_DEBUG
-	cprintf(111,"\n------------[RELEXER:%s]-----------\n",first_ptr);
+	cprintf(111,"=============RELEXER================\n");
+	cprintf(101,"%s",first_ptr);
+	cprintf(111,"====================================\n");
+	
 	#endif
 
 
@@ -373,7 +374,7 @@ uint8_t regex_lexer(struct fbgc_object ** field_obj,char * first_ptr){
 							char * tempstr = (char *) malloc(sizeof(char) * ((mobile_ptr - first_ptr)+1) );
 							strncpy(tempstr,first_ptr,(mobile_ptr - first_ptr));
 							tempstr[(mobile_ptr - first_ptr)] = '\0';
-							cprintf(101,"['%s' : %s]",tempstr, object_name_array[current_token] );
+							cprintf(101,"['%s' : %s]\n",tempstr, object_name_array[current_token] );
 							free(tempstr);
 						#endif
 					
@@ -423,7 +424,7 @@ uint8_t regex_lexer(struct fbgc_object ** field_obj,char * first_ptr){
 	}
 
 	#ifdef LEXER_DEBUG
-	cprintf(111,"\n---------[relexer_end]--------\n");
+		cprintf(111,"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n");
 	#endif
 	return 1;
 }

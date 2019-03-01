@@ -1,7 +1,34 @@
 #1 Lexer cannot handle single quotation marks inside strings
 'fb\'gc' is validated as a string but string conversin for \' could not done.
-Also when reading from file \n reads as \\n (for c style) but fbgc_getline_from_file converts is this chars before sending to lexer.
+Also when reading from file \n reads as \\n (for c style) but fbgc_getline_from_file converts this chars before sending to lexer.
 
 #2 change the reference and identifier stuff in the grammar because there is no restriction for identifier calling..
 
-#3
+#3 reference objesinin tipini 2ye ayir değer ve adres tutan şeklinde
+
+#4 garbage collection sorununu hallet
+y = (1,2,3,(4,5))
+x = y[3]
+y = 5
+x = 10
+yaptığımızda x'in çıktısı (4,5) ve y'nin çıktısı ise 5 olmalı, ilk baştaki tuple silinirken (4,5) objesi silinmemeli
+benim algoritmamda bunlar kontrol edilmiyor ve hata veriyor, (4,5) tuple objesinin referansını başkasının tuttuğunu nasıl anlayabiliriz?
+python çözümü her objeye referans saydırmak ama bizde bu fazladan int tutmak demek ve memoryda çok yer kaplar..
+
+
+tuple oluşturulup y'ye yazılırken y'nin her objesine mark bit atasak yani bunların bir yere bağlı olduğunu belli etsek, y objesi de dahil
+sonra x'e atama yaparken zaten mark bit 1 olduğundan silemeyeceğiz
+y = 5 yaptığımızda yine aynı şekilde bütün datalar içinde sweep eder ve daha önce atanıp atanmadığını buluruz, ref counterdan kötü ancak sorunu çözer
+x = 10 yaptığımızda yine aynı şekilde bütün 
+
+Yani y = 5 yapıldığı an y bütün sahipliklerinden vazgeçer, listenin kalanı ise tuttukları objelere sahipliklerini mark bitleri 1 yaparak gösterirler.
+Daha sonra 
+
+
+
+#5 word tipini, ref tipini vs tamamen silmek lazım fazla kalablaık yapıyor
+
+
+#6 sembol tablosunun array olması ile linked list olması arasındaki performans farkı ne?
+
+#7 fonksiyonlara tuple yollamak yerine linked list yollasak..

@@ -4,7 +4,10 @@
 
 new_fbgc_cfunction(fbgc_sin,"sin")
 {
-	printf("I am a sin functionn\n");
+	printf("I am a sin functionn calling:\n"); print_fbgc_object(arg);
+
+	//just return error arg shouldn't be tuple..
+	if(get_fbgc_object_type(arg) == TUPLE) return new_fbgc_object(UNKNOWN);
 
 	return new_fbgc_double_object(sin(convert_fbgc_object_to_double(arg)));
 }

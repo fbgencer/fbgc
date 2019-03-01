@@ -10,7 +10,11 @@ struct fbgc_object{
     struct fbgc_object * next;
 };
 
-#define get_fbgc_object_type(obj)( obj != NULL ? obj->type : UNKNOWN)
+#define is_object_null(obj)(obj == NULL)
+#define get_fbgc_object_type(obj)( (obj->type & 0x7F))
+
+//This only for debug case!
+#define object_type_as_str(obj)(object_name_array[get_fbgc_object_type(obj)])
 
 
 struct fbgc_object * new_fbgc_object(fbgc_token);
@@ -21,6 +25,7 @@ int convert_fbgc_object_to_int(struct fbgc_object * );
 double convert_fbgc_object_to_double(struct fbgc_object * );
 char * convert_fbgc_object_to_string(struct fbgc_object * );
 
+void claim_ownership(struct fbgc_object * self);
 void print_fbgc_object(struct fbgc_object *);
 void free_fbgc_object(struct fbgc_object *);
 

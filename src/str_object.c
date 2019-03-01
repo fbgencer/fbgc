@@ -25,12 +25,10 @@ struct fbgc_object * new_fbgc_str_object_from_substr(const char * str1,const cha
 
 
 void print_fbgc_str_object(struct fbgc_object * obj){
-    struct fbgc_str_object * stro = (struct fbgc_str_object*) obj;
-    cprintf(011,"%s",stro->content);   
+    cprintf(011,"%s",cast_fbgc_object_as_str(obj)->content);   
 }
 
 void free_fbgc_str_object(struct fbgc_object * obj){
-    struct fbgc_str_object * stro = cast_fbgc_object_as_str(obj);
-    free(stro->content);
-    free(stro);
+    free(cast_fbgc_object_as_str(obj)->content);
+    free(obj);
 }

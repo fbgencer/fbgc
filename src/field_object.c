@@ -17,18 +17,14 @@ void load_module_in_field_object(struct fbgc_object * field_obj, const struct fb
 
 	struct fbgc_cmodule_object * cm = (struct fbgc_cmodule_object *)malloc(sizeof(struct fbgc_cmodule_object ));
 	cm->module = module;
-	cm->base.type = START;
+	cm->base.type = CMODULE;//CHANGE THIS
 	push_front_fbgc_ll_object(cast_fbgc_object_as_field(field_obj)->modules,(struct fbgc_object *)cm);
 
-	//print_fbgc_cmodule(cm->module);
-	
 }
 
 void free_fbgc_field_object(struct fbgc_object * field_obj){
-	struct fbgc_field_object * field = (struct fbgc_field_object *) field_obj;
-	free_fbgc_ll_object(field->head);
-	free_fbgc_ll_object(field->modules);
-	free_fbgc_symbol_table(field->global_table);
-	//free(field->modules);
-	free(field);
+	free_fbgc_ll_object(cast_fbgc_object_as_field(field_obj)->head);
+	free_fbgc_ll_object(cast_fbgc_object_as_field(field_obj)->modules);
+	free_fbgc_symbol_table(cast_fbgc_object_as_field(field_obj)->global_table);
+	free(field_obj);
 }

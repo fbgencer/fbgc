@@ -1,8 +1,8 @@
 #include "fbgc.h"
 
+
+#ifndef CLOSE_PRINTF
 void cprintf(char color,const char *format, ...) {
-
-
 #define ANSI_COLOR_BLACK    "\033[1;30m" //000
 #define ANSI_COLOR_RED      "\033[1;31m" //100
 #define ANSI_COLOR_GREEN    "\033[1;32m" //010
@@ -17,7 +17,7 @@ void cprintf(char color,const char *format, ...) {
 
 //#define CLOSE_PRINTF
 
-    #ifndef CLOSE_PRINTF
+    
     va_list args;
       
     va_start(args, format);
@@ -34,50 +34,8 @@ void cprintf(char color,const char *format, ...) {
     vprintf(format, args); printf("\033[0m");
     
     va_end(args);
-
-    #endif
-
 }
 
-void fbgc_assert(int cond,const char *format, ...) {
+#endif
 
-    if(cond){
 
-    va_list args;
-    va_start(args, format);
-    #ifndef CLOSE_PRINTF
-    printf(ANSI_COLOR_YELLOW);
-    printf("Assert: ");
-    vprintf(format, args); printf("\033[0m");
-    #endif
-    va_end(args);        
-    }
-}
-
-int error(const char *x){
-    
-      printf("\n[ERROR code]: %s\n",x);
-      //printf("EVERYTHING WERE IMMEDIATELY STOPPED\n");
-    return 0;
-}
-int error2(const char* fmt, ...){
-    va_list args;
-    va_start(args, fmt);
-    while (*fmt != '\0') {
-        if (*fmt == 'd') {
-            printf("%d", va_arg(args, int));
-        } else if (*fmt == 'c') {
-            printf("%c", va_arg(args, int));
-        } else if (*fmt == 'f') {
-            printf("%f", va_arg(args, double));
-        }else if(*fmt == 'l'){
-            printf("%ld",va_arg(args,long) );
-        }else if(*fmt=='s'){
-            printf("%s",va_arg(args,char*));
-        }
-        ++fmt;
-    }
-    
-    va_end(args);
-    return 0;
-}

@@ -66,15 +66,9 @@ fbgc_object * divide_fbgc_int_object(struct fbgc_object * a,struct fbgc_object *
 }
 
 void print_fbgc_int_object(struct fbgc_object * obj){
-    struct fbgc_int_object * into = (struct fbgc_int_object*) obj;
-     cprintf(011,"%d",into->content);  
+    cprintf(011,"%d",cast_fbgc_object_as_int(obj)->content);  
 }
 
 void free_fbgc_int_object(struct fbgc_object * obj){
-    struct fbgc_int_object *into = (struct fbgc_int_object*) obj;
-    #ifdef DEBUG
-    	//fprintf(fbgc_log_file,"int Deleting..");
-    #endif
-    if(into != NULL)
-        free(into);
+    free(obj);
 }

@@ -5,12 +5,12 @@
 extern "C" {
 #endif
 
-int error(const char *x);
-int error2(const char* fmt, ...);
 
-void fbgc_assert(int cond,const char* fmt, ...);
+#if defined CLOSE_PRINTF
+#define cprintf(...)
+#else
 void cprintf(char color,const char *format, ...);
-
+#endif
 
 //#define LEXER_DEBUG
 //#define GRAMMAR_DEBUG

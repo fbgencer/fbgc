@@ -1,17 +1,3 @@
-#ifndef TOKENS_H
-#define TOKENS_H
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-typedef uint8_t fbgc_token;
-
-typedef struct {
-	fbgc_token tokencode;
-	const char * name;
-}token_struct;
-
 #define UNKNOWN 0
 #define ATOM 1
 #define INT 2
@@ -241,60 +227,4 @@ typedef struct {
 "BINARY_EXPRESSION",\
 "BALANCED_EXPRESSION_LIST",\
 "UNBALANCED_EXPRESSION_LIST",\
-
-extern const char * object_name_array[];
-extern const token_struct operator_token_array[];
-extern const token_struct reserved_words_token_array[];
-
-
-fbgc_token get_operator_code(const char *str);
-fbgc_token get_operator_code_from_substr(const char *str1,const char *str2);
-fbgc_token get_reserved_word_code(const char *str);
-fbgc_token get_reserved_word_code_from_substr(const char *str1,const char *str2);
-
-
-const char * get_token_as_str(fbgc_token tok);
-
-
-#define is_fbgc_OPERATOR(T)(T>=OP && T<= RBRACK)
-#define is_fbgc_IDENTIFIER(T)(T>=IDENTIFIER && T<=REFERENCE)
-#define is_fbgc_ATOM(T)(T>= ATOM && T<=STRING)
-#define is_fbgc_INT(T) (T == INT)
-#define is_fbgc_DOUBLE(T) (T == DOUBLE)
-#define is_fbgc_STRING(T) (T == STRING)
-#define is_fbgc_PARA(T)(T>=PARA && T<= RBRACK)
-#define is_fbgc_BINARY_OPERATOR(T)(T>=PLUS && T<= LSHIFT)
-#define is_fbgc_UNARY_OPERATOR(T)((T>=INC && T<=NOT_OP) )
-#define is_fbgc_ASSIGNMENT_OPERATOR(T)(T>= ASSIGN && T<= CONST_ASSIGN)
-#define is_fbgc_VAR(T)(T == VAR )
-#define is_fbgc_FUN(T)(T == FUN)
-#define is_fbgc_WORD(T)(T == WORD)
-
-#define is_fbgc_MATRIX(x)(x == MATRIX || x == RAW_MATRIX)
-#define is_fbgc_TUPLE(x)(x == NUPLE || x == MONUPLE  || x == RAW_TUPLE ||x == TUPLE)
-
-#define is_fbgc_FUNCTIONABLE(x)(x == IF || x == ELIF || x == ELSE || x == WHILE)
-
-#define is_fbgc_START(x)(x == START || x == BEGIN || x == IF_BEGIN)
-#define is_fbgc_LIST(x) (x == LIST)
-#define is_fbgc_EXPRESSION(x)(is_fbgc_ATOM(x) || is_fbgc_IDENTIFIER(x)|| x == EXPRESSION || x == UNARY_EXPRESSION ||x==BINARY_EXPRESSION||\
-is_fbgc_TUPLE(x) || is_fbgc_MATRIX(x) || is_fbgc_LIST(x) || x == CFUN)
-
-#define is_fbgc_ASSIGNMENT(x)(x==ASSIGNMENT_EXPRESSION)
-#define is_fbgc_STATEMENT(x)(x == STATEMENT || is_fbgc_EXPRESSION(x) || is_fbgc_ASSIGNMENT(x))
-
-
-
-#ifdef  __cplusplus
-}
-#endif
-
-
-
-
-
-
-
-
-#endif
-
+"  
