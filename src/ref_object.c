@@ -31,7 +31,7 @@ void assign_var_to_fbgc_ref_object(struct fbgc_object * ref,struct fbgc_object *
 
 struct fbgc_object * get_var_from_fbgc_ref_object(struct fbgc_object *ref){
 	if(get_fbgc_object_type(ref) == REFERENCE){
-		claim_ownership(ref);
+		//claim_ownership(ref);
 		return cast_fbgc_object_as_ref(ref)->content->next;
 	}
 	return  ref;

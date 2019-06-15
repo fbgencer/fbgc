@@ -26,8 +26,6 @@ struct fbgc_object * new_cfun_object_from_substr(struct fbgc_object * table_obj,
 uint8_t is_object_referenced_in_symbol_table(struct fbgc_object * table_obj,struct fbgc_object * ,struct fbgc_object * obj);
 struct fbgc_object * load_module_in_symbol_table(struct fbgc_object *,struct fbgc_object * );
 
-void claim_ownership_in_symbol_table(struct fbgc_object * table_obj);
-
 void print_fbgc_symbol_table(struct fbgc_object * );
 void free_fbgc_symbol_table(struct fbgc_object * );
 

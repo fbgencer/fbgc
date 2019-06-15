@@ -101,8 +101,9 @@ uint8_t is_object_referenced_in_symbol_table(struct fbgc_object * table_obj,stru
 	return 0;
 }
 
-
+/*
 void claim_ownership_in_symbol_table(struct fbgc_object * table_obj){
+	
 	#define table cast_fbgc_object_as_symbol_table(table_obj)
 	cprintf(111,"++++++++++++++++Claiming ownership+++++++++++++++++\n"); 
 	
@@ -113,15 +114,15 @@ void claim_ownership_in_symbol_table(struct fbgc_object * table_obj){
 			claim_ownership(obj);
 			cprintf(001,"Obj type [%s|%d]:",object_type_as_str(obj),obj->type); print_fbgc_object(obj); printf("\n");
 		} 
-		/*&& cast_fbgc_object_as_str(table->symbols[i])->base.next == obj 
+		&& cast_fbgc_object_as_str(table->symbols[i])->base.next == obj 
 			&& cast_fbgc_object_as_str(table->symbols[i]) != cast_fbgc_object_as_str(cast_fbgc_object_as_ref(ref)->content)){	
 			return 1;
-		}*/
+		}
 	}
 	cprintf(111,"++++++++++++++++++++++++++++++++++++++++\n"); 
 	#undef table
 }
-
+*/
 void print_fbgc_symbol_table(struct fbgc_object * table_obj){
 	struct fbgc_symbol_table * table = (struct fbgc_symbol_table *) table_obj;
 	struct fbgc_str_object * temp_str = NULL;
@@ -142,6 +143,8 @@ void print_fbgc_symbol_table(struct fbgc_object * table_obj){
 void free_fbgc_symbol_table(struct fbgc_object * table_obj){
 	#define table cast_fbgc_object_as_symbol_table(table_obj)
 	
+	cprintf(100,"=====================================CLEAN SYMBOLS==================================================\n");
+
 	//##################################################################
 	//This part work awful and it needs a new algorithm because 
 	//when we free a symbol and its object, another symbol may points freed object and this will
@@ -155,8 +158,18 @@ void free_fbgc_symbol_table(struct fbgc_object * table_obj){
 		
 		if(temp != NULL){
 			
-			temp->type &= 0x7F;
+			//now ownership is broken for temp's object
+			/*temp->type &= 0x7F;
+			cast_fbgc_object_as_str(table->symbols[i])->base.next = NULL;
+			if(get_fbgc_object_type(temp) == TUPLE){
+				for(int i = 0; i<cast_fbgc_object_as_tuple(temp)->size; i++){
+					cast_fbgc_object_as_tuple(temp)->contents[i]->type &= 0x7F;
+				}
+			}
 
+			cprintf(100,"Broken objest previous mark bit :%d, type:%s\n",(temp->type & 0x80) == 0x80,object_type_as_str(temp) );
+			claim_ownership_in_symbol_table(table_obj);
+			cprintf(100,"Broken objest mark bit :%d\n",(temp->type & 0x80) == 0x80 );*/
 			for(uint8_t q = i+1; q <(table->size) && cast_fbgc_object_as_str(table->symbols[q])->base.next != NULL; q++){
 				if( cast_fbgc_object_as_str(table->symbols[q])->base.next == temp){
 					
@@ -164,9 +177,8 @@ void free_fbgc_symbol_table(struct fbgc_object * table_obj){
 					//cprintf(100,"Variables shows same object! var[%d]\n",q);
 				}
 
-			}	
+			}
 			free_fbgc_object(temp);
-			temp = NULL;
 		}
 
 			//cprintf(111,"call free ::::: %s\n",object_name_array[get_fbgc_object_type(table->symbols[i])]);

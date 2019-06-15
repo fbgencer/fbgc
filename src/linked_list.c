@@ -1,6 +1,6 @@
 #include "fbgc.h"
 
-
+ 
 struct
 fbgc_object * new_fbgc_ll_object(fbgc_token list_type){
     struct fbgc_ll_object *llo =  (struct fbgc_ll_object*) malloc(sizeof(struct fbgc_ll_object));

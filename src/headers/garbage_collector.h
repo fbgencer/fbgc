@@ -5,8 +5,8 @@
 extern "C" {
 #endif
 
-void set_mark_bit_one(struct fbgc_object *);
-void set_mark_bit_zero(struct fbgc_object *);
+#define set_mark_bit_one(x)
+#define set_mark_bit_zero(x)
 
 
 #ifdef  __cplusplus

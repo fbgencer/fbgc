@@ -13,7 +13,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 	struct fbgc_object * stack = new_fbgc_ll_object(STACK);
 	
 
-	for(int i = 0; i<30 && (iter != head->tail); i++){
+	for(int i = 0; i<300 && (iter != head->tail); i++){
 
 		fbgc_token type = get_fbgc_object_type(iter);
 
@@ -71,12 +71,12 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			//now we can easily free the all objects because if the mark bit is 1, its not gonna be freed
 
 			struct fbgc_object * temp = get_var_from_fbgc_ref_object(o1);
-			abandon_ownership(o1);
+			//abandon_ownership(o1);
 
 			//call_fbgc_assignment_op(get_fbgc_object_type(iter),cast_fbgc_object_as_field(*field_obj)->global_table,o1,o2);
 			call_fbgc_assignment_op(type,o1,o2);
 			
-			claim_ownership_in_symbol_table(cast_fbgc_object_as_field(*field_obj)->global_table);
+			//claim_ownership_in_symbol_table(cast_fbgc_object_as_field(*field_obj)->global_table);
 			
 			cprintf(011,"deneme assign op affter assignment :"); print_fbgc_object(o1);
 			cprintf(011,"sahiplik: %d\n",get_var_from_fbgc_ref_object(o1)->type & 0x80);

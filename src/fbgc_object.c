@@ -127,16 +127,18 @@ double convert_fbgc_object_to_double(struct fbgc_object * obj){
 }
 
 
+/*
 void claim_ownership(struct fbgc_object * self){
 	
 	if(self != NULL){ 
-		cprintf(011,"claim_ownership for [%s]\n",object_type_as_str(self));
+		cprintf(011,"claim_ownership for [%s]\t",object_type_as_str(self)); print_fbgc_object(self); printf("\n");
 		switch(get_fbgc_object_type(self)){
 			case TUPLE:
 				self->type |= 0x80;
-				/*for(unsigned int i = 0; i<cast_fbgc_object_as_tuple(self)->size; i++){
+				for(unsigned int i = 0; i<cast_fbgc_object_as_tuple(self)->size; i++){
+					cprintf(101,"\tChildren:");
 					claim_ownership(cast_fbgc_object_as_tuple(self)->contents[i]);
-				}*/
+				}
 			break;	
 			case REFERENCE:
 				claim_ownership(cast_fbgc_object_as_ref(self)->content->next);
@@ -149,7 +151,7 @@ void claim_ownership(struct fbgc_object * self){
 	}
 	else cprintf(111,"NULL object cannot !!\n");
 }
-
+*/
 
 void free_fbgc_object(struct fbgc_object * self){
 		#ifdef FREE_DEBUG
