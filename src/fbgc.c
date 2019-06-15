@@ -34,7 +34,7 @@ static void compile_one_line(struct fbgc_object * main_field,char *line){
 }
 
 
-int main(){
+int main(int argc, char **argv){
 	
    /* FILE *input_file = fopen("src/_fbgc_.txt","r");
     char line[1000] = {0};
@@ -47,13 +47,13 @@ int main(){
 
 
 	struct fbgc_object * main_field = new_fbgc_field_object();
-	//load_module_in_field_object(main_field,&fbgc_io_module);
+	load_module_in_field_object(main_field,&fbgc_io_module);
 	//load_module_in_field_object(main_field,&fbgc_math_module);
 
     //char *s = "print(1,2,3);";
     //compile_one_line(main_field,s);
 
-    compile_file(main_field,"ex.fbgc");
+    compile_file(main_field, argv[1]);
 
 
  	free_fbgc_field_object(main_field);
