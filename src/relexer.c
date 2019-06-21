@@ -295,9 +295,9 @@ void read_rule_table(rule_arrange_struct *ras){
 
 uint8_t regex_lexer(struct fbgc_object ** field_obj,char * first_ptr){
 	#ifdef LEXER_DEBUG
-	cprintf(111,"=============RELEXER================\n");
+	cprintf(111,"==========LEXER==========\nInput string : \n");
 	cprintf(101,"%s",first_ptr);
-	cprintf(111,"====================================\n");
+	cprintf(111,"Tokenizing each part..\n");
 	
 	#endif
 
@@ -424,7 +424,7 @@ uint8_t regex_lexer(struct fbgc_object ** field_obj,char * first_ptr){
 	}
 
 	#ifdef LEXER_DEBUG
-		cprintf(111,"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n");
+		cprintf(111,"^^^^^^^^^^^^^^^^^^^^\n");
 	#endif
 	return 1;
 }

@@ -16,9 +16,13 @@ extern "C" {
 #include <ctype.h>
 #include <math.h>
 
+#define size_t unsigned int	
+
 #include "headers/tokens.h"
 #include "headers/error.h"
 
+#include "headers/memory.h"
+#include "headers/garbage_collector.h"
 
 #include "headers/fbgc_object.h"
 #include "headers/linked_list.h"

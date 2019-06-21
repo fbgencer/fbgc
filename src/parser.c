@@ -56,7 +56,7 @@ x!= END && x!=IF_BEGIN && x!=ELSE_BEGIN && x!= SEMICOLON && x!= LOAD && x!= SUBS
 
 uint8_t parser(struct fbgc_object ** field_obj){
 	#ifdef PARSER_DEBUG
-	cprintf(111,"--------------[parser_begin]-------------\n");
+	cprintf(111,"==========[PARSER]==========\n");
 	#endif
 
 	struct fbgc_ll_object * head = cast_fbgc_object_as_ll( cast_fbgc_object_as_field(*field_obj)->head );
@@ -290,7 +290,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 	free_fbgc_ll_object(op_stack_head);
 	
 	#ifdef PARSER_DEBUG
-	cprintf(111,"--------------[parser_end]-------------\n");
+	cprintf(111,"^^^^^^^^^^^^^^^^^^^^\n");
 	#endif
 
 	return gm_error;

@@ -3,7 +3,7 @@
 uint8_t interpreter(struct fbgc_object ** field_obj){
 
 	#ifdef INTERPRETER_DEBUG
-	cprintf(110,"---------------interpreter-------------------\n");
+	cprintf(111,"==========[INTERPRETER]==========\n");
 	#endif
 
 
@@ -78,8 +78,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			
 			//claim_ownership_in_symbol_table(cast_fbgc_object_as_field(*field_obj)->global_table);
 			
-			cprintf(011,"deneme assign op affter assignment :"); print_fbgc_object(o1);
-			cprintf(011,"sahiplik: %d\n",get_var_from_fbgc_ref_object(o1)->type & 0x80);
+			
 
 			free_fbgc_object(temp);
 
@@ -181,7 +180,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 	free_fbgc_ll_object(stack);
 	#ifdef INTERPRETER_DEBUG
-	cprintf(111,"--------------[INTERPRETER END]-------------\n");
+	cprintf(111,"^^^^^^^^^^^^^^^^^^^^\n");
 	#endif
 	return 1;
 }
