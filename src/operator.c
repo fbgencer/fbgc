@@ -27,7 +27,7 @@ struct fbgc_object * fbgc_binary_plus(struct fbgc_object * a, struct fbgc_object
 	(get_fbgc_object_type(a) > get_fbgc_object_type(b)) ? 
 	get_fbgc_object_type(a) : 
 	get_fbgc_object_type(b) ;
-
+	
 	//cprintf(110,"[%s](%s,%s)->%s\n",__FUNCTION__,object_name_array[a->type],object_name_array[b->type],object_name_array[tok_ab]);
 
 	switch(tok_ab){

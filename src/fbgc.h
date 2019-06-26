@@ -21,10 +21,12 @@ extern "C" {
 #include "headers/tokens.h"
 #include "headers/error.h"
 
+#include "headers/fbgc_object.h"
+
 #include "headers/memory.h"
 #include "headers/garbage_collector.h"
 
-#include "headers/fbgc_object.h"
+
 #include "headers/linked_list.h"
 #include "headers/ref_object.h"
 #include "headers/double_object.h"

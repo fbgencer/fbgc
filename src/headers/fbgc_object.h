@@ -19,7 +19,7 @@ struct fbgc_object{
 
 struct fbgc_object * new_fbgc_object(fbgc_token);
 struct fbgc_object * new_fbgc_object_from_substr(struct fbgc_object * field,const char *str1,const  char*str2, fbgc_token token);
-
+size_t get_fbgc_object_size(struct fbgc_object * );
 
 int convert_fbgc_object_to_int(struct fbgc_object * );
 double convert_fbgc_object_to_double(struct fbgc_object * );

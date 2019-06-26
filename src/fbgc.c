@@ -37,6 +37,8 @@ static void compile_one_line(struct fbgc_object * main_field,char *line){
             interpreter(&main_field);     
 }
 
+
+
 int main(int argc, char **argv){
 	
    /* FILE *input_file = fopen("src/_fbgc_.txt","r");
@@ -48,51 +50,62 @@ int main(int argc, char **argv){
     
 	cprintf(110,"\n\n\n\n\n[=======================================================================]\n"); 
 
-    
     initialize_fbgc_memory_block();
-   
+
+
+ 
+
+
     struct fbgc_double_object *dbo = (struct fbgc_double_object*) fbgc_malloc(size_fbgc_double_object);
     dbo->base.type = DOUBLE;
     dbo->base.next = NULL;
     dbo->content = -345623.789;  
-    struct fbgc_object * db = (struct fbgc_object*) dbo; 
+    struct fbgc_object * db = (struct fbgc_object*) dbo;
+    print_fbgc_memory_block();
+
+    char *str1 = "abc|def";
+    struct fbgc_str2_object *stro = fbgc_malloc(size_fbgc_str_object + strlen(str1) + 1); 
+    stro->base.type = STRING;
+    stro->base.next = NULL;
+    stro->len = strlen(str1);
+    stro->content = ( (char *) stro ) + size_fbgc_str_object;
+    memcpy(&stro->content,str1,stro->len);
+    *(&stro->content+stro->len) = '\0';
+    struct fbgc_object * sto = (struct fbgc_object*) stro;
+
+    print_fbgc_memory_block();
+    printf("Deneme string %s\n",&stro->content);
+    cprintf(111,"Size :%d\n",size_fbgc_str_object + strlen(str1) + 1);
+
 
     struct fbgc_int_object * ino = (struct fbgc_int_object*) fbgc_malloc(size_fbgc_int_object);
     ino->base.type = INT;
     ino->base.next = NULL;
     ino->content = 0x00000000FB6C;     
     struct fbgc_object * db2 = (struct fbgc_object*) ino; 
+    print_fbgc_memory_block();
 
-    char *str1 = "abcdefghijklmno";
-    char *str2 = str1+strlen(str1);
-
-    struct fbgc_str_object *stro = fbgc_malloc(size_fbgc_str_object); 
-    stro->base.type = STRING;
-    stro->base.next =NULL;
-    stro->content = (char *) fbgc_malloc(strlen(str1)+1);
-    memcpy(stro->content,str1,(str2-str1));
-    stro->content[str2-str1] = '\0';
-    struct fbgc_object * sto = (struct fbgc_object*) stro;
+/*
 
     dbo = (struct fbgc_double_object*) fbgc_malloc(size_fbgc_double_object);
     dbo->base.type = DOUBLE;
     dbo->base.next = NULL;
     dbo->content = -987564.123456;     
     struct fbgc_object * db3 = (struct fbgc_object*) dbo; 
-
+    print_fbgc_memory_block();*/
+    
 
     
-    print_fbgc_object(db);   printf("\n");
-    print_fbgc_object(db2); printf("\n");
-    print_fbgc_object(db3); printf("\n");
-    print_fbgc_object(sto); printf("\n");
+  //  print_fbgc_object(db);   printf("\n");
+  //  print_fbgc_object(db2); printf("\n");
+   // print_fbgc_object(db3); printf("\n");
+  //  print_fbgc_object(sto); printf("\n");
 
 
 
-    print_fbgc_memory_block();
+
+
     free_fbgc_memory_block();
-
-
 
 
     //struct fbgc_object * db = new_fbgc_double_object(3.1415973);

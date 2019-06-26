@@ -7,15 +7,24 @@ extern "C" {
 
 
 #define INITIAL_INTERNAL_BUFFER_SIZE 1 //[byte]
-#define INITIAL_OBJECT_POOL_SIZE 20 //[byte]
+#define PAGE_SIZE 55  //[byte]
+
+struct fbgc_memory_pool{
+	void * data;
+	void * tptr;	
+	size_t size;
+	struct fbgc_memory_pool * next;
+};
+
 
 struct fbgc_memory_block{
 	void * internal_buffer_head;	
 	size_t internal_buffer_size;
 
-	void * object_pool_head;
+	struct fbgc_memory_pool * object_pool_head;
 	size_t object_pool_size;
-	void * object_pool_ptr;
+
+	struct fbgc_object empty_chunk_head;
 };
 
 
