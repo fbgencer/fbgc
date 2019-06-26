@@ -37,6 +37,14 @@ static void compile_one_line(struct fbgc_object * main_field,char *line){
             interpreter(&main_field);     
 }
 
+/*
+asagidaki sekilde garbage objesi 42lik yer tutuyor ama
+bu 42lik yeri allocate etmek için 42-gb_size kadar bir allocation lazım
+bazı durumlarda bu mümkün olmayabilir
+bunun icin gereken nedir ?
+
+*/
+
 
 
 int main(int argc, char **argv){
@@ -53,37 +61,89 @@ int main(int argc, char **argv){
     initialize_fbgc_memory_block();
 
 
- 
-
-
     struct fbgc_double_object *dbo = (struct fbgc_double_object*) fbgc_malloc(size_fbgc_double_object);
     dbo->base.type = DOUBLE;
-    dbo->base.next = NULL;
     dbo->content = -345623.789;  
     struct fbgc_object * db = (struct fbgc_object*) dbo;
+    set_mark_bit_one(dbo->base.type);
     print_fbgc_memory_block();
 
-    char *str1 = "abc|def";
+    char *str1 = "abc";
     struct fbgc_str2_object *stro = fbgc_malloc(size_fbgc_str_object + strlen(str1) + 1); 
     stro->base.type = STRING;
-    stro->base.next = NULL;
     stro->len = strlen(str1);
     stro->content = ( (char *) stro ) + size_fbgc_str_object;
     memcpy(&stro->content,str1,stro->len);
     *(&stro->content+stro->len) = '\0';
-    struct fbgc_object * sto = (struct fbgc_object*) stro;
+    //set_mark_bit_one(stro->base.type);
+    print_fbgc_memory_block(); 
 
+
+    dbo = (struct fbgc_double_object*) fbgc_malloc(size_fbgc_double_object);
+    dbo->base.type = DOUBLE;
+    dbo->content = -987564.123456;
+    set_mark_bit_one(dbo->base.type);
     print_fbgc_memory_block();
-    printf("Deneme string %s\n",&stro->content);
-    cprintf(111,"Size :%d\n",size_fbgc_str_object + strlen(str1) + 1);
 
+    str1 = "aaa|bbb|ccc|ddd|eee|fff|aaa|bbb|ccc|ddd|eee|fff";
+    stro = fbgc_malloc(size_fbgc_str_object + strlen(str1) + 1); 
+    stro->base.type = STRING;
+    stro->len = strlen(str1);
+    stro->content = ( (char *) stro ) + size_fbgc_str_object;
+    memcpy(&stro->content,str1,stro->len);
+    *(&stro->content+stro->len) = '\0';
+    //set_mark_bit_one(stro->base.type);
+    print_fbgc_memory_block(); 
+
+    dbo = (struct fbgc_double_object*) fbgc_malloc(size_fbgc_double_object);
+    dbo->base.type = DOUBLE;
+    dbo->content = -987564.123456;
+    set_mark_bit_one(dbo->base.type);
+    print_fbgc_memory_block();
+
+
+    str1 = "123|4";
+    stro = fbgc_malloc(size_fbgc_str_object + strlen(str1) + 1); 
+    stro->base.type = STRING;
+    stro->len = strlen(str1);
+    stro->content = ( (char *) stro ) + size_fbgc_str_object;
+    memcpy(&stro->content,str1,stro->len);
+    *(&stro->content+stro->len) = '\0';
+    //set_mark_bit_one(stro->base.type);
+    print_fbgc_memory_block(); 
+
+  /*  str1 = "a";
+    stro = fbgc_malloc(size_fbgc_str_object + strlen(str1) + 1); 
+    stro->base.type = STRING;
+    stro->len = strlen(str1);
+    stro->content = ( (char *) stro ) + size_fbgc_str_object;
+    memcpy(&stro->content,str1,stro->len);
+    *(&stro->content+stro->len) = '\0';
+    //set_mark_bit_one(stro->base.type);
+    print_fbgc_memory_block(); */
+
+ /*   dbo = (struct fbgc_double_object*) fbgc_malloc(size_fbgc_double_object);
+    dbo->base.type = DOUBLE;
+    dbo->content = -987564.123456;    
+    print_fbgc_memory_block();
 
     struct fbgc_int_object * ino = (struct fbgc_int_object*) fbgc_malloc(size_fbgc_int_object);
     ino->base.type = INT;
+    ino->content = 0x00000000ABCD;     
+    set_mark_bit_one(ino->base.type);  
+    print_fbgc_memory_block();
+
+*/
+
+
+
+    /*
+    ino = (struct fbgc_int_object*) fbgc_malloc(size_fbgc_int_object);
+    ino->base.type = INT;
     ino->base.next = NULL;
     ino->content = 0x00000000FB6C;     
-    struct fbgc_object * db2 = (struct fbgc_object*) ino; 
     print_fbgc_memory_block();
+    */
 
 /*
 

@@ -151,6 +151,8 @@ void * fbgc_malloc(size_t size){
 				chunk_iter = chunk_iter->next;
 			}
 			else {
+				
+				opool_iter2->tptr = current_obj;
 				#ifdef MEM_DEBUG
 					cprintf(111,"Object has owner, move tptr from %p to %p!\n",opool_iter2->tptr,opool_iter2->tptr+obj_size);
 				#endif	
@@ -158,27 +160,10 @@ void * fbgc_malloc(size_t size){
 				opool_iter2->tptr += obj_size; 
 			}
 
-
-			/*if(opool_iter2->tptr == (char*)current_obj+obj_size){
-				//after one jump we will see tptr, just decrease tptr
-				opool_iter2->tptr -= obj_size;
-				break;
-			}*/
-
-
-
-			//check mark bit of the first object in the pool
-			//if mark bit is ZERO, we hit an object that has no owner !
-
-
-
-
-			//ilk buldugu bos yere sokacak sekilde burayi optimize et
-			//simdilik listeyi tamamen olusturma uzerine calisalim
 			current_obj = (char*) current_obj + obj_size;
 
-			cprintf(111,"current_obj :%p pool_end :%p \n",current_obj,(char *)opool_iter2->data + opool_iter2->size);
-			cprintf(111,"current pool size %d\n",opool_iter2->size);
+
+			//optimize this part, somehow it is required but we can predict this
 			if(current_obj >= ((char *)opool_iter2->data + opool_iter2->size)){
 				#ifdef MEM_DEBUG
 					cprintf(100,"We hit end of the memory!\n");
@@ -206,12 +191,12 @@ void * fbgc_malloc(size_t size){
 		
 		size_t available_size = get_fbgc_object_size(chunk_iter->next);
 
-		cprintf(110,"available size :%d from empty chunk\n",available_size);
+		cprintf(110,"available size :%d from empty chunk, requested :%d \n",available_size,size);
 
 		if(size == available_size){
 			//chunk has enough space as we wanted
 			// make the linked list connection and return the address
-			
+			cprintf(101,"Size == available_size\n");
 			struct fbgc_object * temp = chunk_iter->next;
 			chunk_iter->next = temp->next;
 			return temp;
@@ -219,11 +204,16 @@ void * fbgc_malloc(size_t size){
 		else if(size < available_size && (available_size - size) >= sizeof(struct fbgc_garbage_object) ){
 			//Size of this chunk is bigger than what we wanted
 			//we will give the address but we will divide space into two pieces to put gb object
-			struct fbgc_garbage_object * gb = (char *) (chunk_iter->next) + (available_size - size);
+
+			cprintf(101,"Size < available_size, we need to create gc object!\n");
+			cprintf(101,"Empty space starts at %p\n",chunk_iter->next);
+			struct fbgc_garbage_object * gb = (struct fbgc_garbage_object *)((char *) (chunk_iter->next) + size);
+			cprintf(101,"Garbage starts at %p\n",(char*)(chunk_iter->next) + size);
 			gb->base.type = GARBAGE;
 			struct fbgc_object * temp = chunk_iter->next;
 			gb->base.next = temp->next;
 			gb->size =  (available_size - size);
+			cprintf(101,"Garbage size %d, garbage next :%p\n",gb->size,gb->base.next);
 
 			return temp;				 
 		}
@@ -281,15 +271,23 @@ void print_fbgc_memory_block(){
 	struct fbgc_memory_pool * iter = fbgc_memb.object_pool_head;
 
 	//just to clear obj locations
-	size_t obj_start = 0, obj_end = 0;
+	
 
 	for(int i = 0; i<fbgc_memb.object_pool_size && iter != NULL; i++){
 		cprintf(111,"[%d.] Chunk size: %d\n",i,iter->size);
-
+		size_t obj_start = 0;
 		for(int j = 0; j<iter->size; j++){
 			int val = *( char *)((iter->data)+j); 
 
-	   		cprintf(010,"[%d][%p]:%0x",j,((iter->data)+j),val);
+			if(j == obj_start){
+				struct fbgc_object * dummy = ((iter->data)+j);
+				obj_start += get_fbgc_object_size(dummy);
+				cprintf(101,"[%d][%p]:%0x",j,((iter->data)+j),val);
+				cprintf(101,"<<<");
+			}else{
+	   			cprintf(010,"[%d][%p]:%0x",j,((iter->data)+j),val);
+	   			
+			}
 			
 
 	   		if(iter->tptr == ((char *)iter->data+j)) cprintf(100," <--tptr");

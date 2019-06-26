@@ -99,7 +99,7 @@ size_t get_fbgc_object_size(struct fbgc_object * obj){
 	switch(get_fbgc_object_type(obj)){
 		case INT: return sizeof(struct fbgc_int_object);
 		case DOUBLE: return sizeof(struct fbgc_double_object);
-		case STRING: return cast_fbgc_object_as_str(obj)->len+size_fbgc_str_object;
+		case STRING: return cast_fbgc_object_as_str(obj)->len+size_fbgc_str_object+1;
 		case GARBAGE: return cast_fbgc_object_as_garbage(obj)->size;	
 		default: return 0;
 	}
