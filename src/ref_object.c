@@ -14,7 +14,7 @@ struct fbgc_object * initialize_fbgc_ref_object(struct fbgc_object *ref, struct 
 	return (struct fbgc_object*) refo; 
 }
 
-void assign_var_to_fbgc_ref_object(struct fbgc_object * ref,struct fbgc_object * obj){
+struct fbgc_object * assign_var_to_fbgc_ref_object(struct fbgc_object * ref,struct fbgc_object * obj){
 	#define refo cast_fbgc_object_as_ref(ref)
 
 	if(refo != NULL && refo->content != NULL){
@@ -42,7 +42,7 @@ struct fbgc_object * get_var_from_fbgc_ref_object(struct fbgc_object *ref){
 void print_fbgc_ref_object(struct fbgc_object * ref){
 	//if(cast_fbgc_object_as_ref(ref)->content->type == STRING){
 		struct fbgc_str_object * obj = (struct fbgc_str_object *)(cast_fbgc_object_as_ref(ref)->content);
-		if(obj->content != NULL)cprintf(100,"{%s",obj->content);
+		if(obj->len != 0) cprintf(100,"{%s",obj->content);
 		cprintf(111,":");
 		if(obj->base.next != NULL){
 			print_fbgc_object(obj->base.next);

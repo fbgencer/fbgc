@@ -3,7 +3,7 @@
  
 struct
 fbgc_object * new_fbgc_ll_object(fbgc_token list_type){
-    struct fbgc_ll_object *llo =  (struct fbgc_ll_object*) malloc(sizeof(struct fbgc_ll_object));
+    struct fbgc_ll_object *llo =  (struct fbgc_ll_object*) fbgc_malloc(sizeof(struct fbgc_ll_object));
     llo->base.type = list_type;
     llo->size = 0;
     if(list_type == LINKED_LIST){
@@ -17,7 +17,7 @@ fbgc_object * new_fbgc_ll_object(fbgc_token list_type){
 }
 
 void free_fbgc_ll_object(struct fbgc_object * head){
-    struct fbgc_ll_object *head_ll = cast_fbgc_object_as_ll(head);
+    /*struct fbgc_ll_object *head_ll = cast_fbgc_object_as_ll(head);
     struct fbgc_object * iter = head_ll->base.next;
     struct fbgc_object * temp = iter;
     
@@ -29,7 +29,7 @@ void free_fbgc_ll_object(struct fbgc_object * head){
     }    
 
     if(head_ll->base.type == LINKED_LIST) free(head_ll->tail);
-    free(head_ll);
+    free(head_ll);*/
   
 }
 

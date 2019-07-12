@@ -2,9 +2,9 @@
 
 struct fbgc_object * new_fbgc_field_object(void){
 
-	struct fbgc_field_object * field = (struct fbgc_field_object *) malloc(sizeof(struct fbgc_field_object ));
+	struct fbgc_field_object * field = (struct fbgc_field_object *) fbgc_malloc(sizeof(struct fbgc_field_object ));
 	field->base.next = NULL;
-	field->base.type = UNKNOWN; 
+	field->base.type = FIELD; 
 	field->head = new_fbgc_ll_object(LINKED_LIST);
 	field->global_table = new_fbgc_symbol_table();
 	field->modules = new_fbgc_ll_object(LINKED_LIST);
@@ -23,8 +23,8 @@ void load_module_in_field_object(struct fbgc_object * field_obj, const struct fb
 }
 
 void free_fbgc_field_object(struct fbgc_object * field_obj){
-	free_fbgc_ll_object(cast_fbgc_object_as_field(field_obj)->head);
+/*	free_fbgc_ll_object(cast_fbgc_object_as_field(field_obj)->head);
 	free_fbgc_ll_object(cast_fbgc_object_as_field(field_obj)->modules);
 	free_fbgc_symbol_table(cast_fbgc_object_as_field(field_obj)->global_table);
-	free(field_obj);
+	free(field_obj);*/
 }

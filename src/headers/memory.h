@@ -5,9 +5,11 @@
 extern "C" {
 #endif
 
+#define KILOBYTE 1024
+
 
 #define INITIAL_INTERNAL_BUFFER_SIZE 1 //[byte]
-#define PAGE_SIZE 180  //[byte]
+#define PAGE_SIZE  1*KILOBYTE //[byte]
 
 struct fbgc_memory_pool{
 	void * data;

@@ -3,7 +3,7 @@
 
 struct
 fbgc_object * new_fbgc_object(fbgc_token token){
-	struct fbgc_object *o =  (struct fbgc_object*) malloc(sizeof(struct fbgc_object));
+	struct fbgc_object *o =  (struct fbgc_object*) fbgc_malloc(sizeof(struct fbgc_object));
     o->type = token;
     o->next = NULL;  
     return (struct fbgc_object*) o;
@@ -166,7 +166,7 @@ void claim_ownership(struct fbgc_object * self){
 */
 
 void free_fbgc_object(struct fbgc_object * self){
-		#ifdef FREE_DEBUG
+/*		#ifdef FREE_DEBUG
 			if(self == NULL) cprintf(100,"Null deleting..\n");
 		#endif			
 
@@ -187,5 +187,5 @@ void free_fbgc_object(struct fbgc_object * self){
 				break;
 		}
 	}
-
+*/
 }

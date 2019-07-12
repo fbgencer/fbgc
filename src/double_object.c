@@ -2,7 +2,7 @@
 
 struct
 fbgc_object * new_fbgc_double_object(double db_content){
-	struct fbgc_double_object *dbo =  (struct fbgc_double_object*) malloc(sizeof(struct fbgc_double_object));
+	struct fbgc_double_object *dbo =  (struct fbgc_double_object*) fbgc_malloc(size_fbgc_double_object);
     dbo->base.type = DOUBLE;
     dbo->base.next = NULL;
     dbo->content = db_content; 
@@ -64,5 +64,5 @@ void print_fbgc_double_object(struct fbgc_object * obj){
 }
 
 void free_fbgc_double_object(struct fbgc_object * obj){
-    free(obj);
+   // free(obj);
 }

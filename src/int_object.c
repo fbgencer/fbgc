@@ -3,7 +3,7 @@
 
 struct
 fbgc_object * new_fbgc_int_object(int int_content){
-	struct fbgc_int_object *into =  (struct fbgc_int_object*) malloc(sizeof(struct fbgc_int_object));
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(size_fbgc_int_object);
     into->base.type = INT;
     into->base.next = NULL;
     into->content = int_content; 
@@ -70,5 +70,5 @@ void print_fbgc_int_object(struct fbgc_object * obj){
 }
 
 void free_fbgc_int_object(struct fbgc_object * obj){
-    free(obj);
+    //   free(obj);
 }
