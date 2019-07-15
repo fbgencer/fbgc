@@ -316,17 +316,12 @@ then the result is undefined!
 		memcpy(new_mem_ptr,ptr,block_size);
 
 		//Do we need it ?
-		//fbgc_free(ptr);
+		fbgc_free(ptr);
 
 		return new_mem_ptr;
 	}
 
-	return ptr;
-
-	
-
-
-
+	return ptr;	
 }
 
 void fbgc_free(void *ptr){
@@ -375,7 +370,8 @@ void print_fbgc_memory_block(){
 				cprintf(101,"[%d][%p]:%0x",j,((iter->data)+j),val);
 				cprintf(101,"<<<[%s]",object_name_array[0x7F & val]);
 			}else{
-	   			cprintf(010,"[%d][%p]:%0x",j,((iter->data)+j),val);
+	   			cprintf(010,"[%d][%p]",j,((iter->data)+j));
+	   			cprintf(110,":%0x",val);
 	   			
 			}
 			

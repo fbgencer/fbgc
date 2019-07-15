@@ -8,12 +8,16 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 
 	struct fbgc_ll_object * head = cast_fbgc_object_as_ll( cast_fbgc_object_as_field(*field_obj)->head );
+
+	if(head == NULL) cprintf(111,"head is NULL!!!\n");
+
 	struct fbgc_object * iter = head->base.next;
 	struct fbgc_object * iter_prev = (struct fbgc_object *)head;
 	struct fbgc_object * stack = new_fbgc_ll_object(STACK);
 	
 
-	for(int i = 0; i<300 && (iter != head->tail); i++){
+
+	for(int i = 0; i<30000 && (iter != head->tail); i++){
 
 		fbgc_token type = get_fbgc_object_type(iter);
 
@@ -21,6 +25,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 		cprintf(010,"################ [%d] = {%s} ########################\n",i,object_type_as_str(iter));
 		#endif
 
+		// print_fbgc_memory_block();
 
 		if(is_fbgc_ATOM(type) || type == REFERENCE){
 
@@ -70,7 +75,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			//abandon_ownership(temp) // now this will set temp object mark bit to zero
 			//now we can easily free the all objects because if the mark bit is 1, its not gonna be freed
 
-			struct fbgc_object * temp = get_var_from_fbgc_ref_object(o1);
+			//struct fbgc_object * temp = get_var_from_fbgc_ref_object(o1);
 			//abandon_ownership(o1);
 
 			//call_fbgc_assignment_op(get_fbgc_object_type(iter),cast_fbgc_object_as_field(*field_obj)->global_table,o1,o2);
@@ -78,18 +83,13 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			
 			//claim_ownership_in_symbol_table(cast_fbgc_object_as_field(*field_obj)->global_table);
 			
-			
+			//if(get_fbgc_object_type(o1) == TUPLE && get_fbgc_object_type(o2) == TUPLE){
+			//	cast_fbgc_object_as_tuple(o2)->size = 0;
+			//	free_fbgc_object(o2);
+			//}
 
-			free_fbgc_object(temp);
 
-			/*if(get_fbgc_object_type(o1) == TUPLE && get_fbgc_object_type(o2) == TUPLE){
-				cast_fbgc_object_as_tuple(o2)->size = 0;
-				free_fbgc_object(o2);
-			}*/
 			iter_prev->next = iter->next;
-			cprintf(001,"del o2:");free_fbgc_object(o2);
-			cprintf(001,"del o1:");free_fbgc_object(o1);
-			cprintf(001,"del iter:");free_fbgc_object(iter);	
 					
 		}
 		
@@ -135,12 +135,12 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			iter_prev->next = iter->next;
 			stack = push_front_fbgc_ll_object(stack,iter);
 		}
-		/*else if(get_fbgc_object_type(iter) == RAW_MATRIX){
+		else if(get_fbgc_object_type(iter) == RAW_MATRIX){
 
 			struct fbgc_object * mato = new_fbgc_matrix_object(cast_fbgc_object_as_int(top_fbgc_ll_object(stack))->content);
 			append_row_to_fbgc_matrix_object(mato,top_fbgc_ll_object(stack));
 			stack = push_front_fbgc_ll_object(stack,mato);
-		}*/
+		}
 
 		else if(type == CFUN){
 			
@@ -167,9 +167,10 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 		iter = iter_prev->next;
 		
 		#ifdef INTERPRETER_DEBUG
+		//cprintf(111,"helo!\n is nULL :%d\n",cast_fbgc_object_as_field(*field_obj)->head == NULL);
 		print_fbgc_ll_object(cast_fbgc_object_as_field(*field_obj)->head,"Main");
 		print_fbgc_ll_object(stack,"Stack");
-		print_fbgc_symbol_table(cast_fbgc_object_as_field(*field_obj)->global_table);
+		print_fbgc_symbol_table(cast_fbgc_object_as_field(*field_obj)->symbol_table);
 		cprintf(111,"===========================================\n");
 		#endif
 	}

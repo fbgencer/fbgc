@@ -123,6 +123,9 @@ fbgc_object * pop_back_fbgc_ll_object(struct fbgc_object *head){
 
 
 void print_fbgc_ll_object(struct fbgc_object * head,const char *s1){
+
+    assert(head != NULL);
+
     struct fbgc_ll_object * head_ll = cast_fbgc_object_as_ll(head);
     struct fbgc_object * iter = head_ll->base.next;
 

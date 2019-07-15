@@ -25,6 +25,8 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
         cprintf(111,"\n");
     #endif
 
+     print_fbgc_memory_block();
+
     if(par) interpreter(&main_field); 
         
     fclose(input_file);    
@@ -71,28 +73,33 @@ cprintf(110,"\n\n\n\n\n[========================================================
 
 
 //******************************************************************
-    initialize_fbgc_memory_block();
 
-    /*
+
+    
+    /*initialize_fbgc_memory_block();
     struct fbgc_object * ino = new_fbgc_int_object(0x00000000FB6C);
     struct fbgc_object * dbo = new_fbgc_double_object(3.14159);
-    struct fbgc_object * tpo = new_fbgc_tuple_object(2);
-    set_object_in_fbgc_tuple_object(tpo,ino,1);
-    set_object_in_fbgc_tuple_object(tpo,dbo,0);
+    struct fbgc_object * tpo = new_fbgc_tuple_object(7);
+    tpo = push_back_fbgc_tuple_object(tpo,ino);
 
+    print_fbgc_memory_block();
+
+    tpo = push_back_fbgc_tuple_object(tpo,dbo);
+    
     
     print_fbgc_memory_block();
 
-    struct fbgc_object * ino2 = new_fbgc_int_object(0x00000000ABCD);
-    tpo = fbgc_realloc(tpo,get_fbgc_object_size(tpo)+3*sizeof(struct fbgc_object*));
-    cast_fbgc_object_as_tuple(tpo)->size = 5;
-    set_object_in_fbgc_tuple_object(tpo,ino2,0);
-    set_object_in_fbgc_tuple_object(tpo,ino,1);
-    set_object_in_fbgc_tuple_object(tpo,dbo,2);
-    set_object_in_fbgc_tuple_object(tpo,ino,3);
-    set_object_in_fbgc_tuple_object(tpo,ino2,4);
+    struct fbgc_object * ino1 = new_fbgc_int_object(0x00000000ABCD);
+    struct fbgc_object * ino2 = new_fbgc_int_object(0x00000000ABABABDC);
+
+   tpo = push_back_fbgc_tuple_object(tpo,ino1);
+   tpo = push_back_fbgc_tuple_object(tpo,ino2);   
+
     print_fbgc_memory_block();
-    */
+
+    free_fbgc_memory_block();*/
+    
+    
 
 
 
@@ -207,7 +214,6 @@ cprintf(110,"\n\n\n\n\n[========================================================
 
 
 
-    free_fbgc_memory_block();
 
 //******************************************************************
 
@@ -218,27 +224,30 @@ cprintf(110,"\n\n\n\n\n[========================================================
     //dbo->content = db_content; 
      //return (struct fbgc_object*) dbo;
 
-   /* initialize_fbgc_memory_block();
-
-	struct fbgc_object * main_field = new_fbgc_field_object();
 	//load_module_in_field_object(main_field,&fbgc_io_module);
 	//load_module_in_field_object(main_field,&fbgc_math_module);
 
-    //char *s = "print(1,2,3);";
-    //compile_one_line(main_field,s);
+   // char *s = "abcdef=1;abcdef=10.2;";
+   // compile_one_line(main_field,s);
 
-    print_fbgc_memory_block();
+    //print_fbgc_memory_block();
 
-    if(argc>1)
+    if(argc>1){
+
+        initialize_fbgc_memory_block();
+
+        struct fbgc_object * main_field = new_fbgc_field_object();
+
         compile_file(main_field, argv[1]);
+        // print_fbgc_memory_block();
+        free_fbgc_memory_block();    
+    }
     else
         cprintf(111,"Enter a file!\n");
 
  	
-    print_fbgc_memory_block();
-    free_fbgc_memory_block();*/
 
-    //free_fbgc_field_object(main_field);
+
 
 	cprintf(110,"\n[=======================================================================]\n\n\n\n\n\n"); 
 	return 0;

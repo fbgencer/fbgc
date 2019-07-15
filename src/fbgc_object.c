@@ -75,8 +75,10 @@ void print_fbgc_object(struct fbgc_object * self){
 				print_fbgc_double_object(self);
 			break;
 			case STRING:
-			case WORD:
 				print_fbgc_str_object(self);
+			break;
+			case CSTRING:
+				print_fbgc_cstr_object(self);
 			break;
 			case REFERENCE:
 				print_fbgc_ref_object(self);
@@ -102,11 +104,12 @@ size_t get_fbgc_object_size(struct fbgc_object * obj){
 		case INT: return sizeof(struct fbgc_int_object);
 		case DOUBLE: return sizeof(struct fbgc_double_object);
 		case STRING: return cast_fbgc_object_as_str(obj)->len+size_fbgc_str_object+1;
-		case TUPLE: return sizeof(struct fbgc_tuple_object)+(cast_fbgc_object_as_tuple(obj)->size * sizeof(struct fbgc_object*)) ;
+		case CSTRING: return size_fbgc_cstr_object+1+length_fbgc_cstr_object(obj);
+		case TUPLE: return sizeof(struct fbgc_tuple_object)+(capacity_fbgc_tuple_object(obj) * sizeof(struct fbgc_object*)) ;
+		case REFERENCE : return sizeof(struct fbgc_ref_object);
 		case FIELD: return sizeof(struct fbgc_field_object);
 		case LINKED_LIST: return sizeof(struct fbgc_ll_object);
 		case LINKED_LIST_TAIL: return sizeof(struct fbgc_object);
-		case LIST: return sizeof(struct fbgc_symbol_table);
 		case GARBAGE: return cast_fbgc_object_as_garbage(obj)->size;
 		default: break;
 	}

@@ -8,18 +8,28 @@ extern "C" {
 
 struct fbgc_tuple_object{
     struct fbgc_object base;
+    size_t capacity;
     size_t size;
 };
 
 
 #define cast_fbgc_object_as_tuple(x)(((struct fbgc_tuple_object*) x))
 
+#define size_fbgc_tuple_object(x)(cast_fbgc_object_as_tuple(x)->size)
+#define capacity_fbgc_tuple_object(x)(cast_fbgc_object_as_tuple(x)->capacity)
 
-#define tuple_object_content(x)((struct fbgc_object **)((char*)&x->size+sizeof(x->size)));
 
-struct fbgc_object * new_fbgc_tuple_object(int size);
+
+#define tuple_object_content(x)((struct fbgc_object **)((char*)&cast_fbgc_object_as_tuple(x)->size+sizeof(cast_fbgc_object_as_tuple(x)->size)));
+
+struct fbgc_object * new_fbgc_tuple_object(size_t size);
 void set_object_in_fbgc_tuple_object(struct fbgc_object * self,struct fbgc_object * obj,int index);
 struct fbgc_object * get_object_in_fbgc_tuple_object(struct fbgc_object * self,int index);
+
+struct fbgc_object * push_back_fbgc_tuple_object(struct fbgc_object * self,struct fbgc_object * obj);
+
+size_t calculate_new_capacity_from_size(size_t );
+ 
 
 void print_fbgc_tuple_object(struct fbgc_object *);
 void free_fbgc_tuple_object(struct fbgc_object * );

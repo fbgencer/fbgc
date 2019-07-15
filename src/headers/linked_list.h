@@ -8,7 +8,7 @@ extern "C" {
 struct fbgc_ll_object{
     struct fbgc_object base;
     struct fbgc_object * tail;
-    int size;
+    size_t size;
 };
 
 #define cast_fbgc_object_as_ll(x)(((struct fbgc_ll_object*) x))

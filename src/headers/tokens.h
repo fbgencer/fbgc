@@ -13,32 +13,33 @@ typedef struct {
 }token_struct;
 
 #define UNKNOWN 0
-#define INT 2
-#define INT16 3
-#define INT2 4
-#define DOUBLE 5
-#define COMPLEX 6
-#define STRING 7
-#define IDENTIFIER 8
-#define WORD 9
-#define VAR 10
-#define CFUN 11
-#define FUN 12
-#define SUBSCRIPT 13
-#define REFERENCE 14
-#define LIST 15
-#define RAW_MATRIX 16
-#define MATRIX 17
-#define NUPLE 18
-#define MONUPLE 19
-#define RAW_TUPLE 20
-#define TUPLE 21
-#define LINKED_LIST 22
-#define LINKED_LIST_TAIL 23
-#define STACK 24
-#define CMODULE 25
-#define GARBAGE 26
-#define FIELD 27
+#define INT 1
+#define INT16 2
+#define INT2 3
+#define DOUBLE 4
+#define COMPLEX 5
+#define STRING 6
+#define IDENTIFIER 7
+#define WORD 8
+#define VAR 9
+#define CFUN 10
+#define FUN 11
+#define SUBSCRIPT 12
+#define REFERENCE 13
+#define LIST 14
+#define RAW_MATRIX 15
+#define MATRIX 16
+#define NUPLE 17
+#define MONUPLE 18
+#define RAW_TUPLE 19
+#define TUPLE 20
+#define LINKED_LIST 21
+#define LINKED_LIST_TAIL 22
+#define STACK 23
+#define CMODULE 24
+#define GARBAGE 25
+#define FIELD 26
+#define CSTRING 27
 #define OP 28
 #define PLUS 29
 #define MINUS 30
@@ -129,7 +130,6 @@ typedef struct {
 #define UNBALANCED_EXPRESSION_LIST 115
 #define TOKEN_LIST_AS_STRINGS()\
 "UNKNOWN",\
-"ATOM",\
 "INT",\
 "INT16",\
 "INT2",\
@@ -156,6 +156,7 @@ typedef struct {
 "CMODULE",\
 "GARBAGE",\
 "FIELD",\
+"CSTRING",\
 "OP",\
 "PLUS",\
 "MINUS",\
