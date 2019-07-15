@@ -5,12 +5,20 @@
 extern "C" {
 #endif
 
+
+struct fbgc_symbol{
+	struct fbgc_object * obj;
+	const char * name;
+	  	
+};
+
 struct fbgc_symbol_table{
 	struct fbgc_object base;
 	struct fbgc_object ** symbols;
-	uint8_t size;  	
-	//capacity is always size + 2
+	size_t size;  	
 };
+
+
 
 #define cast_fbgc_object_as_symbol_table(x)((struct fbgc_symbol_table *)x)
 

@@ -9,7 +9,6 @@ struct fbgc_matrix_object{
     struct fbgc_object base;
     double * contents;
     unsigned int row,column;
-
 };
 
 #define cast_fbgc_object_as_matrix(x)(((struct fbgc_matrix_object*) x))

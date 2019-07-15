@@ -1,5 +1,4 @@
 	UNKNOWN,
-	ATOM,	
 	INT,
 	INT16,
 	INT2,

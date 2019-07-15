@@ -36,7 +36,8 @@ struct fbgc_object * new_fbgc_str_object_from_substr(const char * str1,const cha
 
 
 void print_fbgc_str_object(struct fbgc_object * obj){
-    cprintf(011,"%s",cast_fbgc_object_as_str(obj)->content);   
+    const char * s = &cast_fbgc_object_as_str(obj)->content;
+    cprintf(011,"%s",s);   
 }
 
 void free_fbgc_str_object(struct fbgc_object * obj){

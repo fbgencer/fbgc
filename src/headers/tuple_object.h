@@ -5,12 +5,17 @@
 extern "C" {
 #endif
 
+
 struct fbgc_tuple_object{
     struct fbgc_object base;
-    struct fbgc_object **contents;
-    unsigned int size;
+    size_t size;
 };
+
+
 #define cast_fbgc_object_as_tuple(x)(((struct fbgc_tuple_object*) x))
+
+
+#define tuple_object_content(x)((struct fbgc_object **)((char*)&x->size+sizeof(x->size)));
 
 struct fbgc_object * new_fbgc_tuple_object(int size);
 void set_object_in_fbgc_tuple_object(struct fbgc_object * self,struct fbgc_object * obj,int index);

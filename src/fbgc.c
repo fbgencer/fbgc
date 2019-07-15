@@ -16,8 +16,7 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
         print_fbgc_ll_object(cast_fbgc_object_as_field(main_field)->head,"Main"); 
         cprintf(111,"\n");
     #endif
-        print_fbgc_memory_block();
-    /*
+
     int par = parser(&main_field);
     
     #ifdef INTERPRETER_DEBUG
@@ -26,7 +25,7 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
         cprintf(111,"\n");
     #endif
 
-    if(par) interpreter(&main_field); */
+    if(par) interpreter(&main_field); 
         
     fclose(input_file);    
 }
@@ -47,22 +46,58 @@ bunun icin gereken nedir ?
 */
 
 
+/*
+    15.07.19 tuple & memory example code
+    struct fbgc_tuple_object *to =  (struct fbgc_tuple_object*) fbgc_malloc(sizeof(struct fbgc_tuple_object));
+    to->base.type = TUPLE;
+    to->base.next = NULL;
+    to->size = 5;
+    print_fbgc_memory_block();
+    fbgc_malloc(sizeof(struct fbgc_object*)*to->size);
+    //cprintf(100,"TUPLE opened size:%d\n",size);
+    print_fbgc_memory_block();
+
+ //   struct fbgc_object *tp = new_fbgc_tuple_object(5); 
+    struct fbgc_object * ino = new_fbgc_int_object(0x00000000ABCD);
+    set_object_in_fbgc_tuple_object(to,ino,3);
+    print_fbgc_memory_block();
+    
+*/
+
 
 int main(int argc, char **argv){
-	
-   /* FILE *input_file = fopen("src/_fbgc_.txt","r");
-    char line[1000] = {0};
-    while (fgets(line, sizeof(line), input_file)){
-        cprintf(111,"%s",line);     
-    }    
-    fclose(input_file);*/
     
-	cprintf(110,"\n\n\n\n\n[=======================================================================]\n"); 
+cprintf(110,"\n\n\n\n\n[=======================================================================]\n"); 
 
 
 //******************************************************************
- //   initialize_fbgc_memory_block();
+    initialize_fbgc_memory_block();
 
+    /*
+    struct fbgc_object * ino = new_fbgc_int_object(0x00000000FB6C);
+    struct fbgc_object * dbo = new_fbgc_double_object(3.14159);
+    struct fbgc_object * tpo = new_fbgc_tuple_object(2);
+    set_object_in_fbgc_tuple_object(tpo,ino,1);
+    set_object_in_fbgc_tuple_object(tpo,dbo,0);
+
+    
+    print_fbgc_memory_block();
+
+    struct fbgc_object * ino2 = new_fbgc_int_object(0x00000000ABCD);
+    tpo = fbgc_realloc(tpo,get_fbgc_object_size(tpo)+3*sizeof(struct fbgc_object*));
+    cast_fbgc_object_as_tuple(tpo)->size = 5;
+    set_object_in_fbgc_tuple_object(tpo,ino2,0);
+    set_object_in_fbgc_tuple_object(tpo,ino,1);
+    set_object_in_fbgc_tuple_object(tpo,dbo,2);
+    set_object_in_fbgc_tuple_object(tpo,ino,3);
+    set_object_in_fbgc_tuple_object(tpo,ino2,4);
+    print_fbgc_memory_block();
+    */
+
+
+
+
+ //   cprintf(111,"x:%d\n",5*sizeof(struct fbgc_object*) + sizeof(struct fbgc_tuple_object));
 
  /*   char *str1 = "abc";
     struct fbgc_str2_object *stro = fbgc_malloc(size_fbgc_str_object + strlen(str1) + 1); 
@@ -172,7 +207,7 @@ int main(int argc, char **argv){
 
 
 
-    //free_fbgc_memory_block();
+    free_fbgc_memory_block();
 
 //******************************************************************
 
@@ -183,7 +218,7 @@ int main(int argc, char **argv){
     //dbo->content = db_content; 
      //return (struct fbgc_object*) dbo;
 
-    initialize_fbgc_memory_block();
+   /* initialize_fbgc_memory_block();
 
 	struct fbgc_object * main_field = new_fbgc_field_object();
 	//load_module_in_field_object(main_field,&fbgc_io_module);
@@ -200,7 +235,8 @@ int main(int argc, char **argv){
         cprintf(111,"Enter a file!\n");
 
  	
-    free_fbgc_memory_block();
+    print_fbgc_memory_block();
+    free_fbgc_memory_block();*/
 
     //free_fbgc_field_object(main_field);
 

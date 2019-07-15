@@ -13,7 +13,6 @@ typedef struct {
 }token_struct;
 
 #define UNKNOWN 0
-#define ATOM 1
 #define INT 2
 #define INT16 3
 #define INT2 4
@@ -262,7 +261,7 @@ const char * get_token_as_str(fbgc_token tok);
 
 #define is_fbgc_OPERATOR(T)(T>=OP && T<= RBRACK)
 #define is_fbgc_IDENTIFIER(T)(T>=IDENTIFIER && T<=REFERENCE)
-#define is_fbgc_ATOM(T)(T>= ATOM && T<=STRING)
+#define is_fbgc_ATOM(T)(T>= INT && T<=STRING)
 #define is_fbgc_INT(T) (T == INT)
 #define is_fbgc_DOUBLE(T) (T == DOUBLE)
 #define is_fbgc_STRING(T) (T == STRING)

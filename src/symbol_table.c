@@ -7,9 +7,9 @@ struct fbgc_object * new_fbgc_symbol_table(void){
     table->base.next = NULL;
     table->size = 0;
 
-    table->symbols = (struct fbgc_object **) fbgc_malloc(sizeof(struct fbgc_str_object **) * 2);
+    /*table->symbols = (struct fbgc_object **) fbgc_malloc(sizeof(struct fbgc_str_object **) * 2);
     table->symbols[0] = NULL;
-	table->symbols[1] = NULL;
+	table->symbols[1] = NULL;*/
     return (struct fbgc_object*) table;
 }
 

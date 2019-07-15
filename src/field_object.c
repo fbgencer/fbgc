@@ -8,7 +8,6 @@ struct fbgc_object * new_fbgc_field_object(void){
 	field->head = new_fbgc_ll_object(LINKED_LIST);
 	field->global_table = new_fbgc_symbol_table();
 	field->modules = new_fbgc_ll_object(LINKED_LIST);
-	//(struct fbgc_cmodule_object *)malloc(sizeof(const struct fbgc_cmodule_object *));
 
 	return (struct fbgc_object *) field;
 };

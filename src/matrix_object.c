@@ -1,6 +1,6 @@
 #include "fbgc.h"
 
-
+ 
 struct fbgc_object * new_fbgc_matrix_object(unsigned int column_size){
 	struct fbgc_matrix_object *matrixo =  (struct fbgc_matrix_object*) malloc(sizeof(struct fbgc_matrix_object));
     matrixo->base.type = MATRIX;

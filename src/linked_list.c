@@ -131,7 +131,8 @@ void print_fbgc_ll_object(struct fbgc_object * head,const char *s1){
     while(iter!=head_ll->tail){
         if(iter->type == INT) cprintf(011,"{%d}",cast_fbgc_object_as_int(iter)->content);   
         else if(iter->type == DOUBLE) cprintf(011,"{%f:DB}",cast_fbgc_object_as_double(iter)->content); 
-        else if(iter->type == STRING || iter->type == WORD) cprintf(011,"{%s:%s}",cast_fbgc_object_as_str(iter)->content,object_name_array[iter->type]);
+        //CHANGE THIS LINE, STRING CASTING MUST BE CHANGED | THIS WAY(&cast_fbgc_object_as_str(iter)->content) IS NOT SAFE!
+        else if(iter->type == STRING || iter->type == WORD) cprintf(011,"{%s:%s}",&cast_fbgc_object_as_str(iter)->content,object_name_array[iter->type]);
       else if(iter->type == REFERENCE){
       cprintf(011,"{REF:}{");
       print_fbgc_ref_object(iter);

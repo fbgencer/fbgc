@@ -96,13 +96,24 @@ void print_fbgc_object(struct fbgc_object * self){
 
 
 size_t get_fbgc_object_size(struct fbgc_object * obj){
-	switch(get_fbgc_object_type(obj)){
+	fbgc_token type = (get_fbgc_object_type(obj));
+
+	switch(type){
 		case INT: return sizeof(struct fbgc_int_object);
 		case DOUBLE: return sizeof(struct fbgc_double_object);
 		case STRING: return cast_fbgc_object_as_str(obj)->len+size_fbgc_str_object+1;
-		case GARBAGE: return cast_fbgc_object_as_garbage(obj)->size;	
-		default: return 0;
+		case TUPLE: return sizeof(struct fbgc_tuple_object)+(cast_fbgc_object_as_tuple(obj)->size * sizeof(struct fbgc_object*)) ;
+		case FIELD: return sizeof(struct fbgc_field_object);
+		case LINKED_LIST: return sizeof(struct fbgc_ll_object);
+		case LINKED_LIST_TAIL: return sizeof(struct fbgc_object);
+		case LIST: return sizeof(struct fbgc_symbol_table);
+		case GARBAGE: return cast_fbgc_object_as_garbage(obj)->size;
+		default: break;
 	}
+
+	if(type>OP) return sizeof(struct fbgc_object);
+
+	return 0;
 }
 
 

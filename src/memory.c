@@ -204,7 +204,7 @@ void * fbgc_malloc(size_t size){
 
 		if(size == available_size){
 			//chunk has enough space as we wanted
-			// make the linked list connection and return the address
+			// make the linked list connection proper and return the address
 			
 			#ifdef MEM_DEBUG
 			cprintf(101,"Size == available_size\n");
@@ -221,17 +221,19 @@ void * fbgc_malloc(size_t size){
 			cprintf(101,"Size < available_size, we need to create gc object!\n");
 			cprintf(101,"Empty space starts at %p\n",chunk_iter->next);
 			cprintf(101,"Garbage starts at %p\n",(char*)(chunk_iter->next) + size);
-			cprintf(101,"Garbage size %d, garbage next :%p\n",gb->size,gb->base.next);
 			#endif
 
 
 			struct fbgc_garbage_object * gb = (struct fbgc_garbage_object *)((char *) (chunk_iter->next) + size);
-			
+
 			gb->base.type = GARBAGE;
 			struct fbgc_object * temp = chunk_iter->next;
 			gb->base.next = temp->next;
 			gb->size =  (available_size - size);
 			
+			#ifdef MEM_DEBUG
+			cprintf(101,"Garbage size %d, garbage next :%p\n",gb->size,gb->base.next);
+			#endif
 
 			return temp;				 
 		}
@@ -266,12 +268,82 @@ void * fbgc_malloc(size_t size){
 	return (opool_iter->tptr - size);	
 }
 
-void * fbgc_realloc(void *ptr, size_t size){
+void * fbgc_realloc(void * ptr, size_t size){
+
+/*
+See thread : https://codereview.stackexchange.com/questions/151019/implementing-realloc-in-c
+
+[Realloc requirements]
+>> If the requested block size is smaller than the original size of the block, 
+realloc either frees the unwanted memory at the end of the block and returns
+the input pointer unchanged, or allocates a new block of the appropriate size,
+frees the original block, and returns a pointer to this newly-allocated block.
+
+>> If the requested block size is larger than the original size of the block,
+realloc may allocate an expanded block at a new address and copy the contents of
+the original block into the new location. In this case, a pointer to the expanded
+block is returned, and the extended portion of the block is left uninitialized. Or, if possible,
+it may expand the original block in-place and return the input pointer unchanged.
+
+>>If realloc cannot satisfy a request to expand a block, it returns a null pointer
+and does not free the original block. (realloc will always succeed
+when you request to shrink a block.)
+
+>>If the input pointer is null,
+then realloc behaves exactly as if you had called malloc(size),
+returning a pointer to the newly-allocated block of the requested size,
+or a null pointer if the request could not be satisfied.
+
+>>If the requested size is 0 and the input pointer is non-null,
+then realloc behaves exactly as if you had called free(ptr),
+and always returns a null pointer.
+
+>>If the input pointer is null and the requested size is 0,
+then the result is undefined!
+*/
+	if(ptr == NULL) return fbgc_malloc(size);
+
+	size_t block_size = get_fbgc_object_size(ptr);
+
+	#ifdef MEM_DEBUG
+		cprintf(111,"Requested memory in realloc is %d, block size : %d\n",size,block_size);
+	#endif
+
+	if(size > block_size){
+		void * new_mem_ptr = fbgc_malloc(size);
+		if(new_mem_ptr == NULL) return NULL;
+
+		memcpy(new_mem_ptr,ptr,block_size);
+
+		//Do we need it ?
+		//fbgc_free(ptr);
+
+		return new_mem_ptr;
+	}
+
+	return ptr;
+
+	
+
+
 
 }
 
 void fbgc_free(void *ptr){
 
+	/*
+		Free function is NOT a c-free function in fbgc.
+		It does not give allocated memory to the system, only clears the object to make it unrecognizable.
+		In order to do that just delete the objects type, make it garbage, so for the later use we can use this empty memory.
+	*/
+
+	//##########################
+	// Make the connections proper for the garbage objects.
+	struct fbgc_garbage_object * gb = (struct fbgc_garbage_object *) ptr;
+
+	gb->size =  get_fbgc_object_size(ptr);
+	gb->base.type = GARBAGE;
+	gb->base.next = NULL;	
 }
 
 
