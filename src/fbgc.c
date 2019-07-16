@@ -4,7 +4,7 @@
 
 
 static void compile_file(struct fbgc_object * main_field,const char *file_name){
-#define MAX_INPUT_BUFFER 100
+#define MAX_INPUT_BUFFER 1000
     char line[MAX_INPUT_BUFFER] = {0};
     FILE *input_file = fopen(file_name,"r");
     while (fbgc_getline_from_file(line, sizeof(line), input_file)){
@@ -17,6 +17,8 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
         cprintf(111,"\n");
     #endif
 
+    //print_fbgc_memory_block();
+        
     int par = parser(&main_field);
     
     #ifdef INTERPRETER_DEBUG
@@ -25,7 +27,7 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
         cprintf(111,"\n");
     #endif
 
-     print_fbgc_memory_block();
+    //print_fbgc_memory_block();
 
     if(par) interpreter(&main_field); 
         
@@ -239,15 +241,11 @@ cprintf(110,"\n\n\n\n\n[========================================================
         struct fbgc_object * main_field = new_fbgc_field_object();
 
         compile_file(main_field, argv[1]);
-        // print_fbgc_memory_block();
+        //print_fbgc_memory_block();
         free_fbgc_memory_block();    
     }
     else
         cprintf(111,"Enter a file!\n");
-
- 	
-
-
 
 	cprintf(110,"\n[=======================================================================]\n\n\n\n\n\n"); 
 	return 0;

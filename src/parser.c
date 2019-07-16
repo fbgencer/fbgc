@@ -59,6 +59,8 @@ uint8_t parser(struct fbgc_object ** field_obj){
 	cprintf(111,"==========[PARSER]==========\n");
 	#endif
 
+//print_fbgc_memory_block();
+
 	struct fbgc_ll_object * head = cast_fbgc_object_as_ll( cast_fbgc_object_as_field(*field_obj)->head );
 	struct fbgc_object * head_obj =  cast_fbgc_object_as_field(*field_obj)->head;
 	struct fbgc_object * iter = head->base.next;
@@ -70,7 +72,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 
 
 
-	for(int i = 0; i<500 && (iter != head->tail); i++){
+	for(int i = 0; i<5000 && (iter != head->tail); i++){
 
 		#ifdef PARSER_DEBUG
 		cprintf(010,"----------------------[%d] = {%s:",i,object_name_array[iter->type]);

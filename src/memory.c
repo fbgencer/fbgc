@@ -76,6 +76,12 @@ void * fbgc_malloc(size_t size){
 		if(size > opool_iter->size) state = 1;
 		else state = 0;
 
+		#ifdef MEM_DEBUG
+			cprintf(111,"Requested memory from chunk: %d, total memory : %d,available mem: %d \n",
+				size,opool_iter->size,(opool_iter->data + opool_iter->size - opool_iter->tptr));
+		#endif
+
+
 		if( (opool_iter->data + opool_iter->size - opool_iter->tptr) >= size){
 			#ifdef MEM_DEBUG
 				cprintf(111,"Requested memory is available\n");
@@ -92,8 +98,16 @@ void * fbgc_malloc(size_t size){
 	}
 
 
+
 	if(state == 1) goto NEW_POOL_ALLOCATION;
 
+//#################################################################################################################
+// 
+//	After writing GC algorithm uncomment below!	
+//
+//#################################################################################################################
+
+/*
 	#ifdef MEM_DEBUG
 		cprintf(111,"Running garbage collector\n");
 	#endif	
@@ -240,6 +254,8 @@ void * fbgc_malloc(size_t size){
 		
 		chunk_iter = chunk_iter->next;
 	}
+*/
+
 
 	NEW_POOL_ALLOCATION:
 
@@ -261,6 +277,9 @@ void * fbgc_malloc(size_t size){
 	//only allow to allocate integer multiples of the page size
 	//assume size = 111, page_size = 20, mpage becomes 120, 
 	opool_iter->size =  PAGE_SIZE*((size_t)((size+sizeof(struct fbgc_garbage_object))/PAGE_SIZE)+1);
+	#ifdef MEM_DEBUG
+		cprintf(111,"Allocated new mem size :%d\n",opool_iter->size);
+	#endif		
 	opool_iter->data = calloc(opool_iter->size,1);	
 	assert(opool_iter->data != NULL);
 	opool_iter->tptr = opool_iter->data + size;
@@ -306,15 +325,22 @@ then the result is undefined!
 	size_t block_size = get_fbgc_object_size(ptr);
 
 	#ifdef MEM_DEBUG
-		cprintf(111,"Requested memory in realloc is %d, block size : %d\n",size,block_size);
+		cprintf(010,"~~~~~~~Realloc~~~~~~~~\n");
+		cprintf(010,"Requested memory in realloc is %d, block size : %d\n",size,block_size);
 	#endif
 
 	if(size > block_size){
+	#ifdef MEM_DEBUG
+		cprintf(010,"Allocating new block size : %d and copying\n",size);
+	#endif
 		void * new_mem_ptr = fbgc_malloc(size);
 		if(new_mem_ptr == NULL) return NULL;
 
-		memcpy(new_mem_ptr,ptr,block_size);
+	#ifdef MEM_DEBUG
+		cprintf(010,"succesfully allocated size : %d,old address:%p new address:%p\n",size,ptr,new_mem_ptr);
+	#endif
 
+		memcpy(new_mem_ptr,ptr,block_size);
 		//Do we need it ?
 		fbgc_free(ptr);
 
@@ -368,7 +394,7 @@ void print_fbgc_memory_block(){
 				struct fbgc_object * dummy = ((iter->data)+j);
 				obj_start += get_fbgc_object_size(dummy);
 				cprintf(101,"[%d][%p]:%0x",j,((iter->data)+j),val);
-				cprintf(101,"<<<[%s]",object_name_array[0x7F & val]);
+				cprintf(101,"<<<[%s] obj size %d",object_name_array[0x7F & val],get_fbgc_object_size(dummy));
 			}else{
 	   			cprintf(010,"[%d][%p]",j,((iter->data)+j));
 	   			cprintf(110,":%0x",val);
@@ -384,9 +410,12 @@ void print_fbgc_memory_block(){
 
 	   		cprintf(010,"\n");
 		}
+		cprintf(111,"[%d.] Chunk size: %d\n",i,iter->size);
 		iter = iter->next;
-    	} 
+    } 	
 	cprintf(011,"############[OBJECT POOL]############\n");
+	cprintf(111,"Object pool size: %d\n",fbgc_memb.object_pool_size );
+	
 	cprintf(010,"############[MEMORY_BLOCK]############\n");
 }
 

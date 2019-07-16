@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-#define INITIAL_SYMBOL_TABLE_SIZE 8
+#define INITIAL_SYMBOL_TABLE_SIZE 512
 
 
 /*

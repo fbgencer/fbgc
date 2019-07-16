@@ -20,7 +20,7 @@ Complex 4	0	0	0	0
 
 //#define DEBUG
 
-
+ 
 const token_table_struct lexer_table[1] = 
 {
 	{

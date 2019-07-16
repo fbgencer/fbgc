@@ -9,8 +9,6 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 	struct fbgc_ll_object * head = cast_fbgc_object_as_ll( cast_fbgc_object_as_field(*field_obj)->head );
 
-	if(head == NULL) cprintf(111,"head is NULL!!!\n");
-
 	struct fbgc_object * iter = head->base.next;
 	struct fbgc_object * iter_prev = (struct fbgc_object *)head;
 	struct fbgc_object * stack = new_fbgc_ll_object(STACK);
@@ -170,10 +168,12 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 		//cprintf(111,"helo!\n is nULL :%d\n",cast_fbgc_object_as_field(*field_obj)->head == NULL);
 		print_fbgc_ll_object(cast_fbgc_object_as_field(*field_obj)->head,"Main");
 		print_fbgc_ll_object(stack,"Stack");
-		print_fbgc_symbol_table(cast_fbgc_object_as_field(*field_obj)->symbol_table);
+		//print_fbgc_symbol_table(cast_fbgc_object_as_field(*field_obj)->symbol_table);
 		cprintf(111,"===========================================\n");
 		#endif
 	}
+
+print_fbgc_symbol_table(cast_fbgc_object_as_field(*field_obj)->symbol_table);
 
 	//claim_ownership_in_symbol_table(cast_fbgc_object_as_field(*field_obj)->global_table);
 	//make the linked list connection proper

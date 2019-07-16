@@ -17,7 +17,6 @@ struct fbgc_object * assign_var_to_fbgc_ref_object(struct fbgc_object * ref,stru
 	#define refo cast_fbgc_object_as_ref(ref)
 
 	if(refo != NULL && refo->content != NULL){
-		cprintf(100,"Assignment succesfull!\n");
 		refo->content->next = obj;
 
 	}else{
@@ -47,7 +46,7 @@ void print_fbgc_ref_object(struct fbgc_object * ref){
 		cprintf(100,"{%s",content_fbgc_cstr_object(obj));
 		cprintf(111,":");
 		if(cast_fbgc_object_as_cstr(obj)->base.next != NULL){
-			//print_fbgc_object(obj->base.next);
+			print_fbgc_object(obj->next);
 			cprintf(011,"}");
 		}
 		else

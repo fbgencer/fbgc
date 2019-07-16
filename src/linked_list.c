@@ -55,16 +55,14 @@ fbgc_object * push_front_fbgc_ll_object(struct fbgc_object * head,struct fbgc_ob
 struct
 fbgc_object * push_back_fbgc_ll_object(struct fbgc_object * head,struct fbgc_object * obj){
     //cast head as ll so we can change its content as our list size
+
     struct fbgc_ll_object * head_ll = cast_fbgc_object_as_ll(head);
     if(head_ll->base.type == LINKED_LIST){
         
-        
-
         //[H] -> [O1] <-> [T] 
         head_ll->tail->next->next = obj; //[O1]->[obj] 
         obj->next = head_ll->tail;//[O1]->[obj]->[T]
         head_ll->tail->next = obj;//[O1]->[obj]<->[T]
-
         head_ll->size++;
     }
     else cprintf(111,"Stack list cannot use push_back method.\n");

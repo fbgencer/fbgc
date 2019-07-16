@@ -11,8 +11,9 @@ struct fbgc_object * new_fbgc_symbol_table(void){
 
 struct fbgc_object * new_fbgc_symbol_from_substr(struct fbgc_object * field_obj,const char * str1,const char * str2){
 	
+	#ifdef SYMBOL_TABLE_DEBUG
 	cprintf(100,"Symbol table new symbol from substr..\n");
-
+	#endif
 	//############
 	//This part is for the recognization of the c module functions
 	//	struct fbgc_object * o = new_cfun_object_from_substr(field_obj,str1,str2);
@@ -35,11 +36,15 @@ struct fbgc_object * new_fbgc_symbol_from_substr(struct fbgc_object * field_obj,
 			return (struct fbgc_object *) ref_obj;
 		}
 	}
-	cprintf(110,"New symbol from s1:%s to s2:%s\n",str1,str2);
+	
 	struct fbgc_object * temp_obj =  new_fbgc_cstr_object_from_substr(str1,str2);
+
+	#ifdef SYMBOL_TABLE_DEBUG
+	cprintf(110,"New symbol from s1:%s to s2:%s\n",str1,str2);
 	cprintf(110,"Symbol has been created as cstring : ");
 	print_fbgc_cstr_object(temp_obj);
 	cprintf(111,"\n");
+	#endif
 
 	table = push_back_fbgc_tuple_object(table,temp_obj);
 	cast_fbgc_object_as_field(field_obj)->symbol_table = table;
@@ -47,9 +52,11 @@ struct fbgc_object * new_fbgc_symbol_from_substr(struct fbgc_object * field_obj,
 	symbols = tuple_object_content(table);
 	ref_obj = initialize_fbgc_ref_object(ref_obj,symbols[size_fbgc_tuple_object(table)-1]);
 	
+	#ifdef SYMBOL_TABLE_DEBUG
 	cprintf(100,"Succesfully added in the symbol table : ");
-	print_fbgc_object(table);
+	print_fbgc_object(cast_fbgc_object_as_field(field_obj)->symbol_table);
 	cprintf(111,"\n");
+	#endif
 
 	/*struct fbgc_object * temp_obj =  new_fbgc_str_object_from_substr(str1,str2);
 	temp_obj->type = WORD;
