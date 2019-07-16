@@ -84,7 +84,7 @@ void * fbgc_malloc(size_t size){
 
 		if( (opool_iter->data + opool_iter->size - opool_iter->tptr) >= size){
 			#ifdef MEM_DEBUG
-				cprintf(111,"Requested memory is available\n");
+				//cprintf(111,"Requested memory is available\n");
 			#endif
 
 			opool_iter->tptr += size; 	
@@ -97,7 +97,10 @@ void * fbgc_malloc(size_t size){
 		opool_iter = opool_iter->next;
 	}
 
-
+	#ifdef MEM_DEBUG
+	if(state == 1)
+		cprintf(011,"Goto new allocation!");
+	#endif	
 
 	if(state == 1) goto NEW_POOL_ALLOCATION;
 
@@ -259,7 +262,6 @@ void * fbgc_malloc(size_t size){
 
 	NEW_POOL_ALLOCATION:
 
-
 	#ifdef MEM_DEBUG
 		cprintf(111,"There is no enough memory, new allocation\n");
 	#endif	
@@ -276,9 +278,9 @@ void * fbgc_malloc(size_t size){
 	//calculate the multiplicity of the new chunk
 	//only allow to allocate integer multiples of the page size
 	//assume size = 111, page_size = 20, mpage becomes 120, 
-	opool_iter->size =  PAGE_SIZE*((size_t)((size+sizeof(struct fbgc_garbage_object))/PAGE_SIZE)+1);
+	opool_iter->size =  PAGE_SIZE*((size_t)((size+sizeof(struct fbgc_garbage_object))/(PAGE_SIZE*1.0))+1);
 	#ifdef MEM_DEBUG
-		cprintf(111,"Allocated new mem size :%d\n",opool_iter->size);
+		cprintf(111,"Allocated new pool size :%d\n",opool_iter->size);
 	#endif		
 	opool_iter->data = calloc(opool_iter->size,1);	
 	assert(opool_iter->data != NULL);

@@ -2,13 +2,15 @@
 
 
 struct fbgc_object * new_fbgc_tuple_object(size_t cap){
-	struct fbgc_tuple_object *to =  (struct fbgc_tuple_object*) fbgc_malloc(sizeof(struct fbgc_tuple_object));
+	//here just allocate a space after to->size, we don't need a pointer we know where we are gonna look.
+
+	cap = calculate_new_capacity_from_size(cap);
+
+	struct fbgc_tuple_object *to =  (struct fbgc_tuple_object*) fbgc_malloc(sizeof(struct fbgc_tuple_object) + sizeof(struct fbgc_object*)*cap);
     to->base.type = TUPLE;
-    to->base.next = NULL;
+    to->base.next = to;
     to->size = 0;
-    to->capacity = calculate_new_capacity_from_size(cap);
-    //here just allocate a space after to->size, we don't need a pointer we know where we are gonna look.
-    fbgc_malloc(sizeof(struct fbgc_object*)*to->capacity);
+    to->capacity = cap;
 
     return (struct fbgc_object*) to;
 }
@@ -18,10 +20,10 @@ size_t calculate_new_capacity_from_size(size_t size){
 	/*
 		Below algorithm calculates the capacity for the given size
 		Basically capacity is the closest two's power
-		1 : 2
-		2,3 : 4
-		4,5,6,7 : 8
-		8,9,10,11,12,13,14,15 : 16
+		0,1,2 : 2
+		3,4 : 4
+		5,6,7,8 : 8
+		9,10,11,12,13,14,15 : 16
 		and so on
 
 		Take 5 for example, in binary its 0b00101
@@ -31,14 +33,12 @@ size_t calculate_new_capacity_from_size(size_t size){
 		0b0100 <= 0b0101 , (ditto)
 		0b1000 <= 0b0101 , stop here don't shift, z is 8, the closest two's power for 5
 	*/
-
-
 	size_t z = 1;
 	while(z < size)
 		z <<= 1;
 
 	#ifdef TUPLE_DEBUG
-	cprintf(011,"size tuple %d, capacity tuple :%d\n",size,z);
+	cprintf(011,"For the size %d new capacity is calculated as :%d\n",size,z);
 	#endif
 	return z;
 }
@@ -102,6 +102,10 @@ struct fbgc_object * push_back_fbgc_tuple_object(struct fbgc_object * self,struc
 	}
 
 	if(size_fbgc_tuple_object(self) < capacity_fbgc_tuple_object(self)){
+
+		#ifdef TUPLE_DEBUG
+		cprintf(001,"There is enoguh space to push, pushing the object..\n");
+		#endif
 		struct fbgc_object ** contents = tuple_object_content(self);
 		contents[cast_fbgc_object_as_tuple(self)->size] = obj;
 		cast_fbgc_object_as_tuple(self)->size++;

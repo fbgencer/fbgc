@@ -15,7 +15,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 	
 
 
-	for(int i = 0; i<30000 && (iter != head->tail); i++){
+	for(int i = 0; (iter != head->tail); i++){
 
 		fbgc_token type = get_fbgc_object_type(iter);
 
@@ -26,7 +26,6 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 		// print_fbgc_memory_block();
 
 		if(is_fbgc_ATOM(type) || type == REFERENCE){
-
 			iter_prev->next = iter->next;
 			stack = push_front_fbgc_ll_object(stack,iter);
 		}
@@ -59,6 +58,8 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			}
 		}
 		else if(is_fbgc_ASSIGNMENT_OPERATOR(type)){
+
+
 			//o1 = o2
 			struct fbgc_object * o2 = top_fbgc_ll_object(stack);
 			stack = pop_front_fbgc_ll_object(stack);
@@ -173,7 +174,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 		#endif
 	}
 
-print_fbgc_symbol_table(cast_fbgc_object_as_field(*field_obj)->symbol_table);
+	print_fbgc_symbol_table(cast_fbgc_object_as_field(*field_obj)->symbol_table);
 
 	//claim_ownership_in_symbol_table(cast_fbgc_object_as_field(*field_obj)->global_table);
 	//make the linked list connection proper

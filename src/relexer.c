@@ -378,13 +378,16 @@ uint8_t regex_lexer(struct fbgc_object ** field_obj,char * first_ptr){
 							free(tempstr);
 						#endif
 					
+
 						(cast_fbgc_object_as_field(*field_obj)->head) = 
 							push_back_fbgc_ll_object(
 								(cast_fbgc_object_as_field(*field_obj)->head),
 								 new_fbgc_object_from_substr(*field_obj,first_ptr,mobile_ptr,current_token)
 								);
+
 						//if(current_token == WORD) print_fbgc_symbol_table((cast_fbgc_object_as_field(*field_obj)->global_table));
-						
+
+
 					//#endif
 					}
 						current_rule_index = 0;

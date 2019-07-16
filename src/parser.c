@@ -72,7 +72,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 
 
 
-	for(int i = 0; i<5000 && (iter != head->tail); i++){
+	for(int i = 0;  (iter != head->tail); i++){
 
 		#ifdef PARSER_DEBUG
 		cprintf(010,"----------------------[%d] = {%s:",i,object_name_array[iter->type]);

@@ -19,7 +19,6 @@ struct fbgc_garbage_object{
 };
 #define cast_fbgc_object_as_garbage(x)(((struct fbgc_garbage_object*) x))
 
-
 #ifdef  __cplusplus
 }
 #endif

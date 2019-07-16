@@ -15,6 +15,7 @@ extern "C" {
 #include <stdarg.h>
 #include <ctype.h>
 #include <math.h>
+#include <time.h>
 
 #define size_t unsigned int	
 

@@ -86,7 +86,7 @@ struct
 fbgc_object * pop_front_fbgc_ll_object(struct fbgc_object *head){
     //cast head as ll so we can change its content as our list size
     struct fbgc_ll_object * head_ll = cast_fbgc_object_as_ll(head);
-    head_ll->base.next =  head_ll->base.next->next;
+    head_ll->base.next = head_ll->base.next->next;
     head_ll->size--;
     return (struct fbgc_object *) head_ll;  
 }
