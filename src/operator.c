@@ -69,7 +69,7 @@ struct fbgc_object * fbgc_binary_minus(struct fbgc_object * a, struct fbgc_objec
 			return subtract_fbgc_double_object(a,b);
 		case COMPLEX: return NULL;
 		case STRING: return NULL;
-		case VAR: return NULL;
+		
 		default:
 			cprintf(100,"Error at binary minus\n");
 		return NULL;	
@@ -96,7 +96,7 @@ struct fbgc_object * fbgc_binary_star(struct fbgc_object * a, struct fbgc_object
 			return multiply_fbgc_double_object(a,b);
 		case COMPLEX: return NULL;
 		case STRING: return NULL;
-		case VAR: return NULL;
+		
 		default:
 			cprintf(100,"Error at binary multiply \n");
 		return NULL;	
@@ -125,7 +125,7 @@ struct fbgc_object * fbgc_binary_slash(struct fbgc_object * a, struct fbgc_objec
 			return divide_fbgc_double_object(a,b);
 		case COMPLEX: return NULL;
 		case STRING: return NULL;
-		case VAR: return NULL;
+		
 		default:
 			cprintf(100,"Error at binary divide\n");
 		return NULL;	

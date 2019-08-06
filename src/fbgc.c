@@ -36,7 +36,7 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
     parser_time = (double)(end - begin) / CLOCKS_PER_SEC; 
 
 
-    #ifdef INTERPRETER_DEBUG
+    #ifdef PARSER_DEBUG
         cprintf(111,"Parser output array\n");
         print_fbgc_ll_object(cast_fbgc_object_as_field(main_field)->head,"Main");   
         cprintf(111,"\n");
@@ -44,15 +44,15 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
 
     //print_fbgc_memory_block();
      
-     begin = clock();
-     if(par) interpreter(&main_field); 
-     end = clock();
-     interpreter_time = (double)(end - begin) / CLOCKS_PER_SEC; 
+    begin = clock();
+   // if(par) interpreter(&main_field); 
+    end = clock();
+    interpreter_time = (double)(end - begin) / CLOCKS_PER_SEC; 
 
-     cprintf(111,"Execution time [LEXER] :%f\n",lexer_time);    
-     cprintf(111,"Execution time [PARSER] :%f\n",parser_time);    
-     cprintf(111,"Execution time [INTERPRETER] :%f\n",interpreter_time);  
-     cprintf(111,"Total ex time %f\n",lexer_time+parser_time+interpreter_time);  
+    cprintf(111,"Execution time [LEXER] :%f\n",lexer_time);    
+    cprintf(111,"Execution time [PARSER] :%f\n",parser_time);    
+    cprintf(111,"Execution time [INTERPRETER] :%f\n",interpreter_time);  
+    cprintf(111,"Total ex time %f\n",lexer_time+parser_time+interpreter_time);  
         
     fclose(input_file);    
 }
@@ -95,6 +95,65 @@ bunun icin gereken nedir ?
 int main(int argc, char **argv){
     
 cprintf(110,"\n\n\n\n\n[=======================================================================]\n"); 
+
+
+
+
+//******************************************************************
+
+
+    //struct fbgc_double_object *dbo =  (struct fbgc_double_object*) malloc(sizeof(struct fbgc_double_object));
+    //dbo->base.type = DOUBLE;
+    //dbo->base.next = NULL;
+    //dbo->content = db_content; 
+     //return (struct fbgc_object*) dbo;
+
+	
+	//load_module_in_field_object(main_field,&fbgc_math_module);
+
+   // char *s = "abcdef=1;abcdef=10.2;";
+   // compile_one_line(main_field,s);
+
+    //print_fbgc_memory_block();
+
+    if(argc>1){
+
+        initialize_fbgc_memory_block();
+
+        struct fbgc_object * main_field = new_fbgc_field_object();
+       // load_module_in_field_object(main_field,&fbgc_io_module);
+        //size_t size = 31;
+        //size_t m = (size_t)((size+sizeof(struct fbgc_garbage_object))/(PAGE_SIZE*1.0) ) ;
+       // size_t q = PAGE_SIZE*( (size_t) ( (size+sizeof(struct fbgc_garbage_object))/(PAGE_SIZE))+1);
+       // cprintf(111,"m %d q:%d\n",m,q);
+        compile_file(main_field, argv[1]);
+        //print_fbgc_memory_block();
+
+        //struct fbgc_tuple_object * to = cast_fbgc_object_as_field(main_field)->symbol_table;
+
+        //cprintf(111,"Size tuple:%d\n",to->capacity);
+        free_fbgc_memory_block();    
+    }
+    else
+        cprintf(111,"Enter a file!\n");
+
+	cprintf(110,"\n[=======================================================================]\n\n\n\n\n\n"); 
+	return 0;
+}
+
+/*
+ 
+fun fbg(x){
+    return x + 5;  
+}
+fun,fbg,arg:x,x,5,+,ret,endfun
+
+y := fbg(x){    
+    y = x+5;
+}
+y,fbg,x,=,y,x,5,+,=,end
+
+*/
 
 
 //******************************************************************
@@ -237,60 +296,3 @@ cprintf(110,"\n\n\n\n\n[========================================================
 
 
 
-
-
-
-//******************************************************************
-
-
-    //struct fbgc_double_object *dbo =  (struct fbgc_double_object*) malloc(sizeof(struct fbgc_double_object));
-    //dbo->base.type = DOUBLE;
-    //dbo->base.next = NULL;
-    //dbo->content = db_content; 
-     //return (struct fbgc_object*) dbo;
-
-	//load_module_in_field_object(main_field,&fbgc_io_module);
-	//load_module_in_field_object(main_field,&fbgc_math_module);
-
-   // char *s = "abcdef=1;abcdef=10.2;";
-   // compile_one_line(main_field,s);
-
-    //print_fbgc_memory_block();
-
-    if(argc>1){
-
-        initialize_fbgc_memory_block();
-
-        struct fbgc_object * main_field = new_fbgc_field_object();
-        //size_t size = 31;
-        //size_t m = (size_t)((size+sizeof(struct fbgc_garbage_object))/(PAGE_SIZE*1.0) ) ;
-       // size_t q = PAGE_SIZE*( (size_t) ( (size+sizeof(struct fbgc_garbage_object))/(PAGE_SIZE))+1);
-       // cprintf(111,"m %d q:%d\n",m,q);
-        compile_file(main_field, argv[1]);
-        //print_fbgc_memory_block();
-
-        //struct fbgc_tuple_object * to = cast_fbgc_object_as_field(main_field)->symbol_table;
-
-        //cprintf(111,"Size tuple:%d\n",to->capacity);
-        free_fbgc_memory_block();    
-    }
-    else
-        cprintf(111,"Enter a file!\n");
-
-	cprintf(110,"\n[=======================================================================]\n\n\n\n\n\n"); 
-	return 0;
-}
-
-/*
- 
-fun fbg(x){
-    return x + 5;  
-}
-fun,fbg,arg:x,x,5,+,ret,endfun
-
-y := fbg(x){    
-    y = x+5;
-}
-y,fbg,x,=,y,x,5,+,=,end
-
-*/

@@ -1,1 +1,10 @@
 added by fbgencer
+
+
+sum = fun(x){
+	res += x[0 ~> |x|]		
+	return res
+}
+
+
+

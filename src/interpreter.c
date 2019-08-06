@@ -115,7 +115,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			push_front_fbgc_ll_object(stack,res);
 		}		
 		
-		else if(type == RAW_TUPLE){
+		else if(type == TUPLE){
 			struct fbgc_object * to = new_fbgc_tuple_object(cast_fbgc_object_as_int(top_fbgc_ll_object(stack))->content);
 			stack = delete_front_fbgc_ll_object(stack);
 			for(int q = cast_fbgc_object_as_tuple(to)->size - 1; q>=0; q--){

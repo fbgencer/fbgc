@@ -43,14 +43,14 @@ void print_fbgc_ref_object(struct fbgc_object * ref){
 	//if(cast_fbgc_object_as_ref(ref)->content->type == STRING){
 		struct fbgc_object * obj = (struct fbgc_object *)(cast_fbgc_object_as_ref(ref)->content);
 		//cprintf(100,"{%s",object_name_array[0x7F & obj->type]);
-		cprintf(100,"{%s",content_fbgc_cstr_object(obj));
+		cprintf(100,"[%s",content_fbgc_cstr_object(obj));
 		cprintf(111,":");
 		if(cast_fbgc_object_as_cstr(obj)->base.next != NULL){
 			print_fbgc_object(obj->next);
-			cprintf(011,"}");
+			cprintf(011,"]");
 		}
 		else
-			cprintf(111,"NULL}");		
+			cprintf(111,"NULL]");		
 	//}
 
 	//print_fbgc_object(cast_fbgc_object_as_ref(ref)->content);

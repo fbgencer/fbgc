@@ -9,6 +9,9 @@ fbgc_object * new_fbgc_object(fbgc_token token){
     return (struct fbgc_object*) o;
 }
 
+
+
+
 struct
 fbgc_object * new_fbgc_object_from_substr(struct fbgc_object * field_obj,const char *str1, const char*str2, fbgc_token token){
 	struct fbgc_object *obj = NULL;
@@ -46,8 +49,16 @@ fbgc_object * new_fbgc_object_from_substr(struct fbgc_object * field_obj,const c
 
 						obj = new_fbgc_symbol_from_substr(field_obj,str1,str2);
 						//handle symbol table!
-					}else {
-						obj  = new_fbgc_object(token);
+					}
+					else {
+						//this is a keyword, maybe if,while,elif etc.
+
+						if(token == IF || token == ELIF || token == WHILE || token == BREAK || token == CONT){
+							obj = new_fbgc_ref_object();
+							obj->type = token;
+						}
+						else 
+							obj  = new_fbgc_object(token);
 						 
 					}
 		break;

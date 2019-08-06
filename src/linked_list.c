@@ -135,7 +135,7 @@ void print_fbgc_ll_object(struct fbgc_object * head,const char *s1){
         //CHANGE THIS LINE, STRING CASTING MUST BE CHANGED | THIS WAY(&cast_fbgc_object_as_str(iter)->content) IS NOT SAFE!
         else if(iter->type == STRING || iter->type == WORD) cprintf(011,"{%s:%s}",&cast_fbgc_object_as_str(iter)->content,object_name_array[iter->type]);
       else if(iter->type == REFERENCE){
-      cprintf(011,"{REF:}{");
+      cprintf(011,"{");
       print_fbgc_ref_object(iter);
       cprintf(011,"}");
     }
@@ -144,11 +144,38 @@ void print_fbgc_ll_object(struct fbgc_object * head,const char *s1){
       print_fbgc_tuple_object(iter);
       cprintf(011,"}");
     }
-    
-    //else cprintf(011,"{%s}",object_name_array[iter->type]);
-        //else if(is_fbgc_OPERATOR(iter->type)) cprintf(011,"{%s:%s}",get_token_as_str(iter->type),object_name_array[iter->type]);
-        else if(is_fbgc_OPERATOR(iter->type)) cprintf(011,"{%s}",get_token_as_str(iter->type));
-        else cprintf(011,"{%s}",object_name_array[iter->type]);     
+    else if(iter->type == IF_BEGIN){
+    cprintf(011,"{IF_BEGIN -> ");
+      print_fbgc_object(cast_fbgc_object_as_if(iter)->content->next);
+      cprintf(011,"}");
+    }
+    else if(iter->type == ELIF_BEGIN){
+    cprintf(011,"{ELIF_BEGIN -> ");
+      print_fbgc_object(cast_fbgc_object_as_if(iter)->content->next);
+      cprintf(011,"}");
+    }    
+    else if(iter->type == JUMP){
+    cprintf(011,"{JUMP -> ");
+      print_fbgc_object(cast_fbgc_object_as_if(iter)->content->next);
+      cprintf(011,"}");
+    }
+    else if(iter->type == WHILE_BEGIN){
+    cprintf(011,"{WHILE_BEGIN -> ");
+      print_fbgc_object(cast_fbgc_object_as_if(iter)->content->next);
+      cprintf(011,"}");
+    }
+    else if(iter->type == BREAK){
+    cprintf(011,"{BREAK -> ");
+      print_fbgc_object(cast_fbgc_object_as_if(iter)->content);
+      cprintf(011,"}");
+    } 
+    else if(iter->type == CONT){
+    cprintf(011,"{CONT -> ");
+      print_fbgc_object(cast_fbgc_object_as_if(iter)->content);
+      cprintf(011,"}");
+    }                                   
+    else if(is_fbgc_OPERATOR(iter->type)) cprintf(011,"{%s}",get_token_as_str(iter->type));
+    else cprintf(011,"{%s}",object_name_array[iter->type]);     
         iter = iter->next;
     }
     if(head_ll->base.type == LINKED_LIST) cprintf(101,"<->[T]\n");
