@@ -74,9 +74,9 @@ struct fbgc_object * push_back_fbgc_tuple_object(struct fbgc_object * self,struc
 
 	#ifdef TUPLE_DEBUG
 	cprintf(101,"Push back tuple object!\n");
-	/*
-		Check the capacity, if there is enough space push back the obj
-	*/
+	//
+	//	Check the capacity, if there is enough space push back the obj
+	//
 	cprintf(101,"Tuple size :%d, capacity %d\n",size_fbgc_tuple_object(self) , capacity_fbgc_tuple_object(self));
 	#endif
 
@@ -97,18 +97,22 @@ struct fbgc_object * push_back_fbgc_tuple_object(struct fbgc_object * self,struc
 		#endif
 
     	//############
-    		//check the self pointer, it may be null!
+    		//check the self pointer, it might be null!
     	//############
 	}
 
 	if(size_fbgc_tuple_object(self) < capacity_fbgc_tuple_object(self)){
 
 		#ifdef TUPLE_DEBUG
-		cprintf(001,"There is enoguh space to push, pushing the object..\n");
+		cprintf(001,"There is enough space to push, pushing the object..\n");
 		#endif
+
+		
 		struct fbgc_object ** contents = tuple_object_content(self);
 		contents[cast_fbgc_object_as_tuple(self)->size] = obj;
 		cast_fbgc_object_as_tuple(self)->size++;
+		
+
 		#ifdef TUPLE_DEBUG
 		cprintf(001,"New size tuple %d\n",size_fbgc_tuple_object(self));
 		#endif
@@ -153,11 +157,15 @@ struct fbgc_object * add_fbgc_tuple_object(struct fbgc_object * a,struct fbgc_ob
 void print_fbgc_tuple_object(struct fbgc_object * obj){
 	cprintf(011,"(");
 	struct fbgc_object ** contents = tuple_object_content(obj);
-	for(unsigned int i = 0; i<cast_fbgc_object_as_tuple(obj)->size; i++){
+
+	for(size_t i = 0; i<cast_fbgc_object_as_tuple(obj)->size; i++){
 		print_fbgc_object(contents[i]);
 		cprintf(011,", ");
 	}
-	cprintf(011,"\b\b)");
+
+	//##########TODO#############
+	//improve this part 
+	cprintf(011,")");
 }
 
 void free_fbgc_tuple_object(struct fbgc_object * obj){

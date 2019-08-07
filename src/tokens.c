@@ -78,7 +78,8 @@ const token_struct reserved_words_token_array[]={
 	{CONT,"cont"},
 	{RETURN,"ret"},
 	{LOAD,"load"},
-	{JUMP,"jump"}
+	{TRUE,"true"},
+	{FALSE,"false"},
 };
 
 
@@ -95,6 +96,11 @@ const char * get_token_as_str(fbgc_token tok){
   return NULL;
 } 
 
+/*
+	TODO
+	Write good memory comparison function..
+
+*/
 
 fbgc_token get_operator_code(const char *str){
   for( const token_struct * ptr = operator_token_array; ptr < ( operator_token_array + (sizeof(operator_token_array)/sizeof(token_struct)) ); ptr++ ) 
@@ -104,9 +110,12 @@ fbgc_token get_operator_code(const char *str){
 
 
 fbgc_token get_operator_code_from_substr(const char *str1,const char *str2){
-  for( const token_struct * ptr = operator_token_array; ptr < ( operator_token_array + (sizeof(operator_token_array)/sizeof(token_struct)) ); ptr++ ) 
-  	if(!memcmp(str1,ptr->name,str2-str1) ) return ptr->tokencode;
-  return UNKNOWN;
+	for( const token_struct * ptr = operator_token_array; ptr < ( operator_token_array + (sizeof(operator_token_array)/sizeof(token_struct)) ); ptr++ ) 
+  		if(str2-str1 == strlen(ptr->name) && !memcmp(str1,ptr->name,str2-str1 ) )  {
+  			//cprintf(001,"Comp str1:[%s],str[%s],ptr[%s] strlen(ptr->name)=%d, str2-str1=%d\n",str1,str2,ptr->name,strlen(ptr->name)==str2-str1,102);
+  			return ptr->tokencode;
+  		}
+  	return UNKNOWN;
 }
 
 fbgc_token get_reserved_word_code(const char *str){ 

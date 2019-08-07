@@ -134,7 +134,21 @@ struct fbgc_object * fbgc_binary_slash(struct fbgc_object * a, struct fbgc_objec
 
 
 
+struct fbgc_object * is_fbgc_object_true(struct fbgc_object * a){
+	if(a == NULL) return NULL;
 
+	fbgc_token tok_ab = get_fbgc_object_type(a);
+
+	switch(tok_ab){
+		case TRUE: 
+			return new_fbgc_object(TRUE);
+		case FALSE:
+			return new_fbgc_object(FALSE);
+		default:
+			cprintf(100,"Error at true comparison divide\n");
+		return NULL;	
+	}	
+}
 
 
 //Assignment
@@ -164,6 +178,8 @@ void fbgc_assignment_assign(struct fbgc_object * a, struct fbgc_object * b ){
 	}*/
 
 }
+
+
 
 
 

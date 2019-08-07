@@ -53,7 +53,7 @@ fbgc_object * new_fbgc_object_from_substr(struct fbgc_object * field_obj,const c
 					else {
 						//this is a keyword, maybe if,while,elif etc.
 
-						if(token == IF || token == ELIF || token == WHILE || token == BREAK || token == CONT){
+						if(token == IF || token == ELIF || token == WHILE || token == BREAK || token == CONT || token == FOR){
 							obj = new_fbgc_ref_object();
 							obj->type = token;
 						}

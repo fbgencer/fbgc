@@ -12,7 +12,9 @@ uint8_t operator_precedence(fbgc_token T){
 		case EQ_EQ: case NOT_EQ: case IS_EQ: return 130;
 		case AND_OP: return 120;
 		case OR_OP: return 110;
+		case COLON: return 105;
 		case ASSIGN: case PLUS_ASSIGN: case MINUS_ASSIGN: case STAR_ASSIGN: case SLASH_ASSIGN: return 100;
+
 		case COMMA: return 80;
 
 		case LPARA: case LBRACE: case LBRACK: return 5;
@@ -44,7 +46,7 @@ uint8_t compare_operators(fbgc_token stack_top, fbgc_token obj_type){
 			break;
 		}
 	}
-	else if(obj_type == LPARA || obj_type == IF || obj_type == END || obj_type == ELIF){
+	else if(obj_type == LPARA  || obj_type == IF || obj_type == END || obj_type == ELIF){
 		return 0;
 	}
 	else
@@ -116,6 +118,15 @@ struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,st
 
 
 			return iter_prev;
+		case FOR:
+			cprintf(100,"Operator stack top FOR, this is an for template!\n");
+
+			gm_seek_right(gm,top_fbgc_ll_object(op));
+			
+			cast_fbgc_object_as_if(top_fbgc_ll_object(op))->content = iter_prev;
+
+
+			return iter_prev;			
 		default: 
 			cprintf(100,"Operator stack top undefined, return old!\n");
 		return iter_prev;
@@ -180,7 +191,19 @@ uint8_t parser(struct fbgc_object ** field_obj){
 			op_stack_head = push_front_fbgc_ll_object(op_stack_head,iter);	
 			//iter_prev->next = iter->next;	
 
-		}		
+		}
+		else if(iter->type == FOR){
+			gm_error = gm_seek_left(&gm,iter);	
+
+			struct fbgc_object * jump_obj = new_fbgc_ref_object();
+			jump_obj->type = JUMP;		
+			cast_fbgc_object_as_ref(jump_obj)->content = iter_prev;
+			op_stack_head = push_front_fbgc_ll_object(op_stack_head,jump_obj);
+			iter_prev->next = iter->next;	
+			op_stack_head = push_front_fbgc_ll_object(op_stack_head,iter);	
+			//iter_prev->next = iter->next;	
+
+		}					
 		else if(iter->type == END){
 			//gm_error = gm_seek_left(&gm,iter);
 			cprintf(010,"############## BEFORE END ###############\n");
@@ -210,7 +233,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 
 				cast_fbgc_object_as_if(if_obj)->content = iter_prev;
 			}
-			else if(top_fbgc_ll_object(op_stack_head)->type == WHILE_BEGIN){
+			else if(top_fbgc_ll_object(op_stack_head)->type == WHILE_BEGIN || top_fbgc_ll_object(op_stack_head)->type == FOR_BEGIN){
 				//now insert while in its place,
 				struct fbgc_object * if_obj = top_fbgc_ll_object(op_stack_head);
 				op_stack_head = pop_front_fbgc_ll_object(op_stack_head);

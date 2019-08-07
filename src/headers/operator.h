@@ -10,6 +10,8 @@ struct fbgc_object * fbgc_binary_minus(struct fbgc_object *, struct fbgc_object 
 struct fbgc_object * fbgc_binary_star(struct fbgc_object *, struct fbgc_object *);
 struct fbgc_object * fbgc_binary_slash(struct fbgc_object *, struct fbgc_object *);
 
+struct fbgc_object * is_fbgc_object_true(struct fbgc_object * a);
+
 void fbgc_assignment_assign(struct fbgc_object *, struct fbgc_object *);
 
 struct fbgc_object * call_get_item_with_index(struct fbgc_object *,struct fbgc_object *);

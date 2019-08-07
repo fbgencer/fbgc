@@ -123,25 +123,30 @@ for i,x -> (|y|) {
 
 i,1,10,12,3,BT,=,FOR,{...}
 
+y = "string"
+for i,x -> (|y|) 
+	print(y[i])
+end
 
-
-
-for x,y = ((1,2),(5,10)){
-
-
-
-
+for i -> (0,1,10) {
+	print(y[i])
 }
+
+i = (0->10)
+
+
+	i = from 0 to 10 by 2
+for( i = 0:1:2 )
+	
+end
+
 
 :>----------------------------
 z = 1
-lol = 
-fun(x,y)
+lol = fun(x,y)
 	x = 10;
 	z = 2;
 	return x+y+z;
 end
 
-lol,x,y,2,BUILD_TUPLE,fun,x,10,= 
-=,
 

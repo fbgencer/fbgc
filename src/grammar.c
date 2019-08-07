@@ -266,7 +266,8 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 			is_fbgc_UNARY_OPERATOR(gm_left)  ||
 			is_fbgc_ASSIGNMENT_OPERATOR(gm_left) ||
 		 	gm_left == UNBALANCED_EXPRESSION_LIST || 
-		 	gm_left == LPARA || gm_left == IF || gm_left == ELIF || gm_left == WHILE || gm_left == LOAD || gm_left == SEMICOLON ||
+		 	gm_left == LPARA || gm_left == IF || gm_left == ELIF || gm_left == WHILE || gm_left == FOR || 
+		 	gm_left == LOAD || gm_left == SEMICOLON ||
 		 	is_fbgc_IDENTIFIER(gm_left) ||
 		 	gm_left == NEWLINE ))
 	{	
@@ -357,7 +358,11 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 	else if(get_fbgc_object_type(obj) == WHILE && (is_fbgc_STATEMENT(gm_left) ||gm_left == ELSE || gm_left == ELIF ||
 			gm_left == NEWLINE || gm_left == LBRACE)){
 		gm->top = WHILE;		
-	}	
+	}
+	else if(get_fbgc_object_type(obj) == FOR && (is_fbgc_STATEMENT(gm_left) ||gm_left == ELSE || gm_left == ELIF ||
+			gm_left == NEWLINE || gm_left == LBRACE)){
+		gm->top = FOR;		
+	}			
 	else if(get_fbgc_object_type(obj) == END && (is_fbgc_EXPRESSION(gm_left)) ){
 
 		gm->top = EXPRESSION;
@@ -420,7 +425,10 @@ uint8_t gm_seek_right(struct fbgc_grammar * gm, struct fbgc_object * obj){
 	}
 	else if( get_fbgc_object_type(obj) == WHILE && gm_right == MONUPLE){
 		gm->top  = obj->type = WHILE_BEGIN;
-	}		
+	}
+	else if( get_fbgc_object_type(obj) == FOR && gm_right == MONUPLE){
+		gm->top  = obj->type = FOR_BEGIN;
+	}					
 	else if( get_fbgc_object_type(obj) == IF_BEGIN && is_fbgc_STATEMENT(gm_right) ){
 		gm->top = IF_BEGIN;
 		grammar_open_BEGIN_flag(gm->flag);		
@@ -432,7 +440,11 @@ uint8_t gm_seek_right(struct fbgc_grammar * gm, struct fbgc_object * obj){
 	else if( get_fbgc_object_type(obj) == WHILE_BEGIN && is_fbgc_STATEMENT(gm_right) ){
 		gm->top = WHILE_BEGIN;
 		grammar_open_BEGIN_flag(gm->flag);		
-	}			
+	}
+	else if( get_fbgc_object_type(obj) == FOR_BEGIN && is_fbgc_STATEMENT(gm_right) ){
+		gm->top = FOR_BEGIN;
+		grammar_open_BEGIN_flag(gm->flag);		
+	}						
 	else if(get_fbgc_object_type(obj) == LOAD && gm_right == MONUPLE){
 		gm->top = LOAD;
 	}
