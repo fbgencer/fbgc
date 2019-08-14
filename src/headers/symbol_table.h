@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-#define INITIAL_SYMBOL_TABLE_SIZE 512
+#define INITIAL_SYMBOL_TABLE_SIZE 16
 
 
 /*
@@ -21,17 +21,13 @@ Consider the following line
 
 	---------------
 	|type:C-STRING|
-	---------------          ----------------
-	|next: -----\\| -------->|type:INT      |
-	---------------			 ----------------
-	|cont:'xyz_10'|          |next: --\\->  |
-	---------------          ----------------
-							 | data: 10     |
-							 ---------------- 	
-
-In order make it clear always use macros, to get the name and the obj itself
-Symbol table is just a tuple, later we will use hash table but right now it is a tuple
-Tuple holds address of the fbgc_objects as an array, basically symbol table is an array that holds c_string objects							 
+	---------------          
+	|next: -----\\|----> shows next symbol
+	---------------			 
+	|cont:'xyz_10'|          
+	---------------          
+							 
+							 						 
 */
 
 

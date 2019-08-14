@@ -29,6 +29,7 @@ extern "C" {
 
 
 #include "headers/linked_list.h"
+#include "headers/jumper_object.h"
 #include "headers/ref_object.h"
 #include "headers/double_object.h"
 #include "headers/int_object.h"
@@ -36,6 +37,8 @@ extern "C" {
 #include "headers/matrix_object.h"
 #include "headers/tuple_object.h"
 #include "headers/cmodule_object.h"
+#include "headers/fun_object.h"
+
 
 #include "headers/operator.h"
 

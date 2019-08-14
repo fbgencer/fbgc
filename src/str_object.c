@@ -71,7 +71,7 @@ struct fbgc_object * new_fbgc_cstr_object_from_substr(const char * str1,const ch
 
 void print_fbgc_cstr_object(struct fbgc_object * obj){
    // const char * s = &cast_fbgc_object_as_cstr(obj)->content;
-    cprintf(011,"'%s'", &cast_fbgc_object_as_cstr(obj)->content);   
+    cprintf(011,"\"%s\"", &cast_fbgc_object_as_cstr(obj)->content);   
 }
 
 void free_fbgc_cstr_object(struct fbgc_object * obj){

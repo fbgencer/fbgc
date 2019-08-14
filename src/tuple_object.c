@@ -70,6 +70,15 @@ struct fbgc_object *  get_object_in_fbgc_tuple_object(struct fbgc_object * self,
 }
 
 
+struct fbgc_object *  get_top_in_fbgc_tuple_object(struct fbgc_object * self){
+
+	struct fbgc_object ** contents = tuple_object_content(self);
+	return size_fbgc_tuple_object(self) != 0 ? 
+			(struct fbgc_object *) contents[size_fbgc_tuple_object(self)-1] :
+			NULL;
+}
+
+
 struct fbgc_object * push_back_fbgc_tuple_object(struct fbgc_object * self,struct fbgc_object * obj){
 
 	#ifdef TUPLE_DEBUG
@@ -119,9 +128,19 @@ struct fbgc_object * push_back_fbgc_tuple_object(struct fbgc_object * self,struc
 	}
 
 	return self;
-
 }
 
+int index_fbgc_tuple_object(struct fbgc_object * self, struct fbgc_object * obj){
+
+	struct fbgc_object ** contents = tuple_object_content(self);
+
+	for(size_t i = 0; i<size_fbgc_tuple_object(self); i++){
+		if(contents[i] == obj) return i;
+	}
+
+	return -1;
+
+}
 
 
 
@@ -152,6 +171,8 @@ struct fbgc_object * add_fbgc_tuple_object(struct fbgc_object * a,struct fbgc_ob
 	}
 
     return res;*/
+
+    return a;
 }
 
 void print_fbgc_tuple_object(struct fbgc_object * obj){

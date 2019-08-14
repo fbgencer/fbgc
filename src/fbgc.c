@@ -35,8 +35,7 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
     end = clock();
     parser_time = (double)(end - begin) / CLOCKS_PER_SEC; 
 
-
-    #ifdef PARSER_DEBUG
+      #ifdef PARSER_DEBUG
         cprintf(111,"Parser output array\n");
         print_fbgc_ll_object(cast_fbgc_object_as_field(main_field)->head,"Main");   
         cprintf(111,"\n");
@@ -45,7 +44,7 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
     //print_fbgc_memory_block();
      
     begin = clock();
-    if(par) interpreter(&main_field); 
+   //  if(par) interpreter(&main_field); 
     end = clock();
     interpreter_time = (double)(end - begin) / CLOCKS_PER_SEC; 
 
@@ -134,8 +133,9 @@ cprintf(110,"\n\n\n\n\n[========================================================
         //cprintf(111,"Size tuple:%d\n",to->capacity);
         free_fbgc_memory_block();    
     }
-    else
+    else{
         cprintf(111,"Enter a file!\n");
+    }
 
 	cprintf(110,"\n[=======================================================================]\n\n\n\n\n\n"); 
 	return 0;

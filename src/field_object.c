@@ -7,7 +7,8 @@ struct fbgc_object * new_fbgc_field_object(void){
 	field->base.type = FIELD; 
 	field->head = new_fbgc_ll_object(LINKED_LIST);
 	field->modules = new_fbgc_ll_object(LINKED_LIST);
-	field->symbol_table = new_fbgc_symbol_table();
+	field->symbols = new_fbgc_symbol_table();
+	field->locals = new_fbgc_tuple_object(1);
 	return (struct fbgc_object *) field;
 };
 

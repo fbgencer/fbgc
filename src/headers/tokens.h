@@ -98,39 +98,43 @@ typedef struct {
 #define LBRACK 83
 #define RBRACK 84
 #define FOR 85
-#define LOOP 86
-#define WHILE 87
-#define UNTIL 88
-#define JUMP 89
-#define BREAK 90
-#define CONT 91
-#define IF 92
-#define ELSE 93
-#define ELIF 94
-#define END 95
-#define START 96
-#define LOAD 97
-#define FUN_CALL 98
-#define AND 99
-#define OR 100
-#define NOT 101
-#define SPACE 102
-#define TAB 103
-#define NEWLINE 104
-#define RETURN 105
-#define ROW 106
-#define EXPRESSION 107
-#define ASSIGNMENT 108
-#define STATEMENT 109
-#define ASSIGNMENT_EXPRESSION 110
-#define UNARY_EXPRESSION 111
-#define BINARY_EXPRESSION 112
-#define BALANCED_EXPRESSION_LIST 113
-#define UNBALANCED_EXPRESSION_LIST 114
-#define IF_BEGIN 115
-#define ELIF_BEGIN 116
-#define WHILE_BEGIN 117
-#define FOR_BEGIN 118
+#define WHILE 86
+#define UNTIL 87
+#define JUMP 88
+#define BREAK 89
+#define CONT 90
+#define IF 91
+#define ELSE 92
+#define ELIF 93
+#define END 94
+#define START 95
+#define LOAD 96
+#define AND 97
+#define OR 98
+#define NOT 99
+#define SPACE 100
+#define TAB 101
+#define NEWLINE 102
+#define RETURN 103
+#define ROW 104
+#define EXPRESSION 105
+#define ASSIGNMENT 106
+#define STATEMENT 107
+#define ASSIGNMENT_EXPRESSION 108
+#define UNARY_EXPRESSION 109
+#define BINARY_EXPRESSION 110
+#define BALANCED_EXPRESSION_LIST 111
+#define UNBALANCED_EXPRESSION_LIST 112
+#define IF_BEGIN 113
+#define ELIF_BEGIN 114
+#define WHILE_BEGIN 115
+#define FOR_BEGIN 116
+#define STORE_LOCAL 117
+#define LOAD_LOCAL 118
+#define STORE_GLOBAL 119
+#define LOAD_GLOBAL 120
+#define FUN_CALL 121
+#define FUN_MAKE 122
 #define TOKEN_LIST_AS_STRINGS()\
 "UNKNOWN",\
 "INT",\
@@ -218,7 +222,6 @@ typedef struct {
 "LBRACK",\
 "RBRACK",\
 "FOR",\
-"LOOP",\
 "WHILE",\
 "UNTIL",\
 "JUMP",\
@@ -230,7 +233,6 @@ typedef struct {
 "END",\
 "START",\
 "LOAD",\
-"FUN_CALL",\
 "AND",\
 "OR",\
 "NOT",\
@@ -251,6 +253,12 @@ typedef struct {
 "ELIF_BEGIN",\
 "WHILE_BEGIN",\
 "FOR_BEGIN",\
+"STORE_LOCAL",\
+"LOAD_LOCAL",\
+"STORE_GLOBAL",\
+"LOAD_GLOBAL",\
+"FUN_CALL",\
+"FUN_MAKE",\
 
 extern const char * object_name_array[];
 extern const token_struct operator_token_array[];
@@ -266,7 +274,7 @@ fbgc_token get_reserved_word_code_from_substr(const char *str1,const char *str2)
 const char * get_token_as_str(fbgc_token tok);
 
 
-#define is_fbgc_OPERATOR(T)(T>=OP && T<= RBRACK)
+#define is_fbgc_OPERATOR(T)(T>=OP && T<= RBRACK || T == STORE_GLOBAL || T == STORE_LOCAL)
 #define is_fbgc_IDENTIFIER(T)(T>=IDENTIFIER && T<=REFERENCE)
 #define is_fbgc_ATOM(T)(T>= INT && T<=STRING)
 #define is_fbgc_INT(T) (T == INT)

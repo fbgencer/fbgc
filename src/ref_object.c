@@ -8,16 +8,19 @@ struct fbgc_object * new_fbgc_ref_object(){
 }
 
 struct fbgc_object * initialize_fbgc_ref_object(struct fbgc_object *ref, struct fbgc_object * obj){
-	struct fbgc_ref_object * refo = cast_fbgc_object_as_ref(ref);
-	refo->content = obj;
-	return (struct fbgc_object*) refo; 
+	cast_fbgc_object_as_ref(ref)->content = obj;
+	return (struct fbgc_object*) ref; 
 }
 
 struct fbgc_object * assign_var_to_fbgc_ref_object(struct fbgc_object * ref,struct fbgc_object * obj){
 	#define refo cast_fbgc_object_as_ref(ref)
 
 	if(refo != NULL && refo->content != NULL){
-		refo->content->next = obj;
+		
+		refo->content = obj;
+		print_fbgc_object(ref);
+		cprintf(100,"Assignment is ok ! \n");
+
 
 	}else{
 		//should we delete this kind of errors ? 
@@ -32,7 +35,7 @@ struct fbgc_object * assign_var_to_fbgc_ref_object(struct fbgc_object * ref,stru
 struct fbgc_object * get_var_from_fbgc_ref_object(struct fbgc_object *ref){
 	if(get_fbgc_object_type(ref) == REFERENCE){
 		//claim_ownership(ref);
-		return cast_fbgc_object_as_ref(ref)->content->next;
+		return cast_fbgc_object_as_ref(ref)->content;
 	}
 	return  ref;
 }
@@ -40,20 +43,13 @@ struct fbgc_object * get_var_from_fbgc_ref_object(struct fbgc_object *ref){
 
 
 void print_fbgc_ref_object(struct fbgc_object * ref){
-	//if(cast_fbgc_object_as_ref(ref)->content->type == STRING){
-		struct fbgc_object * obj = (struct fbgc_object *)(cast_fbgc_object_as_ref(ref)->content);
-		//cprintf(100,"{%s",object_name_array[0x7F & obj->type]);
-		cprintf(100,"[%s",content_fbgc_cstr_object(obj));
-		cprintf(111,":");
-		if(cast_fbgc_object_as_cstr(obj)->base.next != NULL){
-			print_fbgc_object(obj->next);
-			cprintf(011,"]");
-		}
-		else
-			cprintf(111,"NULL]");		
-	//}
+	#define refo cast_fbgc_object_as_ref(ref)
 
-	//print_fbgc_object(cast_fbgc_object_as_ref(ref)->content);
+	cprintf(001,"REF:[");
+	print_fbgc_object(refo->content);
+	cprintf(001,"]");
+	
+	#undef refo
 
 }
  

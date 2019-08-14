@@ -9,8 +9,8 @@ struct fbgc_field_object{
 	struct fbgc_object base;
 	struct fbgc_object * head; // main tree list, it's a linked list object
 	struct fbgc_object * modules; //modules are connected each other with linked list	
-	struct fbgc_object * symbol_table; // field global symbol table, it is a tuple object 
-	//later functions, classes etc will be added.
+	struct fbgc_object * symbols; // field global symbol table, it is a tuple object 
+	struct fbgc_object * locals;
 };
 
 #define cast_fbgc_object_as_field(x)(((struct fbgc_field_object*) x))

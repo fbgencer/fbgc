@@ -3,16 +3,14 @@ f = open('ex.fbgc','w')
 
 s = "var"
 
-size = 500
+size = 50000
 
 f.write(s+"=")
 	
 for i in range(0,size):
-	f.write(str(i))
-	f.write('+\n')
-
-f.write(";\n")
+	f.write("var"+str(i)+"="+str(i))
+	f.write(";\n")
 
 #for i in range(0,size):
-#	f.write("print('{var:',"+"var"+str(i)+")\n")
+#	f.write("var=',"+"var"+str(i)+"\n")
 

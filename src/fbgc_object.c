@@ -34,13 +34,23 @@ fbgc_object * new_fbgc_object_from_substr(struct fbgc_object * field_obj,const c
 		case RBRACE:
 		case LBRACK:
 		case RBRACK:
-		case OP: 
-					obj = new_fbgc_object(get_operator_code_from_substr(str1,str2));
-					if(get_fbgc_object_type(obj) == UNKNOWN){
+		case OP:{	
+					fbgc_token opcode = get_operator_code_from_substr(str1,str2);
+					
+					if(opcode == UNKNOWN){
 						cprintf(100,"Undefined operator!\n");
 						obj = NULL;
+					}else if(is_fbgc_ASSIGNMENT_OPERATOR(opcode)){
+						obj = new_fbgc_int_object(-1);
+						obj->type = opcode;
 					}
+					else {
+						obj = new_fbgc_object(opcode);
+					}
+
+
 					break;
+		} 
 		case WORD:
 					token = get_reserved_word_code_from_substr(str1,str2);
 					if(token == UNKNOWN){
@@ -53,9 +63,8 @@ fbgc_object * new_fbgc_object_from_substr(struct fbgc_object * field_obj,const c
 					else {
 						//this is a keyword, maybe if,while,elif etc.
 
-						if(token == IF || token == ELIF || token == WHILE || token == BREAK || token == CONT || token == FOR){
-							obj = new_fbgc_ref_object();
-							obj->type = token;
+						if(token == IF || token == ELIF || token == WHILE || token == BREAK || token == CONT || token == FOR || token == FUN_MAKE){
+							obj = new_fbgc_jumper_object(token);
 						}
 						else 
 							obj  = new_fbgc_object(token);

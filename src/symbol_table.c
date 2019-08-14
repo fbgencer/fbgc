@@ -2,9 +2,7 @@
 
 
 struct fbgc_object * new_fbgc_symbol_table(void){ 
-    struct fbgc_tuple_object * table = (struct fbgc_tuple_object*) new_fbgc_tuple_object(INITIAL_SYMBOL_TABLE_SIZE);
-    //table->next = 
-    return table;
+	return new_fbgc_ll_object(LINKED_LIST);
 }
 
 
@@ -20,32 +18,40 @@ struct fbgc_object * new_fbgc_symbol_from_substr(struct fbgc_object * field_obj,
 	//if(o) return o;
 
 	//first compare incoming str with the old identifiers
-	struct fbgc_object * table = (struct fbgc_object *) cast_fbgc_object_as_field(field_obj)->symbol_table;
-	struct fbgc_object * ref_obj = new_fbgc_ref_object();
-
-	struct fbgc_object ** symbols = tuple_object_content(table);
+	//struct fbgc_object * ll_head = (struct fbgc_object *) cast_fbgc_object_as_field(field_obj)->symbols;
 	
+	
+	struct fbgc_ll_object * head = cast_fbgc_object_as_ll( cast_fbgc_object_as_field(field_obj)->symbols );
+	struct fbgc_object * iter = head;
 	
 	//############################
 	//Oh. this part just fucks the time for the variable searching. Clearly, without hash table adding new variable causes lots of times!
 	//############################
+
 	int8_t cmp = 1;
-	for(size_t i = 0; i<size_fbgc_tuple_object(table); i++){
-		if( length_fbgc_cstr_object(symbols[i]) != str2-str1) continue;
-		cmp = strncmp(str1,content_fbgc_cstr_object(symbols[i]),str2-str1);
+	while(iter != head->tail){
+		//cprintf(111,"searching...\n");
+		iter = iter->next;
+		if( length_fbgc_cstr_object(iter) != str2-str1) continue;
+		
+		cmp = strncmp(str1,content_fbgc_cstr_object(iter),str2-str1);
+		
 		if(cmp == 0) {
-			//
-			//cprintf(110,"Found in the symbol table!\n");
-			ref_obj = initialize_fbgc_ref_object(ref_obj,(symbols[i]));
+			struct fbgc_object * ref_obj = new_fbgc_ref_object();
+			//cprintf(110,"Found in the symbols!\n");
+			ref_obj = initialize_fbgc_ref_object(ref_obj,iter);
 			return (struct fbgc_object *) ref_obj;
 		}
+		
 	}
-	
+
+	//New symbol, we couldn't find in our symbols
+
 	struct fbgc_object * temp_obj =  new_fbgc_cstr_object_from_substr(str1,str2);
 
 	#ifdef SYMBOL_TABLE_DEBUG
-	cprintf(100,"OLD the symbol table : ");
-	print_fbgc_object(cast_fbgc_object_as_field(field_obj)->symbol_table);
+	cprintf(100,"OLDsymbol table : ");
+	print_fbgc_ll_object(head,"SYMBOLS:");
 	cprintf(111,"\n");
 	#endif
 
@@ -61,44 +67,39 @@ struct fbgc_object * new_fbgc_symbol_from_substr(struct fbgc_object * field_obj,
 
 	if(!strncmp("fbg9",str1,4)){
 		cprintf(111,"================[pushback oncesi table]=====================\n");
-		print_fbgc_object(cast_fbgc_object_as_field(field_obj)->symbol_table);		
+		print_fbgc_ll_object(head,"SYMBOLS:");	
 		cprintf(111,"\n");
 	}
-	table = push_back_fbgc_tuple_object(table,temp_obj);
+	
+	head = push_back_fbgc_ll_object((struct fbgc_object *) head,temp_obj);
+
+
 	if(!strncmp("fbg9",str1,4)){
 		cprintf(111,"================[pushback sonrasi table]=====================\n");
-		print_fbgc_object(cast_fbgc_object_as_field(field_obj)->symbol_table);
+		print_fbgc_ll_object(head,"SYMBOLS:");
 		cprintf(111,"\n\n");	
 
 		print_fbgc_memory_block();	
 	}	
-	cast_fbgc_object_as_field(field_obj)->symbol_table = table;
+
+	//cast_fbgc_object_as_field(field_obj)->symbols = table;
 
 	if(!strncmp("fbg9",str1,4)){
 		cprintf(111,"================[pushback sonrasi assignment ile table]=====================\n");
-		print_fbgc_object(cast_fbgc_object_as_field(field_obj)->symbol_table);
+		print_fbgc_ll_object(head,"SYMBOLS:");
 		cprintf(111,"\n\n");		
 	}	
+
 	//table pointer may not be the same anymore
-	symbols = tuple_object_content(table);
-	ref_obj = initialize_fbgc_ref_object(ref_obj,symbols[size_fbgc_tuple_object(table)-1]);
+	struct fbgc_object * ref_obj = new_fbgc_ref_object();
+	ref_obj = initialize_fbgc_ref_object(ref_obj,temp_obj);
 	
+
 	#ifdef SYMBOL_TABLE_DEBUG
 	cprintf(100,"Succesfully added in the symbol table : ");
-	print_fbgc_object(cast_fbgc_object_as_field(field_obj)->symbol_table);
+	print_fbgc_ll_object(head,"SYMBOLS:");
 	cprintf(111,"\n");
 	#endif
-
-	/*struct fbgc_object * temp_obj =  new_fbgc_str_object_from_substr(str1,str2);
-	temp_obj->type = WORD;
-	//print_fbgc_str_object(temp_obj);
-	if(table->size > 0 && table->size % 2 == 0){
-		table->symbols = (struct fbgc_object **) realloc(table->symbols,sizeof(struct fbgc_str_object **)*(table->size+2));
-	}
-	table->symbols[table->size] = temp_obj;
-	ref_obj = initialize_fbgc_ref_object(ref_obj,&(cast_fbgc_object_as_str(table->symbols[table->size])->base));
-	table->size++;
-	*/
 
 	return (struct fbgc_object *) ref_obj;
 }
@@ -125,68 +126,13 @@ struct fbgc_object * new_cfun_object_from_substr(struct fbgc_object * field_obj,
 	return NULL;*/
 }
 
-struct fbgc_object * get_fbgc_symbol(struct fbgc_object * var);
-
-/*
-struct fbgc_object * load_module_in_symbol_table(struct fbgc_object * table_obj,struct fbgc_object * module){
-	struct fbgc_symbol_table * table = (struct fbgc_symbol_table *) table_obj;
-	//first seek in our C modules
-	//after search .fbgc modules!
-
-	
-}
-*/
 
 
-uint8_t is_object_referenced_in_symbol_table(struct fbgc_object * table_obj,struct fbgc_object * ref,struct fbgc_object * obj){
-	/*struct fbgc_symbol_table * table = (struct fbgc_symbol_table *) table_obj;
-	//cprintf(111,"searching :"); print_fbgc_object(obj); printf("\n");
-	for(uint8_t i = 0; i<table->size; i++ ){
-		if(cast_fbgc_object_as_str(table->symbols[i])->base.next != NULL && cast_fbgc_object_as_str(table->symbols[i])->base.next == obj 
-			&& cast_fbgc_object_as_str(table->symbols[i]) != cast_fbgc_object_as_str(cast_fbgc_object_as_ref(ref)->content)){	
-			return 1;
-		}
-	}
-	//cprintf(111,"Returning zero, object is not referenced before!\n");
-	return 0;*/
-}
+void print_fbgc_symbol_table(struct fbgc_object * ll){
 
-/*
-void claim_ownership_in_symbol_table(struct fbgc_object * table_obj){
-	
-	#define table cast_fbgc_object_as_symbol_table(table_obj)
-	cprintf(111,"++++++++++++++++Claiming ownership+++++++++++++++++\n"); 
-	
-	for(uint8_t i = 0; i<table->size; i++ ){
-		struct fbgc_object *obj = cast_fbgc_object_as_str(table->symbols[i])->base.next;
-		if(obj != NULL){
-			//obj->type |= 0x80;
-			claim_ownership(obj);
-			cprintf(001,"Obj type [%s|%d]:",object_type_as_str(obj),obj->type); print_fbgc_object(obj); printf("\n");
-		} 
-		&& cast_fbgc_object_as_str(table->symbols[i])->base.next == obj 
-			&& cast_fbgc_object_as_str(table->symbols[i]) != cast_fbgc_object_as_str(cast_fbgc_object_as_ref(ref)->content)){	
-			return 1;
-		}
-	}
-	cprintf(111,"++++++++++++++++++++++++++++++++++++++++\n"); 
-	#undef table
-}
-*/
-void print_fbgc_symbol_table(struct fbgc_object * table_obj){
-	struct fbgc_tuple_object * table = cast_fbgc_object_as_tuple(table_obj);
-	struct fbgc_object ** symbols = tuple_object_content(table_obj);
-	struct fbgc_cstr_object * temp_str = NULL;
+
 	cprintf(010,"[~~~~~~~~~~~~[SYMBOL TABLE]~~~~~~~~~~~~~]\n");
-	for(size_t i = 0; i<table->size; i++){
-		temp_str = symbols[i];
-		cprintf(110,"{%s : ",content_fbgc_cstr_object(temp_str));
-		if(temp_str->base.next != NULL){
-			print_fbgc_object(temp_str->base.next);
-			cprintf(110,"}");
-		}
-		else cprintf(110,"NULL}");
-	}
+	print_fbgc_ll_object(ll,"SYMBOLS:");
 	cprintf(110,"\n");
 	cprintf(010,"[~~~~~~~~~~~~~~~~~~~~~~~~~]\n");
 

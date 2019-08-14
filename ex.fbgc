@@ -1,9 +1,1 @@
-x = 5;
-
-while(true)
-	x = x + 1;
-	if(true)
-		break;
-	end
-	x = x + 100;
-end
+x = 5

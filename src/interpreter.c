@@ -1,5 +1,6 @@
 #include "fbgc.h"
 
+/*
 uint8_t old_interpreter(struct fbgc_object ** field_obj){
 
 	#ifdef INTERPRETER_DEBUG
@@ -154,7 +155,7 @@ uint8_t old_interpreter(struct fbgc_object ** field_obj){
 		#endif
 	}
 
-	print_fbgc_symbol_table(cast_fbgc_object_as_field(*field_obj)->symbol_table);
+	print_fbgc_symbol_table(cast_fbgc_object_as_field(*field_obj)->symbols);
 
 	//claim_ownership_in_symbol_table(cast_fbgc_object_as_field(*field_obj)->global_table);
 	//make the linked list connection proper
@@ -166,6 +167,7 @@ uint8_t old_interpreter(struct fbgc_object ** field_obj){
 	#endif
 	return 1;
 }
+*/
 
 
 uint8_t interpreter(struct fbgc_object ** field_obj){
@@ -228,20 +230,22 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 		else if(is_fbgc_ASSIGNMENT_OPERATOR(type)){
 			//TOP1 = TOP2
 			call_fbgc_assignment_op(type,_POP(),_POP());
+			//_POP();
+			//;
 		}
 		else if(type == IF_BEGIN || type == ELIF_BEGIN || type == WHILE_BEGIN){
 			struct fbgc_object * cond = _POP();
 			//struct fbgc_object * obj = pc;
 			if( get_fbgc_object_type(is_fbgc_object_true(cond)) == FALSE  ){
-				pc = cast_fbgc_object_as_ref(pc)->content;
+				pc = cast_fbgc_object_as_jumper(pc)->content;
 			}
 		}
 		else if(type == JUMP){
-			pc = cast_fbgc_object_as_ref(pc)->content;
+			pc = cast_fbgc_object_as_jumper(pc)->content;
 		}	
 		else if(type == BREAK){
-			struct fbgc_object * loop_obj =  cast_fbgc_object_as_ref(pc)->content;
-			pc = cast_fbgc_object_as_ref(loop_obj)->content;
+			struct fbgc_object * loop_obj =  cast_fbgc_object_as_jumper(pc)->content;
+			pc = cast_fbgc_object_as_jumper(loop_obj)->content;
 		}				
 		else {
 			cprintf(101,"Undefined token in interpreter\n");
@@ -268,7 +272,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 	}
 
 
-	print_fbgc_symbol_table(cast_fbgc_object_as_field(*field_obj)->symbol_table);
+	print_fbgc_symbol_table(cast_fbgc_object_as_field(*field_obj)->symbols);
 
 	
 
