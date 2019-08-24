@@ -47,6 +47,7 @@ const token_table_struct lexer_table[1] =
 const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] = 
 {
 	{COMMENT,":>  !.!* \n"},
+	{NEWLINE,"\n"},
 	{SPACE,"!+!s"},
 	{INT2,"0b 1|0!+"},
 	{INT16,"0x !x!+"},
@@ -69,7 +70,7 @@ const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] =
 
 
 #ifdef DEBUG
-
+ 
 void pretty_print_pointer(const char *buffer ,const char * ptr){
 	unsigned int where = ptr-buffer;
 	for (unsigned int i = 0; i < strlen(buffer); ++i){

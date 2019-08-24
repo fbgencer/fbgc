@@ -128,63 +128,69 @@ void print_fbgc_ll_object(struct fbgc_object * head,const char *s1){
     struct fbgc_object * iter = head_ll->base.next;
 
     cprintf(101,"[%s]->",s1);
-
+    int i = 0;
     while(iter!=head_ll->tail){
+        
+        if(iter == NULL){
+            cprintf(111,"\n\n\n\nProblem at %d\n\n\n\n",i);
+            break;
+        }
+        i++;
         if(iter->type == INT) cprintf(011,"{%d}",cast_fbgc_object_as_int(iter)->content);   
         else if(iter->type == DOUBLE) cprintf(011,"{%f:DB}",cast_fbgc_object_as_double(iter)->content); 
         //CHANGE THIS LINE, STRING CASTING MUST BE CHANGED | THIS WAY(&cast_fbgc_object_as_str(iter)->content) IS NOT SAFE!
         else if(iter->type == STRING || iter->type == WORD) cprintf(011,"{%s:%s}",&cast_fbgc_object_as_str(iter)->content,object_name_array[iter->type]);
-    else if(iter->type == CSTRING){
-      cprintf(011,"{");
-      print_fbgc_cstr_object(iter);
-      cprintf(011,"}");
-    }
-    else if(iter->type == REFERENCE||iter->type == LOAD_GLOBAL || iter->type == LOAD_LOCAL){
-      cprintf(011,"%s{<%d>}",object_name_array[iter->type],cast_fbgc_object_as_ref(iter)->loc);
-    }
-    else if(iter->type == TUPLE) {
-      cprintf(011,"{TUPLE}:{");
-      print_fbgc_tuple_object(iter);
-      cprintf(011,"}");
-    }
-    else if(iter->type == IF_BEGIN){
-    cprintf(011,"{IF_BEGIN -> ");
-      print_fbgc_object(cast_fbgc_object_as_jumper(iter)->content->next);
-      cprintf(011,"}");
-    }
-    else if(iter->type == ELIF_BEGIN){
-    cprintf(011,"{ELIF_BEGIN -> ");
-      print_fbgc_object(cast_fbgc_object_as_jumper(iter)->content->next);
-      cprintf(011,"}");
-    }    
-    else if(iter->type == JUMP){
-    cprintf(011,"{JUMP -> ");
-      print_fbgc_object(cast_fbgc_object_as_jumper(iter)->content->next);
-      cprintf(011,"}");
-    }
-    else if(iter->type == WHILE_BEGIN){
-    cprintf(011,"{WHILE_BEGIN -> ");
-      print_fbgc_object(cast_fbgc_object_as_jumper(iter)->content->next);
-      cprintf(011,"}");
-    }
-    else if(iter->type == BREAK){
-    cprintf(011,"{BREAK -> ");
-      print_fbgc_object(cast_fbgc_object_as_jumper(iter)->content);
-      cprintf(011,"}");
-    } 
-    else if(iter->type == CONT){
-    cprintf(011,"{CONT -> ");
-      print_fbgc_object(cast_fbgc_object_as_jumper(iter)->content);
-      cprintf(011,"}");
-    }                  
-    else if(iter->type == FUN){
-        cprintf(011,"FUN:[");
-        print_fbgc_object(iter);
-        cprintf(011,"]");
-    }                 
-    else if(is_fbgc_OPERATOR(iter->type)) cprintf(011,"{%s}",get_token_as_str(iter->type));
-    else cprintf(011,"{%s}",object_name_array[iter->type]);     
-        iter = iter->next;
+        else if(iter->type == CSTRING){
+          cprintf(011,"{");
+          print_fbgc_cstr_object(iter);
+          cprintf(011,"}");
+        }
+        else if(iter->type == REFERENCE||iter->type == LOAD_GLOBAL || iter->type == LOAD_LOCAL){
+          cprintf(011,"%s{<%d>}",object_name_array[iter->type],cast_fbgc_object_as_ref(iter)->loc);
+        }
+        else if(iter->type == TUPLE) {
+          cprintf(011,"{TUPLE}:{");
+          print_fbgc_tuple_object(iter);
+          cprintf(011,"}");
+        }
+        else if(iter->type == IF_BEGIN){
+        cprintf(011,"{IF_BEGIN -> ");
+          print_fbgc_object(cast_fbgc_object_as_jumper(iter)->content->next);
+          cprintf(011,"}");
+        }
+        else if(iter->type == ELIF_BEGIN){
+        cprintf(011,"{ELIF_BEGIN -> ");
+          print_fbgc_object(cast_fbgc_object_as_jumper(iter)->content->next);
+          cprintf(011,"}");
+        }    
+        else if(iter->type == JUMP){
+        cprintf(011,"{JUMP -> ");
+          print_fbgc_object(cast_fbgc_object_as_jumper(iter)->content->next);
+          cprintf(011,"}");
+        }
+        else if(iter->type == WHILE_BEGIN){
+        cprintf(011,"{WHILE_BEGIN -> ");
+          print_fbgc_object(cast_fbgc_object_as_jumper(iter)->content->next);
+          cprintf(011,"}");
+        }
+        else if(iter->type == BREAK){
+        cprintf(011,"{BREAK -> ");
+          print_fbgc_object(cast_fbgc_object_as_jumper(iter)->content);
+          cprintf(011,"}");
+        } 
+        else if(iter->type == CONT){
+        cprintf(011,"{CONT -> ");
+          print_fbgc_object(cast_fbgc_object_as_jumper(iter)->content);
+          cprintf(011,"}");
+        }                  
+        else if(iter->type == FUN){
+            cprintf(011,"FUN:[");
+            print_fbgc_object(iter);
+            cprintf(011,"]");
+        }                 
+        else if(is_fbgc_OPERATOR(iter->type)) cprintf(011,"{%s}",get_token_as_str(iter->type));
+        else cprintf(011,"{%s}",object_name_array[iter->type]);     
+            iter = iter->next;
     }
     if(head_ll->base.type == LINKED_LIST) cprintf(101,"<->[T]\n");
     else cprintf(101,"->NULL\n");

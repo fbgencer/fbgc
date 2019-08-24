@@ -23,10 +23,12 @@ uint8_t operator_precedence(fbgc_token T){
 
 		case COMMA: return 80;
 
-		case LPARA: case LBRACE: case LBRACK: return 5;
+		case LPARA: case LBRACE: case LBRACK: return 10;
 
-		case REFERENCE: return 3;		
-		case RPARA: case RBRACE: case RBRACK: return 2;	
+		case REFERENCE: return 7;		
+		case RPARA: case RBRACE: case RBRACK: return 4;	
+		case RETURN: return 3;
+		case NEWLINE: return 2;
 		case SEMICOLON: return 1;
 
 		//case BEGIN:case IF_BEGIN:  case ELSE_BEGIN: case ELIF: case ELSE: return 1;
@@ -49,6 +51,8 @@ uint8_t compare_operators(fbgc_token stack_top, fbgc_token obj_type){
 			case ASSIGN:
 			case COMMA:
 			result = 0;
+			default:
+				result = 1;
 			break;
 		}
 	}
@@ -116,8 +120,9 @@ struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,st
 	uint8_t gm_error = 1;
 
 	switch(get_fbgc_object_type(top_fbgc_ll_object(op))){
-		case REFERENCE:
-			cprintf(100,"Operator stack top REFERENCE, this is a function call template!\n");
+		case LOAD_GLOBAL:
+		case LOAD_LOCAL:
+			cprintf(100,"Operator stack top load, this is a function call template!\n");
 
 				gm_seek_right(gm,top_fbgc_ll_object(op));
 
@@ -166,7 +171,13 @@ struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,st
 			
 			handle_function_args(fun_obj,iter_prev);
 
+			//cprintf(111,"iter_prev \n"); print_fbgc_object(iter_prev);
+
+			//cprintf(111,"fun next %s\n",object_name_array[fun_obj->next->type]);
+			//cprintf(111,"iter_prev next %s\n",object_name_array[iter_prev->next->type]);
+			iter_prev = fun_obj;
 			cprintf(111,"\n\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n");
+
 			return iter_prev;	
 		default: 
 			cprintf(100,"Operator stack top undefined, return old!\n");
@@ -193,9 +204,6 @@ uint8_t parser(struct fbgc_object ** field_obj){
 	struct fbgc_object * current_scope = *field_obj;
 
 	uint8_t gm_error = 1;
-
-
-	push_back_fbgc_ll_object(head_obj,new_fbgc_object(SEMICOLON));
 
 	for(int i = 0;  (iter != head->tail); i++){
 
@@ -233,7 +241,8 @@ uint8_t parser(struct fbgc_object ** field_obj){
 				iter->type = LOAD_GLOBAL;
 				cast_fbgc_object_as_ref(iter)->loc = where;
 				cprintf(111,"\n+++++++++++++++++++++++++++++++++++\n");
-			} else if(current_scope->type == FUN){
+			}
+			else if(current_scope->type == FUN){
 
 				
 				struct fbgc_object * local_tuple = cast_fbgc_object_as_fun(current_scope)->code;
@@ -247,26 +256,30 @@ uint8_t parser(struct fbgc_object ** field_obj){
 						local_tuple = push_back_fbgc_tuple_object(local_tuple,name_obj);
 						where = size_fbgc_tuple_object(local_tuple)-1;
 						cast_fbgc_object_as_fun(current_scope)->code = local_tuple;
+						cprintf(100,"fun local tuple:["); print_fbgc_object(local_tuple); cprintf(100,"]\n");
 					}
 					else {
 						local_tuple = cast_fbgc_object_as_field(*field_obj)->locals;
 						where = index_fbgc_tuple_object(local_tuple,name_obj);
 						assert(where != -1);
 						iter->type = LOAD_GLOBAL;
+						cprintf(100,"field local tuple:["); print_fbgc_object(local_tuple); cprintf(100,"]\n");
 					}
 				}
-				cprintf(100,"fun local tuple:["); print_fbgc_object(local_tuple); cprintf(100,"]\n");
+				
 
 				
 				cast_fbgc_object_as_ref(iter)->loc = where;
-				cprintf(111,"\n+++++++++++++++++++++++++++++++++++\n");				
-
+				cprintf(111,"\n+++++++++++++++++++++++++++++++++++\n");
 			}
 
 			//is it function call ??
-			if(iter->next->type == LPARA){
+			if(iter->next->type == LPARA){	
 				iter_prev->next = iter->next;
 				op_stack_head = push_front_fbgc_ll_object(op_stack_head,iter);
+				
+			//print_fbgc_ll_object(head_obj,"M");
+				
 			}
 			else {
 				iter_prev = iter;
@@ -364,12 +377,13 @@ uint8_t parser(struct fbgc_object ** field_obj){
 				cprintf(111,"iter_prev->next:%s\n",object_name_array[iter_prev->next->type]);
 				cprintf(111,"iter:%s\n",object_name_array[iter->type]);
 
-
+				cast_fbgc_object_as_fun(fun_obj)->no_locals = size_fbgc_tuple_object(cast_fbgc_object_as_fun(fun_obj)->code); 
 				cast_fbgc_object_as_fun(fun_obj)->code = fun_obj->next;
+
 				//fun_obj->next = iter->next;
 				iter_prev->next = fun_obj;
-				
 				iter_prev = fun_obj;
+
 
 				op_stack_head = pop_front_fbgc_ll_object(op_stack_head);
 				current_scope = *field_obj;
@@ -491,7 +505,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 				op_top = op_top->next;
 			}			
 		}
-		else if(is_fbgc_OPERATOR(iter->type) || iter->type == IF || iter->type == ELSE){
+		else if(is_fbgc_OPERATOR(iter->type) || iter->type == IF || iter->type == RETURN || iter->type == NEWLINE){
 			
 			//take the op object from main list and connect previous one to the next one 
 			//[H]->[2]->[+]->[3] => [H]->[2]->[3], now iter holds the operator, iter->next is [3] but we will change that too 
@@ -586,7 +600,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 			if(iter->type != RPARA)	gm_error = gm_seek_left(&gm,iter);
 			
 
-			if(iter->type == RPARA || iter->type == SEMICOLON){
+			if(iter->type == RPARA || iter->type == SEMICOLON|| iter->type == NEWLINE){
 			}
 			else if(iter->type == COMMA){
 

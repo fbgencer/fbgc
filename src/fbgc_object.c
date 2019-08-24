@@ -74,6 +74,9 @@ fbgc_object * new_fbgc_object_from_substr(struct fbgc_object * field_obj,const c
 		case COMMA:
 			obj = new_fbgc_object(COMMA);
 			break;
+		case NEWLINE:
+			obj = new_fbgc_object(NEWLINE);
+			break;	
 		default:
 			cprintf(111,"Undefined token inside new object creation !\n\n");
 		break;

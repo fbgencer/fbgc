@@ -10,6 +10,7 @@ struct fbgc_fun_object{
 	struct fbgc_object * code; //function linked list code
 	//struct fbgc_object * defaults; //default tuple
 	int8_t no_arg;
+	int8_t no_locals;
 };
 
 #define cast_fbgc_object_as_fun(x)(((struct fbgc_fun_object*) x))
