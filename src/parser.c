@@ -64,8 +64,9 @@ uint8_t compare_operators(fbgc_token stack_top, fbgc_token obj_type){
 }
 
 
-struct fbgc_object * handle_function_definition(struct fbgc_object * arg_start1, struct fbgc_object * arg_end){
+void handle_function_args(struct fbgc_object * fun_obj,struct fbgc_object * arg_end){
 /*
+	arg_start is always next pt of fun_obj
 	arg_start holds parsed arg expression beginning
 	example: fun(x,y,z) will be parsed x,y,z,3,build_tuple,
 							  arg_start^      arg_end^	
@@ -73,25 +74,25 @@ struct fbgc_object * handle_function_definition(struct fbgc_object * arg_start1,
 	There could be default assignment situations, we need to handle assignemnt expr and other type of args
 */	
 
-	//struct fbgc_tuple_object * fun_local = new_fbgc_tuple_object();
-			print_fbgc_object(arg_start1->next);
-			print_fbgc_object(arg_end);
-			cprintf(011,"___-----_____\n");
-	struct fbgc_object * arg_start = arg_start1->next;
+	cprintf(111,"Function args handler\n");
+	
+	cast_fbgc_object_as_fun(fun_obj)->no_arg = size_fbgc_tuple_object(cast_fbgc_object_as_fun(fun_obj)->code); 
+	cprintf(111,"Arg no : %d\n",cast_fbgc_object_as_fun(fun_obj)->no_arg);
+	fun_obj->next = arg_end->next;
 
-	struct fbgc_object * fun_local = new_fbgc_tuple_object(1);
-
+	
+	/*struct fbgc_object * arg_start = fun_obj->next;
 	do{
 		cprintf(111,"\nFun def while current type:\n");
 		print_fbgc_object(arg_start);
 		switch(arg_start->type){
-			case REFERENCE:
+			case LOAD_GLOBAL:
 			{	
 
-				fun_local = push_back_fbgc_tuple_object(fun_local,cast_fbgc_object_as_ref(arg_start)->content);
-				cast_fbgc_object_as_ref(arg_start)->content = get_top_in_fbgc_tuple_object(fun_local);
+				//fun_local = push_back_fbgc_tuple_object(fun_local,cast_fbgc_object_as_ref(arg_start)->content);
+				//cast_fbgc_object_as_ref(arg_start)->content = get_top_in_fbgc_tuple_object(fun_local);
 
-				cprintf(100,"fun local top %p ref cont %p \n",cast_fbgc_object_as_ref(arg_start)->content,get_top_in_fbgc_tuple_object(fun_local));
+				//cprintf(100,"fun local top %p ref cont %p \n",cast_fbgc_object_as_ref(arg_start)->content,get_top_in_fbgc_tuple_object(fun_local));
 				//print_fbgc_object(cast_fbgc_object_as_ref(arg_start)->content);
 				break;
 			}
@@ -106,10 +107,8 @@ struct fbgc_object * handle_function_definition(struct fbgc_object * arg_start1,
 		}
 
 		arg_start = arg_start->next;	
-	}while(arg_start != arg_end->next);
+	}while(arg_start != arg_end->next);*/
 
-	cprintf(111,"Fun definition is OK!\n");
-	return NULL;
 }
 
 struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,struct fbgc_object * op, struct fbgc_grammar * gm){
@@ -137,60 +136,38 @@ struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,st
 				
 
 				return iter_prev;
-		case IF:
-			cprintf(100,"Operator stack top IF, this is an if template!\n");
-
-			 
+		case IF:	cprintf(100,"Operator stack top IF, this is an if template!\n");
 			gm_seek_right(gm,top_fbgc_ll_object(op));
-			
 			cast_fbgc_object_as_jumper(top_fbgc_ll_object(op))->content = iter_prev;
-
-
 			return iter_prev;
-		case ELIF:
-			cprintf(100,"Operator stack top ELIF, this is an if template!\n");
-
+		case ELIF:	cprintf(100,"Operator stack top ELIF, this is an if template!\n");
 			gm_seek_right(gm,top_fbgc_ll_object(op));
-			
 			cast_fbgc_object_as_jumper(top_fbgc_ll_object(op))->content = iter_prev;
-
-
 			return iter_prev;			
-
-		case WHILE:
-			cprintf(100,"Operator stack top WHILE, this is an whle template!\n");
-
+		case WHILE:	cprintf(100,"Operator stack top WHILE, this is an whle template!\n");
 			gm_seek_right(gm,top_fbgc_ll_object(op));
-			
 			cast_fbgc_object_as_jumper(top_fbgc_ll_object(op))->content = iter_prev;
-
-
 			return iter_prev;
-		case FOR:
-			cprintf(100,"Operator stack top FOR, this is an for template!\n");
-
+		case FOR:	cprintf(100,"Operator stack top FOR, this is an for template!\n");
 			gm_seek_right(gm,top_fbgc_ll_object(op));
-			
 			cast_fbgc_object_as_jumper(top_fbgc_ll_object(op))->content = iter_prev;
-
-
 			return iter_prev;
 		case FUN_MAKE:
 			cprintf(100,"Operator stack top FUN, this is an fun template!\n");
-			//function content holds function beginning address, now create a function builder and 
-			//let the builder creates function from its arguments
+			//fun_make content holds function object, parse the arguments
 			gm_seek_right(gm,top_fbgc_ll_object(op));
 			
 			struct fbgc_object * top = top_fbgc_ll_object(op);
-			//cast_fbgc_object_as_ref(top_fbgc_ll_object(op))->content = iter_prev;
+			struct fbgc_object * fun_obj =  cast_fbgc_object_as_jumper(top_fbgc_ll_object(op))->content; 
 
+			cprintf(111,"\n\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n");
+			cprintf(111,"Function making : arg start:"); print_fbgc_object(fun_obj->next);
+			cprintf(111,"\nArg end:"); print_fbgc_object(iter_prev);
+			
+			handle_function_args(fun_obj,iter_prev);
 
-			//cprintf(111,"Function making : arg start:[%s], arg end [%s]\n",object_name_array[cast_fbgc_object_as_ref(top)->content->type],object_name_array[iter_prev->type]);
-
-
-			//struct fbgc_object * funo = handle_function_definition(cast_fbgc_object_as_ref(top_fbgc_ll_object(op))->content,iter_prev);
-
-			return iter_prev;							
+			cprintf(111,"\n\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n");
+			return iter_prev;	
 		default: 
 			cprintf(100,"Operator stack top undefined, return old!\n");
 		return iter_prev;
@@ -218,10 +195,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 	uint8_t gm_error = 1;
 
 
-
-
 	push_back_fbgc_ll_object(head_obj,new_fbgc_object(SEMICOLON));
-
 
 	for(int i = 0;  (iter != head->tail); i++){
 
@@ -240,37 +214,53 @@ uint8_t parser(struct fbgc_object ** field_obj){
 			gm_error = gm_seek_left(&gm,iter);
 
 			cprintf(111,"current_scope :[%s]\n",object_name_array[current_scope->type]);
+			struct fbgc_object * symbol_tuple = cast_fbgc_object_as_field(*field_obj)->symbols;
+			struct fbgc_object * name_obj = get_object_in_fbgc_tuple_object(symbol_tuple,cast_fbgc_object_as_ref(iter)->loc);
+			cprintf(100,">>>:"); print_fbgc_object(name_obj);
 
 			if(current_scope->type == FIELD){
-				struct fbgc_object * name_obj = (cast_fbgc_object_as_ref(iter)->content);
-				cprintf(100,">>>:"); print_fbgc_object(name_obj);
-
 				struct fbgc_object * local_tuple = cast_fbgc_object_as_field(current_scope)->locals;
-
-
 				int where = index_fbgc_tuple_object(local_tuple,name_obj);
 
 				if(where == -1) {
-					cprintf(111,"couldn't find in locals..\n");
+					cprintf(111,"couldn't find in locals in field obj..\n");
 					local_tuple = push_back_fbgc_tuple_object(local_tuple,name_obj);
 					where = size_fbgc_tuple_object(local_tuple)-1;
+					cast_fbgc_object_as_field(current_scope)->locals = local_tuple;
 				}
 				cprintf(100,"field local tuple:["); print_fbgc_object(local_tuple); cprintf(100,"]\n");
 
-				if(iter->next->type == ASSIGN){
-					cprintf(001,"CHANGE ASSIGN TO STORE!\n");
-					//iter->next->type = STORE_GLOBAL;
-					cast_fbgc_object_as_int(iter->next)->content = where;
-					//print_fbgc_object(iter_prev);
-					iter_prev->next = iter->next;
-				}
-				else {
-					;
-				}
-
-
-
+				iter->type = LOAD_GLOBAL;
+				cast_fbgc_object_as_ref(iter)->loc = where;
 				cprintf(111,"\n+++++++++++++++++++++++++++++++++++\n");
+			} else if(current_scope->type == FUN){
+
+				
+				struct fbgc_object * local_tuple = cast_fbgc_object_as_fun(current_scope)->code;
+				int where = index_fbgc_tuple_object(local_tuple,name_obj);
+				iter->type = LOAD_LOCAL;
+				if(where == -1) {
+					cprintf(111,"iter %s iter-nxt %s\n",object_name_array[iter->type],object_name_array[iter->next->type]);
+					//-1 arg means func definition hasnt been done yet! So we are reading arguments
+					if(iter->next->type == ASSIGN  || cast_fbgc_object_as_fun(current_scope)->no_arg == -1){
+						cprintf(111,"couldn't find in locals of function obj..\n");
+						local_tuple = push_back_fbgc_tuple_object(local_tuple,name_obj);
+						where = size_fbgc_tuple_object(local_tuple)-1;
+						cast_fbgc_object_as_fun(current_scope)->code = local_tuple;
+					}
+					else {
+						local_tuple = cast_fbgc_object_as_field(*field_obj)->locals;
+						where = index_fbgc_tuple_object(local_tuple,name_obj);
+						assert(where != -1);
+						iter->type = LOAD_GLOBAL;
+					}
+				}
+				cprintf(100,"fun local tuple:["); print_fbgc_object(local_tuple); cprintf(100,"]\n");
+
+				
+				cast_fbgc_object_as_ref(iter)->loc = where;
+				cprintf(111,"\n+++++++++++++++++++++++++++++++++++\n");				
+
 			}
 
 			//is it function call ??
@@ -278,15 +268,14 @@ uint8_t parser(struct fbgc_object ** field_obj){
 				iter_prev->next = iter->next;
 				op_stack_head = push_front_fbgc_ll_object(op_stack_head,iter);
 			}
-			//else {
-			//	iter_prev = iter;
-			//}	
+			else {
+				iter_prev = iter;
+			}	
 		}
 		else if(iter->type == WHILE){
 			gm_error = gm_seek_left(&gm,iter);	
 
-			struct fbgc_object * jump_obj = new_fbgc_ref_object();
-			jump_obj->type = JUMP;		
+			struct fbgc_object * jump_obj = new_fbgc_jumper_object(JUMP);
 			cast_fbgc_object_as_jumper(jump_obj)->content = iter_prev;
 			op_stack_head = push_front_fbgc_ll_object(op_stack_head,jump_obj);
 			iter_prev->next = iter->next;	
@@ -297,8 +286,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 		else if(iter->type == FOR){
 			gm_error = gm_seek_left(&gm,iter);	
 
-			struct fbgc_object * jump_obj = new_fbgc_ref_object();
-			jump_obj->type = JUMP;		
+			struct fbgc_object * jump_obj = new_fbgc_jumper_object(JUMP);	
 			cast_fbgc_object_as_jumper(jump_obj)->content = iter_prev;
 			op_stack_head = push_front_fbgc_ll_object(op_stack_head,jump_obj);
 			iter_prev->next = iter->next;	
@@ -307,11 +295,16 @@ uint8_t parser(struct fbgc_object ** field_obj){
 		}
 		else if(iter->type == FUN_MAKE){
 			//gm_error = gm_seek_left(&gm,iter);	
+			struct fbgc_object * fun_obj = new_fbgc_fun_object();	
+			fun_obj->next = iter->next;
+			iter_prev->next = fun_obj;
+			iter_prev = fun_obj;
+			cast_fbgc_object_as_jumper(iter)->content = fun_obj;
+			op_stack_head = push_front_fbgc_ll_object(op_stack_head,iter);
 
-			cast_fbgc_object_as_jumper(iter)->content = iter_prev;
-			iter_prev->next = iter->next;	
-			op_stack_head = push_front_fbgc_ll_object(op_stack_head,iter);	
-			
+			current_scope = fun_obj;
+			cast_fbgc_object_as_fun(fun_obj)->code = new_fbgc_tuple_object(0);
+						
 		}							
 		else if(iter->type == END){
 			//gm_error = gm_seek_left(&gm,iter);
@@ -365,6 +358,22 @@ uint8_t parser(struct fbgc_object ** field_obj){
 				
 				//iter_prev = jump_obj->next;
 			}
+			else if(top_fbgc_ll_object(op_stack_head)->type == FUN_MAKE){
+				struct fbgc_object * fun_obj = cast_fbgc_object_as_jumper(top_fbgc_ll_object(op_stack_head))->content;
+				cprintf(111,"iter_prev:%s\n",object_name_array[iter_prev->type]);
+				cprintf(111,"iter_prev->next:%s\n",object_name_array[iter_prev->next->type]);
+				cprintf(111,"iter:%s\n",object_name_array[iter->type]);
+
+
+				cast_fbgc_object_as_fun(fun_obj)->code = fun_obj->next;
+				//fun_obj->next = iter->next;
+				iter_prev->next = fun_obj;
+				
+				iter_prev = fun_obj;
+
+				op_stack_head = pop_front_fbgc_ll_object(op_stack_head);
+				current_scope = *field_obj;
+			}
 
 			while(top_fbgc_ll_object(op_stack_head) != NULL && top_fbgc_ll_object(op_stack_head)->type == JUMP){
 				struct fbgc_object * jump_obj = top_fbgc_ll_object(op_stack_head);
@@ -374,8 +383,6 @@ uint8_t parser(struct fbgc_object ** field_obj){
 				cast_fbgc_object_as_jumper(jump_obj)->content->next = jump_obj;
 
 				cast_fbgc_object_as_jumper(jump_obj)->content = iter_prev;	
-
-			
 			}
 
 			iter_prev->next = iter->next;
@@ -401,8 +408,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 				if_obj->next = cast_fbgc_object_as_jumper(if_obj)->content->next;
 				cast_fbgc_object_as_jumper(if_obj)->content->next = if_obj;
 
-				struct fbgc_object * jump_obj = new_fbgc_ref_object();
-				jump_obj->type = JUMP;
+				struct fbgc_object * jump_obj = new_fbgc_jumper_object(JUMP);
 
 				cast_fbgc_object_as_jumper(jump_obj)->content = iter_prev;
 
@@ -430,8 +436,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 				if_obj->next = cast_fbgc_object_as_jumper(if_obj)->content->next;
 				cast_fbgc_object_as_jumper(if_obj)->content->next = if_obj;
 
-				struct fbgc_object * jump_obj = new_fbgc_ref_object();
-				jump_obj->type = JUMP;
+				struct fbgc_object * jump_obj = new_fbgc_jumper_object(JUMP);
 
 				cast_fbgc_object_as_jumper(jump_obj)->content = iter_prev;
 				op_stack_head = push_front_fbgc_ll_object(op_stack_head,jump_obj);
@@ -578,8 +583,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 				cprintf(101,"[*GM]:{Top:%s} Flag{0x%X} \n",object_name_array[gm.top],gm.flag);
 			#endif
 
-			if(iter->type != RPARA)
-			gm_error = gm_seek_left(&gm,iter);
+			if(iter->type != RPARA)	gm_error = gm_seek_left(&gm,iter);
 			
 
 			if(iter->type == RPARA || iter->type == SEMICOLON){
@@ -604,14 +608,12 @@ uint8_t parser(struct fbgc_object ** field_obj){
 				head->size--;
 			}
 		}
-
 		else{
 			cprintf(100,"Error else in parser\n");
 			break;	
 		}	
 
 		//if(!gm_error) goto END_OF_THE_PARSER;
-
 		iter = iter_prev->next;
 		
 		#ifdef PARSER_DEBUG
@@ -627,7 +629,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 	head->tail->next = iter_prev;
 
 	cprintf(111,"Locals:");
-	print_fbgc_object(cast_fbgc_object_as_field(current_scope)->locals);
+	print_fbgc_object(cast_fbgc_object_as_field(*field_obj)->symbols);
 
 	
 	#ifdef PARSER_DEBUG

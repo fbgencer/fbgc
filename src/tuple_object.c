@@ -89,6 +89,8 @@ struct fbgc_object * push_back_fbgc_tuple_object(struct fbgc_object * self,struc
 	cprintf(101,"Tuple size :%d, capacity %d\n",size_fbgc_tuple_object(self) , capacity_fbgc_tuple_object(self));
 	#endif
 
+	size_t old_size = size_fbgc_tuple_object(self);
+
 	if(size_fbgc_tuple_object(self) == capacity_fbgc_tuple_object(self)){
 
 		//Before sending to realloc, request a larger block after requesting change the capacity of the tuple
@@ -118,8 +120,8 @@ struct fbgc_object * push_back_fbgc_tuple_object(struct fbgc_object * self,struc
 
 		
 		struct fbgc_object ** contents = tuple_object_content(self);
-		contents[cast_fbgc_object_as_tuple(self)->size] = obj;
-		cast_fbgc_object_as_tuple(self)->size++;
+		contents[old_size] = obj;
+		cast_fbgc_object_as_tuple(self)->size = old_size+1;
 		
 
 		#ifdef TUPLE_DEBUG

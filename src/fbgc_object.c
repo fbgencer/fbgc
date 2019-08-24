@@ -54,7 +54,7 @@ fbgc_object * new_fbgc_object_from_substr(struct fbgc_object * field_obj,const c
 		case WORD:
 					token = get_reserved_word_code_from_substr(str1,str2);
 					if(token == UNKNOWN){
-						//cprintf(111,"\nThis is not a keyword! \n"); it must be something idor function or class etc.
+						//cprintf(111,"\nThis is not a keyword! \n"); it must be something id or function or class etc.
 						//is this substring refers to a c function ?
 
 						obj = new_fbgc_symbol_from_substr(field_obj,str1,str2);
@@ -101,10 +101,15 @@ void print_fbgc_object(struct fbgc_object * self){
 				print_fbgc_cstr_object(self);
 			break;
 			case REFERENCE:
+			case LOAD_GLOBAL:
+			case LOAD_LOCAL:
 				print_fbgc_ref_object(self);
 			break;
 			case TUPLE:
 				print_fbgc_tuple_object(self);
+			break;
+			case FUN:
+				print_fbgc_fun_object(self);
 			break;			
 			default:
 				cprintf(100,"[%s]",object_type_as_str(self));  

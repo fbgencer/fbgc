@@ -129,12 +129,10 @@ typedef struct {
 #define ELIF_BEGIN 114
 #define WHILE_BEGIN 115
 #define FOR_BEGIN 116
-#define STORE_LOCAL 117
-#define LOAD_LOCAL 118
-#define STORE_GLOBAL 119
-#define LOAD_GLOBAL 120
-#define FUN_CALL 121
-#define FUN_MAKE 122
+#define LOAD_LOCAL 117
+#define LOAD_GLOBAL 118
+#define FUN_CALL 119
+#define FUN_MAKE 120
 #define TOKEN_LIST_AS_STRINGS()\
 "UNKNOWN",\
 "INT",\
@@ -253,9 +251,7 @@ typedef struct {
 "ELIF_BEGIN",\
 "WHILE_BEGIN",\
 "FOR_BEGIN",\
-"STORE_LOCAL",\
 "LOAD_LOCAL",\
-"STORE_GLOBAL",\
 "LOAD_GLOBAL",\
 "FUN_CALL",\
 "FUN_MAKE",\
@@ -274,7 +270,7 @@ fbgc_token get_reserved_word_code_from_substr(const char *str1,const char *str2)
 const char * get_token_as_str(fbgc_token tok);
 
 
-#define is_fbgc_OPERATOR(T)(T>=OP && T<= RBRACK || T == STORE_GLOBAL || T == STORE_LOCAL)
+#define is_fbgc_OPERATOR(T)(T>=OP && T<= RBRACK)
 #define is_fbgc_IDENTIFIER(T)(T>=IDENTIFIER && T<=REFERENCE)
 #define is_fbgc_ATOM(T)(T>= INT && T<=STRING)
 #define is_fbgc_INT(T) (T == INT)

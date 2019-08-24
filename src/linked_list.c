@@ -139,10 +139,8 @@ void print_fbgc_ll_object(struct fbgc_object * head,const char *s1){
       print_fbgc_cstr_object(iter);
       cprintf(011,"}");
     }
-    else if(iter->type == REFERENCE){
-      cprintf(011,"{");
-      print_fbgc_ref_object(iter);
-      cprintf(011,"}");
+    else if(iter->type == REFERENCE||iter->type == LOAD_GLOBAL || iter->type == LOAD_LOCAL){
+      cprintf(011,"%s{<%d>}",object_name_array[iter->type],cast_fbgc_object_as_ref(iter)->loc);
     }
     else if(iter->type == TUPLE) {
       cprintf(011,"{TUPLE}:{");
@@ -178,7 +176,12 @@ void print_fbgc_ll_object(struct fbgc_object * head,const char *s1){
     cprintf(011,"{CONT -> ");
       print_fbgc_object(cast_fbgc_object_as_jumper(iter)->content);
       cprintf(011,"}");
-    }                                   
+    }                  
+    else if(iter->type == FUN){
+        cprintf(011,"FUN:[");
+        print_fbgc_object(iter);
+        cprintf(011,"]");
+    }                 
     else if(is_fbgc_OPERATOR(iter->type)) cprintf(011,"{%s}",get_token_as_str(iter->type));
     else cprintf(011,"{%s}",object_name_array[iter->type]);     
         iter = iter->next;

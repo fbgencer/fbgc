@@ -7,15 +7,12 @@ extern "C" {
 
 struct fbgc_ref_object{
     struct fbgc_object base;
-   	struct fbgc_object * content;
+   	int * loc;
 };
 
 #define cast_fbgc_object_as_ref(x) (((struct fbgc_ref_object*) x))
 
-//o must be reference object, check before using it!
-#define abandon_ownership(ref)( (cast_fbgc_object_as_ref(ref)->content->next != NULL) ?  cast_fbgc_object_as_ref(ref)->content->next->type &= 0x7F : 0)
-
-struct fbgc_object * new_fbgc_ref_object();
+struct fbgc_object * new_fbgc_ref_object(const int i);
 struct fbgc_object * initialize_fbgc_ref_object(struct fbgc_object * ref, struct fbgc_object * obj);
 struct fbgc_object * assign_var_to_fbgc_ref_object(struct fbgc_object * ref, struct fbgc_object * obj);
 struct fbgc_object * get_var_from_fbgc_ref_object(struct fbgc_object *ref);

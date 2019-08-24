@@ -35,7 +35,7 @@ Consider the following line
 #define get_fbgc_symbol_obj(x)(x->next)
 
 
-struct fbgc_object * new_fbgc_symbol_table(void);
+struct fbgc_object * new_fbgc_symbol_table();
 struct fbgc_object * new_fbgc_symbol(struct fbgc_object * ,const char * ,const char * );
 struct fbgc_object * get_fbgc_symbol(struct fbgc_object * );
 

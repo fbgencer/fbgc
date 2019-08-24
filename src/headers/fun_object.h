@@ -8,14 +8,14 @@ extern "C" {
 struct fbgc_fun_object{ 
 	struct fbgc_object base;
 	struct fbgc_object * code; //function linked list code
-	struct fbgc_object * locals;// local variable tuple
-
+	//struct fbgc_object * defaults; //default tuple
+	int8_t no_arg;
 };
 
 #define cast_fbgc_object_as_fun(x)(((struct fbgc_fun_object*) x))
 #define size_fbgc_fun_object (sizeof(struct fbgc_fun_object)) 
 
-struct fbgc_object * new_fbgc_fun_object(struct fbgc_object * arg_start,struct fbgc_object * arg_end);
+struct fbgc_object * new_fbgc_fun_object();
 
 
 #ifdef  __cplusplus
