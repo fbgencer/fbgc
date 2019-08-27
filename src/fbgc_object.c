@@ -123,7 +123,7 @@ void print_fbgc_object(struct fbgc_object * self){
 
 		}
 	}
-	else cprintf(111,"NULL object cannot be printed!\n");
+	else cprintf(111,"[NULL]");
 }
 
 
