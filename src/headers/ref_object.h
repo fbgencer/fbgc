@@ -5,14 +5,15 @@
 extern "C" {
 #endif
 
+
 struct fbgc_ref_object{
     struct fbgc_object base;
-   	int * loc;
+   	struct fbgc_object * address;
 };
 
 #define cast_fbgc_object_as_ref(x) (((struct fbgc_ref_object*) x))
 
-struct fbgc_object * new_fbgc_ref_object(const int i);
+struct fbgc_object * new_fbgc_ref_object(struct fbgc_object ** );
 struct fbgc_object * initialize_fbgc_ref_object(struct fbgc_object * ref, struct fbgc_object * obj);
 struct fbgc_object * assign_var_to_fbgc_ref_object(struct fbgc_object * ref, struct fbgc_object * obj);
 struct fbgc_object * get_var_from_fbgc_ref_object(struct fbgc_object *ref);

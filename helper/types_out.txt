@@ -11,114 +11,117 @@
 #define WORD 10
 #define CFUN 11
 #define FUN 12
-#define SUBSCRIPT 13
-#define REFERENCE 14
-#define LIST 15
-#define RAW_MATRIX 16
-#define MATRIX 17
-#define NUPLE 18
-#define MONUPLE 19
-#define TUPLE 20
-#define BUILD_TUPLE 21
-#define LINKED_LIST 22
-#define LINKED_LIST_TAIL 23
-#define STACK 24
-#define CMODULE 25
-#define GARBAGE 26
-#define FIELD 27
-#define CSTRING 28
-#define OP 29
-#define PLUS 30
-#define MINUS 31
-#define STAR 32
-#define SLASH 33
-#define MOD 34
-#define STARSTAR 35
-#define CARET 36
-#define OR_OP 37
-#define AND_OP 38
-#define GREATER 39
-#define LOWER 40
-#define LO_EQ 41
-#define GR_EQ 42
-#define EQ_EQ 43
-#define NOT_EQ 44
-#define IS_EQ 45
-#define IF_THEN 46
-#define R_ARROW 47
-#define L_ARROW 48
-#define COL_LO 49
-#define RW_ARROW 50
-#define LW_ARROW 51
-#define COLSTAR 52
-#define COLSLASH 53
-#define SLASHSLASH 54
-#define COLON 55
-#define RSHIFT 56
-#define LSHIFT 57
-#define ASSIGN 58
-#define PLUS_ASSIGN 59
-#define MINUS_ASSIGN 60
-#define STAR_ASSIGN 61
-#define SLASH_ASSIGN 62
-#define CONST_ASSIGN 63
-#define INC 64
-#define DECR 65
-#define UPLUS 66
-#define UMINUS 67
-#define NOT_OP 68
-#define SEMICOLON 69
-#define TWO_DOT 70
-#define THREE_DOT 71
-#define TWO_COLON 72
-#define TILDE 73
-#define COMMA 74
-#define DOT 75
-#define QUESTION_MARK 76
-#define DOLLAR 77
-#define PARA 78
-#define LPARA 79
-#define RPARA 80
-#define LBRACE 81
-#define RBRACE 82
-#define LBRACK 83
-#define RBRACK 84
-#define FOR 85
-#define WHILE 86
-#define UNTIL 87
-#define JUMP 88
-#define BREAK 89
-#define CONT 90
-#define IF 91
-#define ELSE 92
-#define ELIF 93
-#define END 94
-#define START 95
-#define LOAD 96
-#define AND 97
-#define OR 98
-#define NOT 99
-#define SPACE 100
-#define TAB 101
-#define NEWLINE 102
-#define RETURN 103
-#define ROW 104
-#define EXPRESSION 105
-#define ASSIGNMENT 106
-#define STATEMENT 107
-#define ASSIGNMENT_EXPRESSION 108
-#define UNARY_EXPRESSION 109
-#define BINARY_EXPRESSION 110
-#define BALANCED_EXPRESSION_LIST 111
-#define UNBALANCED_EXPRESSION_LIST 112
-#define IF_BEGIN 113
-#define ELIF_BEGIN 114
-#define WHILE_BEGIN 115
-#define FOR_BEGIN 116
-#define LOAD_LOCAL 117
+#define REFERENCE 13
+#define LIST 14
+#define MONATRIX 15
+#define MATRIX 16
+#define NUPLE 17
+#define MONUPLE 18
+#define TUPLE 19
+#define LINKED_LIST 20
+#define LINKED_LIST_TAIL 21
+#define STACK 22
+#define CMODULE 23
+#define GARBAGE 24
+#define FIELD 25
+#define CSTRING 26
+#define OP 27
+#define PLUS 28
+#define MINUS 29
+#define STAR 30
+#define SLASH 31
+#define MOD 32
+#define STARSTAR 33
+#define CARET 34
+#define OR_OP 35
+#define AND_OP 36
+#define GREATER 37
+#define LOWER 38
+#define LO_EQ 39
+#define GR_EQ 40
+#define EQ_EQ 41
+#define NOT_EQ 42
+#define IS_EQ 43
+#define IF_THEN 44
+#define R_ARROW 45
+#define L_ARROW 46
+#define COL_LO 47
+#define RW_ARROW 48
+#define LW_ARROW 49
+#define COLSTAR 50
+#define COLSLASH 51
+#define SLASHSLASH 52
+#define COLON 53
+#define RSHIFT 54
+#define LSHIFT 55
+#define ASSIGN 56
+#define PLUS_ASSIGN 57
+#define MINUS_ASSIGN 58
+#define STAR_ASSIGN 59
+#define SLASH_ASSIGN 60
+#define CONST_ASSIGN 61
+#define INC 62
+#define DECR 63
+#define UPLUS 64
+#define UMINUS 65
+#define NOT_OP 66
+#define SEMICOLON 67
+#define TWO_DOT 68
+#define THREE_DOT 69
+#define TWO_COLON 70
+#define TILDE 71
+#define COMMA 72
+#define DOT 73
+#define QUESTION_MARK 74
+#define DOLLAR 75
+#define PARA 76
+#define LPARA 77
+#define RPARA 78
+#define LBRACE 79
+#define RBRACE 80
+#define LBRACK 81
+#define RBRACK 82
+#define FOR 83
+#define WHILE 84
+#define UNTIL 85
+#define JUMP 86
+#define BREAK 87
+#define CONT 88
+#define IF 89
+#define ELSE 90
+#define ELIF 91
+#define END 92
+#define START 93
+#define LOAD 94
+#define AND 95
+#define OR 96
+#define NOT 97
+#define SPACE 98
+#define TAB 99
+#define NEWLINE 100
+#define RETURN 101
+#define ROW 102
+#define EXPRESSION 103
+#define ASSIGNMENT 104
+#define STATEMENT 105
+#define ASSIGNMENT_EXPRESSION 106
+#define UNARY_EXPRESSION 107
+#define BINARY_EXPRESSION 108
+#define BALANCED_EXPRESSION_LIST 109
+#define UNBALANCED_EXPRESSION_LIST 110
+#define IF_BEGIN 111
+#define ELIF_BEGIN 112
+#define WHILE_BEGIN 113
+#define FOR_BEGIN 114
+#define LOAD_LOCAL 115
+#define LOCAL 116
+#define GLOBAL 117
 #define LOAD_GLOBAL 118
 #define FUN_CALL 119
 #define FUN_MAKE 120
+#define SUBSCRIPT_CALL 121
+#define BUILD_TUPLE 122
+#define BUILD_MATRIX 123
 #define TOKEN_LIST_AS_STRINGS()\
 "UNKNOWN",\
 "INT",\
@@ -133,15 +136,13 @@
 "WORD",\
 "CFUN",\
 "FUN",\
-"SUBSCRIPT",\
 "REFERENCE",\
 "LIST",\
-"RAW_MATRIX",\
+"MONATRIX",\
 "MATRIX",\
 "NUPLE",\
 "MONUPLE",\
 "TUPLE",\
-"BUILD_TUPLE",\
 "LINKED_LIST",\
 "LINKED_LIST_TAIL",\
 "STACK",\
@@ -238,7 +239,12 @@
 "WHILE_BEGIN",\
 "FOR_BEGIN",\
 "LOAD_LOCAL",\
+"LOCAL",\
+"GLOBAL",\
 "LOAD_GLOBAL",\
 "FUN_CALL",\
 "FUN_MAKE",\
+"SUBSCRIPT_CALL",\
+"BUILD_TUPLE",\
+"BUILD_MATRIX",\
 "  

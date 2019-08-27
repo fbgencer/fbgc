@@ -156,7 +156,7 @@ struct fbgc_object * is_fbgc_object_true(struct fbgc_object * a){
 // a=b
 void fbgc_assignment_assign(struct fbgc_object * a, struct fbgc_object * b ){
 	
-	assign_var_to_fbgc_ref_object(a,get_var_from_fbgc_ref_object(b));
+	//assign_var_to_fbgc_ref_object(a,get_var_from_fbgc_ref_object(b));
 
 	/*if(get_fbgc_object_type(a) == TUPLE && get_fbgc_object_type(b) == TUPLE){
 		if(cast_fbgc_object_as_tuple(a)->size == cast_fbgc_object_as_tuple(b)->size){

@@ -25,7 +25,7 @@ uint8_t operator_precedence(fbgc_token T){
 
 		case LPARA: case LBRACE: case LBRACK: return 10;
 
-		case REFERENCE: return 7;		
+		case IDENTIFIER: case CFUN: return 7;		
 		case RPARA: case RBRACE: case RBRACK: return 4;	
 		case RETURN: return 3;
 		case NEWLINE: return 2;
@@ -51,12 +51,13 @@ uint8_t compare_operators(fbgc_token stack_top, fbgc_token obj_type){
 			case ASSIGN:
 			case COMMA:
 			result = 0;
+				break;
 			default:
 				result = 1;
 			break;
 		}
 	}
-	else if(obj_type == LPARA  || obj_type == IF || obj_type == END || obj_type == ELIF){
+	else if(obj_type == LPARA || obj_type == LBRACK || obj_type == IF || obj_type == END || obj_type == ELIF){
 		return 0;
 	}
 	else
@@ -122,18 +123,22 @@ struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,st
 	switch(get_fbgc_object_type(top_fbgc_ll_object(op))){
 		case LOAD_GLOBAL:
 		case LOAD_LOCAL:
-			cprintf(100,"Operator stack top load, this is a function call template!\n");
+		case CFUN:
+			cprintf(100,"Operator stack top NAME, this is a function call template!\n");
 
 				gm_seek_right(gm,top_fbgc_ll_object(op));
 
 				struct fbgc_object * iter = iter_prev->next;
-				cprintf(011,"in func Iter:[%s]\n",
-							object_name_array[iter->type]);
+				cprintf(011,"in func gm.top :[%s]\n",
+							object_name_array[gm->top]);
 
+				if(gm->top == MONUPLE) {
+					iter_prev->next = new_fbgc_object(MONUPLE);
+					iter_prev = iter_prev->next;
+				}
 				//Insert top op to the list  
 				iter_prev->next = top_fbgc_ll_object(op);
 				op = pop_front_fbgc_ll_object(op);
-				print_fbgc_ll_object(op,"Op stack:");
 				iter_prev = iter_prev->next;
 				iter_prev->next = new_fbgc_object(FUN_CALL);
 				iter_prev = iter_prev->next;
@@ -157,7 +162,7 @@ struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,st
 			gm_seek_right(gm,top_fbgc_ll_object(op));
 			cast_fbgc_object_as_jumper(top_fbgc_ll_object(op))->content = iter_prev;
 			return iter_prev;
-		case FUN_MAKE:
+		case FUN_MAKE:{
 			cprintf(100,"Operator stack top FUN, this is an fun template!\n");
 			//fun_make content holds function object, parse the arguments
 			gm_seek_right(gm,top_fbgc_ll_object(op));
@@ -179,6 +184,12 @@ struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,st
 			cprintf(111,"\n\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n");
 
 			return iter_prev;	
+		}
+		case LOAD:	cprintf(100,"Operator stack top LOAD, this is an load module template!\n");
+			struct fbgc_object * top = top_fbgc_ll_object(op);
+
+
+			return iter_prev;	
 		default: 
 			cprintf(100,"Operator stack top undefined, return old!\n");
 		return iter_prev;
@@ -186,6 +197,36 @@ struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,st
 
 }
 
+struct fbgc_object * handle_before_brackets(struct fbgc_object * iter_prev,struct fbgc_object * op, struct fbgc_grammar * gm){
+	
+	uint8_t gm_error = 1;
+
+	switch(get_fbgc_object_type(top_fbgc_ll_object(op))){
+		case LOAD_GLOBAL:
+		case LOAD_LOCAL:
+			cprintf(100,"Operator stack top load, this is a function call template!\n");
+
+				gm_seek_right(gm,top_fbgc_ll_object(op));
+
+				struct fbgc_object * iter = iter_prev->next;
+				cprintf(011,"in func Iter:[%s]\n",
+							object_name_array[iter->type]);
+
+				//Insert top op to the list  
+				iter_prev->next = top_fbgc_ll_object(op);
+				op = pop_front_fbgc_ll_object(op);
+				iter_prev = iter_prev->next;
+				iter_prev->next = new_fbgc_object(SUBSCRIPT_CALL);
+				iter_prev = iter_prev->next;
+				iter_prev->next = iter;
+				
+				return iter_prev;
+		default: 
+			cprintf(100,"Operator stack top undefined, return old!\n");
+		return iter_prev;
+	}
+
+}
 
 uint8_t parser(struct fbgc_object ** field_obj){
 	#ifdef PARSER_DEBUG
@@ -218,12 +259,12 @@ uint8_t parser(struct fbgc_object ** field_obj){
 			iter_prev = iter;
 			gm_error = gm_seek_left(&gm,iter);
 		}
-		else if(iter->type == REFERENCE){
+		else if(iter->type == IDENTIFIER){
 			gm_error = gm_seek_left(&gm,iter);
 
 			cprintf(111,"current_scope :[%s]\n",object_name_array[current_scope->type]);
 			struct fbgc_object * symbol_tuple = cast_fbgc_object_as_field(*field_obj)->symbols;
-			struct fbgc_object * name_obj = get_object_in_fbgc_tuple_object(symbol_tuple,cast_fbgc_object_as_ref(iter)->loc);
+			struct fbgc_object * name_obj = get_object_in_fbgc_tuple_object(symbol_tuple,cast_fbgc_object_as_int(iter)->content);
 			cprintf(100,">>>:"); print_fbgc_object(name_obj);
 
 			if(current_scope->type == FIELD){
@@ -238,16 +279,15 @@ uint8_t parser(struct fbgc_object ** field_obj){
 				}
 				cprintf(100,"field local tuple:["); print_fbgc_object(local_tuple); cprintf(100,"]\n");
 
-				iter->type = LOAD_GLOBAL;
-				cast_fbgc_object_as_ref(iter)->loc = where;
+				iter->type = is_fbgc_ASSIGNMENT_OPERATOR(iter->next->type) ? GLOBAL :LOAD_GLOBAL ;
+
+				cast_fbgc_object_as_int(iter)->content = where;
 				cprintf(111,"\n+++++++++++++++++++++++++++++++++++\n");
 			}
-			else if(current_scope->type == FUN){
-
-				
+			else if(current_scope->type == FUN){				
 				struct fbgc_object * local_tuple = cast_fbgc_object_as_fun(current_scope)->code;
 				int where = index_fbgc_tuple_object(local_tuple,name_obj);
-				iter->type = LOAD_LOCAL;
+				iter->type = is_fbgc_ASSIGNMENT_OPERATOR(iter->next->type) ? LOCAL :LOAD_LOCAL ;
 				if(where == -1) {
 					cprintf(111,"iter %s iter-nxt %s\n",object_name_array[iter->type],object_name_array[iter->next->type]);
 					//-1 arg means func definition hasnt been done yet! So we are reading arguments
@@ -262,28 +302,33 @@ uint8_t parser(struct fbgc_object ** field_obj){
 						local_tuple = cast_fbgc_object_as_field(*field_obj)->locals;
 						where = index_fbgc_tuple_object(local_tuple,name_obj);
 						assert(where != -1);
-						iter->type = LOAD_GLOBAL;
 						cprintf(100,"field local tuple:["); print_fbgc_object(local_tuple); cprintf(100,"]\n");
+						iter->type = is_fbgc_ASSIGNMENT_OPERATOR(iter->next->type) ? GLOBAL :LOAD_GLOBAL ;
 					}
 				}
 				
-
-				
-				cast_fbgc_object_as_ref(iter)->loc = where;
+				cast_fbgc_object_as_int(iter)->content = where;
 				cprintf(111,"\n+++++++++++++++++++++++++++++++++++\n");
 			}
 
-			//is it function call ??
-			if(iter->next->type == LPARA){	
+			//is it function call or subscript call ??
+			if(iter->next->type == LPARA || iter->next->type == LBRACK){	
 				iter_prev->next = iter->next;
 				op_stack_head = push_front_fbgc_ll_object(op_stack_head,iter);
-				
-			//print_fbgc_ll_object(head_obj,"M");
-				
 			}
 			else {
 				iter_prev = iter;
 			}	
+		}
+		else if(iter->type == CFUN){
+			//is it function call ??
+			if(iter->next->type == LPARA){	
+				iter_prev->next = iter->next;
+				op_stack_head = push_front_fbgc_ll_object(op_stack_head,iter);
+			}
+			else {
+				iter_prev = iter;
+			}		
 		}
 		else if(iter->type == WHILE){
 			gm_error = gm_seek_left(&gm,iter);	
@@ -544,7 +589,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 							if(iter_prev->type == COMMA) iter_prev->type = INT; 
 							else cprintf(100,"Building tuple comma error!\n");
 						}
-						//nuple or subscript
+						//nuple 
 						
 						if(gm.top != MONUPLE){
 							head_obj = insert_next_fbgc_ll_object(head_obj,iter_prev,new_fbgc_object(gm.top));
@@ -559,7 +604,6 @@ uint8_t parser(struct fbgc_object ** field_obj){
 
 
 						iter_prev = handle_before_paranthesis(iter_prev,op_stack_head,&gm);
-						//iter_prev = iter;
 
 						cprintf(010,"##############After handle paranthesis###############\n");
 						print_fbgc_ll_object(head_obj,"M");
@@ -567,11 +611,50 @@ uint8_t parser(struct fbgc_object ** field_obj){
 						cprintf(101,"[GM]:{Top:%s} Flag{0x%X} \n",object_name_array[gm.top],gm.flag);
 						cprintf(010,"###############$$$$################\n");
 
-						//iter = iter->next;
+						break;
+					}
+					else if(iter->type == RBRACK && get_fbgc_object_type(top_fbgc_ll_object(op_stack_head)) == LBRACK){
+						cprintf(110,"=== RBRACK and LBRACK ===\n");
+
+						delete_front_fbgc_ll_object(op_stack_head);
+						gm_error = gm_seek_left(&gm,iter);
+
+						if(gm.top != BUILD_MATRIX && gm.top != MONATRIX) cprintf(100,"\n\n ERROR BRACK \n\n");
+
+						if(gm.top == BUILD_MATRIX){
+							if(iter_prev->type == COMMA) iter_prev->type = INT; 
+							else {
+								struct fbgc_object * ito = new_fbgc_int_object(1);
+								ito->next = iter_prev->next;
+								iter_prev->next = ito;
+								iter_prev = ito;
+							}
+
+						}
+						head_obj = insert_next_fbgc_ll_object(head_obj,iter_prev,new_fbgc_object(gm.top));
+						iter_prev = iter_prev->next;
+						
+						iter_prev = handle_before_brackets(iter_prev,op_stack_head,&gm);
+
 
 						break;
+					}
+					else if(iter->type == SEMICOLON && get_fbgc_object_type(top_fbgc_ll_object(op_stack_head)) == LBRACK){
 
+						cprintf(110,"\tBRACK AND SEMICOLON\n");
+						if(iter_prev->type == COMMA) iter_prev->type = INT; 
+						else {
+							struct fbgc_object * ito = new_fbgc_int_object(1);
+							ito->next = iter_prev->next;
+							iter_prev->next = ito;
+							iter_prev = ito;
+						}
 
+						struct fbgc_object * rowo = new_fbgc_object(ROW);
+						rowo->next = iter_prev->next;
+						iter_prev->next = rowo;
+						iter_prev = rowo;
+						break;
 					}
 					else {
 						cprintf(111,"GOTO END_OF_THE_PARSER Syntax Error :");
@@ -600,7 +683,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 			if(iter->type != RPARA)	gm_error = gm_seek_left(&gm,iter);
 			
 
-			if(iter->type == RPARA || iter->type == SEMICOLON|| iter->type == NEWLINE){
+			if(iter->type == RPARA || iter->type == RBRACK|| iter->type == SEMICOLON|| iter->type == NEWLINE || iter->type == ROW){
 			}
 			else if(iter->type == COMMA){
 
@@ -651,4 +734,5 @@ uint8_t parser(struct fbgc_object ** field_obj){
 	#endif
 
 	return gm_error;
+
 }

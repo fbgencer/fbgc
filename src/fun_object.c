@@ -25,7 +25,9 @@ void print_fbgc_fun_object(struct fbgc_object * obj){
 
  		struct fbgc_object * iter = funo->code;
  		while(iter != obj){
+      cprintf(011,"<");
  			print_fbgc_object(iter);
+      cprintf(011,">");
  			iter = iter->next;
  		}
  		cprintf(010,"]");

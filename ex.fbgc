@@ -1,6 +1,1 @@
-sum = fun(a,b) 
-	x = 3; y = 5
-	return a+b
-end
-
-x = 3;
+x(5)

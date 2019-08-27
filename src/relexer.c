@@ -48,7 +48,7 @@ const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] =
 {
 	{COMMENT,":>  !.!* \n"},
 	{NEWLINE,"\n"},
-	{SPACE,"!+!s"},
+	{SPACE,"! |\t!+"},
 	{INT2,"0b 1|0!+"},
 	{INT16,"0x !x!+"},
 	{STRING,"' _|\\'!s!d!w!o!* '"},
@@ -172,29 +172,31 @@ static const char * rule_reader(rule_flag_struct * rfs,const char * rule_ptr){
 
 static uint8_t check_char(rule_flag_struct *rfs,char ** buffer_ptr){
 
-	/*#ifdef DEBUG
+	#ifdef DEBUG
 	cprintf(001,"Called <%s> \n",__FUNCTION__);
-	#endif*/
+	cprintf(100,"RFS pattern_flag 0x%x buffer_ptr[%s]\n",rfs->pattern_flag,*buffer_ptr);
+	#endif
 
 	uint8_t check = 0;
 
-	if(rfs->char_match_end>0){
+	//if(rfs->char_match_end>0){
+	//	cprintf(111,"rfs->char match begin:%s end:%d\n",rfs->char_match_begin,rfs->char_match_end);
+	uint8_t i1 = 0,i2 = 0;
 
-		uint8_t i1 = 0,i2 = 0;
-
-		while(i2 != rfs->char_match_end ){
-			while(*(rfs->char_match_begin+i2) != LXR_META_OR && i2 != rfs->char_match_end){
-				i2++;
-			}
-			if(!strncmp(*buffer_ptr,rfs->char_match_begin+i1 ,i2-i1)){
-				*buffer_ptr += i2-i1;
-				return 1;
-			}
-			if(*(rfs->char_match_begin+i2) == LXR_META_OR){
-				i1 = ++i2;
-			}	
+	while(i2 != rfs->char_match_end ){
+		while(*(rfs->char_match_begin+i2) != LXR_META_OR && i2 != rfs->char_match_end){
+			i2++;
 		}
+		if(i2>i1 && !strncmp(*buffer_ptr,rfs->char_match_begin+i1 ,i2-i1)){
+			*buffer_ptr += i2-i1;
+			cprintf(111,"I am returning 1 bec *buffer_ptr:[%s],rfs->char_match_begin+i1:%s,i2-i1=%d\n",*buffer_ptr,rfs->char_match_begin+i1 ,i2-i1);
+			return 1;
+		}
+		if(*(rfs->char_match_begin+i2) == LXR_META_OR){
+			i1 = ++i2;
+		}	
 	}
+	//}
 	if(rfs->pattern_flag){
 		check = (
 				((rfs->pattern_flag & 0x01) && isdigit(*(*buffer_ptr))) ||
@@ -207,6 +209,17 @@ static uint8_t check_char(rule_flag_struct *rfs,char ** buffer_ptr){
 		*buffer_ptr += check;
 	}
 	return check;
+/*
+#define SET_PATTERN_FLAG_FROM_RULE(x)({\
+x == 'd' ? 0x01 :\
+x == 'w' ? 0x02 :\
+x == 'o' ? 0x04 :\
+x == 'x' ? 0x08 :\
+x == '.' ? 0x10 :\
+x == 's' ? 0x20 :\
+x == ' ' ? 0x40 :0;})
+*/
+
 }
 
 /*
@@ -294,6 +307,7 @@ void read_rule_table(rule_arrange_struct *ras){
 	}
 }*/
 
+
 uint8_t regex_lexer(struct fbgc_object ** field_obj,char * first_ptr){
 	#ifdef LEXER_DEBUG
 	cprintf(111,"==========LEXER==========\nInput string : \n");
@@ -351,7 +365,7 @@ uint8_t regex_lexer(struct fbgc_object ** field_obj,char * first_ptr){
 
 		check = check_char(&rfs,&mobile_ptr);
 		#ifdef DEBUG
-			cprintf(100,"Called check char, mobile_ptr:%s, check:%d\n",mobile_ptr,check);
+			cprintf(100,"Called check char, mobile_ptr:<%s>, check:%d\n",mobile_ptr,check);
 		#endif		
 		if(check ||  IS_METACHAR_STAR_OPEN(rfs.metachar_flag)) satisfied_rule_section = rule_section;
 		//(check && *rule_ptr == '\0')

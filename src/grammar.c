@@ -241,14 +241,13 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 			gm_left == LPARA || gm_left == LBRACK || gm_left == LBRACE ||
 			gm_left == IF_BEGIN || ELIF_BEGIN ||
 			gm_left == ELSE || gm_left == SEMICOLON ||
-			gm_left == SUBSCRIPT ||
 			gm_left == NEWLINE
 		) 
 	)
 	{
 		gm->top =get_fbgc_object_type(obj);
 	}
-	else if(  (is_fbgc_IDENTIFIER(get_fbgc_object_type(obj))  || get_fbgc_object_type(obj) == REFERENCE)
+	else if(  (is_fbgc_IDENTIFIER(get_fbgc_object_type(obj))  || get_fbgc_object_type(obj) == IDENTIFIER)
 		&& 
 		( is_fbgc_BINARY_OPERATOR(gm_left) || 
 			is_fbgc_UNARY_OPERATOR(gm_left)  || 
@@ -273,9 +272,9 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 	{	
 		gm->top = LPARA;
 	}
-	else if(get_fbgc_object_type(obj) == LBRACK && (gm_left == REFERENCE || gm_left == SUBSCRIPT))
+	else if(get_fbgc_object_type(obj) == LBRACK && gm_left == IDENTIFIER)
 	{
-		obj->type = gm->top = SUBSCRIPT;
+		gm->top = LBRACK;
 
 	}	
 	else if(get_fbgc_object_type(obj) == LBRACK &&
@@ -305,7 +304,7 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 		//cprintf(111,"binar->expr");
 		gm->top = get_fbgc_object_type(obj);
 	}
-	else if(is_fbgc_ASSIGNMENT_OPERATOR(get_fbgc_object_type(obj)) && (gm_left == REFERENCE ||gm_left == SUBSCRIPT ||  gm_left == BUILD_TUPLE)){
+	else if(is_fbgc_ASSIGNMENT_OPERATOR(get_fbgc_object_type(obj)) && (gm_left == IDENTIFIER ||  gm_left == BUILD_TUPLE)){
 		gm->top = get_fbgc_object_type(obj);
 	}
 	else if(get_fbgc_object_type(obj) == COMMA && (is_fbgc_EXPRESSION(gm_left) || gm_left == ASSIGNMENT_EXPRESSION) ){
@@ -323,22 +322,18 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 		grammar_close_LPARA_flag(gm->flag);
 		gm->top = NUPLE;
 	}	
-	else if(get_fbgc_object_type(obj) == RBRACK &&  is_grammar_LBRACK_flag_open(gm->flag) && gm_left == SUBSCRIPT ){
-		grammar_close_LBRACK_flag(gm->flag);
-		gm->top = SUBSCRIPT;		
-	}		
 	else if(get_fbgc_object_type(obj) == RBRACK && is_grammar_LBRACK_flag_open(gm->flag) && 
 		(gm_left == BALANCED_EXPRESSION_LIST || is_fbgc_EXPRESSION(gm_left)) ){
 		grammar_close_LBRACK_flag(gm->flag);
-		gm->top = (RAW_MATRIX);		
+		gm->top = (BUILD_MATRIX);		
 	}
-	else if(get_fbgc_object_type(obj) == RBRACE  && is_grammar_LBRACE_flag_open(gm->flag)){
-		grammar_close_LBRACE_flag(gm->flag);
-		gm->top = END;			
-	}
-	/*else if(get_fbgc_object_type(obj) == SEMICOLON && gm_left == BALANCED_EXPRESSION_LIST){
+	else if(get_fbgc_object_type(obj) == RBRACK && is_grammar_LBRACK_flag_open(gm->flag) ){
+		grammar_close_LBRACK_flag(gm->flag);
+		gm->top = MONATRIX;
+	}		
+	else if(get_fbgc_object_type(obj) == SEMICOLON && gm_left == LBRACK){
 		gm->top = ROW;
-	}*/
+	}
 	else if(get_fbgc_object_type(obj) == SEMICOLON && (is_fbgc_STATEMENT(gm_left) || gm_left == SEMICOLON  || gm_left == NEWLINE)){
 		gm->top = SEMICOLON;
 	}
@@ -396,7 +391,7 @@ uint8_t gm_seek_right(struct fbgc_grammar * gm, struct fbgc_object * obj){
 
 	if(gm == NULL || obj == NULL) return 0;
 
-	if(get_fbgc_object_type(obj) == REFERENCE && (is_fbgc_EXPRESSION(gm_right) || is_fbgc_TUPLE(gm_right)) ){
+	if(get_fbgc_object_type(obj) == IDENTIFIER && (is_fbgc_EXPRESSION(gm_right) || is_fbgc_TUPLE(gm_right)) ){
 		gm->top = EXPRESSION;
 	}
 
@@ -454,12 +449,12 @@ uint8_t gm_seek_right(struct fbgc_grammar * gm, struct fbgc_object * obj){
 	else if(get_fbgc_object_type(obj) == LPARA && gm_right == LPARA){
 		grammar_open_LPARA_flag(gm->flag);
 	}
-	else if(get_fbgc_object_type(obj) == LPARA && (is_fbgc_EXPRESSION(gm_right) || gm_right == ASSIGNMENT_EXPRESSION|| gm_right == BALANCED_EXPRESSION_LIST || gm_right == UNBALANCED_EXPRESSION_LIST) ){
+	else if(get_fbgc_object_type(obj) == LPARA && (is_fbgc_EXPRESSION(gm_right) || gm_right == ASSIGNMENT_EXPRESSION|| 
+			gm_right == BALANCED_EXPRESSION_LIST || gm_right == UNBALANCED_EXPRESSION_LIST) ){
 		grammar_open_LPARA_flag(gm->flag);		
 	}
-	else if(get_fbgc_object_type(obj) == SUBSCRIPT && is_fbgc_EXPRESSION(gm_right) ){
+	else if(get_fbgc_object_type(obj) == LBRACK && gm_right == LBRACK){
 		grammar_open_LBRACK_flag(gm->flag);
-		gm->top = SUBSCRIPT;
 	}	
 	else if(get_fbgc_object_type(obj) == LBRACK && (is_fbgc_EXPRESSION(gm_right) || gm_right == BALANCED_EXPRESSION_LIST)){
 		grammar_open_LBRACK_flag(gm->flag);

@@ -11,6 +11,15 @@ fbgc_object * new_fbgc_int_object(int int_content){
 }
 
 struct
+fbgc_object * derive_from_new_int_object(fbgc_token type, int int_content){
+    struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(size_fbgc_int_object);
+    into->base.type = type;
+    into->content = int_content; 
+    return (struct fbgc_object*) into;
+}
+
+
+struct
 fbgc_object * new_fbgc_int_object_from_str(const char * int_str){
 
   	return new_fbgc_int_object(strtol(int_str,NULL,10));

@@ -106,7 +106,10 @@ void print_fbgc_object(struct fbgc_object * self){
 			case REFERENCE:
 			case LOAD_GLOBAL:
 			case LOAD_LOCAL:
-				print_fbgc_ref_object(self);
+			case GLOBAL:
+			case LOCAL:
+				cprintf(010,"%s{<%d>}",object_name_array[self->type],cast_fbgc_object_as_int(self)->content);
+				//print_fbgc_int_object(self);
 			break;
 			case TUPLE:
 				print_fbgc_tuple_object(self);
@@ -134,7 +137,7 @@ size_t get_fbgc_object_size(struct fbgc_object * obj){
 		case STRING: return cast_fbgc_object_as_str(obj)->len+size_fbgc_str_object+1;
 		case CSTRING: return size_fbgc_cstr_object+1+length_fbgc_cstr_object(obj);
 		case TUPLE: return sizeof(struct fbgc_tuple_object)+(capacity_fbgc_tuple_object(obj) * sizeof(struct fbgc_object*)) ;
-		case REFERENCE : return sizeof(struct fbgc_ref_object);
+		//case REFERENCE : return sizeof(struct fbgc_ref_object);
 		case FIELD: return sizeof(struct fbgc_field_object);
 		case LINKED_LIST: return sizeof(struct fbgc_ll_object);
 		case LINKED_LIST_TAIL: return sizeof(struct fbgc_object);

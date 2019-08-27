@@ -15,6 +15,7 @@ struct fbgc_int_object{
 
 
 struct fbgc_object * new_fbgc_int_object(int);
+struct fbgc_object * derive_from_new_int_object(fbgc_token type, int int_content);
 struct fbgc_object * new_fbgc_int_object_from_str(const char *);
 struct fbgc_object * new_fbgc_int_object_from_substr(const char *,const char *,fbgc_token );
 

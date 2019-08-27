@@ -180,9 +180,11 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 	struct fbgc_ll_object * head = cast_fbgc_object_as_ll( cast_fbgc_object_as_field(*field_obj)->head );
 	struct fbgc_object * pc = head->base.next; //program counter
 
-	#define PROGRAM_STACK_SIZE 255 
+	#define PROGRAM_STACK_SIZE 10
 	struct fbgc_object * stack = new_fbgc_tuple_object(PROGRAM_STACK_SIZE);
 	struct fbgc_object ** sp = tuple_object_content(stack);
+	
+	struct fbgc_object ** globals = tuple_object_content(cast_fbgc_object_as_field(*field_obj)->locals);
 
 
 #define _STACK_GOTO(i) 	(sp += i)
@@ -209,30 +211,60 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 		// print_fbgc_memory_block();
 
-		if(is_fbgc_ATOM(type) || type == REFERENCE){
+		if(is_fbgc_ATOM(type) ||type == GLOBAL || type == LOCAL || type == FUN || type == NUPLE ||type == MONUPLE){
 			_PUSH(pc);
+		}
+		else if(type == LOAD_GLOBAL){
+			_PUSH(globals[cast_fbgc_object_as_int(pc)->content]);  
 		}
 		else if(is_fbgc_BINARY_OPERATOR(type)){
 
-			struct fbgc_object * res = call_fbgc_binary_op(
-					type,
-					get_var_from_fbgc_ref_object(_POP()),
-					get_var_from_fbgc_ref_object(_POP()));
+			struct fbgc_object * res =  call_fbgc_binary_op(type,_POP(),_POP());
 
 			if(res != NULL) {
 				_PUSH(res);				
 			}
 			else {
 				cprintf(100,"NULL operator return!\n");				
-				break;
+				return 0;
 			}
 		}
 		else if(is_fbgc_ASSIGNMENT_OPERATOR(type)){
-			//TOP1 = TOP2
-			call_fbgc_assignment_op(type,_POP(),_POP());
-			//_POP();
-			//;
+			// lhs = rhs
+
+			struct fbgc_object * rhs = _POP();
+			struct fbgc_object * lhs = _POP();
+			
+			if(lhs->type == GLOBAL){
+				globals[cast_fbgc_object_as_int(lhs)->content] = rhs;
+			}
+			else {
+				return 0;
+			}
+			//call_fbgc_assignment_op(type,lhs,rhs);
 		}
+		else if(type == FUN_CALL){
+
+			struct fbgc_object * funo = _POP();
+			struct fbgc_object * args = _POP();
+
+				if(args->type == TUPLE && size_fbgc_tuple_object(args) != cast_fbgc_object_as_fun(funo)->no_arg){
+					cprintf(100,"Argument match error!");
+					return 0;
+				}
+				else if(args->type == MONUPLE && cast_fbgc_object_as_fun(funo)->no_arg == 1){
+					args = _POP();
+				}
+				
+			
+   		
+   			return 0;
+   			//struct fbgc_fun_object * funo = cast_fbgc_object_as_fun(obj);
+   			//cprintf(010,"[Arg#:%d Local#:%d|",funo->no_arg,funo->no_locals);
+
+
+		}
+
 		else if(type == IF_BEGIN || type == ELIF_BEGIN || type == WHILE_BEGIN){
 			struct fbgc_object * cond = _POP();
 			//struct fbgc_object * obj = pc;
@@ -249,7 +281,8 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 		}				
 		else {
 			cprintf(101,"Undefined token in interpreter\n");
-			break;			
+			return 0;		
+
 		}
 
 		//#############TODO#############################
@@ -264,15 +297,19 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 		#ifdef INTERPRETER_DEBUG
 		cprintf(111,"==============Stack==========================\n");
 		print_fbgc_object(stack);
-		cprintf(111,"\n===========================================\n");	
+		cprintf(111,"\n==================globals===================\n");
+		print_fbgc_object(cast_fbgc_object_as_field(*field_obj)->locals);
+		cprintf(111,"\n==============================================\n");
 		#endif
 
 		pc = pc->next;
 
+
+
 	}
 
 
-	print_fbgc_symbol_table(cast_fbgc_object_as_field(*field_obj)->symbols);
+//	print_fbgc_symbol_table(cast_fbgc_object_as_field(*field_obj)->symbols);
 
 	
 

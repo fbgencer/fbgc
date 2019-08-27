@@ -44,7 +44,8 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
     //print_fbgc_memory_block();
      
     begin = clock();
-   //  if(par) interpreter(&main_field); 
+     //if(par) 
+        interpreter(&main_field); 
     end = clock();
     interpreter_time = (double)(end - begin) / CLOCKS_PER_SEC; 
 
@@ -120,7 +121,7 @@ cprintf(110,"\n\n\n\n\n[========================================================
         initialize_fbgc_memory_block();
 
         struct fbgc_object * main_field = new_fbgc_field_object();
-       // load_module_in_field_object(main_field,&fbgc_io_module);
+        //load_module_in_field_object(main_field,&fbgc_math_module);
         //size_t size = 31;
         //size_t m = (size_t)((size+sizeof(struct fbgc_garbage_object))/(PAGE_SIZE*1.0) ) ;
        // size_t q = PAGE_SIZE*( (size_t) ( (size+sizeof(struct fbgc_garbage_object))/(PAGE_SIZE))+1);
