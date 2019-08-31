@@ -196,18 +196,3 @@ void (*fbgc_assignment_op[1])(struct fbgc_object *, struct fbgc_object *) =
 };
 
 
-struct fbgc_object * call_get_item_with_index(struct fbgc_object * var,struct fbgc_object *index){
-	cprintf(111,"index:%s,vaR:%s\n",object_type_as_str(index),object_type_as_str(var));
-
-	if(get_fbgc_object_type(var) != TUPLE && get_fbgc_object_type(var) != MATRIX) return NULL;
-	if(get_fbgc_object_type(index) != INT ) return NULL;
-	
-	switch(get_fbgc_object_type(var)){
-		case TUPLE:
-			return get_object_in_fbgc_tuple_object(var,cast_fbgc_object_as_int(index)->content);
-		default:
-			return NULL;
-	}
-
-
-}

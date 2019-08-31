@@ -52,7 +52,7 @@ void set_object_in_fbgc_tuple_object(struct fbgc_object * self,struct fbgc_objec
 	//Add negative index algortihm and boundary check
 	//#############################
 
-	assert( index >= 0 && index < size_fbgc_tuple_object(self) );
+	assert( index >= 0 && index < capacity_fbgc_tuple_object(self));
 
 	struct fbgc_object ** contents = tuple_object_content(self);
 	contents[index] = obj; 
@@ -131,6 +131,60 @@ struct fbgc_object * push_back_fbgc_tuple_object(struct fbgc_object * self,struc
 
 	return self;
 }
+
+/*
+struct fbgc_object * push_front_fbgc_tuple_object(struct fbgc_object * self,struct fbgc_object * obj){
+
+	#ifdef TUPLE_DEBUG
+	cprintf(101,"Push front tuple object!\n");
+	//
+	//	Check the capacity, if there is enough space push back the obj
+	//
+	cprintf(101,"Tuple size :%d, capacity %d\n",size_fbgc_tuple_object(self) , capacity_fbgc_tuple_object(self));
+	#endif
+
+	size_t old_size = size_fbgc_tuple_object(self);
+
+	if(size_fbgc_tuple_object(self) == capacity_fbgc_tuple_object(self)){
+
+		//Before sending to realloc, request a larger block after requesting change the capacity of the tuple
+
+    	self = fbgc_realloc(self,
+    		sizeof(struct fbgc_tuple_object ) + 
+			(cast_fbgc_object_as_tuple(self)->capacity << 1) * sizeof(struct fbgc_object*) );
+
+    	assert(self != NULL);
+    	cast_fbgc_object_as_tuple(self)->capacity <<= 1; //shift the capacity for the next two's power
+
+		#ifdef TUPLE_DEBUG
+		cprintf(101,"New memory reallocated!\n");
+		cprintf(101,"After realloc Tuple size :%d, capacity %d\n",size_fbgc_tuple_object(self) , capacity_fbgc_tuple_object(self));
+		#endif
+
+    	//############
+    		//check the self pointer, it might be null!
+    	//############
+	}
+
+	if(size_fbgc_tuple_object(self) < capacity_fbgc_tuple_object(self)){
+
+		#ifdef TUPLE_DEBUG
+		cprintf(001,"There is enough space to push, pushing the object..\n");
+		#endif
+
+		
+		struct fbgc_object ** contents = tuple_object_content(self);
+		contents[old_size] = obj;
+		cast_fbgc_object_as_tuple(self)->size = old_size+1;
+		
+
+		#ifdef TUPLE_DEBUG
+		cprintf(001,"New size tuple %d\n",size_fbgc_tuple_object(self));
+		#endif
+	}
+
+	return self;
+}*/
 
 int index_fbgc_tuple_object(struct fbgc_object * self, struct fbgc_object * obj){
 

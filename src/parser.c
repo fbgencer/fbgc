@@ -9,17 +9,21 @@ uint8_t operator_precedence(fbgc_token T){
 	
 	switch(T){
 
-		case INC: case DECR: case UMINUS: case UPLUS: return 200;
-		case SLASH: case STAR: case MOD: case CARET: case STARSTAR: case SLASHSLASH: return 180;
-		case PLUS: case MINUS: case NOT_OP: return 160;
-		case LSHIFT: case RSHIFT: return 140;
+		case LOAD_GLOBAL: case LOAD_LOCAL: case LOAD_SUBSCRIPT: return 210;
+		case PLUSPLUS: case MINUSMINUS: case UMINUS: case UPLUS: return 200;
+		case SLASH: case STAR: case PERCENT: case CARET: case STARSTAR: case SLASHSLASH: return 180;
+		case PLUS: case MINUS: case EXCLAMATION: return 160;
+		case L_SHIFT: case R_SHIFT: return 140;
 		case LOWER: case GREATER: case LO_EQ: case  GR_EQ: return 120;
-		case EQ_EQ: case NOT_EQ: case IS_EQ: return 130;
-		case AND_OP: return 120;
-		case OR_OP: return 110;
+		case EQ_EQ: case NOT_EQ: return 130;
+		case AMPERSAND: return 120;
+		case PIPE: return 110;
 		case COLON: return 105;
-		case ASSIGN: case PLUS_ASSIGN: case MINUS_ASSIGN: case STAR_ASSIGN: case SLASH_ASSIGN: return 100;
-		//case STORE_GLOBAL: case STORE_LOCAL: return 100;
+
+		case ASSIGN: case PLUS_ASSIGN: case MINUS_ASSIGN: case STAR_ASSIGN: case SLASH_ASSIGN:
+		case ASSIGN_GLOBAL: case ASSIGN_LOCAL: case ASSIGN_SUBSCRIPT:
+		return 100;
+		//case ASSIGN_GLOBAL: case ASSIGN_LOCAL: return 100;
 
 		case COMMA: return 80;
 
@@ -199,33 +203,48 @@ struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,st
 
 struct fbgc_object * handle_before_brackets(struct fbgc_object * iter_prev,struct fbgc_object * op, struct fbgc_grammar * gm){
 	
+	cprintf(111,">>%s<<",__FUNCTION__);
+
 	uint8_t gm_error = 1;
 
-	switch(get_fbgc_object_type(top_fbgc_ll_object(op))){
-		case LOAD_GLOBAL:
-		case LOAD_LOCAL:
-			cprintf(100,"Operator stack top load, this is a function call template!\n");
 
-				gm_seek_right(gm,top_fbgc_ll_object(op));
+	
 
-				struct fbgc_object * iter = iter_prev->next;
-				cprintf(011,"in func Iter:[%s]\n",
-							object_name_array[iter->type]);
-
-				//Insert top op to the list  
-				iter_prev->next = top_fbgc_ll_object(op);
-				op = pop_front_fbgc_ll_object(op);
-				iter_prev = iter_prev->next;
-				iter_prev->next = new_fbgc_object(SUBSCRIPT_CALL);
-				iter_prev = iter_prev->next;
-				iter_prev->next = iter;
-				
-				return iter_prev;
-		default: 
-			cprintf(100,"Operator stack top undefined, return old!\n");
-		return iter_prev;
+	if(iter_prev->type == COMMA) iter_prev->type = INT; 
+	else {
+		struct fbgc_object * ito = new_fbgc_int_object(1);
+		ito->next = iter_prev->next;
+		iter_prev->next = ito;
+		iter_prev = ito;
 	}
 
+	if(top_fbgc_ll_object(op) != NULL && 
+		(get_fbgc_object_type(top_fbgc_ll_object(op)) == LOAD_GLOBAL || get_fbgc_object_type(top_fbgc_ll_object(op)) == LOAD_LOCAL))
+	{
+		cprintf(100,"Operator stack top load_local or global, this is a subscript call template!\n");
+
+		gm_seek_right(gm,top_fbgc_ll_object(op));
+		struct fbgc_object * iter = iter_prev->next;
+		//Insert top op to the list  
+		iter_prev->next = top_fbgc_ll_object(op);
+		op = pop_front_fbgc_ll_object(op);
+		iter_prev = iter_prev->next;
+		
+		op = push_front_fbgc_ll_object(op,new_fbgc_object(LOAD_SUBSCRIPT));
+		/*iter_prev->next = new_fbgc_object(LOAD_SUBSCRIPT);
+		iter_prev = iter_prev->next;*/
+		iter_prev->next = iter;
+	}
+	else{
+		struct fbgc_object * iter = iter_prev->next;
+		iter_prev->next = new_fbgc_object(gm->top);
+		iter_prev = iter_prev->next;
+
+		iter_prev->next = iter;
+	}
+	
+
+	return iter_prev;
 }
 
 uint8_t parser(struct fbgc_object ** field_obj){
@@ -279,7 +298,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 				}
 				cprintf(100,"field local tuple:["); print_fbgc_object(local_tuple); cprintf(100,"]\n");
 
-				iter->type = is_fbgc_ASSIGNMENT_OPERATOR(iter->next->type) ? GLOBAL :LOAD_GLOBAL ;
+				iter->type = LOAD_GLOBAL ;
 
 				cast_fbgc_object_as_int(iter)->content = where;
 				cprintf(111,"\n+++++++++++++++++++++++++++++++++++\n");
@@ -287,7 +306,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 			else if(current_scope->type == FUN){				
 				struct fbgc_object * local_tuple = cast_fbgc_object_as_fun(current_scope)->code;
 				int where = index_fbgc_tuple_object(local_tuple,name_obj);
-				iter->type = is_fbgc_ASSIGNMENT_OPERATOR(iter->next->type) ? LOCAL :LOAD_LOCAL ;
+				iter->type = LOAD_LOCAL ;
 				if(where == -1) {
 					cprintf(111,"iter %s iter-nxt %s\n",object_name_array[iter->type],object_name_array[iter->next->type]);
 					//-1 arg means func definition hasnt been done yet! So we are reading arguments
@@ -303,7 +322,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 						where = index_fbgc_tuple_object(local_tuple,name_obj);
 						assert(where != -1);
 						cprintf(100,"field local tuple:["); print_fbgc_object(local_tuple); cprintf(100,"]\n");
-						iter->type = is_fbgc_ASSIGNMENT_OPERATOR(iter->next->type) ? GLOBAL :LOAD_GLOBAL ;
+						iter->type = LOAD_GLOBAL;
 					}
 				}
 				
@@ -312,13 +331,21 @@ uint8_t parser(struct fbgc_object ** field_obj){
 			}
 
 			//is it function call or subscript call ??
-			if(iter->next->type == LPARA || iter->next->type == LBRACK){	
+			//if(iter->next->type == LPARA || iter->next->type == LBRACK){	
 				iter_prev->next = iter->next;
+				
+				/*if(top_fbgc_ll_object(op_stack_head) != NULL){
+					if(top_fbgc_ll_object(op_stack_head)->type == ASSIGN_GLOBAL || 
+						top_fbgc_ll_object(op_stack_head)->type == ASSIGN_LOCAL ){
+						op_stack_head = push_front_fbgc_ll_object(op_stack_head,new_fbgc_object(INC));
+					}
+				}*/
 				op_stack_head = push_front_fbgc_ll_object(op_stack_head,iter);
-			}
+
+			/*}
 			else {
 				iter_prev = iter;
-			}	
+			}	*/
 		}
 		else if(iter->type == CFUN){
 			//is it function call ??
@@ -550,6 +577,29 @@ uint8_t parser(struct fbgc_object ** field_obj){
 				op_top = op_top->next;
 			}			
 		}
+
+		else if(is_fbgc_ASSIGNMENT_OPERATOR(iter->type)){
+			cprintf(111,"I am here experimental\n");
+			
+
+			switch(get_fbgc_object_type(top_fbgc_ll_object(op_stack_head))){
+				case LOAD_GLOBAL:
+					top_fbgc_ll_object(op_stack_head)->type = ASSIGN_GLOBAL;
+				break;
+				case LOAD_LOCAL:
+					top_fbgc_ll_object(op_stack_head)->type = ASSIGN_LOCAL;
+				break;
+				case LOAD_SUBSCRIPT:
+					top_fbgc_ll_object(op_stack_head)->type = ASSIGN_SUBSCRIPT;
+				break;	
+				default:
+					return 0;			
+			}
+
+		iter_prev->next = iter->next;
+	
+			//return 0;
+		}
 		else if(is_fbgc_OPERATOR(iter->type) || iter->type == IF || iter->type == RETURN || iter->type == NEWLINE){
 			
 			//take the op object from main list and connect previous one to the next one 
@@ -621,7 +671,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 
 						if(gm.top != BUILD_MATRIX && gm.top != MONATRIX) cprintf(100,"\n\n ERROR BRACK \n\n");
 
-						if(gm.top == BUILD_MATRIX){
+						/*if(gm.top == BUILD_MATRIX){
 							if(iter_prev->type == COMMA) iter_prev->type = INT; 
 							else {
 								struct fbgc_object * ito = new_fbgc_int_object(1);
@@ -629,10 +679,10 @@ uint8_t parser(struct fbgc_object ** field_obj){
 								iter_prev->next = ito;
 								iter_prev = ito;
 							}
-
 						}
 						head_obj = insert_next_fbgc_ll_object(head_obj,iter_prev,new_fbgc_object(gm.top));
 						iter_prev = iter_prev->next;
+						*/
 						
 						iter_prev = handle_before_brackets(iter_prev,op_stack_head,&gm);
 
@@ -686,6 +736,8 @@ uint8_t parser(struct fbgc_object ** field_obj){
 			if(iter->type == RPARA || iter->type == RBRACK|| iter->type == SEMICOLON|| iter->type == NEWLINE || iter->type == ROW){
 			}
 			else if(iter->type == COMMA){
+
+				assert(top_fbgc_ll_object(op_stack_head) != NULL);
 
 				if(get_fbgc_object_type(top_fbgc_ll_object(op_stack_head)) == COMMA){
 					cast_fbgc_object_as_int(top_fbgc_ll_object(op_stack_head))->content++;

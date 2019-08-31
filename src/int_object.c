@@ -26,14 +26,13 @@ fbgc_object * new_fbgc_int_object_from_str(const char * int_str){
 }
 
 struct
-fbgc_object * new_fbgc_int_object_from_substr(const char * int_str_begin,const char * int_str_end,fbgc_token base){
+fbgc_object * new_fbgc_int_object_from_substr(const char * int_str_begin,const char * int_str_end,uint8_t base){
 	//now we don't wanna check inf or overlfow issue but later we are going to check them
 
-    if(base == INT) base = 10;
+    /*if(base == INT) base = 10;
     else if(base == INT16) {base = 16; int_str_begin+=2;}  //eat 0x
-    else if(base == INT2) {base = 2; int_str_begin+=2;} //eat 0b
+    else if(base == INT2) {base = 2; int_str_begin+=2;} //eat 0b*/
     return new_fbgc_int_object(strtol(int_str_begin, NULL,base));
-    //&int_str_end
 }
 
 struct
@@ -44,6 +43,23 @@ fbgc_object * add_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b)
     
     return new_fbgc_int_object(a1+b1);
 }
+
+struct
+fbgc_object * fbgc_int_object_op_plus(struct fbgc_object * l,struct fbgc_object * r){
+    // l + r operator overloading in int class
+    //l->type is int for sure!
+    
+    switch(r->type){
+        case INT:
+            return new_fbgc_int_object(convert_fbgc_object_to_int(l)+convert_fbgc_object_to_int(r));
+        case DOUBLE:
+            return new_fbgc_double_object(convert_fbgc_object_to_int(l)+convert_fbgc_object_to_double(r));
+        default:
+            return NULL;
+    }
+    
+}
+
 
 struct
 fbgc_object * subtract_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b){

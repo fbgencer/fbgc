@@ -145,7 +145,7 @@ void print_fbgc_ll_object(struct fbgc_object * head,const char *s1){
           print_fbgc_cstr_object(iter);
           cprintf(011,"}");
         }
-        else if(iter->type == IDENTIFIER||iter->type == LOAD_GLOBAL || iter->type == LOAD_LOCAL || iter->type == GLOBAL || iter->type == LOCAL){
+        else if(iter->type == IDENTIFIER||iter->type == LOAD_GLOBAL || iter->type == LOAD_LOCAL || iter->type == ASSIGN_GLOBAL || iter->type == ASSIGN_LOCAL){
           cprintf(011,"%s{<%d>}",object_name_array[iter->type],cast_fbgc_object_as_int(iter)->content);
         }
         else if(iter->type == TUPLE) {

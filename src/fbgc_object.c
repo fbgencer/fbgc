@@ -16,7 +16,7 @@ struct
 fbgc_object * new_fbgc_object_from_substr(struct fbgc_object * field_obj,const char *str1, const char*str2, fbgc_token token){
 	struct fbgc_object *obj = NULL;
 
-	switch(token){
+	/*switch(token){
 		case INT: 
 		case INT2:
 		case INT16:
@@ -81,7 +81,7 @@ fbgc_object * new_fbgc_object_from_substr(struct fbgc_object * field_obj,const c
 			cprintf(111,"Undefined token inside new object creation !\n\n");
 		break;
 		
-	}
+	}*/
 
     return (struct fbgc_object*) obj;
 }
@@ -103,11 +103,8 @@ void print_fbgc_object(struct fbgc_object * self){
 			case CSTRING:
 				print_fbgc_cstr_object(self);
 			break;
-			case REFERENCE:
 			case LOAD_GLOBAL:
 			case LOAD_LOCAL:
-			case GLOBAL:
-			case LOCAL:
 				cprintf(010,"%s{<%d>}",object_name_array[self->type],cast_fbgc_object_as_int(self)->content);
 				//print_fbgc_int_object(self);
 			break;
@@ -145,7 +142,7 @@ size_t get_fbgc_object_size(struct fbgc_object * obj){
 		default: break;
 	}
 
-	if(type>OP) return sizeof(struct fbgc_object);
+	if(type>THREE_DOT) return sizeof(struct fbgc_object);
 
 	return 0;
 }

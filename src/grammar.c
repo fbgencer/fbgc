@@ -98,18 +98,6 @@
 	&binary_operator means '+' is a binary operator and it returns plus, * returns star, - return minus etc. 
 	
 	
-	if(a){
-		b();
-	}
-
-	M:a
-	O:if 
-	G:para_exp
-
-	[1,2]
-
-	1
-	[]
 	----------------------------------------------------[LEFT TABLE]----------------------------------------------------
 
 	ASSIGNMENT_OPERATOR:
@@ -125,38 +113,43 @@
 		(NEWLINE | BINARY_OPERATOR | ASSIGNMENT_OPERATOR | UNBALANCED_EXPR_LIST | LPARA | LBRACK  | LBRACE) (INT | STRING | DOUBLE | ID)	
 
 	LPARA: 
-		(NEWLINE | ID | OPERATOR | UNBALANCED_EXPR_LIST | IF | ELIF | LOAD | SEMICOLON) LPARA
-	
-	LBRACE:
-		(PARA_EXPRESSION) LBRACE	
+		(NEWLINE | OPERATOR | UNBALANCED_EXPR_LIST | IF_BEGIN | ELIF_BEGIN | WHILE_BEGIN | LPARA) LPARA
+
+	FUN_ARG_LPARA:
+		ID LPARA
+
 
 	LBRACK:
 		(NEWLINE | ID | OPERATOR | UNBALANCED_LIST | SEMICOLON) LBRACK
+	
+
+	UNBALANCED_ID_LIST:
+		ID COMMA 	
 
 	UNBALANCED_EXPR_LIST:
 		(EXPRESSION) COMMA 
 	
+	IF_BEGIN:
+		NEWLINE IF		
 	
+	ELIF_BEGIN:
+		IF STATEMENT 'ELIF'
+   
+	ELSE_BEGIN: 
+		(IF | ELIF) STATEMENT 'ELSE'
 
-	PARA_EMPTY:
-		LPARA ')' 
-	PARA_EXPRESSION:
-		LPARA EXPRESSION ')'
-	PARA_ASSIGNMENT_EXPRESSION: 
-		LPARA ASSIGNMENT_EXPRESSION ')'
+	FUN:
+		ASSIGNMENT FUN
+
 	PARA_BALANCED_EXPR_LIST:
-		LPARA (BALANCED_EXPR_LIST | EXPRESSION) ')'
-	PARA_IDENTIFIER_LIST: 
-		LPARA BALANCED_IDENTIFIER_LIST ')'
-
+		( (BALANCED_EXPR_LIST | EXPRESSION) & LPARA_FLAG == 1)  RPARA
+	
 	EXPRESSION
 		:ATOM
 	 	|UNARY_EXPRESSION
 	 	|BINARY_EXPRESSION
 	 	|PARA_EXPRESSION
 	 	|BALANCED_EXPRESSION_LIST
-	 	|MATRIX
-	 	|TUPLE
 	 	|EXPRESSION
 
 	OPERATOR
@@ -171,35 +164,21 @@
 	STATEMENT
 		:EXPRESSION
 		|ASSIGNMENT
-	
 
-	IF:
-		NEWLINE IF		
-
-	ELIF:
-		IF STATEMENT 'ELIF'
-   
-	ELSE: 
-		(IF | ELIF) STATEMENT 'ELSE'
-
-	FUN:
-		ASSIGNMENT FUN
-
-
-	
 	:>---------------------------------------[RIGHT_TABLE]-----------------------------------------------
 	
 
  	UNARY_EXPRESSION: 
-		UNARY_OP EXPRESSION :> !(X+Y) OR !X SITUATION IT RETURNS UNARY_EXPRESSION 	
+		UNARY_OP EXPRESSION 
 
 	BINARY_EXPRESSION: 
 		('+' | '-' | '*' | '/' | '&' | '|' | '==' | '>' | '<' | '>=' | '<=' | '&' | '|') EXPRESSION		
 
 	ASSIGNMENT_EXPRESSION: 
 		&ASSIGNMENT_OPERATOR STATEMENT		
+
 	IF:	
-		'IF' PARA_EXPRESSION
+		IF_BEGIN PARA_EXPRESSION
 	ELIF:
 		ELIF PARA_EXPRESSION 
 	
@@ -208,16 +187,12 @@
 	BALANCED_IDENTIFIER_LIST:
 		',' ID
 
-	MATRIX: 
-		(BALANCED_EXPR_LIST | BALANCED_ID_LIST) RBRACK
-	TUPLE:
-		(BALANCED_EXPR_LIST | BALANCED_ID_LIST) RBRACK
+	LPARA_FLAG_1:
+		LPARA EXPRESSION
+	
+	LBRACK_FLAG_1:
+		LBRACK EXPRESSION
 
-	FUN: 
-		'FUN_ID' (PARA_BALANCED_EXPR_LIST | PARA_EMPTY)		
-	WHILE: 
-
-		'WHILE' PARA_EXPRESSION
 	
 */
 
@@ -372,12 +347,13 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 		gm->top = CONT;
 	}	
 	else{
-		cprintf(110,"ERROR\t");
-		cprintf(100,"Unexpected grammar for L:[%s], Ob:[%s] flag{0x%X}\n",object_name_array[gm_left],object_name_array[get_fbgc_object_type(obj)],gm->flag);
+
+		//cprintf(110,"ERROR\t");
+		//cprintf(100,"Unexpected grammar for L:[%s], Ob:[%s] flag{0x%X}\n",object_name_array[gm_left],object_name_array[get_fbgc_object_type(obj)],gm->flag);
 		return 0;
 	}
-
 	#undef gm_left 
+	
 	return 1;
 }
 
@@ -407,11 +383,11 @@ uint8_t gm_seek_right(struct fbgc_grammar * gm, struct fbgc_object * obj){
 	else if(get_fbgc_object_type(obj) == COMMA && (is_fbgc_EXPRESSION(gm_right) || gm_right == ASSIGNMENT_EXPRESSION) ){
 		gm->top = (BALANCED_EXPRESSION_LIST);
 	}
-	/*
-	Why do we have this ?
-	else if(get_fbgc_object_type(obj) == COMMA && gm_right == UNBALANCED_EXPRESSION_LIST ){
-		;
-	}	*/
+	
+	//Why do we have this ?
+	//else if(get_fbgc_object_type(obj) == COMMA && gm_right == UNBALANCED_EXPRESSION_LIST ){
+	//	;
+	//}	
 	else if( get_fbgc_object_type(obj) == IF && gm_right == MONUPLE){
 		gm->top  = obj->type = IF_BEGIN;
 	}
@@ -462,29 +438,13 @@ uint8_t gm_seek_right(struct fbgc_grammar * gm, struct fbgc_object * obj){
 	else if(get_fbgc_object_type(obj) == LBRACE && (is_fbgc_EXPRESSION(gm_right) || gm_right == ASSIGNMENT_EXPRESSION || gm_right == NEWLINE)){
 		grammar_open_LBRACE_flag(gm->flag);
 	}
-	
-	/*else if(
-		(get_fbgc_object_type(obj) == IF ||  
-		get_fbgc_object_type(obj) == ELIF ||
-		get_fbgc_object_type(obj) == WHILE ||
-		get_fbgc_object_type(obj) == UNTIL )
-		&& is_fbgc_PARA_EXPRESSION(gm_right))
-	{
-		gm->top = (get_fbgc_object_type(obj));
-	}*/
-	/*else if(get_fbgc_object_type(obj) == IF_BEGIN){
-		grammar_open_BEGIN_flag(gm->flag);
-		gm->top = IF_BEGIN;
-	}
-	else if(get_fbgc_object_type(obj) == ELSE_BEGIN){
-		grammar_open_BEGIN_flag(gm->flag);
-		gm->top = ELSE_BEGIN;
-	}		*/
+
 	else {
-		cprintf(110,"ERROR\t");
-		cprintf(100,"Unexpected grammar Ob:[%s] R:[%s] flag{0x%X}\n",object_name_array[get_fbgc_object_type(obj)],object_name_array[gm_right],gm->flag);
+		//cprintf(110,"ERROR\t");
+		//cprintf(100,"Unexpected grammar Ob:[%s] R:[%s] flag{0x%X}\n",object_name_array[get_fbgc_object_type(obj)],object_name_array[gm_right],gm->flag);
 		return 0;
 	}
 	#undef gm_right
+
 	return 1;
 }
