@@ -26,7 +26,7 @@ extern void (*fbgc_assignment_op[1])(struct fbgc_object *, struct fbgc_object *)
 // DO NOT change operator arrangements, this call function depends on those arrangements.
 // See tokens.h file
 
-#define call_fbgc_binary_op(token,a,b)(fbgc_binary_op[token - PLUS](a,b))
+#define call_fbgc_binary_op(token,a,b)(fbgc_binary_op[ PLUS - token](a,b))
 #define call_fbgc_assignment_op(token,a,b)(fbgc_assignment_op[token - ASSIGN](a,b))
 
 

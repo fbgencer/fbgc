@@ -43,10 +43,7 @@ void *  get_top_in_fbgc_array_object(struct fbgc_object * self);
 struct fbgc_object * push_back_fbgc_array_object(struct fbgc_object * self,void * obj);
 int index_fbgc_array_object(struct fbgc_object * self, void * obj);
 
- 
 
-void print_fbgc_array_object(struct fbgc_object *);
-void free_fbgc_array_object(struct fbgc_object * );
 
 
 #ifdef  __cplusplus

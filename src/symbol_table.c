@@ -39,8 +39,7 @@ struct fbgc_object * new_fbgc_symbol_from_substr(const char * str1,const char * 
 		if(cmp == 0) {
 			//
 			//cprintf(110,"Found in the symbol table!\n");
-			struct fbgc_object * tmp = derive_from_new_int_object(IDENTIFIER,i);
-			return tmp; 
+			return new_fbgc_id_opcode(i); 
 		}
 	}
 
@@ -73,7 +72,7 @@ struct fbgc_object * new_fbgc_symbol_from_substr(const char * str1,const char * 
 	cprintf(111,"\n");
 	#endif	
 
-	return derive_from_new_int_object(IDENTIFIER,size_fbgc_tuple_object(fbgc_symbols)-1);
+	return new_fbgc_id_opcode(size_fbgc_tuple_object(fbgc_symbols)-1);
 }
 
 struct fbgc_object * new_cfun_object_from_substr(struct fbgc_object * field_obj,const char * str1,const char * str2){

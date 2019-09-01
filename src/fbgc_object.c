@@ -11,82 +11,6 @@ fbgc_object * new_fbgc_object(fbgc_token token){
 
 
 
-
-struct
-fbgc_object * new_fbgc_object_from_substr(struct fbgc_object * field_obj,const char *str1, const char*str2, fbgc_token token){
-	struct fbgc_object *obj = NULL;
-
-	/*switch(token){
-		case INT: 
-		case INT2:
-		case INT16:
-					obj = new_fbgc_int_object_from_substr(str1,str2,token);
-					break;
-		case DOUBLE: 
-					obj = new_fbgc_double_object_from_substr(str1,str2); 
-					break;
-		case STRING: 
-					obj = new_fbgc_str_object_from_substr(str1+1,str2-1); 
-					break;
-		case LPARA:			
-		case RPARA:
-		case LBRACE:
-		case RBRACE:
-		case LBRACK:
-		case RBRACK:
-		case OP:{	
-					fbgc_token opcode = get_operator_code_from_substr(str1,str2);
-					
-					if(opcode == UNKNOWN){
-						cprintf(100,"Undefined operator!\n");
-						obj = NULL;
-					}else if(is_fbgc_ASSIGNMENT_OPERATOR(opcode)){
-						obj = new_fbgc_int_object(-1);
-						obj->type = opcode;
-					}
-					else {
-						obj = new_fbgc_object(opcode);
-					}
-
-
-					break;
-		} 
-		case WORD:
-					token = get_reserved_word_code_from_substr(str1,str2);
-					if(token == UNKNOWN){
-						//cprintf(111,"\nThis is not a keyword! \n"); it must be something id or function or class etc.
-						//is this substring refers to a c function ?
-
-						obj = new_fbgc_symbol_from_substr(field_obj,str1,str2);
-						//handle symbol table!
-					}
-					else {
-						//this is a keyword, maybe if,while,elif etc.
-
-						if(token == IF || token == ELIF || token == WHILE || token == BREAK || token == CONT || token == FOR || token == FUN_MAKE){
-							obj = new_fbgc_jumper_object(token);
-						}
-						else 
-							obj  = new_fbgc_object(token);
-						 
-					}
-		break;
-		case COMMA:
-			obj = new_fbgc_object(COMMA);
-			break;
-		case NEWLINE:
-			obj = new_fbgc_object(NEWLINE);
-			break;	
-		default:
-			cprintf(111,"Undefined token inside new object creation !\n\n");
-		break;
-		
-	}*/
-
-    return (struct fbgc_object*) obj;
-}
-
-
 void print_fbgc_object(struct fbgc_object * self){
 
 	if(self != NULL){ 
@@ -103,11 +27,14 @@ void print_fbgc_object(struct fbgc_object * self){
 			case CSTRING:
 				print_fbgc_cstr_object(self);
 			break;
-			case LOAD_GLOBAL:
-			case LOAD_LOCAL:
-				cprintf(010,"%s{<%d>}",object_name_array[self->type],cast_fbgc_object_as_int(self)->content);
-				//print_fbgc_int_object(self);
-			break;
+			case IDENTIFIER:
+			{
+				if(is_id_flag_GLOBAL(self)) cprintf(011,"%s{G<%d>}","ID",cast_fbgc_object_as_id_opcode(self)->loc);
+            	else if(is_id_flag_LOCAL(self)) cprintf(011,"%s{L<%d>}","ID",cast_fbgc_object_as_id_opcode(self)->loc);
+            	else if(is_id_flag_SUBSCRIPT(self)) cprintf(011,"%s{S<%d>}","ID",cast_fbgc_object_as_id_opcode(self)->loc);
+				
+				break;
+			}
 			case TUPLE:
 				print_fbgc_tuple_object(self);
 			break;

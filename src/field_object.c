@@ -20,6 +20,17 @@ void load_module_in_field_object(struct fbgc_object * field_obj, const struct fb
 
 }
 
+
+void print_field_object_locals(struct fbgc_object * field_obj){
+	struct fbgc_object * ao = cast_fbgc_object_as_field(field_obj)->locals;
+	for(int i = 0; i<size_fbgc_array_object(ao); i++){
+		struct fbgc_identifier * temp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(ao,i);
+		cprintf(010,"{"); print_fbgc_object(temp_id->name);
+		cprintf(010,":"); print_fbgc_object(temp_id->content);
+		cprintf(010,"}");
+	}
+}
+
 void free_fbgc_field_object(struct fbgc_object * field_obj){
 /*	free_fbgc_ll_object(cast_fbgc_object_as_field(field_obj)->head);
 	free_fbgc_ll_object(cast_fbgc_object_as_field(field_obj)->modules);

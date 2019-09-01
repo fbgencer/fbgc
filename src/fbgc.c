@@ -30,7 +30,7 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
 
     begin = clock();
 
-    int par = parser(&main_field);
+     int par = parser(&main_field);
     
     end = clock();
     parser_time = (double)(end - begin) / CLOCKS_PER_SEC; 
@@ -45,7 +45,7 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
      
     begin = clock();
      //if(par) 
-   //     interpreter(&main_field); 
+        interpreter(&main_field); 
     end = clock();
     interpreter_time = (double)(end - begin) / CLOCKS_PER_SEC; 
 
@@ -92,11 +92,6 @@ bunun icin gereken nedir ?
 */
 
 
-
-struct keypair{
-    struct fbgc_object * key;
-    struct fbgc_object * value;    
-};
 
 int main(int argc, char **argv){
     

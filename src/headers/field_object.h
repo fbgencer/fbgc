@@ -19,7 +19,7 @@ struct fbgc_object * new_fbgc_field_object(void);
 
 void load_module_in_field_object(struct fbgc_object * field_obj,const struct fbgc_cmodule * module);
 void free_fbgc_field_object(struct fbgc_object * field_obj);
-
+void print_field_object_locals(struct fbgc_object * field_obj);
 
 #ifdef  __cplusplus
 }

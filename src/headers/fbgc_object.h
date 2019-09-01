@@ -20,7 +20,6 @@ struct fbgc_object{
 #define cast_fbgc_object_as_if(x) (((struct fbgc_ref_object*) x))
 
 struct fbgc_object * new_fbgc_object(fbgc_token);
-struct fbgc_object * new_fbgc_object_from_substr(struct fbgc_object * field,const char *str1,const  char*str2, fbgc_token token);
 size_t get_fbgc_object_size(struct fbgc_object * );
 
 int convert_fbgc_object_to_int(struct fbgc_object * );

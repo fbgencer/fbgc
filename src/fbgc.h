@@ -45,6 +45,7 @@ extern "C" {
 
 #include "headers/symbol_table.h"
 #include "headers/field_object.h"
+#include "headers/opcodes.h"
 
 
 #include "headers/relexer.h"

@@ -137,7 +137,7 @@ void print_fbgc_ll_object(struct fbgc_object * head,const char *s1){
         }
         i++;
 
-        
+
 
         if(iter->type == INT) cprintf(011,"{%d}",cast_fbgc_object_as_int(iter)->content);   
         else if(iter->type == DOUBLE) cprintf(011,"{%f}",cast_fbgc_object_as_double(iter)->content); 
@@ -149,8 +149,13 @@ void print_fbgc_ll_object(struct fbgc_object * head,const char *s1){
           print_fbgc_cstr_object(iter);
           cprintf(011,"}");
         }
-        else if(iter->type == IDENTIFIER||iter->type == LOAD_GLOBAL || iter->type == LOAD_LOCAL || iter->type == ASSIGN_GLOBAL || iter->type == ASSIGN_LOCAL){
-          cprintf(011,"%s{<%d>}",object_name_array[iter->type],cast_fbgc_object_as_int(iter)->content);
+        else if(iter->type == IDENTIFIER){
+            if(is_id_flag_GLOBAL(iter) ) cprintf(011,"%s{G<%d>}","ID",cast_fbgc_object_as_id_opcode(iter)->loc);
+            else if(is_id_flag_LOCAL(iter) ) cprintf(011,"%s{L<%d>}","ID",cast_fbgc_object_as_id_opcode(iter)->loc);
+            else if(is_id_flag_SUBSCRIPT(iter) ) cprintf(011,"%s{S<%d>}","ID",cast_fbgc_object_as_id_opcode(iter)->loc);
+            else{
+                cprintf(111,"Undefined ID!\n"); 
+            }           
         }
         else if(iter->type == TUPLE) {
           cprintf(011,"{TUPLE}:{");

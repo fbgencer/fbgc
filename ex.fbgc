@@ -1,1 +1,8 @@
-x = 100.2
+x = 10
+y = x+1
+
+f = fun(a)
+	return a*10
+end
+
+y = f(x*5+12*62)

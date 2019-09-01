@@ -16,7 +16,8 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 	int sctr = 0;
 	int fctr = -1;
 	
-	struct fbgc_object ** globals = tuple_object_content(cast_fbgc_object_as_field(*field_obj)->locals);
+	struct fbgc_object * globals = cast_fbgc_object_as_field(*field_obj)->locals;
+	//tuple_object_content(cast_fbgc_object_as_field(*field_obj)->locals);
 
 /*
 #define _STACK_GOTO(i) 	(sp += i)
@@ -77,7 +78,18 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				break;
 			}
 
-			case LOAD_GLOBAL:
+			case IDENTIFIER:
+			{	
+				if(is_id_flag_GLOBAL(pc)){
+					struct fbgc_identifier * tmp = (struct fbgc_identifier *) get_address_in_fbgc_array_object(globals,cast_fbgc_object_as_id_opcode(pc)->loc);
+					assert(tmp->content != NULL);
+						_PUSH(tmp->content);
+					//_PUSH(globals[cast_fbgc_object_as_id_opcode(pc)->loc]);	
+				} 
+				else if(is_id_flag_LOCAL(pc))  _PUSH(GET_AT_FP(cast_fbgc_object_as_id_opcode(pc)->loc));
+				break;
+			}
+			/*case LOAD_GLOBAL:
 			{
 				_PUSH(globals[cast_fbgc_object_as_int(pc)->content]);
 				break;
@@ -89,6 +101,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				_PUSH(GET_AT_FP(cast_fbgc_object_as_int(pc)->content));
 				break;
 			}
+			*/
 			case BUILD_TUPLE:
 			{	
 
@@ -124,6 +137,19 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				break;	
 
 			}
+			case ASSIGN:
+			{
+				struct fbgc_object * rhs = _POP();
+				if(is_id_flag_GLOBAL(pc)){
+					struct fbgc_identifier * tmp = (struct fbgc_identifier *) get_address_in_fbgc_array_object(globals,cast_fbgc_object_as_id_opcode(pc)->loc);
+					tmp->content = rhs;
+				} 
+
+				//	globals[cast_fbgc_object_as_id_opcode(pc)->loc] = rhs;
+				else if(is_id_flag_LOCAL(pc))  GET_AT_FP(cast_fbgc_object_as_id_opcode(pc)->loc) = rhs;	
+				break;
+			}
+			/*
 			case ASSIGN_GLOBAL:
 			{
 				struct fbgc_object * rhs = _POP();
@@ -136,6 +162,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				GET_AT_FP(cast_fbgc_object_as_int(pc)->content) = rhs;
 				break;
 			}
+			*/
 			case ASSIGN_SUBSCRIPT:
 			{
 				//return 0;
@@ -230,7 +257,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 		cprintf(111,"\n==============Stack==========================\n");
 		print_fbgc_object(stack);
 		cprintf(111,"\n==================globals===================\n");
-		print_fbgc_object(cast_fbgc_object_as_field(*field_obj)->locals);
+		print_field_object_locals(*field_obj);
 		cprintf(111,"\n==============================================\n\n");
 		#endif
 
@@ -242,7 +269,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 	cprintf(111,"\n==============Stack==========================\n");
 	print_fbgc_object(stack);
 	cprintf(111,"\n==================globals===================\n");
-	print_fbgc_object(cast_fbgc_object_as_field(*field_obj)->locals);
+	print_field_object_locals(*field_obj);
 	cprintf(111,"\n==============================================\n\n");
 	//#endif
 

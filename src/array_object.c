@@ -172,22 +172,3 @@ int index_fbgc_array_object(struct fbgc_object * self, void * obj){
 	}
 	return -1;
 }
-
-
-
-
-void print_fbgc_array_object(struct fbgc_object * self){
-	cprintf(011,"{");
-
-	//struct fbgc_object ** contents = array_object_content(obj);
-	
-	cprintf(001,"ARRAY:Size %d|Block Size:%d|",size_fbgc_array_object(self),block_size_fbgc_array_object(self));
-
-	/*for(size_t i = 0; i<cast_fbgc_object_as_array(self)->size; i++){
-		struct fbgc_object * dummy = array_object_at(self,i);
-		print_fbgc_object(dummy);
-		cprintf(011,", ");
-	}
-	*/
-	cprintf(011,"}");
-}

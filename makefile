@@ -4,7 +4,7 @@ SRC = $(shell find src/*.c cmodules/*.c)
 OBJ = ${SRC:.c=.o}
 
 CC=gcc
-CFLAGS=-c -Wall -lm
+CFLAGS=-c -lm -O3 -w
 LDFLAGS += -lm 
 
 #CFLAGS += -DCLOSE_PRINTF
@@ -17,9 +17,9 @@ CFLAGS += -DINTERPRETER_DEBUG
 #CFLAGS += -DMEM_DEBUG
 #CFLAGS += -DSYMBOL_TABLE_DEBUG
 #CFLAGS += -DTUPLE_DEBUG
-CFLAGS += -DARRAY_DEBUG
+#CFLAGS += -DARRAY_DEBUG
 
-#CLAGS += -DFUN_PRINT_DETAILED
+CLAGS += -DFUN_PRINT_DETAILED
 
 TEST_OBJ = ${TEST_SRC:.c=.o}
 
@@ -34,7 +34,7 @@ $(OUT): $(OBJ)
 
 
 %.o: %.c
-	@$(CC) -c $(CFLAGS) $< -o $@ 
+	@$(CC) $(CFLAGS) $< -o $@ 
 	$(info "Succesfully compiled:" $<)
 
 

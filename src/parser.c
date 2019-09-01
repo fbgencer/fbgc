@@ -9,7 +9,7 @@ uint8_t operator_precedence(fbgc_token T){
 	
 	switch(T){
 
-		case LOAD_GLOBAL: case LOAD_LOCAL: case LOAD_SUBSCRIPT: return 210;
+		case IDENTIFIER: return 210;
 		case PLUSPLUS: case MINUSMINUS: case UMINUS: case UPLUS: return 200;
 		case SLASH: case STAR: case PERCENT: case CARET: case STARSTAR: case SLASHSLASH: return 180;
 		case PLUS: case MINUS: case EXCLAMATION: return 160;
@@ -21,7 +21,6 @@ uint8_t operator_precedence(fbgc_token T){
 		case COLON: return 105;
 
 		case ASSIGN: case PLUS_ASSIGN: case MINUS_ASSIGN: case STAR_ASSIGN: case SLASH_ASSIGN:
-		case ASSIGN_GLOBAL: case ASSIGN_LOCAL: case ASSIGN_SUBSCRIPT:
 		return 100;
 		//case ASSIGN_GLOBAL: case ASSIGN_LOCAL: return 100;
 
@@ -29,7 +28,8 @@ uint8_t operator_precedence(fbgc_token T){
 
 		case LPARA: case LBRACE: case LBRACK: return 10;
 
-		case IDENTIFIER: case CFUN: return 7;		
+		//case IDENTIFIER: 
+		case CFUN: return 7;		
 		case RPARA: case RBRACE: case RBRACK: return 4;	
 		case RETURN: return 3;
 		case NEWLINE: return 2;
@@ -125,8 +125,7 @@ struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,st
 	uint8_t gm_error = 1;
 
 	switch(get_fbgc_object_type(top_fbgc_ll_object(op))){
-		case LOAD_GLOBAL:
-		case LOAD_LOCAL:
+		case IDENTIFIER:
 		case CFUN:
 			cprintf(100,"Operator stack top NAME, this is a function call template!\n");
 
@@ -308,15 +307,18 @@ uint8_t parser(struct fbgc_object ** field_obj){
 				else cprintf(111,"Found at %d!",where);
 				//cprintf(100,"field local tuple:["); print_fbgc_object(local_tuple); cprintf(100,"]\n");
 
-				iter->type = LOAD_GLOBAL ;
-				cast_fbgc_object_as_int(iter)->content = where;
+				set_id_flag_GLOBAL(iter);
+				//iter->type = LOAD_GLOBAL;
+				//cast_fbgc_object_as_int(iter)->content = where;
+				cast_fbgc_object_as_id_opcode(iter)->loc = where;
 				cprintf(111,"\n+++++++++++++++++++++++++++++++++++\n");
 			}
 			
 			else if(current_scope->type == FUN){				
 				struct fbgc_object * local_tuple = cast_fbgc_object_as_fun(current_scope)->code;
 				int where = index_fbgc_tuple_object(local_tuple,cstr_obj);
-				iter->type = LOAD_LOCAL ;
+				//iter->type = LOAD_LOCAL ;
+				set_id_flag_LOCAL(iter);
 				if(where == -1) {
 					cprintf(111,"iter %s iter-nxt %s\n",object_name_array[iter->type],object_name_array[iter->next->type]);
 					//-1 arg means func definition hasnt been done yet! So we are reading arguments
@@ -337,11 +339,13 @@ uint8_t parser(struct fbgc_object ** field_obj){
 						assert(where != -1);
 						//cprintf(100,"field local tuple:["); print_fbgc_object(local_tuple); cprintf(100,"]\n");
 						
-						iter->type = LOAD_GLOBAL;
+						//iter->type = LOAD_GLOBAL;
+						set_id_flag_GLOBAL(iter);
 					}
 				}
 				
-				cast_fbgc_object_as_int(iter)->content = where;
+				//cast_fbgc_object_as_int(iter)->content = where;
+				cast_fbgc_object_as_id_opcode(iter)->loc = where;
 				cprintf(111,"\n+++++++++++++++++++++++++++++++++++\n");
 			}
 
@@ -596,8 +600,11 @@ uint8_t parser(struct fbgc_object ** field_obj){
 		else if(is_fbgc_ASSIGNMENT_OPERATOR(iter->type)){
 			cprintf(111,"I am here experimental\n");
 			
+			assert(top_fbgc_ll_object(op_stack_head)->type == IDENTIFIER);
 
-			switch(get_fbgc_object_type(top_fbgc_ll_object(op_stack_head))){
+			top_fbgc_ll_object(op_stack_head)->type = iter->type;
+
+			/*switch(get_fbgc_object_type(top_fbgc_ll_object(op_stack_head))){
 				case LOAD_GLOBAL:
 					top_fbgc_ll_object(op_stack_head)->type = ASSIGN_GLOBAL;
 				break;
@@ -609,7 +616,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 				break;	
 				default:
 					return 0;			
-			}
+			}*/
 
 		iter_prev->next = iter->next;
 	
