@@ -20,7 +20,6 @@ void initialize_fbgc_memory_block(){
 	fbgc_memb.object_pool_head->next = NULL;
 
 	fbgc_memb.empty_chunk_head.next = NULL;
-
 }
 
 void * fbgc_malloc(size_t size){
@@ -385,19 +384,24 @@ void print_fbgc_memory_block(){
 
 	//just to clear obj locations
 	
-
 	for(int i = 0; i<fbgc_memb.object_pool_size && iter != NULL; i++){
-		cprintf(111,"[%d.] Chunk size: %d\n",i,iter->size);
+		cprintf(111,"[%d.Chunk] size: %d\n",i,iter->size);
 		size_t obj_start = 0;
 		for(int j = 0; j<iter->size; j++){
 			int val = *( char *)((iter->data)+j); 
 
-			if(j == obj_start){
+			if(j == obj_start && ((char *)iter->data+j) != iter->tptr){
 				struct fbgc_object * dummy = ((iter->data)+j);
 				obj_start += get_fbgc_object_size(dummy);
-				cprintf(101,"[%d][%p]:%0x",j,((iter->data)+j),val);
-				cprintf(101,"<<<[%s] obj size %d",object_name_array[0x7F & val],get_fbgc_object_size(dummy));
-			}else{
+				//print the type of the data in the memory
+				cprintf(101,">>[%s] obj size in memory %d\n",object_name_array[0x7F & val],get_fbgc_object_size(dummy));				
+				//print the address and the data in the memory!
+				//cprintf(101,"[%d][%p]:%0x",j,((iter->data)+j),val);
+
+
+			}
+			//else
+			{
 	   			cprintf(010,"[%d][%p]",j,((iter->data)+j));
 	   			cprintf(110,":%0x",val);
 	   			

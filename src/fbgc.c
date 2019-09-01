@@ -30,7 +30,7 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
 
     begin = clock();
 
- //   int par = parser(&main_field);
+    int par = parser(&main_field);
     
     end = clock();
     parser_time = (double)(end - begin) / CLOCKS_PER_SEC; 
@@ -86,214 +86,45 @@ bunun icin gereken nedir ?
 
  //   struct fbgc_object *tp = new_fbgc_tuple_object(5); 
     struct fbgc_object * ino = new_fbgc_int_object(0x00000000ABCD);
-    set_object_in_fbgc_tuple_object(to,ino,3);
+    set_in_fbgc_tuple_object(to,ino,3);
     print_fbgc_memory_block();
     
 */
 
+
+
+struct keypair{
+    struct fbgc_object * key;
+    struct fbgc_object * value;    
+};
 
 int main(int argc, char **argv){
     
 cprintf(110,"\n\n\n\n\n[=======================================================================]\n"); 
 
-
-
-
 //******************************************************************
-
-
-    //struct fbgc_double_object *dbo =  (struct fbgc_double_object*) malloc(sizeof(struct fbgc_double_object));
-    //dbo->base.type = DOUBLE;
-    //dbo->base.next = NULL;
-    //dbo->content = db_content; 
-     //return (struct fbgc_object*) dbo;
-
-	
-	//load_module_in_field_object(main_field,&fbgc_math_module);
-
-   // char *s = "abcdef=1;abcdef=10.2;";
-   // compile_one_line(main_field,s);
-
-    //print_fbgc_memory_block();
-
-    if(argc>1){
-
+    if(argc>1)
+    {
         initialize_fbgc_memory_block();
+        initialize_fbgc_symbol_table();
+
 
         struct fbgc_object * main_field = new_fbgc_field_object();
         //load_module_in_field_object(main_field,&fbgc_math_module);
-        //size_t size = 31;
-        //size_t m = (size_t)((size+sizeof(struct fbgc_garbage_object))/(PAGE_SIZE*1.0) ) ;
-       // size_t q = PAGE_SIZE*( (size_t) ( (size+sizeof(struct fbgc_garbage_object))/(PAGE_SIZE))+1);
-       // cprintf(111,"m %d q:%d\n",m,q);
         compile_file(main_field, argv[1]);
-        //print_fbgc_memory_block();
+     //   print_fbgc_memory_block();
 
-        //struct fbgc_tuple_object * to = cast_fbgc_object_as_field(main_field)->symbol_table;
 
-        //cprintf(111,"Size tuple:%d\n",to->capacity);
+
         free_fbgc_memory_block();    
     }
     else{
         cprintf(111,"Enter a file!\n");
     }
+//******************************************************************
 
 	cprintf(110,"\n[=======================================================================]\n\n\n\n\n\n"); 
 	return 0;
 }
-
-/*
- 
-fun fbg(x){
-    return x + 5;  
-}
-fun,fbg,arg:x,x,5,+,ret,endfun
-
-y := fbg(x){    
-    y = x+5;
-}
-y,fbg,x,=,y,x,5,+,=,end
-
-*/
-
-
-//******************************************************************
-
-
-    
-    /*initialize_fbgc_memory_block();
-    struct fbgc_object * ino = new_fbgc_int_object(0x00000000FB6C);
-    struct fbgc_object * dbo = new_fbgc_double_object(3.14159);
-    struct fbgc_object * tpo = new_fbgc_tuple_object(7);
-    tpo = push_back_fbgc_tuple_object(tpo,ino);
-
-    print_fbgc_memory_block();
-
-    tpo = push_back_fbgc_tuple_object(tpo,dbo);
-    
-    
-    print_fbgc_memory_block();
-
-    struct fbgc_object * ino1 = new_fbgc_int_object(0x00000000ABCD);
-    struct fbgc_object * ino2 = new_fbgc_int_object(0x00000000ABABABDC);
-
-   tpo = push_back_fbgc_tuple_object(tpo,ino1);
-   tpo = push_back_fbgc_tuple_object(tpo,ino2);   
-
-    print_fbgc_memory_block();
-
-    free_fbgc_memory_block();*/
-    
-    
-
-
-
-
- //   cprintf(111,"x:%d\n",5*sizeof(struct fbgc_object*) + sizeof(struct fbgc_tuple_object));
-
- /*   char *str1 = "abc";
-    struct fbgc_str2_object *stro = fbgc_malloc(size_fbgc_str_object + strlen(str1) + 1); 
-    stro->base.type = STRING;
-    stro->len = strlen(str1);
-    stro->content = ( (char *) stro ) + size_fbgc_str_object;
-    memcpy(&stro->content,str1,stro->len);
-    *(&stro->content+stro->len) = '\0';
-    //set_mark_bit_one(stro->base.type);
-    print_fbgc_memory_block(); 
-
-
-    dbo = (struct fbgc_double_object*) fbgc_malloc(size_fbgc_double_object);
-    dbo->base.type = DOUBLE;
-    dbo->content = -987564.123456;
-    set_mark_bit_one(dbo->base.type);
-    print_fbgc_memory_block();
-
-    str1 = "aaa|bbb|ccc|ddd|eee|fff|aaa|bbb|ccc|ddd|eee|fff";
-    stro = fbgc_malloc(size_fbgc_str_object + strlen(str1) + 1); 
-    stro->base.type = STRING;
-    stro->len = strlen(str1);
-    stro->content = ( (char *) stro ) + size_fbgc_str_object;
-    memcpy(&stro->content,str1,stro->len);
-    *(&stro->content+stro->len) = '\0';
-    //set_mark_bit_one(stro->base.type);
-    print_fbgc_memory_block(); 
-
-    dbo = (struct fbgc_double_object*) fbgc_malloc(size_fbgc_double_object);
-    dbo->base.type = DOUBLE;
-    dbo->content = -987564.123456;
-    set_mark_bit_one(dbo->base.type);
-    print_fbgc_memory_block();
-
-
-    str1 = "123|4";
-    stro = fbgc_malloc(size_fbgc_str_object + strlen(str1) + 1); 
-    stro->base.type = STRING;
-    stro->len = strlen(str1);
-    stro->content = ( (char *) stro ) + size_fbgc_str_object;
-    memcpy(&stro->content,str1,stro->len);
-    *(&stro->content+stro->len) = '\0';
-    set_mark_bit_one(stro->base.type);
-    print_fbgc_memory_block(); 
-
-    str1 = "aaaaaaaaaaaaaaa";
-    stro = fbgc_malloc(size_fbgc_str_object + strlen(str1) + 1); 
-    stro->base.type = STRING;
-    stro->len = strlen(str1);
-    stro->content = ( (char *) stro ) + size_fbgc_str_object;
-    memcpy(&stro->content,str1,stro->len);
-    *(&stro->content+stro->len) = '\0';
-    set_mark_bit_one(stro->base.type);
-    print_fbgc_memory_block(); 
-*/
-
-  /*  str1 = "a";
-    stro = fbgc_malloc(size_fbgc_str_object + strlen(str1) + 1); 
-    stro->base.type = STRING;
-    stro->len = strlen(str1);
-    stro->content = ( (char *) stro ) + size_fbgc_str_object;
-    memcpy(&stro->content,str1,stro->len);
-    *(&stro->content+stro->len) = '\0';
-    //set_mark_bit_one(stro->base.type);
-    print_fbgc_memory_block(); */
-
- /*   dbo = (struct fbgc_double_object*) fbgc_malloc(size_fbgc_double_object);
-    dbo->base.type = DOUBLE;
-    dbo->content = -987564.123456;    
-    print_fbgc_memory_block();
-
-    struct fbgc_int_object * ino = (struct fbgc_int_object*) fbgc_malloc(size_fbgc_int_object);
-    ino->base.type = INT;
-    ino->content = 0x00000000ABCD;     
-    set_mark_bit_one(ino->base.type);  
-    print_fbgc_memory_block();
-
-*/
-
-
-
-    /*
-    ino = (struct fbgc_int_object*) fbgc_malloc(size_fbgc_int_object);
-    ino->base.type = INT;
-    ino->base.next = NULL;
-    ino->content = 0x00000000FB6C;     
-    print_fbgc_memory_block();
-    */
-
-/*
-
-    dbo = (struct fbgc_double_object*) fbgc_malloc(size_fbgc_double_object);
-    dbo->base.type = DOUBLE;
-    dbo->base.next = NULL;
-    dbo->content = -987564.123456;     
-    struct fbgc_object * db3 = (struct fbgc_object*) dbo; 
-    print_fbgc_memory_block();*/
-    
-
-    
-  //  print_fbgc_object(db);   printf("\n");
-  //  print_fbgc_object(db2); printf("\n");
-   // print_fbgc_object(db3); printf("\n");
-  //  print_fbgc_object(sto); printf("\n");
-
 
 

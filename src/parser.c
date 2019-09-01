@@ -282,46 +282,61 @@ uint8_t parser(struct fbgc_object ** field_obj){
 			gm_error = gm_seek_left(&gm,iter);
 
 			cprintf(111,"current_scope :[%s]\n",object_name_array[current_scope->type]);
-			struct fbgc_object * symbol_tuple = cast_fbgc_object_as_field(*field_obj)->symbols;
-			struct fbgc_object * name_obj = get_object_in_fbgc_tuple_object(symbol_tuple,cast_fbgc_object_as_int(iter)->content);
-			cprintf(100,">>>:"); print_fbgc_object(name_obj);
+
+			struct fbgc_object * cstr_obj = get_object_in_fbgc_tuple_object(fbgc_symbols,cast_fbgc_object_as_int(iter)->content);
+			cprintf(100,">>>:"); print_fbgc_object(cstr_obj);
 
 			if(current_scope->type == FIELD){
-				struct fbgc_object * local_tuple = cast_fbgc_object_as_field(current_scope)->locals;
-				int where = index_fbgc_tuple_object(local_tuple,name_obj);
+
+				struct fbgc_object * local_array = cast_fbgc_object_as_field(current_scope)->locals;
+				struct fbgc_identifier * temp_id; 
+				int where = -1;//index_fbgc_array_object(local_tuple,name_obj);
+
+				for(int i = 0; i<size_fbgc_array_object(local_array); i++){
+					temp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(local_array,i);
+					if(temp_id->name == cstr_obj) where = i; 
+				}
 
 				if(where == -1) {
-					cprintf(111,"couldn't find in locals in field obj..\n");
-					local_tuple = push_back_fbgc_tuple_object(local_tuple,name_obj);
-					where = size_fbgc_tuple_object(local_tuple)-1;
-					cast_fbgc_object_as_field(current_scope)->locals = local_tuple;
+					cprintf(111,"couldn't find in locals/field obj..\n");
+					struct fbgc_identifier id;		
+					id.name = cstr_obj; id.content = NULL;
+					local_array = push_back_fbgc_array_object(local_array,&id);
+					where = size_fbgc_array_object(local_array)-1;
+					cast_fbgc_object_as_field(current_scope)->locals = local_array;
 				}
-				cprintf(100,"field local tuple:["); print_fbgc_object(local_tuple); cprintf(100,"]\n");
+				else cprintf(111,"Found at %d!",where);
+				//cprintf(100,"field local tuple:["); print_fbgc_object(local_tuple); cprintf(100,"]\n");
 
 				iter->type = LOAD_GLOBAL ;
-
 				cast_fbgc_object_as_int(iter)->content = where;
 				cprintf(111,"\n+++++++++++++++++++++++++++++++++++\n");
 			}
+			
 			else if(current_scope->type == FUN){				
 				struct fbgc_object * local_tuple = cast_fbgc_object_as_fun(current_scope)->code;
-				int where = index_fbgc_tuple_object(local_tuple,name_obj);
+				int where = index_fbgc_tuple_object(local_tuple,cstr_obj);
 				iter->type = LOAD_LOCAL ;
 				if(where == -1) {
 					cprintf(111,"iter %s iter-nxt %s\n",object_name_array[iter->type],object_name_array[iter->next->type]);
 					//-1 arg means func definition hasnt been done yet! So we are reading arguments
 					if(iter->next->type == ASSIGN  || cast_fbgc_object_as_fun(current_scope)->no_arg == -1){
 						cprintf(111,"couldn't find in locals of function obj..\n");
-						local_tuple = push_back_fbgc_tuple_object(local_tuple,name_obj);
+						local_tuple = push_back_fbgc_tuple_object(local_tuple,cstr_obj);
 						where = size_fbgc_tuple_object(local_tuple)-1;
 						cast_fbgc_object_as_fun(current_scope)->code = local_tuple;
 						cprintf(100,"fun local tuple:["); print_fbgc_object(local_tuple); cprintf(100,"]\n");
 					}
 					else {
 						local_tuple = cast_fbgc_object_as_field(*field_obj)->locals;
-						where = index_fbgc_tuple_object(local_tuple,name_obj);
+						struct fbgc_identifier * temp_id; 
+						for(int i = 0; i<size_fbgc_array_object(local_tuple); i++){
+							temp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(local_tuple,i);
+							if(temp_id->name == cstr_obj) where = i; 
+						}						
 						assert(where != -1);
-						cprintf(100,"field local tuple:["); print_fbgc_object(local_tuple); cprintf(100,"]\n");
+						//cprintf(100,"field local tuple:["); print_fbgc_object(local_tuple); cprintf(100,"]\n");
+						
 						iter->type = LOAD_GLOBAL;
 					}
 				}
@@ -600,7 +615,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 	
 			//return 0;
 		}
-		else if(is_fbgc_OPERATOR(iter->type) || iter->type == IF || iter->type == RETURN || iter->type == NEWLINE){
+		else if(is_fbgc_OPERATOR(iter->type) || is_fbgc_PARA(iter->type) || iter->type == IF || iter->type == RETURN || iter->type == NEWLINE){
 			
 			//take the op object from main list and connect previous one to the next one 
 			//[H]->[2]->[+]->[3] => [H]->[2]->[3], now iter holds the operator, iter->next is [3] but we will change that too 
@@ -758,7 +773,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 			}
 		}
 		else{
-			cprintf(100,"Error else in parser\n");
+			cprintf(100,"Error else in parser incoming obj %s|%d\n",object_name_array[iter->type],iter->type);
 			break;	
 		}	
 
@@ -778,8 +793,8 @@ uint8_t parser(struct fbgc_object ** field_obj){
 	head->tail->next = iter_prev;
 
 	cprintf(111,"Locals:");
-	print_fbgc_object(cast_fbgc_object_as_field(*field_obj)->symbols);
-
+	//:>print_fbgc_object(cast_fbgc_object_as_field(*field_obj)->symbols);
+	print_fbgc_object(fbgc_symbols);
 	
 	#ifdef PARSER_DEBUG
 	cprintf(111,"^^^^^^^^^^^^^^^^^^^^\n");

@@ -6,8 +6,6 @@ const char * object_name_array[]={
 
 
 
-
-
 const token_struct operator_token_array[]={
 	{LPARA,"("},
 	{RPARA,")"},
@@ -88,7 +86,7 @@ const char * get_token_as_str(fbgc_token tok){
 
 /*
 	TODO
-	Write good memory comparison function..
+	Write a good memory comparison function..
 
 */
 

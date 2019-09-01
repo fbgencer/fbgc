@@ -1,21 +1,5 @@
 #include "fbgc.h"
 
-
-struct fbgc_object * new_fbgc_tuple_object(size_t cap){
-	//here just allocate a space after to->size, we don't need a pointer we know where we are gonna look.
-
-	cap = calculate_new_capacity_from_size(cap);
-
-	struct fbgc_tuple_object *to =  (struct fbgc_tuple_object*) fbgc_malloc(sizeof(struct fbgc_tuple_object) + sizeof(struct fbgc_object*)*cap);
-    to->base.type = TUPLE;
-    to->base.next = to;
-    to->size = 0;
-    to->capacity = cap;
-
-    return (struct fbgc_object*) to;
-}
-
-
 size_t calculate_new_capacity_from_size(size_t size){
 	/*
 		Below algorithm calculates the capacity for the given size
@@ -42,6 +26,23 @@ size_t calculate_new_capacity_from_size(size_t size){
 	#endif
 	return z;
 }
+
+
+struct fbgc_object * new_fbgc_tuple_object(size_t cap){
+	//here just allocate a space after to->size, we don't need a pointer we know where we are gonna look.
+
+	cap = calculate_new_capacity_from_size(cap);
+
+	struct fbgc_tuple_object *to =  (struct fbgc_tuple_object*) fbgc_malloc(sizeof(struct fbgc_tuple_object) + sizeof(struct fbgc_object*)*cap);
+    to->base.type = TUPLE;
+    to->base.next = NULL;
+    to->size = 0;
+    to->capacity = cap;
+
+    return (struct fbgc_object*) to;
+}
+
+
 
 void set_object_in_fbgc_tuple_object(struct fbgc_object * self,struct fbgc_object * obj,int index){
 	

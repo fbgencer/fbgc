@@ -9,8 +9,8 @@ extern "C" {
 
 #define lexer_token uint8_t
 
-#define LEXER_TOK_NEWLINE 1
-#define LEXER_TOK_SPACE 2
+#define LEXER_TOK_SPACE 1
+#define LEXER_TOK_NEWLINE 2
 #define LEXER_TOK_BASE2_INT 3
 #define LEXER_TOK_BASE10_INT 4
 #define LEXER_TOK_BASE16_INT 5
@@ -20,7 +20,21 @@ extern "C" {
 #define LEXER_TOK_OP 9
 #define LEXER_TOK_PARA 10
 #define LEXER_TOK_KEYWORDS 11	
-#define LEXER_TOK_NAME 12	
+#define LEXER_TOK_NAME 12		
+#define LEXER_TOK_AS_STRINGS()\
+"LEXER_TOK_NEWLINE",\
+"LEXER_TOK_SPACE",\
+"LEXER_TOK_BASE2_INT",\
+"LEXER_TOK_BASE10_INT",\
+"LEXER_TOK_BASE16_INT",\
+"LEXER_TOK_DOUBLE",\
+"LEXER_TOK_COMPLEX",\
+"LEXER_TOK_STRING",\
+"LEXER_TOK_OP",\
+"LEXER_TOK_PARA",\
+"LEXER_TOK_KEYWORDS",\
+"LEXER_TOK_NAME"
+
 
 /*
 	{COMMENT,":>  !.!* \n"},
@@ -85,7 +99,11 @@ void pretty_print_pointer(const char *buffer ,const char * ptr);
 //static uint8_t check_char(rule_flag_struct *rfs,char ** buffer_ptr);
 uint8_t regex_lexer(struct fbgc_object **head_obj,char *first_ptr);
 
-struct fbgc_object * tokenize_substr(const char *str1, const char*str2, lexer_token token, uint8_t where);
+//struct fbgc_object * tokenize_substr(const char *str1, const char*str2, lexer_token token, uint8_t where);
+
+
+struct
+fbgc_object * tokenize_substr(const char *str1, const char*str2, lexer_token token, uint8_t where);
 
 uint8_t match(match_where *mw, const char * inc_rule_ptr, const char * buffer);
 uint8_t match_and_replace(const char * inc_rule_ptr,char buffer[],const char *replace_str);

@@ -17,6 +17,14 @@ Complex 4	0	0	0	0
 
 */
 
+
+
+#ifdef LEXER_DEBUG
+const char * lexer_token_list_as_strings[]={
+ LEXER_TOK_AS_STRINGS()
+};
+#endif
+
 #ifdef LEXER_DETAILED_DEBUG
 #define DEBUG
 #endif
@@ -88,6 +96,8 @@ const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] =
 	{LEXER_TOK_SPACE,"!+! \t"},
 	{LEXER_TOK_BASE2_INT,"0b 1|0!+"},
 	{LEXER_TOK_BASE16_INT,"0x !x!+"},
+	{LEXER_TOK_STRING,"' _|\\'!s!d!w!o!* '"},
+	{LEXER_TOK_DOUBLE,"!d!+ .!* !d!* E +|-!* !d!+"}, 
 	{LEXER_TOK_DOUBLE,". !d!+"}, 
 	{LEXER_TOK_DOUBLE,"!d!+ . !d!+"}, 	
 	{LEXER_TOK_BASE10_INT,"!d!+"},
@@ -187,7 +197,7 @@ static const char * rule_reader(rule_flag_struct * rfs,const char * rule_ptr){
 					rfs->pattern_flag = ~rfs->pattern_flag;
 				}
 			}else{
-				cprintf(100,"\n\t\tUndefined metachar at %c\n\n",*rule_ptr);
+				//cprintf(100,"\n\t\tUndefined metachar at %c\n\n",*rule_ptr);
 				//move anyway to catch ! only 
 				//cprintf(111,"oky i do it\n");
 				rfs->char_match_end++;
@@ -221,8 +231,6 @@ static uint8_t check_char(rule_flag_struct *rfs,char ** buffer_ptr){
 	uint8_t check = 0;
 	uint8_t rule_meta_or_section = 0;
 
-	//if(rfs->char_match_end>0){
-	cprintf(111,"rfs->char match begin:%s end:%d\n",rfs->char_match_begin,rfs->char_match_end);
 	uint8_t i1 = 0,i2 = 0;
 
 	while(i1 < rfs->char_match_end ){
@@ -233,8 +241,6 @@ static uint8_t check_char(rule_flag_struct *rfs,char ** buffer_ptr){
 			i2++;
 			if(*(rfs->char_match_begin+i2) == LXR_META_OR) break;
 		}
-		cprintf(111,"current i1 %d, i2 %d %c\n",i1,i2,*(rfs->char_match_begin+i1));
-		cprintf(111,"comparison = %d\n",!strncmp(*buffer_ptr,rfs->char_match_begin+i1,i2-i1));
 		if(i2>i1 && !strncmp(*buffer_ptr,rfs->char_match_begin+i1 ,i2-i1)){
 			*buffer_ptr += i2-i1;
 			//cprintf(001,"\t\t\t>>>>>>>>>Catched at %d\n",rule_meta_or_section);
@@ -358,13 +364,13 @@ uint8_t regex_lexer(struct fbgc_object ** field_obj,char * first_ptr){
 			}
 			else{
 				if(first_ptr != mobile_ptr && satisfied_rule_section == rule_section && *rule_ptr == '\0'){
-					//if(current_token != LEXER_TOK_SPACE){
+					if(current_token != LEXER_TOK_SPACE){
 					//#ifdef DEBUG
 						#ifdef LEXER_DEBUG
 							char * tempstr = (char *) malloc(sizeof(char) * ((mobile_ptr - first_ptr)+1) );
 							strncpy(tempstr,first_ptr,(mobile_ptr - first_ptr));
 							tempstr[(mobile_ptr - first_ptr)] = '\0';
-							cprintf(101,"['%s' : %s]\n",tempstr, object_name_array[current_token] );
+							cprintf(101,"['%s' : %s]\n",tempstr, lexer_token_list_as_strings[current_token-1] );
 							free(tempstr);
 						#endif
 					
@@ -373,14 +379,14 @@ uint8_t regex_lexer(struct fbgc_object ** field_obj,char * first_ptr){
 							push_back_fbgc_ll_object(
 								(cast_fbgc_object_as_field(*field_obj)->head),
 								 //new_fbgc_object_from_substr(*field_obj,first_ptr,mobile_ptr,current_token)
-								tokenize_substr(first_ptr,mobile_ptr,current_token,check-1)
+									tokenize_substr(first_ptr,mobile_ptr,current_token,check-1)
 								);
 
 						//if(current_token == WORD) print_fbgc_symbol_table((cast_fbgc_object_as_field(*field_obj)->global_table));
 
 
 					//#endif
-					//}
+					}
 						current_rule_index = 0;
 						if(*mobile_ptr == '\0') break;
 						first_ptr = mobile_ptr;
@@ -428,6 +434,10 @@ fbgc_object * tokenize_substr(const char *str1, const char*str2, lexer_token tok
 	struct fbgc_object *obj = NULL;
 
 	switch(token){
+		case LEXER_TOK_NEWLINE:
+		{
+			return new_fbgc_object(NEWLINE);
+		}
 		case LEXER_TOK_BASE2_INT:
 		{
 			return new_fbgc_int_object_from_substr(str1+2,str2,2); //eat 0b
@@ -443,9 +453,23 @@ fbgc_object * tokenize_substr(const char *str1, const char*str2, lexer_token tok
 		case LEXER_TOK_DOUBLE:
 		{
 			return new_fbgc_double_object_from_substr(str1,str2); 
-		}			
-		case LEXER_TOK_PARA:
+		}
+		case LEXER_TOK_STRING:
+		{
+			return new_fbgc_str_object_from_substr(str1+1,str2-1);
+		}
+		case LEXER_TOK_OP:
 		{	
+			//cprintf(111,"\n\nCatched %s\n\n",object_name_array[THREE_DOT+where]);
+			fbgc_token opcode = THREE_DOT+where;
+			if(is_fbgc_ASSIGNMENT_OPERATOR(opcode))
+			{
+				return  derive_from_new_int_object(opcode,-1);
+			}
+			return new_fbgc_object(THREE_DOT+where);
+		}					
+		case LEXER_TOK_PARA:
+		{
 			/*
 				(|)|[|]|{|}
 				LPARA  : 1 - 0 
@@ -459,44 +483,36 @@ fbgc_object * tokenize_substr(const char *str1, const char*str2, lexer_token tok
 			*/
 			return new_fbgc_object(LPARA+where);
 		}
-		case LEXER_TOK_OP:
-		{	
-			cprintf(111,"\n\nCatched %s\n\n",object_name_array[THREE_DOT+where]);
-			return new_fbgc_object(THREE_DOT+where);
-		}
-		case LEXER_TOK_NAME:
-		{
-			return new_fbgc_object(WORD);
-		}
 		case LEXER_TOK_KEYWORDS:
 		{	
-			return new_fbgc_object(END + where);
+			fbgc_token kw_tok = END+where;
+
+			switch(kw_tok){
+				case IF:
+				case ELIF:
+				case WHILE:
+				case BREAK:
+				case CONT:
+				case FUN_MAKE:
+				return new_fbgc_jumper_object(kw_tok);
+				default: return new_fbgc_object(END + where);
+			}
+
 		}
-		case LEXER_TOK_SPACE:
-		{
-			return new_fbgc_object(SPACE);
+		case LEXER_TOK_NAME:
+		{	
+			return new_fbgc_symbol_from_substr(str1,str2);
+			//return obj;//new_fbgc_object(NAME);
 		}
-		case LEXER_TOK_NEWLINE:
-			obj = new_fbgc_object(NEWLINE);
-		break;
 		default: 
-			obj = new_fbgc_object(token);
+			cprintf(100,"Undefined object creation in new object creation! returning NULL\n");
+			return NULL;
 		break;
 	}
 
 
 	/*switch(token){
-		case INT: 
-		case INT2:
-		case INT16:
-					obj = new_fbgc_int_object_from_substr(str1,str2,token);
-					break;
-		case DOUBLE: 
-					obj = new_fbgc_double_object_from_substr(str1,str2); 
-					break;
-		case STRING: 
-					obj = new_fbgc_str_object_from_substr(str1+1,str2-1); 
-					break;
+
 		case LPARA:			
 		case RPARA:
 		case LBRACE:
@@ -540,15 +556,7 @@ fbgc_object * tokenize_substr(const char *str1, const char*str2, lexer_token tok
 						 
 					}
 		break;
-		case COMMA:
-			obj = new_fbgc_object(COMMA);
-			break;
-		case NEWLINE:
-			obj = new_fbgc_object(NEWLINE);
-			break;	
-		default:
-			cprintf(111,"Undefined token inside new object creation !\n\n");
-		break;
+
 		
 	}*/
 

@@ -136,10 +136,14 @@ void print_fbgc_ll_object(struct fbgc_object * head,const char *s1){
             break;
         }
         i++;
+
+        
+
         if(iter->type == INT) cprintf(011,"{%d}",cast_fbgc_object_as_int(iter)->content);   
-        else if(iter->type == DOUBLE) cprintf(011,"{%f:DB}",cast_fbgc_object_as_double(iter)->content); 
+        else if(iter->type == DOUBLE) cprintf(011,"{%f}",cast_fbgc_object_as_double(iter)->content); 
+        //xXXXXXXXXXXXXXX
         //CHANGE THIS LINE, STRING CASTING MUST BE CHANGED | THIS WAY(&cast_fbgc_object_as_str(iter)->content) IS NOT SAFE!
-        else if(iter->type == STRING || iter->type == WORD) cprintf(011,"{%s:%s}",&cast_fbgc_object_as_str(iter)->content,object_name_array[iter->type]);
+        else if(iter->type == STRING) cprintf(011,"{'%s'}",&cast_fbgc_object_as_str(iter)->content,object_name_array[iter->type]);
         else if(iter->type == CSTRING){
           cprintf(011,"{");
           print_fbgc_cstr_object(iter);
@@ -189,6 +193,7 @@ void print_fbgc_ll_object(struct fbgc_object * head,const char *s1){
             cprintf(011,"]");
         }                 
         else if(is_fbgc_OPERATOR(iter->type)) cprintf(011,"{%s}",get_token_as_str(iter->type));
+
         else cprintf(011,"{%s}",object_name_array[iter->type]);     
             iter = iter->next;
     }

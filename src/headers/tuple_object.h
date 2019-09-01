@@ -29,9 +29,6 @@ struct fbgc_object *  get_top_in_fbgc_tuple_object(struct fbgc_object * self);
 struct fbgc_object * push_back_fbgc_tuple_object(struct fbgc_object * self,struct fbgc_object * obj);
 int index_fbgc_tuple_object(struct fbgc_object * self, struct fbgc_object * obj);
 
-size_t calculate_new_capacity_from_size(size_t );
- 
-
 void print_fbgc_tuple_object(struct fbgc_object *);
 void free_fbgc_tuple_object(struct fbgc_object * );
 
