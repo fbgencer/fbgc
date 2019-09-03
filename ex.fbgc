@@ -1,8 +1,17 @@
-x = 10
-y = x+1
+:>Functionlardaki build tuple problemini çöz
+:>cfuncall ekleyelim böylece her şeyin tuple olduğu bir hal ile stackte dursun
+:>Name olayını hallet
+:>
 
-f = fun(a)
-	return a*10
+print('================<fbgc starts>=========================')
+
+
+pi = 3.141592653589793
+
+get_degree = fun(a)
+	return a*pi/180
 end
 
-y = f(x*5+12*62)
+
+print('sind function  = ',tan(get_degree(45)))
+

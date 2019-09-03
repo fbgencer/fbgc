@@ -10,29 +10,16 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 	struct fbgc_ll_object * head = cast_fbgc_object_as_ll( cast_fbgc_object_as_field(*field_obj)->head );
 	struct fbgc_object * pc = head->base.next; //program counter
 
-	#define PROGRAM_STACK_SIZE 100
+	#define PROGRAM_STACK_SIZE 1000
 	struct fbgc_object * stack = new_fbgc_tuple_object(PROGRAM_STACK_SIZE);
 	struct fbgc_object ** sp = tuple_object_content(stack);
 	int sctr = 0;
 	int fctr = -1;
 	
 	struct fbgc_object * globals = cast_fbgc_object_as_field(*field_obj)->locals;
-	//tuple_object_content(cast_fbgc_object_as_field(*field_obj)->locals);
 
-/*
-#define _STACK_GOTO(i) 	(sp += i)
-#define _PUSH(x)		(*sp++ = (x))
-#define PUSH(x)			()
-#define _POP()			(*--sp)
-#define TOP()			(sp[-1])
-#define SECOND()		(sp[-2])
-#define THIRD()			(sp[-3])
-#define TOPN(i)			(sp[-(i)])
-#define SET_TOP(x)		(sp[-1] = (x))
-#define SET_SECOND(x)	(sp[-2] = (x))
-#define SET_THIRD(x)	(sp[-3] = (x))
-#define SET_TOPN(i, x)	(sp[-(i)] = (x))
-*/
+	struct fbgc_object * last_called_function = NULL;
+	size_t recursion_ctr = 0;
 
 #define _STACK_GOTO(i) 	(sctr += i)
 #define _PUSH(x)		(*(sp+sctr++) = (x))
@@ -49,17 +36,28 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 #define GET_AT_FP(n)		(sp[fctr+(n)])
 #define SET_AT_FP(n, x)	(sp[fctr+(n)] = (x))
-
-
 #define FETCH_NEXT()(pc = pc->next)
 
-	for(int i = 0; (pc != head->tail); i++){
+#define RECURSION_LIMIT 100
+
+	for(int i = 0; (pc != head->tail) ; i++){
+
+		if(recursion_ctr>RECURSION_LIMIT){
+			cprintf(100,"Reached Recursion limit!\n");
+			break;
+		}
+
+		if(sctr > PROGRAM_STACK_SIZE){
+			cprintf(100,"Stack Overflow!");
+			break;
+		}
 
 		fbgc_token type = get_fbgc_object_type(pc);
 		
 
 		#ifdef INTERPRETER_DEBUG
-		cprintf(010,"################ [%d] = {%s} ########################\n",i,object_type_as_str(pc));
+		cprintf(010,"################ [%d] = {%s} ########################",i,object_type_as_str(pc));
+		print_fbgc_object(pc);
 		cprintf(100,"sctr:%d, fctr:%d\n",sctr,fctr);
 		#endif
 
@@ -73,6 +71,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			case FUN:
 			case NUPLE:
 			case MONUPLE:
+			case CFUN:
 			{
 				_PUSH(pc);
 				break;
@@ -89,19 +88,6 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				else if(is_id_flag_LOCAL(pc))  _PUSH(GET_AT_FP(cast_fbgc_object_as_id_opcode(pc)->loc));
 				break;
 			}
-			/*case LOAD_GLOBAL:
-			{
-				_PUSH(globals[cast_fbgc_object_as_int(pc)->content]);
-				break;
-
-			}
-
-			case LOAD_LOCAL:
-			{
-				_PUSH(GET_AT_FP(cast_fbgc_object_as_int(pc)->content));
-				break;
-			}
-			*/
 			case BUILD_TUPLE:
 			{	
 
@@ -124,6 +110,8 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			case STAR:
 			case SLASH:
 			{
+				
+
 				struct fbgc_object * res =  call_fbgc_binary_op(type,_POP(),_POP());
 
 				if(res != NULL) {
@@ -145,28 +133,13 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					tmp->content = rhs;
 				} 
 
-				//	globals[cast_fbgc_object_as_id_opcode(pc)->loc] = rhs;
 				else if(is_id_flag_LOCAL(pc))  GET_AT_FP(cast_fbgc_object_as_id_opcode(pc)->loc) = rhs;	
 				break;
 			}
-			/*
-			case ASSIGN_GLOBAL:
-			{
-				struct fbgc_object * rhs = _POP();
-				globals[cast_fbgc_object_as_int(pc)->content] = rhs;
-				break;				
-			}
-			case ASSIGN_LOCAL:
-			{
-				struct fbgc_object * rhs = _POP();
-				GET_AT_FP(cast_fbgc_object_as_int(pc)->content) = rhs;
-				break;
-			}
-			*/
-			case ASSIGN_SUBSCRIPT:
+			/*case ASSIGN_SUBSCRIPT:
 			{
 				//return 0;
-				/*struct fbgc_object * rhs = _POP();
+				struct fbgc_object * rhs = _POP();
 				struct fbgc_object * obj = _POP();
 
 				int arg_no = cast_fbgc_object_as_int(TOP())->content; 
@@ -195,56 +168,68 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					}					
 				}
 				
-				set_object_in_fbgc_tuple_object(obj,rhs,index);*/
+				set_object_in_fbgc_tuple_object(obj,rhs,index);
 
 				break;	
-			}			
+			}*/
 			case FUN_CALL:
 			{
-				struct fbgc_object * funo = _POP();
-				struct fbgc_object * args = _POP();
+				struct fbgc_fun_object * funo = cast_fbgc_object_as_fun(_POP());
+				int arg_no = cast_fbgc_object_as_int(TOP())->content;
+				_POP();
 
 
-				if(args->type == TUPLE && size_fbgc_tuple_object(args) != cast_fbgc_object_as_fun(funo)->no_arg){
+				if(funo->base.type == CFUN){
+					//return 0;
+					struct fbgc_object * arg_tuple =  new_fbgc_tuple_object_from_tuple_content(sp+sctr-arg_no,arg_no);
+					_STACK_GOTO(-arg_no);
+					//print_fbgc_object(cto);
+					struct fbgc_object * res = cfun_object_call(funo,arg_tuple);
+					//assert(res != NULL);
+					if(res != NULL) _PUSH(res);
+					break;
+					//return 0;
+				}
+
+				if(last_called_function == funo) recursion_ctr++;
+				else {
+					last_called_function = (struct fbgc_object *) funo;
+					recursion_ctr = 0;
+				}
+
+				if(funo->no_arg != arg_no ){
 					cprintf(100,"Argument match error!");
 					return 0;
 				}
-				else if(args->type == MONUPLE && cast_fbgc_object_as_fun(funo)->no_arg == 1){
-					args = _POP();
-				}
 
-				//save the old pc in the stack
+				_STACK_GOTO(funo->no_locals - arg_no);
+				//save our first next operation after this function call
+				//After returning the value we will take this space and run the main code
 				_PUSH(pc->next);
 				//hold old frame pointer location
 				_PUSH(new_fbgc_int_object(fctr));
-				//hold old position of sp with fp	
-				fctr = sctr;
-				//change sp to hold local variables
-				sctr += cast_fbgc_object_as_fun(funo)->no_locals;	
-				//write args into locals
-				if(cast_fbgc_object_as_fun(funo)->no_arg == 1) GET_AT_FP(0) = args;
-
+				//hold old position of sp with fp, assume that args already pushed into stack
+				fctr = sctr-funo->no_locals-2;
 				//execute function
 				//##Solve this pc->next problem!!!!!!!!
 				stack->next = cast_fbgc_object_as_fun(funo)->code;
 				pc = stack;
-
 				break;
-				//continue;
 			}
 			case RETURN:{
 
 				struct fbgc_object * ret = _POP();
-				sctr = fctr;
+				int old_fctr = fctr;
 				fctr = cast_fbgc_object_as_int(TOP())->content;
 				stack->next = SECOND();
-				_STACK_GOTO(-2);
-				_PUSH(ret);
+				sctr = old_fctr;
+				//_STACK_GOTO(-2);
+				 _PUSH(ret);
 				//##Solve this pc->next problem!!!!!!!!
 				pc = stack;
 				break;
-				//continue;
 			}
+
 			default:
 			{
 				cprintf(101,"Undefined token in interpreter\n");
@@ -265,13 +250,13 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 	}
 
-	//#ifdef INTERPRETER_DEBUG
+	#ifdef INTERPRETER_DEBUG
 	cprintf(111,"\n==============Stack==========================\n");
 	print_fbgc_object(stack);
 	cprintf(111,"\n==================globals===================\n");
 	print_field_object_locals(*field_obj);
 	cprintf(111,"\n==============================================\n\n");
-	//#endif
+	#endif
 
 	#ifdef INTERPRETER_DEBUG
 	cprintf(111,"^^^^^^^^^^^^^^^^^^^^\n");

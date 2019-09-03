@@ -2,8 +2,6 @@ entry = "types.txt"
 
 lines = [line.rstrip('\n') for line in open(entry)]
 
-
-
 output = "types_out.txt"
 
 

@@ -97,7 +97,6 @@ struct fbgc_object * new_cfun_object_from_substr(struct fbgc_object * field_obj,
 }
 
 
-
 void print_fbgc_symbol_table(struct fbgc_object * ll){
 
 

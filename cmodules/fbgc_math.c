@@ -2,29 +2,43 @@
 #include "fbgc_math.h"
 #include <math.h>
 
-new_fbgc_cfunction(fbgc_sin,"sin")
-{
-	printf("I am a sin functionn calling:\n"); print_fbgc_object(arg);
+/*
+#define new_fbgc_cfunction(fun_name,str_fun_name)\
+const struct fbgc_cfunction fun_name##_struct  = {str_fun_name,fun_name};\
+extern struct fbgc_object * fun_name(struct fbgc_object * arg)\
+*/
 
-	//just return error arg shouldn't be tuple..
-	if(get_fbgc_object_type(arg) == TUPLE) return new_fbgc_object(UNKNOWN);
 
-	return new_fbgc_double_object(sin(convert_fbgc_object_to_double(arg)));
+
+
+struct fbgc_object * one_arg_math(struct fbgc_object * arg, double (*fun) (double)){
+	assert(size_fbgc_tuple_object(arg) != 0);// return NULL;
+	
+	struct fbgc_object ** contents = tuple_object_content(arg);
+	double dbarg = convert_fbgc_object_to_double( contents[0] );
+	return new_fbgc_double_object((*fun)(dbarg));
 }
 
-new_fbgc_cfunction(fbgc_cos,"cos"){
 
-	printf("I am a cos functionn\n");
+#define new_fbgc_one_arg_math(fun_str,func_ptr)\
+const struct fbgc_cfunction fbgc_##func_ptr##_struct  = {fun_str,fbgc_##func_ptr};\
+extern struct fbgc_object * fbgc_##func_ptr(struct fbgc_object * arg) {return one_arg_math(arg,func_ptr);}\
 
-	return arg;
-}
 
-new_fbgc_cfunction(fbgc_pi,"pi"){
 
+new_fbgc_one_arg_math("sin",sin);
+new_fbgc_one_arg_math("cos",cos);
+new_fbgc_one_arg_math("tan",tan);
+
+/*
+extern struct fbgc_object * fbgc_pi(struct fbgc_object * arg){
 	printf("I am a pi functionn\n");
 
 	return new_fbgc_double_object(3.141592653589793);
 }
+*/
+
+
 
 //Work on this, is it possible to cast ?
 const struct fbgc_cmodule fbgc_math_module = 
@@ -32,7 +46,9 @@ const struct fbgc_cmodule fbgc_math_module =
 	.name = "math",
 	.functions = (const struct fbgc_cfunction*[])
 	{
-		&fbgc_sin_struct,&fbgc_cos_struct,&fbgc_pi_struct,NULL
+		&fbgc_sin_struct,
+		&fbgc_cos_struct,
+		&fbgc_tan_struct,
+		NULL
 	}
 };
-

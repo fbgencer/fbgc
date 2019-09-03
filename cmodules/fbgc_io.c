@@ -14,20 +14,18 @@ extern struct fbgc_object * fun_name(struct fbgc_object * arg)\
 //new_fbgc_cfunction(fbgc_print,"print")
 
 
-static struct fbgc_object * fbgc_print(struct fbgc_object * arg)
+new_fbgc_cfunction(fbgc_print,"print")
 {
-	if(arg->type == TUPLE){
-		for(unsigned int i = 0; i<cast_fbgc_object_as_tuple(arg)->size; i++){
-			//print_fbgc_object(cast_fbgc_object_as_tuple(arg)->contents[i]);		
-			//printf(" tp");
-		}
-	} 
-	else print_fbgc_object(arg);
-	//printf("\n");
-	return new_fbgc_object(UNKNOWN);
-}
 
-static const struct fbgc_cfunction fbgc_print_struct  = {"print",fbgc_print};
+	struct fbgc_object ** contents = tuple_object_content(arg);
+		
+	for(size_t i = 0; i<size_fbgc_tuple_object(arg); ++i){
+		printf_fbgc_object(contents[i]);
+	}
+	printf("\n");
+
+	return NULL;
+}
 
 
 

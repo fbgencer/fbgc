@@ -1,8 +1,11 @@
 #include "fbgc.h"
 
 
-#ifndef CLOSE_PRINTF
+
 void cprintf(char color,const char *format, ...) {
+
+#ifndef CLOSE_CPRINTF
+
 #define ANSI_COLOR_BLACK    "\033[1;30m" //000
 #define ANSI_COLOR_RED      "\033[1;31m" //100
 #define ANSI_COLOR_GREEN    "\033[1;32m" //010
@@ -34,8 +37,9 @@ void cprintf(char color,const char *format, ...) {
     vprintf(format, args); printf("\033[0m");
     
     va_end(args);
+    
+#endif
 }
 
-#endif
 
 

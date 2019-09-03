@@ -23,6 +23,10 @@ struct fbgc_tuple_object{
 #define tuple_object_content(x)((struct fbgc_object **)((char*)&cast_fbgc_object_as_tuple(x)->size+sizeof(cast_fbgc_object_as_tuple(x)->size)));
 
 struct fbgc_object * new_fbgc_tuple_object(size_t size);
+struct fbgc_object * new_fbgc_tuple_object_from_tuple_content(struct fbgc_object ** src, int num);
+
+
+
 void set_object_in_fbgc_tuple_object(struct fbgc_object * self,struct fbgc_object * obj,int index);
 struct fbgc_object * get_object_in_fbgc_tuple_object(struct fbgc_object * self,int index);
 struct fbgc_object *  get_top_in_fbgc_tuple_object(struct fbgc_object * self);

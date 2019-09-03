@@ -23,7 +23,7 @@ void print_fbgc_fun_object(struct fbgc_object * obj){
 
    		cprintf(010,"[Arg#:%d Local#:%d|",funo->no_arg,funo->no_locals);
 
-    #ifndef FUN_PRINT_DETAILED
+    #ifdef FUN_PRINT_DETAILED
    		struct fbgc_object * iter = funo->code;
    		while(iter != obj){
         cprintf(011,"<");

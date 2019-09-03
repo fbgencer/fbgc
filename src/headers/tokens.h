@@ -118,15 +118,10 @@ typedef struct {
 #define ELIF_BEGIN 100
 #define WHILE_BEGIN 101
 #define FOR_BEGIN 102
-#define LOAD_LOCAL 103
-#define LOAD_GLOBAL 104
-#define LOAD_SUBSCRIPT 105
-#define ASSIGN_LOCAL 106
-#define ASSIGN_GLOBAL 107
-#define ASSIGN_SUBSCRIPT 108
-#define FUN_CALL 109
-#define BUILD_TUPLE 110
-#define BUILD_MATRIX 111
+#define FUN_CALL 103
+#define BUILD_TUPLE 104
+#define BUILD_MATRIX 105
+#define NOP 106
 #define TOKEN_LIST_AS_STRINGS()\
 "UNKNOWN",\
 "INT",\
@@ -231,15 +226,10 @@ typedef struct {
 "ELIF_BEGIN",\
 "WHILE_BEGIN",\
 "FOR_BEGIN",\
-"LOAD_LOCAL",\
-"LOAD_GLOBAL",\
-"LOAD_SUBSCRIPT",\
-"ASSIGN_LOCAL",\
-"ASSIGN_GLOBAL",\
-"ASSIGN_SUBSCRIPT",\
 "FUN_CALL",\
 "BUILD_TUPLE",\
 "BUILD_MATRIX",\
+"NOP",\
 //TOKENS_END
 
 extern const char * object_name_array[];

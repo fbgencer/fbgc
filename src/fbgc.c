@@ -18,7 +18,7 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
         if(line[0] == ':' && line[1] == '>') continue; 
         if(line[0] != '\0') regex_lexer(&main_field,line);      
     }
-    
+    fclose(input_file); 
     end = clock();
     lexer_time = (double)(end - begin) / CLOCKS_PER_SEC; 
 
@@ -45,16 +45,17 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
      
     begin = clock();
      //if(par) 
-        interpreter(&main_field); 
+    interpreter(&main_field); 
     end = clock();
     interpreter_time = (double)(end - begin) / CLOCKS_PER_SEC; 
 
-    cprintf(111,"Execution time [LEXER] :%f\n",lexer_time);    
-    cprintf(111,"Execution time [PARSER] :%f\n",parser_time);    
-    cprintf(111,"Execution time [INTERPRETER] :%f\n",interpreter_time);  
-    cprintf(111,"Total ex time %f\n",lexer_time+parser_time+interpreter_time);  
+    cprintf(110,"\n\n\n\n\n\n[=======================================================================]\n"); 
+    printf("Execution time [LEXER] :%f\n",lexer_time);    
+    printf("Execution time [PARSER] :%f\n",parser_time);    
+    printf("Execution time [INTERPRETER] :%f\n",interpreter_time);  
+    printf("Total ex time %f\n",lexer_time+parser_time+interpreter_time);  
         
-    fclose(input_file);    
+      
 }
 
 static void compile_one_line(struct fbgc_object * main_field,char *line){
@@ -104,13 +105,28 @@ cprintf(110,"\n\n\n\n\n[========================================================
         initialize_fbgc_symbol_table();
 
 
+        /*struct fbgc_object * to = new_fbgc_tuple_object(4);
+        to = push_back_fbgc_tuple_object(to,new_fbgc_int_object(10));
+        to = push_back_fbgc_tuple_object(to,new_fbgc_int_object(100));
+        to = push_back_fbgc_tuple_object(to,new_fbgc_int_object(1000));
+        to = push_back_fbgc_tuple_object(to,new_fbgc_int_object(98765));
+
+        struct fbgc_object ** contents = tuple_object_content(to);
+        struct fbgc_object * cto =  new_fbgc_const_tuple_object_from_tuple_content(contents+2,2);
+
+        print_fbgc_tuple_object(cto);*/
+
         struct fbgc_object * main_field = new_fbgc_field_object();
-        //load_module_in_field_object(main_field,&fbgc_math_module);
+        load_module_in_field_object(main_field,&fbgc_math_module);
+        load_module_in_field_object(main_field,&fbgc_io_module);
         compile_file(main_field, argv[1]);
-     //   print_fbgc_memory_block();
+        //print_fbgc_memory_block();
 
-
-
+        /*char buffer [50];
+        int n, a=5, b=3;
+        n = sprintf(buffer, "%%%d0d",5);
+        printf(buffer,3);
+    */
         free_fbgc_memory_block();    
     }
     else{

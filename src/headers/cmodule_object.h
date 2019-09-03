@@ -12,21 +12,25 @@ extern "C" {
 #endif
 
 
+// This is actual function struct
+// Pointer holds C function itself, each C function must take 1 arg as fbgc_object and return 1 fbgc_object
 struct fbgc_cfunction{
     const char *name;
     struct fbgc_object * (* function)(struct fbgc_object *);
 };
 
+//C module holds CONSTANT array of c functions, this array is pre-determined during the compilation time
 struct fbgc_cmodule{
     const char *name;
     const struct fbgc_cfunction ** functions;
 };
 
+//This is where c functions and modules interact with each other
+//This is our object to hold in fields
 struct fbgc_cmodule_object{
     struct fbgc_object base;
     const struct fbgc_cmodule * module;
 };
-
 
 struct fbgc_cfun_object{
 	struct fbgc_object base;

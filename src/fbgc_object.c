@@ -10,6 +10,48 @@ fbgc_object * new_fbgc_object(fbgc_token token){
 }
 
 
+void printf_fbgc_object(struct fbgc_object * self){
+
+	assert(self != NULL);
+	switch(get_fbgc_object_type(self))
+	{
+		case INT:
+		{
+			printf("%d",cast_fbgc_object_as_int(self)->content);
+			break;			
+		}	
+		case DOUBLE:
+		{
+			printf("%f",cast_fbgc_object_as_double(self)->content);
+			break;			
+		}
+		case STRING:
+		{
+		    printf("%s",&cast_fbgc_object_as_str(self)->content);   
+			break;
+		}
+		case TUPLE:
+		{
+			struct fbgc_object ** contents = tuple_object_content(self);
+			printf("(");
+			for(size_t i = 0; i<size_fbgc_tuple_object(self); i++){
+				printf_fbgc_object(contents[i]);
+				if(i < size_fbgc_tuple_object(self)-1 ) printf(",");
+			}
+			printf(")");
+			break;
+		}	
+		case FUN:
+		{
+			printf("[Function object<%p>]",self);
+			break;
+		}			
+		default:
+				printf("Error undefined object!\n"); 
+		break;
+
+	}	
+}
 
 void print_fbgc_object(struct fbgc_object * self){
 
@@ -101,39 +143,12 @@ double convert_fbgc_object_to_double(struct fbgc_object * obj){
 			case INT:
 				return (double)(cast_fbgc_object_as_int(obj)->content);
 			default :
-				cprintf(111,"Error at double conversion!\n");
+				cprintf(111,"Error at double conversion! type %s\n",object_name_array[obj->type]);
 				return -1;	
 		}
 	}
 	return 0;
 }
-
-
-/*
-void claim_ownership(struct fbgc_object * self){
-	
-	if(self != NULL){ 
-		cprintf(011,"claim_ownership for [%s]\t",object_type_as_str(self)); print_fbgc_object(self); printf("\n");
-		switch(get_fbgc_object_type(self)){
-			case TUPLE:
-				self->type |= 0x80;
-				for(unsigned int i = 0; i<cast_fbgc_object_as_tuple(self)->size; i++){
-					cprintf(101,"\tChildren:");
-					claim_ownership(cast_fbgc_object_as_tuple(self)->contents[i]);
-				}
-			break;	
-			case REFERENCE:
-				claim_ownership(cast_fbgc_object_as_ref(self)->content->next);
-			break;		
-			default:
-				self->type |= 0x80; 
-			break;
-
-		}
-	}
-	else cprintf(111,"NULL object cannot !!\n");
-}
-*/
 
 void free_fbgc_object(struct fbgc_object * self){
 /*		#ifdef FREE_DEBUG
