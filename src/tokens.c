@@ -59,7 +59,6 @@ const token_struct reserved_words_token_array[]={
 	{ELSE,"else"},
 	{ELIF,"elif"},
 	{END,"end"},
-	{FOR,"for"},
 	{FUN_MAKE,"fun"},
 	{WHILE,"while"},
 	{BREAK,"break"},

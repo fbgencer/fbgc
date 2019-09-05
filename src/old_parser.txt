@@ -1,0 +1,447 @@
+	if(is_fbgc_ATOM(iter->type)){
+		iter_prev = iter;
+		gm_error = gm_seek_left(&gm,iter);	
+	}
+	else if(iter->type == IDENTIFIER){
+		gm_error = gm_seek_left(&gm,iter);
+
+		cprintf(111,"current_scope :[%s]\n",object_name_array[current_scope->type]);
+
+		struct fbgc_object * cstr_obj = get_object_in_fbgc_tuple_object(fbgc_symbols,cast_fbgc_object_as_int(iter)->content);
+		cprintf(100,">>>:"); print_fbgc_object(cstr_obj);
+
+		struct fbgc_object * cf =  new_cfun_object_from_str(*field_obj,&cast_fbgc_object_as_cstr(cstr_obj)->content);
+
+		if(cf != NULL){
+			//remove identifier object, out cfun object into stack
+			cf->next = iter->next;
+			iter = cf;
+		}
+		else if(current_scope->type == FIELD){
+
+			struct fbgc_object * local_array = cast_fbgc_object_as_field(current_scope)->locals;
+			struct fbgc_identifier * temp_id; 
+			int where = -1;//index_fbgc_array_object(local_tuple,name_obj);
+
+			for(int i = 0; i<size_fbgc_array_object(local_array); i++){
+				temp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(local_array,i);
+				if(temp_id->name == cstr_obj) where = i; 
+			}
+
+			if(where == -1) {
+				cprintf(111,"couldn't find in locals/field obj..\n");
+				struct fbgc_identifier id;		
+				id.name = cstr_obj; id.content = NULL;
+				local_array = push_back_fbgc_array_object(local_array,&id);
+				where = size_fbgc_array_object(local_array)-1;
+				cast_fbgc_object_as_field(current_scope)->locals = local_array;
+			}
+			else cprintf(111,"Found at %d!",where);
+			set_id_flag_GLOBAL(iter);
+			cast_fbgc_object_as_id_opcode(iter)->loc = where;
+			cprintf(111,"\n+++++++++++++++++++++++++++++++++++\n");
+		}
+		
+		else if(current_scope->type == FUN){				
+			struct fbgc_object * local_tuple = cast_fbgc_object_as_fun(current_scope)->code;
+			int where = index_fbgc_tuple_object(local_tuple,cstr_obj);
+			//iter->type = LOAD_LOCAL ;
+			set_id_flag_LOCAL(iter);
+			if(where == -1) {
+				cprintf(111,"iter %s iter-nxt %s\n",object_name_array[iter->type],object_name_array[iter->next->type]);
+				//-1 arg means func definition hasnt been done yet! So we are reading arguments
+				if(iter->next->type == ASSIGN  || cast_fbgc_object_as_fun(current_scope)->no_arg == -1){
+					cprintf(111,"couldn't find in locals of function obj..\n");
+					local_tuple = push_back_fbgc_tuple_object(local_tuple,cstr_obj);
+					where = size_fbgc_tuple_object(local_tuple)-1;
+					cast_fbgc_object_as_fun(current_scope)->code = local_tuple;
+					cprintf(100,"fun local tuple:["); print_fbgc_object(local_tuple); cprintf(100,"]\n");
+				}
+				else {
+					local_tuple = cast_fbgc_object_as_field(*field_obj)->locals;
+					struct fbgc_identifier * temp_id; 
+					for(int i = 0; i<size_fbgc_array_object(local_tuple); i++){
+						temp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(local_tuple,i);
+						if(temp_id->name == cstr_obj) where = i; 
+					}						
+					assert(where != -1);
+					//cprintf(100,"field local tuple:["); print_fbgc_object(local_tuple); cprintf(100,"]\n");
+					
+					//iter->type = LOAD_GLOBAL;
+					set_id_flag_GLOBAL(iter);
+				}
+			}
+			
+			//cast_fbgc_object_as_int(iter)->content = where;
+			cast_fbgc_object_as_id_opcode(iter)->loc = where;
+			cprintf(111,"\n+++++++++++++++++++++++++++++++++++\n");
+		}
+
+		iter_prev->next = iter->next;
+		op_stack_head = push_front_fbgc_ll_object(op_stack_head,iter);
+
+	}
+
+	else if(iter->type == WHILE){
+		gm_error = gm_seek_left(&gm,iter);	
+
+		struct fbgc_object * jump_obj = new_fbgc_jumper_object(JUMP);
+		cast_fbgc_object_as_jumper(jump_obj)->content = iter_prev;
+		op_stack_head = push_front_fbgc_ll_object(op_stack_head,jump_obj);
+		iter_prev->next = iter->next;	
+		op_stack_head = push_front_fbgc_ll_object(op_stack_head,iter);	
+		//iter_prev->next = iter->next;	
+
+	}
+	else if(iter->type == FUN_MAKE){
+		//gm_error = gm_seek_left(&gm,iter);	
+		struct fbgc_object * fun_obj = new_fbgc_fun_object();	
+		fun_obj->next = iter->next;
+		iter_prev->next = fun_obj;
+		iter_prev = fun_obj;
+		cast_fbgc_object_as_jumper(iter)->content = fun_obj;
+		op_stack_head = push_front_fbgc_ll_object(op_stack_head,iter);
+
+		current_scope = fun_obj;
+		cast_fbgc_object_as_fun(fun_obj)->code = new_fbgc_tuple_object(0);
+					
+	}							
+	else if(iter->type == END){
+		//gm_error = gm_seek_left(&gm,iter);
+		cprintf(010,"############## BEFORE END ###############\n");
+		print_fbgc_ll_object(head_obj,"M");
+		print_fbgc_ll_object(op_stack_head,"O");
+		cprintf(101,"[GM]:{Top:%s} Flag{0x%X} \n",object_name_array[gm.top],gm.flag);
+		cprintf(010,"###############$$$$################\n");
+
+
+		if(top_fbgc_ll_object(op_stack_head)->type == IF_BEGIN){
+			//now insert if in its place,
+			struct fbgc_object * if_obj = top_fbgc_ll_object(op_stack_head);
+			op_stack_head = pop_front_fbgc_ll_object(op_stack_head);
+
+			if_obj->next = cast_fbgc_object_as_jumper(if_obj)->content->next;
+			cast_fbgc_object_as_jumper(if_obj)->content->next = if_obj;
+
+			cast_fbgc_object_as_jumper(if_obj)->content = iter_prev;
+		}
+		else if(top_fbgc_ll_object(op_stack_head)->type == ELIF_BEGIN){
+			//now insert if in its place,
+			struct fbgc_object * if_obj = top_fbgc_ll_object(op_stack_head);
+			op_stack_head = pop_front_fbgc_ll_object(op_stack_head);
+
+			if_obj->next = cast_fbgc_object_as_jumper(if_obj)->content->next;
+			cast_fbgc_object_as_jumper(if_obj)->content->next = if_obj;
+
+			cast_fbgc_object_as_jumper(if_obj)->content = iter_prev;
+		}
+		else if(top_fbgc_ll_object(op_stack_head)->type == WHILE_BEGIN){
+			//now insert while in its place,
+			struct fbgc_object * if_obj = top_fbgc_ll_object(op_stack_head);
+			op_stack_head = pop_front_fbgc_ll_object(op_stack_head);
+
+			if_obj->next = cast_fbgc_object_as_jumper(if_obj)->content->next;
+			cast_fbgc_object_as_jumper(if_obj)->content->next = if_obj;
+
+			print_fbgc_ll_object(head_obj,"M:::");
+
+			struct fbgc_object * jump_obj = top_fbgc_ll_object(op_stack_head);
+			op_stack_head = pop_front_fbgc_ll_object(op_stack_head);
+
+			jump_obj->next = iter_prev->next;
+			iter_prev->next = jump_obj;
+			iter_prev = jump_obj;
+			
+			print_fbgc_ll_object(head_obj,"M2:::");
+
+			cast_fbgc_object_as_jumper(if_obj)->content = jump_obj;
+			
+			//iter_prev = jump_obj->next;
+		}
+		else if(top_fbgc_ll_object(op_stack_head)->type == FUN_MAKE){
+			assert(iter_prev->type != FUN); 
+			struct fbgc_object * fun_obj = cast_fbgc_object_as_jumper(top_fbgc_ll_object(op_stack_head))->content;
+			cprintf(111,"iter_prev:%s\n",object_name_array[iter_prev->type]);
+			cprintf(111,"iter_prev->next:%s\n",object_name_array[iter_prev->next->type]);
+			cprintf(111,"iter:%s\n",object_name_array[iter->type]);
+
+			cast_fbgc_object_as_fun(fun_obj)->no_locals = size_fbgc_tuple_object(cast_fbgc_object_as_fun(fun_obj)->code); 
+			cast_fbgc_object_as_fun(fun_obj)->code = fun_obj->next;
+
+			//fun_obj->next = iter->next;
+			if(iter_prev->type != RETURN){
+				//add NIL object 
+				iter_prev->next = new_fbgc_object(NIL);
+				iter_prev = iter_prev->next;
+				iter_prev->next = new_fbgc_object(RETURN);
+				iter_prev = iter_prev->next;
+			}
+			iter_prev->next = fun_obj; //last token in function code shows func object
+			iter_prev = fun_obj;
+
+
+			op_stack_head = pop_front_fbgc_ll_object(op_stack_head);
+			current_scope = *field_obj;
+		}
+
+		while(top_fbgc_ll_object(op_stack_head) != NULL && top_fbgc_ll_object(op_stack_head)->type == JUMP){
+			struct fbgc_object * jump_obj = top_fbgc_ll_object(op_stack_head);
+			op_stack_head = pop_front_fbgc_ll_object(op_stack_head);
+
+			jump_obj->next = cast_fbgc_object_as_jumper(jump_obj)->content->next;
+			cast_fbgc_object_as_jumper(jump_obj)->content->next = jump_obj;
+
+			cast_fbgc_object_as_jumper(jump_obj)->content = iter_prev;	
+		}
+
+		iter_prev->next = iter->next;
+
+		cprintf(010,"############## AFTER END ###############\n");
+		print_fbgc_ll_object(head_obj,"M");
+		print_fbgc_ll_object(op_stack_head,"O");
+		cprintf(101,"[GM]:{Top:%s} Flag{0x%X} \n",object_name_array[gm.top],gm.flag);
+		cprintf(010,"###############$$$$################\n");
+
+	}
+	else if(iter->type == ELIF){
+
+
+		gm_error = gm_seek_right(&gm,top_fbgc_ll_object(op_stack_head));
+		gm_error = gm_seek_left(&gm,iter);	
+
+		if(top_fbgc_ll_object(op_stack_head)->type == IF_BEGIN || top_fbgc_ll_object(op_stack_head)->type == ELIF_BEGIN){
+
+			//now insert if in its place,
+			struct fbgc_object * if_obj = top_fbgc_ll_object(op_stack_head);
+			op_stack_head = pop_front_fbgc_ll_object(op_stack_head);
+			if_obj->next = cast_fbgc_object_as_jumper(if_obj)->content->next;
+			cast_fbgc_object_as_jumper(if_obj)->content->next = if_obj;
+
+			struct fbgc_object * jump_obj = new_fbgc_jumper_object(JUMP);
+
+			cast_fbgc_object_as_jumper(jump_obj)->content = iter_prev;
+
+			cast_fbgc_object_as_jumper(if_obj)->content = jump_obj;
+
+			op_stack_head = push_front_fbgc_ll_object(op_stack_head,jump_obj);
+			
+			iter_prev->next = iter->next;	
+			op_stack_head = push_front_fbgc_ll_object(op_stack_head,iter);				
+		}	
+
+		//iter_prev->next = iter->next;		
+	}
+	else if(iter->type == ELSE){
+
+		gm_error = gm_seek_right(&gm,top_fbgc_ll_object(op_stack_head));
+
+		gm_error = gm_seek_left(&gm,iter);	
+
+		if(top_fbgc_ll_object(op_stack_head)->type == IF_BEGIN || top_fbgc_ll_object(op_stack_head)->type == ELIF_BEGIN){
+
+			//now insert if in its place,
+			struct fbgc_object * if_obj = top_fbgc_ll_object(op_stack_head);
+			op_stack_head = pop_front_fbgc_ll_object(op_stack_head);
+			if_obj->next = cast_fbgc_object_as_jumper(if_obj)->content->next;
+			cast_fbgc_object_as_jumper(if_obj)->content->next = if_obj;
+
+			struct fbgc_object * jump_obj = new_fbgc_jumper_object(JUMP);
+
+			cast_fbgc_object_as_jumper(jump_obj)->content = iter_prev;
+			op_stack_head = push_front_fbgc_ll_object(op_stack_head,jump_obj);
+
+			cast_fbgc_object_as_jumper(if_obj)->content = jump_obj;
+
+		}	
+
+		iter_prev->next = iter->next;		
+	}
+
+	else if(iter->type == BREAK){
+		iter_prev = iter;
+		gm_error = gm_seek_left(&gm,iter);
+
+		struct fbgc_object * op_top = top_fbgc_ll_object(op_stack_head);
+
+		for(;;){
+
+			if(op_top == NULL){
+				cprintf(100,"Break without loop! \n");
+				goto END_OF_THE_PARSER;
+			}
+
+			if(op_top->type == WHILE_BEGIN){
+				cast_fbgc_object_as_jumper(iter)->content = op_top;
+				break;
+			}
+			op_top = op_top->next;
+		}			
+	}
+	else if(iter->type == CONT){
+		iter_prev = iter;
+		gm_error = gm_seek_left(&gm,iter);
+
+		struct fbgc_object * op_top = top_fbgc_ll_object(op_stack_head);
+
+		for(;;){
+
+			if(op_top == NULL){
+				cprintf(100,"Break without loop! \n");
+				goto END_OF_THE_PARSER;
+			}
+
+			if(op_top->type == WHILE_BEGIN){
+				//here we assumed there will be always jump object after while
+				op_top = op_top->next;
+				
+				cast_fbgc_object_as_jumper(iter)->content = op_top;
+				break;
+			}
+			op_top = op_top->next;
+		}			
+	}
+
+	else if(is_fbgc_ASSIGNMENT_OPERATOR(iter->type)){
+		assert(top_fbgc_ll_object(op_stack_head)->type == IDENTIFIER);
+		top_fbgc_ll_object(op_stack_head)->type = iter->type;
+		iter_prev->next = iter->next;
+	}
+	else if(is_fbgc_OPERATOR(iter->type) || is_fbgc_PARA(iter->type) || iter->type == IF || iter->type == RETURN || iter->type == NEWLINE){
+		
+		//take the op object from main list and connect previous one to the next one 
+		//[H]->[2]->[+]->[3] => [H]->[2]->[3], now iter holds the operator, iter->next is [3] but we will change that too 
+		//     p^	i^					
+		iter_prev->next = iter->next;
+		
+		while( !is_empty_fbgc_ll_object(op_stack_head) && compare_operators(get_fbgc_object_type(top_fbgc_ll_object(op_stack_head)),iter->type) ){
+
+			cprintf(100,"Inside while!\n");
+
+			gm_error = gm_seek_right(&gm,top_fbgc_ll_object(op_stack_head));
+			
+
+			if(is_pushable_in_main(get_fbgc_object_type(top_fbgc_ll_object(op_stack_head)))){		
+				//Insert top op to the list  
+				iter_prev->next = top_fbgc_ll_object(op_stack_head);
+				//Pop top from stack
+				op_stack_head = pop_front_fbgc_ll_object(op_stack_head);
+				//connect list again
+				iter_prev->next->next = iter->next; 
+				//make the iter_prev proper
+				iter_prev = iter_prev->next;
+				
+			}
+			else{
+				//not pushables in main, like paranthesis 
+				if(iter->type == RPARA && get_fbgc_object_type(top_fbgc_ll_object(op_stack_head)) == LPARA){
+					//balanced paranthesis now search other objects in the stack top is lpara but what is the previous ? 
+
+					cprintf(110,"=== Rpara and Lpara ===\n");
+
+					delete_front_fbgc_ll_object(op_stack_head);
+					gm_error = gm_seek_left(&gm,iter);
+
+
+
+					/*if(top_fbgc_ll_object(op_stack_head) == NULL) break;
+					cprintf(111,"After handling paranthesis, operator stack top :");
+					cprintf(011,"Op Top :[%s], Iter_prev:[%s]\n",object_name_array[get_fbgc_object_type(top_fbgc_ll_object(op_stack_head))],
+						object_name_array[iter_prev->type]);*/
+
+
+					iter_prev = handle_before_paranthesis(iter_prev,op_stack_head,&gm);
+
+					cprintf(010,"##############After handle paranthesis###############\n");
+					print_fbgc_ll_object(head_obj,"M");
+					print_fbgc_ll_object(op_stack_head,"O");
+					cprintf(101,"[GM]:{Top:%s} Flag{0x%X} \n",object_name_array[gm.top],gm.flag);
+					cprintf(010,"###############$$$$################\n");
+
+					break;
+				}
+				else if(iter->type == RBRACK && get_fbgc_object_type(top_fbgc_ll_object(op_stack_head)) == LBRACK){
+					cprintf(110,"=== RBRACK and LBRACK ===\n");
+
+					delete_front_fbgc_ll_object(op_stack_head);
+					gm_error = gm_seek_left(&gm,iter);
+
+					if(gm.top != BUILD_MATRIX && gm.top != MONATRIX) cprintf(100,"\n\n ERROR BRACK \n\n");
+					iter_prev = handle_before_brackets(iter_prev,op_stack_head,&gm);
+					break;
+				}
+				else if(iter->type == SEMICOLON && get_fbgc_object_type(top_fbgc_ll_object(op_stack_head)) == LBRACK){
+
+					cprintf(110,"\tBRACK AND SEMICOLON\n");
+					if(iter_prev->type == COMMA) iter_prev->type = INT; 
+					else {
+						struct fbgc_object * ito = new_fbgc_int_object(1);
+						ito->next = iter_prev->next;
+						iter_prev->next = ito;
+						iter_prev = ito;
+					}
+
+					struct fbgc_object * rowo = new_fbgc_object(ROW);
+					rowo->next = iter_prev->next;
+					iter_prev->next = rowo;
+					iter_prev = rowo;
+					break;
+				}
+				else {
+					cprintf(111,"GOTO END_OF_THE_PARSER Syntax Error :");
+					cprintf(011,"Op Top :[%s], Iter:[%s]\n",object_name_array[get_fbgc_object_type(top_fbgc_ll_object(op_stack_head))],object_name_array[iter->type]);
+					goto END_OF_THE_PARSER;
+				}
+
+			}
+
+				#ifdef PARSER_DEBUG
+					cprintf(010,"##############WHile###############\n");
+					print_fbgc_ll_object(head_obj,"M");
+					print_fbgc_ll_object(op_stack_head,"O");
+					cprintf(101,"[GM]:{Top:%s} Flag{0x%X} \n",object_name_array[gm.top],gm.flag);
+					cprintf(010,"###############$$$$################\n");
+				#endif
+
+			//if(!gm_error) goto END_OF_THE_PARSER;
+		}
+
+		if(iter->type != RPARA)	gm_error = gm_seek_left(&gm,iter);
+		
+		if(iter->type == RPARA || iter->type == RBRACK|| iter->type == SEMICOLON|| iter->type == NEWLINE || iter->type == ROW){
+		}
+		else if(iter->type == COMMA){
+
+			assert(top_fbgc_ll_object(op_stack_head) != NULL);
+
+			if(get_fbgc_object_type(top_fbgc_ll_object(op_stack_head)) == COMMA){
+				cast_fbgc_object_as_int(top_fbgc_ll_object(op_stack_head))->content++;
+				//free_fbgc_object(iter);
+				head->size--;	
+			}
+			else{
+				//now delete iterator,make new int object and hold comma as an int object but changing its type!
+				//free_fbgc_object(iter);
+				struct fbgc_object * comma_as_int = new_fbgc_int_object(2);//2 elements for 1 comma
+				comma_as_int->type = COMMA;
+				op_stack_head = push_front_fbgc_ll_object(op_stack_head,comma_as_int);
+			}
+		}
+		else {
+			op_stack_head = push_front_fbgc_ll_object(op_stack_head,iter);
+			head->size--;
+		}
+	}
+	else{
+		cprintf(100,"Error else in parser incoming obj %s|%d\n",object_name_array[iter->type],iter->type);
+		break;	
+	}	
+
+	//if(!gm_error) goto END_OF_THE_PARSER;
+	iter = iter_prev->next;
+	
+	#ifdef PARSER_DEBUG
+		print_fbgc_ll_object(head_obj,"M");
+		print_fbgc_ll_object(op_stack_head,"O");
+		cprintf(101,"[GM]:{Top:%s} Flag{0x%X} \n",object_name_array[gm.top],gm.flag);
+	#endif
+	}

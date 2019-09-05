@@ -10,7 +10,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 	struct fbgc_ll_object * head = cast_fbgc_object_as_ll( cast_fbgc_object_as_field(*field_obj)->head );
 	struct fbgc_object * pc = head->base.next; //program counter
 
-	#define PROGRAM_STACK_SIZE 1000
+	#define PROGRAM_STACK_SIZE 100000
 	struct fbgc_object * stack = new_fbgc_tuple_object(PROGRAM_STACK_SIZE);
 	struct fbgc_object ** sp = tuple_object_content(stack);
 	int sctr = 0;
@@ -80,6 +80,47 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 			case IDENTIFIER:
 			{	
+				if(is_id_flag_SUBSCRIPT(pc)){
+					//cprintf(111,"Id flag subscript \n");
+					//first pop the number of indexes
+					int index_no = cast_fbgc_object_as_int(_POP())->content;
+					//take index values one by one and finally left last index 
+					struct fbgc_object * dummy;
+
+					if(is_id_flag_GLOBAL(pc)){
+						//cprintf(111,"Globalde subscript\n");
+						struct fbgc_identifier * tmp = 
+						(struct fbgc_identifier *) get_address_in_fbgc_array_object(globals,cast_fbgc_object_as_id_opcode(pc)->loc);
+						dummy = tmp->content;
+						
+					}
+					else if(is_id_flag_LOCAL(pc)){
+						//cprintf(111,"Localde subscript\n");
+						dummy = GET_AT_FP(cast_fbgc_object_as_id_opcode(pc)->loc);
+					}	
+
+					int index = 0;
+					for(int i = 0; i<index_no; i++){
+						if(dummy->type == TUPLE){
+							index = cast_fbgc_object_as_int(TOPN(index_no-i))->content;
+							//cprintf(111,"Current index %d\n",index);
+							dummy = get_object_in_fbgc_tuple_object(dummy,index);
+							//print_fbgc_object(dummy); cprintf(111,"<<<\n");
+						}else {
+							cprintf(111,"Not index accessable!\n");
+							cprintf(111,"Dummy: "); print_fbgc_object(dummy); printf("\n");
+							return 0;
+						}
+
+					}
+					//Since this is the top index we can just use top
+					//index = cast_fbgc_object_as_int(TOP())->content;
+					//cprintf(111,"Son index %d\n",index);
+
+					_STACK_GOTO(-index_no);
+					_PUSH(dummy);
+					break;
+				}
 				if(is_id_flag_GLOBAL(pc)){
 					struct fbgc_identifier * tmp = (struct fbgc_identifier *) get_address_in_fbgc_array_object(globals,cast_fbgc_object_as_id_opcode(pc)->loc);
 					assert(tmp->content != NULL);
@@ -92,36 +133,50 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			case BUILD_TUPLE:
 			{	
 
-				int tuple_size = cast_fbgc_object_as_int(TOP())->content;
+				int tuple_size = cast_fbgc_object_as_int(_POP())->content;
 				struct fbgc_object * to = new_fbgc_tuple_object(tuple_size);
 				size_fbgc_tuple_object(to) = tuple_size;
-				_POP();
-
+					
 				while(--tuple_size >= 0){
-					struct fbgc_object * ob  = _POP();
-					//to = push_back_fbgc_tuple_object(to,ob);
-					set_object_in_fbgc_tuple_object(to,ob,tuple_size);
+					set_object_in_fbgc_tuple_object(to,_POP(),tuple_size);
 				}
 
 				_PUSH(to);
 				break;
 			} 
-			case PLUS:
-			case MINUS:
-			case STAR:
+			case STARSTAR:
+			case PLUSPLUS:
+			case MINUSMINUS:
+			case SLASHSLASH:
+			case LO_EQ:
+			case GR_EQ:
+			case EQ_EQ:
+			case NOT_EQ:
+			case R_SHIFT:
+			case L_SHIFT:
+			case CARET:
+			case PERCENT:
+			case LOWER:
+			case GREATER:
+			case PIPE:
+			case AMPERSAND:
 			case SLASH:
+			case STAR:
+			case MINUS:
+			case PLUS:
 			{
 				
+				assert(TOP() != NULL && SECOND() != NULL);
 
-				struct fbgc_object * res =  call_fbgc_binary_op(type,_POP(),_POP());
+					fbgc_token main_tok = 
+					(get_fbgc_object_type(TOP()) > get_fbgc_object_type(SECOND())) ? 
+					get_fbgc_object_type(TOP()) : 
+					get_fbgc_object_type(SECOND()) ;
 
-				if(res != NULL) {
-					_PUSH(res);				
-				}
-				else {
-					cprintf(100,"NULL operator return!\n");				
-					return 0;
-				}
+				struct fbgc_object * res =  call_fbgc_binary_op(type,_POP(),_POP(),main_tok);
+
+				assert(res != NULL);
+				_PUSH(res);		
 
 				break;	
 
@@ -130,27 +185,25 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			{
 				struct fbgc_object * rhs = _POP();
 
-				cprintf(100,"Assign Flag %0x\n",get_id_flag(pc));
+				//cprintf(100,"Assign Flag %0x\n",get_id_flag(pc));
 				//return 0;
 
 				if(is_id_flag_SUBSCRIPT(pc)){
-					cprintf(111,"Id flag subscript \n");
+					//cprintf(111,"Id flag subscript \n");
 					//first pop the number of indexes
 					int index_no = cast_fbgc_object_as_int(_POP())->content;
 					//take index values one by one and finally left last index 
-;
-
 					struct fbgc_object * dummy;
 
 					if(is_id_flag_GLOBAL(pc)){
-						cprintf(111,"Globalde subscript\n");
+						//cprintf(111,"Globalde subscript\n");
 						struct fbgc_identifier * tmp = 
 						(struct fbgc_identifier *) get_address_in_fbgc_array_object(globals,cast_fbgc_object_as_id_opcode(pc)->loc);
 						dummy = tmp->content;
 						
 					}
 					else if(is_id_flag_LOCAL(pc)){
-						cprintf(111,"Localde subscript\n");
+						//cprintf(111,"Localde subscript\n");
 						dummy = GET_AT_FP(cast_fbgc_object_as_id_opcode(pc)->loc);
 					}	
 
@@ -158,9 +211,9 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					for(int i = 0; i<index_no-1; i++){
 						if(dummy->type == TUPLE){
 							index = cast_fbgc_object_as_int(TOPN(index_no-i))->content;
-							cprintf(111,"Current index %d\n",index);
+							//cprintf(111,"Current index %d\n",index);
 							dummy = get_object_in_fbgc_tuple_object(dummy,index);
-							print_fbgc_object(dummy); cprintf(111,"<<<\n");
+							//print_fbgc_object(dummy); cprintf(111,"<<<\n");
 						}else {
 							cprintf(111,"Not index accessable!\n");
 							cprintf(111,"Dummy: "); print_fbgc_object(dummy); printf("\n");
@@ -170,12 +223,11 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					}
 					//Since this is the top index we can just use top
 					index = cast_fbgc_object_as_int(TOP())->content;
-					cprintf(111,"Son index %d\n",index);
+					//cprintf(111,"Son index %d\n",index);
 					set_object_in_fbgc_tuple_object(dummy,rhs,index);
 						//tmp->content = rhs;
 					_STACK_GOTO(-index_no);
 					break;
-
 				}
 
 				if(is_id_flag_GLOBAL(pc)){
@@ -244,11 +296,31 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				 _PUSH(ret);
 				//##Solve this pc->next problem!!!!!!!!
 				pc = stack;
-				cprintf(111,"Stack next :");
-				print_fbgc_object(stack->next);
+				//cprintf(111,"Stack next :");
+				//print_fbgc_object(stack->next);
 				break;
 			}
-
+			case IF_BEGIN:
+			case ELIF_BEGIN:
+			case WHILE_BEGIN:
+			{
+				struct fbgc_object * cond = _POP();
+				if(cond->type == INT && !cast_fbgc_object_as_int(cond)->content  ){
+					pc = cast_fbgc_object_as_jumper(pc)->content;
+				}
+				break;
+			}
+			case JUMP:
+			{
+				pc = cast_fbgc_object_as_jumper(pc)->content;	
+				break;
+			}
+			case BREAK:
+			{
+				struct fbgc_object * loop_obj =  cast_fbgc_object_as_jumper(pc)->content;
+				pc = cast_fbgc_object_as_jumper(loop_obj)->content;	
+				break;
+			}
 			default:
 			{
 				cprintf(101,"Undefined token in interpreter\n");

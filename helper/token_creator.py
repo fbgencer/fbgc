@@ -11,7 +11,12 @@ output = "types_out.txt"
 new_token_list = []
 
 for i in range(len(lines)):
-	line_str = "#define "+lines[i]+' '+str(i)+'\n'
+	ll = lines[i].split(' $')
+	print(ll)
+	if(len(ll) >= 2): 
+		line_str = "#define "+ll[0]+' '+str(i)+' //'+ll[1]+'\n'
+	else :
+		line_str = "#define "+ll[0]+' '+str(i)+' //'+'\n'
 	new_token_list += line_str
 #	f.write(line_str)
 
@@ -20,7 +25,8 @@ for i in range(len(lines)):
 new_token_list += "#define TOKEN_LIST_AS_STRINGS()\\\n"
 
 for i in range(len(lines)):
-	line_str = '"'+lines[i]+'",\\\n'
+	ll = lines[i].split(' $')	
+	line_str = '"'+ll[0]+'",\\\n'
 	new_token_list += line_str
 	#f.write(line_str)
 

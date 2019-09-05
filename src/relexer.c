@@ -88,7 +88,8 @@ const token_table_struct lexer_table[1] =
 		This rule catches digits and zero,one like entered strings as numbers 
 
 
- 
+
+
 */
 const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] = 
 {
@@ -103,9 +104,9 @@ const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] =
 	{LEXER_TOK_DOUBLE,"!d!+ . !d!+"}, 	
 	{LEXER_TOK_BASE10_INT,"!d!+"},
 	{LEXER_TOK_PARA,"(|)|[|]|{|}"},
-	{LEXER_TOK_KEYWORDS,"end|fun|if|elif|else|for|while|break|cont|return|load|true|false"},		
+	{LEXER_TOK_KEYWORDS,"end|fun|elif|else|while|break|cont|load|true|false|if|return"},		
 	{LEXER_TOK_NAME,"_!w _!w!d!*"},		
-	{LEXER_TOK_OP,"...|**|++|--|//|<=|>=|==|!=|+=|-=|*=|/=|:=|=>|>>|<<|->|<-|~>|<~|::|=|;|,|.|:|^|~|%|!|<|>|||&|/|*|-|+"},
+	{LEXER_TOK_OP, "...|->|<-|~>|<~|::|+=|-=|*=|/=|:=|++|--|=>|**|//|<=|>=|==|!=|>>|<<|^|%|<|>|||&|/|*|-|+|!|~|;|,|.|:|="},
 };
 	
 
@@ -376,7 +377,7 @@ uint8_t regex_lexer(struct fbgc_object ** field_obj,char * first_ptr){
 							char * tempstr = (char *) malloc(sizeof(char) * ((mobile_ptr - first_ptr)+1) );
 							strncpy(tempstr,first_ptr,(mobile_ptr - first_ptr));
 							tempstr[(mobile_ptr - first_ptr)] = '\0';
-							cprintf(101,"['%s' : %s]\n",tempstr, lexer_token_list_as_strings[current_token-1] );
+							cprintf(101,"['%s' : %s]\n",tempstr, lexer_token_list_as_strings[current_token] );
 							free(tempstr);
 						#endif
 					
@@ -472,7 +473,8 @@ fbgc_object * tokenize_substr(const char *str1, const char*str2, lexer_token tok
 			{
 				return  derive_from_new_int_object(opcode,-1);
 			}
-			return new_fbgc_object(THREE_DOT+where);
+			//cprintf(111,"opcode :%s",object_name_array[opcode]);
+			return new_fbgc_object(opcode);
 		}					
 		case LEXER_TOK_PARA:
 		{
@@ -494,12 +496,12 @@ fbgc_object * tokenize_substr(const char *str1, const char*str2, lexer_token tok
 			fbgc_token kw_tok = END+where;
 
 			switch(kw_tok){
-				case IF:
 				case ELIF:
 				case WHILE:
 				case BREAK:
 				case CONT:
 				case FUN_MAKE:
+				case IF:
 				return new_fbgc_jumper_object(kw_tok);
 				default: return new_fbgc_object(END + where);
 			}
@@ -516,55 +518,6 @@ fbgc_object * tokenize_substr(const char *str1, const char*str2, lexer_token tok
 		break;
 	}
 
-
-	/*switch(token){
-
-		case LPARA:			
-		case RPARA:
-		case LBRACE:
-		case RBRACE:
-		case LBRACK:
-		case RBRACK:
-		case OP:{	
-					fbgc_token opcode = get_operator_code_from_substr(str1,str2);
-					
-					if(opcode == UNKNOWN){
-						cprintf(100,"Undefined operator!\n");
-						obj = NULL;
-					}else if(is_fbgc_ASSIGNMENT_OPERATOR(opcode)){
-						obj = new_fbgc_int_object(-1);
-						obj->type = opcode;
-					}
-					else {
-						obj = new_fbgc_object(opcode);
-					}
-
-
-					break;
-		} 
-		case WORD:
-					token = get_reserved_word_code_from_substr(str1,str2);
-					if(token == UNKNOWN){
-						//cprintf(111,"\nThis is not a keyword! \n"); it must be something id or function or class etc.
-						//is this substring refers to a c function ?
-
-						obj = new_fbgc_symbol_from_substr(field_obj,str1,str2);
-						//handle symbol table!
-					}
-					else {
-						//this is a keyword, maybe if,while,elif etc.
-
-						if(token == IF || token == ELIF || token == WHILE || token == BREAK || token == CONT || token == FOR || token == FUN_MAKE){
-							obj = new_fbgc_jumper_object(token);
-						}
-						else 
-							obj  = new_fbgc_object(token);
-						 
-					}
-		break;
-
-		
-	}*/
 
     return obj;
 }

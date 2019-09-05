@@ -31,9 +31,14 @@ new_fbgc_cfunction(fbgc_print,"print")
 
 new_fbgc_cfunction(fbgc_read,"read"){
 
-	printf("I am a reader! but your type is :%s\n",object_name_array[arg->type] );
-
-	return arg;
+	struct fbgc_object ** contents = tuple_object_content(arg);
+	printf_fbgc_object(contents[0]);
+	char *str_content;
+	assert(scanf("%ms",&str_content) == 1);
+	
+	struct fbgc_object * res = new_fbgc_str_object(str_content);
+	free(str_content);
+	return res;
 }
 
 /*

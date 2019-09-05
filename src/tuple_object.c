@@ -72,8 +72,10 @@ void set_object_in_fbgc_tuple_object(struct fbgc_object * self,struct fbgc_objec
 	//#############################
 	//Add negative index algortihm and boundary check
 	//#############################
+	//index size'dan büyükse hata,
+	//index sıfırdan küçükse ama -size+1'den de büyükse sorun yok
 
-	assert( index >= 0 && index < capacity_fbgc_tuple_object(self));
+	assert( index>=0 || index < size_fbgc_tuple_object(self) );
 
 	struct fbgc_object ** contents = tuple_object_content(self);
 	contents[index] = obj; 
