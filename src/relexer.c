@@ -92,7 +92,8 @@ const token_table_struct lexer_table[1] =
 */
 const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] = 
 {
-	{LEXER_TOK_NEWLINE,"\n"},
+	{LEXER_TOK_COMMENT,":> !.!* \n"},
+	{LEXER_TOK_NEWLINE,"\n!+"},
 	{LEXER_TOK_SPACE,"!+! \t"},
 	{LEXER_TOK_BASE2_INT,"0b 1|0!+"},
 	{LEXER_TOK_BASE16_INT,"0x !x!+"},
@@ -156,6 +157,7 @@ char * fbgc_getline_from_file(char * s, int n, FILE *fp){
     		break;	
     	}          
     }
+
     end_of_getline:
     *cs = (c == EOF) ? '\n':'\0'; //handle this, i added because of comment understanding...
     *(cs+1)='\0';
@@ -179,6 +181,10 @@ static const char * rule_reader(rule_flag_struct * rfs,const char * rule_ptr){
 
 			if( IS_METACHAR(*rule_ptr) ){
 				rfs->metachar_flag |= SET_METACHARACTER_FLAG_FROM_RULE(*rule_ptr);
+				#ifdef LEXER_DETAILED_DEBUG
+					if(IS_METACHAR_PLUS_OPEN(rfs->metachar_flag))
+						cprintf(111,"Metachar flag PLUS opened\n");
+				#endif
 				//if(rfs->metachar_flag == 0) cprintf(100,"Undefined metacharacter at rule section!\n");
 
 				if(IS_METACHAR_TABLE_OPEN(rfs->metachar_flag)){
@@ -350,7 +356,7 @@ uint8_t regex_lexer(struct fbgc_object ** field_obj,char * first_ptr){
 		#endif		
 		if(check ||  IS_METACHAR_STAR_OPEN(rfs.metachar_flag)) satisfied_rule_section = rule_section;
 		//(check && *rule_ptr == '\0')
-		if(!check || *mobile_ptr == '\0' || (check && *rule_ptr == '\0' &&!IS_METACHAR_PLUS_OPEN(rfs.metachar_flag) &&!IS_METACHAR_STAR_OPEN(rfs.metachar_flag))){
+		if(!check || *mobile_ptr == '\0' || (check && *rule_ptr == '\0' && !IS_METACHAR_PLUS_OPEN(rfs.metachar_flag) && !IS_METACHAR_STAR_OPEN(rfs.metachar_flag) ) ){
 			#ifdef DEBUG
 				cprintf(010,"-------------{CHECK = %d}---------------\n",check);
 				cprintf(010,"Stsfied rule sec:%d, rule_sec:%d, *rule_ptr:%c\n",satisfied_rule_section,rule_section,*rule_ptr);
@@ -364,7 +370,7 @@ uint8_t regex_lexer(struct fbgc_object ** field_obj,char * first_ptr){
 			}
 			else{
 				if(first_ptr != mobile_ptr && satisfied_rule_section == rule_section && *rule_ptr == '\0'){
-					if(current_token != LEXER_TOK_SPACE){
+					if(current_token != LEXER_TOK_SPACE && current_token != LEXER_TOK_COMMENT){
 					//#ifdef DEBUG
 						#ifdef LEXER_DEBUG
 							char * tempstr = (char *) malloc(sizeof(char) * ((mobile_ptr - first_ptr)+1) );

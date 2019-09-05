@@ -23,13 +23,13 @@ struct fbgc_id_opcode{
 
 #define set_id_flag_GLOBAL(x)(cast_fbgc_object_as_id_opcode(x)->flag = ID_FLAG_GLOBAL )
 #define set_id_flag_LOCAL(x)(cast_fbgc_object_as_id_opcode(x)->flag = ID_FLAG_LOCAL )
-#define set_id_flag_SUBSCRIPT(x)(cast_fbgc_object_as_id_opcode(x)->flag = ID_FLAG_SUBSCRIPT )
+#define set_id_flag_SUBSCRIPT(x)(cast_fbgc_object_as_id_opcode(x)->flag |= ID_FLAG_SUBSCRIPT )
 
 #define is_id_flag_GLOBAL(x)(cast_fbgc_object_as_id_opcode(x)->flag & ID_FLAG_GLOBAL )
 #define is_id_flag_LOCAL(x)(cast_fbgc_object_as_id_opcode(x)->flag & ID_FLAG_LOCAL )
 #define is_id_flag_SUBSCRIPT(x)(cast_fbgc_object_as_id_opcode(x)->flag & ID_FLAG_SUBSCRIPT )
 
-
+#define get_id_flag(x)(cast_fbgc_object_as_id_opcode(x)->flag)
 
 struct fbgc_object * new_fbgc_id_opcode(int loc);
 

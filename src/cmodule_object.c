@@ -19,8 +19,9 @@ void print_fbgc_cfun_object(const struct fbgc_cmodule_object * obj){
 }*/
 
 void print_fbgc_cmodule(const struct fbgc_cmodule * obj){
-	cprintf(100,"[Cmodule Object]:{%s}\n",obj->name);
-	const struct fbgc_cfunction * cc = obj->functions[0];
+	const struct fbgc_cfunction * cc  = obj->initializer;
+	cprintf(100,"[Cmodule Object]:{%s}\n",cc->name);
+	cc = obj->functions[0];
 	cprintf(111,"Functions:\n");
 	for (int i = 1; cc!=NULL; ++i){
 		cprintf(101,"{%s}\n",cc->name);

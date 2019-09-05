@@ -388,13 +388,13 @@ uint8_t gm_seek_right(struct fbgc_grammar * gm, struct fbgc_object * obj){
 	//else if(get_fbgc_object_type(obj) == COMMA && gm_right == UNBALANCED_EXPRESSION_LIST ){
 	//	;
 	//}	
-	else if( get_fbgc_object_type(obj) == IF && gm_right == MONUPLE){
+	else if( get_fbgc_object_type(obj) == IF && (gm_right == MONUPLE || gm_right == BUILD_TUPLE) ){
 		gm->top  = obj->type = IF_BEGIN;
 	}
-	else if( get_fbgc_object_type(obj) == ELIF && gm_right == MONUPLE){
+	else if( get_fbgc_object_type(obj) == ELIF && (gm_right == MONUPLE || gm_right == BUILD_TUPLE)){
 		gm->top  = obj->type = ELIF_BEGIN;
 	}
-	else if( get_fbgc_object_type(obj) == WHILE && gm_right == MONUPLE){
+	else if( get_fbgc_object_type(obj) == WHILE && (gm_right == MONUPLE || gm_right == BUILD_TUPLE)){
 		gm->top  = obj->type = WHILE_BEGIN;
 	}
 	else if( get_fbgc_object_type(obj) == FOR && gm_right == MONUPLE){

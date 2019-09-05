@@ -64,6 +64,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 		// print_fbgc_memory_block();
 
 		switch(type){
+			case NIL:
 			case INT:
 			case DOUBLE:
 			case STRING:
@@ -128,50 +129,66 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			case ASSIGN:
 			{
 				struct fbgc_object * rhs = _POP();
+
+				cprintf(100,"Assign Flag %0x\n",get_id_flag(pc));
+				//return 0;
+
+				if(is_id_flag_SUBSCRIPT(pc)){
+					cprintf(111,"Id flag subscript \n");
+					//first pop the number of indexes
+					int index_no = cast_fbgc_object_as_int(_POP())->content;
+					//take index values one by one and finally left last index 
+;
+
+					struct fbgc_object * dummy;
+
+					if(is_id_flag_GLOBAL(pc)){
+						cprintf(111,"Globalde subscript\n");
+						struct fbgc_identifier * tmp = 
+						(struct fbgc_identifier *) get_address_in_fbgc_array_object(globals,cast_fbgc_object_as_id_opcode(pc)->loc);
+						dummy = tmp->content;
+						
+					}
+					else if(is_id_flag_LOCAL(pc)){
+						cprintf(111,"Localde subscript\n");
+						dummy = GET_AT_FP(cast_fbgc_object_as_id_opcode(pc)->loc);
+					}	
+
+					int index = 0;
+					for(int i = 0; i<index_no-1; i++){
+						if(dummy->type == TUPLE){
+							index = cast_fbgc_object_as_int(TOPN(index_no-i))->content;
+							cprintf(111,"Current index %d\n",index);
+							dummy = get_object_in_fbgc_tuple_object(dummy,index);
+							print_fbgc_object(dummy); cprintf(111,"<<<\n");
+						}else {
+							cprintf(111,"Not index accessable!\n");
+							cprintf(111,"Dummy: "); print_fbgc_object(dummy); printf("\n");
+							return 0;
+						}
+
+					}
+					//Since this is the top index we can just use top
+					index = cast_fbgc_object_as_int(TOP())->content;
+					cprintf(111,"Son index %d\n",index);
+					set_object_in_fbgc_tuple_object(dummy,rhs,index);
+						//tmp->content = rhs;
+					_STACK_GOTO(-index_no);
+					break;
+
+				}
+
 				if(is_id_flag_GLOBAL(pc)){
-					struct fbgc_identifier * tmp = (struct fbgc_identifier *) get_address_in_fbgc_array_object(globals,cast_fbgc_object_as_id_opcode(pc)->loc);
+					struct fbgc_identifier * tmp = 
+					(struct fbgc_identifier *) get_address_in_fbgc_array_object(globals,cast_fbgc_object_as_id_opcode(pc)->loc);
 					tmp->content = rhs;
 				} 
-
-				else if(is_id_flag_LOCAL(pc))  GET_AT_FP(cast_fbgc_object_as_id_opcode(pc)->loc) = rhs;	
+				else if(is_id_flag_LOCAL(pc)){
+					GET_AT_FP(cast_fbgc_object_as_id_opcode(pc)->loc) = rhs;
+				}	
 				break;
 			}
-			/*case ASSIGN_SUBSCRIPT:
-			{
-				//return 0;
-				struct fbgc_object * rhs = _POP();
-				struct fbgc_object * obj = _POP();
 
-				int arg_no = cast_fbgc_object_as_int(TOP())->content; 
-				_POP();
-				int index = 0;
-
-				_STACK_GOTO(-arg_no+1);	
-
-				cprintf(110,"arg no:%d\n",arg_no);
-				print_fbgc_object(TOPN(0));
-				
-				for( int i = 0; i<arg_no; i++ ){
-					if(obj->type == TUPLE){
-						index = cast_fbgc_object_as_int(TOPN(-i+1))->content;
-						cprintf(111,"Index: %d\n",index);
-						if(arg_no>1){
-							//arg_no--;
-							cprintf(111,"Now object...\n");
-							obj = get_object_in_fbgc_tuple_object(obj,index);
-						}
-					}
-					else {
-						cprintf(100,"Error returning 0\n");
-						break;
-						//return 0;
-					}					
-				}
-				
-				set_object_in_fbgc_tuple_object(obj,rhs,index);
-
-				break;	
-			}*/
 			case FUN_CALL:
 			{
 				struct fbgc_fun_object * funo = cast_fbgc_object_as_fun(_POP());
@@ -227,6 +244,8 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				 _PUSH(ret);
 				//##Solve this pc->next problem!!!!!!!!
 				pc = stack;
+				cprintf(111,"Stack next :");
+				print_fbgc_object(stack->next);
 				break;
 			}
 
@@ -253,11 +272,11 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 	#ifdef INTERPRETER_DEBUG
 	cprintf(111,"\n==============Stack==========================\n");
 	print_fbgc_object(stack);
-	cprintf(111,"\n==================globals===================\n");
+	
+	#endif
+cprintf(111,"\n==================globals===================\n");
 	print_field_object_locals(*field_obj);
 	cprintf(111,"\n==============================================\n\n");
-	#endif
-
 	#ifdef INTERPRETER_DEBUG
 	cprintf(111,"^^^^^^^^^^^^^^^^^^^^\n");
 	#endif

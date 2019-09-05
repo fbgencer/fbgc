@@ -17,7 +17,13 @@ void load_module_in_field_object(struct fbgc_object * field_obj, const struct fb
 	cm->module = module;
 	cm->base.type = CMODULE;//CHANGE THIS
 	push_front_fbgc_ll_object(cast_fbgc_object_as_field(field_obj)->modules,(struct fbgc_object *)cm);
-
+	
+	
+	//const struct fbgc_cfunction * cc  = module->initializer;
+	//cprintf(111,"WHOW name %s\n",cc->name);
+	//	struct fbgc_object * q = cc->function((struct fbgc_object * ) cm);
+	//cprintf(111,"BUM!\n");
+	
 }
 
 

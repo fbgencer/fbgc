@@ -16,7 +16,9 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
     FILE *input_file = fopen(file_name,"r");
     while (fbgc_getline_from_file(line, sizeof(line), input_file)){
         if(line[0] == ':' && line[1] == '>') continue; 
-        if(line[0] != '\0') regex_lexer(&main_field,line);      
+        if(line[0] != '\0') regex_lexer(&main_field,line);
+        else cprintf(111,"Issue line %s\n",line);     
+
     }
     fclose(input_file); 
     end = clock();

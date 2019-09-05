@@ -36,16 +36,28 @@ extern struct fbgc_object * fbgc_pi(struct fbgc_object * arg){
 
 	return new_fbgc_double_object(3.141592653589793);
 }
+
 */
+
+const struct fbgc_cfunction fbgc_math_initializer_struct = {"math",fbgc_math_initializer};
+extern struct fbgc_object * fbgc_math_initializer (struct fbgc_object * cm){
+
+	cprintf(111,"AAAA type is %s\n",object_name_array[cm->type]);
+
+	//cm->variables = new_fbgc_array_object(0,sizeof(struct ));
+
+	return cm;
+}
 
 
 
 //Work on this, is it possible to cast ?
 const struct fbgc_cmodule fbgc_math_module = 
 {
-	.name = "math",
+	//.name = "math",
+	.initializer = &fbgc_math_initializer_struct,
 	.functions = (const struct fbgc_cfunction*[])
-	{
+	{	
 		&fbgc_sin_struct,
 		&fbgc_cos_struct,
 		&fbgc_tan_struct,

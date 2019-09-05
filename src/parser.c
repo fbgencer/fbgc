@@ -128,14 +128,7 @@ struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,st
 	
 	uint8_t gm_error = 1;
 
-	if(iter_prev->type == COMMA) iter_prev->type = INT; 
-	else {
-		struct fbgc_object * ito = new_fbgc_int_object(1);
-		if(gm->top == NUPLE) cast_fbgc_object_as_int(ito)->content = 0;
-		ito->next = iter_prev->next;
-		iter_prev->next = ito;
-		iter_prev = ito;
-	}
+
 
 	#ifdef PARSER_DEBUG
 	cprintf(111,">>gm.top %s\n",object_name_array[gm->top]);
@@ -149,81 +142,91 @@ struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,st
 	iter_prev = iter_prev->next;
 	*/
 
+	fbgc_token top_type = get_fbgc_object_type(top_fbgc_ll_object(op));
+ 
+	if(top_type == IDENTIFIER || top_type == CFUN){
+		cprintf(100,"Operator stack top NAME, this is a function call template!\n");
 
-	switch(get_fbgc_object_type(top_fbgc_ll_object(op))){
-		case IDENTIFIER:
-		case CFUN:
-			cprintf(100,"Operator stack top NAME, this is a function call template!\n");
-
-				gm_seek_right(gm,top_fbgc_ll_object(op));
-
-				struct fbgc_object * iter = iter_prev->next;
-				#ifdef PARSER_DEBUG
-				cprintf(011,"in func gm.top :[%s]\n",
-							object_name_array[gm->top]);
-				#endif
-
-				//Insert top op to the list  
-				iter_prev->next = top_fbgc_ll_object(op);
-				op = pop_front_fbgc_ll_object(op);
-				iter_prev = iter_prev->next;
-				iter_prev->next = new_fbgc_object(FUN_CALL);
-				iter_prev = iter_prev->next;
-				iter_prev->next = iter;
-				
-
-				return iter_prev;
-		case IF:	cprintf(100,"Operator stack top IF, this is an if template!\n");
-			gm_seek_right(gm,top_fbgc_ll_object(op));
-			cast_fbgc_object_as_jumper(top_fbgc_ll_object(op))->content = iter_prev;
-			return iter_prev;
-		case ELIF:	cprintf(100,"Operator stack top ELIF, this is an if template!\n");
-			gm_seek_right(gm,top_fbgc_ll_object(op));
-			cast_fbgc_object_as_jumper(top_fbgc_ll_object(op))->content = iter_prev;
-			return iter_prev;			
-		case WHILE:	cprintf(100,"Operator stack top WHILE, this is an whle template!\n");
-			gm_seek_right(gm,top_fbgc_ll_object(op));
-			cast_fbgc_object_as_jumper(top_fbgc_ll_object(op))->content = iter_prev;
-			return iter_prev;
-		case FOR:	cprintf(100,"Operator stack top FOR, this is an for template!\n");
-			gm_seek_right(gm,top_fbgc_ll_object(op));
-			cast_fbgc_object_as_jumper(top_fbgc_ll_object(op))->content = iter_prev;
-			return iter_prev;
-		case FUN_MAKE:{
-			cprintf(100,"Operator stack top FUN, this is an fun template!\n");
-			//fun_make content holds function object, parse the arguments
-			gm_seek_right(gm,top_fbgc_ll_object(op));
 			
-			struct fbgc_object * top = top_fbgc_ll_object(op);
-			struct fbgc_object * fun_obj =  cast_fbgc_object_as_jumper(top_fbgc_ll_object(op))->content; 
 
-			#ifdef PARSER_DEBUG
-			cprintf(111,"\n\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n");
-			cprintf(111,"Function making : arg start:"); print_fbgc_object(fun_obj->next);
-			cprintf(111,"\nArg end:"); print_fbgc_object(iter_prev);
-			#endif
-
-			handle_function_args(fun_obj,iter_prev);
-
-			//cprintf(111,"iter_prev \n"); print_fbgc_object(iter_prev);
-
-			//cprintf(111,"fun next %s\n",object_name_array[fun_obj->next->type]);
-			//cprintf(111,"iter_prev next %s\n",object_name_array[iter_prev->next->type]);
-			iter_prev = fun_obj;
-			#ifdef PARSER_DEBUG
-			cprintf(111,"\n\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n");
-			#endif
-
-			return iter_prev;	
+		if(iter_prev->type == COMMA) iter_prev->type = INT; 
+		else {
+			struct fbgc_object * ito = new_fbgc_int_object(1);
+			if(gm->top == NUPLE) cast_fbgc_object_as_int(ito)->content = 0;
+			ito->next = iter_prev->next;
+			iter_prev->next = ito;
+			iter_prev = ito;
 		}
-		case LOAD:	cprintf(100,"Operator stack top LOAD, this is an load module template!\n");
-			struct fbgc_object * top = top_fbgc_ll_object(op);
 
+		gm_seek_right(gm,top_fbgc_ll_object(op));
+		struct fbgc_object * iter = iter_prev->next;
+		#ifdef PARSER_DEBUG
+		cprintf(011,"in func gm.top :[%s]\n",
+					object_name_array[gm->top]);
+		#endif
 
-			return iter_prev;	
-		default: 
-			cprintf(100,"Operator stack top undefined, return old!\n");
+		//Insert top op to the list  
+		iter_prev->next = top_fbgc_ll_object(op);
+		op = pop_front_fbgc_ll_object(op);
+		iter_prev = iter_prev->next;
+		iter_prev->next = new_fbgc_object(FUN_CALL);
+		iter_prev = iter_prev->next;
+		iter_prev->next = iter;
+		
 		return iter_prev;
+	}
+	else if( top_type == FUN_MAKE){
+		cprintf(100,"Operator stack top FUN, this is an fun template!\n");
+		//fun_make content holds function object, parse the arguments
+		gm_seek_right(gm,top_fbgc_ll_object(op));
+		
+		struct fbgc_object * top = top_fbgc_ll_object(op);
+		struct fbgc_object * fun_obj =  cast_fbgc_object_as_jumper(top_fbgc_ll_object(op))->content; 
+
+		#ifdef PARSER_DEBUG
+		cprintf(111,"\n\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n");
+		cprintf(111,"Function making : arg start:"); print_fbgc_object(fun_obj->next);
+		cprintf(111,"\nArg end:"); print_fbgc_object(iter_prev);
+		#endif
+
+		handle_function_args(fun_obj,iter_prev);
+
+		//cprintf(111,"iter_prev \n"); print_fbgc_object(iter_prev);
+
+		//cprintf(111,"fun next %s\n",object_name_array[fun_obj->next->type]);
+		//cprintf(111,"iter_prev next %s\n",object_name_array[iter_prev->next->type]);
+		iter_prev = fun_obj;
+		#ifdef PARSER_DEBUG
+		cprintf(111,"\n\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n");
+		#endif
+
+		return iter_prev;
+	}
+	else{
+		
+		if(gm->top != MONUPLE){
+
+			if(iter_prev->type == COMMA) iter_prev->type = INT; 
+			else {
+				struct fbgc_object * ito = new_fbgc_int_object(1);
+				if(gm->top == NUPLE) cast_fbgc_object_as_int(ito)->content = 0;
+				ito->next = iter_prev->next;
+				iter_prev->next = ito;
+				iter_prev = ito;
+			}	
+			//If nothing than it's a tuple!
+			struct fbgc_object * iter = iter_prev->next;
+			iter_prev->next = new_fbgc_object(BUILD_TUPLE);
+			iter_prev = iter_prev->next;
+			iter_prev->next = iter;				
+		}
+		if(top_type == IF || top_type == ELIF || top_type == WHILE){
+			cprintf(100,"Operator stack top %s, this is an if template!\n",object_name_array[top_type]);
+			gm_seek_right(gm,top_fbgc_ll_object(op));
+			cast_fbgc_object_as_jumper(top_fbgc_ll_object(op))->content = iter_prev;
+			cprintf(111,"if shows %s\n",object_name_array[iter_prev->next->type]);			
+		}
+		return iter_prev;		
 	}
 
 }
@@ -253,10 +256,10 @@ struct fbgc_object * handle_before_brackets(struct fbgc_object * iter_prev,struc
 		struct fbgc_object * iter = iter_prev->next;
 		//Insert top op to the list  
 		set_id_flag_SUBSCRIPT(top_fbgc_ll_object(op));
-		iter_prev->next = top_fbgc_ll_object(op);
+		/*iter_prev->next = top_fbgc_ll_object(op);
 		op = pop_front_fbgc_ll_object(op);
 		iter_prev = iter_prev->next;
-		iter_prev->next = iter;
+		iter_prev->next = iter;*/
 
 	}
 	else{
@@ -283,7 +286,7 @@ struct fbgc_object * new_cfun_object_from_str(struct fbgc_object * field_obj,con
 			int size_str = strlen(str);
 			int size_fun_name = strlen(cc->name);
 			if(size_str == size_fun_name && !memcmp(str,cc->name,size_str)){
-				cprintf(010,"\n**Function [%s] is founded in module [%s]**\n",cc->name,cm->module->name);
+				cprintf(010,"\n**Function [%s] is founded in module **\n",cc->name);
 				return new_fbgc_cfun_object(cc->function);
 			} 
 			//cprintf(101,"{%s}\n",cc->name);
@@ -496,6 +499,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 				//iter_prev = jump_obj->next;
 			}
 			else if(top_fbgc_ll_object(op_stack_head)->type == FUN_MAKE){
+				assert(iter_prev->type != FUN); 
 				struct fbgc_object * fun_obj = cast_fbgc_object_as_jumper(top_fbgc_ll_object(op_stack_head))->content;
 				cprintf(111,"iter_prev:%s\n",object_name_array[iter_prev->type]);
 				cprintf(111,"iter_prev->next:%s\n",object_name_array[iter_prev->next->type]);
@@ -505,7 +509,14 @@ uint8_t parser(struct fbgc_object ** field_obj){
 				cast_fbgc_object_as_fun(fun_obj)->code = fun_obj->next;
 
 				//fun_obj->next = iter->next;
-				iter_prev->next = fun_obj;
+				if(iter_prev->type != RETURN){
+					//add NIL object 
+					iter_prev->next = new_fbgc_object(NIL);
+					iter_prev = iter_prev->next;
+					iter_prev->next = new_fbgc_object(RETURN);
+					iter_prev = iter_prev->next;
+				}
+				iter_prev->next = fun_obj; //last token in function code shows func object
 				iter_prev = fun_obj;
 
 

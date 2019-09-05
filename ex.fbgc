@@ -1,17 +1,11 @@
-:>Functionlardaki build tuple problemini çöz
-:>cfuncall ekleyelim böylece her şeyin tuple olduğu bir hal ile stackte dursun
-:>Name olayını hallet
-:>
-
-print('================<fbgc starts>=========================')
 
 
-pi = 3.141592653589793
-
-get_degree = fun(a)
-	return a*pi/180
+f = fun(a)
+	x = ((100,'fbg'),('a','b','c',('anne','baba','dede') ),200,300)
+	x[1,3,2] = a
+	return x
 end
 
 
-print('sind function  = ',tan(get_degree(45)))
-
+ep = f('EPFL')		
+print('Epfl tuple: ',ep)

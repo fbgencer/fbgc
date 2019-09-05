@@ -45,10 +45,17 @@ struct fbgc_object * fbgc_io_module_init(){
 }*/
  
 
+const struct fbgc_cfunction fbgc_io_initializer_struct = {"io",fbgc_io_initializer};
+extern struct fbgc_object * fbgc_io_initializer (struct fbgc_object * arg){
+	return arg;
+}
+
+
+
 //Work on this, is it possible to cast ?
 const struct fbgc_cmodule fbgc_io_module = 
 {
-	.name = "io",
+	.initializer = &fbgc_io_initializer_struct,
 	.functions = (const struct fbgc_cfunction*[])
 	{
 		&fbgc_print_struct,&fbgc_read_struct,NULL

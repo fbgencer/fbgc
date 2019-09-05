@@ -7,6 +7,8 @@ extern "C" {
 
 extern const struct fbgc_cmodule fbgc_math_module;
 
+
+declare_new_fbgc_cfunction(fbgc_math_initializer);
 declare_new_fbgc_cfunction(fbgc_sin);
 declare_new_fbgc_cfunction(fbgc_cos);
 declare_new_fbgc_cfunction(fbgc_tan);

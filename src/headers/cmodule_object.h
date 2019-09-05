@@ -19,9 +19,9 @@ struct fbgc_cfunction{
     struct fbgc_object * (* function)(struct fbgc_object *);
 };
 
-//C module holds CONSTANT array of c functions, this array is pre-determined during the compilation time
+//C module holds CONSTANT array of c functions, this array is (pre)determined during the compilation time
 struct fbgc_cmodule{
-    const char *name;
+    const struct fbgc_cfunction * initializer;
     const struct fbgc_cfunction ** functions;
 };
 
@@ -30,6 +30,7 @@ struct fbgc_cmodule{
 struct fbgc_cmodule_object{
     struct fbgc_object base;
     const struct fbgc_cmodule * module;
+    struct fbgc_object * variables; // array object 
 };
 
 struct fbgc_cfun_object{
