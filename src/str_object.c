@@ -38,6 +38,36 @@ void free_fbgc_str_object(struct fbgc_object * obj){
 }
 
 
+uint8_t my_strncmp(const char *s1, const char *s2, register size_t n)
+{
+    register unsigned char u1, u2;
+    while (n-- > 0){
+
+        u1 = (unsigned char) *s1++;
+        u2 = (unsigned char) *s2++;
+        if (u1 != u2 || u1 == '\0')
+            return 1;
+    }
+    return 0;
+}
+
+uint8_t my_strcmp(const char *p1, const char *p2)
+{
+  const unsigned char *s1 = (const unsigned char *) p1;
+  const unsigned char *s2 = (const unsigned char *) p2;
+  unsigned char c1, c2;
+  do
+    {
+      c1 = (unsigned char) *s1++;
+      c2 = (unsigned char) *s2++;
+      if (c1 == '\0')
+        return c1 - c2;
+    }
+  while (c1 == c2);
+  return c1 - c2;
+}
+
+
 //##########################################[C-STRINGS]###################################
 
 struct
@@ -48,7 +78,6 @@ fbgc_object * new_fbgc_cstr_object(const char * str_content){
     struct fbgc_cstr_object *stro =  (struct fbgc_cstr_object*) fbgc_malloc(size_fbgc_cstr_object + str_len + 1); 
     stro->base.type = CSTRING;
     stro->base.next = NULL;
-    stro->content = ( (char *) stro ) + size_fbgc_cstr_object;
     memcpy(&stro->content,str_content,str_len);
     *(&stro->content+str_len) = '\0';
     return (struct fbgc_object*) stro;  

@@ -18,11 +18,11 @@ new_fbgc_cfunction(fbgc_print,"print")
 {
 
 	struct fbgc_object ** contents = tuple_object_content(arg);
-		
+	
 	for(size_t i = 0; i<size_fbgc_tuple_object(arg); ++i){
 		printf_fbgc_object(contents[i]);
 	}
-	printf("\n");
+	fprintf(stdout,"\n");
 
 	return NULL;
 }

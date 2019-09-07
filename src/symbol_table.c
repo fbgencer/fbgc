@@ -21,8 +21,6 @@ struct fbgc_object * new_fbgc_symbol_from_substr(const char * str1,const char * 
 	
 	//:>//struct fbgc_object * table = (struct fbgc_object *) cast_fbgc_object_as_field(field_obj)->symbols;
 
-	struct fbgc_object * table = (struct fbgc_object *) fbgc_symbols;
-
 
 	struct fbgc_object * name_obj = new_fbgc_int_object(-1);
 
@@ -32,16 +30,18 @@ struct fbgc_object * new_fbgc_symbol_from_substr(const char * str1,const char * 
 	//############################
 	//Oh. this part just fucks the time for the variable searching. Clearly, without hash table adding new variable causes lots of times!
 	//############################
-	int8_t cmp = 1;
+    //clock_t begin,end;
+   // double search_time;
+	//begin = clock();
+	
 	for(size_t i = 0; i<size_fbgc_tuple_object(fbgc_symbols); i++){
-		if( length_fbgc_cstr_object(symbols[i]) != str2-str1) continue;
-		cmp = strncmp(str1,content_fbgc_cstr_object(symbols[i]),str2-str1);
-		if(cmp == 0) {
-			//
-			//cprintf(110,"Found in the symbol table!\n");
+		if(!my_strncmp(str1,content_fbgc_cstr_object(symbols[i]),str2-str1))
 			return new_fbgc_id_opcode(i); 
-		}
+		
 	}
+	//end = clock();
+	//search_time = (double)(end - begin) / CLOCKS_PER_SEC; 
+	//printf("Time :%f\n",search_time );
 
 	struct fbgc_object * temp_obj =  new_fbgc_cstr_object_from_substr(str1,str2);
 
@@ -63,7 +63,7 @@ struct fbgc_object * new_fbgc_symbol_from_substr(const char * str1,const char * 
 	//fbgc_symbols = table;
 
 	//table pointer may not be the same anymore
-	symbols = tuple_object_content(table);
+	symbols = tuple_object_content(fbgc_symbols);
 
 	#ifdef SYMBOL_TABLE_DEBUG
 	cprintf(100,"Succesfully added in the symbol table : ");

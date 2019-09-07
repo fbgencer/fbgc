@@ -103,15 +103,12 @@ const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] =
 	{LEXER_TOK_DOUBLE,". !d!+"}, 
 	{LEXER_TOK_DOUBLE,"!d!+ . !d!+"}, 	
 	{LEXER_TOK_BASE10_INT,"!d!+"},
-	{LEXER_TOK_PARA,"(|)|[|]|{|}"},
-	{LEXER_TOK_KEYWORDS,"end|fun|elif|else|while|break|cont|load|true|false|if|return"},		
+	{LEXER_TOK_PARA,"(|)|[|]|{|}"},		
+	{LEXER_TOK_KEYWORDS,"end|fun|elif|else|while|break|cont|load|true|false|if|return"},
 	{LEXER_TOK_NAME,"_!w _!w!d!*"},		
 	{LEXER_TOK_OP, "...|->|<-|~>|<~|::|+=|-=|*=|/=|:=|++|--|=>|**|//|<=|>=|==|!=|>>|<<|^|%|<|>|||&|/|*|-|+|!|~|;|,|.|:|="},
 };
 	
-
-
-
 
 
 #ifdef DEBUG
@@ -228,6 +225,7 @@ static const char * rule_reader(rule_flag_struct * rfs,const char * rule_ptr){
 	return rule_ptr;
 }
 
+
 static uint8_t check_char(rule_flag_struct *rfs,char ** buffer_ptr){
 
 	#ifdef DEBUG
@@ -235,10 +233,10 @@ static uint8_t check_char(rule_flag_struct *rfs,char ** buffer_ptr){
 	cprintf(100,"RFS pattern_flag 0x%x buffer_ptr[%s]\n",rfs->pattern_flag,*buffer_ptr);
 	#endif
 
-	uint8_t check = 0;
-	uint8_t rule_meta_or_section = 0;
+	register uint8_t check = 0;
+	register uint8_t rule_meta_or_section = 0;
 
-	uint8_t i1 = 0,i2 = 0;
+	register uint8_t i1 = 0,i2 = 0;
 
 	while(i1 < rfs->char_match_end ){
 
@@ -248,7 +246,7 @@ static uint8_t check_char(rule_flag_struct *rfs,char ** buffer_ptr){
 			i2++;
 			if(*(rfs->char_match_begin+i2) == LXR_META_OR) break;
 		}
-		if(i2>i1 && !strncmp(*buffer_ptr,rfs->char_match_begin+i1 ,i2-i1)){
+		if(i2>i1 && !my_strncmp(*buffer_ptr,rfs->char_match_begin+i1 ,i2-i1)){
 			*buffer_ptr += i2-i1;
 			//cprintf(001,"\t\t\t>>>>>>>>>Catched at %d\n",rule_meta_or_section);
 			return ++rule_meta_or_section; //if it's zero we have return 1 so check must be satisfied
@@ -270,17 +268,17 @@ static uint8_t check_char(rule_flag_struct *rfs,char ** buffer_ptr){
 		}	
 	}
 
-	if(rfs->pattern_flag){
-		check = (
-				((rfs->pattern_flag & 0x01) && isdigit(*(*buffer_ptr))) ||
-				((rfs->pattern_flag & 0x02) && isalpha(*(*buffer_ptr))) ||
-				((rfs->pattern_flag & 0x04) && (ispunct(*(*buffer_ptr))) && (*(*buffer_ptr)) != '\'') || 
-				((rfs->pattern_flag & 0x08) && isxdigit(*(*buffer_ptr)))||
-				((rfs->pattern_flag & 0x10) && isprint(*(*buffer_ptr))) ||
-				((rfs->pattern_flag & 0x20) && isspace(*(*buffer_ptr))) ||
-				((rfs->pattern_flag & 0x40) && *(*buffer_ptr) == ' ' ) ); 
-		*buffer_ptr += check;
-	}
+	check = ( rfs->pattern_flag && 
+			((rfs->pattern_flag & 0x01) && isdigit(*(*buffer_ptr))) ||
+			((rfs->pattern_flag & 0x02) && isalpha(*(*buffer_ptr))) ||
+			((rfs->pattern_flag & 0x04) && (ispunct(*(*buffer_ptr))) && (*(*buffer_ptr)) != '\'') || 
+			((rfs->pattern_flag & 0x08) && isxdigit(*(*buffer_ptr)))||
+			((rfs->pattern_flag & 0x10) && isprint(*(*buffer_ptr))) ||
+			((rfs->pattern_flag & 0x20) && isspace(*(*buffer_ptr))) ||
+			((rfs->pattern_flag & 0x40) && *(*buffer_ptr) == ' ' ) ); 
+	
+	*buffer_ptr += check;
+	
 	return check;
 /*
 #define SET_PATTERN_FLAG_FROM_RULE(x)({\
@@ -393,9 +391,10 @@ uint8_t regex_lexer(struct fbgc_object ** field_obj,char * first_ptr){
 
 
 					//#endif
-					}
+					} 
 						current_rule_index = 0;
 						if(*mobile_ptr == '\0') break;
+						while(*mobile_ptr == ' ') mobile_ptr++; //eat space! 
 						first_ptr = mobile_ptr;
 
 				}
@@ -468,13 +467,9 @@ fbgc_object * tokenize_substr(const char *str1, const char*str2, lexer_token tok
 		case LEXER_TOK_OP:
 		{	
 			//cprintf(111,"\n\nCatched %s\n\n",object_name_array[THREE_DOT+where]);
-			fbgc_token opcode = THREE_DOT+where;
-			if(is_fbgc_ASSIGNMENT_OPERATOR(opcode))
-			{
-				return  derive_from_new_int_object(opcode,-1);
-			}
+			//fbgc_token opcode = THREE_DOT+where;
 			//cprintf(111,"opcode :%s",object_name_array[opcode]);
-			return new_fbgc_object(opcode);
+			return new_fbgc_object(THREE_DOT+where);
 		}					
 		case LEXER_TOK_PARA:
 		{
@@ -489,6 +484,8 @@ fbgc_object * tokenize_substr(const char *str1, const char*str2, lexer_token tok
 				"where" gives the location after LPARA, if its 3 it means RBRACK is found because
 				(|)|[|]|{|} , 3rd section is starting from 0 RBRACK 
 			*/
+			//return (where % 2 == 0) ? 
+			//derive_from_new_int_object(LPARA+where,0) : new_fbgc_object(LPARA+where);	
 			return new_fbgc_object(LPARA+where);
 		}
 		case LEXER_TOK_KEYWORDS:

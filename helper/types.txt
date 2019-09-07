@@ -4,10 +4,10 @@ INT $ int class
 DOUBLE $ double class
 COMPLEX $ complex class
 STRING $ string class
-NAME $ name class, name:value pairs
-IDENTIFIER $ identifiers
 CFUN $ c function
 FUN $ builtin fbgc function
+NAME $ name class, name:value pairs
+IDENTIFIER $ identifiers
 REFERENCE
 LIST
 MONATRIX

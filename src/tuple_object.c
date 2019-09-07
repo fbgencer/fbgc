@@ -52,14 +52,7 @@ struct fbgc_object * new_fbgc_tuple_object_from_tuple_content(struct fbgc_object
 	for(int i = 0; i<num; ++i){
 		contents[i] = src[i];
 	}
-	
-	/*cap = calculate_new_capacity_from_size(cap);
-	struct fbgc_tuple_object * to =  (struct fbgc_tuple_object*) fbgc_malloc(sizeof(struct fbgc_tuple_object) + sizeof(struct fbgc_object*)*cap);
-    to->base.type = TUPLE;
-    to->base.next = NULL;
-    to->size = 0;
-    to->capacity = cap;
-*/
+
     return (struct fbgc_object*) to;
 }
 

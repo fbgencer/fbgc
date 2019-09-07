@@ -21,10 +21,10 @@ typedef struct {
 #define DOUBLE 3 // double class
 #define COMPLEX 4 // complex class
 #define STRING 5 // string class
-#define NAME 6 // name class, name:value pairs
-#define IDENTIFIER 7 // identifiers
-#define CFUN 8 // c function
-#define FUN 9 // builtin fbgc function
+#define CFUN 6 // c function
+#define FUN 7 // builtin fbgc function
+#define NAME 8 // name class, name:value pairs
+#define IDENTIFIER 9 // identifiers
 #define REFERENCE 10 //
 #define LIST 11 //
 #define MONATRIX 12 //
@@ -128,10 +128,10 @@ typedef struct {
 "DOUBLE",\
 "COMPLEX",\
 "STRING",\
-"NAME",\
-"IDENTIFIER",\
 "CFUN",\
 "FUN",\
+"NAME",\
+"IDENTIFIER",\
 "REFERENCE",\
 "LIST",\
 "MONATRIX",\
@@ -252,7 +252,7 @@ const char * get_token_as_str(fbgc_token tok);
 #define is_fbgc_PARA(T)(T>=LPARA && T<= RBRACK)
 #define is_fbgc_UNARY_OPERATOR(T)( T==PLUSPLUS || T==MINUSMINUS || T == EXCLAMATION || T== TILDE)
 #define is_fbgc_ASSIGNMENT_OPERATOR(T)( T == ASSIGN || (T>= PLUS_ASSIGN && T<= CONST_ASSIGN)  )
-#define is_fbgc_BINARY_OPERATOR(T)( is_fbgc_OPERATOR(T) &&  is_fbgc_ASSIGNMENT_OPERATOR(T) == 0 && is_fbgc_UNARY_OPERATOR(T) == 0 )
+#define is_fbgc_BINARY_OPERATOR(T)( T>= PLUS && T<=STARSTAR )
 
 
 #define is_fbgc_MATRIX(x)(x == MATRIX || x == BUILD_MATRIX)

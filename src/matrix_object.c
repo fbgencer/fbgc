@@ -2,12 +2,12 @@
 
  
 struct fbgc_object * new_fbgc_matrix_object(unsigned int column_size){
-	struct fbgc_matrix_object *matrixo =  (struct fbgc_matrix_object*) malloc(sizeof(struct fbgc_matrix_object));
+	struct fbgc_matrix_object * matrixo =  
+    (struct fbgc_matrix_object*) fbgc_malloc(sizeof(struct fbgc_matrix_object));
     matrixo->base.type = MATRIX;
-    matrixo->base.next = NULL;
-    matrixo->row = 0;
+    matrixo->row = 1;
     matrixo->column = column_size;
-    matrixo->contents = (double *) malloc(sizeof(column_size)); 
+    matrixo->contents = (double *) fbgc_malloc(sizeof(column_size)); 
     return (struct fbgc_object*) matrixo;
 }
 

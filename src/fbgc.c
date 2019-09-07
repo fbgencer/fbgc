@@ -10,18 +10,18 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
     double lexer_time,parser_time,interpreter_time;
 
 
-    begin = clock();
+   
 
     char line[MAX_INPUT_BUFFER] = {0};
     FILE *input_file = fopen(file_name,"r");
+     
+    begin = clock();
     while (fbgc_getline_from_file(line, sizeof(line), input_file)){
         if(line[0] == ':' && line[1] == '>') continue; 
-        if(line[0] != '\0') regex_lexer(&main_field,line);
-        else cprintf(111,"Issue line %s\n",line);     
-
+        if(line[0] != '\0') regex_lexer(&main_field,line);  
     }
-    fclose(input_file); 
     end = clock();
+    fclose(input_file); 
     lexer_time = (double)(end - begin) / CLOCKS_PER_SEC; 
 
     #ifdef LEXER_DEBUG
@@ -37,7 +37,7 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
     end = clock();
     parser_time = (double)(end - begin) / CLOCKS_PER_SEC; 
 
-      #ifdef PARSER_DEBUG
+      #ifdef INTERPRETER_DEBUG
         cprintf(111,"Parser output array\n");
         print_fbgc_ll_object(cast_fbgc_object_as_field(main_field)->head,"Main");   
         cprintf(111,"\n");
@@ -73,6 +73,11 @@ bu 42lik yeri allocate etmek için 42-gb_size kadar bir allocation lazım
 bazı durumlarda bu mümkün olmayabilir
 bunun icin gereken nedir ?
 
+Execution time [LEXER] :5.929248
+Execution time [PARSER] :4.312434
+Execution time [INTERPRETER] :2.698341
+Total ex time 12.940023
+
 */
 
 
@@ -101,11 +106,14 @@ int main(int argc, char **argv){
 cprintf(110,"\n\n\n\n\n[=======================================================================]\n"); 
 
 //******************************************************************
-    if(argc>1)
+    if(argc > 1)
     {
         initialize_fbgc_memory_block();
         initialize_fbgc_symbol_table();
-
+        struct fbgc_object * main_field = new_fbgc_field_object();
+        load_module_in_field_object(main_field,&fbgc_math_module);
+        load_module_in_field_object(main_field,&fbgc_io_module);
+        compile_file(main_field, argv[1]);
 
         /*struct fbgc_object * to = new_fbgc_tuple_object(4);
         to = push_back_fbgc_tuple_object(to,new_fbgc_int_object(10));
@@ -119,11 +127,14 @@ cprintf(110,"\n\n\n\n\n[========================================================
         print_fbgc_tuple_object(cto);*/
 
 
+        /*double x[9] = {1,2,3,4,5,6,7,8,9};
 
-        struct fbgc_object * main_field = new_fbgc_field_object();
-        load_module_in_field_object(main_field,&fbgc_math_module);
-        load_module_in_field_object(main_field,&fbgc_io_module);
-        compile_file(main_field, argv[1]);
+        for(int i = 0; i<3; i++){
+            for(int j = 0; j< 3; j++ ){
+                cprintf(111,"%f\n",(x[i*3+j]));
+            }
+        }*/
+        
         //print_fbgc_memory_block();
 
         /*char buffer [50];

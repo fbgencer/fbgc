@@ -265,16 +265,16 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 	{
 		gm->top = LBRACE;		
 	}	
-	/*else if( (is_fbgc_UNARY_OPERATOR(get_fbgc_object_type(obj)) ||
-			 get_fbgc_object_type(obj) == PLUS ||get_fbgc_object_type(obj) == MINUS) 
-			&& 
-			(is_fbgc_BINARY_OPERATOR(gm_left) || is_fbgc_ASSIGNMENT_OPERATOR(gm_left) || gm_left == LPARA || gm_left == NEWLINE) )
+	// else if( (is_fbgc_UNARY_OPERATOR(get_fbgc_object_type(obj)) ||
+	// 		 get_fbgc_object_type(obj) == PLUS ||get_fbgc_object_type(obj) == MINUS) 
+	// 		&& 
+	// 		(is_fbgc_BINARY_OPERATOR(gm_left) || is_fbgc_ASSIGNMENT_OPERATOR(gm_left) || gm_left == LPARA || gm_left == NEWLINE) )
 
-	{
-		if(get_fbgc_object_type(obj) == PLUS) obj->type = UPLUS;
-		else if(get_fbgc_object_type(obj) == MINUS) obj->type = UMINUS;	
-		gm->top = get_fbgc_object_type(obj);		
-	}*/
+	// {
+	// 	if(get_fbgc_object_type(obj) == PLUS) obj->type = UPLUS;
+	// 	else if(get_fbgc_object_type(obj) == MINUS) obj->type = UMINUS;	
+	// 	gm->top = get_fbgc_object_type(obj);		
+	// }
 	else if(is_fbgc_BINARY_OPERATOR(get_fbgc_object_type(obj)) && is_fbgc_EXPRESSION(gm_left)){
 		//cprintf(111,"binar->expr");
 		gm->top = get_fbgc_object_type(obj);
@@ -328,11 +328,7 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 	else if(get_fbgc_object_type(obj) == WHILE && (is_fbgc_STATEMENT(gm_left) ||gm_left == ELSE || gm_left == ELIF ||
 			gm_left == NEWLINE || gm_left == LBRACE)){
 		gm->top = WHILE;		
-	}
-	/*else if(get_fbgc_object_type(obj) == FOR && (is_fbgc_STATEMENT(gm_left) ||gm_left == ELSE || gm_left == ELIF ||
-			gm_left == NEWLINE || gm_left == LBRACE)){
-		gm->top = FOR;		
-	}			*/
+	}	
 	else if(get_fbgc_object_type(obj) == END && (is_fbgc_EXPRESSION(gm_left)) ){
 
 		gm->top = EXPRESSION;
@@ -396,10 +392,7 @@ uint8_t gm_seek_right(struct fbgc_grammar * gm, struct fbgc_object * obj){
 	}
 	else if( get_fbgc_object_type(obj) == WHILE && (gm_right == MONUPLE || gm_right == BUILD_TUPLE)){
 		gm->top  = obj->type = WHILE_BEGIN;
-	}
-	/*else if( get_fbgc_object_type(obj) == FOR && gm_right == MONUPLE){
-		gm->top  = obj->type = FOR_BEGIN;
-	}	*/				
+	}			
 	else if( get_fbgc_object_type(obj) == IF_BEGIN && is_fbgc_STATEMENT(gm_right) ){
 		gm->top = IF_BEGIN;
 		grammar_open_BEGIN_flag(gm->flag);		
@@ -412,10 +405,7 @@ uint8_t gm_seek_right(struct fbgc_grammar * gm, struct fbgc_object * obj){
 		gm->top = WHILE_BEGIN;
 		grammar_open_BEGIN_flag(gm->flag);		
 	}
-	else if( get_fbgc_object_type(obj) == FOR_BEGIN && is_fbgc_STATEMENT(gm_right) ){
-		gm->top = FOR_BEGIN;
-		grammar_open_BEGIN_flag(gm->flag);		
-	}						
+			
 	else if(get_fbgc_object_type(obj) == LOAD && gm_right == MONUPLE){
 		gm->top = LOAD;
 	}

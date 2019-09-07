@@ -17,37 +17,38 @@ void printf_fbgc_object(struct fbgc_object * self){
 	{
 		case INT:
 		{
-			printf("%d",cast_fbgc_object_as_int(self)->content);
+			fprintf(stdout,"%d",cast_fbgc_object_as_int(self)->content);
 			break;			
 		}	
 		case DOUBLE:
 		{
-			printf("%f",cast_fbgc_object_as_double(self)->content);
+			fprintf(stdout,"%f",cast_fbgc_object_as_double(self)->content);
 			break;			
 		}
 		case STRING:
 		{
-		    printf("%s",&cast_fbgc_object_as_str(self)->content);   
+		    fprintf(stdout,"%s",&cast_fbgc_object_as_str(self)->content);   
 			break;
 		}
 		case TUPLE:
 		{
 			struct fbgc_object ** contents = tuple_object_content(self);
-			printf("(");
+			fprintf(stdout,"(");
 			for(size_t i = 0; i<size_fbgc_tuple_object(self); i++){
 				printf_fbgc_object(contents[i]);
-				if(i < size_fbgc_tuple_object(self)-1 ) printf(",");
+				if(i < size_fbgc_tuple_object(self)-1 ) 
+					fprintf(stdout,",");
 			}
-			printf(")");
+			fprintf(stdout,")");
 			break;
 		}	
 		case FUN:
 		{
-			printf("[Function object<%p>]",self);
+			fprintf(stdout,"[Function object<%p>]",self);
 			break;
 		}			
 		default:
-				printf("Error undefined object!\n"); 
+				fprintf(stdout,"Error undefined object!\n"); 
 		break;
 
 	}	

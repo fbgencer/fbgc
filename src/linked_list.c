@@ -196,7 +196,24 @@ void print_fbgc_ll_object(struct fbgc_object * head,const char *s1){
             cprintf(011,"FUN:[");
             print_fbgc_object(iter);
             cprintf(011,"]");
-        }                 
+        }
+
+        else if(iter->type == BUILD_TUPLE){
+            cprintf(011,"{BUILD_TUPLE(%d)}",
+                cast_fbgc_object_as_int(iter)->content);
+        }
+        else if(iter->type == BUILD_MATRIX){
+            cprintf(011,"{BUILD_MATRIX(%d)}",
+                cast_fbgc_object_as_int(iter)->content);
+        }
+       /* else if(iter->type == FUN_CALL){
+            cprintf(011,"{FUN_CALL(%d)}",
+                cast_fbgc_object_as_int(iter)->content);
+        }         */
+        else if(iter->type == ROW){
+            cprintf(011,"{ROW(%d)}",
+                cast_fbgc_object_as_int(iter)->content);
+        }                                    
         else if(is_fbgc_OPERATOR(iter->type)) cprintf(011,"{%s}",get_token_as_str(iter->type));
 
         else cprintf(011,"{%s}",object_name_array[iter->type]);     
