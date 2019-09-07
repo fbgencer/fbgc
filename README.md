@@ -1,5 +1,5 @@
 # fbgc
-![](https://fbgencer.github.io/editor.md/images/logos/)
+![](https://fbgencer.github.io/fbgc.png)
 
 - Written in C for small memory environments as a calculator and interpreted programming language. However, fbgc is getting powerful to become a programming language or a scientific calculation tool on computers.
 
