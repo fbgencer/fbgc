@@ -19,7 +19,7 @@ Write your first program:
 
 ## Build
 
- To build $$f_{b}^{g}c$$, simply run:
+ To build ![fbgc], simply run:
 
     $ make
 
@@ -78,4 +78,4 @@ end
 ![fbgc] is looking forward to be improved. If you are interested in please make pull request. It is under development.
 
 
-[fbgc]: http://chart.apis.google.com/chart?cht=tx&chl=m=f_{b}^{g}c
+[fbgc]: http://chart.apis.google.com/chart?cht=tx&chl=f_{b}^{g}c
