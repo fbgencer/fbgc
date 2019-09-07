@@ -1,9 +1,9 @@
 ![](https://github.com/fbgencer/fbgc/blob/master/fbgc_small_logo.png)
 
-- Written in C for small memory environments as a calculator and interpreted programming language. However, fbgc is getting powerful to become a programming language or a scientific calculation tool on computers.
+- Written in C for small memory environments as a calculator and interpreted programming language. However, ![fbgc] is getting powerful to become a programming language or a scientific calculation tool on computers.
 
 ##### History
-- It started as a calculator using [Shunting Yard algorithm](https://en.wikipedia.org/wiki/Shunting-yard_algorithm) for fbgc parser. Later it growed and it shows a capacity to become a programmin language. Since then it has been improved and also it's under development.
+- It started as a calculator using [Shunting Yard algorithm](https://en.wikipedia.org/wiki/Shunting-yard_algorithm) for ![fbgc] parser. Later it growed and it shows a capacity to become a programming language. Since then it has been improved and also it's under development.
 - Inspired by Python, Matlab, and of course C. Yet it tries to differ somehow from these languages while keeping their good but changing features that is thought as useful.
 
 #### Features
