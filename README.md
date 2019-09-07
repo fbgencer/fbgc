@@ -25,7 +25,7 @@ Write your first program:
 
 ## Run
 
-$$f_{b}^{g}c$$ allows you to define multiple types of entries. Such as integers, doubles, strings, tuples and matrices. You don't need to specify as in the case of dynamically typed languages.
+![fbgc] allows you to define multiple types of entries. Such as integers, doubles, strings, tuples and matrices. You don't need to specify as in the case of dynamically typed languages.
 
 ```python
 	:> This is a line comment
@@ -75,4 +75,7 @@ end
   - ◦ Garbage collection
   - ◦ Optimizations
 
-$$f_{b}^{g}c$$  is looking forward to be improved. If you are interested in please make pull request. It is under development.
+![fbgc] is looking forward to be improved. If you are interested in please make pull request. It is under development.
+
+
+[fbgc]: http://chart.apis.google.com/chart?cht=tx&chl=m=f_{b}^{g}c
