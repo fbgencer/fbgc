@@ -24,9 +24,9 @@ Write your first program:
 
 ## Run
 
-![fbgc] allows you to define multiple types of entries. Such as integers, doubles, strings, tuples and matrices. You don't need to specify as in the case of dynamically typed languages.
+![fbgc] allows you to define multiple types of entries. Such as integers, doubles, strings, tuples and matrices. You don't need to specify types as in the case of statically typed languages.
 
-```python
+```C
 	:> This is a line comment
 	x = 5 :> integer
 	x = 3.14159 :> double
@@ -35,7 +35,7 @@ Write your first program:
 	x = [1,2,3 ; 4,5,6] :> 2x3 matrix
 ```
 Function definition:
-```python
+```C
 sum = fun(a,b)
 	return a+b
 end
