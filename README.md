@@ -14,7 +14,9 @@
 
 Write your first program:
 
+```ruby
 	print('Hello World')
+```
 
 ## Build
 
