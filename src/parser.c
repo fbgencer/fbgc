@@ -671,7 +671,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 
 				assert(op_top != NULL);
 				if(op_top->type == WHILE_BEGIN){
-					//here we assumed there will be always jump object after while
+					//here we assumed there will be always jump object after while in the stack
 					op_top = op_top->next;
 					
 					cast_fbgc_object_as_jumper(iter)->content = op_top;

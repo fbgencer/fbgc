@@ -41,6 +41,25 @@ void printf_fbgc_object(struct fbgc_object * self){
 			}
 			fprintf(stdout,")");
 			break;
+		}
+		case MATRIX:
+		{
+			    #define m cast_fbgc_object_as_matrix(self)
+
+			    double * contents = matrix_object_content(self);
+
+			    printf("[");
+			    for(int i = 0; i<m->row; i++){
+			        
+			        for(int j = 0; j<m->column; j++){
+			            printf("%f",contents[i * m->column + j]);
+			            if(j != m->column-1) printf(",");
+			        }
+			        if(i!= m->row-1) printf(";");
+			    }
+			    printf("]");
+			    #undef m 
+			break;
 		}	
 		case FUN:
 		{
@@ -81,6 +100,9 @@ void print_fbgc_object(struct fbgc_object * self){
 			case TUPLE:
 				print_fbgc_tuple_object(self);
 			break;
+			case MATRIX:
+				print_fbgc_matrix_object(self);
+			break;
 			case FUN:
 				print_fbgc_fun_object(self);
 			break;			
@@ -102,6 +124,7 @@ size_t get_fbgc_object_size(struct fbgc_object * obj){
 		case INT: return sizeof(struct fbgc_int_object);
 		case DOUBLE: return sizeof(struct fbgc_double_object);
 		case STRING: return cast_fbgc_object_as_str(obj)->len+size_fbgc_str_object+1;
+		case MATRIX: return sizeof(struct fbgc_matrix_object)+(cast_fbgc_object_as_matrix(obj)->column+cast_fbgc_object_as_matrix(obj)->row)*sizeof(double);
 		case CSTRING: return size_fbgc_cstr_object+1+length_fbgc_cstr_object(obj);
 		case TUPLE: return sizeof(struct fbgc_tuple_object)+(capacity_fbgc_tuple_object(obj) * sizeof(struct fbgc_object*)) ;
 		//case REFERENCE : return sizeof(struct fbgc_ref_object);

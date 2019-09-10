@@ -10,7 +10,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 	struct fbgc_ll_object * head = cast_fbgc_object_as_ll( cast_fbgc_object_as_field(*field_obj)->head );
 	struct fbgc_object * pc = head->base.next; //program counter
 
-	#define PROGRAM_STACK_SIZE 1000
+	#define PROGRAM_STACK_SIZE 1000000
 	struct fbgc_object * stack = new_fbgc_tuple_object(PROGRAM_STACK_SIZE);
 	struct fbgc_object ** sp = tuple_object_content(stack);
 	int sctr = 0;
@@ -38,7 +38,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 #define SET_AT_FP(n, x)	(sp[fctr+(n)] = (x))
 #define FETCH_NEXT()(pc = pc->next)
 
-#define RECURSION_LIMIT 100
+#define RECURSION_LIMIT 1000
 
 	for(int i = 0; (pc != head->tail) ; i++){
 
@@ -133,7 +133,13 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				struct fbgc_object * loop_obj =  cast_fbgc_object_as_jumper(pc)->content;
 				pc = cast_fbgc_object_as_jumper(loop_obj)->content;	
 				break;
-			}			
+			}
+			case CONT:
+			{
+				stack->next = cast_fbgc_object_as_jumper(pc)->content;
+				pc = stack;
+				break;
+			}				
 			case RETURN:{
 
 				struct fbgc_object * ret = _POP();
@@ -147,6 +153,9 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				pc = stack;
 				//cprintf(111,"Stack next :");
 				//print_fbgc_object(stack->next);
+
+				recursion_ctr = 0;
+
 				break;
 			}			
 
@@ -174,10 +183,10 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				
 				assert(TOP() != NULL && SECOND() != NULL);
 
-					fbgc_token main_tok = 
-					(get_fbgc_object_type(TOP()) > get_fbgc_object_type(SECOND())) ? 
-					get_fbgc_object_type(TOP()) : 
-					get_fbgc_object_type(SECOND()) ;
+				fbgc_token main_tok = 
+				(get_fbgc_object_type(TOP()) > get_fbgc_object_type(SECOND())) ? 
+				get_fbgc_object_type(TOP()) : 
+				get_fbgc_object_type(SECOND()) ;
 
 				struct fbgc_object * res =  call_fbgc_binary_op(type,_POP(),_POP(),main_tok);
 
@@ -264,9 +273,10 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			}
 			case FUN_CALL:
 			{
+				
 				struct fbgc_fun_object * funo = cast_fbgc_object_as_fun(_POP());
 				int arg_no = cast_fbgc_object_as_int(_POP())->content;
-				
+				//_POP();
 				
 				//assert(funo->base.type == FUN || funo->base.type == CFUN);
 
@@ -281,7 +291,6 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					// In order to increase speed, DELETE new tuple creation it causes 2sec for 100,000 print('ffdfds') code
 					
 					//return 0;
-
 				}
 
 				if(last_called_function == funo) recursion_ctr++;
@@ -315,6 +324,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				int tuple_size = cast_fbgc_object_as_int(pc)->content;
 				struct fbgc_object * to = new_fbgc_tuple_object(tuple_size);
 				size_fbgc_tuple_object(to) = tuple_size;
+				
 					
 				while(--tuple_size >= 0){
 					set_object_in_fbgc_tuple_object(to,_POP(),tuple_size);
@@ -323,32 +333,63 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				_PUSH(to);
 				break;
 			}
-			/*case BUILD_MATRIX:
+			case BUILD_MATRIX:
 			{	
+				
+				int row = 0;
 
-
-				//first inspect the data 
-				//this is for opening a whole memory because we wanna
-				//contain all the elemnts in a c-array
-				//this would be slow but instead of consuming memory, it's worth it(is it?)
-				int column = cast_fbgc_object_as_int(pc)->content;
-				int row = 1;
+				int ctr = cast_fbgc_object_as_int(pc)->content;
+				int msize = ctr;
 
 				//traverse reverse!
 
-				for(int i = 1; i<=(row*(column+1)); i++){
-					print_fbgc_object(TOPN(i));
-					cprintf(111,"\n");
-					if(TOPN(i)->type == ROW){
+				cprintf(111,"sctr %d, ctr %d\n",sctr,ctr);
+				/*cast_fbgc_object_as_tuple(stack)->size = sctr;//sp - tuple_object_content(stack);
+				cprintf(111,"\n==============Stack==========================\n");
+				print_fbgc_object(stack);*/				
+				
+				if(ctr == 1 && TOP()->type == MATRIX) break;
+
+				for( ; ctr < sctr ;){
+
+					if(TOPN(ctr+1)->type == ROW){
+						//msize += cast_fbgc_object_as_int(TOPN(ctr+1))->content;
+						ctr += 1+cast_fbgc_object_as_int(TOPN(ctr+1))->content;
 						row++;
+						cprintf(010,"Top is row, msize: %d, ctr :%d ,row :%d\n",msize,ctr,row);
 					}
-					if(i == sctr) break;
+					else if(TOPN(ctr+1)->type == MATRIX){
+						int r = cast_fbgc_object_as_matrix(TOPN(ctr+1))->row;
+						int c = cast_fbgc_object_as_matrix(TOPN(ctr+1))->column;
+						cprintf(011,"top is matrix %dx%d\n",r,c);
+						msize +=  r*c;
+						ctr++; 
+					}
+					else {
+						cprintf(111,"ok!\n");
+						break;
+					}
 				}
 
-				cprintf(010,"So row:%d column %d\n",row,column);
-				return 0;
+				cprintf(010,"\nSo row:%d , ctr :%d and msize:%d\n",row,ctr,msize);
+				
+
+				
+				//struct fbgc_object * m = new_fbgc_matrix_object(ctr-row);
+				struct fbgc_object * m =
+				 matrix_creation_from_stack(sp+sctr-ctr ,ctr, msize, row);
+				assert(m != NULL);
+				print_fbgc_matrix_object(m);
+
+
+
+				_STACK_GOTO(-ctr);
+				_PUSH(m);
+
+				break;
+				//return 0;
 			}
-			*/
+			
 			default:
 			{
 				cprintf(101,"Undefined token in interpreter [%s]\n",object_name_array[type]);

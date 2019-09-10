@@ -1,15 +1,1 @@
-y = fun(a,b,c,d)
-
-	if(a == 5)
-		return 'a = 5'
-	elif(a == b)
-		return 'a = b'
-	elif(a == c)
-		return 'a = c'
-	else 
-		return 'nothing mannn'
-	end
-end
-
-
-print(y(5+1,5*2+2,3*3-3,4))
+[1,2;3,4]

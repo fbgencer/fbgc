@@ -1,0 +1,18 @@
+Fibonacci = fun(n) 
+    if( n < 0 )
+        return 'Incorrect input' 
+    elif( n <= 2 )  
+        return (n-1)
+    else 
+        return Fibonacci(n-1)+Fibonacci(n-2) 
+    end   
+end
+
+
+print('Fibonacci Numbers')
+
+i = 0
+while(i < 30)
+	i = i+1
+	print(i ,':\t', Fibonacci(i))
+end

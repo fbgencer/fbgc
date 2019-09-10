@@ -9,13 +9,18 @@ struct fbgc_matrix_object{
     struct fbgc_object base;
    	size_t row;
    	size_t column;
-    double * contents;
-
+    //double * contents;
 };
 
 #define cast_fbgc_object_as_matrix(x)(((struct fbgc_matrix_object*) x))
 
 struct fbgc_object * new_fbgc_matrix_object(unsigned int);
+struct fbgc_object * matrix_creation_from_stack(struct fbgc_object ** , int, int, int );
+
+#define matrix_object_content(x) (double *) ( (char*)(&cast_fbgc_object_as_matrix(m)->column) +sizeof(size_t) )
+
+//#define matrix_object_content(x)( (struct fbgc_object **)((char*) &cast_fbgc_object_as_tuple(x)->size+sizeof(cast_fbgc_object_as_tuple(x)->size)));
+
 void append_row_to_fbgc_matrix_object(struct fbgc_object * mat,struct fbgc_object * data);
 
 /*

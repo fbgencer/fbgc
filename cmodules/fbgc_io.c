@@ -21,6 +21,7 @@ new_fbgc_cfunction(fbgc_print,"print")
 	
 	for(size_t i = 0; i<size_fbgc_tuple_object(arg); ++i){
 		printf_fbgc_object(contents[i]);
+		fprintf(stdout," ");
 	}
 	fprintf(stdout,"\n");
 
@@ -41,14 +42,8 @@ new_fbgc_cfunction(fbgc_read,"read"){
 	return res;
 }
 
-/*
-struct fbgc_object * fbgc_io_module_init(){
-	struct fbgc_cmodule_object * fbgc_io_module = (struct fbgc_cmodule_object *)malloc(sizeof(fbgc_cmodule_object));
-	fbgc_io_module.base->next = NULL;
-	fbgc_io_module.base->type = UNKNOWN;
-	fbgc_io_module->name; 
-}*/
- 
+
+
 
 const struct fbgc_cfunction fbgc_io_initializer_struct = {"io",fbgc_io_initializer};
 extern struct fbgc_object * fbgc_io_initializer (struct fbgc_object * arg){
@@ -67,3 +62,13 @@ const struct fbgc_cmodule fbgc_io_module =
 	}
 };
 
+
+
+/*
+struct fbgc_object * fbgc_io_module_init(){
+	struct fbgc_cmodule_object * fbgc_io_module = (struct fbgc_cmodule_object *)malloc(sizeof(fbgc_cmodule_object));
+	fbgc_io_module.base->next = NULL;
+	fbgc_io_module.base->type = UNKNOWN;
+	fbgc_io_module->name; 
+}*/
+ 

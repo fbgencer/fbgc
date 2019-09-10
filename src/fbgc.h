@@ -5,6 +5,8 @@
 extern "C" {
 #endif
 
+#pragma pack(1)
+
 #include <stdlib.h>
 #include <inttypes.h>
 #include <stdint.h>
