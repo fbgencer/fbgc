@@ -92,36 +92,7 @@ void handle_function_args(struct fbgc_object * fun_obj,struct fbgc_object * arg_
 	cprintf(111,"Arg no : %d\n",cast_fbgc_object_as_fun(fun_obj)->no_arg);
 	#endif
 	fun_obj->next = arg_end->next;
-
 	
-	/*struct fbgc_object * arg_start = fun_obj->next;
-	do{
-		cprintf(111,"\nFun def while current type:\n");
-		print_fbgc_object(arg_start);
-		switch(arg_start->type){
-			case LOAD_GLOBAL:
-			{	
-
-				//fun_local = push_back_fbgc_tuple_object(fun_local,cast_fbgc_object_as_ref(arg_start)->content);
-				//cast_fbgc_object_as_ref(arg_start)->content = get_top_in_fbgc_tuple_object(fun_local);
-
-				//cprintf(100,"fun local top %p ref cont %p \n",cast_fbgc_object_as_ref(arg_start)->content,get_top_in_fbgc_tuple_object(fun_local));
-				//print_fbgc_object(cast_fbgc_object_as_ref(arg_start)->content);
-				break;
-			}
-			case NUPLE:
-
-			break;
-			case BUILD_TUPLE:
-			break;
-			
-			default:
-			break;
-		}
-
-		arg_start = arg_start->next;	
-	}while(arg_start != arg_end->next);*/
-
 }
 
 struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,struct fbgc_object * op, struct fbgc_grammar * gm){

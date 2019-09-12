@@ -4,17 +4,17 @@ INT $ int class
 DOUBLE $ double class
 COMPLEX $ complex class
 STRING $ string class
+TUPLE $ tuple class
+MATRIX $ matrix class
 CFUN $ c function
 FUN $ builtin fbgc function
 NAME $ name class, name:value pairs
 IDENTIFIER $ identifiers
 REFERENCE
-LIST
+CSTRING
 MONATRIX
-MATRIX
 NUPLE
 MONUPLE
-TUPLE
 ARRAY
 LINKED_LIST
 LINKED_LIST_TAIL
@@ -22,7 +22,6 @@ STACK
 CMODULE
 GARBAGE
 FIELD
-CSTRING
 END $ end
 FUN_MAKE
 ELIF

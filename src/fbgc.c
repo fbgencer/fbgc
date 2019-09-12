@@ -1,6 +1,7 @@
 #include "fbgc.h"
 #include "../cmodules/fbgc_io.h"
 #include "../cmodules/fbgc_math.h"
+#include "../cmodules/fbgc_stl.h"
 
 
 static void compile_file(struct fbgc_object * main_field,const char *file_name){
@@ -9,8 +10,6 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
     clock_t begin,end;
     double lexer_time,parser_time,interpreter_time;
 
-
-   
 
     char line[MAX_INPUT_BUFFER] = {0};
     FILE *input_file = fopen(file_name,"r");
@@ -51,12 +50,15 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
     end = clock();
     interpreter_time = (double)(end - begin) / CLOCKS_PER_SEC; 
 
+
+    #ifdef TIME_DEBUG
     cprintf(110,"\n\n\n\n\n\n[=======================================================================]\n"); 
     printf("Execution time [LEXER] :%f\n",lexer_time);    
     printf("Execution time [PARSER] :%f\n",parser_time);    
     printf("Execution time [INTERPRETER] :%f\n",interpreter_time);  
     printf("Total ex time %f\n",lexer_time+parser_time+interpreter_time);  
-        
+    #endif
+
       
 }
 
@@ -102,55 +104,27 @@ Total ex time 12.940023
 
 
 int main(int argc, char **argv){
-    
+
+#ifdef INTERPRETER_DEBUG    
 cprintf(110,"\n\n\n\n\n[=======================================================================]\n"); 
+#endif
 
 //******************************************************************
     if(argc > 1)
     {
-
-
-      //  cprintf(111,"Size :%d\n",sizeof(struct parent));
         initialize_fbgc_memory_block();
         initialize_fbgc_symbol_table();
-       struct fbgc_object * main_field = new_fbgc_field_object();
+        struct fbgc_object * main_field = new_fbgc_field_object();
         load_module_in_field_object(main_field,&fbgc_math_module);
         load_module_in_field_object(main_field,&fbgc_io_module);
-        compile_file(main_field, argv[1]);
-
-        /*struct fbgc_object * to = new_fbgc_tuple_object(4);
-        to = push_back_fbgc_tuple_object(to,new_fbgc_int_object(10));
-        to = push_back_fbgc_tuple_object(to,new_fbgc_int_object(100));
-        to = push_back_fbgc_tuple_object(to,new_fbgc_int_object(1000));
-        to = push_back_fbgc_tuple_object(to,new_fbgc_int_object(98765));
-
-        struct fbgc_object ** contents = tuple_object_content(to);
-        struct fbgc_object * cto =  new_fbgc_const_tuple_object_from_tuple_content(contents+2,2);
-
-        print_fbgc_tuple_object(cto);*/
-
-
-        /*double x[9] = {1,2,3,4,5,6,7,8,9};
-
-        for(int i = 0; i<3; i++){
-            for(int j = 0; j< 3; j++ ){
-                cprintf(111,"%f\n",(x[i*3+j]));
-            }
-        }*/
-        /*    struct fbgc_matrix_object * m = new_fbgc_matrix_object(4); // open ctr-row size array 
-            m->row = 2;
-            m->column = 2;
-    double * db = (double *) ( (char*)(&m->column) +sizeof(m->column) );
-    cprintf(111,"m %p DB: %p %d\n",m,db,sizeof(struct fbgc_matrix_object)); 
-        print_fbgc_memory_block();*/
-
-        /*char buffer [50];
-        int n, a=5, b=3;
-        n = sprintf(buffer, "%%%d0d",5);
-        printf(buffer,3);
-    */
-
-
+        load_module_in_field_object(main_field,&fbgc_stl_module);
+        
+        if(!strcmp(argv[1],"-s")){
+            compile_one_line(main_field,argv[2]);
+        }
+        else{
+            compile_file(main_field, argv[1]);
+        }
 
         free_fbgc_memory_block();    
     }
@@ -159,8 +133,10 @@ cprintf(110,"\n\n\n\n\n[========================================================
     }
 //******************************************************************
 
+#ifdef INTERPRETER_DEBUG 
 	cprintf(110,"\n[=======================================================================]\n\n\n\n\n\n"); 
-	return 0;
+#endif	
+    return 0;
 }
 
 

@@ -25,70 +25,117 @@ fbgc_object * new_fbgc_int_object_from_str(const char * int_str){
   	return new_fbgc_int_object(strtol(int_str,NULL,10));
 }
 
-struct
-fbgc_object * new_fbgc_int_object_from_substr(const char * int_str_begin,const char * int_str_end,uint8_t base){
-	//now we don't wanna check inf or overlfow issue but later we are going to check them
 
-    /*if(base == INT) base = 10;
-    else if(base == INT16) {base = 16; int_str_begin+=2;}  //eat 0x
-    else if(base == INT2) {base = 2; int_str_begin+=2;} //eat 0b*/
+struct fbgc_object * new_fbgc_int_object_from_substr(const char * int_str_begin,const char * int_str_end,uint8_t base){
+	//now we don't wanna check inf or overlfow issue but later we are going to check them
     return new_fbgc_int_object(strtol(int_str_begin, NULL,base));
 }
 
-struct
-fbgc_object * add_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b){
+
+struct fbgc_object * binary_op_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op){
     //you have to check before calling this function, a and b must be int type 
     int a1 = convert_fbgc_object_to_int(a);
     int b1 = convert_fbgc_object_to_int(b);
-    
-    return new_fbgc_int_object(a1+b1);
-}
+    int c = 0;
 
-struct
-fbgc_object * fbgc_int_object_op_plus(struct fbgc_object * l,struct fbgc_object * r){
-    // l + r operator overloading in int class
-    //l->type is int for sure!
-    
-    switch(r->type){
-        case INT:
-            return new_fbgc_int_object(convert_fbgc_object_to_int(l)+convert_fbgc_object_to_int(r));
-        case DOUBLE:
-            return new_fbgc_double_object(convert_fbgc_object_to_int(l)+convert_fbgc_object_to_double(r));
-        default:
-            return NULL;
+    switch(op)
+    {
+        case STARSTAR:
+        {
+            c = pow(a1,b1);
+            break;
+        }
+        case SLASHSLASH:
+        {
+            c =  1/(1/a1 + 1/b1); 
+            break;
+        }
+        case LO_EQ:
+        {
+            c = a1<b1;
+            break;
+        }
+        case GR_EQ:
+        {
+            c = a1 > b1;
+            break;
+        }
+        case EQ_EQ:
+        {
+            c = a1 == b1;
+            break;
+        }
+        case NOT_EQ:
+        {
+            c = a1 != b1;
+            break;
+        }
+        case R_SHIFT:
+        {
+            c = a1>>b1;
+            break;
+        }
+        case L_SHIFT:
+        {
+            c = a1<<b1;
+            break;
+        }
+        case CARET:
+        {
+            c = pow(a1,b1);
+            break;
+        }
+        case PERCENT:
+        {
+            c = a1%b1;
+            break;
+        }        
+        case LOWER:
+        {
+            c = a1<b1;
+            break;
+        }        
+        case GREATER:
+        {
+            c = a1>b1;
+            break;
+        }        
+        case PIPE:
+        {
+            c = a1 || b1;
+            break;
+        } 
+        case AMPERSAND:
+        {
+            c = a1 && b1;
+            break;
+        }        
+        case SLASH:
+        {
+            assert(b1 != 0);
+            c = a1/b1;
+
+            break;
+        }        
+        case STAR:
+        {
+            c = a1*b1;
+            break;
+        }        
+        case MINUS:
+        {
+            c = a1-b1;
+            break;
+        }        
+        case PLUS:
+        {
+            c = a1+b1;
+            break;
+        } 
     }
-    
+    return new_fbgc_int_object(c);
 }
 
-
-struct
-fbgc_object * subtract_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b){
-    //you have to check before calling this function, a and b must be int type 
-    int a1 = convert_fbgc_object_to_int(a);
-    int b1 = convert_fbgc_object_to_int(b);
-    
-    return new_fbgc_int_object(a1-b1);
-}
-
-struct
-fbgc_object * multiply_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b){
-    //you have to check before calling this function, a and b must be int type 
-    int a1 = convert_fbgc_object_to_int(a);
-    int b1 = convert_fbgc_object_to_int(b);
-    
-    return new_fbgc_int_object(a1 * b1);
-}
-
-struct
-fbgc_object * divide_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b){
-    //you have to check before calling this function, a and b must be int type 
-    int a1 = convert_fbgc_object_to_int(a);
-    int b1 = convert_fbgc_object_to_int(b);
-    
-    //if b1 is 0 check before!!!!
-
-    return new_fbgc_int_object(a1 / b1);
-}
 
 void print_fbgc_int_object(struct fbgc_object * obj){
     cprintf(011,"%d",cast_fbgc_object_as_int(obj)->content);  

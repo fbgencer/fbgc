@@ -106,7 +106,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 							//print_fbgc_object(dummy); cprintf(111,"<<<\n");
 						}else {
 							cprintf(111,"Not index accessable!\n");
-							cprintf(111,"Dummy: "); print_fbgc_object(dummy); printf("\n");
+							print_fbgc_object(dummy); printf("\n");
 							return 0;
 						}
 
@@ -188,7 +188,12 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				get_fbgc_object_type(TOP()) : 
 				get_fbgc_object_type(SECOND()) ;
 
-				struct fbgc_object * res =  call_fbgc_binary_op(type,_POP(),_POP(),main_tok);
+
+				if(is_fbgc_binary_op_null(main_tok)){
+					cprintf(111,"This type does not support operation.\n");
+					return 0;
+				}
+				struct fbgc_object * res =  call_fbgc_binary_op__new(main_tok,_POP(),_POP(),type);
 
 				assert(res != NULL);
 				_PUSH(res);		
@@ -336,50 +341,67 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			case BUILD_MATRIX:
 			{	
 				
-				int row = 0;
 
 				int ctr = cast_fbgc_object_as_int(pc)->content;
-				int msize = ctr;
+				if(ctr == 1 && TOP()->type == MATRIX) break;
+
+
+				int row = 0;
+				int col = 0;
+				int msize = 0;
 
 				//traverse reverse!
 
-				cprintf(111,"sctr %d, ctr %d\n",sctr,ctr);
+				//cprintf(111,"sctr %d, ctr %d\n",sctr,ctr);
 				/*cast_fbgc_object_as_tuple(stack)->size = sctr;//sp - tuple_object_content(stack);
 				cprintf(111,"\n==============Stack==========================\n");
 				print_fbgc_object(stack);*/				
 				
-				if(ctr == 1 && TOP()->type == MATRIX) break;
 
-				for( ; ctr < sctr ;){
-
-					if(TOPN(ctr+1)->type == ROW){
-						//msize += cast_fbgc_object_as_int(TOPN(ctr+1))->content;
-						ctr += 1+cast_fbgc_object_as_int(TOPN(ctr+1))->content;
-						row++;
-						cprintf(010,"Top is row, msize: %d, ctr :%d ,row :%d\n",msize,ctr,row);
-					}
-					else if(TOPN(ctr+1)->type == MATRIX){
-						int r = cast_fbgc_object_as_matrix(TOPN(ctr+1))->row;
-						int c = cast_fbgc_object_as_matrix(TOPN(ctr+1))->column;
-						cprintf(011,"top is matrix %dx%d\n",r,c);
-						msize +=  r*c;
-						ctr++; 
-					}
-					else {
-						cprintf(111,"ok!\n");
-						break;
+				for( int i = 1; i<=sctr && i <= ctr; ++i){
+					//cprintf(011,"i = %d ctr %d\n",i,ctr);
+					switch(TOPN(i)->type){
+						case INT:
+						case DOUBLE:
+						{
+							++msize;
+							//cprintf(111,"int/db row:%d col:%d\n",row,col);
+							break;
+						}	
+						case MATRIX:
+						{
+							int r = cast_fbgc_object_as_matrix(TOPN(i))->row;
+							int c = cast_fbgc_object_as_matrix(TOPN(i))->column;
+							//cprintf(011,"top is matrix %dx%d\n",r,c);
+							msize +=  r*c;
+							//row += r;
+							break;					
+						}
+						default:
+						{
+							cprintf(111,"Type %s in matrix is cannot be located\n",object_name_array[TOPN(i+1)->type]);
+							return 0;
+						}
+					}	
+					
+					if(i < sctr && TOPN(i+1)->type == ROW){
+						++row;
+						ctr += 1+cast_fbgc_object_as_int(TOPN(i+1))->content;
+						//cprintf(010,"Top is row, msize: %d, ctr :%d ,row :%d\n",msize,ctr,row);
+						++i;
 					}
 				}
 
-				cprintf(010,"\nSo row:%d , ctr :%d and msize:%d\n",row,ctr,msize);
+				//cprintf(010,"Output of loop, row:%d , col :%d ctr:%d\n",row,old_col,ctr);
 				
+				//return 0;
 
 				
 				//struct fbgc_object * m = new_fbgc_matrix_object(ctr-row);
 				struct fbgc_object * m =
 				 matrix_creation_from_stack(sp+sctr-ctr ,ctr, msize, row);
 				assert(m != NULL);
-				print_fbgc_matrix_object(m);
+				//print_fbgc_matrix_object(m);
 
 
 

@@ -15,11 +15,20 @@ struct fbgc_str_object{
 #define cast_fbgc_object_as_str(x)(((struct fbgc_str_object*) x))
 #define size_fbgc_str_object (sizeof(struct fbgc_str_object))
 
+#define length_fbgc_str_object(x)(cast_fbgc_object_as_str(x)->len)
+
 struct fbgc_object * new_fbgc_str_object(const char *str);
 struct fbgc_object * new_fbgc_str_object_from_substr(const char *str1,const char *str2);
+struct fbgc_object * new_fbgc_str_object_empty(int len);
+
+
+struct fbgc_object * binary_op_fbgc_str_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op);
 
 void print_fbgc_str_object(struct fbgc_object *);
 void free_fbgc_str_object(struct fbgc_object * );
+
+
+
 
 uint8_t my_strncmp(const char *s1, const char *s2, register size_t n);
 uint8_t my_strcmp(const char *p1, const char *p2);

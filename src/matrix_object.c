@@ -22,56 +22,73 @@ struct fbgc_object * matrix_creation_from_stack(struct fbgc_object ** sp, int ct
 
     m->row = row+1;
 
-    //virtual col and row to check size
-    int vr = 0, vc = 0;
+    //Offset indexes
+    int xof = 0, yof = 0;
+    //iterable indexes
     int x = 0,y = 0;
+
     for (int i = 0; i < ctr; ++i){
             
         if(sp[i]->type == MATRIX){
+            xof += x;
+            yof += y;
+
+           // cprintf(101,">>xof :%d, yof: %d column %d\n",xof,yof,m->column);
+
             struct fbgc_matrix_object * msub = cast_fbgc_object_as_matrix(sp[i]);
             struct fbgc_object * obj = sp[i];
             double * ds = (double *) ( (char*)(&msub->column) +sizeof(msub->column) );
             
+           // cprintf(101,">>msub r:%d, c:%d\n",msub->row,msub->column);
+
                 for(int q = 0; q< msub->row; ++q ){
                     for(int w = 0; w< msub->column; ++w){
-                        db[q * msub->column + w ] = ds[q*msub->column+w];
-                        cprintf(010,"ds[%d,%d] : %f\n",q,w,ds[q*msub->column+w]);
+                        int _x_ = (xof + q * msub->column);
+                        int _y_ = yof+w;
+                        db[  _x_ + _y_ ] = ds[q*msub->column+w];
+                       // cprintf(010,"db[%d,%d] : %f\n",_x_,_y_,db[_x_+_y_]);
                     }
+                    xof++;
                 }
             
             //m->column = msub->column;
-            vc = msub->column;
-            x = msub->row-1;
-            //y = 0;
-            cprintf(111,"msub r:%d, c:%d\n",msub->row,msub->column);
-            cprintf(111,"x :%d, vc: %d column %d\n",x,vc,m->column);
+            yof += msub->column;
+            //xof += msub->row-1;
+            m->row = xof;
+            m->column = yof;
+            xof = 0;
+            y = 0;
+            
+            //cprintf(101,">>xof :%d, yof: %d column %d\n",xof,yof,m->column);
 
             //return NULL;
             //db[x++] 
         }
         else if(sp[i]->type != ROW){
-            vc++;
-            db[ x*m->column + (y++) ] = convert_fbgc_object_to_double(sp[i]);
+            //cprintf(111,"Now row, writing db..\n");
+            //cprintf(111,"xof :%d, yof: %d column %d\n",xof,yof,m->column);
+            //cprintf(111,"x=%d, y=%d\n",x,y);
+            db[ (xof + x*m->column) + (yof + y++) ] = convert_fbgc_object_to_double(sp[i]);
             
-            if(i == ctr-1 && m->column == 0){
-                m->column = vc;
-            }
+            //if(i == ctr-1 && m->column == 0){
+            //m->column = yof+y;
+            //}
         }   
         else if(sp[i]->type == ROW){
-            m->column = vc;
-            vc = 0;
-            x++;
+            m->column = y+yof;
             y = 0;
-
+            x++;
         }
     }
 
-    if(m->column != vc) {
+    
+    m->column = yof+y;
+    /*if(m->column != y+yof) {
         cprintf(101,"Dimension mismatch at matrix creation!\n");
         return NULL;
-    }
+    }*/
 
-    cprintf(100,"Matrix end  r:%d c:%d\n",m->row,m->column);
+    //cprintf(100,"Matrix end  r:%d c:%d\n",m->row,m->column);
 
   //  m->row = row+1;
   //  m->column /= m->row;
@@ -80,14 +97,54 @@ struct fbgc_object * matrix_creation_from_stack(struct fbgc_object ** sp, int ct
 }
 
 
-void append_row_to_fbgc_matrix_object(struct fbgc_object * mat,struct fbgc_object * data){
-    /*if(cast_fbgc_object_as_matrix(mat)->row == 0){
-        for(unsigned int i = cast_fbgc_object_as_matrix(mat)->column; i>=0; i--){
-            data = data->next;
-            *(cast_fbgc_object_as_matrix(mat)->contents+i) = convert_fbgc_object_to_double(data);
-        }
-        cast_fbgc_object_as_matrix(mat)->row = 1;
+struct fbgc_object * add_fbgc_matrix_object(struct fbgc_object * a, struct fbgc_object * b){
+    //one of them can be matrix and the other can be scalar or both can be matrix
+
+
+
+    /*if(mat1->type != MATRIX) {
+        //mat2 is matrix, we are sure no need to check!
+        //swap mat1 and mat2, mat1 must 
+        struct fbgc_object * t = mat1;
+        mat1 = mat2;
+        mat2 = t;
     }*/
+
+}
+
+struct fbgc_object * multiply_fbgc_matrix_object(struct fbgc_object * mat1, struct fbgc_object * mat2){
+        
+    //cprintf(111,"Gelen matrisler\n");
+   // print_fbgc_matrix_object(mat1);
+   // print_fbgc_matrix_object(mat2);
+
+    #define m1 cast_fbgc_object_as_matrix(mat1)
+    #define m2 cast_fbgc_object_as_matrix(mat2)
+
+    if(m1->column != m2->row){
+        cprintf(111,"Error at matrix multiplication, dimension problem\n");
+        return NULL;
+    }
+
+    struct fbgc_matrix_object * m = new_fbgc_matrix_object(m1->row*m2->column);
+    m->row = m1->row;
+    m->column = m2->column;
+
+    double * m_cont  = (double *) ( (char*)( &m->column) +sizeof(m->column) );
+    double * m1_cont = (double *) ( (char*)(&m1->column) +sizeof(m1->column) );
+    double * m2_cont = (double *) ( (char*)(&m2->column) +sizeof(m2->column) );
+
+    for(int i = 0; i< m1->row; ++i){
+        for(int j = 0; j< m2->column; ++j){
+            for(int k = 0; k< m2->row; ++k){
+                m_cont[i*m->column + j ] += m1_cont[i*m1->column + k] * m2_cont[ k * m2->column + j];
+            }
+        }
+    }
+
+    return m;
+    #undef m1
+    #undef m2
 }
 
 

@@ -55,7 +55,7 @@ void printf_fbgc_object(struct fbgc_object * self){
 			            printf("%f",contents[i * m->column + j]);
 			            if(j != m->column-1) printf(",");
 			        }
-			        if(i!= m->row-1) printf(";");
+			        if(i!= m->row-1) printf("\n");
 			    }
 			    printf("]");
 			    #undef m 
@@ -146,15 +146,14 @@ int convert_fbgc_object_to_int(struct fbgc_object * obj){
 
 	if(get_fbgc_object_type(obj) == INT) return cast_fbgc_object_as_int(obj)->content;
 	
-	if(obj != NULL){
-		switch(get_fbgc_object_type(obj)){
-			case DOUBLE: 
-				return (int)(cast_fbgc_object_as_double(obj)->content);
-			default :
-				cprintf(111,"Error at int conversion!\n");
-				return -1;					
-		}
-	} 
+	switch(get_fbgc_object_type(obj)){
+		case DOUBLE: 
+			return (int)(cast_fbgc_object_as_double(obj)->content);
+		default :
+			cprintf(111,"Error at int conversion!\n");
+			assert(0);					
+	}
+	
 	
 	return 0;
 }
@@ -162,19 +161,38 @@ int convert_fbgc_object_to_int(struct fbgc_object * obj){
 double convert_fbgc_object_to_double(struct fbgc_object * obj){
 	if(get_fbgc_object_type(obj) == DOUBLE) return cast_fbgc_object_as_double(obj)->content;
 
-	if(obj != NULL){
-		switch(get_fbgc_object_type(obj)){
-			case INT:
-				return (double)(cast_fbgc_object_as_int(obj)->content);
-			default :
+	
+	switch(get_fbgc_object_type(obj)){
+		case INT:
+			return (double)(cast_fbgc_object_as_int(obj)->content);
+		default :
 
-				cprintf(111,"Error at double conversion! type %s\n",object_name_array[obj->type]);
-				assert(0);
-				return -1;	
-		}
+			cprintf(111,"Error at double conversion! type %s\n",object_name_array[obj->type]);
+			assert(0);
 	}
+	
 	return 0;
 }
+
+/*
+char convert_fbgc_object_to_str(struct fbgc_object * obj){
+	if(get_fbgc_object_type(obj) == STRING) return &cast_fbgc_object_as_str(obj)->content;
+
+	switch(get_fbgc_object_type(obj)){
+		case INT:
+				//new_fbgc_int_object(strtol(int_str_begin, NULL,base));
+			return strtol(cast_fbgc_object_as_int(obj)->content);
+		default :
+
+			cprintf(111,"Error at double conversion! type %s\n",object_name_array[obj->type]);
+			assert(0);	
+	}
+	
+	return 0;
+}*/
+
+
+
 
 void free_fbgc_object(struct fbgc_object * self){
 /*		#ifdef FREE_DEBUG
