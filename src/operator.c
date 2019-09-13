@@ -1,21 +1,5 @@
 #include "fbgc.h"
 	
-/*
-	int + int  = int
-	double + int = double
-	int + double = double
-	double + double = double
-
-	int + complex = complex
-	double + complex = complex
-	complex + int = complex
-	complex + double = complex
-		
-	//concatenation
-	string + string = string
-	string + int  = string
-	string + double = string
-*/
 
 struct fbgc_object * is_fbgc_object_true(struct fbgc_object * a){
 
@@ -51,3 +35,16 @@ struct fbgc_object * (*fbgc_binary_op[6]) (struct fbgc_object *, struct fbgc_obj
 	NULL,
 
 };
+
+
+struct fbgc_object * safe_call_fbgc_binary_op(struct fbgc_object * a, struct fbgc_object * b, fbgc_token main, fbgc_token op){
+	switch(main){
+		case INT: return binary_op_fbgc_int_object(a,b,op);
+		case DOUBLE: return binary_op_fbgc_double_object(a,b,op);
+		case COMPLEX: return NULL;
+		case STRING: return binary_op_fbgc_str_object(a,b,op);
+		case TUPLE: return NULL;
+		case MATRIX: return NULL;
+	}
+	return NULL;
+}

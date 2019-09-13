@@ -4,7 +4,7 @@ SRC = $(shell find src/*.c cmodules/*.c)
 OBJ = ${SRC:.c=.o}
 
 CC=gcc
-CFLAGS=-c -lm -w -Os
+CFLAGS=-c -lm -w -Os -g
 LDFLAGS += -lm 
 
 #CFLAGS += -DCLOSE_CPRINTF

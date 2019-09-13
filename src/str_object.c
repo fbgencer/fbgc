@@ -33,119 +33,163 @@ struct fbgc_object * new_fbgc_str_object_empty(int len){
 }
 
 struct fbgc_object * binary_op_fbgc_str_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op){
-    //you have to check before calling this function, a and b must be int type 
 
-    const char * a1 = &cast_fbgc_object_as_str(a)->content;
-    const char * b1 = &cast_fbgc_object_as_str(b)->content; 
 
     switch(op)
     {
-       /* case STARSTAR:
+        case STARSTAR:
         {
-            c = pow(a1,b1);
-            break;
+            return NULL;
         }
         case SLASHSLASH:
         {
-            c =  1/(1/a1 + 1/b1); 
-            break;
+            return NULL;
         }
         case LO_EQ:
         {
-            c = a1<b1;
-            break;
+            return NULL;
         }
         case GR_EQ:
         {
-            c = a1 > b1;
-            break;
+            return NULL;
         }
         case EQ_EQ:
-        {
-            c = a1 == b1;
-            break;
-        }
         case NOT_EQ:
-        {
-            c = a1 != b1;
-            break;
+        {   
+            //no need to check whether a or b is string, because one of them must be.
+            if(a->type == b->type){
+                uint8_t cmp = (length_fbgc_str_object(a) == length_fbgc_str_object(b) && 
+                    memcmp(content_fbgc_str_object(a),content_fbgc_str_object(b),length_fbgc_str_object(a)) == 0);
+
+                return new_fbgc_int_object( op == NOT_EQ ? !cmp : cmp );
+            }   
+            return NULL;        
         }
         case R_SHIFT:
-        {
-            c = a1>>b1;
-            break;
+        {   
+            //a>>b
+            //only rhs can be string, otherwise it's meaningless
+            if(b->type == STRING){
+                if(a->type == STRING) goto STRING_CONCAT;
+                //Below codes are just an experimental codes, do not ever use them in alpha version
+                //Change the below codes and write appopriate converter functions
+                /*else if(a->type == INT){
+                    char tmp[100]={'\0'};
+                    sprintf(tmp,"%d",cast_fbgc_object_as_int(a)->content);
+                    a = new_fbgc_str_object_empty(strlen(tmp));
+                    memcpy(content_fbgc_str_object(a),tmp,strlen(tmp));
+                    goto STRING_CONCAT;
+                }
+                else if(a->type == DOUBLE){
+                    char tmp[100]={'\0'};
+                    sprintf(tmp,"%f",cast_fbgc_object_as_double(a)->content);
+                    a = new_fbgc_str_object_empty(strlen(tmp));
+                    memcpy(content_fbgc_str_object(a),tmp,strlen(tmp));
+                    goto STRING_CONCAT;                    
+                }*/
+            }
+            return NULL;
         }
         case L_SHIFT:
         {
-            c = a1<<b1;
-            break;
+            //a<<b
+            //only lhs ,a ,  can be string b can be different types
+            if(a->type == STRING){
+                if(b->type == STRING){
+                    goto STRING_CONCAT;
+                }
+            }
+            return NULL;
         }
         case CARET:
         {
-            c = pow(a1,b1);
-            break;
+            return NULL;
         }
         case PERCENT:
         {
-            c = a1%b1;
-            break;
+            return NULL;
         }        
         case LOWER:
         {
-            c = a1<b1;
-            break;
+            return NULL;
         }        
         case GREATER:
         {
-            c = a1>b1;
-            break;
+            return NULL;
         }        
         case PIPE:
         {
-            c = a1 || b1;
-            break;
+            return NULL;
         } 
         case AMPERSAND:
         {
-            c = a1 && b1;
-            break;
+            return NULL;
         }        
         case SLASH:
         {
-            assert(b1 != 0);
-            c = a1/b1;
-
-            break;
-        }        
+            return NULL;
+        }       
         case STAR:
-        {
-            c = a1*b1;
-            break;
+        {   
+
+            //b is always int, a is str;
+            if(a->type == INT){
+                struct fbgc_object * t = a;
+                a = b;
+                b = t;
+            }
+            else if(b->type == INT){
+                ;
+            }
+            else{
+                cprintf(111,"Star is overloaded for str and int!\n"); 
+               return NULL;
+            }
+
+            int count = cast_fbgc_object_as_int(b)->content;
+            int len = length_fbgc_str_object(a);
+
+            if(count<0){
+                cprintf(111,"Cannot multiply by negative!\n");
+                return NULL;
+            }
+
+            struct fbgc_object * o = new_fbgc_str_object_empty( len*count);
+           //for(int i =0 ; i<count; i++)
+            //why while did not work??*
+            while(--count>=0)
+                memcpy(content_fbgc_str_object(o)+(count*len),content_fbgc_str_object(a),len);
+           
+            return o;
         }        
         case MINUS:
-        {
-            c = a1-b1;
-            break;
-        }        */
+        {   
+            return NULL;
+        }        
         case PLUS:
         {
-           
+            STRING_CONCAT: ;
+            
             struct fbgc_object * o = new_fbgc_str_object_empty(length_fbgc_str_object(a)+length_fbgc_str_object(b));
-            char * c = &cast_fbgc_object_as_str(o)->content;
-            memcpy(c,a1,length_fbgc_str_object(a));
-            memcpy(c+length_fbgc_str_object(a) ,b1,length_fbgc_str_object(b));
-            //strcat(c,b1);
-
+            memcpy(content_fbgc_str_object(o),content_fbgc_str_object(a),  length_fbgc_str_object(a));
+            memcpy(content_fbgc_str_object(o)+length_fbgc_str_object(a)  , content_fbgc_str_object(b),length_fbgc_str_object(b));
             return o;
-            //
-            //c = a1+b1;
-            //break;
         } 
     }
-    return new_fbgc_str_object("LOL");
+    return NULL;
 }
 
 
+
+struct fbgc_object * subscript_fbgc_str_object(struct fbgc_object * obj,int i1, int i2){
+    //return new str object, it could be sequence inside the object or just one char
+
+    if(i2>i1 && i2-i1 <= length_fbgc_str_object(obj) ){
+        char * c = content_fbgc_str_object(obj);
+        return new_fbgc_str_object_from_substr(c+i1,c+i2);
+    }
+    return NULL;
+}
 
 void print_fbgc_str_object(struct fbgc_object * obj){
     const char * s = &cast_fbgc_object_as_str(obj)->content;

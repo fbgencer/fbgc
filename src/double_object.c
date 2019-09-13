@@ -17,41 +17,6 @@ struct fbgc_object * new_fbgc_double_object_from_substr(const char * db_str_begi
     return new_fbgc_double_object(strtod (db_str_begin, NULL));
 }
 
-/*
-struct fbgc_object * plus_fbgc_double_object(struct fbgc_object * a,struct fbgc_object * b){
-    //you have to check before calling this function, a and b must be double type 
-    double a1 = convert_fbgc_object_to_double(a);
-    double b1 = convert_fbgc_object_to_double(b);
-    
-    return new_fbgc_double_object(a1+b1);
-}
-
-struct fbgc_object * minus_fbgc_double_object(struct fbgc_object * a,struct fbgc_object * b){
-    //you have to check before calling this function, a and b must be double type 
-    double a1 = convert_fbgc_object_to_double(a);
-    double b1 = convert_fbgc_object_to_double(b);
-    
-    return new_fbgc_double_object(a1-b1);
-}
-
-struct fbgc_object * star_fbgc_double_object(struct fbgc_object * a,struct fbgc_object * b){
-    //you have to check before calling this function, a and b must be double type 
-    double a1 = convert_fbgc_object_to_double(a);
-    double b1 = convert_fbgc_object_to_double(b);
-    
-    return new_fbgc_double_object(a1 * b1);
-}
-
-struct fbgc_object * slash_fbgc_double_object(struct fbgc_object * a,struct fbgc_object * b){
-    //you have to check before calling this function, a and b must be double type 
-    double a1 = convert_fbgc_object_to_double(a);
-    double b1 = convert_fbgc_object_to_double(b);
-    
-    //if b1 is 0 check before!!!!
-
-    return (b1 == 0.0) ? NULL : new_fbgc_double_object(a1 / b1);
-}*/
-
 
 struct fbgc_object * binary_op_fbgc_double_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op){
     //you have to check before calling this function, a and b must be int type 

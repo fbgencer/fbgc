@@ -661,6 +661,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
  		case RBRACK:
  		case LBRACE:
  		case RBRACE:
+
 		case STARSTAR:
 		case SLASHSLASH:
 		case LO_EQ:
@@ -835,12 +836,17 @@ uint8_t parser(struct fbgc_object ** field_obj){
 			break;
 		} 		
 		case ASSIGN:
+		case PLUS_ASSIGN:
+		case MINUS_ASSIGN:
+		case STAR_ASSIGN:
+		case SLASH_ASSIGN:
 		{
 			assert(top_fbgc_ll_object(op_stack_head)->type == IDENTIFIER);
 			top_fbgc_ll_object(op_stack_head)->type = iter->type;
 			iter_prev->next = iter->next;
 			break;
 		}
+
 
 		default:
 		{

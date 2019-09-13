@@ -10,7 +10,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 	struct fbgc_ll_object * head = cast_fbgc_object_as_ll( cast_fbgc_object_as_field(*field_obj)->head );
 	struct fbgc_object * pc = head->base.next; //program counter
 
-	#define PROGRAM_STACK_SIZE 1000000
+	#define PROGRAM_STACK_SIZE 100
 	struct fbgc_object * stack = new_fbgc_tuple_object(PROGRAM_STACK_SIZE);
 	struct fbgc_object ** sp = tuple_object_content(stack);
 	int sctr = 0;
@@ -99,12 +99,17 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 					int index = 0;
 					for(int i = 0; i<index_no; i++){
+						index = cast_fbgc_object_as_int(TOPN(index_no-i))->content;
 						if(dummy->type == TUPLE){
-							index = cast_fbgc_object_as_int(TOPN(index_no-i))->content;
 							//cprintf(111,"Current index %d\n",index);
 							dummy = get_object_in_fbgc_tuple_object(dummy,index);
 							//print_fbgc_object(dummy); cprintf(111,"<<<\n");
-						}else {
+						}
+						else if(dummy->type == STRING){
+							dummy = subscript_fbgc_str_object(dummy,index,index+1);
+							assert(dummy != NULL);
+						}
+						else {
 							cprintf(111,"Not index accessable!\n");
 							print_fbgc_object(dummy); printf("\n");
 							return 0;
@@ -158,7 +163,31 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 				break;
 			}			
+			case PLUS_ASSIGN:
+			case MINUS_ASSIGN:
+			case STAR_ASSIGN:
+			case SLASH_ASSIGN:
+			{
+				struct fbgc_object * rhs = _POP();
 
+				if(is_id_flag_GLOBAL(pc)){
+					struct fbgc_identifier * tmp = 
+					(struct fbgc_identifier *) get_address_in_fbgc_array_object(globals,cast_fbgc_object_as_id_opcode(pc)->loc);
+					if(type == PLUS_ASSIGN){
+						fbgc_token main_tok = 
+						get_fbgc_object_type(tmp->content) > get_fbgc_object_type(rhs)  ? 
+						get_fbgc_object_type(tmp->content) : 
+						get_fbgc_object_type(rhs) ;
+
+						tmp->content = call_fbgc_binary_op(main_tok,tmp->content,rhs,PLUS);						
+					}
+					
+				} 
+				else if(is_id_flag_LOCAL(pc)){
+					GET_AT_FP(cast_fbgc_object_as_id_opcode(pc)->loc) = rhs;
+				}					
+				break;
+			}
 			case STARSTAR:
 			case PLUSPLUS:
 			case MINUSMINUS:
@@ -193,8 +222,24 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					cprintf(111,"This type does not support operation.\n");
 					return 0;
 				}
-				struct fbgc_object * res =  call_fbgc_binary_op__new(main_tok,_POP(),_POP(),type);
+				//struct fbgc_object * res =  call_fbgc_binary_op(main_tok,_POP(),_POP(),type);
 
+				struct fbgc_object * res =  safe_call_fbgc_binary_op(_POP(),_POP(),main_tok,type);
+				
+/* func array ile
+ 42d:	4d 8d 6c 0c f0       	lea    r13,[r12+rcx*1-0x10]
+ 432:	ff cb                	dec    ebx
+ 434:	49 8b 7d 00          	mov    rdi,QWORD PTR [r13+0x0]
+ 438:	ff d0                	call   rax
+
+switch case rec func ile
+ 42f:	4d 8d 6c 04 f0       	lea    r13,[r12+rax*1-0x10]
+ 434:	ff cb                	dec    ebx
+ 436:	49 8b 7d 00          	mov    rdi,QWORD PTR [r13+0x0]
+ 43a:	e8 00 00 00 00       	call   43f <interpreter+0x43f>	43b: R_X86_64_PLT32	safe_call_fbgc_binary_op-0x4
+ 434:	49 8b 7d 00          	mov    rdi,QWORD PTR [r13+0x0]
+ 438:	ff d0                	call   rax
+*/
 				assert(res != NULL);
 				_PUSH(res);		
 
@@ -234,7 +279,8 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 							//cprintf(111,"Current index %d\n",index);
 							dummy = get_object_in_fbgc_tuple_object(dummy,index);
 							//print_fbgc_object(dummy); cprintf(111,"<<<\n");
-						}else {
+						}
+						else {
 							cprintf(111,"Not index accessable!\n");
 							cprintf(111,"Dummy: "); print_fbgc_object(dummy); printf("\n");
 							return 0;
@@ -260,6 +306,8 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				}	
 				break;
 			}
+
+
 			case JUMP:
 			{
 				pc = cast_fbgc_object_as_jumper(pc)->content;	

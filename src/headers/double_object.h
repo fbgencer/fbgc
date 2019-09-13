@@ -17,12 +17,6 @@ struct fbgc_object * new_fbgc_double_object(double);
 struct fbgc_object * new_fbgc_double_object_from_str(const char *);
 struct fbgc_object * new_fbgc_double_object_from_substr(const char *,const char *);
 
-struct fbgc_object * plus_fbgc_double_object(struct fbgc_object * a,struct fbgc_object * b);
-struct fbgc_object * minus_fbgc_double_object(struct fbgc_object * a,struct fbgc_object * b);
-struct fbgc_object * star_fbgc_double_object(struct fbgc_object * a,struct fbgc_object * b);
-struct fbgc_object * slash_fbgc_double_object(struct fbgc_object * a,struct fbgc_object * b);
-
-
 struct fbgc_object * binary_op_fbgc_double_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op);
 
 

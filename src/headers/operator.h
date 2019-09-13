@@ -65,7 +65,9 @@ extern struct fbgc_object * (*fbgc_binary_op[6]) (struct fbgc_object *, struct f
 
 #define is_fbgc_binary_op_null(token)(fbgc_binary_op[token - INT] == NULL)
 
-#define call_fbgc_binary_op__new(main_tok,a,b,op_tok)(fbgc_binary_op[main_tok - INT](a,b,op_tok))
+#define call_fbgc_binary_op(main_tok,a,b,op_tok)(fbgc_binary_op[main_tok - INT](a,b,op_tok))
+
+struct fbgc_object * safe_call_fbgc_binary_op(struct fbgc_object * , struct fbgc_object * , fbgc_token, fbgc_token);
 
 
 #ifdef  __cplusplus
