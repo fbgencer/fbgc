@@ -28,6 +28,7 @@ Write your first program:
 
 ![fbgc] allows you to define multiple types of entries. Such as integers, doubles, strings, tuples and matrices. You don't need to specify types as in the case of statically typed languages.
 
+Basic types:
 ```ruby
 	:> This is a line comment
 	x = 5 :> integer
@@ -36,6 +37,23 @@ Write your first program:
 	x = (1,2,1.23,('Hey i am tuple!')) :> tuple
 	x = [1,2,3 ; 4,5,6] :> 2x3 matrix
 ```
+
+Absolute operator:
+number objects return positive of that number under abs operator
+complex object returns 2-d distance
+string, tuple and matrix objects return their length
+```ruby
+
+|'fbgc'| :> gives 4
+
+|('a','fbgc',1,2,3)| :> gives 5
+
+|3+4j| :> gives 5.0
+
+|-3| :> gives 3
+
+```
+
 Function definition:
 ```ruby
 sum = fun(a,b)
@@ -63,6 +81,33 @@ while(i<5)
 	print(i)
 end
 ```
+
+In fbgc, for loop allow you to write fast code !
+You can create a for loop just giving sequence or range 
+```ruby
+:>prints 0,1,2,3,4,5,6,7,8,9
+for(i = 0:10)
+	print(i)
+end
+
+:>prints 0,2,4,6,8
+for(i = 0:2:10)
+	print(i)
+end
+
+:>prints 'f','b','g','c'
+for (i = 'fbgc')
+	print(i)
+end
+
+:>|obj| operator gives you the length of the object
+s = 'Hello world'
+for (i = 0 : |x| )
+	print(x[i])
+end
+```
+
+
 
 ## Future Work
 

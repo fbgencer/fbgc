@@ -21,7 +21,10 @@ struct fbgc_object * get_element_in_fbgc_range_object(struct fbgc_object * obj, 
         int step = (r->step == NULL) ? 1 : cast_fbgc_object_as_int(r->step)->content; 
         int no = cast_fbgc_object_as_int(r->start)->content + (step*index);
 
-        return  (no >= cast_fbgc_object_as_int(r->end)->content ) ? NULL : new_fbgc_int_object( no );
+        if(step>0)
+            return  (no >= cast_fbgc_object_as_int(r->end)->content ) ? NULL : new_fbgc_int_object( no );
+        else
+             return  (no > cast_fbgc_object_as_int(r->end)->content ) ?  new_fbgc_int_object( no ) : NULL ;
     }
     #undef r
 } 

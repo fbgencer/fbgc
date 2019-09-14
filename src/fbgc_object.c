@@ -198,9 +198,12 @@ char convert_fbgc_object_to_str(struct fbgc_object * obj){
 struct fbgc_object * get_length_fbgc_object(struct fbgc_object * t){
 	switch(t->type){
 		case INT:
+		{
+			return new_fbgc_int_object(abs(cast_fbgc_object_as_int(t)->content));
+		}
 		case DOUBLE:
 		{
-			return t;
+			return new_fbgc_double_object(fabs(cast_fbgc_object_as_double(t)->content));
 		}
 		case STRING:
 		{

@@ -1,5 +1,16 @@
-x = "abcdef"*100000
+x = "abcdef"*100
 
-for (i = 0:|x| )
-	print(i,' = ',x[i]);
+reverse_str = fun(x)
+	s = ''
+	for (i = |x|-1:(1-2):(0-1))
+		s = s << x[i]
+	end
+	return s
 end
+
+
+
+print(reverse_str(x))
+
+print(|5.2-10|)
+

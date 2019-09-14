@@ -288,7 +288,6 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 		gm->top = get_fbgc_object_type(obj);
 	}
 	else if(is_fbgc_OPERATOR(get_fbgc_object_type(obj)) && is_fbgc_EXPRESSION(gm_left)){
-		cprintf(111,"here!\n");
 		gm->top = get_fbgc_object_type(obj);
 	}
 	else if(get_fbgc_object_type(obj) == COMMA && (is_fbgc_EXPRESSION(gm_left) || gm_left == ASSIGNMENT_EXPRESSION) ){
