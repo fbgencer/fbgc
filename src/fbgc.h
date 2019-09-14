@@ -41,6 +41,7 @@ extern "C" {
 #include "headers/tuple_object.h"
 #include "headers/cmodule_object.h"
 #include "headers/fun_object.h"
+#include "headers/range_object.h"
 
 
 #include "headers/operator.h"

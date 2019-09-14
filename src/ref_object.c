@@ -4,7 +4,7 @@
 struct fbgc_object * new_fbgc_ref_object(struct fbgc_object ** address){
 	struct fbgc_ref_object *refo =  (struct fbgc_ref_object*) fbgc_malloc(sizeof(struct fbgc_ref_object));
     refo->base.type = REFERENCE;
-    refo->base.next = NULL;
+    //refo->base.next = NULL;
     refo->address = address;
     return (struct fbgc_object*) refo;
 }

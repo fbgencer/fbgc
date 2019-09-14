@@ -34,7 +34,7 @@ struct fbgc_object * new_fbgc_array_object(size_t cap, size_t b_size){
 
 	struct fbgc_array_object *ao =  (struct fbgc_array_object*) fbgc_malloc(sizeof(struct fbgc_array_object) + b_size * cap);
     ao->base.type = ARRAY;
-    ao->base.next = NULL;
+    //ao->base.next = NULL;
     ao->block_size = b_size;
     ao->size = 0;
     ao->capacity = cap;

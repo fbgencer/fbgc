@@ -26,6 +26,9 @@ int convert_fbgc_object_to_int(struct fbgc_object * );
 double convert_fbgc_object_to_double(struct fbgc_object * );
 char * convert_fbgc_object_to_string(struct fbgc_object * );
 
+
+struct fbgc_object * get_length_fbgc_object(struct fbgc_object * t);
+
 void claim_ownership(struct fbgc_object * self);
 void print_fbgc_object(struct fbgc_object *);
 void printf_fbgc_object(struct fbgc_object * self);

@@ -27,99 +27,102 @@ typedef struct {
 #define FUN 9 // builtin fbgc function
 #define NAME 10 // name class, name:value pairs
 #define IDENTIFIER 11 // identifiers
-#define REFERENCE 12 //
-#define CSTRING 13 //
-#define MONATRIX 14 //
-#define NUPLE 15 //
-#define MONUPLE 16 //
-#define ARRAY 17 //
-#define LINKED_LIST 18 //
-#define LINKED_LIST_TAIL 19 //
-#define STACK 20 //
-#define CMODULE 21 //
-#define GARBAGE 22 //
-#define FIELD 23 //
-#define END 24 // end
-#define FUN_MAKE 25 //
-#define ELIF 26 //
-#define ELSE 27 //
-#define WHILE 28 //
-#define BREAK 29 //
-#define CONT 30 //
-#define LOAD 31 //
-#define TRUE 32 //
-#define FALSE 33 //
-#define IF 34 //
-#define RETURN 35 //
-#define NEWLINE 36 //
-#define LPARA 37 // (
-#define RPARA 38 // )
-#define LBRACK 39 // [
-#define RBRACK 40 // ]
-#define LBRACE 41 // {
-#define RBRACE 42 // }
-#define THREE_DOT 43 // ...
-#define R_ARROW 44 // ->
-#define L_ARROW 45 // <-
-#define RW_ARROW 46 // ~>
-#define LW_ARROW 47 // <~
-#define TWO_COLON 48 // ::
-#define PLUS_ASSIGN 49 // +=
-#define MINUS_ASSIGN 50 // -=
-#define STAR_ASSIGN 51 // *=
-#define SLASH_ASSIGN 52 // /=
-#define CONST_ASSIGN 53 // :=
-#define PLUSPLUS 54 // ++
-#define MINUSMINUS 55 // --
-#define IF_THEN 56 // =>
-#define STARSTAR 57 // **
-#define SLASHSLASH 58 // //
-#define LO_EQ 59 // <=
-#define GR_EQ 60 // >=
-#define EQ_EQ 61 // ==
-#define NOT_EQ 62 // !=
-#define R_SHIFT 63 // >>
-#define L_SHIFT 64 // <<
-#define CARET 65 // ^
-#define PERCENT 66 // %
-#define LOWER 67 // <
-#define GREATER 68 // >
-#define PIPE 69 // |
-#define AMPERSAND 70 // &
-#define SLASH 71 // /
-#define STAR 72 // *
-#define MINUS 73 // -
-#define PLUS 74 // +
-#define EXCLAMATION 75 // !
-#define TILDE 76 // ~
-#define SEMICOLON 77 // ;
-#define COMMA 78 // :
-#define DOT 79 // .
-#define COLON 80 // :
-#define ASSIGN 81 // =
-#define UMINUS 82 // -
-#define UPLUS 83 // +
-#define START 84 //
-#define JUMP 85 //
-#define AND 86 //
-#define OR 87 //
-#define NOT 88 //
-#define ROW 89 //
-#define EXPRESSION 90 //
-#define ASSIGNMENT 91 //
-#define STATEMENT 92 //
-#define ASSIGNMENT_EXPRESSION 93 //
-#define UNARY_EXPRESSION 94 //
-#define BINARY_EXPRESSION 95 //
-#define BALANCED_EXPRESSION_LIST 96 //
-#define UNBALANCED_EXPRESSION_LIST 97 //
-#define IF_BEGIN 98 //
-#define ELIF_BEGIN 99 //
-#define WHILE_BEGIN 100 //
-#define FOR_BEGIN 101 //
-#define FUN_CALL 102 //
-#define BUILD_TUPLE 103 //
-#define BUILD_MATRIX 104 //
+#define RANGE 12 // range obj
+#define REFERENCE 13 //
+#define CSTRING 14 //
+#define MONATRIX 15 //
+#define NUPLE 16 //
+#define MONUPLE 17 //
+#define ARRAY 18 //
+#define LINKED_LIST 19 //
+#define LINKED_LIST_TAIL 20 //
+#define STACK 21 //
+#define CMODULE 22 //
+#define GARBAGE 23 //
+#define FIELD 24 //
+#define END 25 // end
+#define FUN_MAKE 26 //
+#define ELIF 27 //
+#define ELSE 28 //
+#define WHILE 29 //
+#define FOR 30 //
+#define BREAK 31 //
+#define CONT 32 //
+#define LOAD 33 //
+#define TRUE 34 //
+#define FALSE 35 //
+#define IF 36 //
+#define RETURN 37 //
+#define NEWLINE 38 //
+#define LPARA 39 // (
+#define RPARA 40 // )
+#define LBRACK 41 // [
+#define RBRACK 42 // ]
+#define LBRACE 43 // {
+#define RBRACE 44 // }
+#define THREE_DOT 45 // ...
+#define R_ARROW 46 // ->
+#define L_ARROW 47 // <-
+#define RW_ARROW 48 // ~>
+#define LW_ARROW 49 // <~
+#define TWO_COLON 50 // ::
+#define PLUS_ASSIGN 51 // +=
+#define MINUS_ASSIGN 52 // -=
+#define STAR_ASSIGN 53 // *=
+#define SLASH_ASSIGN 54 // /=
+#define CONST_ASSIGN 55 // :=
+#define PLUSPLUS 56 // ++
+#define MINUSMINUS 57 // --
+#define IF_THEN 58 // =>
+#define STARSTAR 59 // **
+#define SLASHSLASH 60 // //
+#define LO_EQ 61 // <=
+#define GR_EQ 62 // >=
+#define EQ_EQ 63 // ==
+#define NOT_EQ 64 // !=
+#define R_SHIFT 65 // >>
+#define L_SHIFT 66 // <<
+#define CARET 67 // ^
+#define PERCENT 68 // %
+#define LOWER 69 // <
+#define GREATER 70 // >
+#define PIPE 71 // |
+#define AMPERSAND 72 // &
+#define SLASH 73 // /
+#define STAR 74 // *
+#define MINUS 75 // -
+#define PLUS 76 // +
+#define EXCLAMATION 77 // !
+#define TILDE 78 // ~
+#define SEMICOLON 79 // ;
+#define COMMA 80 // :
+#define DOT 81 // .
+#define COLON 82 // :
+#define ASSIGN 83 // =
+#define UMINUS 84 // -
+#define UPLUS 85 // +
+#define START 86 //
+#define JUMP 87 //
+#define AND 88 //
+#define OR 89 //
+#define NOT 90 //
+#define ROW 91 //
+#define EXPRESSION 92 //
+#define ASSIGNMENT 93 //
+#define STATEMENT 94 //
+#define ASSIGNMENT_EXPRESSION 95 //
+#define UNARY_EXPRESSION 96 //
+#define BINARY_EXPRESSION 97 //
+#define BALANCED_EXPRESSION_LIST 98 //
+#define UNBALANCED_EXPRESSION_LIST 99 //
+#define LEN 100 //
+#define IF_BEGIN 101 //
+#define ELIF_BEGIN 102 //
+#define WHILE_BEGIN 103 //
+#define FOR_BEGIN 104 //
+#define FUN_CALL 105 //
+#define BUILD_TUPLE 106 //
+#define BUILD_MATRIX 107 //
 #define TOKEN_LIST_AS_STRINGS()\
 "UNKNOWN",\
 "NIL",\
@@ -133,6 +136,7 @@ typedef struct {
 "FUN",\
 "NAME",\
 "IDENTIFIER",\
+"RANGE",\
 "REFERENCE",\
 "CSTRING",\
 "MONATRIX",\
@@ -150,6 +154,7 @@ typedef struct {
 "ELIF",\
 "ELSE",\
 "WHILE",\
+"FOR",\
 "BREAK",\
 "CONT",\
 "LOAD",\
@@ -219,6 +224,7 @@ typedef struct {
 "BINARY_EXPRESSION",\
 "BALANCED_EXPRESSION_LIST",\
 "UNBALANCED_EXPRESSION_LIST",\
+"LEN",\
 "IF_BEGIN",\
 "ELIF_BEGIN",\
 "WHILE_BEGIN",\
@@ -259,7 +265,7 @@ const char * get_token_as_str(fbgc_token tok);
 #define is_fbgc_FUNCTIONABLE(x)(x == IF || x == ELIF || x == ELSE || x == WHILE || x == FUN || x == LOAD)
 
 #define is_fbgc_EXPRESSION(x)(is_fbgc_ATOM(x) || is_fbgc_IDENTIFIER(x)|| x == EXPRESSION || x == UNARY_EXPRESSION ||x==BINARY_EXPRESSION||\
-is_fbgc_TUPLE(x) || is_fbgc_MATRIX(x) || x == CFUN || x == SEMICOLON)
+is_fbgc_TUPLE(x) || is_fbgc_MATRIX(x) || x == CFUN || x == SEMICOLON || x == LEN)
 
 #define is_fbgc_JUMP_STATEMENT(x)(x == BREAK || x == CONT)
 

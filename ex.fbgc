@@ -1,23 +1,5 @@
-:>y = [1,2;3,4]
-:>x = (1,2,3,4,5,(6,7,8))
+x = "abcdef"*100000
 
-:>matrix_printer = fun(mat)
-:>	i = 0; j = 0;
-:>	ll = len(mat)
-:>	while(i<ll[0])
-:>		while(j<ll[1])
-:>			print(mat[i,j]);
-:>			j = j+1
-:>		end
-:>		i = i+1
-:>	end
-:>end
-
-i = 'a'
-
-y = i*12
-
-while(i != y )
-	print( i )
-	i += 'a'
+for (i = 0:|x| )
+	print(i,' = ',x[i]);
 end

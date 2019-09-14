@@ -99,12 +99,13 @@ const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] =
 	{LEXER_TOK_BASE2_INT,"0b 1|0!+"},
 	{LEXER_TOK_BASE16_INT,"0x !x!+"},
 	{LEXER_TOK_STRING,"' _|\\'!s!d!w!o!* '"},
+	{LEXER_TOK_STRING,"\" _|\\'!s!d!w!o!* \""},
 	{LEXER_TOK_DOUBLE,"!d!+ .!* !d!* E +|-!* !d!+"}, 
 	{LEXER_TOK_DOUBLE,". !d!+"}, 
 	{LEXER_TOK_DOUBLE,"!d!+ . !d!+"}, 	
 	{LEXER_TOK_BASE10_INT,"!d!+"},
 	{LEXER_TOK_PARA,"(|)|[|]|{|}"},		
-	{LEXER_TOK_KEYWORDS,"end|fun|elif|else|while|break|cont|load|true|false|if|return"},
+	{LEXER_TOK_KEYWORDS,"end|fun|elif|else|while|for|break|cont|load|true|false|if|return"},
 	{LEXER_TOK_NAME,"_!w _!w!d!*"},		
 	{LEXER_TOK_OP, "...|->|<-|~>|<~|::|+=|-=|*=|/=|:=|++|--|=>|**|//|<=|>=|==|!=|>>|<<|^|%|<|>|||&|/|*|-|+|!|~|;|,|.|:|="},
 };
@@ -271,7 +272,7 @@ static uint8_t check_char(rule_flag_struct *rfs,char ** buffer_ptr){
 	check = ( rfs->pattern_flag && 
 			((rfs->pattern_flag & 0x01) && isdigit(*(*buffer_ptr))) ||
 			((rfs->pattern_flag & 0x02) && isalpha(*(*buffer_ptr))) ||
-			((rfs->pattern_flag & 0x04) && (ispunct(*(*buffer_ptr))) && (*(*buffer_ptr)) != '\'') || 
+			((rfs->pattern_flag & 0x04) && (ispunct(*(*buffer_ptr))) && (*(*buffer_ptr)) != '\'' && (*(*buffer_ptr)) != '"') || 
 			((rfs->pattern_flag & 0x08) && isxdigit(*(*buffer_ptr)))||
 			((rfs->pattern_flag & 0x10) && isprint(*(*buffer_ptr))) ||
 			((rfs->pattern_flag & 0x20) && isspace(*(*buffer_ptr))) ||
@@ -495,6 +496,7 @@ fbgc_object * tokenize_substr(const char *str1, const char*str2, lexer_token tok
 			switch(kw_tok){
 				case ELIF:
 				case WHILE:
+				case FOR:
 				case BREAK:
 				case CONT:
 				case FUN_MAKE:

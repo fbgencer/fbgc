@@ -2,7 +2,7 @@
 
 
 
-#define is_pushable_in_main(x)(!is_fbgc_PARA(x) && x!= END )
+#define is_pushable_in_main(x)(!is_fbgc_PARA(x) && x != LEN)
 
 
 uint8_t operator_precedence(fbgc_token T){
@@ -17,7 +17,7 @@ uint8_t operator_precedence(fbgc_token T){
 		case LOWER: case GREATER: case LO_EQ: case  GR_EQ: return 120;
 		case EQ_EQ: case NOT_EQ: return 130;
 		case AMPERSAND: return 120;
-		case PIPE: return 110;
+		case PIPE: case LEN: return 110;
 		case COLON: return 105;
 
 		case ASSIGN: case PLUS_ASSIGN: case MINUS_ASSIGN: case STAR_ASSIGN: case SLASH_ASSIGN:
@@ -189,6 +189,22 @@ struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,st
 		#endif
 
 	}
+	else if(top_type == FOR){
+		gm_seek_right(gm,top_fbgc_ll_object(op));
+		#ifdef PARSER_DEBUG
+		cprintf(111,"This was for, not it is [%s]\n",object_name_array[top_fbgc_ll_object(op)->type]);
+		cprintf(100,"C :%s\n",object_name_array[cast_fbgc_object_as_jumper(top_fbgc_ll_object(op))->content->type]);
+		cprintf(100,"iter_prev %s\n",object_name_array[iter_prev->type]);
+		#endif
+		struct fbgc_object * d = cast_fbgc_object_as_jumper(top_fbgc_ll_object(op))->content;
+		while(d->next != iter_prev)
+			d = d->next;
+
+		struct fbgc_object * i =  new_fbgc_int_object(-1);
+		i->next = d->next;
+		d->next = i;
+		cast_fbgc_object_as_jumper(top_fbgc_ll_object(op))->content = i;
+	}	
 	else{
 
 		if(gm->top != MONUPLE){
@@ -220,7 +236,6 @@ struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,st
 			cprintf(111,"if shows %s\n",object_name_array[iter_prev->next->type]);	
 			#endif		
 		}
-
 	}
 
 	return iter_prev;
@@ -467,10 +482,6 @@ uint8_t parser(struct fbgc_object ** field_obj){
 				if_obj->next = cast_fbgc_object_as_jumper(if_obj)->content->next;
 				cast_fbgc_object_as_jumper(if_obj)->content->next = if_obj;
 
-				#ifdef PARSER_DEBUG
-				print_fbgc_ll_object(head_obj,"M:::");
-				#endif
-
 				struct fbgc_object * jump_obj = top_fbgc_ll_object(op_stack_head);
 				op_stack_head = pop_front_fbgc_ll_object(op_stack_head);
 
@@ -478,13 +489,30 @@ uint8_t parser(struct fbgc_object ** field_obj){
 				iter_prev->next = jump_obj;
 				iter_prev = jump_obj;
 				
-				#ifdef PARSER_DEBUG
-				print_fbgc_ll_object(head_obj,"M2:::");
-				#endif
-
 				cast_fbgc_object_as_jumper(if_obj)->content = jump_obj;
+			}
+			else if(top_fbgc_ll_object(op_stack_head)->type == FOR_BEGIN){
+				//now insert while in its place,
+				struct fbgc_object * if_obj = top_fbgc_ll_object(op_stack_head);
+				op_stack_head = pop_front_fbgc_ll_object(op_stack_head);
+
+				if_obj->next = cast_fbgc_object_as_jumper(if_obj)->content->next;
+				cast_fbgc_object_as_jumper(if_obj)->content->next = if_obj;
+
+
+
+				struct fbgc_object * jump_obj = top_fbgc_ll_object(op_stack_head);
+				op_stack_head = pop_front_fbgc_ll_object(op_stack_head);
+
+				cast_fbgc_object_as_jumper(jump_obj)->content = 
+				cast_fbgc_object_as_jumper(if_obj)->content;	
+
+				jump_obj->next = iter_prev->next;
+				iter_prev->next = jump_obj;
+				iter_prev = jump_obj;
 				
-				//iter_prev = jump_obj->next;
+				cast_fbgc_object_as_jumper(if_obj)->content = jump_obj;
+
 			}
 			else if(top_fbgc_ll_object(op_stack_head)->type == FUN_MAKE){
 				assert(iter_prev->type != FUN); 
@@ -613,7 +641,21 @@ uint8_t parser(struct fbgc_object ** field_obj){
 			op_stack_head = push_front_fbgc_ll_object(op_stack_head,iter);	
 			//iter_prev->next = iter->next;	
 			break;
-		}	
+		}
+		case FOR:
+		{
+			gm_error = gm_seek_left(&gm,iter);	
+
+
+			cast_fbgc_object_as_jumper(iter)->content = iter_prev;
+
+			struct fbgc_object * jump_obj = new_fbgc_jumper_object(JUMP);
+			cast_fbgc_object_as_jumper(jump_obj)->content = iter_prev;
+			op_stack_head = push_front_fbgc_ll_object(op_stack_head,jump_obj);
+			iter_prev->next = iter->next;	
+			op_stack_head = push_front_fbgc_ll_object(op_stack_head,iter);				
+			break;
+		}			
 		case BREAK:
 		{
 			iter_prev = iter;
@@ -623,10 +665,11 @@ uint8_t parser(struct fbgc_object ** field_obj){
 
 			for(;;){
 				assert(op_top != NULL);
-				if(op_top->type == WHILE_BEGIN){
+				if(op_top->type == WHILE_BEGIN || op_top->type == FOR_BEGIN){
 					cast_fbgc_object_as_jumper(iter)->content = op_top;
 					break;
 				}
+
 				op_top = op_top->next;
 			}
 			break;				
@@ -641,7 +684,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 			for(;;){
 
 				assert(op_top != NULL);
-				if(op_top->type == WHILE_BEGIN){
+				if(op_top->type == WHILE_BEGIN || op_top->type == FOR_BEGIN){
 					//here we assumed there will be always jump object after while in the stack
 					op_top = op_top->next;
 					
@@ -784,12 +827,26 @@ uint8_t parser(struct fbgc_object ** field_obj){
 						iter_prev = rowo;*/
 						break;
 					}
+					else if(iter->type == PIPE && get_fbgc_object_type(top_fbgc_ll_object(op_stack_head)) == LEN){
+							
+						iter->next = iter_prev->next;
+						//eat the pipe insert the len
+						iter_prev->next = top_fbgc_ll_object(op_stack_head);
+						//Pop top from stack
+						op_stack_head = pop_front_fbgc_ll_object(op_stack_head);
+						iter_prev = iter_prev->next;
+						iter_prev->next = iter->next;
+						iter->type = RPARA;//cheat the following part, change this it is very bad..
+
+						break;
+					}
 					else {
 						#ifdef PARSER_DEBUG
 						cprintf(111,"GOTO END_OF_THE_PARSER Syntax Error :");
 						cprintf(011,"Op Top :[%s], Iter:[%s]\n",object_name_array[get_fbgc_object_type(top_fbgc_ll_object(op_stack_head))],object_name_array[iter->type]);
 						#endif
-						goto END_OF_THE_PARSER;
+						assert(0);
+						//goto END_OF_THE_PARSER;
 					}
 
 				}
@@ -807,7 +864,9 @@ uint8_t parser(struct fbgc_object ** field_obj){
 
 			if(iter->type != RPARA)	gm_error = gm_seek_left(&gm,iter);
 			
-			if(iter->type == RPARA || iter->type == RBRACK|| iter->type == SEMICOLON|| iter->type == NEWLINE || iter->type == ROW){
+			if(iter->type == RPARA || iter->type == RBRACK|| 
+				iter->type == SEMICOLON|| iter->type == NEWLINE || 
+				iter->type == ROW ){
 			}
 			else if(iter->type == COMMA){
 
@@ -841,6 +900,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 		case STAR_ASSIGN:
 		case SLASH_ASSIGN:
 		{
+			gm_error = gm_seek_left(&gm,iter);
 			assert(top_fbgc_ll_object(op_stack_head)->type == IDENTIFIER);
 			top_fbgc_ll_object(op_stack_head)->type = iter->type;
 			iter_prev->next = iter->next;

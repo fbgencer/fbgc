@@ -3,7 +3,7 @@
 struct fbgc_object * new_fbgc_double_object(double db_content){
 	struct fbgc_double_object *dbo =  (struct fbgc_double_object*) fbgc_malloc(size_fbgc_double_object);
     dbo->base.type = DOUBLE;
-    dbo->base.next = NULL;
+    //dbo->base.next = NULL;
     dbo->content = db_content; 
     return (struct fbgc_object*) dbo;
 }

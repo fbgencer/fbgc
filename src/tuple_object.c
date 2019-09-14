@@ -35,7 +35,7 @@ struct fbgc_object * new_fbgc_tuple_object(size_t cap){
 
 	struct fbgc_tuple_object *to =  (struct fbgc_tuple_object*) fbgc_malloc(sizeof(struct fbgc_tuple_object) + sizeof(struct fbgc_object*)*cap);
     to->base.type = TUPLE;
-    to->base.next = NULL;
+    //to->base.next = NULL;
     to->size = 0;
     to->capacity = cap;
 

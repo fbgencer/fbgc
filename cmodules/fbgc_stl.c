@@ -20,38 +20,9 @@ new_fbgc_cfunction(fbgc_len,"len")
 	struct fbgc_object ** contents = tuple_object_content(arg);
 	
 	if(size_fbgc_tuple_object(arg) == 1){
-		int sz = 0;
-
-		switch(contents[0]->type){
-			case STRING:
-			{
-				return new_fbgc_int_object(cast_fbgc_object_as_str(contents[0])->len);
-			}				
-			case TUPLE:
-			{
-
-				return new_fbgc_int_object( size_fbgc_tuple_object(contents[0]) );
-			}
-			
-			case MATRIX:
-			{
-				struct fbgc_object * sz_tuple = new_fbgc_tuple_object(2);
-				struct fbgc_object ** aa = tuple_object_content(sz_tuple);
-				aa[0] = new_fbgc_int_object(cast_fbgc_object_as_matrix(contents[0])->row);
-				aa[1] = new_fbgc_int_object(cast_fbgc_object_as_matrix(contents[0])->column);
-				size_fbgc_tuple_object(sz_tuple) = 2;
-				return sz_tuple;
-			}
-			default:
-			{
-				cprintf(100,"Not an iterable object type %s\n",object_name_array[contents[0]->type]);
-				return NULL;
-			}	
-		}
+		return get_length_fbgc_object(contents[0]);
 	}
 	else cprintf(100,"<len> takes only 1 argument!\n");
-
-
 	return NULL;
 }
 

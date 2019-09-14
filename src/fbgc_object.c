@@ -5,7 +5,7 @@ struct
 fbgc_object * new_fbgc_object(fbgc_token token){
 	struct fbgc_object *o =  (struct fbgc_object*) fbgc_malloc(sizeof(struct fbgc_object));
     o->type = token;
-    o->next = NULL;  
+    //o->next = NULL;  
     return (struct fbgc_object*) o;
 }
 
@@ -105,6 +105,9 @@ void print_fbgc_object(struct fbgc_object * self){
 			break;
 			case FUN:
 				print_fbgc_fun_object(self);
+			break;
+			case RANGE:
+				print_fbgc_range_object(self);
 			break;			
 			default:
 				cprintf(100,"[%s]",object_type_as_str(self));  
@@ -192,6 +195,38 @@ char convert_fbgc_object_to_str(struct fbgc_object * obj){
 }*/
 
 
+struct fbgc_object * get_length_fbgc_object(struct fbgc_object * t){
+	switch(t->type){
+		case INT:
+		case DOUBLE:
+		{
+			return t;
+		}
+		case STRING:
+		{
+			return new_fbgc_int_object(cast_fbgc_object_as_str(t)->len);
+		}				
+		case TUPLE:
+		{
+
+			return new_fbgc_int_object(size_fbgc_tuple_object(t)) ;
+		}
+		case MATRIX:
+		{
+			struct fbgc_object * sz_tuple = new_fbgc_tuple_object(2);
+			struct fbgc_object ** aa = tuple_object_content(sz_tuple);
+			aa[0] = new_fbgc_int_object(cast_fbgc_object_as_matrix(t)->row);
+			aa[1] = new_fbgc_int_object(cast_fbgc_object_as_matrix(t)->column);
+			size_fbgc_tuple_object(sz_tuple) = 2;
+			return sz_tuple;
+		}
+		default:
+		{
+			cprintf(100,"Not an iterable object type %s\n",object_name_array[t->type]);
+			assert(0);
+		}	
+	}
+} 
 
 
 void free_fbgc_object(struct fbgc_object * self){

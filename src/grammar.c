@@ -275,11 +275,20 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 	// 	else if(get_fbgc_object_type(obj) == MINUS) obj->type = UMINUS;	
 	// 	gm->top = get_fbgc_object_type(obj);		
 	// }
+	else if(get_fbgc_object_type(obj) == PIPE && gm_left == LEN){
+		gm->top = LEN;
+	}
+	else if(get_fbgc_object_type(obj) == PIPE && is_fbgc_EXPRESSION(gm_left) == 0){
+		gm->top = obj->type = LEN;
+	}
 	else if(is_fbgc_BINARY_OPERATOR(get_fbgc_object_type(obj)) && is_fbgc_EXPRESSION(gm_left)){
-		//cprintf(111,"binar->expr");
 		gm->top = get_fbgc_object_type(obj);
 	}
 	else if(is_fbgc_ASSIGNMENT_OPERATOR(get_fbgc_object_type(obj)) && (gm_left == IDENTIFIER ||  gm_left == BUILD_TUPLE)){
+		gm->top = get_fbgc_object_type(obj);
+	}
+	else if(is_fbgc_OPERATOR(get_fbgc_object_type(obj)) && is_fbgc_EXPRESSION(gm_left)){
+		cprintf(111,"here!\n");
 		gm->top = get_fbgc_object_type(obj);
 	}
 	else if(get_fbgc_object_type(obj) == COMMA && (is_fbgc_EXPRESSION(gm_left) || gm_left == ASSIGNMENT_EXPRESSION) ){
@@ -345,7 +354,9 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 	else{
 
 		//cprintf(110,"ERROR\t");
-		//cprintf(100,"Unexpected grammar for L:[%s], Ob:[%s] flag{0x%X}\n",object_name_array[gm_left],object_name_array[get_fbgc_object_type(obj)],gm->flag);
+		#ifdef GRAMMAR_DEBUG
+		cprintf(100,"Unexpected grammar for L:[%s], Ob:[%s] flag{0x%X}\n",object_name_array[gm_left],object_name_array[get_fbgc_object_type(obj)],gm->flag);
+		#endif
 		return 0;
 	}
 	#undef gm_left 
@@ -366,7 +377,13 @@ uint8_t gm_seek_right(struct fbgc_grammar * gm, struct fbgc_object * obj){
 	if(get_fbgc_object_type(obj) == IDENTIFIER && (is_fbgc_EXPRESSION(gm_right) || is_fbgc_TUPLE(gm_right)) ){
 		gm->top = EXPRESSION;
 	}
-
+	else if(get_fbgc_object_type(obj) == PIPE){
+		if(gm_right == PIPE) gm->top = obj->type = LEN;
+		else if(gm_right == LEN) gm->top = LEN; 
+	}
+	else if(get_fbgc_object_type(obj) == LEN && is_fbgc_EXPRESSION(gm_right)){
+		gm->top = LEN;
+	}	
 	else if(is_fbgc_UNARY_OPERATOR(get_fbgc_object_type(obj)) && is_fbgc_EXPRESSION(gm_right)){
 		gm->top = (UNARY_EXPRESSION);
 	}
@@ -375,6 +392,9 @@ uint8_t gm_seek_right(struct fbgc_grammar * gm, struct fbgc_object * obj){
 	}
 	else if(is_fbgc_ASSIGNMENT_OPERATOR(get_fbgc_object_type(obj)) && is_fbgc_STATEMENT(gm_right)){
 		gm->top = (ASSIGNMENT_EXPRESSION);
+	}
+	else if(is_fbgc_OPERATOR(get_fbgc_object_type(obj)) && is_fbgc_EXPRESSION(gm_right)){
+		gm->top = EXPRESSION;
 	}
 	else if(get_fbgc_object_type(obj) == COMMA && (is_fbgc_EXPRESSION(gm_right) || gm_right == ASSIGNMENT_EXPRESSION) ){
 		gm->top = (BALANCED_EXPRESSION_LIST);
@@ -392,7 +412,10 @@ uint8_t gm_seek_right(struct fbgc_grammar * gm, struct fbgc_object * obj){
 	}
 	else if( get_fbgc_object_type(obj) == WHILE && (gm_right == MONUPLE || gm_right == BUILD_TUPLE)){
 		gm->top  = obj->type = WHILE_BEGIN;
-	}			
+	}
+	else if( get_fbgc_object_type(obj) == FOR && (gm_right == MONUPLE || gm_right == BUILD_TUPLE)){
+		gm->top  = obj->type = FOR_BEGIN;
+	}							
 	else if( get_fbgc_object_type(obj) == IF_BEGIN && is_fbgc_STATEMENT(gm_right) ){
 		gm->top = IF_BEGIN;
 		grammar_open_BEGIN_flag(gm->flag);		
@@ -405,7 +428,10 @@ uint8_t gm_seek_right(struct fbgc_grammar * gm, struct fbgc_object * obj){
 		gm->top = WHILE_BEGIN;
 		grammar_open_BEGIN_flag(gm->flag);		
 	}
-			
+	else if( get_fbgc_object_type(obj) == FOR_BEGIN && is_fbgc_STATEMENT(gm_right) ){
+		gm->top = FOR_BEGIN;
+		grammar_open_BEGIN_flag(gm->flag);		
+	}			
 	else if(get_fbgc_object_type(obj) == LOAD && gm_right == MONUPLE){
 		gm->top = LOAD;
 	}
@@ -431,7 +457,9 @@ uint8_t gm_seek_right(struct fbgc_grammar * gm, struct fbgc_object * obj){
 
 	else {
 		//cprintf(110,"ERROR\t");
-		//cprintf(100,"Unexpected grammar Ob:[%s] R:[%s] flag{0x%X}\n",object_name_array[get_fbgc_object_type(obj)],object_name_array[gm_right],gm->flag);
+		#ifdef GRAMMAR_DEBUG
+		cprintf(100,"Unexpected grammar Ob:[%s] R:[%s] flag{0x%X}\n",object_name_array[get_fbgc_object_type(obj)],object_name_array[gm_right],gm->flag);
+		#endif
 		return 0;
 	}
 	#undef gm_right

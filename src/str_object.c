@@ -3,7 +3,7 @@
 struct fbgc_object * new_fbgc_str_object(const char * str_content){
     struct fbgc_str_object *stro =  (struct fbgc_str_object*) fbgc_malloc(size_fbgc_str_object + strlen(str_content)+1); 
     stro->base.type = STRING;
-    stro->base.next = NULL;
+    //stro->base.next = NULL;
     stro->len = strlen(str_content);
     stro->content = ( (char *) stro ) + size_fbgc_str_object;
     memcpy(&stro->content,str_content,stro->len);
@@ -15,7 +15,7 @@ struct fbgc_object * new_fbgc_str_object_from_substr(const char * str1,const cha
     
     struct fbgc_str_object *stro =  (struct fbgc_str_object*) fbgc_malloc(size_fbgc_str_object + str2-str1 + 1); 
     stro->base.type = STRING;
-    stro->base.next = NULL;
+    //stro->base.next = NULL;
     stro->len = str2-str1;
     stro->content = ( (char *) stro ) + size_fbgc_str_object;
     memcpy(&stro->content,str1,stro->len);
@@ -184,7 +184,7 @@ struct fbgc_object * binary_op_fbgc_str_object(struct fbgc_object * a,struct fbg
 struct fbgc_object * subscript_fbgc_str_object(struct fbgc_object * obj,int i1, int i2){
     //return new str object, it could be sequence inside the object or just one char
 
-    if(i2>i1 && i2-i1 <= length_fbgc_str_object(obj) ){
+    if(i1<length_fbgc_str_object(obj) && i2<=length_fbgc_str_object(obj) && i2>i1 ){
         char * c = content_fbgc_str_object(obj);
         return new_fbgc_str_object_from_substr(c+i1,c+i2);
     }
@@ -244,7 +244,7 @@ fbgc_object * new_fbgc_cstr_object(const char * str_content){
 
     struct fbgc_cstr_object *stro =  (struct fbgc_cstr_object*) fbgc_malloc(size_fbgc_cstr_object + str_len + 1); 
     stro->base.type = CSTRING;
-    stro->base.next = NULL;
+    //stro->base.next = NULL;
     memcpy(&stro->content,str_content,str_len);
     *(&stro->content+str_len) = '\0';
     return (struct fbgc_object*) stro;  
@@ -257,7 +257,7 @@ struct fbgc_object * new_fbgc_cstr_object_from_substr(const char * str1,const ch
     size_t str_len = str2-str1;
     struct fbgc_cstr_object *stro =  (struct fbgc_cstr_object*) fbgc_malloc(size_fbgc_cstr_object + str_len + 1); 
     stro->base.type = CSTRING;
-    stro->base.next = NULL;
+    //stro->base.next = NULL;
     stro->content = ( (char *) stro ) + size_fbgc_cstr_object;
     memcpy(&stro->content,str1,str_len);
     *(&stro->content+str_len) = '\0';

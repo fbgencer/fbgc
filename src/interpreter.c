@@ -21,10 +21,10 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 	struct fbgc_object * last_called_function = NULL;
 	size_t recursion_ctr = 0;
 
-#define _STACK_GOTO(i) 	(sctr += i)
-#define _PUSH(x)		(*(sp+sctr++) = (x))
-#define PUSH(x)			()
-#define _POP()			(sp[--sctr])
+#define STACK_GOTO(i) 	(sctr += i)
+#define PUSH(x)		(*(sp+sctr++) = (x))
+#define POP()			(sp[--sctr])
+#define _POP()			(--sctr)
 #define TOP()			(sp[sctr-1])
 #define SECOND()		(sp[sctr-2])
 #define THIRD()			(sp[sctr-3])
@@ -40,7 +40,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 #define RECURSION_LIMIT 1000
 
-	for(int i = 0; (pc != head->tail) ; i++){
+	for(int i = 0;  (pc != head->tail) ; i++){
 
 		if(recursion_ctr>RECURSION_LIMIT){
 			printf("Reached Recursion limit!\n");
@@ -73,7 +73,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			case CFUN:
 			case ROW:
 			{
-				_PUSH(pc);
+				PUSH(pc);
 				break;
 			}
 			case IDENTIFIER:
@@ -81,7 +81,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				if(is_id_flag_SUBSCRIPT(pc)){
 					//cprintf(111,"Id flag subscript \n");
 					//first pop the number of indexes
-					int index_no = cast_fbgc_object_as_int(_POP())->content;
+					int index_no = cast_fbgc_object_as_int(POP())->content;
 					//take index values one by one and finally left last index 
 					struct fbgc_object * dummy;
 
@@ -120,23 +120,24 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					//index = cast_fbgc_object_as_int(TOP())->content;
 					//cprintf(111,"Son index %d\n",index);
 
-					_STACK_GOTO(-index_no);
-					_PUSH(dummy);
+					STACK_GOTO(-index_no);
+					PUSH(dummy);
 					break;
 				}
 				if(is_id_flag_GLOBAL(pc)){
 					struct fbgc_identifier * tmp = (struct fbgc_identifier *) get_address_in_fbgc_array_object(globals,cast_fbgc_object_as_id_opcode(pc)->loc);
 					assert(tmp->content != NULL);
-						_PUSH(tmp->content);
-					//_PUSH(globals[cast_fbgc_object_as_id_opcode(pc)->loc]);	
+						PUSH(tmp->content);
+					//PUSH(globals[cast_fbgc_object_as_id_opcode(pc)->loc]);	
 				} 
-				else if(is_id_flag_LOCAL(pc))  _PUSH(GET_AT_FP(cast_fbgc_object_as_id_opcode(pc)->loc));
+				else if(is_id_flag_LOCAL(pc))  PUSH(GET_AT_FP(cast_fbgc_object_as_id_opcode(pc)->loc));
 				break;
 			}
 			case BREAK:
 			{
 				struct fbgc_object * loop_obj =  cast_fbgc_object_as_jumper(pc)->content;
-				pc = cast_fbgc_object_as_jumper(loop_obj)->content;	
+				if(loop_obj->type == FOR_BEGIN) STACK_GOTO(-2);
+				pc = cast_fbgc_object_as_jumper(loop_obj)->content;
 				break;
 			}
 			case CONT:
@@ -147,13 +148,13 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			}				
 			case RETURN:{
 
-				struct fbgc_object * ret = _POP();
+				struct fbgc_object * ret = POP();
 				int old_fctr = fctr;
 				fctr = cast_fbgc_object_as_int(TOP())->content;
 				stack->next = SECOND();
 				sctr = old_fctr;
-				//_STACK_GOTO(-2);
-				 _PUSH(ret);
+				//STACK_GOTO(-2);
+				PUSH(ret);
 				//##Solve this pc->next problem!!!!!!!!
 				pc = stack;
 				//cprintf(111,"Stack next :");
@@ -168,7 +169,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			case STAR_ASSIGN:
 			case SLASH_ASSIGN:
 			{
-				struct fbgc_object * rhs = _POP();
+				struct fbgc_object * rhs = POP();
 
 				if(is_id_flag_GLOBAL(pc)){
 					struct fbgc_identifier * tmp = 
@@ -222,33 +223,34 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					cprintf(111,"This type does not support operation.\n");
 					return 0;
 				}
-				//struct fbgc_object * res =  call_fbgc_binary_op(main_tok,_POP(),_POP(),type);
+				struct fbgc_object * res =  call_fbgc_binary_op(main_tok,POP(),POP(),type);
 
-				struct fbgc_object * res =  safe_call_fbgc_binary_op(_POP(),_POP(),main_tok,type);
-				
-/* func array ile
- 42d:	4d 8d 6c 0c f0       	lea    r13,[r12+rcx*1-0x10]
- 432:	ff cb                	dec    ebx
- 434:	49 8b 7d 00          	mov    rdi,QWORD PTR [r13+0x0]
- 438:	ff d0                	call   rax
+				//struct fbgc_object * res =  safe_call_fbgc_binary_op(POP(),POP(),main_tok,type);
 
-switch case rec func ile
- 42f:	4d 8d 6c 04 f0       	lea    r13,[r12+rax*1-0x10]
- 434:	ff cb                	dec    ebx
- 436:	49 8b 7d 00          	mov    rdi,QWORD PTR [r13+0x0]
- 43a:	e8 00 00 00 00       	call   43f <interpreter+0x43f>	43b: R_X86_64_PLT32	safe_call_fbgc_binary_op-0x4
- 434:	49 8b 7d 00          	mov    rdi,QWORD PTR [r13+0x0]
- 438:	ff d0                	call   rax
-*/
 				assert(res != NULL);
-				_PUSH(res);		
+				PUSH(res);		
 
 				break;	
 
 			}
+
+			case COLON:
+			{
+				if(SECOND()->type == RANGE){
+					struct fbgc_object * x = SECOND();
+					cast_fbgc_object_as_range(x)->step = cast_fbgc_object_as_range(x)->end;
+					cast_fbgc_object_as_range(x)->end = POP();
+					//range_obj_set_step(SECOND(),POP());
+				}
+				else {
+					PUSH(new_fbgc_range_object(POP(),POP()));
+				}
+
+				break;
+			}
 			case ASSIGN:
 			{
-				struct fbgc_object * rhs = _POP();
+				struct fbgc_object * rhs = POP();
 
 				//cprintf(100,"Assign Flag %0x\n",get_id_flag(pc));
 				//return 0;
@@ -256,7 +258,7 @@ switch case rec func ile
 				if(is_id_flag_SUBSCRIPT(pc)){
 					//cprintf(111,"Id flag subscript \n");
 					//first pop the number of indexes
-					int index_no = cast_fbgc_object_as_int(_POP())->content;
+					int index_no = cast_fbgc_object_as_int(POP())->content;
 					//take index values one by one and finally left last index 
 					struct fbgc_object * dummy;
 
@@ -292,7 +294,7 @@ switch case rec func ile
 					//cprintf(111,"Son index %d\n",index);
 					set_object_in_fbgc_tuple_object(dummy,rhs,index);
 						//tmp->content = rhs;
-					_STACK_GOTO(-index_no);
+					STACK_GOTO(-index_no);
 					break;
 				}
 
@@ -313,32 +315,75 @@ switch case rec func ile
 				pc = cast_fbgc_object_as_jumper(pc)->content;	
 				break;
 			}
+			case LEN:
+			{
+				PUSH( get_length_fbgc_object(POP()) );
+				break;
+			}
 			case IF_BEGIN:
 			case ELIF_BEGIN:
 			case WHILE_BEGIN:
 			{
-				struct fbgc_object * cond = _POP();
+				struct fbgc_object * cond = POP();
 				//Check this! cond->type == INT 
 				if(!cast_fbgc_object_as_int(cond)->content  ){
 					pc = cast_fbgc_object_as_jumper(pc)->content;
 				}
 				break;
 			}
+			case FOR_BEGIN:
+			{	
+				assert(TOP()->type == INT);
+
+				int i = cast_fbgc_object_as_int(TOP())->content;
+				struct fbgc_object * seq_ob = SECOND();
+				if(i == -1){
+					//New construciont of for loop
+					_POP();
+					//put new iterator
+					PUSH( new_fbgc_int_object(i = 0) );
+				}
+				else {
+					i = ++(cast_fbgc_object_as_int(TOP())->content);
+				}
+
+				if(seq_ob->type == STRING){
+					seq_ob = subscript_fbgc_str_object(seq_ob,i,i+1);
+				}
+				else if(seq_ob->type == RANGE){
+					seq_ob = get_element_in_fbgc_range_object(seq_ob,i);
+				}
+
+
+				if(seq_ob != NULL){
+					PUSH(seq_ob);
+				}
+				else{
+					//finish the for loop
+					//pop iterator and sequence object
+					STACK_GOTO(-2);
+					pc = cast_fbgc_object_as_jumper(pc)->content;
+				}
+
+
+				//return 0;
+				break;
+			}
 			case FUN_CALL:
 			{
 				
-				struct fbgc_fun_object * funo = cast_fbgc_object_as_fun(_POP());
-				int arg_no = cast_fbgc_object_as_int(_POP())->content;
-				//_POP();
+				struct fbgc_fun_object * funo = cast_fbgc_object_as_fun(POP());
+				int arg_no = cast_fbgc_object_as_int(POP())->content;
+				//POP();
 				
 				//assert(funo->base.type == FUN || funo->base.type == CFUN);
 
 				if(funo->base.type == CFUN){
 					//return 0;
 					struct fbgc_object * arg_tuple =  new_fbgc_tuple_object_from_tuple_content(sp+sctr-arg_no,arg_no);
-					_STACK_GOTO(-arg_no);
+					STACK_GOTO(-arg_no);
 					struct fbgc_object * res = cfun_object_call(funo,arg_tuple);
-					if(res != NULL) _PUSH(res);
+					if(res != NULL) PUSH(res);
 					break;
 
 					// In order to increase speed, DELETE new tuple creation it causes 2sec for 100,000 print('ffdfds') code
@@ -357,12 +402,12 @@ switch case rec func ile
 					return 0;
 				}
 
-				_STACK_GOTO(funo->no_locals - arg_no);
+				STACK_GOTO(funo->no_locals - arg_no);
 				//save our first next operation after this function call
 				//After returning the value we will take this space and run the main code
-				_PUSH(pc->next);
+				PUSH(pc->next);
 				//hold old frame pointer location
-				_PUSH(new_fbgc_int_object(fctr));
+				PUSH(new_fbgc_int_object(fctr));
 				//hold old position of sp with fp, assume that args already pushed into stack
 				fctr = sctr-funo->no_locals-2;
 				//execute function
@@ -380,10 +425,10 @@ switch case rec func ile
 				
 					
 				while(--tuple_size >= 0){
-					set_object_in_fbgc_tuple_object(to,_POP(),tuple_size);
+					set_object_in_fbgc_tuple_object(to,POP(),tuple_size);
 				}
 
-				_PUSH(to);
+				PUSH(to);
 				break;
 			}
 			case BUILD_MATRIX:
@@ -453,8 +498,8 @@ switch case rec func ile
 
 
 
-				_STACK_GOTO(-ctr);
-				_PUSH(m);
+				STACK_GOTO(-ctr);
+				PUSH(m);
 
 				break;
 				//return 0;
