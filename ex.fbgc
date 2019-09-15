@@ -1,32 +1,11 @@
-pi = 3.14159
-a = ((100+2,200*3,500+6) ,(4.23, pi, 10*pi),('f','b','g'))
+z1 = 1+2j
+z2 = 1+5j
 
+print('Complex z1 = ', z1);
+print('Complex z2 = ', z2);
 
-transpose = fun(a)
-	t = ((0,0,0),(0,0,0),(0,0,0))
-	c = |a[0]|
-	r = |a|
-
-	for(i = 0:r)
-		for(j = 0:c)
-			t[j,i] = a[i,j]
-		end
-	end
-
-	return t
-end
-
-
-pretty_print_tuple = fun(t)
-	for(i = 0:|t|)
-		for(j = 0:|t[i]|)
-			print(t[i,j]);
-		end
-	end
-end
-
-a[0,1] = 'fbgencer'
-print(a)
-
-t = transpose(a)
-pretty_print_tuple(t)
+print('z1+z2 = ',z1+z2);
+print('z1-z2 = ',z1-z2);
+print('z1*z2 = ',z1*z2);
+print('z1==z2 = ',z1==z2);
+print('z1!=z2 = ',z1!=z2);

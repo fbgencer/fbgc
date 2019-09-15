@@ -39,7 +39,7 @@ $(OUT): $(OBJ)
 
 
 clean:
-	rm -f fbgc $(OBJ)
+	rm -f $(OBJ)
 
 
 #make clean && make && valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./fbgc

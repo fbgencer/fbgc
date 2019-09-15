@@ -38,101 +38,102 @@ struct fbgc_object * binary_op_fbgc_int_object(struct fbgc_object * a,struct fbg
     int b1 = convert_fbgc_object_to_int(b);
     int c = 0;
 
-    switch(op)
+switch(op)
+{
+    case STARSTAR:
     {
-        case STARSTAR:
-        {
-            c = pow(a1,b1);
-            break;
-        }
-        case SLASHSLASH:
-        {
-            c =  1/(1/a1 + 1/b1); 
-            break;
-        }
-        case LO_EQ:
-        {
-            c = a1<b1;
-            break;
-        }
-        case GR_EQ:
-        {
-            c = a1 > b1;
-            break;
-        }
-        case EQ_EQ:
-        {
-            c = a1 == b1;
-            break;
-        }
-        case NOT_EQ:
-        {
-            c = a1 != b1;
-            break;
-        }
-        case R_SHIFT:
-        {
-            c = a1>>b1;
-            break;
-        }
-        case L_SHIFT:
-        {
-            c = a1<<b1;
-            break;
-        }
-        case CARET:
-        {
-            c = pow(a1,b1);
-            break;
-        }
-        case PERCENT:
-        {
-            c = a1%b1;
-            break;
-        }        
-        case LOWER:
-        {
-            c = a1<b1;
-            break;
-        }        
-        case GREATER:
-        {
-            c = a1>b1;
-            break;
-        }        
-        case PIPE:
-        {
-            c = a1 || b1;
-            break;
-        } 
-        case AMPERSAND:
-        {
-            c = a1 && b1;
-            break;
-        }        
-        case SLASH:
-        {
-            assert(b1 != 0);
-            c = a1/b1;
-
-            break;
-        }        
-        case STAR:
-        {
-            c = a1*b1;
-            break;
-        }        
-        case MINUS:
-        {
-            c = a1-b1;
-            break;
-        }        
-        case PLUS:
-        {
-            c = a1+b1;
-            break;
-        } 
+        c = pow(a1,b1);
+        break;
     }
+    case SLASHSLASH:
+    {
+        c =  1/(1/a1 + 1/b1); 
+        break;
+    }
+    case LO_EQ:
+    {
+        c = a1<b1;
+        break;
+    }
+    case GR_EQ:
+    {
+        c = a1 > b1;
+        break;
+    }
+    case EQ_EQ:
+    {
+        c = a1 == b1;
+        break;
+    }
+    case NOT_EQ:
+    {
+        c = a1 != b1;
+        break;
+    }
+    case R_SHIFT:
+    {
+        c = a1>>b1;
+        break;
+    }
+    case L_SHIFT:
+    {
+        c = a1<<b1;
+        break;
+    }
+    case CARET:
+    {
+        c = pow(a1,b1);
+        break;
+    }
+    case PERCENT:
+    {
+        c = a1%b1;
+        break;
+    }        
+    case LOWER:
+    {
+        c = a1<b1;
+        break;
+    }        
+    case GREATER:
+    {
+        c = a1>b1;
+        break;
+    }        
+    case PIPE:
+    {
+        c = a1 || b1;
+        break;
+    } 
+    case AMPERSAND:
+    {
+        c = a1 && b1;
+        break;
+    }        
+    case SLASH:
+    {
+        assert(b1 != 0);
+        c = a1/b1;
+
+        break;
+    }        
+    case STAR:
+    {
+        c = a1*b1;
+        break;
+    }        
+    case MINUS:
+    {
+        c = a1-b1;
+        break;
+    }        
+    case PLUS:
+    {
+        c = a1+b1;
+        break;
+    } 
+}
+
     return new_fbgc_int_object(c);
 }
 

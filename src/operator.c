@@ -29,7 +29,7 @@ struct fbgc_object * (*fbgc_binary_op[6]) (struct fbgc_object *, struct fbgc_obj
 {	
 	binary_op_fbgc_int_object,
 	binary_op_fbgc_double_object,
-	NULL,
+	binary_op_fbgc_complex_object,
 	binary_op_fbgc_str_object,
 	NULL,
 	NULL,

@@ -245,7 +245,8 @@ struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,st
 
 struct fbgc_object * handle_before_brackets(struct fbgc_object * iter_prev,struct fbgc_object * op, struct fbgc_grammar * gm){
 	#ifdef PARSER_DEBUG
-	cprintf(111,">>%s<<",__FUNCTION__);
+	cprintf(111,">>%s<<\n",__FUNCTION__);
+	cprintf(111,"iter_prev %s\n",object_name_array[iter_prev->type]);
 	#endif
 	uint8_t gm_error = 1;
 
@@ -257,7 +258,16 @@ struct fbgc_object * handle_before_brackets(struct fbgc_object * iter_prev,struc
 		iter_prev = ito;
 	}
 
-	if(TOP_LL(op) != NULL && get_fbgc_object_type(TOP_LL(op)) == IDENTIFIER)
+	#ifdef PARSER_DEBUG
+	if(TOP_LL(op) != NULL){
+		cprintf(110,"############## IN bracket closing ###############\n");
+		print_fbgc_ll_object(op,"O");
+		cprintf(101,"[GM]:{Top:%s} Flag{0x%X} \n",object_name_array[gm->top],gm->flag);
+		cprintf(110,"###############$$$$################\n");		
+	}
+	#endif
+
+	if(TOP_LL(op) != NULL &&  get_fbgc_object_type(TOP_LL(op)) == IDENTIFIER)
 	{
 		#ifdef PARSER_DEBUG
 		cprintf(100,"Operator stack top load_local or global, this is a subscript call template!\n");
@@ -269,6 +279,7 @@ struct fbgc_object * handle_before_brackets(struct fbgc_object * iter_prev,struc
 		set_id_flag_SUBSCRIPT(TOP_LL(op));
 	}
 	else{
+
 		iter_prev->type = BUILD_MATRIX;
 	}
 	

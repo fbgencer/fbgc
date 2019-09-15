@@ -100,10 +100,10 @@ const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] =
 	{LEXER_TOK_BASE16_INT,"0x !x!+"},
 	{LEXER_TOK_STRING,"' _|\"!s!d!w!o!* '"},
 	{LEXER_TOK_STRING,"\" _|'|\n!s!d!w!o!* \""},
-	{LEXER_TOK_DOUBLE,"!d!+ .!* !d!* E|e +|-!* !d!+"}, 
-	{LEXER_TOK_DOUBLE,". !d!+"}, 
-	{LEXER_TOK_DOUBLE,"!d!+ . !d!+"}, 	
-	{LEXER_TOK_BASE10_INT,"!d!+"},
+	{LEXER_TOK_DOUBLE,"!d!+ .!* !d!* E|e +|-!* !d!+ j!*"}, 
+	{LEXER_TOK_DOUBLE,". !d!+ j!*"}, 
+	{LEXER_TOK_DOUBLE,"!d!+ . !d!+ j!*"}, 	
+	{LEXER_TOK_BASE10_INT,"!d!+ j!*"},
 	{LEXER_TOK_PARA,"(|)|[|]|{|}"},		
 	{LEXER_TOK_KEYWORDS,"end|fun|elif|else|while|for|break|cont|load|true|false|if|return"},
 	{LEXER_TOK_NAME,"_!w _!w!d!*"},		
@@ -376,7 +376,7 @@ uint8_t regex_lexer(struct fbgc_object ** field_obj,char * first_ptr){
 							char * tempstr = (char *) malloc(sizeof(char) * ((mobile_ptr - first_ptr)+1) );
 							strncpy(tempstr,first_ptr,(mobile_ptr - first_ptr));
 							tempstr[(mobile_ptr - first_ptr)] = '\0';
-							cprintf(101,"['%s' : %s]\n",tempstr, lexer_token_list_as_strings[current_token-1] );
+							cprintf(101,"['%s' : %s]\n",tempstr, lexer_token_list_as_strings[current_token] );
 							free(tempstr);
 						#endif
 					
@@ -449,6 +449,7 @@ fbgc_object * tokenize_substr(const char *str1, const char*str2, lexer_token tok
 		} 
 		case LEXER_TOK_BASE10_INT:
 		{
+			if(*(str2-1) == 'j') goto GOTO_COMPLEX;
 			return new_fbgc_int_object_from_substr(str1,str2,10);
 		} 
 		case LEXER_TOK_BASE16_INT:
@@ -456,8 +457,14 @@ fbgc_object * tokenize_substr(const char *str1, const char*str2, lexer_token tok
 			return new_fbgc_int_object_from_substr(str1+2,str2,16); //eat 0x
 		} 
 		case LEXER_TOK_DOUBLE:
-		{
+		{	
+			if(*(str2-1) == 'j') goto GOTO_COMPLEX;
 			return new_fbgc_double_object_from_substr(str1,str2); 
+		}
+		case LEXER_TOK_COMPLEX:
+		{	
+			GOTO_COMPLEX: ;
+			return new_fbgc_complex_object_from_substr(str1,str2);
 		}
 		case LEXER_TOK_STRING:
 		{

@@ -119,7 +119,9 @@ void print_fbgc_ll_object(struct fbgc_object * head,const char *s1){
 
         if(iter->type == INT) cprintf(011,"{%d}",cast_fbgc_object_as_int(iter)->content);   
         else if(iter->type == DOUBLE) cprintf(011,"{%f}",cast_fbgc_object_as_double(iter)->content); 
-        //xXXXXXXXXXXXXXX
+        else if(iter->type == COMPLEX)
+            cprintf(011,"{%f %+fj}",cast_fbgc_object_as_complex(iter)->z.real,cast_fbgc_object_as_complex(iter)->z.imag);
+        
         //CHANGE THIS LINE, STRING CASTING MUST BE CHANGED | THIS WAY(&cast_fbgc_object_as_str(iter)->content) IS NOT SAFE!
         else if(iter->type == STRING) cprintf(011,"{'%s'}",&cast_fbgc_object_as_str(iter)->content,object_name_array[iter->type]);
         else if(iter->type == CSTRING){

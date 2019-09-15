@@ -76,3 +76,79 @@ struct fbgc_object * safe_call_fbgc_binary_op(struct fbgc_object * , struct fbgc
 
 
 #endif
+
+
+/*
+case STARSTAR:
+{
+
+}
+case SLASHSLASH:
+{
+
+}
+case LO_EQ:
+{
+
+}
+case GR_EQ:
+{
+
+}
+case EQ_EQ:
+{
+
+}
+case NOT_EQ:
+{
+
+}
+case R_SHIFT:
+{
+
+}
+case L_SHIFT:
+{
+
+}
+case CARET:
+{
+
+}
+case PERCENT:
+{
+
+}
+case LOWER:
+{
+
+}
+case GREATER:
+{
+
+}
+case PIPE:
+{
+
+}
+case AMPERSAND:
+{
+
+}
+case SLASH:
+{
+
+}
+case STAR:
+{
+
+}
+case MINUS:
+{
+
+}
+case PLUS:
+{
+
+}
+*/

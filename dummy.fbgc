@@ -45,3 +45,42 @@ print(longstr_fromtuple(x))
 
 
 print('is it working ?\n\n')
+
+
+pi = 3.14159
+a = ((100+2,200*3,500+6) ,(4.23, pi, 10*pi),('f','b','g'))
+
+
+transpose = fun(a)
+	t = ((0,0,0),(0,0,0),(0,0,0))
+	c = |a[0]|
+	r = |a|
+	for(i = 0:r)
+		for(j = 0:c)
+			t[j,i] = a[i,j]
+		end
+	end
+	return t
+end
+
+for( i = 1:2:10)
+	print(i);
+end
+
+
+pretty_print_tuple = fun(t)
+	for(i = 0:|t|)
+		for(j = 0:|t[i]|)
+			print(t[i,j]);
+		end
+	end
+end
+
+a[0,1] = 'fbgencer'
+print(a)
+
+t = transpose(a)
+pretty_print_tuple(t)
+
+
+

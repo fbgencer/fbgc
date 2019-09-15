@@ -25,6 +25,11 @@ void printf_fbgc_object(struct fbgc_object * self){
 			fprintf(stdout,"%f",cast_fbgc_object_as_double(self)->content);
 			break;			
 		}
+		case COMPLEX:
+		{
+			fprintf(stdout,"%f%+fj",cast_fbgc_object_as_complex(self)->z.real,cast_fbgc_object_as_complex(self)->z.imag); 
+			break;
+		}
 		case STRING:
 		{
 		    fprintf(stdout,"%s",&cast_fbgc_object_as_str(self)->content);   
@@ -82,6 +87,9 @@ void print_fbgc_object(struct fbgc_object * self){
 			break;
 			case DOUBLE:
 				print_fbgc_double_object(self);
+			break;
+			case COMPLEX:
+				print_fbgc_complex_object(self);
 			break;
 			case STRING:
 				print_fbgc_str_object(self);
@@ -174,6 +182,27 @@ double convert_fbgc_object_to_double(struct fbgc_object * obj){
 	}
 	
 	return 0;
+}
+
+
+struct raw_complex convert_fbgc_object_to_complex(struct fbgc_object * obj){
+	if(get_fbgc_object_type(obj) == COMPLEX) return cast_fbgc_object_as_complex(obj)->z;
+	
+	struct raw_complex z;
+
+	switch(get_fbgc_object_type(obj)){
+		case INT:
+			z.real = (double)(cast_fbgc_object_as_int(obj)->content);
+			break;
+		case DOUBLE:
+			z.real = cast_fbgc_object_as_double(obj)->content;
+			break;
+		default :
+			cprintf(111,"Error at double conversion! type %s\n",object_name_array[obj->type]);
+			assert(0);
+	}
+	
+	return z;
 }
 
 /*
