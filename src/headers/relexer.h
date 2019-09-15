@@ -170,9 +170,9 @@ uint8_t match_and_replace(const char * inc_rule_ptr,char buffer[],const char *re
 
 #define LXR_DIGIT 0 //for digit:d
 #define LXR_LETTER 1 //for letter:w
-#define	LXR_OPERATOR 2 //for op : o
-#define LXR_HEXADECIMAL 3
-#define LXR_ALL 4
+#define	LXR_OPERATOR 2 //for op : o see ispunct
+#define LXR_HEXADECIMAL 3 // for hexadecimals, see isxdigit
+#define LXR_ALL 4 // see isprint() function
 #define LXR_NEWLINE 5
 #define LXR_TAB 6
 #define LXR_PATTERN_NUM 7
@@ -184,7 +184,7 @@ x == 'o' ? 0x04 :\
 x == 'x' ? 0x08 :\
 x == '.' ? 0x10 :\
 x == 's' ? 0x20 :\
-x == ' ' ? 0x40 :0;})
+x == ' ' ? 0x40 :0;}) 
 
 /*
 x == 'D' ? ~0x01:\

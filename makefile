@@ -3,8 +3,9 @@ SRC = $(shell find src/*.c cmodules/*.c)
 #MODULES = $(wildcard cmodules/*.c)
 OBJ = ${SRC:.c=.o}
 
+#put -g in order to see good assembly output
 CC=gcc
-CFLAGS=-c -lm -w -Os -g
+CFLAGS=-c -lm -Os
 LDFLAGS += -lm 
 
 #CFLAGS += -DCLOSE_CPRINTF

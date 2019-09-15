@@ -1,16 +1,32 @@
-x = "abcdef"*100
+pi = 3.14159
+a = ((100+2,200*3,500+6) ,(4.23, pi, 10*pi),('f','b','g'))
 
-reverse_str = fun(x)
-	s = ''
-	for (i = |x|-1:(1-2):(0-1))
-		s = s << x[i]
+
+transpose = fun(a)
+	t = ((0,0,0),(0,0,0),(0,0,0))
+	c = |a[0]|
+	r = |a|
+
+	for(i = 0:r)
+		for(j = 0:c)
+			t[j,i] = a[i,j]
+		end
 	end
-	return s
+
+	return t
 end
 
 
+pretty_print_tuple = fun(t)
+	for(i = 0:|t|)
+		for(j = 0:|t[i]|)
+			print(t[i,j]);
+		end
+	end
+end
 
-print(reverse_str(x))
+a[0,1] = 'fbgencer'
+print(a)
 
-print(|5.2-10|)
-
+t = transpose(a)
+pretty_print_tuple(t)

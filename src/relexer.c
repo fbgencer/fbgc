@@ -98,16 +98,17 @@ const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] =
 	{LEXER_TOK_SPACE,"!+! \t"},
 	{LEXER_TOK_BASE2_INT,"0b 1|0!+"},
 	{LEXER_TOK_BASE16_INT,"0x !x!+"},
-	{LEXER_TOK_STRING,"' _|\\'!s!d!w!o!* '"},
-	{LEXER_TOK_STRING,"\" _|\\'!s!d!w!o!* \""},
-	{LEXER_TOK_DOUBLE,"!d!+ .!* !d!* E +|-!* !d!+"}, 
+	{LEXER_TOK_STRING,"' _|\"!s!d!w!o!* '"},
+	{LEXER_TOK_STRING,"\" _|'|\n!s!d!w!o!* \""},
+	{LEXER_TOK_DOUBLE,"!d!+ .!* !d!* E|e +|-!* !d!+"}, 
 	{LEXER_TOK_DOUBLE,". !d!+"}, 
 	{LEXER_TOK_DOUBLE,"!d!+ . !d!+"}, 	
 	{LEXER_TOK_BASE10_INT,"!d!+"},
 	{LEXER_TOK_PARA,"(|)|[|]|{|}"},		
 	{LEXER_TOK_KEYWORDS,"end|fun|elif|else|while|for|break|cont|load|true|false|if|return"},
 	{LEXER_TOK_NAME,"_!w _!w!d!*"},		
-	{LEXER_TOK_OP, "...|->|<-|~>|<~|::|+=|-=|*=|/=|:=|++|--|=>|**|//|<=|>=|==|!=|>>|<<|^|%|<|>|||&|/|*|-|+|!|~|;|,|.|:|="},
+	{LEXER_TOK_OP, "...|->|<-|~>|<~|::|+=|-=|*=|/=|:=|++|--|=>|**|//|<=|>=|==|!=|>>|<<|^|%|<|>|||&|/|*|-|+|!|~|;|:|=|,|."},
+
 };
 	
 
@@ -127,7 +128,7 @@ void pretty_print_pointer(const char *buffer ,const char * ptr){
 #endif
 
 char * fbgc_getline_from_file(char * s, int n, FILE *fp){
-   	int c;
+   	int c = 0;
     char* cs = s;
     while(--n > 0 && (c = getc(fp)) != EOF){
     // put the input char into the current pointer position, then increment it
@@ -144,7 +145,6 @@ char * fbgc_getline_from_file(char * s, int n, FILE *fp){
 					case 'r': *(cs-1) = '\r'; break;
 					case 't': *(cs-1) = '\t'; break;
 					case 'v': *(cs-1) = '\v'; break;
-					//case '\'': *(cs) = '\''; break;
 					case '\\': *(cs-1) = '\\'; break;     				
     				case EOF: 
     					*(cs++) = '\n';
@@ -376,17 +376,13 @@ uint8_t regex_lexer(struct fbgc_object ** field_obj,char * first_ptr){
 							char * tempstr = (char *) malloc(sizeof(char) * ((mobile_ptr - first_ptr)+1) );
 							strncpy(tempstr,first_ptr,(mobile_ptr - first_ptr));
 							tempstr[(mobile_ptr - first_ptr)] = '\0';
-							cprintf(101,"['%s' : %s]\n",tempstr, lexer_token_list_as_strings[current_token] );
+							cprintf(101,"['%s' : %s]\n",tempstr, lexer_token_list_as_strings[current_token-1] );
 							free(tempstr);
 						#endif
 					
 
-						(cast_fbgc_object_as_field(*field_obj)->head) = 
-							push_back_fbgc_ll_object(
-								(cast_fbgc_object_as_field(*field_obj)->head),
-								 //new_fbgc_object_from_substr(*field_obj,first_ptr,mobile_ptr,current_token)
-									tokenize_substr(first_ptr,mobile_ptr,current_token,check-1)
-								);
+						
+						push_back_fbgc_ll_object( (cast_fbgc_object_as_field(*field_obj)->head),tokenize_substr(first_ptr,mobile_ptr,current_token,check-1) );
 
 						//if(current_token == WORD) print_fbgc_symbol_table((cast_fbgc_object_as_field(*field_obj)->global_table));
 
@@ -408,7 +404,9 @@ uint8_t regex_lexer(struct fbgc_object ** field_obj,char * first_ptr){
 				}
 				else {
 					if(current_rule_index == RULE_NUMBER-1){
+
 						cprintf(111,"last rule but token couldn't find RETURN 0\n");
+						assert(0);
 						//first_ptr = ++mobile_ptr;
 						return 0;
 						

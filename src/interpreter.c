@@ -22,7 +22,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 	size_t recursion_ctr = 0;
 
 #define STACK_GOTO(i) 	(sctr += i)
-#define PUSH(x)		(*(sp+sctr++) = (x))
+#define PUSH(x)		(*(sp+ sctr++ ) = (x))
 #define POP()			(sp[--sctr])
 #define _POP()			(--sctr)
 #define TOP()			(sp[sctr-1])
@@ -315,6 +315,14 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				pc = cast_fbgc_object_as_jumper(pc)->content;	
 				break;
 			}
+			case ASSIGN_SUBSCRIPT:
+			{
+				return 0;
+			}
+			case LOAD_SUBSCRIPT:
+			{
+				return 0;
+			}			
 			case LEN:
 			{
 				PUSH( get_length_fbgc_object(POP()) );
@@ -339,9 +347,8 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				struct fbgc_object * seq_ob = SECOND();
 				if(i == -1){
 					//New construciont of for loop
-					_POP();
-					//put new iterator
-					PUSH( new_fbgc_int_object(i = 0) );
+					//change the top put the new iterator
+					SET_TOP(new_fbgc_int_object(i = 0));
 				}
 				else {
 					i = ++(cast_fbgc_object_as_int(TOP())->content);
@@ -391,7 +398,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					//return 0;
 				}
 
-				if(last_called_function == funo) recursion_ctr++;
+				if(last_called_function == (struct fbgc_object * ) funo) recursion_ctr++;
 				else {
 					last_called_function = (struct fbgc_object *) funo;
 					recursion_ctr = 0;

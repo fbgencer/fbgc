@@ -5,8 +5,8 @@ struct fbgc_object * new_fbgc_field_object(void){
 	struct fbgc_field_object * field = (struct fbgc_field_object *) fbgc_malloc(sizeof(struct fbgc_field_object ));
 	//field->base.next = NULL;
 	field->base.type = FIELD; 
-	field->head = new_fbgc_ll_object(LINKED_LIST);
-	field->modules = new_fbgc_ll_object(LINKED_LIST);
+	field->head = new_fbgc_ll_object();
+	field->modules = new_fbgc_ll_object();
 	field->locals = new_fbgc_array_object(1,sizeof(struct fbgc_identifier));
 	return (struct fbgc_object *) field;
 };

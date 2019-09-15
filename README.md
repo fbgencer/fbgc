@@ -30,12 +30,12 @@ Write your first program:
 
 Basic types:
 ```ruby
-	:> This is a line comment
-	x = 5 :> integer
-	x = 3.14159 :> double
-	x = 'Hey this is a string' :> string
-	x = (1,2,1.23,('Hey i am tuple!')) :> tuple
-	x = [1,2,3 ; 4,5,6] :> 2x3 matrix
+:> This is a line comment
+x = 5 :> integer
+x = 3.14159 :> double
+x = 'Hey this is a string' :> string
+x = (1,2,1.23,('Hey i am tuple!')) :> tuple
+x = [1,2,3 ; 4,5,6] :> 2x3 matrix
 ```
 
 Absolute operator:
@@ -82,7 +82,7 @@ while(i<5)
 end
 ```
 
-In fbgc, for loop allow you to write fast code !
+In ![fbgc], for loop allows you to write fast code !
 You can create a for loop just giving sequence or range 
 ```ruby
 :>prints 0,1,2,3,4,5,6,7,8,9
@@ -101,7 +101,7 @@ for (i = 'fbgc')
 end
 
 :>|obj| operator gives you the length of the object
-s = 'Hello world'
+x = 'Hello world'
 for (i = 0 : |x| )
 	print(x[i])
 end

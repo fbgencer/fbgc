@@ -16,8 +16,8 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
      
     begin = clock();
     while (fbgc_getline_from_file(line, sizeof(line), input_file)){
-        if(line[0] == ':' && line[1] == '>') continue; 
-        if(line[0] != '\0') regex_lexer(&main_field,line);  
+        if(line[0] == ':' && line[1] == '>') continue;
+        if(line[0] != '\0') regex_lexer(&main_field,line);
     }
     end = clock();
     fclose(input_file); 
@@ -31,7 +31,7 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
 
     begin = clock();
 
-     int par = parser(&main_field);
+    int par = parser(&main_field);
     
     end = clock();
     parser_time = (double)(end - begin) / CLOCKS_PER_SEC; 
@@ -64,9 +64,9 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
 
 static void compile_one_line(struct fbgc_object * main_field,char *line){
     
-    if(regex_lexer(&main_field,line))      
-        if(parser(&main_field))
-            interpreter(&main_field);     
+    regex_lexer(&main_field,line);      
+    parser(&main_field);
+    interpreter(&main_field);     
 }
 
 /*
@@ -74,11 +74,6 @@ asagidaki sekilde garbage objesi 42lik yer tutuyor ama
 bu 42lik yeri allocate etmek için 42-gb_size kadar bir allocation lazım
 bazı durumlarda bu mümkün olmayabilir
 bunun icin gereken nedir ?
-
-Execution time [LEXER] :5.929248
-Execution time [PARSER] :4.312434
-Execution time [INTERPRETER] :2.698341
-Total ex time 12.940023
 
 */
 
@@ -120,6 +115,10 @@ cprintf(110,"\n\n\n\n\n[========================================================
         load_module_in_field_object(main_field,&fbgc_stl_module);
         
         if(!strcmp(argv[1],"-s")){
+           /* cprintf(111,"argc %d\n",argc);
+            for(int i = 0; i<argc; i++){
+                cprintf(100,"%s\n",argv[i]);
+            }*/
             compile_one_line(main_field,argv[2]);
         }
         else{

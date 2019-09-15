@@ -14,7 +14,7 @@ struct fbgc_object * new_fbgc_matrix_object(unsigned int csize){
 struct fbgc_object * matrix_creation_from_stack(struct fbgc_object ** sp, int ctr, int msize, int row){
 
 
-    struct fbgc_matrix_object * m = new_fbgc_matrix_object(msize); // open ctr-row size array 
+    struct fbgc_matrix_object * m = (struct fbgc_matrix_object * )new_fbgc_matrix_object(msize); // open ctr-row size array 
 
     double * db = (double *) ( (char*)(&m->column) +sizeof(m->column) );
     //cprintf(111,"m %p DB: %p\n",m,db); 
@@ -93,24 +93,10 @@ struct fbgc_object * matrix_creation_from_stack(struct fbgc_object ** sp, int ct
   //  m->row = row+1;
   //  m->column /= m->row;
 
-    return m;
+    return (struct fbgc_object * )m;
 }
 
 
-struct fbgc_object * add_fbgc_matrix_object(struct fbgc_object * a, struct fbgc_object * b){
-    //one of them can be matrix and the other can be scalar or both can be matrix
-
-
-
-    /*if(mat1->type != MATRIX) {
-        //mat2 is matrix, we are sure no need to check!
-        //swap mat1 and mat2, mat1 must 
-        struct fbgc_object * t = mat1;
-        mat1 = mat2;
-        mat2 = t;
-    }*/
-
-}
 
 struct fbgc_object * multiply_fbgc_matrix_object(struct fbgc_object * mat1, struct fbgc_object * mat2){
         
@@ -126,7 +112,7 @@ struct fbgc_object * multiply_fbgc_matrix_object(struct fbgc_object * mat1, stru
         return NULL;
     }
 
-    struct fbgc_matrix_object * m = new_fbgc_matrix_object(m1->row*m2->column);
+    struct fbgc_matrix_object * m = (struct fbgc_matrix_object *) new_fbgc_matrix_object(m1->row*m2->column);
     m->row = m1->row;
     m->column = m2->column;
 
@@ -142,7 +128,7 @@ struct fbgc_object * multiply_fbgc_matrix_object(struct fbgc_object * mat1, stru
         }
     }
 
-    return m;
+    return (struct fbgc_object *) m;
     #undef m1
     #undef m2
 }

@@ -5,7 +5,7 @@ struct fbgc_object * new_fbgc_str_object(const char * str_content){
     stro->base.type = STRING;
     //stro->base.next = NULL;
     stro->len = strlen(str_content);
-    stro->content = ( (char *) stro ) + size_fbgc_str_object;
+    //stro->content = ( (char *) stro ) + size_fbgc_str_object;
     memcpy(&stro->content,str_content,stro->len);
     *(&stro->content+stro->len) = '\0';
     return (struct fbgc_object*) stro;  
@@ -17,7 +17,10 @@ struct fbgc_object * new_fbgc_str_object_from_substr(const char * str1,const cha
     stro->base.type = STRING;
     //stro->base.next = NULL;
     stro->len = str2-str1;
-    stro->content = ( (char *) stro ) + size_fbgc_str_object;
+    //stro->content = ( (char *) stro ) + size_fbgc_str_object;
+    //cprintf(111,"stro %p CC: %p content %p\n",stro,cc,&stro->content);
+    //memcpy(cc,str1,stro->len);
+    //*(cc+stro->len) = '\0';    
     memcpy(&stro->content,str1,stro->len);
     *(&stro->content+stro->len) = '\0';
     return (struct fbgc_object*) stro;  
@@ -27,7 +30,7 @@ struct fbgc_object * new_fbgc_str_object_empty(int len){
     struct fbgc_str_object *stro =  (struct fbgc_str_object*) fbgc_malloc(size_fbgc_str_object + len + 1); 
     stro->base.type = STRING;
     stro->len = len;
-    stro->content = ( (char *) stro ) + size_fbgc_str_object;
+    //stro->content = ( (char *) stro ) + size_fbgc_str_object;
     *(&stro->content+stro->len) = '\0';
     return (struct fbgc_object*) stro;  
 }
@@ -258,7 +261,7 @@ struct fbgc_object * new_fbgc_cstr_object_from_substr(const char * str1,const ch
     struct fbgc_cstr_object *stro =  (struct fbgc_cstr_object*) fbgc_malloc(size_fbgc_cstr_object + str_len + 1); 
     stro->base.type = CSTRING;
     //stro->base.next = NULL;
-    stro->content = ( (char *) stro ) + size_fbgc_cstr_object;
+    //stro->content = ( (char *) stro ) + size_fbgc_cstr_object;
     memcpy(&stro->content,str1,str_len);
     *(&stro->content+str_len) = '\0';
     return (struct fbgc_object*) stro;  

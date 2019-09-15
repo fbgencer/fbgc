@@ -1,0 +1,47 @@
+x = "abcdef"
+
+reverse_str = fun(x)
+	s = ''
+	for (i = |x|-1:(1-2):(0-1))
+		s = s << x[i]
+	end
+	return s
+end
+
+:>"fbgencer"
+
+
+words = ( ('apex' , 'the highest point'),
+('anex','to make something part of another unit'),
+('prevailing','strongest or most common') )
+
+
+
+for(i = 0:|words|)
+	print('Word : ', words[i,0],'\nMeaning :' , words[i,1]);
+end
+
+
+
+print('\n\n\n\n')
+
+longstr_fromtuple = fun(s)
+	longs = ''
+	for(i = 0:|s|)
+		longs = longs << s[i]
+	end
+	return longs
+end
+
+x = ('Prove me that i am wrong and this is some sorf of a long string ',
+	'honey you are actually wrong about being innocent because ', 
+	'life is precious we need to save it ',
+	'you know the only thing that i know is i love you with all my heart.'
+	)
+
+
+
+print(longstr_fromtuple(x))
+
+
+print('is it working ?\n\n')

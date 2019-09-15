@@ -33,7 +33,6 @@ extern "C" {
 #include "headers/linked_list.h"
 #include "headers/array_object.h"
 #include "headers/jumper_object.h"
-#include "headers/ref_object.h"
 #include "headers/double_object.h"
 #include "headers/int_object.h"
 #include "headers/str_object.h"

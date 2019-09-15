@@ -133,7 +133,6 @@ size_t get_fbgc_object_size(struct fbgc_object * obj){
 		//case REFERENCE : return sizeof(struct fbgc_ref_object);
 		case FIELD: return sizeof(struct fbgc_field_object);
 		case LINKED_LIST: return sizeof(struct fbgc_ll_object);
-		case LINKED_LIST_TAIL: return sizeof(struct fbgc_object);
 		case GARBAGE: return cast_fbgc_object_as_garbage(obj)->size;
 		case ARRAY: return sizeof_fbgc_array_object(obj); 
 		default: break;
