@@ -188,7 +188,7 @@ double convert_fbgc_object_to_double(struct fbgc_object * obj){
 struct raw_complex convert_fbgc_object_to_complex(struct fbgc_object * obj){
 	if(get_fbgc_object_type(obj) == COMPLEX) return cast_fbgc_object_as_complex(obj)->z;
 	
-	struct raw_complex z;
+	struct raw_complex z = {0,0};
 
 	switch(get_fbgc_object_type(obj)){
 		case INT:
