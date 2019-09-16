@@ -229,8 +229,8 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					cprintf(111,"This type does not support operation.\n");
 					return 0;
 				}
-				struct fbgc_object * res =  call_fbgc_binary_op(main_tok,POP(),POP(),type);
-
+				struct fbgc_object * res =  call_fbgc_binary_op(main_tok,SECOND(),TOP(),type);
+				STACK_GOTO(-2);
 				//struct fbgc_object * res =  safe_call_fbgc_binary_op(POP(),POP(),main_tok,type);
 
 				assert(res != NULL);
@@ -249,7 +249,9 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					//range_obj_set_step(SECOND(),POP());
 				}
 				else {
-					PUSH(new_fbgc_range_object(POP(),POP()));
+					struct fbgc_object * x = new_fbgc_range_object(SECOND(),TOP());
+					STACK_GOTO(-2);
+					PUSH(x);
 				}
 
 				break;
