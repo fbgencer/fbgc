@@ -4,8 +4,29 @@ z2 = 1+5j
 print('Complex z1 = ', z1);
 print('Complex z2 = ', z2);
 
+print('z1 real = ',z1[0], 'z1 imag = ',z1[1])
+
+
 print('z1+z2 = ',z1+z2);
 print('z1-z2 = ',z1-z2);
 print('z1*z2 = ',z1*z2);
 print('z1==z2 = ',z1==z2);
 print('z1!=z2 = ',z1!=z2);
+
+:>######################################################
+conj = fun(z)
+	a = z[0]
+	b = 0-z[1]
+	return a+b*1j
+end
+print('Conjugate z = ',conj(z1))
+
+:>######################################################
+
+
+
+tp = ( (1+2j), (1+3j), (1+4j), (1+5j) )
+
+for(i = 0:|tp|)
+	print('Z:',tp[i],'*Z:',conj(tp[i]))
+end

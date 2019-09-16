@@ -4,20 +4,38 @@
 struct fbgc_object * new_fbgc_complex_object(double r, double z){
 	struct fbgc_complex_object * co =  (struct fbgc_complex_object*) fbgc_malloc(size_fbgc_complex_object);
     co->base.type = COMPLEX;
-    co->z.imag = z;
     co->z.real = r;
+    co->z.imag = z;
     return (struct fbgc_object*) co;
 }
 
 struct fbgc_object * new_fbgc_complex_object_from_str(const char * z_str){
-    //see double object creation, derived from there
+    //see double object creation, derived from double
   	return new_fbgc_complex_object(0, strtod (z_str,NULL));
 }
-
 struct fbgc_object * new_fbgc_complex_object_from_substr(const char * z_str_begin,const char * z_str_end){
-	//see 
+	//see double object creation, derived from double
     return new_fbgc_complex_object(0, strtod(z_str_begin, NULL));
 }
+
+struct fbgc_object * real_fbgc_complex_object(struct fbgc_object * self){
+    return new_fbgc_double_object(cast_fbgc_object_as_complex(self)->z.real);
+}
+
+struct fbgc_object * imag_fbgc_complex_object(struct fbgc_object * self){
+    return new_fbgc_double_object(cast_fbgc_object_as_complex(self)->z.imag);
+}
+
+struct fbgc_object * subscript_fbgc_complex_object(struct fbgc_object * self,uint8_t index){
+    if(index > 1 ) return NULL;
+    double d = (index == 0) ? 
+        cast_fbgc_object_as_complex(self)->z.real :
+        cast_fbgc_object_as_complex(self)->z.imag; 
+    return new_fbgc_double_object(d);
+}
+
+
+
 
 
 struct fbgc_object * binary_op_fbgc_complex_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op){
@@ -112,7 +130,7 @@ switch(op)
 
 
 void print_fbgc_complex_object(struct fbgc_object * obj){
-   cprintf(011,"%f%+fj",cast_fbgc_object_as_complex(obj)->z.real,cast_fbgc_object_as_complex(obj)->z.imag);  
+   cprintf(011,"%g%+gj",cast_fbgc_object_as_complex(obj)->z.real,cast_fbgc_object_as_complex(obj)->z.imag);  
 }
 
 void free_fbgc_complex_object(struct fbgc_object * obj){

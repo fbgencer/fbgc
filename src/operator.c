@@ -41,9 +41,9 @@ struct fbgc_object * safe_call_fbgc_binary_op(struct fbgc_object * a, struct fbg
 	switch(main){
 		case INT: return binary_op_fbgc_int_object(a,b,op);
 		case DOUBLE: return binary_op_fbgc_double_object(a,b,op);
-		case COMPLEX: return NULL;
+		case COMPLEX: return binary_op_fbgc_complex_object(a,b,op);
 		case STRING: return binary_op_fbgc_str_object(a,b,op);
-		case TUPLE: return NULL;
+		case TUPLE: ;//return binary_op_fbgc_matrix_object(a,b,op);
 		case MATRIX: return NULL;
 	}
 	return NULL;

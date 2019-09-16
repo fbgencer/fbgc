@@ -593,24 +593,25 @@ uint8_t parser(struct fbgc_object ** field_obj){
 			gm_error = gm_seek_right(&gm,TOP_LL(op));
 			gm_error = gm_seek_left(&gm,iter);	
 
-			if(TOP_LL(op)->type == IF_BEGIN || TOP_LL(op)->type == ELIF_BEGIN){
+			assert(TOP_LL(op) != NULL && 
+				(TOP_LL(op)->type == IF_BEGIN || TOP_LL(op)->type == ELIF_BEGIN));
 
-				//now insert if in its place,
-				struct fbgc_object * if_obj = TOP_LL(op);
-				POP_LL(op);
-				if_obj->next = cast_fbgc_object_as_jumper(if_obj)->content->next;
-				cast_fbgc_object_as_jumper(if_obj)->content->next = if_obj;
+			//now insert if in its place,
+			struct fbgc_object * if_obj = TOP_LL(op);
+			POP_LL(op);
+			if_obj->next = cast_fbgc_object_as_jumper(if_obj)->content->next;
+			cast_fbgc_object_as_jumper(if_obj)->content->next = if_obj;
 
-				struct fbgc_object * jump_obj = new_fbgc_jumper_object(JUMP);
+			struct fbgc_object * jump_obj = new_fbgc_jumper_object(JUMP);
 
-				cast_fbgc_object_as_jumper(jump_obj)->content = iter_prev;
+			cast_fbgc_object_as_jumper(jump_obj)->content = iter_prev;
 
-				cast_fbgc_object_as_jumper(if_obj)->content = jump_obj;
+			cast_fbgc_object_as_jumper(if_obj)->content = jump_obj;
 
-				push_front_fbgc_ll_object(op,jump_obj);
-				iter_prev->next = iter->next;	
-				push_front_fbgc_ll_object(op,iter);				
-			}	
+			push_front_fbgc_ll_object(op,jump_obj);
+			iter_prev->next = iter->next;	
+			push_front_fbgc_ll_object(op,iter);				
+
 			break;
 		}
 		case ELSE:

@@ -21,8 +21,8 @@ typedef struct {
 #define DOUBLE 3 // double class
 #define COMPLEX 4 // complex class
 #define STRING 5 // string class
-#define TUPLE 6 // tuple class
-#define MATRIX 7 // matrix class
+#define MATRIX 6 // matrix class
+#define TUPLE 7 // tuple class
 #define CFUN 8 // c function
 #define FUN 9 // builtin fbgc function
 #define NAME 10 // name class, name:value pairs
@@ -130,8 +130,8 @@ typedef struct {
 "DOUBLE",\
 "COMPLEX",\
 "STRING",\
-"TUPLE",\
 "MATRIX",\
+"TUPLE",\
 "CFUN",\
 "FUN",\
 "NAME",\

@@ -105,15 +105,21 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 							dummy = get_object_in_fbgc_tuple_object(dummy,index);
 							//print_fbgc_object(dummy); cprintf(111,"<<<\n");
 						}
+						else if(dummy->type == COMPLEX){
+							assert(index_no == 1);
+							dummy = subscript_fbgc_complex_object(dummy,index);
+						}
 						else if(dummy->type == STRING){
+							assert(index_no == 1);
 							dummy = subscript_fbgc_str_object(dummy,index,index+1);
-							assert(dummy != NULL);
 						}
 						else {
 							cprintf(111,"Not index accessable!\n");
 							print_fbgc_object(dummy); printf("\n");
 							return 0;
 						}
+						
+						assert(dummy != NULL);
 
 					}
 					//Since this is the top index we can just use top

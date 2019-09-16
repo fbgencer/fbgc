@@ -4,8 +4,8 @@ INT $ int class
 DOUBLE $ double class
 COMPLEX $ complex class
 STRING $ string class
-TUPLE $ tuple class
 MATRIX $ matrix class
+TUPLE $ tuple class
 CFUN $ c function
 FUN $ builtin fbgc function
 NAME $ name class, name:value pairs

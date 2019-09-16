@@ -22,12 +22,12 @@ void printf_fbgc_object(struct fbgc_object * self){
 		}	
 		case DOUBLE:
 		{
-			fprintf(stdout,"%f",cast_fbgc_object_as_double(self)->content);
+			fprintf(stdout,"%g",cast_fbgc_object_as_double(self)->content);
 			break;			
 		}
 		case COMPLEX:
 		{
-			fprintf(stdout,"%f%+fj",cast_fbgc_object_as_complex(self)->z.real,cast_fbgc_object_as_complex(self)->z.imag); 
+			fprintf(stdout,"%g%+gj",cast_fbgc_object_as_complex(self)->z.real,cast_fbgc_object_as_complex(self)->z.imag); 
 			break;
 		}
 		case STRING:
