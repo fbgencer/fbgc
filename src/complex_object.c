@@ -2,7 +2,7 @@
 
 
 struct fbgc_object * new_fbgc_complex_object(double r, double z){
-	struct fbgc_complex_object * co =  (struct fbgc_complex_object*) fbgc_malloc(size_fbgc_complex_object);
+	struct fbgc_complex_object * co =  (struct fbgc_complex_object*) fbgc_malloc(sizeof_fbgc_complex_object());
     co->base.type = COMPLEX;
     co->z.real = r;
     co->z.imag = z;

@@ -3,7 +3,7 @@
 
 struct
 fbgc_object * new_fbgc_int_object(int int_content){
-	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(size_fbgc_int_object);
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
     into->base.type = INT;
     //into->base.next = NULL;
     into->content = int_content; 
@@ -12,7 +12,7 @@ fbgc_object * new_fbgc_int_object(int int_content){
 
 struct
 fbgc_object * derive_from_new_int_object(fbgc_token type, int int_content){
-    struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(size_fbgc_int_object);
+    struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
     into->base.type = type;
     into->content = int_content; 
     return (struct fbgc_object*) into;

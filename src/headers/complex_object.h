@@ -16,8 +16,8 @@ struct fbgc_complex_object{
 };
 
 #define cast_fbgc_object_as_complex(x)(((struct fbgc_complex_object*) x))
-#define size_fbgc_complex_object (sizeof(struct fbgc_complex_object))
 
+#define sizeof_fbgc_complex_object()(sizeof(struct fbgc_complex_object))
 
 struct fbgc_object * new_fbgc_complex_object(double r, double z);
 struct fbgc_object * new_fbgc_complex_object_from_str(const char *);

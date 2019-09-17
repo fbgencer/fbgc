@@ -21,9 +21,6 @@ struct fbgc_object * new_fbgc_symbol_from_substr(const char * str1,const char * 
 	
 	//:>//struct fbgc_object * table = (struct fbgc_object *) cast_fbgc_object_as_field(field_obj)->symbols;
 
-
-	struct fbgc_object * name_obj = new_fbgc_int_object(-1);
-
 	struct fbgc_object ** symbols = tuple_object_content(fbgc_symbols);
 
 
@@ -35,9 +32,11 @@ struct fbgc_object * new_fbgc_symbol_from_substr(const char * str1,const char * 
 	//begin = clock();
 	
 	for(size_t i = 0; i<size_fbgc_tuple_object(fbgc_symbols); i++){
-		if(!my_strncmp(str1,content_fbgc_cstr_object(symbols[i]),str2-str1))
+		//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+		// Find something proper, don't check the string size first but without checking the first match of n characters will return true 
+		//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+		if( strlen(content_fbgc_cstr_object(symbols[i])) == str2-str1 && !my_strncmp(content_fbgc_cstr_object(symbols[i]),str1,str2-str1)  )
 			return new_fbgc_id_opcode(i); 
-		
 	}
 	//end = clock();
 	//search_time = (double)(end - begin) / CLOCKS_PER_SEC; 

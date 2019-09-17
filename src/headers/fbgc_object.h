@@ -17,7 +17,7 @@ struct fbgc_object{
 //This only for debug case!
 #define object_type_as_str(obj)(obj != NULL ? object_name_array[get_fbgc_object_type(obj)] : "NULL")
 
-#define cast_fbgc_object_as_if(x) (((struct fbgc_ref_object*) x))
+#define sizeof_fbgc_object()(sizeof(struct fbgc_object))
 
 struct fbgc_object * new_fbgc_object(fbgc_token);
 size_t get_fbgc_object_size(struct fbgc_object * );

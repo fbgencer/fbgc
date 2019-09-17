@@ -13,7 +13,7 @@ struct fbgc_field_object{
 };
 
 #define cast_fbgc_object_as_field(x)(((struct fbgc_field_object*) x))
-
+#define sizeof_fbgc_field_object(x)(sizeof(struct fbgc_field_object) )
 
 struct fbgc_object * new_fbgc_field_object(void);
 

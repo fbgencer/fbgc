@@ -130,25 +130,137 @@ void print_fbgc_object(struct fbgc_object * self){
 
 size_t get_fbgc_object_size(struct fbgc_object * obj){
 	fbgc_token type = (get_fbgc_object_type(obj));
+	size_t sz = 0;
+switch(type){
 
-	switch(type){
-		case INT: return sizeof(struct fbgc_int_object);
-		case DOUBLE: return sizeof(struct fbgc_double_object);
-		case STRING: return cast_fbgc_object_as_str(obj)->len+size_fbgc_str_object+1;
-		case MATRIX: return sizeof(struct fbgc_matrix_object)+(cast_fbgc_object_as_matrix(obj)->column+cast_fbgc_object_as_matrix(obj)->row)*sizeof(double);
-		case CSTRING: return size_fbgc_cstr_object+1+length_fbgc_cstr_object(obj);
-		case TUPLE: return sizeof(struct fbgc_tuple_object)+(capacity_fbgc_tuple_object(obj) * sizeof(struct fbgc_object*)) ;
-		//case REFERENCE : return sizeof(struct fbgc_ref_object);
-		case FIELD: return sizeof(struct fbgc_field_object);
-		case LINKED_LIST: return sizeof(struct fbgc_ll_object);
-		case GARBAGE: return cast_fbgc_object_as_garbage(obj)->size;
+	case UNKNOWN : sz = sizeof_fbgc_object(); break;  
+	case NIL : sz = sizeof_fbgc_object(); break; 
+	case INT : sz = sizeof_fbgc_int_object(); break; 
+	case DOUBLE : sz = sizeof_fbgc_double_object(); break; 
+	case COMPLEX : sz = sizeof_fbgc_complex_object(); break; 
+	case STRING : sz = sizeof_fbgc_str_object(obj); break; 
+	case MATRIX : sz = sizeof_fbgc_matrix_object(obj); break; 
+	case TUPLE : sz = sizeof_fbgc_tuple_object(obj); break; 
+	case CFUN : sz = sizeof_fbgc_cfun_object(); break; 
+	case FUN : sz = sizeof_fbgc_fun_object(); break; 
+	case NAME : sz = sizeof_fbgc_object(); break; 
+	case IDENTIFIER : sz = sizeof_fbgc_id_opcode(); break; 
+	case RANGE : sz = sizeof_fbgc_range_object(); break; 
+	case REFERENCE : sz = sizeof_fbgc_object(); break; 
+	case CSTRING : sz = sizeof_fbgc_cstr_object(obj); break; 
+	case MONATRIX : sz = sizeof_fbgc_object(); break; 
+	case NUPLE : sz = sizeof_fbgc_object(); break; 
+	case MONUPLE : sz = sizeof_fbgc_object(); break; 
+	case ARRAY : sz = sizeof_fbgc_array_object(obj); break; 
+	case LINKED_LIST : sz = sizeof_fbgc_ll_object(); break; 
+	case CMODULE : sz = sizeof_fbgc_cmodule_object(); break; 
+	case GARBAGE : sz = sizeof_fbgc_garbage_object(obj); break; 
+	case FIELD : sz = sizeof_fbgc_field_object(obj); break; 
+	case END : sz = sizeof_fbgc_object(); break; 
+	case FUN_MAKE : 
+	case ELIF : 
+	case ELSE : 
+	case WHILE : 
+	case FOR : 
+	case BREAK : 
+	case CONT : sz = sizeof_fbgc_jumper_object(); break; 
+	case LOAD : sz = sizeof_fbgc_object(); break; 
+	case TRUE : sz = sizeof_fbgc_object(); break; 
+	case FALSE : sz = sizeof_fbgc_object(); break; 
+	case IF : sz = sizeof_fbgc_jumper_object(); break; 
+	case RETURN : sz = sizeof_fbgc_object(); break; 
+	case NEWLINE : 
+	case LPARA :
+	case RPARA :
+	case LBRACK :
+	case RBRACK :
+	case LBRACE :
+	case RBRACE :
+	case THREE_DOT :
+	case R_ARROW :
+	case L_ARROW :
+	case RW_ARROW :
+	case LW_ARROW :
+	case TWO_COLON :
+	case PLUS_ASSIGN :
+	case MINUS_ASSIGN :
+	case STAR_ASSIGN :
+	case SLASH_ASSIGN :
+	case CONST_ASSIGN :
+	case PLUSPLUS :
+	case MINUSMINUS :
+	case IF_THEN :
+	case STARSTAR :
+	case SLASHSLASH :
+	case LO_EQ :
+	case GR_EQ :
+	case EQ_EQ :
+	case NOT_EQ :
+	case R_SHIFT :
+	case L_SHIFT :
+	case CARET :
+	case PERCENT :
+	case LOWER :
+	case GREATER :
+	case PIPE :
+	case AMPERSAND :
+	case SLASH :
+	case STAR :
+	case MINUS :
+	case PLUS :
+	case EXCLAMATION :
+	case TILDE :
+	case SEMICOLON :
+	case COLON : 
+	case ASSIGN : sz = sizeof_fbgc_object(); break;  
+	case COMMA :
+	case DOT :
+	case UMINUS :
+	case UPLUS :
+	case START :
+	case JUMP :
+	case AND :
+	case OR :
+	case NOT : sz = sizeof_fbgc_object(); break; 
+	case ROW : sz = sizeof_fbgc_int_object(); break; 
+	case EXPRESSION :
+	case ASSIGNMENT :
+	case STATEMENT :
+	case ASSIGNMENT_EXPRESSION :
+	case UNARY_EXPRESSION :
+	case BINARY_EXPRESSION :
+	case BALANCED_EXPRESSION_LIST :
+	case UNBALANCED_EXPRESSION_LIST : sz = sizeof_fbgc_object(); break; 
+	case ASSIGN_SUBSCRIPT :
+	case LOAD_SUBSCRIPT : break;
+	case LEN : sz = sizeof_fbgc_object();
+	case IF_BEGIN : 
+	case ELIF_BEGIN :
+	case WHILE_BEGIN : 
+	case FOR_BEGIN : sz = sizeof_fbgc_jumper_object(); break;
+	case FUN_CALL : sz = sizeof_fbgc_object(); break;
+	case BUILD_TUPLE :
+	case BUILD_MATRIX : sz = sizeof_fbgc_int_object(); break;
+
+}
+
+	/*switch(type){
+		case INT: return sizeof_fbgc_int_object();
+		case DOUBLE: return sizeof_fbgc_double_object();
+		case STRING: return sizeof_fbgc_str_object(obj);
+		case MATRIX: return sizeof_fbgc_matrix_object(obj);
+		case CSTRING: return sizeof_fbgc_cstr_object(obj);
+		case TUPLE: return sizeof_fbgc_tuple_object(obj);
+		case FIELD: return sizeof_fbgc_field_object();
+		case LINKED_LIST: return sizeof_fbgc_ll_object();
+		case GARBAGE: return sizeof_fbgc_garbage_object(obj);
 		case ARRAY: return sizeof_fbgc_array_object(obj); 
 		default: break;
 	}
 
-	if(type>THREE_DOT) return sizeof(struct fbgc_object);
+	if(type>THREE_DOT) return sizeof(struct fbgc_object);*/
 
-	return 0;
+	return sz;
 }
 
 

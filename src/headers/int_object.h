@@ -11,7 +11,7 @@ struct fbgc_int_object{
 };
 
 #define cast_fbgc_object_as_int(x)(((struct fbgc_int_object*) x))
-#define size_fbgc_int_object (sizeof(struct fbgc_int_object))
+#define sizeof_fbgc_int_object(x)(sizeof(struct fbgc_int_object))
 
 
 struct fbgc_object * new_fbgc_int_object(int);

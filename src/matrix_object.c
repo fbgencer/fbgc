@@ -134,6 +134,93 @@ struct fbgc_object * multiply_fbgc_matrix_object(struct fbgc_object * mat1, stru
 }
 
 
+
+struct fbgc_object * binary_op_fbgc_matrix_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op){
+
+    return NULL;    
+
+switch(op)
+{
+    case STARSTAR:
+    {
+        return NULL;
+    }
+    case SLASHSLASH:
+    {
+        return NULL;
+    }
+    case LO_EQ:
+    {
+        return NULL;
+    }
+    case GR_EQ:
+    {
+        return NULL;
+    }
+    case EQ_EQ:
+    {
+        return NULL;
+    }
+    case NOT_EQ:
+    {
+        return NULL;
+    }
+
+    case R_SHIFT:
+    {
+        return NULL;
+    }
+    case L_SHIFT:
+    {
+        return NULL;
+    }
+    case CARET:
+    {
+        return NULL;
+    }
+    case PERCENT:
+    {
+        return NULL;
+    }
+    case LOWER:
+    {
+        return NULL;
+    }
+    case GREATER:
+    {
+        return NULL;
+    }
+    case PIPE:
+    {
+        return NULL;
+    }
+    case AMPERSAND:
+    {
+        return NULL;
+    }
+    case SLASH:
+    {
+        return NULL;
+    }
+    case STAR:
+    {
+        return NULL;
+    }
+    case MINUS:
+    {
+        return NULL;
+    }
+    case PLUS:
+    {
+        return NULL;
+    }
+}
+
+    return NULL;
+}
+
+
+
 void print_fbgc_matrix_object(struct fbgc_object * mat){
     #define m cast_fbgc_object_as_matrix(mat)
 

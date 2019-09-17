@@ -9,8 +9,8 @@ struct fbgc_ll_object{
     struct fbgc_object base;
     struct fbgc_object * tail;
 };
-
 #define cast_fbgc_object_as_ll(x)(((struct fbgc_ll_object*) x))
+#define sizeof_fbgc_ll_object(x)(sizeof(struct fbgc_ll_object) + sizeof(struct fbgc_object) )
 
 struct fbgc_object * new_fbgc_ll_object();
 

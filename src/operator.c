@@ -21,8 +21,9 @@ struct fbgc_object * is_fbgc_object_true(struct fbgc_object * a){
 //#define DOUBLE 3 // double class
 //#define COMPLEX 4 // complex class
 //#define STRING 5 // string class
-//#define TUPLE 6 // tuple class
-//#define MATRIX 7 // matrix class
+//#define MATRIX 6 // matrix class
+//#define TUPLE 7 // tuple class
+
 
 
 struct fbgc_object * (*fbgc_binary_op[6]) (struct fbgc_object *, struct fbgc_object *, fbgc_token ) =
@@ -31,8 +32,8 @@ struct fbgc_object * (*fbgc_binary_op[6]) (struct fbgc_object *, struct fbgc_obj
 	binary_op_fbgc_double_object,
 	binary_op_fbgc_complex_object,
 	binary_op_fbgc_str_object,
-	NULL,
-	NULL,
+	binary_op_fbgc_matrix_object,
+	binary_op_fbgc_tuple_object,
 
 };
 

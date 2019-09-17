@@ -24,7 +24,7 @@ struct fbgc_array_object{
 #define capacity_fbgc_array_object(x)(cast_fbgc_object_as_array(x)->capacity)
 #define block_size_fbgc_array_object(x)(cast_fbgc_object_as_array(x)->block_size)
 
-#define sizeof_fbgc_array_object(x) (sizeof(struct fbgc_array_object)+(capacity_fbgc_array_object(obj) * block_size_fbgc_array_object(obj) ) )
+#define sizeof_fbgc_array_object(x) (sizeof(struct fbgc_array_object)+ ( capacity_fbgc_array_object(x) * block_size_fbgc_array_object(x) ) )
 
 
 #define array_object_content(x)((unsigned char **)( (unsigned char*) &x->type + sizeof(struct fbgc_array_object)))

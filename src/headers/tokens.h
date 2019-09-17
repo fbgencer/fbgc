@@ -255,7 +255,7 @@ const char * get_token_as_str(fbgc_token tok);
 #define is_fbgc_STRING(T) (T == STRING)
 #define is_fbgc_PARA(T)(T>=LPARA && T<= RBRACK)
 #define is_fbgc_UNARY_OPERATOR(T)( T==PLUSPLUS || T==MINUSMINUS || T == EXCLAMATION || T== TILDE)
-#define is_fbgc_ASSIGNMENT_OPERATOR(T)( T == ASSIGN || (T>= PLUS_ASSIGN && T<= CONST_ASSIGN)  )
+#define is_fbgc_ASSIGNMENT_OPERATOR(T)( T == ASSIGN || (T>= PLUS_ASSIGN && T<= CONST_ASSIGN) || T == COLON  )
 #define is_fbgc_BINARY_OPERATOR(T)( T>=STARSTAR && T<= PLUS  )
 
 

@@ -14,7 +14,7 @@ struct fbgc_fun_object{
 };
 
 #define cast_fbgc_object_as_fun(x)(((struct fbgc_fun_object*) x))
-#define size_fbgc_fun_object (sizeof(struct fbgc_fun_object)) 
+#define sizeof_fbgc_fun_object()(sizeof(struct fbgc_fun_object)) 
 
 struct fbgc_object * new_fbgc_fun_object();
 

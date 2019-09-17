@@ -108,20 +108,19 @@ cprintf(110,"\n\n\n\n\n[========================================================
     if(argc > 1)
     {
         initialize_fbgc_memory_block();
-        initialize_fbgc_symbol_table();
+       initialize_fbgc_symbol_table();
         struct fbgc_object * main_field = new_fbgc_field_object();
         load_module_in_field_object(main_field,&fbgc_math_module);
         load_module_in_field_object(main_field,&fbgc_io_module);
         load_module_in_field_object(main_field,&fbgc_stl_module);
         
-        if(!strcmp(argv[1],"-s")){
+       if(!strcmp(argv[1],"-s")){
             compile_one_line(main_field,argv[2]);
         }
         else{
-            compile_file(main_field, argv[1]);
+           compile_file(main_field, argv[1]);
         }
-
-        free_fbgc_memory_block();    
+    print_fbgc_memory_block();
     }
     else{
         cprintf(111,"Enter a file!\n");

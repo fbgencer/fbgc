@@ -18,6 +18,8 @@ struct fbgc_garbage_object{
     size_t size;
 };
 #define cast_fbgc_object_as_garbage(x)(((struct fbgc_garbage_object*) x))
+#define sizeof_fbgc_garbage_object(x)(sizeof(struct fbgc_garbage_object)+cast_fbgc_object_as_garbage(x)->size)
+
 
 #ifdef  __cplusplus
 }

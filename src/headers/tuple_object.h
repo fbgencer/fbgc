@@ -14,10 +14,10 @@ struct fbgc_tuple_object{
 
 
 #define cast_fbgc_object_as_tuple(x)(((struct fbgc_tuple_object*) x))
-
 #define size_fbgc_tuple_object(x)(cast_fbgc_object_as_tuple(x)->size)
 #define capacity_fbgc_tuple_object(x)(cast_fbgc_object_as_tuple(x)->capacity)
 
+#define sizeof_fbgc_tuple_object(x)(sizeof(struct fbgc_tuple_object) + sizeof(struct fbgc_object*)*capacity_fbgc_tuple_object(x))
 
 
 #define tuple_object_content(x)((struct fbgc_object **)((char*) &cast_fbgc_object_as_tuple(x)->size+sizeof(cast_fbgc_object_as_tuple(x)->size)));
@@ -30,6 +30,9 @@ struct fbgc_object * get_object_in_fbgc_tuple_object(struct fbgc_object * self,i
 struct fbgc_object *  get_top_in_fbgc_tuple_object(struct fbgc_object * self);
 struct fbgc_object * push_back_fbgc_tuple_object(struct fbgc_object * self,struct fbgc_object * obj);
 int index_fbgc_tuple_object(struct fbgc_object * self, struct fbgc_object * obj);
+
+
+struct fbgc_object * binary_op_fbgc_tuple_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op);
 
 void print_fbgc_tuple_object(struct fbgc_object *);
 void free_fbgc_tuple_object(struct fbgc_object * );

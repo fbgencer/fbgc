@@ -119,9 +119,6 @@ struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,st
 		
 		#endif
 
-		gm_seek_right(gm,TOP_LL(op));
-			
-
 		if(iter_prev->type == COMMA) iter_prev->type = INT; 
 		else {
 			struct fbgc_object * ito = new_fbgc_int_object(gm->top != NUPLE);
@@ -299,7 +296,7 @@ struct fbgc_object * new_cfun_object_from_str(struct fbgc_object * field_obj,con
 			//optimize strlen part
 			if(!my_strcmp(str,cc->name) ){
 				#ifdef PARSER_DEBUG
-				cprintf(010,"\n**Function [%s] is founded in module **\n",cc->name);
+				cprintf(010,"\n**Function [%s] matched with str [%s]\n",cc->name,str);
 				#endif
 				return new_fbgc_cfun_object(cc->function);
 			} 
@@ -908,7 +905,8 @@ uint8_t parser(struct fbgc_object ** field_obj){
 		case SLASH_ASSIGN:
 		{
 			gm_error = gm_seek_left(&gm,iter);
-			assert(TOP_LL(op)->type == IDENTIFIER);
+			
+			assert(TOP_LL(op)->type == IDENTIFIER );
 			TOP_LL(op)->type = iter->type;
 			iter_prev->next = iter->next;
 			break;

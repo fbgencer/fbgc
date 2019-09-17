@@ -336,7 +336,11 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 	else if(get_fbgc_object_type(obj) == WHILE && (is_fbgc_STATEMENT(gm_left) ||gm_left == ELSE || gm_left == ELIF ||
 			gm_left == NEWLINE || gm_left == LBRACE)){
 		gm->top = WHILE;		
-	}	
+	}
+	else if(get_fbgc_object_type(obj) == FOR && (is_fbgc_STATEMENT(gm_left) ||gm_left == ELSE || gm_left == ELIF ||
+			gm_left == NEWLINE || gm_left == LBRACE)){
+		gm->top = WHILE;		
+	}			
 	else if(get_fbgc_object_type(obj) == END && (is_fbgc_EXPRESSION(gm_left)) ){
 
 		gm->top = EXPRESSION;
@@ -349,6 +353,11 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 	}
 	else if(get_fbgc_object_type(obj) == CONT && (gm_left == IF_BEGIN || gm_left == ELIF_BEGIN || gm_left == NEWLINE || gm_left == SEMICOLON)){
 		gm->top = CONT;
+	}
+	else if(get_fbgc_object_type(obj) == NEWLINE && (is_fbgc_EXPRESSION(gm_left) || gm_left == ASSIGNMENT_EXPRESSION || gm_left == FOR_BEGIN || gm_left == IF_BEGIN || 
+		gm_left == ELIF_BEGIN)  )
+	{
+		gm->top = NEWLINE;
 	}	
 	else{
 

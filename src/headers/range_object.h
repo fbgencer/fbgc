@@ -13,7 +13,7 @@ struct fbgc_range_object{
 };
 
 #define cast_fbgc_object_as_range(x)(((struct fbgc_range_object*) x))
-#define size_fbgc_range_object (sizeof(struct fbgc_range_object)) 
+#define sizeof_fbgc_range_object() (sizeof(struct fbgc_range_object)) 
 
 
 

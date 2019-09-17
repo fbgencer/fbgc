@@ -148,70 +148,25 @@ struct fbgc_object * push_back_fbgc_tuple_object(struct fbgc_object * self,struc
 	return self;
 }
 
-/*
-struct fbgc_object * push_front_fbgc_tuple_object(struct fbgc_object * self,struct fbgc_object * obj){
-
-	#ifdef TUPLE_DEBUG
-	cprintf(101,"Push front tuple object!\n");
-	//
-	//	Check the capacity, if there is enough space push back the obj
-	//
-	cprintf(101,"Tuple size :%d, capacity %d\n",size_fbgc_tuple_object(self) , capacity_fbgc_tuple_object(self));
-	#endif
-
-	size_t old_size = size_fbgc_tuple_object(self);
-
-	if(size_fbgc_tuple_object(self) == capacity_fbgc_tuple_object(self)){
-
-		//Before sending to realloc, request a larger block after requesting change the capacity of the tuple
-
-    	self = fbgc_realloc(self,
-    		sizeof(struct fbgc_tuple_object ) + 
-			(cast_fbgc_object_as_tuple(self)->capacity << 1) * sizeof(struct fbgc_object*) );
-
-    	assert(self != NULL);
-    	cast_fbgc_object_as_tuple(self)->capacity <<= 1; //shift the capacity for the next two's power
-
-		#ifdef TUPLE_DEBUG
-		cprintf(101,"New memory reallocated!\n");
-		cprintf(101,"After realloc Tuple size :%d, capacity %d\n",size_fbgc_tuple_object(self) , capacity_fbgc_tuple_object(self));
-		#endif
-
-    	//############
-    		//check the self pointer, it might be null!
-    	//############
-	}
-
-	if(size_fbgc_tuple_object(self) < capacity_fbgc_tuple_object(self)){
-
-		#ifdef TUPLE_DEBUG
-		cprintf(001,"There is enough space to push, pushing the object..\n");
-		#endif
-
-		
-		struct fbgc_object ** contents = tuple_object_content(self);
-		contents[old_size] = obj;
-		cast_fbgc_object_as_tuple(self)->size = old_size+1;
-		
-
-		#ifdef TUPLE_DEBUG
-		cprintf(001,"New size tuple %d\n",size_fbgc_tuple_object(self));
-		#endif
-	}
-
-	return self;
-}*/
-
 int index_fbgc_tuple_object(struct fbgc_object * self, struct fbgc_object * obj){
 
 	struct fbgc_object ** contents = tuple_object_content(self);
-
 	for(size_t i = 0; i<size_fbgc_tuple_object(self); i++){
 		if(contents[i] == obj) return i;
 	}
-
 	return -1;
+}
 
+struct fbgc_object * copy_fbgc_tuple_object(struct fbgc_object * src){
+
+	size_t cap = calculate_new_capacity_from_size( size_fbgc_tuple_object(src) );
+	size_t sz = sizeof(struct fbgc_tuple_object) + sizeof(struct fbgc_object*)*cap;
+
+	struct fbgc_tuple_object * dest =  (struct fbgc_tuple_object*) fbgc_malloc(sz);
+	
+	memcpy(dest,src,sz);	
+
+	return (struct fbgc_object *) dest;
 }
 
 
@@ -246,6 +201,101 @@ struct fbgc_object * plus_fbgc_tuple_object(struct fbgc_object * a,struct fbgc_o
 
     return a;
 }
+
+
+
+struct fbgc_object * binary_op_fbgc_tuple_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op){
+ 
+
+switch(op)
+{
+    case STARSTAR:
+    {
+        return NULL;
+    }
+    case SLASHSLASH:
+    {
+        return NULL;
+    }
+    case LO_EQ:
+    {
+        return NULL;
+    }
+    case GR_EQ:
+    {
+        return NULL;
+    }
+    case EQ_EQ:
+    {
+        return NULL;
+    }
+    case NOT_EQ:
+    {
+        return NULL;
+    }
+
+    case R_SHIFT:
+    {	
+    	//a>>b, a can be anything, b must be tuple.
+        if(b->type == TUPLE){
+            ;
+        }
+        return NULL;        
+    }
+    case L_SHIFT:
+    {	
+    	//a<<b, b can be anything, a must be tuple.
+        if(a->type == TUPLE){
+        	struct fbgc_object * t = copy_fbgc_tuple_object(a);
+        	return push_back_fbgc_tuple_object(t,b);
+        }
+        return NULL;
+    }
+    case CARET:
+    {
+        return NULL;
+    }
+    case PERCENT:
+    {
+        return NULL;
+    }
+    case LOWER:
+    {
+        return NULL;
+    }
+    case GREATER:
+    {
+        return NULL;
+    }
+    case PIPE:
+    {
+        return NULL;
+    }
+    case AMPERSAND:
+    {
+        return NULL;
+    }
+    case SLASH:
+    {
+        return NULL;
+    }
+    case STAR:
+    {
+        return NULL;
+    }
+    case MINUS:
+    {
+        return NULL;
+    }
+    case PLUS:
+    {
+        return NULL;
+    }
+}
+
+    return NULL;
+}
+
 
 void print_fbgc_tuple_object(struct fbgc_object * obj){
 	cprintf(011,"(");

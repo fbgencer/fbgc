@@ -10,7 +10,7 @@ struct fbgc_double_object{
     double content;
 };
 #define cast_fbgc_object_as_double(x)(((struct fbgc_double_object*) x))
-#define size_fbgc_double_object (sizeof(struct fbgc_double_object)) 
+#define sizeof_fbgc_double_object() (sizeof(struct fbgc_double_object)) 
 
 
 struct fbgc_object * new_fbgc_double_object(double);

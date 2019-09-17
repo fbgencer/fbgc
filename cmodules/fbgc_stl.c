@@ -19,18 +19,27 @@ new_fbgc_cfunction(fbgc_len,"len")
 	if(argc == 1){
 		return get_length_fbgc_object(arg[0]);
 	}
-	else cprintf(100,"<len> takes only 1 argument!\n");
+	else cprintf(100,"<len> takes only 1 argument, %d given !\n",argc);
 	return NULL;
 }
 
 
 
-new_fbgc_cfunction(fbgc_matrix,"matrix"){
-
+new_fbgc_cfunction(fbgc_id,"id"){
+	if(argc == 1){
+		fprintf(stdout,"%p\n",arg[0]);
+	}
+	else cprintf(100,"<id> takes only 1 argument, %d given !\n",argc);
 	return NULL;
 }
 
-
+new_fbgc_cfunction(fbgc_mem,"mem"){
+	if(argc == 0){
+		print_fbgc_memory_block();
+	}
+	else cprintf(100,"<mem> takes only 0 argument, %d given !\n",argc);
+	return NULL;
+}
 
 
 const struct fbgc_cfunction fbgc_stl_initializer_struct = {"stl",fbgc_stl_initializer};
@@ -46,7 +55,10 @@ const struct fbgc_cmodule fbgc_stl_module =
 	.initializer = &fbgc_stl_initializer_struct,
 	.functions = (const struct fbgc_cfunction*[])
 	{
-		&fbgc_len_struct,&fbgc_matrix_struct,NULL
+		&fbgc_len_struct,
+		&fbgc_id_struct,
+		&fbgc_mem_struct,
+		NULL
 	}
 };
 

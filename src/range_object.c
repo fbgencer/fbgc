@@ -4,7 +4,7 @@ struct fbgc_object *  new_fbgc_range_object(struct fbgc_object * s,struct fbgc_o
         
         if(s->type != e->type ) return NULL;
 
-        struct fbgc_range_object * r =  (struct fbgc_range_object*) fbgc_malloc(size_fbgc_range_object);
+        struct fbgc_range_object * r =  (struct fbgc_range_object*) fbgc_malloc(sizeof_fbgc_range_object());
         r->base.type = RANGE;
         r->start = s;
         r->end = e;

@@ -33,13 +33,17 @@ struct fbgc_cmodule{
 struct fbgc_cmodule_object{
     struct fbgc_object base;
     const struct fbgc_cmodule * module;
-    struct fbgc_object * variables; // array object 
 };
+
+#define sizeof_fbgc_cmodule_object()(sizeof(struct fbgc_cmodule_object))
 
 struct fbgc_cfun_object{
 	struct fbgc_object base;
 	struct fbgc_object * (* function)(struct fbgc_object **, int);
 };
+
+#define sizeof_fbgc_cfun_object()(sizeof(struct fbgc_cfun_object))
+
 
 #define cast_fbgc_object_as_cfun(x)(((struct fbgc_cfun_object*) x))
 

@@ -13,6 +13,7 @@ struct fbgc_id_opcode{
     uint8_t flag;
 };
 
+#define sizeof_fbgc_id_opcode(x)(sizeof(struct fbgc_id_opcode))
 
 #define ID_FLAG_GLOBAL 0x01 //0b00000001
 #define ID_FLAG_LOCAL 0x02 //0b00000010

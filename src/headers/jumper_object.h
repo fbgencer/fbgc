@@ -11,6 +11,7 @@ struct fbgc_jumper_object{
 };
 
 #define cast_fbgc_object_as_jumper(x) (((struct fbgc_jumper_object*) x))
+#define sizeof_fbgc_jumper_object(x)(sizeof(struct fbgc_jumper_object))
 
 struct fbgc_object * new_fbgc_jumper_object(fbgc_token tok);
 
