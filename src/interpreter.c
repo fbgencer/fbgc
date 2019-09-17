@@ -132,6 +132,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				}
 				if(is_id_flag_GLOBAL(pc)){
 					struct fbgc_identifier * tmp = (struct fbgc_identifier *) get_address_in_fbgc_array_object(globals,cast_fbgc_object_as_id_opcode(pc)->loc);
+					//Check undefined variable
 					assert(tmp->content != NULL);
 						PUSH(tmp->content);
 					//PUSH(globals[cast_fbgc_object_as_id_opcode(pc)->loc]);	
@@ -239,19 +240,24 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				break;	
 
 			}
-
 			case COLON:
 			{
+				struct fbgc_object * x;
+
 				if(SECOND()->type == RANGE){
-					struct fbgc_object * x = SECOND();
+					x = SECOND();
 					cast_fbgc_object_as_range(x)->step = cast_fbgc_object_as_range(x)->end;
 					cast_fbgc_object_as_range(x)->end = POP();
 					//range_obj_set_step(SECOND(),POP());
 				}
 				else {
-					struct fbgc_object * x = new_fbgc_range_object(SECOND(),TOP());
+					x = new_fbgc_range_object(SECOND(),TOP());
 					STACK_GOTO(-2);
 					PUSH(x);
+
+					//Old version that works well with GCC compiler
+					//PUSH(new_fbgc_range_object(POP(),POP()));
+					//SET_TOP( new_fbgc_range_object(TOP(),POP()) );
 				}
 
 				break;
@@ -394,10 +400,9 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				//assert(funo->base.type == FUN || funo->base.type == CFUN);
 
 				if(funo->base.type == CFUN){
-					//return 0;
-					struct fbgc_object * arg_tuple =  new_fbgc_tuple_object_from_tuple_content(sp+sctr-arg_no,arg_no);
+					
 					STACK_GOTO(-arg_no);
-					struct fbgc_object * res = cfun_object_call(funo,arg_tuple);
+					struct fbgc_object * res = cfun_object_call(funo, sp+sctr, arg_no);
 					if(res != NULL) PUSH(res);
 					break;
 

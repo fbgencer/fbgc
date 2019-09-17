@@ -2,7 +2,7 @@
 
 
 
-struct fbgc_object * new_fbgc_cfun_object( struct fbgc_object * (* function_obj)(struct fbgc_object *) ){
+struct fbgc_object * new_fbgc_cfun_object( struct fbgc_object * (* function_obj)(struct fbgc_object **,int ) ){
 	if(function_obj == NULL) return NULL;
 	struct fbgc_cfun_object *cfuno =  (struct fbgc_cfun_object*) fbgc_malloc(sizeof(struct fbgc_cfun_object));
     cfuno->base.type = CFUN;

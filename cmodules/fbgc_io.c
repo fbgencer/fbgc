@@ -13,14 +13,11 @@ extern struct fbgc_object * fun_name(struct fbgc_object * arg)\
 
 //new_fbgc_cfunction(fbgc_print,"print")
 
-
 new_fbgc_cfunction(fbgc_print,"print")
 {
-
-	struct fbgc_object ** contents = tuple_object_content(arg);
 	
-	for(size_t i = 0; i<size_fbgc_tuple_object(arg); ++i){
-		printf_fbgc_object(contents[i]);
+	for(size_t i = 0; i<argc; ++i){
+		printf_fbgc_object(arg[i]);
 		fprintf(stdout," ");
 	}
 	fprintf(stdout,"\n");
@@ -28,12 +25,11 @@ new_fbgc_cfunction(fbgc_print,"print")
 	return NULL;
 }
 
-
-
 new_fbgc_cfunction(fbgc_read,"read"){
 
-	struct fbgc_object ** contents = tuple_object_content(arg);
-	printf_fbgc_object(contents[0]);
+	assert(argc > 0);
+	
+	printf_fbgc_object(arg[0]);
 	char *str_content;
 	assert(scanf("%ms",&str_content) == 1);
 	
@@ -44,13 +40,20 @@ new_fbgc_cfunction(fbgc_read,"read"){
 
 
 
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// CHANGE THIS INITIALIZER
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 const struct fbgc_cfunction fbgc_io_initializer_struct = {"io",fbgc_io_initializer};
-extern struct fbgc_object * fbgc_io_initializer (struct fbgc_object * arg){
+extern struct fbgc_object * fbgc_io_initializer (struct fbgc_object ** arg, int argc){
 	return arg;
 }
 
 
+/*
+new_fbgc_cfunction(fbgc_io_initializer,"io"){
+	return arg;
+}*/
 
 //Work on this, is it possible to cast ?
 const struct fbgc_cmodule fbgc_io_module = 

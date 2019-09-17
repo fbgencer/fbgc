@@ -1,0 +1,1101 @@
+
+interpreter.o:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000000000 <interpreter>:
+#include "fbgc.h"
+
+uint8_t interpreter(struct fbgc_object ** field_obj){
+   0:	41 57                	push   r15
+   2:	41 56                	push   r14
+   4:	41 55                	push   r13
+   6:	41 54                	push   r12
+   8:	55                   	push   rbp
+   9:	53                   	push   rbx
+   a:	48 89 fb             	mov    rbx,rdi
+   d:	48 83 ec 68          	sub    rsp,0x68
+	#ifdef INTERPRETER_DEBUG
+	cprintf(111,"==========[INTERPRETER]==========\n");
+	#endif
+
+
+	struct fbgc_ll_object * head = cast_fbgc_object_as_ll( cast_fbgc_object_as_field(*field_obj)->head );
+  11:	48 8b 07             	mov    rax,QWORD PTR [rdi]
+	struct fbgc_object * pc = head->base.next; //program counter
+
+	#define PROGRAM_STACK_SIZE 100
+	struct fbgc_object * stack = new_fbgc_tuple_object(PROGRAM_STACK_SIZE);
+  14:	bf 64 00 00 00       	mov    edi,0x64
+	struct fbgc_ll_object * head = cast_fbgc_object_as_ll( cast_fbgc_object_as_field(*field_obj)->head );
+  19:	4c 8b 70 09          	mov    r14,QWORD PTR [rax+0x9]
+	struct fbgc_object * pc = head->base.next; //program counter
+  1d:	4d 8b 7e 01          	mov    r15,QWORD PTR [r14+0x1]
+	struct fbgc_ll_object * head = cast_fbgc_object_as_ll( cast_fbgc_object_as_field(*field_obj)->head );
+  21:	4c 89 74 24 08       	mov    QWORD PTR [rsp+0x8],r14
+	struct fbgc_object * stack = new_fbgc_tuple_object(PROGRAM_STACK_SIZE);
+  26:	e8 00 00 00 00       	call   2b <interpreter+0x2b>	27: R_X86_64_PLT32	new_fbgc_tuple_object-0x4
+  2b:	48 89 44 24 18       	mov    QWORD PTR [rsp+0x18],rax
+	struct fbgc_object ** sp = tuple_object_content(stack);
+  30:	48 8d 68 11          	lea    rbp,[rax+0x11]
+	int sctr = 0;
+	int fctr = -1;
+	
+	struct fbgc_object * globals = cast_fbgc_object_as_field(*field_obj)->locals;
+  34:	48 8b 03             	mov    rax,QWORD PTR [rbx]
+#define SET_AT_FP(n, x)	(sp[fctr+(n)] = (x))
+#define FETCH_NEXT()(pc = pc->next)
+
+#define RECURSION_LIMIT 1000
+
+	for(int i = 0;  (pc != head->tail) ; i++){
+  37:	4d 39 7e 09          	cmp    QWORD PTR [r14+0x9],r15
+	struct fbgc_object * globals = cast_fbgc_object_as_field(*field_obj)->locals;
+  3b:	48 8b 40 19          	mov    rax,QWORD PTR [rax+0x19]
+  3f:	48 89 44 24 28       	mov    QWORD PTR [rsp+0x28],rax
+	for(int i = 0;  (pc != head->tail) ; i++){
+  44:	0f 84 d2 08 00 00    	je     91c <interpreter+0x91c>
+	int sctr = 0;
+  4a:	31 db                	xor    ebx,ebx
+		//cprintf(100,"sctr:%d, fctr:%d\n",sctr,fctr);
+		#endif
+
+		// print_fbgc_memory_block();
+
+		switch(type){
+  4c:	4c 8d 2d 00 00 00 00 	lea    r13,[rip+0x0]        # 53 <interpreter+0x53>	4f: R_X86_64_PC32	.rodata-0x4
+				(get_fbgc_object_type(TOP()) > get_fbgc_object_type(SECOND())) ? 
+				get_fbgc_object_type(TOP()) : 
+				get_fbgc_object_type(SECOND()) ;
+
+
+				if(is_fbgc_binary_op_null(main_tok)){
+  53:	4d 89 fe             	mov    r14,r15
+	size_t recursion_ctr = 0;
+  56:	c7 44 24 10 00 00 00 00 	mov    DWORD PTR [rsp+0x10],0x0
+	struct fbgc_object * last_called_function = NULL;
+  5e:	48 c7 44 24 20 00 00 00 00 	mov    QWORD PTR [rsp+0x20],0x0
+				if(is_fbgc_binary_op_null(main_tok)){
+  67:	41 89 df             	mov    r15d,ebx
+	int fctr = -1;
+  6a:	c7 44 24 14 ff ff ff ff 	mov    DWORD PTR [rsp+0x14],0xffffffff
+		fbgc_token type = get_fbgc_object_type(pc);
+  72:	45 0f b6 26          	movzx  r12d,BYTE PTR [r14]
+  76:	41 83 e4 7f          	and    r12d,0x7f
+		switch(type){
+  7a:	41 80 fc 6b          	cmp    r12b,0x6b
+  7e:	41 0f b6 d4          	movzx  edx,r12b
+  82:	0f 87 c0 05 00 00    	ja     648 <interpreter+0x648>
+  88:	41 0f b6 c4          	movzx  eax,r12b
+  8c:	49 63 44 85 00       	movsxd rax,DWORD PTR [r13+rax*4+0x0]
+  91:	4c 01 e8             	add    rax,r13
+  94:	ff e0                	jmp    rax
+  96:	66 2e 0f 1f 84 00 00 00 00 00 	nop    WORD PTR cs:[rax+rax*1+0x0]
+				else {
+					i = ++(cast_fbgc_object_as_int(TOP())->content);
+				}
+
+				if(seq_ob->type == STRING){
+					seq_ob = subscript_fbgc_str_object(seq_ob,i,i+1);
+  a0:	8d 56 01             	lea    edx,[rsi+0x1]
+  a3:	48 89 df             	mov    rdi,rbx
+  a6:	e8 00 00 00 00       	call   ab <interpreter+0xab>	a7: R_X86_64_PLT32	subscript_fbgc_str_object-0x4
+  ab:	48 89 c3             	mov    rbx,rax
+				else if(seq_ob->type == RANGE){
+					seq_ob = get_element_in_fbgc_range_object(seq_ob,i);
+				}
+
+
+				if(seq_ob != NULL){
+  ae:	48 85 db             	test   rbx,rbx
+  b1:	0f 85 c7 03 00 00    	jne    47e <interpreter+0x47e>
+					PUSH(seq_ob);
+				}
+				else{
+					//finish the for loop
+					//pop iterator and sequence object
+					STACK_GOTO(-2);
+  b7:	41 83 ef 02          	sub    r15d,0x2
+  bb:	0f 1f 44 00 00       	nop    DWORD PTR [rax+rax*1+0x0]
+  c0:	49 8b 46 09          	mov    rax,QWORD PTR [r14+0x9]
+  c4:	4c 8b 70 01          	mov    r14,QWORD PTR [rax+0x1]
+  c8:	0f 1f 84 00 00 00 00 00 	nop    DWORD PTR [rax+rax*1+0x0]
+	for(int i = 0;  (pc != head->tail) ; i++){
+  d0:	48 8b 44 24 08       	mov    rax,QWORD PTR [rsp+0x8]
+  d5:	4c 39 70 09          	cmp    QWORD PTR [rax+0x9],r14
+  d9:	0f 84 3d 08 00 00    	je     91c <interpreter+0x91c>
+		if(recursion_ctr>RECURSION_LIMIT){
+  df:	81 7c 24 10 e9 03 00 00 	cmp    DWORD PTR [rsp+0x10],0x3e9
+  e7:	0f 84 23 08 00 00    	je     910 <interpreter+0x910>
+		if(sctr > PROGRAM_STACK_SIZE){
+  ed:	41 83 ff 64          	cmp    r15d,0x64
+  f1:	0f 8e 7b ff ff ff    	jle    72 <interpreter+0x72>
+}
+
+__fortify_function int
+printf (const char *__restrict __fmt, ...)
+{
+  return __printf_chk (__USE_FORTIFY_LEVEL - 1, __fmt, __va_arg_pack ());
+  f7:	48 8d 35 00 00 00 00 	lea    rsi,[rip+0x0]        # fe <interpreter+0xfe>	fa: R_X86_64_PC32	.LC1-0x4
+  fe:	bf 01 00 00 00       	mov    edi,0x1
+ 103:	31 c0                	xor    eax,eax
+ 105:	e8 00 00 00 00       	call   10a <interpreter+0x10a>	106: R_X86_64_PLT32	__printf_chk-0x4
+	cprintf(111,"\n==============================================\n\n");
+	#endif
+	#ifdef INTERPRETER_DEBUG
+	cprintf(111,"^^^^^^^^^^^^^^^^^^^^\n");
+	#endif
+	return 1;
+ 10a:	b8 01 00 00 00       	mov    eax,0x1
+ 10f:	eb 09                	jmp    11a <interpreter+0x11a>
+ 111:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+				return 0;
+ 118:	31 c0                	xor    eax,eax
+}
+ 11a:	48 83 c4 68          	add    rsp,0x68
+ 11e:	5b                   	pop    rbx
+ 11f:	5d                   	pop    rbp
+ 120:	41 5c                	pop    r12
+ 122:	41 5d                	pop    r13
+ 124:	41 5e                	pop    r14
+ 126:	41 5f                	pop    r15
+ 128:	c3                   	ret    
+ 129:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+				int ctr = cast_fbgc_object_as_int(pc)->content;
+ 130:	41 8b 5e 09          	mov    ebx,DWORD PTR [r14+0x9]
+				if(ctr == 1 && TOP()->type == MATRIX) break;
+ 134:	83 fb 01             	cmp    ebx,0x1
+ 137:	0f 84 43 05 00 00    	je     680 <interpreter+0x680>
+				for( int i = 1; i<=sctr && i <= ctr; ++i){
+ 13d:	44 39 fb             	cmp    ebx,r15d
+ 140:	44 89 f8             	mov    eax,r15d
+ 143:	0f 4e c3             	cmovle eax,ebx
+ 146:	85 c0                	test   eax,eax
+ 148:	0f 8e f8 09 00 00    	jle    b46 <interpreter+0xb46>
+ 14e:	b8 01 00 00 00       	mov    eax,0x1
+ 153:	31 d2                	xor    edx,edx
+ 155:	31 c9                	xor    ecx,ecx
+					switch(TOPN(i)->type){
+ 157:	44 89 fe             	mov    esi,r15d
+ 15a:	29 c6                	sub    esi,eax
+ 15c:	48 63 f6             	movsxd rsi,esi
+ 15f:	48 8b 7c f5 00       	mov    rdi,QWORD PTR [rbp+rsi*8+0x0]
+ 164:	0f b6 37             	movzx  esi,BYTE PTR [rdi]
+ 167:	40 80 fe 02          	cmp    sil,0x2
+ 16b:	0f 82 bf 07 00 00    	jb     930 <interpreter+0x930>
+ 171:	40 80 fe 03          	cmp    sil,0x3
+ 175:	0f 86 fd 07 00 00    	jbe    978 <interpreter+0x978>
+ 17b:	40 80 fe 06          	cmp    sil,0x6
+ 17f:	0f 85 ab 07 00 00    	jne    930 <interpreter+0x930>
+							msize +=  r*c;
+ 185:	8b 77 09             	mov    esi,DWORD PTR [rdi+0x9]
+ 188:	0f af 77 0d          	imul   esi,DWORD PTR [rdi+0xd]
+ 18c:	01 f2                	add    edx,esi
+					if(i < sctr && TOPN(i+1)->type == ROW){
+ 18e:	41 39 c7             	cmp    r15d,eax
+ 191:	8d 70 01             	lea    esi,[rax+0x1]
+ 194:	7e 22                	jle    1b8 <interpreter+0x1b8>
+ 196:	44 89 ff             	mov    edi,r15d
+ 199:	29 f7                	sub    edi,esi
+ 19b:	48 63 ff             	movsxd rdi,edi
+ 19e:	48 8b 7c fd 00       	mov    rdi,QWORD PTR [rbp+rdi*8+0x0]
+ 1a3:	80 3f 59             	cmp    BYTE PTR [rdi],0x59
+ 1a6:	75 10                	jne    1b8 <interpreter+0x1b8>
+						ctr += 1+cast_fbgc_object_as_int(TOPN(i+1))->content;
+ 1a8:	8b 77 09             	mov    esi,DWORD PTR [rdi+0x9]
+						++row;
+ 1ab:	83 c1 01             	add    ecx,0x1
+						ctr += 1+cast_fbgc_object_as_int(TOPN(i+1))->content;
+ 1ae:	8d 5c 33 01          	lea    ebx,[rbx+rsi*1+0x1]
+ 1b2:	8d 70 02             	lea    esi,[rax+0x2]
+ 1b5:	0f 1f 00             	nop    DWORD PTR [rax]
+ 1b8:	89 f0                	mov    eax,esi
+				for( int i = 1; i<=sctr && i <= ctr; ++i){
+ 1ba:	44 39 fb             	cmp    ebx,r15d
+ 1bd:	44 89 fe             	mov    esi,r15d
+ 1c0:	0f 4e f3             	cmovle esi,ebx
+ 1c3:	39 c6                	cmp    esi,eax
+ 1c5:	7d 90                	jge    157 <interpreter+0x157>
+				 matrix_creation_from_stack(sp+sctr-ctr ,ctr, msize, row);
+ 1c7:	48 63 f3             	movsxd rsi,ebx
+ 1ca:	49 63 c7             	movsxd rax,r15d
+ 1cd:	48 29 f0             	sub    rax,rsi
+				struct fbgc_object * m =
+ 1d0:	89 de                	mov    esi,ebx
+				 matrix_creation_from_stack(sp+sctr-ctr ,ctr, msize, row);
+ 1d2:	48 8d 7c c5 00       	lea    rdi,[rbp+rax*8+0x0]
+				struct fbgc_object * m =
+ 1d7:	e8 00 00 00 00       	call   1dc <interpreter+0x1dc>	1d8: R_X86_64_PLT32	matrix_creation_from_stack-0x4
+				assert(m != NULL);
+ 1dc:	48 85 c0             	test   rax,rax
+ 1df:	0f 84 91 0a 00 00    	je     c76 <interpreter+0xc76>
+				STACK_GOTO(-ctr);
+ 1e5:	44 89 fa             	mov    edx,r15d
+ 1e8:	29 da                	sub    edx,ebx
+				PUSH(m);
+ 1ea:	44 8d 7a 01          	lea    r15d,[rdx+0x1]
+ 1ee:	48 63 d2             	movsxd rdx,edx
+ 1f1:	48 89 44 d5 00       	mov    QWORD PTR [rbp+rdx*8+0x0],rax
+ 1f6:	4d 8b 76 01          	mov    r14,QWORD PTR [r14+0x1]
+				break;
+ 1fa:	e9 d1 fe ff ff       	jmp    d0 <interpreter+0xd0>
+ 1ff:	90                   	nop
+				struct fbgc_object * rhs = POP();
+ 200:	41 8d 5f ff          	lea    ebx,[r15-0x1]
+ 204:	48 63 c3             	movsxd rax,ebx
+ 207:	4c 8d 24 c5 00 00 00 00 	lea    r12,[rax*8+0x0]
+ 20f:	48 8b 44 c5 00       	mov    rax,QWORD PTR [rbp+rax*8+0x0]
+ 214:	48 89 44 24 30       	mov    QWORD PTR [rsp+0x30],rax
+				if(is_id_flag_SUBSCRIPT(pc)){
+ 219:	41 0f b6 46 0d       	movzx  eax,BYTE PTR [r14+0xd]
+ 21e:	89 c2                	mov    edx,eax
+ 220:	83 e2 01             	and    edx,0x1
+ 223:	a8 04                	test   al,0x4
+ 225:	0f 85 9d 04 00 00    	jne    6c8 <interpreter+0x6c8>
+				if(is_id_flag_GLOBAL(pc)){
+ 22b:	84 d2                	test   dl,dl
+ 22d:	0f 85 9d 07 00 00    	jne    9d0 <interpreter+0x9d0>
+				else if(is_id_flag_LOCAL(pc)){
+ 233:	a8 02                	test   al,0x2
+ 235:	74 14                	je     24b <interpreter+0x24b>
+					GET_AT_FP(cast_fbgc_object_as_id_opcode(pc)->loc) = rhs;
+ 237:	8b 44 24 14          	mov    eax,DWORD PTR [rsp+0x14]
+ 23b:	41 03 46 09          	add    eax,DWORD PTR [r14+0x9]
+ 23f:	48 8b 4c 24 30       	mov    rcx,QWORD PTR [rsp+0x30]
+ 244:	48 98                	cdqe   
+ 246:	48 89 4c c5 00       	mov    QWORD PTR [rbp+rax*8+0x0],rcx
+ 24b:	4d 8b 76 01          	mov    r14,QWORD PTR [r14+0x1]
+				struct fbgc_object * rhs = POP();
+ 24f:	41 89 df             	mov    r15d,ebx
+ 252:	e9 79 fe ff ff       	jmp    d0 <interpreter+0xd0>
+ 257:	66 0f 1f 84 00 00 00 00 00 	nop    WORD PTR [rax+rax*1+0x0]
+				if(SECOND()->type == RANGE){
+ 260:	49 63 c7             	movsxd rax,r15d
+ 263:	41 8d 5f ff          	lea    ebx,[r15-0x1]
+ 267:	48 c1 e0 03          	shl    rax,0x3
+ 26b:	48 8b 7c 05 f0       	mov    rdi,QWORD PTR [rbp+rax*1-0x10]
+ 270:	80 3f 0c             	cmp    BYTE PTR [rdi],0xc
+ 273:	0f 85 27 04 00 00    	jne    6a0 <interpreter+0x6a0>
+					cast_fbgc_object_as_range(x)->step = cast_fbgc_object_as_range(x)->end;
+ 279:	48 8b 57 11          	mov    rdx,QWORD PTR [rdi+0x11]
+ 27d:	4d 8b 76 01          	mov    r14,QWORD PTR [r14+0x1]
+					cast_fbgc_object_as_range(x)->end = POP();
+ 281:	41 89 df             	mov    r15d,ebx
+					cast_fbgc_object_as_range(x)->step = cast_fbgc_object_as_range(x)->end;
+ 284:	48 89 57 19          	mov    QWORD PTR [rdi+0x19],rdx
+					cast_fbgc_object_as_range(x)->end = POP();
+ 288:	48 8b 44 05 f8       	mov    rax,QWORD PTR [rbp+rax*1-0x8]
+ 28d:	48 89 47 11          	mov    QWORD PTR [rdi+0x11],rax
+ 291:	e9 3a fe ff ff       	jmp    d0 <interpreter+0xd0>
+ 296:	66 2e 0f 1f 84 00 00 00 00 00 	nop    WORD PTR cs:[rax+rax*1+0x0]
+				struct fbgc_object * cond = POP();
+ 2a0:	41 83 ef 01          	sub    r15d,0x1
+ 2a4:	49 63 c7             	movsxd rax,r15d
+				if(!cast_fbgc_object_as_int(cond)->content  ){
+ 2a7:	48 8b 44 c5 00       	mov    rax,QWORD PTR [rbp+rax*8+0x0]
+ 2ac:	8b 40 09             	mov    eax,DWORD PTR [rax+0x9]
+ 2af:	85 c0                	test   eax,eax
+ 2b1:	0f 84 09 fe ff ff    	je     c0 <interpreter+0xc0>
+ 2b7:	4d 8b 76 01          	mov    r14,QWORD PTR [r14+0x1]
+ 2bb:	e9 10 fe ff ff       	jmp    d0 <interpreter+0xd0>
+				PUSH( get_length_fbgc_object(POP()) );
+ 2c0:	41 8d 47 ff          	lea    eax,[r15-0x1]
+ 2c4:	48 98                	cdqe   
+ 2c6:	48 8d 5c c5 00       	lea    rbx,[rbp+rax*8+0x0]
+ 2cb:	48 8b 3b             	mov    rdi,QWORD PTR [rbx]
+ 2ce:	e8 00 00 00 00       	call   2d3 <interpreter+0x2d3>	2cf: R_X86_64_PLT32	get_length_fbgc_object-0x4
+ 2d3:	48 89 03             	mov    QWORD PTR [rbx],rax
+ 2d6:	4d 8b 76 01          	mov    r14,QWORD PTR [r14+0x1]
+				break;
+ 2da:	e9 f1 fd ff ff       	jmp    d0 <interpreter+0xd0>
+ 2df:	90                   	nop
+				int tuple_size = cast_fbgc_object_as_int(pc)->content;
+ 2e0:	45 8b 66 09          	mov    r12d,DWORD PTR [r14+0x9]
+				struct fbgc_object * to = new_fbgc_tuple_object(tuple_size);
+ 2e4:	44 89 e7             	mov    edi,r12d
+				int tuple_size = cast_fbgc_object_as_int(pc)->content;
+ 2e7:	44 89 64 24 38       	mov    DWORD PTR [rsp+0x38],r12d
+				struct fbgc_object * to = new_fbgc_tuple_object(tuple_size);
+ 2ec:	e8 00 00 00 00       	call   2f1 <interpreter+0x2f1>	2ed: R_X86_64_PLT32	new_fbgc_tuple_object-0x4
+				size_fbgc_tuple_object(to) = tuple_size;
+ 2f1:	44 89 60 0d          	mov    DWORD PTR [rax+0xd],r12d
+				struct fbgc_object * to = new_fbgc_tuple_object(tuple_size);
+ 2f5:	48 89 c1             	mov    rcx,rax
+ 2f8:	48 89 44 24 30       	mov    QWORD PTR [rsp+0x30],rax
+				while(--tuple_size >= 0){
+ 2fd:	41 8d 44 24 ff       	lea    eax,[r12-0x1]
+ 302:	85 c0                	test   eax,eax
+ 304:	89 44 24 3c          	mov    DWORD PTR [rsp+0x3c],eax
+ 308:	41 89 c4             	mov    r12d,eax
+ 30b:	0f 88 bd 07 00 00    	js     ace <interpreter+0xace>
+ 311:	49 63 d7             	movsxd rdx,r15d
+ 314:	48 89 6c 24 48       	mov    QWORD PTR [rsp+0x48],rbp
+ 319:	48 8d 04 d5 f8 ff ff ff 	lea    rax,[rdx*8-0x8]
+ 321:	48 8d 5c 05 00       	lea    rbx,[rbp+rax*1+0x0]
+ 326:	48 89 44 24 40       	mov    QWORD PTR [rsp+0x40],rax
+ 32b:	48 89 dd             	mov    rbp,rbx
+ 32e:	48 89 cb             	mov    rbx,rcx
+ 331:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+					set_object_in_fbgc_tuple_object(to,POP(),tuple_size);
+ 338:	48 8b 75 00          	mov    rsi,QWORD PTR [rbp+0x0]
+ 33c:	44 89 e2             	mov    edx,r12d
+ 33f:	48 89 df             	mov    rdi,rbx
+				while(--tuple_size >= 0){
+ 342:	41 83 ec 01          	sub    r12d,0x1
+ 346:	48 83 ed 08          	sub    rbp,0x8
+					set_object_in_fbgc_tuple_object(to,POP(),tuple_size);
+ 34a:	e8 00 00 00 00       	call   34f <interpreter+0x34f>	34b: R_X86_64_PLT32	set_object_in_fbgc_tuple_object-0x4
+				while(--tuple_size >= 0){
+ 34f:	41 83 fc ff          	cmp    r12d,0xffffffff
+ 353:	75 e3                	jne    338 <interpreter+0x338>
+ 355:	8b 44 24 3c          	mov    eax,DWORD PTR [rsp+0x3c]
+ 359:	48 8b 4c 24 40       	mov    rcx,QWORD PTR [rsp+0x40]
+ 35e:	48 8b 6c 24 48       	mov    rbp,QWORD PTR [rsp+0x48]
+ 363:	44 2b 7c 24 38       	sub    r15d,DWORD PTR [rsp+0x38]
+ 368:	48 f7 d8             	neg    rax
+ 36b:	48 8d 04 c1          	lea    rax,[rcx+rax*8]
+ 36f:	48 8b 4c 24 30       	mov    rcx,QWORD PTR [rsp+0x30]
+ 374:	48 01 e8             	add    rax,rbp
+				PUSH(to);
+ 377:	48 89 08             	mov    QWORD PTR [rax],rcx
+ 37a:	41 83 c7 01          	add    r15d,0x1
+ 37e:	4d 8b 76 01          	mov    r14,QWORD PTR [r14+0x1]
+				break;
+ 382:	e9 49 fd ff ff       	jmp    d0 <interpreter+0xd0>
+ 387:	66 0f 1f 84 00 00 00 00 00 	nop    WORD PTR [rax+rax*1+0x0]
+				struct fbgc_fun_object * funo = cast_fbgc_object_as_fun(POP());
+ 390:	41 8d 47 ff          	lea    eax,[r15-0x1]
+				int arg_no = cast_fbgc_object_as_int(POP())->content;
+ 394:	45 8d 67 fe          	lea    r12d,[r15-0x2]
+				struct fbgc_fun_object * funo = cast_fbgc_object_as_fun(POP());
+ 398:	48 98                	cdqe   
+				int arg_no = cast_fbgc_object_as_int(POP())->content;
+ 39a:	49 63 d4             	movsxd rdx,r12d
+				struct fbgc_fun_object * funo = cast_fbgc_object_as_fun(POP());
+ 39d:	48 8b 5c c5 00       	mov    rbx,QWORD PTR [rbp+rax*8+0x0]
+				int arg_no = cast_fbgc_object_as_int(POP())->content;
+ 3a2:	48 8b 44 c5 f8       	mov    rax,QWORD PTR [rbp+rax*8-0x8]
+				if(funo->base.type == CFUN){
+ 3a7:	80 3b 08             	cmp    BYTE PTR [rbx],0x8
+				int arg_no = cast_fbgc_object_as_int(POP())->content;
+ 3aa:	44 8b 78 09          	mov    r15d,DWORD PTR [rax+0x9]
+				if(funo->base.type == CFUN){
+ 3ae:	0f 84 ec 04 00 00    	je     8a0 <interpreter+0x8a0>
+				if(last_called_function == (struct fbgc_object * ) funo) recursion_ctr++;
+ 3b4:	8b 44 24 10          	mov    eax,DWORD PTR [rsp+0x10]
+				if(funo->no_arg != arg_no ){
+ 3b8:	0f be 53 11          	movsx  edx,BYTE PTR [rbx+0x11]
+				if(last_called_function == (struct fbgc_object * ) funo) recursion_ctr++;
+ 3bc:	b9 00 00 00 00       	mov    ecx,0x0
+ 3c1:	83 c0 01             	add    eax,0x1
+ 3c4:	48 3b 5c 24 20       	cmp    rbx,QWORD PTR [rsp+0x20]
+ 3c9:	0f 45 c1             	cmovne eax,ecx
+				if(funo->no_arg != arg_no ){
+ 3cc:	44 39 fa             	cmp    edx,r15d
+				if(last_called_function == (struct fbgc_object * ) funo) recursion_ctr++;
+ 3cf:	89 44 24 10          	mov    DWORD PTR [rsp+0x10],eax
+				if(funo->no_arg != arg_no ){
+ 3d3:	0f 85 8e 07 00 00    	jne    b67 <interpreter+0xb67>
+				STACK_GOTO(funo->no_locals - arg_no);
+ 3d9:	0f be 43 12          	movsx  eax,BYTE PTR [rbx+0x12]
+				PUSH(new_fbgc_int_object(fctr));
+ 3dd:	8b 7c 24 14          	mov    edi,DWORD PTR [rsp+0x14]
+				STACK_GOTO(funo->no_locals - arg_no);
+ 3e1:	29 d0                	sub    eax,edx
+				PUSH(pc->next);
+ 3e3:	49 8b 56 01          	mov    rdx,QWORD PTR [r14+0x1]
+				STACK_GOTO(funo->no_locals - arg_no);
+ 3e7:	42 8d 0c 20          	lea    ecx,[rax+r12*1]
+				PUSH(pc->next);
+ 3eb:	44 8d 71 01          	lea    r14d,[rcx+0x1]
+ 3ef:	48 63 c1             	movsxd rax,ecx
+				PUSH(new_fbgc_int_object(fctr));
+ 3f2:	44 8d 79 02          	lea    r15d,[rcx+0x2]
+				PUSH(pc->next);
+ 3f6:	48 89 54 c5 00       	mov    QWORD PTR [rbp+rax*8+0x0],rdx
+				PUSH(new_fbgc_int_object(fctr));
+ 3fb:	4d 63 f6             	movsxd r14,r14d
+ 3fe:	4e 8d 64 f5 00       	lea    r12,[rbp+r14*8+0x0]
+ 403:	e8 00 00 00 00       	call   408 <interpreter+0x408>	404: R_X86_64_PLT32	new_fbgc_int_object-0x4
+ 408:	49 89 04 24          	mov    QWORD PTR [r12],rax
+				fctr = sctr-funo->no_locals-2;
+ 40c:	0f be 43 12          	movsx  eax,BYTE PTR [rbx+0x12]
+ 410:	44 89 f9             	mov    ecx,r15d
+				stack->next = cast_fbgc_object_as_fun(funo)->code;
+ 413:	4c 8b 73 09          	mov    r14,QWORD PTR [rbx+0x9]
+				break;
+ 417:	48 89 5c 24 20       	mov    QWORD PTR [rsp+0x20],rbx
+				fctr = sctr-funo->no_locals-2;
+ 41c:	29 c1                	sub    ecx,eax
+ 41e:	89 c8                	mov    eax,ecx
+ 420:	83 e8 02             	sub    eax,0x2
+ 423:	89 44 24 14          	mov    DWORD PTR [rsp+0x14],eax
+				stack->next = cast_fbgc_object_as_fun(funo)->code;
+ 427:	48 8b 44 24 18       	mov    rax,QWORD PTR [rsp+0x18]
+ 42c:	4c 89 70 01          	mov    QWORD PTR [rax+0x1],r14
+				break;
+ 430:	e9 9b fc ff ff       	jmp    d0 <interpreter+0xd0>
+ 435:	0f 1f 00             	nop    DWORD PTR [rax]
+				assert(TOP()->type == INT);
+ 438:	4d 63 e7             	movsxd r12,r15d
+ 43b:	4a 8d 14 e5 00 00 00 00 	lea    rdx,[r12*8+0x0]
+ 443:	48 8d 4c 15 f8       	lea    rcx,[rbp+rdx*1-0x8]
+ 448:	48 8b 01             	mov    rax,QWORD PTR [rcx]
+ 44b:	80 38 02             	cmp    BYTE PTR [rax],0x2
+ 44e:	0f 85 4f 07 00 00    	jne    ba3 <interpreter+0xba3>
+				int i = cast_fbgc_object_as_int(TOP())->content;
+ 454:	8b 70 09             	mov    esi,DWORD PTR [rax+0x9]
+				struct fbgc_object * seq_ob = SECOND();
+ 457:	48 8b 5c 15 f0       	mov    rbx,QWORD PTR [rbp+rdx*1-0x10]
+				if(i == -1){
+ 45c:	83 fe ff             	cmp    esi,0xffffffff
+ 45f:	0f 84 7b 04 00 00    	je     8e0 <interpreter+0x8e0>
+					i = ++(cast_fbgc_object_as_int(TOP())->content);
+ 465:	83 c6 01             	add    esi,0x1
+ 468:	89 70 09             	mov    DWORD PTR [rax+0x9],esi
+				if(seq_ob->type == STRING){
+ 46b:	0f b6 03             	movzx  eax,BYTE PTR [rbx]
+ 46e:	3c 05                	cmp    al,0x5
+ 470:	0f 84 2a fc ff ff    	je     a0 <interpreter+0xa0>
+				else if(seq_ob->type == RANGE){
+ 476:	3c 0c                	cmp    al,0xc
+ 478:	0f 84 40 06 00 00    	je     abe <interpreter+0xabe>
+					PUSH(seq_ob);
+ 47e:	4a 89 5c e5 00       	mov    QWORD PTR [rbp+r12*8+0x0],rbx
+ 483:	41 83 c7 01          	add    r15d,0x1
+ 487:	4d 8b 76 01          	mov    r14,QWORD PTR [r14+0x1]
+ 48b:	e9 40 fc ff ff       	jmp    d0 <interpreter+0xd0>
+				assert(TOP() != NULL && SECOND() != NULL);
+ 490:	49 63 c7             	movsxd rax,r15d
+ 493:	48 c1 e0 03          	shl    rax,0x3
+ 497:	48 8b 74 05 f8       	mov    rsi,QWORD PTR [rbp+rax*1-0x8]
+ 49c:	48 85 f6             	test   rsi,rsi
+ 49f:	0f 84 1d 07 00 00    	je     bc2 <interpreter+0xbc2>
+ 4a5:	48 8b 7c 05 f0       	mov    rdi,QWORD PTR [rbp+rax*1-0x10]
+ 4aa:	48 85 ff             	test   rdi,rdi
+ 4ad:	0f 84 0f 07 00 00    	je     bc2 <interpreter+0xbc2>
+				(get_fbgc_object_type(TOP()) > get_fbgc_object_type(SECOND())) ? 
+ 4b3:	0f b6 07             	movzx  eax,BYTE PTR [rdi]
+ 4b6:	0f b6 0e             	movzx  ecx,BYTE PTR [rsi]
+ 4b9:	83 e0 7f             	and    eax,0x7f
+ 4bc:	83 e1 7f             	and    ecx,0x7f
+				get_fbgc_object_type(TOP()) : 
+ 4bf:	39 c8                	cmp    eax,ecx
+ 4c1:	0f 4c c1             	cmovl  eax,ecx
+				if(is_fbgc_binary_op_null(main_tok)){
+ 4c4:	48 8d 0d 00 00 00 00 	lea    rcx,[rip+0x0]        # 4cb <interpreter+0x4cb>	4c7: R_X86_64_PC32	fbgc_binary_op-0x4
+ 4cb:	83 e8 02             	sub    eax,0x2
+ 4ce:	48 98                	cdqe   
+ 4d0:	48 8b 04 c1          	mov    rax,QWORD PTR [rcx+rax*8]
+ 4d4:	48 85 c0             	test   rax,rax
+ 4d7:	0f 84 72 06 00 00    	je     b4f <interpreter+0xb4f>
+				struct fbgc_object * res =  call_fbgc_binary_op(main_tok,SECOND(),TOP(),type);
+ 4dd:	ff d0                	call   rax
+				assert(res != NULL);
+ 4df:	48 85 c0             	test   rax,rax
+				STACK_GOTO(-2);
+ 4e2:	41 8d 57 fe          	lea    edx,[r15-0x2]
+				assert(res != NULL);
+ 4e6:	0f 84 f5 06 00 00    	je     be1 <interpreter+0xbe1>
+				PUSH(res);		
+ 4ec:	48 63 d2             	movsxd rdx,edx
+ 4ef:	41 83 ef 01          	sub    r15d,0x1
+ 4f3:	48 89 44 d5 00       	mov    QWORD PTR [rbp+rdx*8+0x0],rax
+ 4f8:	4d 8b 76 01          	mov    r14,QWORD PTR [r14+0x1]
+				break;	
+ 4fc:	e9 cf fb ff ff       	jmp    d0 <interpreter+0xd0>
+ 501:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+				struct fbgc_object * rhs = POP();
+ 508:	41 83 ef 01          	sub    r15d,0x1
+ 50c:	49 63 c7             	movsxd rax,r15d
+ 50f:	48 8b 5c c5 00       	mov    rbx,QWORD PTR [rbp+rax*8+0x0]
+				if(is_id_flag_GLOBAL(pc)){
+ 514:	41 0f b6 46 0d       	movzx  eax,BYTE PTR [r14+0xd]
+ 519:	a8 01                	test   al,0x1
+ 51b:	0f 85 1f 03 00 00    	jne    840 <interpreter+0x840>
+				else if(is_id_flag_LOCAL(pc)){
+ 521:	a8 02                	test   al,0x2
+ 523:	0f 84 8e fd ff ff    	je     2b7 <interpreter+0x2b7>
+					GET_AT_FP(cast_fbgc_object_as_id_opcode(pc)->loc) = rhs;
+ 529:	8b 44 24 14          	mov    eax,DWORD PTR [rsp+0x14]
+ 52d:	41 03 46 09          	add    eax,DWORD PTR [r14+0x9]
+ 531:	48 98                	cdqe   
+ 533:	48 89 5c c5 00       	mov    QWORD PTR [rbp+rax*8+0x0],rbx
+ 538:	4d 8b 76 01          	mov    r14,QWORD PTR [r14+0x1]
+ 53c:	e9 8f fb ff ff       	jmp    d0 <interpreter+0xd0>
+ 541:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+				struct fbgc_object * ret = POP();
+ 548:	45 8d 4f ff          	lea    r9d,[r15-0x1]
+				stack->next = SECOND();
+ 54c:	48 8b 7c 24 18       	mov    rdi,QWORD PTR [rsp+0x18]
+				struct fbgc_object * ret = POP();
+ 551:	4d 63 c9             	movsxd r9,r9d
+ 554:	4a 8d 04 cd 00 00 00 00 	lea    rax,[r9*8+0x0]
+ 55c:	4a 8b 54 cd 00       	mov    rdx,QWORD PTR [rbp+r9*8+0x0]
+				fctr = cast_fbgc_object_as_int(TOP())->content;
+ 561:	48 8b 4c 05 f8       	mov    rcx,QWORD PTR [rbp+rax*1-0x8]
+				stack->next = SECOND();
+ 566:	48 8b 44 05 f0       	mov    rax,QWORD PTR [rbp+rax*1-0x10]
+				fctr = cast_fbgc_object_as_int(TOP())->content;
+ 56b:	8b 49 09             	mov    ecx,DWORD PTR [rcx+0x9]
+				stack->next = SECOND();
+ 56e:	48 89 47 01          	mov    QWORD PTR [rdi+0x1],rax
+				PUSH(ret);
+ 572:	48 63 44 24 14       	movsxd rax,DWORD PTR [rsp+0x14]
+ 577:	48 89 54 c5 00       	mov    QWORD PTR [rbp+rax*8+0x0],rdx
+ 57c:	44 8d 78 01          	lea    r15d,[rax+0x1]
+	for(int i = 0;  (pc != head->tail) ; i++){
+ 580:	48 8b 44 24 08       	mov    rax,QWORD PTR [rsp+0x8]
+		FETCH_NEXT();
+ 585:	4c 8b 77 01          	mov    r14,QWORD PTR [rdi+0x1]
+	for(int i = 0;  (pc != head->tail) ; i++){
+ 589:	4c 39 70 09          	cmp    QWORD PTR [rax+0x9],r14
+ 58d:	0f 84 89 03 00 00    	je     91c <interpreter+0x91c>
+				fctr = cast_fbgc_object_as_int(TOP())->content;
+ 593:	89 4c 24 14          	mov    DWORD PTR [rsp+0x14],ecx
+				recursion_ctr = 0;
+ 597:	c7 44 24 10 00 00 00 00 	mov    DWORD PTR [rsp+0x10],0x0
+ 59f:	e9 49 fb ff ff       	jmp    ed <interpreter+0xed>
+ 5a4:	0f 1f 40 00          	nop    DWORD PTR [rax+0x0]
+				stack->next = cast_fbgc_object_as_jumper(pc)->content;
+ 5a8:	4d 8b 76 09          	mov    r14,QWORD PTR [r14+0x9]
+ 5ac:	48 8b 44 24 18       	mov    rax,QWORD PTR [rsp+0x18]
+ 5b1:	4c 89 70 01          	mov    QWORD PTR [rax+0x1],r14
+				break;
+ 5b5:	e9 16 fb ff ff       	jmp    d0 <interpreter+0xd0>
+ 5ba:	66 0f 1f 44 00 00    	nop    WORD PTR [rax+rax*1+0x0]
+				struct fbgc_object * loop_obj =  cast_fbgc_object_as_jumper(pc)->content;
+ 5c0:	49 8b 46 09          	mov    rax,QWORD PTR [r14+0x9]
+				if(loop_obj->type == FOR_BEGIN) STACK_GOTO(-2);
+ 5c4:	80 38 68             	cmp    BYTE PTR [rax],0x68
+ 5c7:	0f 84 b3 01 00 00    	je     780 <interpreter+0x780>
+ 5cd:	48 8b 40 09          	mov    rax,QWORD PTR [rax+0x9]
+ 5d1:	4c 8b 70 01          	mov    r14,QWORD PTR [rax+0x1]
+				break;
+ 5d5:	e9 f6 fa ff ff       	jmp    d0 <interpreter+0xd0>
+ 5da:	66 0f 1f 44 00 00    	nop    WORD PTR [rax+rax*1+0x0]
+				if(is_id_flag_SUBSCRIPT(pc)){
+ 5e0:	41 0f b6 46 0d       	movzx  eax,BYTE PTR [r14+0xd]
+ 5e5:	89 c2                	mov    edx,eax
+ 5e7:	83 e2 01             	and    edx,0x1
+ 5ea:	a8 04                	test   al,0x4
+ 5ec:	0f 85 9e 01 00 00    	jne    790 <interpreter+0x790>
+				if(is_id_flag_GLOBAL(pc)){
+ 5f2:	84 d2                	test   dl,dl
+ 5f4:	0f 85 fe 03 00 00    	jne    9f8 <interpreter+0x9f8>
+				else if(is_id_flag_LOCAL(pc))  PUSH(GET_AT_FP(cast_fbgc_object_as_id_opcode(pc)->loc));
+ 5fa:	a8 02                	test   al,0x2
+ 5fc:	0f 84 b5 fc ff ff    	je     2b7 <interpreter+0x2b7>
+ 602:	8b 44 24 14          	mov    eax,DWORD PTR [rsp+0x14]
+ 606:	41 03 46 09          	add    eax,DWORD PTR [r14+0x9]
+ 60a:	48 98                	cdqe   
+ 60c:	48 8b 54 c5 00       	mov    rdx,QWORD PTR [rbp+rax*8+0x0]
+ 611:	49 63 c7             	movsxd rax,r15d
+ 614:	41 83 c7 01          	add    r15d,0x1
+ 618:	48 89 54 c5 00       	mov    QWORD PTR [rbp+rax*8+0x0],rdx
+ 61d:	4d 8b 76 01          	mov    r14,QWORD PTR [r14+0x1]
+ 621:	e9 aa fa ff ff       	jmp    d0 <interpreter+0xd0>
+ 626:	66 2e 0f 1f 84 00 00 00 00 00 	nop    WORD PTR cs:[rax+rax*1+0x0]
+				PUSH(pc);
+ 630:	49 63 c7             	movsxd rax,r15d
+ 633:	41 83 c7 01          	add    r15d,0x1
+ 637:	4c 89 74 c5 00       	mov    QWORD PTR [rbp+rax*8+0x0],r14
+ 63c:	4d 8b 76 01          	mov    r14,QWORD PTR [r14+0x1]
+				break;
+ 640:	e9 8b fa ff ff       	jmp    d0 <interpreter+0xd0>
+ 645:	0f 1f 00             	nop    DWORD PTR [rax]
+				cprintf(101,"Undefined token in interpreter [%s]\n",object_name_array[type]);
+ 648:	48 8d 05 00 00 00 00 	lea    rax,[rip+0x0]        # 64f <interpreter+0x64f>	64b: R_X86_64_PC32	object_name_array-0x4
+ 64f:	48 8d 35 00 00 00 00 	lea    rsi,[rip+0x0]        # 656 <interpreter+0x656>	652: R_X86_64_PC32	.LC15-0x4
+ 656:	bf 65 00 00 00       	mov    edi,0x65
+ 65b:	48 8b 14 d0          	mov    rdx,QWORD PTR [rax+rdx*8]
+ 65f:	31 c0                	xor    eax,eax
+ 661:	e8 00 00 00 00       	call   666 <interpreter+0x666>	662: R_X86_64_PLT32	cprintf-0x4
+}
+ 666:	48 83 c4 68          	add    rsp,0x68
+				return 0;						
+ 66a:	31 c0                	xor    eax,eax
+}
+ 66c:	5b                   	pop    rbx
+ 66d:	5d                   	pop    rbp
+ 66e:	41 5c                	pop    r12
+ 670:	41 5d                	pop    r13
+ 672:	41 5e                	pop    r14
+ 674:	41 5f                	pop    r15
+ 676:	c3                   	ret    
+ 677:	66 0f 1f 84 00 00 00 00 00 	nop    WORD PTR [rax+rax*1+0x0]
+				if(ctr == 1 && TOP()->type == MATRIX) break;
+ 680:	49 63 c7             	movsxd rax,r15d
+ 683:	48 8b 44 c5 f8       	mov    rax,QWORD PTR [rbp+rax*8-0x8]
+ 688:	80 38 06             	cmp    BYTE PTR [rax],0x6
+ 68b:	0f 85 ac fa ff ff    	jne    13d <interpreter+0x13d>
+		FETCH_NEXT();
+ 691:	e9 21 fc ff ff       	jmp    2b7 <interpreter+0x2b7>
+ 696:	66 2e 0f 1f 84 00 00 00 00 00 	nop    WORD PTR cs:[rax+rax*1+0x0]
+					x = new_fbgc_range_object(SECOND(),TOP());
+ 6a0:	48 8b 74 05 f8       	mov    rsi,QWORD PTR [rbp+rax*1-0x8]
+ 6a5:	e8 00 00 00 00       	call   6aa <interpreter+0x6aa>	6a6: R_X86_64_PLT32	new_fbgc_range_object-0x4
+					STACK_GOTO(-2);
+ 6aa:	45 8d 4f fe          	lea    r9d,[r15-0x2]
+					PUSH(x);
+ 6ae:	41 89 df             	mov    r15d,ebx
+ 6b1:	4d 63 c9             	movsxd r9,r9d
+ 6b4:	4a 89 44 cd 00       	mov    QWORD PTR [rbp+r9*8+0x0],rax
+ 6b9:	4d 8b 76 01          	mov    r14,QWORD PTR [r14+0x1]
+ 6bd:	e9 0e fa ff ff       	jmp    d0 <interpreter+0xd0>
+ 6c2:	66 0f 1f 44 00 00    	nop    WORD PTR [rax+rax*1+0x0]
+					int index_no = cast_fbgc_object_as_int(POP())->content;
+ 6c8:	41 8d 4f fe          	lea    ecx,[r15-0x2]
+					if(is_id_flag_GLOBAL(pc)){
+ 6cc:	84 d2                	test   dl,dl
+					int index_no = cast_fbgc_object_as_int(POP())->content;
+ 6ce:	89 4c 24 3c          	mov    DWORD PTR [rsp+0x3c],ecx
+ 6d2:	48 63 d9             	movsxd rbx,ecx
+ 6d5:	4a 8b 4c 25 f8       	mov    rcx,QWORD PTR [rbp+r12*1-0x8]
+ 6da:	8b 49 09             	mov    ecx,DWORD PTR [rcx+0x9]
+ 6dd:	89 4c 24 38          	mov    DWORD PTR [rsp+0x38],ecx
+					if(is_id_flag_GLOBAL(pc)){
+ 6e1:	0f 85 f4 03 00 00    	jne    adb <interpreter+0xadb>
+					else if(is_id_flag_LOCAL(pc)){
+ 6e7:	a8 02                	test   al,0x2
+ 6e9:	0f 85 64 03 00 00    	jne    a53 <interpreter+0xa53>
+					for(int i = 0; i<index_no-1; i++){
+ 6ef:	83 7c 24 38 01       	cmp    DWORD PTR [rsp+0x38],0x1
+ 6f4:	48 8b 7c 24 58       	mov    rdi,QWORD PTR [rsp+0x58]
+ 6f9:	7e 5d                	jle    758 <interpreter+0x758>
+						if(dummy->type == TUPLE){
+ 6fb:	48 8b 4c 24 58       	mov    rcx,QWORD PTR [rsp+0x58]
+ 700:	80 39 07             	cmp    BYTE PTR [rcx],0x7
+ 703:	0f 85 74 03 00 00    	jne    a7d <interpreter+0xa7d>
+ 709:	48 63 44 24 38       	movsxd rax,DWORD PTR [rsp+0x38]
+ 70e:	48 89 c7             	mov    rdi,rax
+ 711:	48 29 c3             	sub    rbx,rax
+ 714:	8d 57 fe             	lea    edx,[rdi-0x2]
+ 717:	48 89 d8             	mov    rax,rbx
+ 71a:	4c 8d 7c dd 00       	lea    r15,[rbp+rbx*8+0x0]
+ 71f:	48 01 d0             	add    rax,rdx
+ 722:	48 8d 5c c5 00       	lea    rbx,[rbp+rax*8+0x0]
+ 727:	48 89 c8             	mov    rax,rcx
+ 72a:	eb 11                	jmp    73d <interpreter+0x73d>
+ 72c:	0f 1f 40 00          	nop    DWORD PTR [rax+0x0]
+ 730:	49 83 c7 08          	add    r15,0x8
+ 734:	80 38 07             	cmp    BYTE PTR [rax],0x7
+ 737:	0f 85 3b 03 00 00    	jne    a78 <interpreter+0xa78>
+							index = cast_fbgc_object_as_int(TOPN(index_no-i))->content;
+ 73d:	49 8b 17             	mov    rdx,QWORD PTR [r15]
+							dummy = get_object_in_fbgc_tuple_object(dummy,index);
+ 740:	48 89 c7             	mov    rdi,rax
+ 743:	8b 72 09             	mov    esi,DWORD PTR [rdx+0x9]
+ 746:	e8 00 00 00 00       	call   74b <interpreter+0x74b>	747: R_X86_64_PLT32	get_object_in_fbgc_tuple_object-0x4
+					for(int i = 0; i<index_no-1; i++){
+ 74b:	4c 39 fb             	cmp    rbx,r15
+ 74e:	75 e0                	jne    730 <interpreter+0x730>
+ 750:	48 89 44 24 58       	mov    QWORD PTR [rsp+0x58],rax
+ 755:	48 89 c7             	mov    rdi,rax
+					index = cast_fbgc_object_as_int(TOP())->content;
+ 758:	4a 8b 44 25 f0       	mov    rax,QWORD PTR [rbp+r12*1-0x10]
+					set_object_in_fbgc_tuple_object(dummy,rhs,index);
+ 75d:	48 8b 74 24 30       	mov    rsi,QWORD PTR [rsp+0x30]
+ 762:	8b 50 09             	mov    edx,DWORD PTR [rax+0x9]
+ 765:	e8 00 00 00 00       	call   76a <interpreter+0x76a>	766: R_X86_64_PLT32	set_object_in_fbgc_tuple_object-0x4
+					STACK_GOTO(-index_no);
+ 76a:	44 8b 7c 24 3c       	mov    r15d,DWORD PTR [rsp+0x3c]
+ 76f:	4d 8b 76 01          	mov    r14,QWORD PTR [r14+0x1]
+ 773:	44 2b 7c 24 38       	sub    r15d,DWORD PTR [rsp+0x38]
+					break;
+ 778:	e9 53 f9 ff ff       	jmp    d0 <interpreter+0xd0>
+ 77d:	0f 1f 00             	nop    DWORD PTR [rax]
+				if(loop_obj->type == FOR_BEGIN) STACK_GOTO(-2);
+ 780:	41 83 ef 02          	sub    r15d,0x2
+ 784:	e9 44 fe ff ff       	jmp    5cd <interpreter+0x5cd>
+ 789:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+					int index_no = cast_fbgc_object_as_int(POP())->content;
+ 790:	41 8d 4f ff          	lea    ecx,[r15-0x1]
+					if(is_id_flag_GLOBAL(pc)){
+ 794:	84 d2                	test   dl,dl
+					int index_no = cast_fbgc_object_as_int(POP())->content;
+ 796:	48 63 d9             	movsxd rbx,ecx
+ 799:	89 4c 24 30          	mov    DWORD PTR [rsp+0x30],ecx
+ 79d:	48 8b 4c dd 00       	mov    rcx,QWORD PTR [rbp+rbx*8+0x0]
+ 7a2:	4c 8d 3c dd 00 00 00 00 	lea    r15,[rbx*8+0x0]
+ 7aa:	44 8b 61 09          	mov    r12d,DWORD PTR [rcx+0x9]
+					if(is_id_flag_GLOBAL(pc)){
+ 7ae:	0f 85 43 03 00 00    	jne    af7 <interpreter+0xaf7>
+					else if(is_id_flag_LOCAL(pc)){
+ 7b4:	a8 02                	test   al,0x2
+ 7b6:	0f 85 7e 02 00 00    	jne    a3a <interpreter+0xa3a>
+					for(int i = 0; i<index_no; i++){
+ 7bc:	45 85 e4             	test   r12d,r12d
+ 7bf:	0f 8e e3 01 00 00    	jle    9a8 <interpreter+0x9a8>
+ 7c5:	41 83 fc 01          	cmp    r12d,0x1
+ 7c9:	0f 85 50 04 00 00    	jne    c1f <interpreter+0xc1f>
+ 7cf:	48 8d 04 dd f8 ff ff ff 	lea    rax,[rbx*8-0x8]
+ 7d7:	4c 8d 7c 05 00       	lea    r15,[rbp+rax*1+0x0]
+ 7dc:	48 8d 5c 05 08       	lea    rbx,[rbp+rax*1+0x8]
+ 7e1:	48 8b 44 24 50       	mov    rax,QWORD PTR [rsp+0x50]
+ 7e6:	eb 32                	jmp    81a <interpreter+0x81a>
+ 7e8:	0f 1f 84 00 00 00 00 00 	nop    DWORD PTR [rax+rax*1+0x0]
+						else if(dummy->type == STRING){
+ 7f0:	80 fa 05             	cmp    dl,0x5
+ 7f3:	0f 85 1a 03 00 00    	jne    b13 <interpreter+0xb13>
+							dummy = subscript_fbgc_str_object(dummy,index,index+1);
+ 7f9:	8d 56 01             	lea    edx,[rsi+0x1]
+ 7fc:	48 89 c7             	mov    rdi,rax
+ 7ff:	e8 00 00 00 00       	call   804 <interpreter+0x804>	800: R_X86_64_PLT32	subscript_fbgc_str_object-0x4
+						assert(dummy != NULL);
+ 804:	48 85 c0             	test   rax,rax
+ 807:	0f 84 77 03 00 00    	je     b84 <interpreter+0xb84>
+ 80d:	49 83 c7 08          	add    r15,0x8
+					for(int i = 0; i<index_no; i++){
+ 811:	4c 39 fb             	cmp    rbx,r15
+ 814:	0f 84 16 02 00 00    	je     a30 <interpreter+0xa30>
+						index = cast_fbgc_object_as_int(TOPN(index_no-i))->content;
+ 81a:	49 8b 17             	mov    rdx,QWORD PTR [r15]
+ 81d:	8b 72 09             	mov    esi,DWORD PTR [rdx+0x9]
+						if(dummy->type == TUPLE){
+ 820:	0f b6 10             	movzx  edx,BYTE PTR [rax]
+ 823:	80 fa 07             	cmp    dl,0x7
+ 826:	0f 84 d4 00 00 00    	je     900 <interpreter+0x900>
+						else if(dummy->type == COMPLEX){
+ 82c:	80 fa 04             	cmp    dl,0x4
+ 82f:	75 bf                	jne    7f0 <interpreter+0x7f0>
+							dummy = subscript_fbgc_complex_object(dummy,index);
+ 831:	40 0f b6 f6          	movzx  esi,sil
+ 835:	48 89 c7             	mov    rdi,rax
+ 838:	e8 00 00 00 00       	call   83d <interpreter+0x83d>	839: R_X86_64_PLT32	subscript_fbgc_complex_object-0x4
+ 83d:	eb c5                	jmp    804 <interpreter+0x804>
+ 83f:	90                   	nop
+					struct fbgc_identifier * tmp = 
+ 840:	41 8b 76 09          	mov    esi,DWORD PTR [r14+0x9]
+ 844:	48 8b 7c 24 28       	mov    rdi,QWORD PTR [rsp+0x28]
+ 849:	e8 00 00 00 00       	call   84e <interpreter+0x84e>	84a: R_X86_64_PLT32	get_address_in_fbgc_array_object-0x4
+					if(type == PLUS_ASSIGN){
+ 84e:	41 80 fc 31          	cmp    r12b,0x31
+ 852:	0f 85 5f fa ff ff    	jne    2b7 <interpreter+0x2b7>
+						get_fbgc_object_type(tmp->content) > get_fbgc_object_type(rhs)  ? 
+ 858:	48 8b 78 08          	mov    rdi,QWORD PTR [rax+0x8]
+ 85c:	48 89 44 24 30       	mov    QWORD PTR [rsp+0x30],rax
+						tmp->content = call_fbgc_binary_op(main_tok,tmp->content,rhs,PLUS);						
+ 861:	48 8d 0d 00 00 00 00 	lea    rcx,[rip+0x0]        # 868 <interpreter+0x868>	864: R_X86_64_PC32	fbgc_binary_op-0x4
+						get_fbgc_object_type(tmp->content) > get_fbgc_object_type(rhs)  ? 
+ 868:	0f b6 03             	movzx  eax,BYTE PTR [rbx]
+						tmp->content = call_fbgc_binary_op(main_tok,tmp->content,rhs,PLUS);						
+ 86b:	48 89 de             	mov    rsi,rbx
+						get_fbgc_object_type(tmp->content) > get_fbgc_object_type(rhs)  ? 
+ 86e:	0f b6 17             	movzx  edx,BYTE PTR [rdi]
+ 871:	83 e0 7f             	and    eax,0x7f
+ 874:	83 e2 7f             	and    edx,0x7f
+						get_fbgc_object_type(tmp->content) : 
+ 877:	39 d0                	cmp    eax,edx
+ 879:	0f 4c c2             	cmovl  eax,edx
+						tmp->content = call_fbgc_binary_op(main_tok,tmp->content,rhs,PLUS);						
+ 87c:	ba 4a 00 00 00       	mov    edx,0x4a
+ 881:	83 e8 02             	sub    eax,0x2
+ 884:	48 98                	cdqe   
+ 886:	ff 14 c1             	call   QWORD PTR [rcx+rax*8]
+ 889:	48 8b 4c 24 30       	mov    rcx,QWORD PTR [rsp+0x30]
+ 88e:	4d 8b 76 01          	mov    r14,QWORD PTR [r14+0x1]
+ 892:	48 89 41 08          	mov    QWORD PTR [rcx+0x8],rax
+ 896:	e9 35 f8 ff ff       	jmp    d0 <interpreter+0xd0>
+ 89b:	0f 1f 44 00 00       	nop    DWORD PTR [rax+rax*1+0x0]
+					struct fbgc_object * arg_tuple =  new_fbgc_tuple_object_from_tuple_content(sp+sctr-arg_no,arg_no);
+ 8a0:	49 63 c7             	movsxd rax,r15d
+ 8a3:	44 89 fe             	mov    esi,r15d
+					STACK_GOTO(-arg_no);
+ 8a6:	45 29 fc             	sub    r12d,r15d
+					struct fbgc_object * arg_tuple =  new_fbgc_tuple_object_from_tuple_content(sp+sctr-arg_no,arg_no);
+ 8a9:	48 29 c2             	sub    rdx,rax
+ 8ac:	48 8d 7c d5 00       	lea    rdi,[rbp+rdx*8+0x0]
+ 8b1:	e8 00 00 00 00       	call   8b6 <interpreter+0x8b6>	8b2: R_X86_64_PLT32	new_fbgc_tuple_object_from_tuple_content-0x4
+					struct fbgc_object * res = cfun_object_call(funo,arg_tuple);
+ 8b6:	48 89 c7             	mov    rdi,rax
+ 8b9:	ff 53 09             	call   QWORD PTR [rbx+0x9]
+					if(res != NULL) PUSH(res);
+ 8bc:	48 85 c0             	test   rax,rax
+ 8bf:	0f 84 a7 01 00 00    	je     a6c <interpreter+0xa6c>
+ 8c5:	45 8d 7c 24 01       	lea    r15d,[r12+0x1]
+ 8ca:	4d 63 e4             	movsxd r12,r12d
+ 8cd:	4a 89 44 e5 00       	mov    QWORD PTR [rbp+r12*8+0x0],rax
+ 8d2:	4d 8b 76 01          	mov    r14,QWORD PTR [r14+0x1]
+ 8d6:	e9 f5 f7 ff ff       	jmp    d0 <interpreter+0xd0>
+ 8db:	0f 1f 44 00 00       	nop    DWORD PTR [rax+rax*1+0x0]
+					SET_TOP(new_fbgc_int_object(i = 0));
+ 8e0:	31 ff                	xor    edi,edi
+ 8e2:	48 89 4c 24 30       	mov    QWORD PTR [rsp+0x30],rcx
+ 8e7:	e8 00 00 00 00       	call   8ec <interpreter+0x8ec>	8e8: R_X86_64_PLT32	new_fbgc_int_object-0x4
+ 8ec:	48 8b 4c 24 30       	mov    rcx,QWORD PTR [rsp+0x30]
+ 8f1:	31 f6                	xor    esi,esi
+ 8f3:	48 89 01             	mov    QWORD PTR [rcx],rax
+ 8f6:	e9 70 fb ff ff       	jmp    46b <interpreter+0x46b>
+ 8fb:	0f 1f 44 00 00       	nop    DWORD PTR [rax+rax*1+0x0]
+							dummy = get_object_in_fbgc_tuple_object(dummy,index);
+ 900:	48 89 c7             	mov    rdi,rax
+ 903:	e8 00 00 00 00       	call   908 <interpreter+0x908>	904: R_X86_64_PLT32	get_object_in_fbgc_tuple_object-0x4
+ 908:	e9 f7 fe ff ff       	jmp    804 <interpreter+0x804>
+ 90d:	0f 1f 00             	nop    DWORD PTR [rax]
+ 910:	48 8d 3d 00 00 00 00 	lea    rdi,[rip+0x0]        # 917 <interpreter+0x917>	913: R_X86_64_PC32	.LC0-0x4
+ 917:	e8 00 00 00 00       	call   91c <interpreter+0x91c>	918: R_X86_64_PLT32	puts-0x4
+}
+ 91c:	48 83 c4 68          	add    rsp,0x68
+	return 1;
+ 920:	b8 01 00 00 00       	mov    eax,0x1
+}
+ 925:	5b                   	pop    rbx
+ 926:	5d                   	pop    rbp
+ 927:	41 5c                	pop    r12
+ 929:	41 5d                	pop    r13
+ 92b:	41 5e                	pop    r14
+ 92d:	41 5f                	pop    r15
+ 92f:	c3                   	ret    
+ 930:	44 89 fb             	mov    ebx,r15d
+							cprintf(111,"Type %s in matrix is cannot be located\n",object_name_array[TOPN(i+1)->type]);
+ 933:	83 c0 01             	add    eax,0x1
+ 936:	48 8d 35 00 00 00 00 	lea    rsi,[rip+0x0]        # 93d <interpreter+0x93d>	939: R_X86_64_PC32	.LC13-0x4
+ 93d:	29 c3                	sub    ebx,eax
+ 93f:	bf 6f 00 00 00       	mov    edi,0x6f
+ 944:	48 63 db             	movsxd rbx,ebx
+ 947:	48 8b 44 dd 00       	mov    rax,QWORD PTR [rbp+rbx*8+0x0]
+ 94c:	0f b6 10             	movzx  edx,BYTE PTR [rax]
+ 94f:	48 8d 05 00 00 00 00 	lea    rax,[rip+0x0]        # 956 <interpreter+0x956>	952: R_X86_64_PC32	object_name_array-0x4
+ 956:	48 8b 14 d0          	mov    rdx,QWORD PTR [rax+rdx*8]
+ 95a:	31 c0                	xor    eax,eax
+ 95c:	e8 00 00 00 00       	call   961 <interpreter+0x961>	95d: R_X86_64_PLT32	cprintf-0x4
+}
+ 961:	48 83 c4 68          	add    rsp,0x68
+							return 0;
+ 965:	31 c0                	xor    eax,eax
+}
+ 967:	5b                   	pop    rbx
+ 968:	5d                   	pop    rbp
+ 969:	41 5c                	pop    r12
+ 96b:	41 5d                	pop    r13
+ 96d:	41 5e                	pop    r14
+ 96f:	41 5f                	pop    r15
+ 971:	c3                   	ret    
+ 972:	66 0f 1f 44 00 00    	nop    WORD PTR [rax+rax*1+0x0]
+							++msize;
+ 978:	83 c2 01             	add    edx,0x1
+							break;
+ 97b:	e9 0e f8 ff ff       	jmp    18e <interpreter+0x18e>
+							dummy = get_object_in_fbgc_tuple_object(dummy,index);
+ 980:	e8 00 00 00 00       	call   985 <interpreter+0x985>	981: R_X86_64_PLT32	get_object_in_fbgc_tuple_object-0x4
+						assert(dummy != NULL);
+ 985:	48 85 c0             	test   rax,rax
+							dummy = get_object_in_fbgc_tuple_object(dummy,index);
+ 988:	48 89 c7             	mov    rdi,rax
+						assert(dummy != NULL);
+ 98b:	0f 84 f3 01 00 00    	je     b84 <interpreter+0xb84>
+ 991:	49 83 c7 01          	add    r15,0x1
+					for(int i = 0; i<index_no; i++){
+ 995:	45 39 fc             	cmp    r12d,r15d
+ 998:	0f 8f 96 02 00 00    	jg     c34 <interpreter+0xc34>
+ 99e:	48 89 44 24 50       	mov    QWORD PTR [rsp+0x50],rax
+ 9a3:	0f 1f 44 00 00       	nop    DWORD PTR [rax+rax*1+0x0]
+					STACK_GOTO(-index_no);
+ 9a8:	8b 44 24 30          	mov    eax,DWORD PTR [rsp+0x30]
+					PUSH(dummy);
+ 9ac:	48 8b 4c 24 50       	mov    rcx,QWORD PTR [rsp+0x50]
+					STACK_GOTO(-index_no);
+ 9b1:	44 29 e0             	sub    eax,r12d
+					PUSH(dummy);
+ 9b4:	44 8d 78 01          	lea    r15d,[rax+0x1]
+ 9b8:	48 98                	cdqe   
+ 9ba:	48 89 4c c5 00       	mov    QWORD PTR [rbp+rax*8+0x0],rcx
+ 9bf:	4d 8b 76 01          	mov    r14,QWORD PTR [r14+0x1]
+					break;
+ 9c3:	e9 08 f7 ff ff       	jmp    d0 <interpreter+0xd0>
+ 9c8:	0f 1f 84 00 00 00 00 00 	nop    DWORD PTR [rax+rax*1+0x0]
+					struct fbgc_identifier * tmp = 
+ 9d0:	41 8b 76 09          	mov    esi,DWORD PTR [r14+0x9]
+ 9d4:	48 8b 7c 24 28       	mov    rdi,QWORD PTR [rsp+0x28]
+				struct fbgc_object * rhs = POP();
+ 9d9:	41 89 df             	mov    r15d,ebx
+					struct fbgc_identifier * tmp = 
+ 9dc:	e8 00 00 00 00       	call   9e1 <interpreter+0x9e1>	9dd: R_X86_64_PLT32	get_address_in_fbgc_array_object-0x4
+					tmp->content = rhs;
+ 9e1:	48 8b 4c 24 30       	mov    rcx,QWORD PTR [rsp+0x30]
+ 9e6:	4d 8b 76 01          	mov    r14,QWORD PTR [r14+0x1]
+ 9ea:	48 89 48 08          	mov    QWORD PTR [rax+0x8],rcx
+ 9ee:	e9 dd f6 ff ff       	jmp    d0 <interpreter+0xd0>
+ 9f3:	0f 1f 44 00 00       	nop    DWORD PTR [rax+rax*1+0x0]
+					struct fbgc_identifier * tmp = (struct fbgc_identifier *) get_address_in_fbgc_array_object(globals,cast_fbgc_object_as_id_opcode(pc)->loc);
+ 9f8:	41 8b 76 09          	mov    esi,DWORD PTR [r14+0x9]
+ 9fc:	48 8b 7c 24 28       	mov    rdi,QWORD PTR [rsp+0x28]
+ a01:	e8 00 00 00 00       	call   a06 <interpreter+0xa06>	a02: R_X86_64_PLT32	get_address_in_fbgc_array_object-0x4
+					assert(tmp->content != NULL);
+ a06:	48 8b 40 08          	mov    rax,QWORD PTR [rax+0x8]
+ a0a:	48 85 c0             	test   rax,rax
+ a0d:	0f 84 ed 01 00 00    	je     c00 <interpreter+0xc00>
+						PUSH(tmp->content);
+ a13:	49 63 d7             	movsxd rdx,r15d
+ a16:	41 83 c7 01          	add    r15d,0x1
+ a1a:	48 89 44 d5 00       	mov    QWORD PTR [rbp+rdx*8+0x0],rax
+ a1f:	4d 8b 76 01          	mov    r14,QWORD PTR [r14+0x1]
+ a23:	e9 a8 f6 ff ff       	jmp    d0 <interpreter+0xd0>
+ a28:	0f 1f 84 00 00 00 00 00 	nop    DWORD PTR [rax+rax*1+0x0]
+ a30:	48 89 44 24 50       	mov    QWORD PTR [rsp+0x50],rax
+ a35:	e9 6e ff ff ff       	jmp    9a8 <interpreter+0x9a8>
+						dummy = GET_AT_FP(cast_fbgc_object_as_id_opcode(pc)->loc);
+ a3a:	8b 44 24 14          	mov    eax,DWORD PTR [rsp+0x14]
+ a3e:	41 03 46 09          	add    eax,DWORD PTR [r14+0x9]
+ a42:	48 98                	cdqe   
+ a44:	48 8b 44 c5 00       	mov    rax,QWORD PTR [rbp+rax*8+0x0]
+ a49:	48 89 44 24 50       	mov    QWORD PTR [rsp+0x50],rax
+ a4e:	e9 69 fd ff ff       	jmp    7bc <interpreter+0x7bc>
+						dummy = GET_AT_FP(cast_fbgc_object_as_id_opcode(pc)->loc);
+ a53:	8b 44 24 14          	mov    eax,DWORD PTR [rsp+0x14]
+ a57:	41 03 46 09          	add    eax,DWORD PTR [r14+0x9]
+ a5b:	48 98                	cdqe   
+ a5d:	48 8b 44 c5 00       	mov    rax,QWORD PTR [rbp+rax*8+0x0]
+ a62:	48 89 44 24 58       	mov    QWORD PTR [rsp+0x58],rax
+ a67:	e9 83 fc ff ff       	jmp    6ef <interpreter+0x6ef>
+ a6c:	4d 8b 76 01          	mov    r14,QWORD PTR [r14+0x1]
+					STACK_GOTO(-arg_no);
+ a70:	45 89 e7             	mov    r15d,r12d
+ a73:	e9 58 f6 ff ff       	jmp    d0 <interpreter+0xd0>
+ a78:	48 89 44 24 58       	mov    QWORD PTR [rsp+0x58],rax
+							cprintf(111,"Not index accessable!\n");
+ a7d:	48 8d 35 00 00 00 00 	lea    rsi,[rip+0x0]        # a84 <interpreter+0xa84>	a80: R_X86_64_PC32	.LC4-0x4
+ a84:	bf 6f 00 00 00       	mov    edi,0x6f
+ a89:	31 c0                	xor    eax,eax
+ a8b:	e8 00 00 00 00       	call   a90 <interpreter+0xa90>	a8c: R_X86_64_PLT32	cprintf-0x4
+							cprintf(111,"Dummy: "); print_fbgc_object(dummy); printf("\n");
+ a90:	48 8d 35 00 00 00 00 	lea    rsi,[rip+0x0]        # a97 <interpreter+0xa97>	a93: R_X86_64_PC32	.LC10-0x4
+ a97:	31 c0                	xor    eax,eax
+ a99:	bf 6f 00 00 00       	mov    edi,0x6f
+ a9e:	e8 00 00 00 00       	call   aa3 <interpreter+0xaa3>	a9f: R_X86_64_PLT32	cprintf-0x4
+ aa3:	48 8b 7c 24 58       	mov    rdi,QWORD PTR [rsp+0x58]
+ aa8:	e8 00 00 00 00       	call   aad <interpreter+0xaad>	aa9: R_X86_64_PLT32	print_fbgc_object-0x4
+ aad:	bf 0a 00 00 00       	mov    edi,0xa
+ ab2:	e8 00 00 00 00       	call   ab7 <interpreter+0xab7>	ab3: R_X86_64_PLT32	putchar-0x4
+							return 0;
+ ab7:	31 c0                	xor    eax,eax
+ ab9:	e9 5c f6 ff ff       	jmp    11a <interpreter+0x11a>
+					seq_ob = get_element_in_fbgc_range_object(seq_ob,i);
+ abe:	48 89 df             	mov    rdi,rbx
+ ac1:	e8 00 00 00 00       	call   ac6 <interpreter+0xac6>	ac2: R_X86_64_PLT32	get_element_in_fbgc_range_object-0x4
+ ac6:	48 89 c3             	mov    rbx,rax
+ ac9:	e9 e0 f5 ff ff       	jmp    ae <interpreter+0xae>
+ ace:	49 63 c7             	movsxd rax,r15d
+ ad1:	48 8d 44 c5 00       	lea    rax,[rbp+rax*8+0x0]
+ ad6:	e9 9c f8 ff ff       	jmp    377 <interpreter+0x377>
+						struct fbgc_identifier * tmp = 
+ adb:	41 8b 76 09          	mov    esi,DWORD PTR [r14+0x9]
+ adf:	48 8b 7c 24 28       	mov    rdi,QWORD PTR [rsp+0x28]
+ ae4:	e8 00 00 00 00       	call   ae9 <interpreter+0xae9>	ae5: R_X86_64_PLT32	get_address_in_fbgc_array_object-0x4
+						dummy = tmp->content;
+ ae9:	48 8b 40 08          	mov    rax,QWORD PTR [rax+0x8]
+ aed:	48 89 44 24 58       	mov    QWORD PTR [rsp+0x58],rax
+ af2:	e9 f8 fb ff ff       	jmp    6ef <interpreter+0x6ef>
+						struct fbgc_identifier * tmp = 
+ af7:	41 8b 76 09          	mov    esi,DWORD PTR [r14+0x9]
+ afb:	48 8b 7c 24 28       	mov    rdi,QWORD PTR [rsp+0x28]
+ b00:	e8 00 00 00 00       	call   b05 <interpreter+0xb05>	b01: R_X86_64_PLT32	get_address_in_fbgc_array_object-0x4
+						dummy = tmp->content;
+ b05:	48 8b 40 08          	mov    rax,QWORD PTR [rax+0x8]
+ b09:	48 89 44 24 50       	mov    QWORD PTR [rsp+0x50],rax
+ b0e:	e9 a9 fc ff ff       	jmp    7bc <interpreter+0x7bc>
+ b13:	48 89 44 24 50       	mov    QWORD PTR [rsp+0x50],rax
+							cprintf(111,"Not index accessable!\n");
+ b18:	48 8d 35 00 00 00 00 	lea    rsi,[rip+0x0]        # b1f <interpreter+0xb1f>	b1b: R_X86_64_PC32	.LC4-0x4
+ b1f:	31 c0                	xor    eax,eax
+ b21:	bf 6f 00 00 00       	mov    edi,0x6f
+ b26:	e8 00 00 00 00       	call   b2b <interpreter+0xb2b>	b27: R_X86_64_PLT32	cprintf-0x4
+							print_fbgc_object(dummy); printf("\n");
+ b2b:	48 8b 7c 24 50       	mov    rdi,QWORD PTR [rsp+0x50]
+ b30:	e8 00 00 00 00       	call   b35 <interpreter+0xb35>	b31: R_X86_64_PLT32	print_fbgc_object-0x4
+ b35:	bf 0a 00 00 00       	mov    edi,0xa
+ b3a:	e8 00 00 00 00       	call   b3f <interpreter+0xb3f>	b3b: R_X86_64_PLT32	putchar-0x4
+							return 0;
+ b3f:	31 c0                	xor    eax,eax
+ b41:	e9 d4 f5 ff ff       	jmp    11a <interpreter+0x11a>
+				for( int i = 1; i<=sctr && i <= ctr; ++i){
+ b46:	31 d2                	xor    edx,edx
+ b48:	31 c9                	xor    ecx,ecx
+ b4a:	e9 78 f6 ff ff       	jmp    1c7 <interpreter+0x1c7>
+					cprintf(111,"This type does not support operation.\n");
+ b4f:	48 8d 35 00 00 00 00 	lea    rsi,[rip+0x0]        # b56 <interpreter+0xb56>	b52: R_X86_64_PC32	.LC8-0x4
+ b56:	bf 6f 00 00 00       	mov    edi,0x6f
+ b5b:	e8 00 00 00 00       	call   b60 <interpreter+0xb60>	b5c: R_X86_64_PLT32	cprintf-0x4
+					return 0;
+ b60:	31 c0                	xor    eax,eax
+ b62:	e9 b3 f5 ff ff       	jmp    11a <interpreter+0x11a>
+					cprintf(100,"Argument match error! funo->arg %d, arg_no %d\n",funo->no_arg,arg_no);
+ b67:	48 8d 35 00 00 00 00 	lea    rsi,[rip+0x0]        # b6e <interpreter+0xb6e>	b6a: R_X86_64_PC32	.LC12-0x4
+ b6e:	31 c0                	xor    eax,eax
+ b70:	44 89 f9             	mov    ecx,r15d
+ b73:	bf 64 00 00 00       	mov    edi,0x64
+ b78:	e8 00 00 00 00       	call   b7d <interpreter+0xb7d>	b79: R_X86_64_PLT32	cprintf-0x4
+					return 0;
+ b7d:	31 c0                	xor    eax,eax
+ b7f:	e9 96 f5 ff ff       	jmp    11a <interpreter+0x11a>
+						assert(dummy != NULL);
+ b84:	48 8d 0d 00 00 00 00 	lea    rcx,[rip+0x0]        # b8b <interpreter+0xb8b>	b87: R_X86_64_PC32	.rodata+0x1ac
+ b8b:	48 8d 35 00 00 00 00 	lea    rsi,[rip+0x0]        # b92 <interpreter+0xb92>	b8e: R_X86_64_PC32	.LC2-0x4
+ b92:	48 8d 3d 00 00 00 00 	lea    rdi,[rip+0x0]        # b99 <interpreter+0xb99>	b95: R_X86_64_PC32	.LC5-0x4
+ b99:	ba 7a 00 00 00       	mov    edx,0x7a
+ b9e:	e8 00 00 00 00       	call   ba3 <interpreter+0xba3>	b9f: R_X86_64_PLT32	__assert_fail-0x4
+				assert(TOP()->type == INT);
+ ba3:	48 8d 0d 00 00 00 00 	lea    rcx,[rip+0x0]        # baa <interpreter+0xbaa>	ba6: R_X86_64_PC32	.rodata+0x1ac
+ baa:	48 8d 35 00 00 00 00 	lea    rsi,[rip+0x0]        # bb1 <interpreter+0xbb1>	bad: R_X86_64_PC32	.LC2-0x4
+ bb1:	48 8d 3d 00 00 00 00 	lea    rdi,[rip+0x0]        # bb8 <interpreter+0xbb8>	bb4: R_X86_64_PC32	.LC11-0x4
+ bb8:	ba 64 01 00 00       	mov    edx,0x164
+ bbd:	e8 00 00 00 00       	call   bc2 <interpreter+0xbc2>	bbe: R_X86_64_PLT32	__assert_fail-0x4
+				assert(TOP() != NULL && SECOND() != NULL);
+ bc2:	48 8d 0d 00 00 00 00 	lea    rcx,[rip+0x0]        # bc9 <interpreter+0xbc9>	bc5: R_X86_64_PC32	.rodata+0x1ac
+ bc9:	48 8d 35 00 00 00 00 	lea    rsi,[rip+0x0]        # bd0 <interpreter+0xbd0>	bcc: R_X86_64_PC32	.LC2-0x4
+ bd0:	48 8d 3d 00 00 00 00 	lea    rdi,[rip+0x0]        # bd7 <interpreter+0xbd7>	bd3: R_X86_64_PC32	.LC7-0x4
+ bd7:	ba dc 00 00 00       	mov    edx,0xdc
+ bdc:	e8 00 00 00 00       	call   be1 <interpreter+0xbe1>	bdd: R_X86_64_PLT32	__assert_fail-0x4
+				assert(res != NULL);
+ be1:	48 8d 0d 00 00 00 00 	lea    rcx,[rip+0x0]        # be8 <interpreter+0xbe8>	be4: R_X86_64_PC32	.rodata+0x1ac
+ be8:	48 8d 35 00 00 00 00 	lea    rsi,[rip+0x0]        # bef <interpreter+0xbef>	beb: R_X86_64_PC32	.LC2-0x4
+ bef:	48 8d 3d 00 00 00 00 	lea    rdi,[rip+0x0]        # bf6 <interpreter+0xbf6>	bf2: R_X86_64_PC32	.LC9-0x4
+ bf6:	ba ec 00 00 00       	mov    edx,0xec
+ bfb:	e8 00 00 00 00       	call   c00 <interpreter+0xc00>	bfc: R_X86_64_PLT32	__assert_fail-0x4
+					assert(tmp->content != NULL);
+ c00:	48 8d 0d 00 00 00 00 	lea    rcx,[rip+0x0]        # c07 <interpreter+0xc07>	c03: R_X86_64_PC32	.rodata+0x1ac
+ c07:	48 8d 35 00 00 00 00 	lea    rsi,[rip+0x0]        # c0e <interpreter+0xc0e>	c0a: R_X86_64_PC32	.LC2-0x4
+ c0e:	48 8d 3d 00 00 00 00 	lea    rdi,[rip+0x0]        # c15 <interpreter+0xc15>	c11: R_X86_64_PC32	.LC6-0x4
+ c15:	ba 87 00 00 00       	mov    edx,0x87
+ c1a:	e8 00 00 00 00       	call   c1f <interpreter+0xc1f>	c1b: R_X86_64_PLT32	__assert_fail-0x4
+ c1f:	49 63 dc             	movsxd rbx,r12d
+					for(int i = 0; i<index_no; i++){
+ c22:	48 8b 7c 24 50       	mov    rdi,QWORD PTR [rsp+0x50]
+ c27:	48 6b db f8          	imul   rbx,rbx,0xfffffffffffffff8
+ c2b:	4c 01 fb             	add    rbx,r15
+ c2e:	45 31 ff             	xor    r15d,r15d
+ c31:	48 01 eb             	add    rbx,rbp
+						index = cast_fbgc_object_as_int(TOPN(index_no-i))->content;
+ c34:	4a 8b 04 fb          	mov    rax,QWORD PTR [rbx+r15*8]
+ c38:	8b 70 09             	mov    esi,DWORD PTR [rax+0x9]
+						if(dummy->type == TUPLE){
+ c3b:	0f b6 07             	movzx  eax,BYTE PTR [rdi]
+ c3e:	3c 07                	cmp    al,0x7
+ c40:	0f 84 3a fd ff ff    	je     980 <interpreter+0x980>
+						else if(dummy->type == COMPLEX){
+ c46:	3c 04                	cmp    al,0x4
+ c48:	48 89 7c 24 50       	mov    QWORD PTR [rsp+0x50],rdi
+ c4d:	74 46                	je     c95 <interpreter+0xc95>
+						else if(dummy->type == STRING){
+ c4f:	3c 05                	cmp    al,0x5
+ c51:	0f 85 c1 fe ff ff    	jne    b18 <interpreter+0xb18>
+							assert(index_no == 1);
+ c57:	48 8d 0d 00 00 00 00 	lea    rcx,[rip+0x0]        # c5e <interpreter+0xc5e>	c5a: R_X86_64_PC32	.rodata+0x1ac
+ c5e:	48 8d 35 00 00 00 00 	lea    rsi,[rip+0x0]        # c65 <interpreter+0xc65>	c61: R_X86_64_PC32	.LC2-0x4
+ c65:	48 8d 3d 00 00 00 00 	lea    rdi,[rip+0x0]        # c6c <interpreter+0xc6c>	c68: R_X86_64_PC32	.LC3-0x4
+ c6c:	ba 71 00 00 00       	mov    edx,0x71
+ c71:	e8 00 00 00 00       	call   c76 <interpreter+0xc76>	c72: R_X86_64_PLT32	__assert_fail-0x4
+				assert(m != NULL);
+ c76:	48 8d 0d 00 00 00 00 	lea    rcx,[rip+0x0]        # c7d <interpreter+0xc7d>	c79: R_X86_64_PC32	.rodata+0x1ac
+ c7d:	48 8d 35 00 00 00 00 	lea    rsi,[rip+0x0]        # c84 <interpreter+0xc84>	c80: R_X86_64_PC32	.LC2-0x4
+ c84:	48 8d 3d 00 00 00 00 	lea    rdi,[rip+0x0]        # c8b <interpreter+0xc8b>	c87: R_X86_64_PC32	.LC14-0x4
+ c8b:	ba 03 02 00 00       	mov    edx,0x203
+ c90:	e8 00 00 00 00       	call   c95 <interpreter+0xc95>	c91: R_X86_64_PLT32	__assert_fail-0x4
+							assert(index_no == 1);
+ c95:	48 8d 0d 00 00 00 00 	lea    rcx,[rip+0x0]        # c9c <interpreter+0xc9c>	c98: R_X86_64_PC32	.rodata+0x1ac
+ c9c:	48 8d 35 00 00 00 00 	lea    rsi,[rip+0x0]        # ca3 <interpreter+0xca3>	c9f: R_X86_64_PC32	.LC2-0x4
+ ca3:	48 8d 3d 00 00 00 00 	lea    rdi,[rip+0x0]        # caa <interpreter+0xcaa>	ca6: R_X86_64_PC32	.LC3-0x4
+ caa:	ba 6d 00 00 00       	mov    edx,0x6d
+ caf:	e8 00 00 00 00       	call   cb4 <__PRETTY_FUNCTION__.5208+0xb04>	cb0: R_X86_64_PLT32	__assert_fail-0x4

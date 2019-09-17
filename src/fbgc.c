@@ -115,10 +115,6 @@ cprintf(110,"\n\n\n\n\n[========================================================
         load_module_in_field_object(main_field,&fbgc_stl_module);
         
         if(!strcmp(argv[1],"-s")){
-           /* cprintf(111,"argc %d\n",argc);
-            for(int i = 0; i<argc; i++){
-                cprintf(100,"%s\n",argv[i]);
-            }*/
             compile_one_line(main_field,argv[2]);
         }
         else{

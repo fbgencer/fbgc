@@ -214,7 +214,7 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 			is_fbgc_ASSIGNMENT_OPERATOR(gm_left) ||
 			gm_left == UNBALANCED_EXPRESSION_LIST  || 
 			gm_left == LPARA || gm_left == LBRACK || gm_left == LBRACE ||
-			gm_left == IF_BEGIN || ELIF_BEGIN ||
+			gm_left == IF_BEGIN || gm_left == ELIF_BEGIN ||
 			gm_left == ELSE || gm_left == SEMICOLON ||
 			gm_left == NEWLINE
 		) 
@@ -229,7 +229,7 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 			gm_left == UNBALANCED_EXPRESSION_LIST  || 
 			is_fbgc_ASSIGNMENT_OPERATOR(gm_left) ||
 			gm_left == LBRACK ||  gm_left == LPARA || gm_left == LBRACE ||
-			gm_left == IF_BEGIN || ELIF_BEGIN ||
+			gm_left == IF_BEGIN || gm_left == ELIF_BEGIN ||
 			gm_left == ELSE || gm_left == SEMICOLON ||
 			gm_left == NEWLINE ))
 	{

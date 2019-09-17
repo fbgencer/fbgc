@@ -16,11 +16,8 @@ extern struct fbgc_object * fun_name(struct fbgc_object * arg)\
 
 new_fbgc_cfunction(fbgc_len,"len")
 {
-
-	struct fbgc_object ** contents = tuple_object_content(arg);
-	
-	if(size_fbgc_tuple_object(arg) == 1){
-		return get_length_fbgc_object(contents[0]);
+	if(argc == 1){
+		return get_length_fbgc_object(arg[0]);
 	}
 	else cprintf(100,"<len> takes only 1 argument!\n");
 	return NULL;
@@ -37,7 +34,7 @@ new_fbgc_cfunction(fbgc_matrix,"matrix"){
 
 
 const struct fbgc_cfunction fbgc_stl_initializer_struct = {"stl",fbgc_stl_initializer};
-extern struct fbgc_object * fbgc_stl_initializer (struct fbgc_object * arg){
+extern struct fbgc_object * fbgc_stl_initializer (struct fbgc_object ** arg,int argc){
 	return arg;
 }
 

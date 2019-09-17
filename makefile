@@ -5,7 +5,7 @@ OBJ = ${SRC:.c=.o}
 
 #put -g in order to see good assembly output
 CC=gcc
-CFLAGS=-c -lm -Os
+CFLAGS=-c -lm -Os -g -w
 LDFLAGS += -lm 
 
 #CFLAGS += -DCLOSE_CPRINTF
@@ -36,7 +36,6 @@ $(OUT): $(OBJ)
 %.o: %.c
 	@$(CC) $(CFLAGS) $< -o $@ 
 	$(info "Succesfully compiled:" $<)
-
 
 clean:
 	rm -f $(OBJ)
