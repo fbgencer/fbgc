@@ -84,7 +84,16 @@ struct fbgc_object *  get_object_in_fbgc_tuple_object(struct fbgc_object * self,
 	struct fbgc_object ** contents = tuple_object_content(self);
 	return (struct fbgc_object *) contents[index]; 	
 }
+struct fbgc_object **  get_object_address_in_fbgc_tuple_object(struct fbgc_object * self,int index){
+	//#############################
+	//Add negative index algortihm and boundary check
+	//#############################
 
+	assert( index>=0 || index < size_fbgc_tuple_object(self) );
+
+	struct fbgc_object ** contents = tuple_object_content(self);
+	return contents+index; 	
+}
 
 struct fbgc_object *  get_top_in_fbgc_tuple_object(struct fbgc_object * self){
 

@@ -265,16 +265,16 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 	{
 		gm->top = LBRACE;		
 	}	
-	// else if( (is_fbgc_UNARY_OPERATOR(get_fbgc_object_type(obj)) ||
-	// 		 get_fbgc_object_type(obj) == PLUS ||get_fbgc_object_type(obj) == MINUS) 
-	// 		&& 
-	// 		(is_fbgc_BINARY_OPERATOR(gm_left) || is_fbgc_ASSIGNMENT_OPERATOR(gm_left) || gm_left == LPARA || gm_left == NEWLINE) )
+	else if( (is_fbgc_UNARY_OPERATOR(get_fbgc_object_type(obj)) ||
+			 get_fbgc_object_type(obj) == PLUS ||get_fbgc_object_type(obj) == MINUS) 
+			&& 
+			(is_fbgc_BINARY_OPERATOR(gm_left) || is_fbgc_ASSIGNMENT_OPERATOR(gm_left) || gm_left == LPARA || gm_left == NEWLINE) )
 
-	// {
-	// 	if(get_fbgc_object_type(obj) == PLUS) obj->type = UPLUS;
-	// 	else if(get_fbgc_object_type(obj) == MINUS) obj->type = UMINUS;	
-	// 	gm->top = get_fbgc_object_type(obj);		
-	// }
+	{
+		if(get_fbgc_object_type(obj) == PLUS) obj->type = UPLUS;
+		else if(get_fbgc_object_type(obj) == MINUS) obj->type = UMINUS;	
+		gm->top = get_fbgc_object_type(obj);		
+	}
 	else if(get_fbgc_object_type(obj) == PIPE && gm_left == LEN){
 		gm->top = LEN;
 	}

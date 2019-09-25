@@ -27,6 +27,7 @@ struct fbgc_object * new_fbgc_tuple_object_from_tuple_content(struct fbgc_object
 
 void set_object_in_fbgc_tuple_object(struct fbgc_object * self,struct fbgc_object * obj,int index);
 struct fbgc_object * get_object_in_fbgc_tuple_object(struct fbgc_object * self,int index);
+struct fbgc_object ** get_object_address_in_fbgc_tuple_object(struct fbgc_object * self,int index);
 struct fbgc_object *  get_top_in_fbgc_tuple_object(struct fbgc_object * self);
 struct fbgc_object * push_back_fbgc_tuple_object(struct fbgc_object * self,struct fbgc_object * obj);
 int index_fbgc_tuple_object(struct fbgc_object * self, struct fbgc_object * obj);

@@ -31,7 +31,7 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
 
     begin = clock();
 
-    int par = parser(&main_field);
+   int par = parser(&main_field);
     
     end = clock();
     parser_time = (double)(end - begin) / CLOCKS_PER_SEC; 
@@ -120,7 +120,6 @@ cprintf(110,"\n\n\n\n\n[========================================================
         else{
            compile_file(main_field, argv[1]);
         }
-    print_fbgc_memory_block();
     }
     else{
         cprintf(111,"Enter a file!\n");

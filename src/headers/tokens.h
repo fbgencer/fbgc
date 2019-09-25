@@ -58,47 +58,47 @@ typedef struct {
 #define RBRACK 40 // ]
 #define LBRACE 41 // {
 #define RBRACE 42 // }
-#define THREE_DOT 43 // ...
-#define R_ARROW 44 // ->
-#define L_ARROW 45 // <-
-#define RW_ARROW 46 // ~>
-#define LW_ARROW 47 // <~
-#define TWO_COLON 48 // ::
-#define PLUS_ASSIGN 49 // +=
-#define MINUS_ASSIGN 50 // -=
-#define STAR_ASSIGN 51 // *=
-#define SLASH_ASSIGN 52 // /=
-#define CONST_ASSIGN 53 // :=
-#define PLUSPLUS 54 // ++
-#define MINUSMINUS 55 // --
-#define IF_THEN 56 // =>
-#define STARSTAR 57 // **
-#define SLASHSLASH 58 // //
-#define LO_EQ 59 // <=
-#define GR_EQ 60 // >=
-#define EQ_EQ 61 // ==
-#define NOT_EQ 62 // !=
-#define R_SHIFT 63 // >>
-#define L_SHIFT 64 // <<
-#define CARET 65 // ^
-#define PERCENT 66 // %
-#define LOWER 67 // <
-#define GREATER 68 // >
-#define PIPE 69 // |
-#define AMPERSAND 70 // &
-#define SLASH 71 // /
-#define STAR 72 // *
-#define MINUS 73 // -
-#define PLUS 74 // +
-#define EXCLAMATION 75 // !
-#define TILDE 76 // ~
-#define SEMICOLON 77 // ;
-#define COLON 78 // :
-#define ASSIGN 79 // =
-#define COMMA 80 // ,
-#define DOT 81 // .
-#define UMINUS 82 // -
-#define UPLUS 83 // +
+#define UMINUS 43 // -
+#define UPLUS 44 // +
+#define PRE_PLUPLUS 45 //
+#define PRE_MINUSMINUS 46 //
+#define TILDE 47 // ~ set1 starts from here
+#define COLON 48 // :
+#define COMMA 49 // ,
+#define DOT 50 // .
+#define SEMICOLON 51 // ;
+#define PLUSPLUS 52 // ++
+#define MINUSMINUS 53 // -- set1 finish
+#define R_SHIFT 54 // >> assignment and binary operators start from here
+#define L_SHIFT 55 // <<
+#define STARSTAR 56 // **
+#define SLASHSLASH 57 // //
+#define PLUS 58 // +
+#define MINUS 59 // -
+#define STAR 60 // *
+#define SLASH 61 // /
+#define CARET 62 // ^
+#define PERCENT 63 // % assignment finish
+#define LO_EQ 64 // <=
+#define GR_EQ 65 // >=
+#define EQ_EQ 66 // ==
+#define NOT_EQ 67 // !=
+#define LOWER 68 // <
+#define GREATER 69 // >
+#define PIPE 70 // |
+#define AMPERSAND 71 // & binary finish
+#define EXCLAMATION 72 // !
+#define ASSIGN 73 // = assignment ops start from here
+#define R_SHIFT_ASSIGN 74 // >>=
+#define L_SHIFT_ASSIGN 75 // <<=
+#define STARSTAR_ASSIGN 76 // **=
+#define SLASHSLASH_ASSIGN 77 // //=
+#define PLUS_ASSIGN 78 // +=
+#define MINUS_ASSIGN 79 // -=
+#define STAR_ASSIGN 80 // *=
+#define SLASH_ASSIGN 81 // /=
+#define CARET_ASSIGN 82 // ^=
+#define PERCENT_ASSIGN 83 // %=
 #define START 84 //
 #define JUMP 85 //
 #define AND 86 //
@@ -167,47 +167,47 @@ typedef struct {
 "RBRACK",\
 "LBRACE",\
 "RBRACE",\
-"THREE_DOT",\
-"R_ARROW",\
-"L_ARROW",\
-"RW_ARROW",\
-"LW_ARROW",\
-"TWO_COLON",\
-"PLUS_ASSIGN",\
-"MINUS_ASSIGN",\
-"STAR_ASSIGN",\
-"SLASH_ASSIGN",\
-"CONST_ASSIGN",\
+"UMINUS",\
+"UPLUS",\
+"PRE_PLUPLUS",\
+"PRE_MINUSMINUS",\
+"TILDE",\
+"COLON",\
+"COMMA",\
+"DOT",\
+"SEMICOLON",\
 "PLUSPLUS",\
 "MINUSMINUS",\
-"IF_THEN",\
+"R_SHIFT",\
+"L_SHIFT",\
 "STARSTAR",\
 "SLASHSLASH",\
+"PLUS",\
+"MINUS",\
+"STAR",\
+"SLASH",\
+"CARET",\
+"PERCENT",\
 "LO_EQ",\
 "GR_EQ",\
 "EQ_EQ",\
 "NOT_EQ",\
-"R_SHIFT",\
-"L_SHIFT",\
-"CARET",\
-"PERCENT",\
 "LOWER",\
 "GREATER",\
 "PIPE",\
 "AMPERSAND",\
-"SLASH",\
-"STAR",\
-"MINUS",\
-"PLUS",\
 "EXCLAMATION",\
-"TILDE",\
-"SEMICOLON",\
-"COLON",\
 "ASSIGN",\
-"COMMA",\
-"DOT",\
-"UMINUS",\
-"UPLUS",\
+"R_SHIFT_ASSIGN",\
+"L_SHIFT_ASSIGN",\
+"STARSTAR_ASSIGN",\
+"SLASHSLASH_ASSIGN",\
+"PLUS_ASSIGN",\
+"MINUS_ASSIGN",\
+"STAR_ASSIGN",\
+"SLASH_ASSIGN",\
+"CARET_ASSIGN",\
+"PERCENT_ASSIGN",\
 "START",\
 "JUMP",\
 "AND",\
@@ -247,16 +247,16 @@ fbgc_token get_reserved_word_code_from_substr(const char *str1,const char *str2)
 const char * get_token_as_str(fbgc_token tok);
 
 
-#define is_fbgc_OPERATOR(T)(T>=THREE_DOT && T<=ASSIGN)
+#define is_fbgc_OPERATOR(T)(T>=UMINUS && T< START)
 #define is_fbgc_IDENTIFIER(T)(T>=IDENTIFIER && T<=REFERENCE)
 #define is_fbgc_ATOM(T)(T>= INT && T<=STRING)
 #define is_fbgc_INT(T) (T == INT)
 #define is_fbgc_DOUBLE(T) (T == DOUBLE)
 #define is_fbgc_STRING(T) (T == STRING)
 #define is_fbgc_PARA(T)(T>=LPARA && T<= RBRACK)
-#define is_fbgc_UNARY_OPERATOR(T)( T==PLUSPLUS || T==MINUSMINUS || T == EXCLAMATION || T== TILDE)
-#define is_fbgc_ASSIGNMENT_OPERATOR(T)( T == ASSIGN || (T>= PLUS_ASSIGN && T<= CONST_ASSIGN) || T == COLON  )
-#define is_fbgc_BINARY_OPERATOR(T)( T>=STARSTAR && T<= PLUS  )
+#define is_fbgc_UNARY_OPERATOR(T)( T==PLUSPLUS || T==MINUSMINUS || T == EXCLAMATION || T== TILDE || T == UPLUS || T == UMINUS)
+#define is_fbgc_ASSIGNMENT_OPERATOR(T)( T >= ASSIGN && T< START )
+#define is_fbgc_BINARY_OPERATOR(T)( T>=R_SHIFT && T<= AMPERSAND  )
 
 
 #define is_fbgc_MATRIX(x)(x == MATRIX || x == BUILD_MATRIX)

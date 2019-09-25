@@ -176,20 +176,12 @@ switch(type){
 	case RBRACK :
 	case LBRACE :
 	case RBRACE :
-	case THREE_DOT :
-	case R_ARROW :
-	case L_ARROW :
-	case RW_ARROW :
-	case LW_ARROW :
-	case TWO_COLON :
 	case PLUS_ASSIGN :
 	case MINUS_ASSIGN :
 	case STAR_ASSIGN :
 	case SLASH_ASSIGN :
-	case CONST_ASSIGN :
 	case PLUSPLUS :
 	case MINUSMINUS :
-	case IF_THEN :
 	case STARSTAR :
 	case SLASHSLASH :
 	case LO_EQ :

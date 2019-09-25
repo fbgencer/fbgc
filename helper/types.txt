@@ -41,47 +41,47 @@ LBRACK $ [
 RBRACK $ ]
 LBRACE $ {
 RBRACE $ }
-THREE_DOT $ ...
-R_ARROW $ ->
-L_ARROW $ <-
-RW_ARROW $ ~>
-LW_ARROW $ <~
-TWO_COLON $ ::
-PLUS_ASSIGN $ +=
-MINUS_ASSIGN $ -=
-STAR_ASSIGN $ *=
-SLASH_ASSIGN $ /=
-CONST_ASSIGN $ :=
+UMINUS $ -
+UPLUS $ +
+PRE_PLUPLUS $
+PRE_MINUSMINUS $
+TILDE $ ~ set1 starts from here
+COLON $ :
+COMMA $ ,
+DOT $ .
+SEMICOLON $ ;
 PLUSPLUS $ ++
-MINUSMINUS $ --
-IF_THEN $ =>
+MINUSMINUS $ -- set1 finish
+R_SHIFT $ >> assignment and binary operators start from here
+L_SHIFT $ <<
 STARSTAR $ **
 SLASHSLASH $ //
+PLUS $ +
+MINUS $ -
+STAR $ *
+SLASH $ /
+CARET $ ^
+PERCENT $ % assignment finish
 LO_EQ $ <=
 GR_EQ $ >=
 EQ_EQ $ ==
 NOT_EQ $ !=
-R_SHIFT $ >>
-L_SHIFT $ <<
-CARET $ ^
-PERCENT $ %
 LOWER $ <
 GREATER $ >
 PIPE $ |
-AMPERSAND $ &
-SLASH $ /
-STAR $ *
-MINUS $ -
-PLUS $ +
+AMPERSAND $ & binary finish
 EXCLAMATION $ !
-TILDE $ ~
-SEMICOLON $ ;
-COLON $ :
-ASSIGN $ =
-COMMA $ ,
-DOT $ .
-UMINUS $ -
-UPLUS $ +
+ASSIGN $ = assignment ops start from here
+R_SHIFT_ASSIGN $ >>=
+L_SHIFT_ASSIGN $ <<=
+STARSTAR_ASSIGN $ **=
+SLASHSLASH_ASSIGN $ //=
+PLUS_ASSIGN $ +=
+MINUS_ASSIGN $ -=
+STAR_ASSIGN $ *=
+SLASH_ASSIGN $ /=
+CARET_ASSIGN $ ^=
+PERCENT_ASSIGN $ %=
 START
 JUMP
 AND

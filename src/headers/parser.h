@@ -10,10 +10,6 @@ extern "C" {
 
 */
 
-
-
-
-
 uint8_t operator_precedence(fbgc_token T);
 
 uint8_t parser(struct fbgc_object ** field);

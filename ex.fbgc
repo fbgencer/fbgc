@@ -1,2 +1,13 @@
-x = (1,2,3)
-:>mem()
+x = 100
+print(x)
+
+foo = fun(a,b)
+	x = a
+	x **= b
+	return x
+end
+
+x = (1,2,3,4)
+x[0] += 250
+
+print(x)

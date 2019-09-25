@@ -107,10 +107,21 @@ const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] =
 	{LEXER_TOK_PARA,"(|)|[|]|{|}"},		
 	{LEXER_TOK_KEYWORDS,"end|fun|elif|else|while|for|break|cont|load|true|false|if|return"},
 	{LEXER_TOK_NAME,"_!w _!w!d!*"},		
-	{LEXER_TOK_OP, "...|->|<-|~>|<~|::|+=|-=|*=|/=|:=|++|--|=>|**|//|<=|>=|==|!=|>>|<<|^|%|<|>|||&|/|*|-|+|!|~|;|:|=|,|."},
+	{LEXER_TOK_OP0,"~|:|,|.|;|++|--"},
+	{LEXER_TOK_OP1,">>=|<<=|**=|//=|+=|-=|*=|/=|^=|%=|>>|<<|**|//|+|-|*|/|^|%"},
+	{LEXER_TOK_OP2,"<=|>=|==|!=|<|>|||&|!|="},
 
 };
-	
+/*
+Set0
+"~|:|,|.|;|++|--"
+Set1
+">>=|<<=|**=|//=|+=|-=|*=|/=|^=|%=|>>|<<|**|//|+|-|*|/|^|%"
+Set2
+"<=|>=|==|!=|<|>|||&|!|="
+
+
+*/
 
 
 #ifdef DEBUG
@@ -355,7 +366,7 @@ uint8_t regex_lexer(struct fbgc_object ** field_obj,char * first_ptr){
 			cprintf(100,"Called check char, mobile_ptr:<%s>, check:%d\n",mobile_ptr,check);
 		#endif		
 		if(check ||  IS_METACHAR_STAR_OPEN(rfs.metachar_flag)) satisfied_rule_section = rule_section;
-		//(check && *rule_ptr == '\0')
+		
 		if(!check || *mobile_ptr == '\0' || (check && *rule_ptr == '\0' && !IS_METACHAR_PLUS_OPEN(rfs.metachar_flag) && !IS_METACHAR_STAR_OPEN(rfs.metachar_flag) ) ){
 			#ifdef DEBUG
 				cprintf(010,"-------------{CHECK = %d}---------------\n",check);
@@ -379,13 +390,8 @@ uint8_t regex_lexer(struct fbgc_object ** field_obj,char * first_ptr){
 							cprintf(101,"['%s' : %s]\n",tempstr, lexer_token_list_as_strings[current_token] );
 							free(tempstr);
 						#endif
-					
 
-						
 						push_back_fbgc_ll_object( (cast_fbgc_object_as_field(*field_obj)->head),tokenize_substr(first_ptr,mobile_ptr,current_token,check-1) );
-
-						//if(current_token == WORD) print_fbgc_symbol_table((cast_fbgc_object_as_field(*field_obj)->global_table));
-
 
 					//#endif
 					} 
@@ -470,13 +476,26 @@ fbgc_object * tokenize_substr(const char *str1, const char*str2, lexer_token tok
 		{
 			return new_fbgc_str_object_from_substr(str1+1,str2-1);
 		}
-		case LEXER_TOK_OP:
+		case LEXER_TOK_OP0:
 		{	
-			//cprintf(111,"\n\nCatched %s\n\n",object_name_array[THREE_DOT+where]);
-			//fbgc_token opcode = THREE_DOT+where;
-			//cprintf(111,"opcode :%s",object_name_array[opcode]);
-			return new_fbgc_object(THREE_DOT+where);
-		}					
+			//"~|:|,|.|;|++|--"
+			return new_fbgc_object(TILDE+where);
+		}
+		case LEXER_TOK_OP1:
+		{	//Set1
+
+			//">>=|<<=|**=|//=|+=|-=|*=|/=|^=|%=|>>|<<|**|//|+|-|*|/|^|%"
+			//possible assigment operator and assignment operator
+			//check the last character, shift the token 
+			if(*(str2-1) == '=') where += (ASSIGN+1) ;
+			else where += R_SHIFT-10;
+			return new_fbgc_object(where);
+		}
+		case LEXER_TOK_OP2:
+		{	
+			//"<=|>=|==|!=|<|>|||&|!|="
+			return new_fbgc_object(LO_EQ+where);
+		}											
 		case LEXER_TOK_PARA:
 		{
 			/*

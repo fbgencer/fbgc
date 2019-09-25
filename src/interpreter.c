@@ -34,9 +34,14 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 #define SET_THIRD(x)	(sp[sctr-3] = (x))
 #define SET_TOPN(i, x)	(sp[sctr-(i)] = (x))	
 
+//FRAME MACROS
 #define GET_AT_FP(n)		(sp[fctr+(n)])
 #define SET_AT_FP(n, x)	(sp[fctr+(n)] = (x))
+
 #define FETCH_NEXT()(pc = pc->next)
+
+#define MAX(a,b)( a > b ? a : b )
+
 
 #define RECURSION_LIMIT 1000
 
@@ -169,51 +174,25 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 				break;
 			}			
-			case PLUS_ASSIGN:
-			case MINUS_ASSIGN:
-			case STAR_ASSIGN:
-			case SLASH_ASSIGN:
-			{
-				struct fbgc_object * rhs = POP();
 
-				if(is_id_flag_GLOBAL(pc)){
-					struct fbgc_identifier * tmp = 
-					(struct fbgc_identifier *) get_address_in_fbgc_array_object(globals,cast_fbgc_object_as_id_opcode(pc)->loc);
-					if(type == PLUS_ASSIGN){
-						fbgc_token main_tok = 
-						get_fbgc_object_type(tmp->content) > get_fbgc_object_type(rhs)  ? 
-						get_fbgc_object_type(tmp->content) : 
-						get_fbgc_object_type(rhs) ;
-
-						tmp->content = call_fbgc_binary_op(main_tok,tmp->content,rhs,PLUS);						
-					}
-					
-				} 
-				else if(is_id_flag_LOCAL(pc)){
-					GET_AT_FP(cast_fbgc_object_as_id_opcode(pc)->loc) = rhs;
-				}					
-				break;
-			}
+			case R_SHIFT:
+			case L_SHIFT:
 			case STARSTAR:
-			case PLUSPLUS:
-			case MINUSMINUS:
 			case SLASHSLASH:
+			case PLUS:
+			case MINUS:
+			case STAR:
+			case SLASH:
+			case CARET:
+			case PERCENT:
 			case LO_EQ:
 			case GR_EQ:
 			case EQ_EQ:
 			case NOT_EQ:
-			case R_SHIFT:
-			case L_SHIFT:
-			case CARET:
-			case PERCENT:
 			case LOWER:
 			case GREATER:
 			case PIPE:
 			case AMPERSAND:
-			case SLASH:
-			case STAR:
-			case MINUS:
-			case PLUS:
 			{
 				
 				assert(TOP() != NULL && SECOND() != NULL);
@@ -260,68 +239,93 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 				break;
 			}
-			case ASSIGN:
+			case ASSIGN:	
+			case  R_SHIFT_ASSIGN:
+			case  L_SHIFT_ASSIGN:
+			case  STARSTAR_ASSIGN:
+			case  SLASHSLASH_ASSIGN:
+			case  PLUS_ASSIGN:
+			case  MINUS_ASSIGN:
+			case  STAR_ASSIGN:
+			case  SLASH_ASSIGN:
+			case  CARET_ASSIGN:
+			case  PERCENT_ASSIGN:			
 			{
 				struct fbgc_object * rhs = POP();
 
-				//cprintf(100,"Assign Flag %0x\n",get_id_flag(pc));
-				//return 0;
+				struct fbgc_object ** lhs = NULL;
+
+				if(is_id_flag_GLOBAL(pc)){
+					struct fbgc_identifier * tmp = 
+					(struct fbgc_identifier *) get_address_in_fbgc_array_object(globals,cast_fbgc_object_as_id_opcode(pc)->loc);
+					lhs = &tmp->content;
+				} 
+				else if(is_id_flag_LOCAL(pc)){
+					lhs = &(GET_AT_FP(cast_fbgc_object_as_id_opcode(pc)->loc));
+				}
+
 
 				if(is_id_flag_SUBSCRIPT(pc)){
-					//cprintf(111,"Id flag subscript \n");
 					//first pop the number of indexes
 					int index_no = cast_fbgc_object_as_int(POP())->content;
 					//take index values one by one and finally left last index 
-					struct fbgc_object * temp;
-
-					if(is_id_flag_GLOBAL(pc)){
-						//cprintf(111,"Globalde subscript\n");
-						struct fbgc_identifier * tmp = 
-						(struct fbgc_identifier *) get_address_in_fbgc_array_object(globals,cast_fbgc_object_as_id_opcode(pc)->loc);
-						temp = tmp->content;
-						
-					}
-					else if(is_id_flag_LOCAL(pc)){
-						//cprintf(111,"Localde subscript\n");
-						temp = GET_AT_FP(cast_fbgc_object_as_id_opcode(pc)->loc);
-					}	
+					struct fbgc_object * temp = *lhs;
 
 					int index = 0;
 					for(int i = 0; i<index_no-1; i++){
 						if(temp->type == TUPLE){
 							index = cast_fbgc_object_as_int(TOPN(index_no-i))->content;
-							//cprintf(111,"Current index %d\n",index);
 							temp = get_object_in_fbgc_tuple_object(temp,index);
-							//print_fbgc_object(temp); cprintf(111,"<<<\n");
 						}
 						else {
 							cprintf(111,"Not index accessable!\n");
-							cprintf(111,"Dummy: "); print_fbgc_object(temp); printf("\n");
 							return 0;
 						}
-
 					}
+
 					//Since this is the top index we can just use top
 					index = cast_fbgc_object_as_int(TOP())->content;
-					//cprintf(111,"Son index %d\n",index);
-					set_object_in_fbgc_tuple_object(temp,rhs,index);
-						//tmp->content = rhs;
+					lhs = get_object_address_in_fbgc_tuple_object(temp,index);
+
+					//temp solution but it looks very bad..
+					/*if(type != ASSIGN){
+						fbgc_token op_type = R_SHIFT + type - R_SHIFT_ASSIGN;
+						assert(lhs != NULL && *lhs != NULL);
+
+						fbgc_token main_tok = MAX(get_fbgc_object_type( (*lhs) ),get_fbgc_object_type(rhs));
+						rhs = call_fbgc_binary_op(main_tok,*lhs,rhs,op_type);
+						assert(rhs != NULL);					
+					}
+
+					
+					if(temp->type == TUPLE) 
+						set_object_in_fbgc_tuple_object(temp,rhs,index);
+					else 
+						assert(0);*/
+
 					STACK_GOTO(-index_no);
-					break;
+					//break;
 				}
 
-				if(is_id_flag_GLOBAL(pc)){
-					struct fbgc_identifier * tmp = 
-					(struct fbgc_identifier *) get_address_in_fbgc_array_object(globals,cast_fbgc_object_as_id_opcode(pc)->loc);
-					tmp->content = rhs;
-				} 
-				else if(is_id_flag_LOCAL(pc)){
-					GET_AT_FP(cast_fbgc_object_as_id_opcode(pc)->loc) = rhs;
-				}	
+				//Call other assignment types
+				if(type != ASSIGN)
+				{
+					fbgc_token op_type = R_SHIFT + type - R_SHIFT_ASSIGN;
+					assert(lhs != NULL && *lhs != NULL);
+
+					fbgc_token main_tok = MAX(get_fbgc_object_type( (*lhs) ),get_fbgc_object_type(rhs));
+					rhs = call_fbgc_binary_op(main_tok,*lhs,rhs,op_type);
+					assert(rhs != NULL);					
+				}
+
+				/*if(is_id_flag_SUBSCRIPT(pc)){
+					*lhs = rhs;
+					STACK_GOTO(-index_no);
+				}*/
+
+				*lhs = rhs;	
 				break;
 			}
-
-
 			case JUMP:
 			{
 				pc = cast_fbgc_object_as_jumper(pc)->content;	
@@ -441,7 +445,9 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				struct fbgc_object * to = new_fbgc_tuple_object(tuple_size);
 				size_fbgc_tuple_object(to) = tuple_size;
 				
-					
+				//XXXXXXXXXXXXXXXXXX
+				//Instead of pop, give the starting address and size
+				//XXXXXXXXXXXXXXXXXXX 	
 				while(--tuple_size >= 0){
 					set_object_in_fbgc_tuple_object(to,POP(),tuple_size);
 				}

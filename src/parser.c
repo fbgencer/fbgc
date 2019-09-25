@@ -12,7 +12,7 @@ uint8_t operator_precedence(fbgc_token T){
 		case IDENTIFIER: return 210;
 		case PLUSPLUS: case MINUSMINUS: case UMINUS: case UPLUS: return 200;
 		case SLASH: case STAR: case PERCENT: case CARET: case STARSTAR: case SLASHSLASH: return 180;
-		case PLUS: case MINUS: case EXCLAMATION: return 160;
+		case PLUS: case MINUS: case EXCLAMATION: case TILDE: return 160;
 		case L_SHIFT: case R_SHIFT: return 140;
 		case LOWER: case GREATER: case LO_EQ: case  GR_EQ: return 120;
 		case EQ_EQ: case NOT_EQ: return 130;
@@ -20,7 +20,18 @@ uint8_t operator_precedence(fbgc_token T){
 		case PIPE: case LEN: return 110;
 		case COLON: return 105;
 
-		case ASSIGN: case PLUS_ASSIGN: case MINUS_ASSIGN: case STAR_ASSIGN: case SLASH_ASSIGN:
+		case  ASSIGN:
+		case  R_SHIFT_ASSIGN:
+		case  L_SHIFT_ASSIGN:
+		case  STARSTAR_ASSIGN:
+		case  SLASHSLASH_ASSIGN:
+		case  PLUS_ASSIGN:
+		case  MINUS_ASSIGN:
+		case  STAR_ASSIGN:
+		case  SLASH_ASSIGN:
+		case  CARET_ASSIGN:
+		case  PERCENT_ASSIGN:
+
 		return 100;
 		//case ASSIGN_GLOBAL: case ASSIGN_LOCAL: return 100;
 
@@ -897,12 +908,18 @@ uint8_t parser(struct fbgc_object ** field_obj){
 				
 			}
 			break;
-		} 		
-		case ASSIGN:
-		case PLUS_ASSIGN:
-		case MINUS_ASSIGN:
-		case STAR_ASSIGN:
-		case SLASH_ASSIGN:
+		}
+		case ASSIGN: 		
+		case  R_SHIFT_ASSIGN:
+		case  L_SHIFT_ASSIGN:
+		case  STARSTAR_ASSIGN:
+		case  SLASHSLASH_ASSIGN:
+		case  PLUS_ASSIGN:
+		case  MINUS_ASSIGN:
+		case  STAR_ASSIGN:
+		case  SLASH_ASSIGN:
+		case  CARET_ASSIGN:
+		case  PERCENT_ASSIGN:
 		{
 			gm_error = gm_seek_left(&gm,iter);
 			
