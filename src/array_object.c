@@ -50,12 +50,7 @@ struct fbgc_object * new_fbgc_array_object(size_t cap, size_t b_size){
 
 void set_in_fbgc_array_object(struct fbgc_object * self,void * data,int index){
 	
-	//Index can be negative, assume that array rotates.
-	//in order to get the contents of the array use macro from array_object.h
-	//#############################
-	//Add negative index algortihm and boundary check
-	//#############################
-
+	index = (index < 0) * capacity_fbgc_array_object(self) +  index;
 	assert( index >= 0 && index < capacity_fbgc_array_object(self));
 /*
 	struct fbgc_array_object * ao = cast_fbgc_object_as_array(self);
@@ -79,10 +74,7 @@ void set_in_fbgc_array_object(struct fbgc_object * self,void * data,int index){
 
 void *  get_content_in_fbgc_array_object(struct fbgc_object * self,int index){
 
-	//#############################
-	//Add negative index algortihm and boundary check
-	//#############################
-
+	index = (index < 0) * size_fbgc_array_object(self) +  index;
 	assert( index>=0 || index < size_fbgc_array_object(self) );	
 
 	unsigned char ** contents = (unsigned char **)( (unsigned char*) &self->type + sizeof(struct fbgc_array_object));
@@ -91,10 +83,8 @@ void *  get_content_in_fbgc_array_object(struct fbgc_object * self,int index){
 
 
 void *  get_address_in_fbgc_array_object(struct fbgc_object * self,int index){
-	//#############################
-	//Add negative index algortihm and boundary check
-	//#############################
 
+	index = (index < 0) * size_fbgc_array_object(self) +  index;
 	assert( index>=0 || index < size_fbgc_array_object(self) );	
 
 	return (void*) (array_object_at(self,index));

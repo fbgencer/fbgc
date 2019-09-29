@@ -191,10 +191,10 @@ void print_fbgc_ll_object(struct fbgc_object * head,const char *s1){
             cprintf(011,"{BUILD_MATRIX(%d)}",
                 cast_fbgc_object_as_int(iter)->content);
         }
-       /* else if(iter->type == FUN_CALL){
-            cprintf(011,"{FUN_CALL(%d)}",
-                cast_fbgc_object_as_int(iter)->content);
-        }         */
+        else if(iter->type == FUN_CALL){
+            cprintf(011,"{FUN_CALL}");
+               // cast_fbgc_object_as_int(iter)->content);
+        }         
         else if(iter->type == ROW){
             cprintf(011,"{ROW(%d)}",
                 cast_fbgc_object_as_int(iter)->content);

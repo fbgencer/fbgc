@@ -2,6 +2,8 @@
 #include "../cmodules/fbgc_io.h"
 #include "../cmodules/fbgc_math.h"
 #include "../cmodules/fbgc_stl.h"
+#include "../cmodules/fbgc_file.h"
+
 
 
 static void compile_file(struct fbgc_object * main_field,const char *file_name){
@@ -108,11 +110,17 @@ cprintf(110,"\n\n\n\n\n[========================================================
     if(argc > 1)
     {
         initialize_fbgc_memory_block();
-       initialize_fbgc_symbol_table();
+
+       
+
+       // struct fbgc_object * so = new_fbgc_cstruct_object(sizeof(struct file_struct), &fbgc_file_module); 
+
+        initialize_fbgc_symbol_table();
         struct fbgc_object * main_field = new_fbgc_field_object();
         load_module_in_field_object(main_field,&fbgc_math_module);
         load_module_in_field_object(main_field,&fbgc_io_module);
         load_module_in_field_object(main_field,&fbgc_stl_module);
+        load_module_in_field_object(main_field,&fbgc_file_module);
         
        if(!strcmp(argv[1],"-s")){
             compile_one_line(main_field,argv[2]);
@@ -120,6 +128,8 @@ cprintf(110,"\n\n\n\n\n[========================================================
         else{
            compile_file(main_field, argv[1]);
         }
+        //print_fbgc_memory_block();
+        free_fbgc_memory_block();
     }
     else{
         cprintf(111,"Enter a file!\n");

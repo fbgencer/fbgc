@@ -4,21 +4,31 @@
 
 #define is_pushable_in_main(x)(!is_fbgc_PARA(x) && x != LEN)
 
+/*
 
+
+*/
+
+
+
+
+/*
 uint8_t operator_precedence(fbgc_token T){
 	
 	switch(T){
 
-		case IDENTIFIER: return 210;
-		case PLUSPLUS: case MINUSMINUS: case UMINUS: case UPLUS: return 200;
-		case SLASH: case STAR: case PERCENT: case CARET: case STARSTAR: case SLASHSLASH: return 180;
-		case PLUS: case MINUS: case EXCLAMATION: case TILDE: return 160;
-		case L_SHIFT: case R_SHIFT: return 140;
-		case LOWER: case GREATER: case LO_EQ: case  GR_EQ: return 120;
-		case EQ_EQ: case NOT_EQ: return 130;
-		case AMPERSAND: return 120;
-		case PIPE: case LEN: return 110;
-		case COLON: return 105;
+		case IDENTIFIER: return 50;
+		case PLUSPLUS: case MINUSMINUS: case UMINUS: case UPLUS: return 48;
+		case SLASH: case STAR: case PERCENT: case CARET: case STARSTAR:
+		case SLASHSLASH: return 46;
+		
+		case PLUS: case MINUS: case EXCLAMATION: case TILDE: return 44;
+		case L_SHIFT: case R_SHIFT: return 42;
+		case LOWER: case GREATER: case LO_EQ: case  GR_EQ: return 40;
+		case EQ_EQ: case NOT_EQ: return 38;
+		case AMPERSAND: return 36;
+		case PIPE: case LEN: return 34;
+		case COLON: return 32;
 
 		case  ASSIGN:
 		case  R_SHIFT_ASSIGN:
@@ -31,26 +41,72 @@ uint8_t operator_precedence(fbgc_token T){
 		case  SLASH_ASSIGN:
 		case  CARET_ASSIGN:
 		case  PERCENT_ASSIGN:
+		return 30;
 
-		return 100;
-		//case ASSIGN_GLOBAL: case ASSIGN_LOCAL: return 100;
-
-		case COMMA: return 80;
+		case COMMA: return 20;
 
 		case LPARA: case LBRACE: case LBRACK: return 10;
-
-		//case IDENTIFIER: 
 		case CFUN: return 7;		
 		case RPARA: case RBRACE: case RBRACK: return 6;	
 		case RETURN: return 3;
 		case NEWLINE: return 2;
 		case SEMICOLON: return 1;
-
-		//case BEGIN:case IF_BEGIN:  case ELSE_BEGIN: case ELIF: case ELSE: return 1;
-		//case END: return 0;
 		default: return 0;	
 	}
-}
+}*/
+
+#define RIGHT_ASSOC 0b10000000
+#define LEFT_ASSOC 0	
+const fbgc_token const precedence_table[] =
+{
+	0,//IF
+	3,//RETURN
+	2,//NEWLINE
+	RIGHT_ASSOC | 10,//LPARA
+	6,//RPARA
+	RIGHT_ASSOC | 10,//LBRACK
+	6,//RBRACK
+	RIGHT_ASSOC | 10,//LBRACE
+	6,//RBRACE
+	RIGHT_ASSOC | 48,//UMINUS
+	RIGHT_ASSOC | 48,//UPLUS
+	RIGHT_ASSOC | 44,//TILDE
+	32,//COLON
+	RIGHT_ASSOC | 20,//COMMA
+	52,//DOT
+	1,//SEMICOLON
+	42,//R_SHIFT
+	42,//L_SHIFT
+	RIGHT_ASSOC | 46,//STARSTAR
+	RIGHT_ASSOC | 46,//SLASHSLASH
+	44,//PLUS
+	44,//MINUS
+	46,//STAR
+	46,//SLASH
+	RIGHT_ASSOC | 46,//CARET
+	46,//PERCENT
+	40,//LO_EQ
+	40,//GR_EQ
+	38,//EQ_EQ
+	38,//NOT_EQ
+	40,//LOWER
+	40,//GREATER
+	34,//PIPE
+	36,//AMPERSAND
+	44,//EXCLAMATION
+	RIGHT_ASSOC | 30,//ASSIGN
+	RIGHT_ASSOC | 30,//R_SHIFT_ASSIGN
+	RIGHT_ASSOC | 30,//L_SHIFT_ASSIGN
+	RIGHT_ASSOC | 30,//STARSTAR_ASSIGN
+	RIGHT_ASSOC | 30,//SLASHSLASH_ASSIGN
+	RIGHT_ASSOC | 30,//PLUS_ASSIGN
+	RIGHT_ASSOC | 30,//MINUS_ASSIGN
+	RIGHT_ASSOC | 30,//STAR_ASSIGN
+	RIGHT_ASSOC | 30,//SLASH_ASSIGN
+	RIGHT_ASSOC | 30,//CARET_ASSIGN
+	RIGHT_ASSOC | 30,//PERCENT_ASSIGN
+	34,//LEN
+};
 
 uint8_t compare_operators(fbgc_token stack_top, fbgc_token obj_type){
 	// precedence outputs
@@ -58,30 +114,45 @@ uint8_t compare_operators(fbgc_token stack_top, fbgc_token obj_type){
 	// stack_top < obj_type => return 0;
 
 	uint8_t result = 0;
+	#ifdef PARSER_DEBUG
+	cprintf(100,"Object type comparison stack top:[%s] >= obj[%s] ",object_name_array[stack_top],object_name_array[obj_type]);
+	#endif
 
-	if(stack_top == obj_type){
+	/*if(stack_top == obj_type){
 		switch(stack_top){
 			case LPARA:
 			case LBRACK:
 			case ASSIGN:
 			case COMMA:
-			result = 0;
+			case STARSTAR:
+			case CARET:
+				result = 0;
 				break;
 			default:
 				result = 1;
 			break;
 		}
 	}
-	else if(obj_type == NEWLINE && stack_top == COMMA) return 0;
-	else if(obj_type == LPARA || obj_type == LBRACK || obj_type == IF || obj_type == END || obj_type == ELIF){
-		return 0;
-	}
-	else
+	else */
+	if(obj_type == NEWLINE && stack_top == COMMA) result = 0;
+	else if(obj_type == LPARA || obj_type == LBRACK) result =  0;
+	else if(stack_top == IDENTIFIER) result = 1;
+
+	else if(obj_type >= IF && obj_type <= LEN && stack_top >= IF && stack_top <= LEN ){
 		//precedence of the operators have to change according to their positions
-		result = (operator_precedence(stack_top) >= operator_precedence(obj_type));
+		//result = (operator_precedence(stack_top) >= operator_precedence(obj_type));
+		stack_top = precedence_table[stack_top - IF];
+		obj_type = precedence_table[obj_type - IF];
+		result = (0x7F & stack_top) > (0x7F & obj_type); // is there another way to perform this calculation ?? 
+		if(result == 0 && obj_type == stack_top){
+			result = !(0x80 & obj_type); 
+		}
+	}
+
 	#ifdef PARSER_DEBUG
-	cprintf(111,"Object type comparison stack top:[%s] >= obj[%s] : %d\n",object_name_array[stack_top],object_name_array[obj_type],result);
+	cprintf(100,": %d\n",result && 1);
 	#endif
+
 	return result;
 }
 
@@ -117,7 +188,6 @@ struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,st
 	#ifdef PARSER_DEBUG
 	cprintf(111,"In %s op top [%s]\n",__FUNCTION__,object_name_array[top_type]);
 	cprintf(111,">>gm.top %s\n",object_name_array[gm->top]);
-
 	#endif
 
 	//know that iter_prev is iter_prev_prev!!
@@ -125,7 +195,7 @@ struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,st
  
 	if(top_type == IDENTIFIER || top_type == CFUN){
 		#ifdef PARSER_DEBUG
-		cprintf(100,"Operator stack top NAME, this is a function call template!\n");
+		cprintf(100,"Operator stack top ID or CFUN, this is a function call template!\n");
 		print_fbgc_object(iter_prev);
 		
 		#endif
@@ -353,7 +423,6 @@ uint8_t parser(struct fbgc_object ** field_obj){
  		case DOUBLE:
  		case COMPLEX:
  		case STRING:
- 		case NAME:
  		{
  			iter_prev = iter;
 			gm_error = gm_seek_left(&gm,iter);	
@@ -628,22 +697,22 @@ uint8_t parser(struct fbgc_object ** field_obj){
 			gm_error = gm_seek_right(&gm,TOP_LL(op));
 			gm_error = gm_seek_left(&gm,iter);	
 
-			if(TOP_LL(op)->type == IF_BEGIN || TOP_LL(op)->type == ELIF_BEGIN){
+			assert(TOP_LL(op)->type == IF_BEGIN || TOP_LL(op)->type == ELIF_BEGIN);
 
-				//now insert if in its place,
-				struct fbgc_object * if_obj = TOP_LL(op);
-				POP_LL(op);
-				if_obj->next = cast_fbgc_object_as_jumper(if_obj)->content->next;
-				cast_fbgc_object_as_jumper(if_obj)->content->next = if_obj;
+			//now insert if in its place,
+			struct fbgc_object * if_obj = TOP_LL(op);
+			POP_LL(op);
+			if_obj->next = cast_fbgc_object_as_jumper(if_obj)->content->next;
+			cast_fbgc_object_as_jumper(if_obj)->content->next = if_obj;
 
-				struct fbgc_object * jump_obj = new_fbgc_jumper_object(JUMP);
+			struct fbgc_object * jump_obj = new_fbgc_jumper_object(JUMP);
 
-				cast_fbgc_object_as_jumper(jump_obj)->content = iter_prev;
-				push_front_fbgc_ll_object(op,jump_obj);
+			cast_fbgc_object_as_jumper(jump_obj)->content = iter_prev;
+			push_front_fbgc_ll_object(op,jump_obj);
 
-				cast_fbgc_object_as_jumper(if_obj)->content = jump_obj;
+			cast_fbgc_object_as_jumper(if_obj)->content = jump_obj;
 
-			}	
+			
 
 			iter_prev->next = iter->next;				
 			break;
@@ -713,40 +782,41 @@ uint8_t parser(struct fbgc_object ** field_obj){
 			}
 			break;		
 		} 		
- 		case IF:
- 		case RETURN:
- 		case NEWLINE:
- 		case LPARA:
- 		case RPARA:
- 		case LBRACK:
- 		case RBRACK:
- 		case LBRACE:
- 		case RBRACE:
-
+		case IF:
+		case RETURN:
+		case NEWLINE:
+		case LPARA:
+		case RPARA:
+		case LBRACK:
+		case RBRACK:
+		case LBRACE:
+		case RBRACE:
+		case UMINUS:
+		case UPLUS:
+		case TILDE:
+		case COLON:
+		case COMMA:
+		case DOT:
+		case SEMICOLON:
+		case R_SHIFT:
+		case L_SHIFT:
 		case STARSTAR:
 		case SLASHSLASH:
+		case PLUS:
+		case MINUS:
+		case STAR:
+		case SLASH:
+		case CARET:
+		case PERCENT:
 		case LO_EQ:
 		case GR_EQ:
 		case EQ_EQ:
 		case NOT_EQ:
-		case R_SHIFT:
-		case L_SHIFT:
-		case CARET:
-		case PERCENT:
 		case LOWER:
 		case GREATER:
 		case PIPE:
 		case AMPERSAND:
-		case SLASH:
-		case STAR:
-		case MINUS:
-		case PLUS:
 		case EXCLAMATION:
-		case TILDE:
-		case SEMICOLON:
-		case COMMA:
-		case DOT:
-		case COLON:
 		{
 			//take the op object from main list and connect previous one to the next one 
 			//[H]->[2]->[+]->[3] => [H]->[2]->[3], now iter holds the operator, iter->next is [3] but we will change that too 
@@ -785,6 +855,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 						//popping the lpara
 						delete_front_fbgc_ll_object(op);
 						gm_error = gm_seek_left(&gm,iter);
+
 						#ifdef PARSER_DEBUG
 						cprintf(101,"[GM]:{Top:%s} Flag{0x%X} \n",object_name_array[gm.top],gm.flag);
 						#endif

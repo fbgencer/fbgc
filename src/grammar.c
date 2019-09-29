@@ -242,7 +242,7 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 		 	gm_left == UNBALANCED_EXPRESSION_LIST || 
 		 	gm_left == LPARA || gm_left == IF || gm_left == ELIF || gm_left == WHILE  || 
 		 	gm_left == LOAD || gm_left == SEMICOLON ||
-		 	is_fbgc_IDENTIFIER(gm_left) ||
+		 	is_fbgc_IDENTIFIER(gm_left) || gm_left == COMMA ||
 		 	gm_left == NEWLINE ))
 	{	
 		gm->top = LPARA;
@@ -272,7 +272,8 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 
 	{
 		if(get_fbgc_object_type(obj) == PLUS) obj->type = UPLUS;
-		else if(get_fbgc_object_type(obj) == MINUS) obj->type = UMINUS;	
+		else if(get_fbgc_object_type(obj) == MINUS) obj->type = UMINUS;
+			
 		gm->top = get_fbgc_object_type(obj);		
 	}
 	else if(get_fbgc_object_type(obj) == PIPE && gm_left == LEN){
@@ -401,13 +402,14 @@ uint8_t gm_seek_right(struct fbgc_grammar * gm, struct fbgc_object * obj){
 	else if(is_fbgc_ASSIGNMENT_OPERATOR(get_fbgc_object_type(obj)) && is_fbgc_STATEMENT(gm_right)){
 		gm->top = (ASSIGNMENT_EXPRESSION);
 	}
+	else if(get_fbgc_object_type(obj) == COMMA && (is_fbgc_EXPRESSION(gm_right) || gm_right == ASSIGNMENT_EXPRESSION) ){
+		gm->top = (BALANCED_EXPRESSION_LIST);
+		//cprintf(111,"burada=!\n");
+	}
 	else if(is_fbgc_OPERATOR(get_fbgc_object_type(obj)) && is_fbgc_EXPRESSION(gm_right)){
 		gm->top = EXPRESSION;
 	}
-	else if(get_fbgc_object_type(obj) == COMMA && (is_fbgc_EXPRESSION(gm_right) || gm_right == ASSIGNMENT_EXPRESSION) ){
-		gm->top = (BALANCED_EXPRESSION_LIST);
-	}
-	
+
 	//Why do we have this ?
 	//else if(get_fbgc_object_type(obj) == COMMA && gm_right == UNBALANCED_EXPRESSION_LIST ){
 	//	;

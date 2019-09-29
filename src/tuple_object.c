@@ -62,11 +62,7 @@ void set_object_in_fbgc_tuple_object(struct fbgc_object * self,struct fbgc_objec
 	//Index can be negative, assume that array rotates.
 	//in order to get the contents of the array use macro from tuple_object.h
 
-	//#############################
-	//Add negative index algortihm and boundary check
-	//#############################
-	//index size'dan büyükse hata,
-	//index sıfırdan küçükse ama -size+1'den de büyükse sorun yok
+	index = (index < 0) * size_fbgc_tuple_object(self) +  index;
 
 	assert( index>=0 || index < size_fbgc_tuple_object(self) );
 
@@ -75,9 +71,8 @@ void set_object_in_fbgc_tuple_object(struct fbgc_object * self,struct fbgc_objec
 	
 }
 struct fbgc_object *  get_object_in_fbgc_tuple_object(struct fbgc_object * self,int index){
-	//#############################
-	//Add negative index algortihm and boundary check
-	//#############################
+
+	index = (index < 0) * size_fbgc_tuple_object(self) +  index;
 
 	assert( index>=0 || index < size_fbgc_tuple_object(self) );
 
@@ -85,10 +80,8 @@ struct fbgc_object *  get_object_in_fbgc_tuple_object(struct fbgc_object * self,
 	return (struct fbgc_object *) contents[index]; 	
 }
 struct fbgc_object **  get_object_address_in_fbgc_tuple_object(struct fbgc_object * self,int index){
-	//#############################
-	//Add negative index algortihm and boundary check
-	//#############################
 
+	index = (index < 0) * size_fbgc_tuple_object(self) +  index;
 	assert( index>=0 || index < size_fbgc_tuple_object(self) );
 
 	struct fbgc_object ** contents = tuple_object_content(self);

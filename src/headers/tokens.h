@@ -25,104 +25,99 @@ typedef struct {
 #define TUPLE 7 // tuple class
 #define CFUN 8 // c function
 #define FUN 9 // builtin fbgc function
-#define NAME 10 // name class, name:value pairs
+#define CSTRUCT 10 // 
 #define IDENTIFIER 11 // identifiers
 #define RANGE 12 // range obj
-#define REFERENCE 13 //
-#define CSTRING 14 //
-#define MONATRIX 15 //
-#define NUPLE 16 //
-#define MONUPLE 17 //
-#define ARRAY 18 //
-#define LINKED_LIST 19 //
-#define CMODULE 20 //
-#define GARBAGE 21 //
-#define FIELD 22 //
-#define END 23 // end
-#define FUN_MAKE 24 //
-#define ELIF 25 //
-#define ELSE 26 //
-#define WHILE 27 //
-#define FOR 28 //
-#define BREAK 29 //
-#define CONT 30 //
-#define LOAD 31 //
-#define TRUE 32 //
-#define FALSE 33 //
-#define IF 34 //
-#define RETURN 35 //
-#define NEWLINE 36 //
-#define LPARA 37 // (
-#define RPARA 38 // )
-#define LBRACK 39 // [
-#define RBRACK 40 // ]
-#define LBRACE 41 // {
-#define RBRACE 42 // }
-#define UMINUS 43 // -
-#define UPLUS 44 // +
-#define PRE_PLUPLUS 45 //
-#define PRE_MINUSMINUS 46 //
-#define TILDE 47 // ~ set1 starts from here
-#define COLON 48 // :
-#define COMMA 49 // ,
-#define DOT 50 // .
-#define SEMICOLON 51 // ;
-#define PLUSPLUS 52 // ++
-#define MINUSMINUS 53 // -- set1 finish
-#define R_SHIFT 54 // >> assignment and binary operators start from here
-#define L_SHIFT 55 // <<
-#define STARSTAR 56 // **
-#define SLASHSLASH 57 // //
-#define PLUS 58 // +
-#define MINUS 59 // -
-#define STAR 60 // *
-#define SLASH 61 // /
-#define CARET 62 // ^
-#define PERCENT 63 // % assignment finish
-#define LO_EQ 64 // <=
-#define GR_EQ 65 // >=
-#define EQ_EQ 66 // ==
-#define NOT_EQ 67 // !=
-#define LOWER 68 // <
-#define GREATER 69 // >
-#define PIPE 70 // |
-#define AMPERSAND 71 // & binary finish
-#define EXCLAMATION 72 // !
-#define ASSIGN 73 // = assignment ops start from here
-#define R_SHIFT_ASSIGN 74 // >>=
-#define L_SHIFT_ASSIGN 75 // <<=
-#define STARSTAR_ASSIGN 76 // **=
-#define SLASHSLASH_ASSIGN 77 // //=
-#define PLUS_ASSIGN 78 // +=
-#define MINUS_ASSIGN 79 // -=
-#define STAR_ASSIGN 80 // *=
-#define SLASH_ASSIGN 81 // /=
-#define CARET_ASSIGN 82 // ^=
-#define PERCENT_ASSIGN 83 // %=
-#define START 84 //
-#define JUMP 85 //
-#define AND 86 //
-#define OR 87 //
-#define NOT 88 //
-#define ROW 89 //
-#define EXPRESSION 90 //
-#define ASSIGNMENT 91 //
-#define STATEMENT 92 //
-#define ASSIGNMENT_EXPRESSION 93 //
-#define UNARY_EXPRESSION 94 //
-#define BINARY_EXPRESSION 95 //
-#define BALANCED_EXPRESSION_LIST 96 //
-#define UNBALANCED_EXPRESSION_LIST 97 //
-#define ASSIGN_SUBSCRIPT 98 //
-#define LOAD_SUBSCRIPT 99 //
-#define LEN 100 //
-#define IF_BEGIN 101 //
-#define ELIF_BEGIN 102 //
-#define WHILE_BEGIN 103 //
-#define FOR_BEGIN 104 //
-#define FUN_CALL 105 //
-#define BUILD_TUPLE 106 //
-#define BUILD_MATRIX 107 //
+#define CSTRING 13 //
+#define MONATRIX 14 //
+#define NUPLE 15 //
+#define MONUPLE 16 //
+#define ARRAY 17 //
+#define LINKED_LIST 18 //
+#define CMODULE 19 //
+#define GARBAGE 20 //
+#define FIELD 21 //
+#define END 22 // end
+#define FUN_MAKE 23 //
+#define ELIF 24 //
+#define ELSE 25 //
+#define WHILE 26 //
+#define FOR 27 //
+#define BREAK 28 //
+#define CONT 29 //
+#define LOAD 30 //
+#define TRUE 31 //
+#define FALSE 32 //
+#define IF 33 //
+#define RETURN 34 //
+#define NEWLINE 35 //
+#define LPARA 36 // (
+#define RPARA 37 // )
+#define LBRACK 38 // [
+#define RBRACK 39 // ]
+#define LBRACE 40 // {
+#define RBRACE 41 // }
+#define UMINUS 42 // -
+#define UPLUS 43 // +
+#define TILDE 44 // ~ set1 starts from here
+#define COLON 45 // :
+#define COMMA 46 // ,
+#define DOT 47 // .
+#define SEMICOLON 48 // ; -- set1 finish
+#define R_SHIFT 49 // >> assignment and binary operators start from here
+#define L_SHIFT 50 // <<
+#define STARSTAR 51 // **
+#define SLASHSLASH 52 // //
+#define PLUS 53 // +
+#define MINUS 54 // -
+#define STAR 55 // *
+#define SLASH 56 // /
+#define CARET 57 // ^
+#define PERCENT 58 // % assignment finish
+#define LO_EQ 59 // <=
+#define GR_EQ 60 // >=
+#define EQ_EQ 61 // ==
+#define NOT_EQ 62 // !=
+#define LOWER 63 // <
+#define GREATER 64 // >
+#define PIPE 65 // |
+#define AMPERSAND 66 // & binary finish
+#define EXCLAMATION 67 // !
+#define ASSIGN 68 // = assignment ops start from here
+#define R_SHIFT_ASSIGN 69 // >>=
+#define L_SHIFT_ASSIGN 70 // <<=
+#define STARSTAR_ASSIGN 71 // **=
+#define SLASHSLASH_ASSIGN 72 // //=
+#define PLUS_ASSIGN 73 // +=
+#define MINUS_ASSIGN 74 // -=
+#define STAR_ASSIGN 75 // *=
+#define SLASH_ASSIGN 76 // /=
+#define CARET_ASSIGN 77 // ^=
+#define PERCENT_ASSIGN 78 // %=
+#define LEN 79 //
+#define JUMP 80 //
+#define IF_BEGIN 81 //
+#define ELIF_BEGIN 82 //
+#define WHILE_BEGIN 83 //
+#define FOR_BEGIN 84 //
+#define FUN_CALL 85 //
+#define BUILD_TUPLE 86 //
+#define BUILD_MATRIX 87 //
+#define ROW 88 //
+#define AND 89 //
+#define OR 90 //
+#define NOT 91 //
+#define START 92 //
+#define EXPRESSION 93 //
+#define ASSIGNMENT 94 //
+#define STATEMENT 95 //
+#define ASSIGNMENT_EXPRESSION 96 //
+#define UNARY_EXPRESSION 97 //
+#define BINARY_EXPRESSION 98 //
+#define BALANCED_EXPRESSION_LIST 99 //
+#define UNBALANCED_EXPRESSION_LIST 100 //
+#define ASSIGN_SUBSCRIPT 101 //
+#define LOAD_SUBSCRIPT 102 //
 #define TOKEN_LIST_AS_STRINGS()\
 "UNKNOWN",\
 "NIL",\
@@ -134,10 +129,9 @@ typedef struct {
 "TUPLE",\
 "CFUN",\
 "FUN",\
-"NAME",\
+"CSTRUCT",\
 "IDENTIFIER",\
 "RANGE",\
-"REFERENCE",\
 "CSTRING",\
 "MONATRIX",\
 "NUPLE",\
@@ -169,15 +163,11 @@ typedef struct {
 "RBRACE",\
 "UMINUS",\
 "UPLUS",\
-"PRE_PLUPLUS",\
-"PRE_MINUSMINUS",\
 "TILDE",\
 "COLON",\
 "COMMA",\
 "DOT",\
 "SEMICOLON",\
-"PLUSPLUS",\
-"MINUSMINUS",\
 "R_SHIFT",\
 "L_SHIFT",\
 "STARSTAR",\
@@ -208,12 +198,20 @@ typedef struct {
 "SLASH_ASSIGN",\
 "CARET_ASSIGN",\
 "PERCENT_ASSIGN",\
-"START",\
+"LEN",\
 "JUMP",\
+"IF_BEGIN",\
+"ELIF_BEGIN",\
+"WHILE_BEGIN",\
+"FOR_BEGIN",\
+"FUN_CALL",\
+"BUILD_TUPLE",\
+"BUILD_MATRIX",\
+"ROW",\
 "AND",\
 "OR",\
 "NOT",\
-"ROW",\
+"START",\
 "EXPRESSION",\
 "ASSIGNMENT",\
 "STATEMENT",\
@@ -224,14 +222,6 @@ typedef struct {
 "UNBALANCED_EXPRESSION_LIST",\
 "ASSIGN_SUBSCRIPT",\
 "LOAD_SUBSCRIPT",\
-"LEN",\
-"IF_BEGIN",\
-"ELIF_BEGIN",\
-"WHILE_BEGIN",\
-"FOR_BEGIN",\
-"FUN_CALL",\
-"BUILD_TUPLE",\
-"BUILD_MATRIX",\
 //TOKENS_END
 
 extern const char * object_name_array[];
@@ -247,15 +237,15 @@ fbgc_token get_reserved_word_code_from_substr(const char *str1,const char *str2)
 const char * get_token_as_str(fbgc_token tok);
 
 
-#define is_fbgc_OPERATOR(T)(T>=UMINUS && T< START)
-#define is_fbgc_IDENTIFIER(T)(T>=IDENTIFIER && T<=REFERENCE)
+#define is_fbgc_OPERATOR(T)(T>=UMINUS && T< LEN )
+#define is_fbgc_IDENTIFIER(T)(T>=IDENTIFIER)
 #define is_fbgc_ATOM(T)(T>= INT && T<=STRING)
 #define is_fbgc_INT(T) (T == INT)
 #define is_fbgc_DOUBLE(T) (T == DOUBLE)
 #define is_fbgc_STRING(T) (T == STRING)
 #define is_fbgc_PARA(T)(T>=LPARA && T<= RBRACK)
-#define is_fbgc_UNARY_OPERATOR(T)( T==PLUSPLUS || T==MINUSMINUS || T == EXCLAMATION || T== TILDE || T == UPLUS || T == UMINUS)
-#define is_fbgc_ASSIGNMENT_OPERATOR(T)( T >= ASSIGN && T< START )
+#define is_fbgc_UNARY_OPERATOR(T)( T == EXCLAMATION || T== TILDE || T == UPLUS || T == UMINUS)
+#define is_fbgc_ASSIGNMENT_OPERATOR(T)( T >= ASSIGN && T< LEN)
 #define is_fbgc_BINARY_OPERATOR(T)( T>=R_SHIFT && T<= AMPERSAND  )
 
 

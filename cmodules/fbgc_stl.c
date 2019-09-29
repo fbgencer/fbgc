@@ -33,6 +33,15 @@ new_fbgc_cfunction(fbgc_id,"id"){
 	return NULL;
 }
 
+
+new_fbgc_cfunction(fbgc_type,"type"){
+	if(argc == 1){
+		return new_fbgc_int_object(arg[0]->type);
+	}
+	else cprintf(100,"<id> takes only 1 argument, %d given !\n",argc);
+	return NULL;
+}
+
 new_fbgc_cfunction(fbgc_mem,"mem"){
 	if(argc == 0){
 		print_fbgc_memory_block();
@@ -57,6 +66,7 @@ const struct fbgc_cmodule fbgc_stl_module =
 	{
 		&fbgc_len_struct,
 		&fbgc_id_struct,
+		&fbgc_type_struct,
 		&fbgc_mem_struct,
 		NULL
 	}

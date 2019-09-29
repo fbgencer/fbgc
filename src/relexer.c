@@ -107,8 +107,8 @@ const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] =
 	{LEXER_TOK_PARA,"(|)|[|]|{|}"},		
 	{LEXER_TOK_KEYWORDS,"end|fun|elif|else|while|for|break|cont|load|true|false|if|return"},
 	{LEXER_TOK_NAME,"_!w _!w!d!*"},		
-	{LEXER_TOK_OP0,"~|:|,|.|;|++|--"},
-	{LEXER_TOK_OP1,">>=|<<=|**=|//=|+=|-=|*=|/=|^=|%=|>>|<<|**|//|+|-|*|/|^|%"},
+	{LEXER_TOK_OP0,"~|:|,|.|;"},
+	{LEXER_TOK_OP1,">>=|<<=|**=|//=|+=|-=|*=|/=|^=|%=|>>|<<|**|//|+|-|*|/|^|%"}, // do not change this
 	{LEXER_TOK_OP2,"<=|>=|==|!=|<|>|||&|!|="},
 
 };
@@ -119,9 +119,111 @@ Set1
 ">>=|<<=|**=|//=|+=|-=|*=|/=|^=|%=|>>|<<|**|//|+|-|*|/|^|%"
 Set2
 "<=|>=|==|!=|<|>|||&|!|="
-
-
 */
+
+struct fbgc_object * tokenize_substr(const char *str1, const char*str2, lexer_token token, uint8_t where){
+	struct fbgc_object *obj = NULL;
+
+	switch(token){
+		case LEXER_TOK_NEWLINE:
+		{
+			return new_fbgc_object(NEWLINE);
+		}
+		case LEXER_TOK_BASE2_INT:
+		{
+			return new_fbgc_int_object_from_substr(str1+2,str2,2); //eat 0b
+		} 
+		case LEXER_TOK_BASE10_INT:
+		{
+			if(*(str2-1) == 'j') goto GOTO_COMPLEX;
+			return new_fbgc_int_object_from_substr(str1,str2,10);
+		} 
+		case LEXER_TOK_BASE16_INT:
+		{
+			return new_fbgc_int_object_from_substr(str1+2,str2,16); //eat 0x
+		} 
+		case LEXER_TOK_DOUBLE:
+		{	
+			if(*(str2-1) == 'j') goto GOTO_COMPLEX;
+			return new_fbgc_double_object_from_substr(str1,str2); 
+		}
+		case LEXER_TOK_COMPLEX:
+		{	
+			GOTO_COMPLEX: ;
+			return new_fbgc_complex_object_from_substr(str1,str2);
+		}
+		case LEXER_TOK_STRING:
+		{
+			return new_fbgc_str_object_from_substr(str1+1,str2-1);
+		}
+		case LEXER_TOK_OP0:
+		{	
+			//"~|:|,|.|;|++|--"
+			return new_fbgc_object(TILDE+where);
+		}
+		case LEXER_TOK_OP1:
+		{	//Set1
+
+			//">>=|<<=|**=|//=|+=|-=|*=|/=|^=|%=|>>|<<|**|//|+|-|*|/|^|%"
+			//possible assigment operator and assignment operator
+			//check the last character, shift the token 
+			if(*(str2-1) == '=') where += (ASSIGN+1) ;
+			else where += R_SHIFT-10;
+			return new_fbgc_object(where);
+		}
+		case LEXER_TOK_OP2:
+		{	
+			//"<=|>=|==|!=|<|>|||&|!|="
+			return new_fbgc_object(LO_EQ+where);
+		}											
+		case LEXER_TOK_PARA:
+		{
+			/*
+				(|)|[|]|{|}
+				LPARA  : 1 - 0 
+				RPARA  : 3 - 1
+				LBRACK : 5 - 2
+				RBRACK : 7 - 3
+				LBRACE : 9 - 4
+				RBRACE : 11 - 5
+				"where" gives the location after LPARA, if its 3 it means RBRACK is found because
+				(|)|[|]|{|} , 3rd section is starting from 0 RBRACK 
+			*/
+			//return (where % 2 == 0) ? 
+			//derive_from_new_int_object(LPARA+where,0) : new_fbgc_object(LPARA+where);	
+			return new_fbgc_object(LPARA+where);
+		}
+		case LEXER_TOK_KEYWORDS:
+		{	
+			fbgc_token kw_tok = END+where;
+
+			switch(kw_tok){
+				case ELIF:
+				case WHILE:
+				case FOR:
+				case BREAK:
+				case CONT:
+				case FUN_MAKE:
+				case IF:
+				return new_fbgc_jumper_object(kw_tok);
+				default: return new_fbgc_object(END + where);
+			}
+
+		}
+		case LEXER_TOK_NAME:
+		{	
+			return new_fbgc_symbol_from_substr(str1,str2);
+			//return obj;//new_fbgc_object(NAME);
+		}
+		default: 
+			cprintf(100,"Undefined object creation in new object creation! returning NULL\n");
+			return NULL;
+		break;
+	}
+
+
+    return obj;
+}
 
 
 #ifdef DEBUG
@@ -440,110 +542,7 @@ uint8_t regex_lexer(struct fbgc_object ** field_obj,char * first_ptr){
 }
 
 
-struct
-fbgc_object * tokenize_substr(const char *str1, const char*str2, lexer_token token, uint8_t where){
-	struct fbgc_object *obj = NULL;
 
-	switch(token){
-		case LEXER_TOK_NEWLINE:
-		{
-			return new_fbgc_object(NEWLINE);
-		}
-		case LEXER_TOK_BASE2_INT:
-		{
-			return new_fbgc_int_object_from_substr(str1+2,str2,2); //eat 0b
-		} 
-		case LEXER_TOK_BASE10_INT:
-		{
-			if(*(str2-1) == 'j') goto GOTO_COMPLEX;
-			return new_fbgc_int_object_from_substr(str1,str2,10);
-		} 
-		case LEXER_TOK_BASE16_INT:
-		{
-			return new_fbgc_int_object_from_substr(str1+2,str2,16); //eat 0x
-		} 
-		case LEXER_TOK_DOUBLE:
-		{	
-			if(*(str2-1) == 'j') goto GOTO_COMPLEX;
-			return new_fbgc_double_object_from_substr(str1,str2); 
-		}
-		case LEXER_TOK_COMPLEX:
-		{	
-			GOTO_COMPLEX: ;
-			return new_fbgc_complex_object_from_substr(str1,str2);
-		}
-		case LEXER_TOK_STRING:
-		{
-			return new_fbgc_str_object_from_substr(str1+1,str2-1);
-		}
-		case LEXER_TOK_OP0:
-		{	
-			//"~|:|,|.|;|++|--"
-			return new_fbgc_object(TILDE+where);
-		}
-		case LEXER_TOK_OP1:
-		{	//Set1
-
-			//">>=|<<=|**=|//=|+=|-=|*=|/=|^=|%=|>>|<<|**|//|+|-|*|/|^|%"
-			//possible assigment operator and assignment operator
-			//check the last character, shift the token 
-			if(*(str2-1) == '=') where += (ASSIGN+1) ;
-			else where += R_SHIFT-10;
-			return new_fbgc_object(where);
-		}
-		case LEXER_TOK_OP2:
-		{	
-			//"<=|>=|==|!=|<|>|||&|!|="
-			return new_fbgc_object(LO_EQ+where);
-		}											
-		case LEXER_TOK_PARA:
-		{
-			/*
-				(|)|[|]|{|}
-				LPARA  : 1 - 0 
-				RPARA  : 3 - 1
-				LBRACK : 5 - 2
-				RBRACK : 7 - 3
-				LBRACE : 9 - 4
-				RBRACE : 11 - 5
-				"where" gives the location after LPARA, if its 3 it means RBRACK is found because
-				(|)|[|]|{|} , 3rd section is starting from 0 RBRACK 
-			*/
-			//return (where % 2 == 0) ? 
-			//derive_from_new_int_object(LPARA+where,0) : new_fbgc_object(LPARA+where);	
-			return new_fbgc_object(LPARA+where);
-		}
-		case LEXER_TOK_KEYWORDS:
-		{	
-			fbgc_token kw_tok = END+where;
-
-			switch(kw_tok){
-				case ELIF:
-				case WHILE:
-				case FOR:
-				case BREAK:
-				case CONT:
-				case FUN_MAKE:
-				case IF:
-				return new_fbgc_jumper_object(kw_tok);
-				default: return new_fbgc_object(END + where);
-			}
-
-		}
-		case LEXER_TOK_NAME:
-		{	
-			return new_fbgc_symbol_from_substr(str1,str2);
-			//return obj;//new_fbgc_object(NAME);
-		}
-		default: 
-			cprintf(100,"Undefined object creation in new object creation! returning NULL\n");
-			return NULL;
-		break;
-	}
-
-
-    return obj;
-}
 
 /*
 uint8_t match(match_where *mw, const char * inc_rule_ptr, const char * buffer){

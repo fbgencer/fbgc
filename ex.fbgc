@@ -1,13 +1,21 @@
-x = 100
-print(x)
+:>x = fopen("hello.txt","w+")
+:>fprint(x,"bu dosya ex.fbgc tarafindan yaziliyor\n");
+:>fprint(x,"Bu da ikinci satir\n");
+:>fclose(x)
 
-foo = fun(a,b)
-	x = a
-	x **= b
-	return x
+
+tostr = fun(a)
+	if(type(a) == type(1))
+		return "%d" % a
+	elif(type(a) == type(1.2))
+		return "%g" % a
+	else
+		print("Argument is not integer.");
+		return ""
+	end
 end
 
-x = (1,2,3,4)
-x[0] += 250
+
+x = "Onumuzdeki "+ ("%d" % (0-3) ) + " yilinda fbgc "+tostr(3.14)+" yasinda olacak :)"
 
 print(x)

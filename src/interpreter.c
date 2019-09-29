@@ -62,11 +62,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 		#ifdef INTERPRETER_DEBUG
 		cprintf(010,"################ [%d] = {%s} ########################\n",i,object_type_as_str(pc));
-		//print_fbgc_object(pc);
-		//cprintf(100,"sctr:%d, fctr:%d\n",sctr,fctr);
 		#endif
-
-		// print_fbgc_memory_block();
 
 		switch(type){
 			case NIL:
@@ -74,8 +70,9 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			case DOUBLE:
 			case COMPLEX:			
 			case STRING:
-			case FUN:
 			case CFUN:
+			case FUN:
+			case CSTRUCT:
 			case ROW:
 			{
 				PUSH(pc);
@@ -167,8 +164,6 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				PUSH(ret);
 				//##Solve this pc->next problem!!!!!!!!
 				pc = stack;
-				//cprintf(111,"Stack next :");
-				//print_fbgc_object(stack->next);
 
 				recursion_ctr = 0;
 
@@ -197,22 +192,18 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				
 				assert(TOP() != NULL && SECOND() != NULL);
 
-				fbgc_token main_tok = 
-				(get_fbgc_object_type(TOP()) > get_fbgc_object_type(SECOND())) ? 
-				get_fbgc_object_type(TOP()) : 
-				get_fbgc_object_type(SECOND()) ;
-
+				fbgc_token main_tok = MAX(get_fbgc_object_type(TOP()),get_fbgc_object_type(SECOND()));
 
 				if(is_fbgc_binary_op_null(main_tok)){
 					cprintf(111,"This type does not support operation.\n");
 					return 0;
 				}
 				struct fbgc_object * res =  call_fbgc_binary_op(main_tok,SECOND(),TOP(),type);
-				STACK_GOTO(-2);
+				STACK_GOTO(-1);
 				//struct fbgc_object * res =  safe_call_fbgc_binary_op(POP(),POP(),main_tok,type);
 
 				assert(res != NULL);
-				PUSH(res);		
+				SET_TOP(res);		
 
 				break;	
 
@@ -229,8 +220,8 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				}
 				else {
 					x = new_fbgc_range_object(SECOND(),TOP());
-					STACK_GOTO(-2);
-					PUSH(x);
+					STACK_GOTO(-1);
+					SET_TOP(x);
 
 					//Old version that works well with GCC compiler
 					//PUSH(new_fbgc_range_object(POP(),POP()));
@@ -326,24 +317,16 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				*lhs = rhs;	
 				break;
 			}
+			case LEN:
+			{
+				SET_TOP( get_length_fbgc_object(TOP()) );
+				break;
+			}			
 			case JUMP:
 			{
 				pc = cast_fbgc_object_as_jumper(pc)->content;	
 				break;
-			}
-			case ASSIGN_SUBSCRIPT:
-			{
-				return 0;
-			}
-			case LOAD_SUBSCRIPT:
-			{
-				return 0;
-			}			
-			case LEN:
-			{
-				PUSH( get_length_fbgc_object(POP()) );
-				break;
-			}
+			}		
 			case IF_BEGIN:
 			case ELIF_BEGIN:
 			case WHILE_BEGIN:

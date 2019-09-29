@@ -143,10 +143,9 @@ switch(type){
 	case TUPLE : sz = sizeof_fbgc_tuple_object(obj); break; 
 	case CFUN : sz = sizeof_fbgc_cfun_object(); break; 
 	case FUN : sz = sizeof_fbgc_fun_object(); break; 
-	case NAME : sz = sizeof_fbgc_object(); break; 
+	case CSTRUCT : sz = sizeof_fbgc_cstruct_object(obj); break; 
 	case IDENTIFIER : sz = sizeof_fbgc_id_opcode(); break; 
 	case RANGE : sz = sizeof_fbgc_range_object(); break; 
-	case REFERENCE : sz = sizeof_fbgc_object(); break; 
 	case CSTRING : sz = sizeof_fbgc_cstr_object(obj); break; 
 	case MONATRIX : sz = sizeof_fbgc_object(); break; 
 	case NUPLE : sz = sizeof_fbgc_object(); break; 
@@ -180,8 +179,6 @@ switch(type){
 	case MINUS_ASSIGN :
 	case STAR_ASSIGN :
 	case SLASH_ASSIGN :
-	case PLUSPLUS :
-	case MINUSMINUS :
 	case STARSTAR :
 	case SLASHSLASH :
 	case LO_EQ :

@@ -1,10 +1,12 @@
 #include "fbgc.h"
 
+//This part of the code is used only for Debug.
+//We don't need to know tokens and their string representation. Those are can be found in relexer.c file
+//When we print AST we need to know the string repr. of the token so we are using below functions and arrays.
+
 const char * object_name_array[]={
  TOKEN_LIST_AS_STRINGS()
 };
-
-
 
 const token_struct operator_token_array[]={
 	{LPARA,"("},
@@ -14,8 +16,6 @@ const token_struct operator_token_array[]={
 	{LBRACK,"["},
 	{RBRACK,"]"},
 	{STARSTAR,"**"},
-	{PLUSPLUS,"++"},
-	{MINUSMINUS,"--"},
 	{SLASHSLASH,"//"},
 	{LO_EQ,"<="},
 	{GR_EQ,">="},
@@ -50,6 +50,8 @@ const token_struct operator_token_array[]={
 	{STAR,"*"},
 	{MINUS,"-"},
 	{PLUS,"+"},
+	{UPLUS,"u+"},
+	{UMINUS,"u-"},
 };
 
 const token_struct reserved_words_token_array[]={
