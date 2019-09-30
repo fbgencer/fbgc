@@ -65,8 +65,6 @@ const token_struct reserved_words_token_array[]={
 	{CONT,"cont"},
 	{RETURN,"ret"},
 	{LOAD,"load"},
-	{TRUE,"true"},
-	{FALSE,"false"},
 };
 
 

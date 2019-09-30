@@ -14,6 +14,11 @@ struct fbgc_object{
 #define is_object_null(obj)(obj == NULL)
 #define get_fbgc_object_type(obj)( (obj->type & 0x7F))
 
+#define fbgc_object_max(o1,o2)(get_fbgc_object_type(o1)>get_fbgc_object_type(o2) ? get_fbgc_object_type(o1):\
+get_fbgc_object_type(o2))
+
+#define MAX(a,b)(a>b?a:b)
+
 //This only for debug case!
 #define object_type_as_str(obj)(obj != NULL ? object_name_array[get_fbgc_object_type(obj)] : "NULL")
 
@@ -22,6 +27,9 @@ struct fbgc_object{
 struct fbgc_object * new_fbgc_object(fbgc_token);
 size_t get_fbgc_object_size(struct fbgc_object * );
 
+
+
+char convert_fbgc_object_to_logic(struct fbgc_object * );
 int convert_fbgc_object_to_int(struct fbgc_object * );
 double convert_fbgc_object_to_double(struct fbgc_object * );
 struct raw_complex convert_fbgc_object_to_complex(struct fbgc_object * obj);

@@ -47,28 +47,24 @@ switch(op)
     }
     case SLASHSLASH:
     {
-        c =  1/(1/a1 + 1/b1); 
-        break;
+        // a1//b1 = (a1*b1)/(a1+b1)
+        return new_fbgc_double_object(a1*b1/(a1+b1+0.0)); 
     }
     case LO_EQ:
     {
-        c = a1<b1;
-        break;
+        return new_fbgc_logic_object(a1<=b1);
     }
     case GR_EQ:
     {
-        c = a1 > b1;
-        break;
+        return new_fbgc_logic_object(a1 >= b1);
     }
     case EQ_EQ:
     {
-        c = a1 == b1;
-        break;
+        return new_fbgc_logic_object(a1 == b1);
     }
     case NOT_EQ:
     {
-        c = a1 != b1;
-        break;
+        return new_fbgc_logic_object(a1 != b1);
     }
     case R_SHIFT:
     {
@@ -92,30 +88,23 @@ switch(op)
     }        
     case LOWER:
     {
-        c = a1<b1;
-        break;
+        return new_fbgc_logic_object(a1<b1);
     }        
     case GREATER:
     {
-        c = a1>b1;
-        break;
+        return new_fbgc_logic_object(a1>b1);
     }        
     case PIPE:
     {
-        c = a1 || b1;
-        break;
+        return new_fbgc_logic_object(a1 || b1);
     } 
     case AMPERSAND:
     {
-        c = a1 && b1;
-        break;
+        return new_fbgc_logic_object(a1 && b1);
     }        
     case SLASH:
     {
-        assert(b1 != 0);
-        c = a1/b1;
-
-        break;
+        return new_fbgc_double_object(((double)a1)/b1);
     }        
     case STAR:
     {

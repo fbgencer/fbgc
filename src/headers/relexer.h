@@ -42,24 +42,6 @@ extern "C" {
 "LEXER_TOK_NAME"
 
 
-/*
-	{COMMENT,":>  !.!* \n"},
-	{NEWLINE,"\n"},
-	{SPACE,"! |\t!+"},
-	{INT2,"0b 1|0!+"},
-	{INT16,"0x !x!+"},
-	{STRING,"' _|\\'!s!d!w!o!* '"},
-	//{DOUBLE,"!d!+ . !d!+ E +|-!* !d!+"}, 	//just experimental, it works..
-	{COMPLEX,"!d!+ . !d!+ j"},
-	{COMPLEX,"!d!+ j"}, 
-	{DOUBLE,". !d!+"}, 
-	{DOUBLE,"!d!+ . !d!+"}, 
-	{INT,"!d!+"},
-	{OP,"(|)|[|]|{|}"},	
-	{OP,"+|-|.|**|^|*|/|<|>|=>|<=|=|,|;|:"},	
-	{WORD,"_!w _!w!d!*"},	
-
-*/
 typedef struct{
 	const char * char_match_begin;
 	uint8_t char_match_end;

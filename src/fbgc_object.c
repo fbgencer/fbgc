@@ -15,6 +15,11 @@ void printf_fbgc_object(struct fbgc_object * self){
 	assert(self != NULL);
 	switch(get_fbgc_object_type(self))
 	{
+		case LOGIC:
+		{
+			fprintf(stdout, "%s", (cast_fbgc_object_as_logic(self)->content) ? "true" :"false");
+			break;
+		}
 		case INT:
 		{
 			fprintf(stdout,"%d",cast_fbgc_object_as_int(self)->content);
@@ -134,7 +139,8 @@ size_t get_fbgc_object_size(struct fbgc_object * obj){
 switch(type){
 
 	case UNKNOWN : sz = sizeof_fbgc_object(); break;  
-	case NIL : sz = sizeof_fbgc_object(); break; 
+	case NIL : sz = sizeof_fbgc_object(); break;
+	case LOGIC: sz = sizeof_fbgc_logic_object(); break; 
 	case INT : sz = sizeof_fbgc_int_object(); break; 
 	case DOUBLE : sz = sizeof_fbgc_double_object(); break; 
 	case COMPLEX : sz = sizeof_fbgc_complex_object(); break; 
@@ -163,9 +169,7 @@ switch(type){
 	case FOR : 
 	case BREAK : 
 	case CONT : sz = sizeof_fbgc_jumper_object(); break; 
-	case LOAD : sz = sizeof_fbgc_object(); break; 
-	case TRUE : sz = sizeof_fbgc_object(); break; 
-	case FALSE : sz = sizeof_fbgc_object(); break; 
+	case LOAD : sz = sizeof_fbgc_object(); break;
 	case IF : sz = sizeof_fbgc_jumper_object(); break; 
 	case RETURN : sz = sizeof_fbgc_object(); break; 
 	case NEWLINE : 
@@ -252,12 +256,29 @@ switch(type){
 	return sz;
 }
 
+char convert_fbgc_object_to_logic(struct fbgc_object * obj){
+	if(get_fbgc_object_type(obj) == LOGIC) return cast_fbgc_object_as_logic(obj)->content;
+
+	switch(get_fbgc_object_type(obj)){
+		case INT:
+			return (char)(cast_fbgc_object_as_logic(obj)->content);
+		case DOUBLE:
+			return (char)(cast_fbgc_object_as_int(obj)->content);
+		default :
+			cprintf(111,"Error at logic conversion! type %s\n",object_name_array[obj->type]);
+			assert(0);
+	}
+	
+	return 0;
+}
 
 int convert_fbgc_object_to_int(struct fbgc_object * obj){
 
 	if(get_fbgc_object_type(obj) == INT) return cast_fbgc_object_as_int(obj)->content;
 	
 	switch(get_fbgc_object_type(obj)){
+		case LOGIC:
+			return (int)(cast_fbgc_object_as_logic(obj)->content);
 		case DOUBLE: 
 			return (int)(cast_fbgc_object_as_double(obj)->content);
 		default :
@@ -274,6 +295,8 @@ double convert_fbgc_object_to_double(struct fbgc_object * obj){
 
 	
 	switch(get_fbgc_object_type(obj)){
+		case LOGIC:
+			return (double)(cast_fbgc_object_as_logic(obj)->content);
 		case INT:
 			return (double)(cast_fbgc_object_as_int(obj)->content);
 		default :

@@ -105,12 +105,12 @@ const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] =
 	{LEXER_TOK_DOUBLE,"!d!+ . !d!+ j!*"}, 	
 	{LEXER_TOK_BASE10_INT,"!d!+ j!*"},
 	{LEXER_TOK_PARA,"(|)|[|]|{|}"},		
-	{LEXER_TOK_KEYWORDS,"end|fun|elif|else|while|for|break|cont|load|true|false|if|return"},
+	{LEXER_TOK_KEYWORDS,"end|fun|elif|else|while|for|break|cont|load|if|return|true|false"},
+	{LEXER_TOK_NAME,"__ !w!d!o!+ __"},
 	{LEXER_TOK_NAME,"_!w _!w!d!*"},		
 	{LEXER_TOK_OP0,"~|:|,|.|;"},
 	{LEXER_TOK_OP1,">>=|<<=|**=|//=|+=|-=|*=|/=|^=|%=|>>|<<|**|//|+|-|*|/|^|%"}, // do not change this
 	{LEXER_TOK_OP2,"<=|>=|==|!=|<|>|||&|!|="},
-
 };
 /*
 Set0
@@ -195,6 +195,7 @@ struct fbgc_object * tokenize_substr(const char *str1, const char*str2, lexer_to
 		}
 		case LEXER_TOK_KEYWORDS:
 		{	
+			//end|fun|elif|else|while|for|break|cont|load|if|return|true|false
 			fbgc_token kw_tok = END+where;
 
 			switch(kw_tok){
@@ -205,8 +206,16 @@ struct fbgc_object * tokenize_substr(const char *str1, const char*str2, lexer_to
 				case CONT:
 				case FUN_MAKE:
 				case IF:
-				return new_fbgc_jumper_object(kw_tok);
-				default: return new_fbgc_object(END + where);
+					return new_fbgc_jumper_object(kw_tok);
+
+				default: 
+				{
+					if(kw_tok > RETURN) 
+						return new_fbgc_logic_object( kw_tok-1 == RETURN );
+					
+					return new_fbgc_object(kw_tok);
+				}
+				
 			}
 
 		}
@@ -385,7 +394,7 @@ static uint8_t check_char(rule_flag_struct *rfs,char ** buffer_ptr){
 	check = ( rfs->pattern_flag && 
 			((rfs->pattern_flag & 0x01) && isdigit(*(*buffer_ptr))) ||
 			((rfs->pattern_flag & 0x02) && isalpha(*(*buffer_ptr))) ||
-			((rfs->pattern_flag & 0x04) && (ispunct(*(*buffer_ptr))) && (*(*buffer_ptr)) != '\'' && (*(*buffer_ptr)) != '"') || 
+			((rfs->pattern_flag & 0x04) && (ispunct(*(*buffer_ptr))) && (*(*buffer_ptr)) != '\'' && (* (*buffer_ptr)) != '"' && (* (*buffer_ptr)) != '_' ) || 
 			((rfs->pattern_flag & 0x08) && isxdigit(*(*buffer_ptr)))||
 			((rfs->pattern_flag & 0x10) && isprint(*(*buffer_ptr))) ||
 			((rfs->pattern_flag & 0x20) && isspace(*(*buffer_ptr))) ||

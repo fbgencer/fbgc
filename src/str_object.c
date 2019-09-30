@@ -64,7 +64,7 @@ switch(op)
             uint8_t cmp = (length_fbgc_str_object(a) == length_fbgc_str_object(b) && 
                 memcmp(content_fbgc_str_object(a),content_fbgc_str_object(b),length_fbgc_str_object(a)) == 0);
 
-            return new_fbgc_int_object( op == NOT_EQ ? !cmp : cmp );
+            return new_fbgc_logic_object( op == NOT_EQ ? !cmp : cmp );
         }   
         return NULL;        
     }

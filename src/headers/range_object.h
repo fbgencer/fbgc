@@ -18,7 +18,7 @@ struct fbgc_range_object{
 
 
 struct fbgc_object * new_fbgc_range_object(struct fbgc_object * s,struct fbgc_object * e);
-struct fbgc_object * get_element_in_fbgc_range_object(struct fbgc_object * obj, int index);
+struct fbgc_object * get_element_in_fbgc_range_object(struct fbgc_object * robj,int index);
 
 #ifdef  __cplusplus
 }

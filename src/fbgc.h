@@ -35,6 +35,7 @@ extern "C" {
 #include "headers/jumper_object.h"
 #include "headers/double_object.h"
 #include "headers/int_object.h"
+#include "headers/logic_object.h"
 #include "headers/complex_object.h"	
 #include "headers/str_object.h"
 #include "headers/matrix_object.h"

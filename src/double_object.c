@@ -38,23 +38,19 @@ struct fbgc_object * binary_op_fbgc_double_object(struct fbgc_object * a,struct 
         }
         case LO_EQ:
         {
-            c = a1<=b1;
-            break;
+            return new_fbgc_logic_object(a1<=b1);
         }
         case GR_EQ:
         {
-            c = a1 >= b1;
-            break;
+            return new_fbgc_logic_object(a1 >= b1);
         }
         case EQ_EQ:
         {
-            c = a1 == b1;
-            break;
+            return new_fbgc_logic_object(a1 == b1);
         }
         case NOT_EQ:
         {
-            c = a1 != b1;
-            break;
+            return new_fbgc_logic_object(a1 != b1);
         }
         case R_SHIFT:
         {
@@ -81,22 +77,22 @@ struct fbgc_object * binary_op_fbgc_double_object(struct fbgc_object * a,struct 
         }        
         case LOWER:
         {
-            c = a1<b1;
+            return new_fbgc_logic_object(a1 < b1);
             break;
         }        
         case GREATER:
         {
-            c = a1>b1;
+            return new_fbgc_logic_object(a1 > b1);
             break;
         }        
         case PIPE:
         {
-            c = a1 || b1;
+            return new_fbgc_logic_object(a1 || b1);
             break;
         } 
         case AMPERSAND:
         {
-            c = a1 && b1;
+            return new_fbgc_logic_object(a1 && b1);
             break;
         }        
         case SLASH:

@@ -34,18 +34,29 @@
 
 
 
-f = open("ex.fbgc","w")
+# f = open("ex.fbgc","w")
 
 
-no = 10
+# no = 10
 
-var_str = 'a'
+# var_str = 'a'
 
-for i in range(no):
-	f.write(var_str+' = '+"'str(no-i)'"+'\n')
-	f.write("print('abdefgasdkasdkasfksdfnsdfsdfsdfsdjfkjsdfjsdkf',a)\n")
-for i in range(no):
-	pass
+# for i in range(no):
+# 	f.write(var_str+' = '+"'str(no-i)'"+'\n')
+# 	f.write("print('abdefgasdkasdkasfksdfnsdfsdfsdfsdjfkjsdfjsdkf',a)\n")
+# for i in range(no):
+# 	pass
 	
 
-f.close()
+# f.close()
+
+
+
+x = ()
+i = 0
+step = 0.000001
+while(i < 20.3):
+	#print(i)
+	i = i + step
+
+#print(x,len(x))

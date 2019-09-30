@@ -66,6 +66,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 		switch(type){
 			case NIL:
+			case LOGIC:
 			case INT:
 			case DOUBLE:
 			case COMPLEX:			
@@ -332,8 +333,8 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			case WHILE_BEGIN:
 			{
 				struct fbgc_object * cond = POP();
-				//Check this! cond->type == INT 
-				if(!cast_fbgc_object_as_int(cond)->content  ){
+				char c = convert_fbgc_object_to_logic(cond);
+				if(!c){
 					pc = cast_fbgc_object_as_jumper(pc)->content;
 				}
 				break;
@@ -344,21 +345,28 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 				int i = cast_fbgc_object_as_int(TOP())->content;
 				struct fbgc_object * seq_ob = SECOND();
+
 				if(i == -1){
-					//New construciont of for loop
+					//New construciont of the for loop
 					//change the top put the new iterator
 					SET_TOP(new_fbgc_int_object(i = 0));
 				}
 				else {
+					//this is iterator and we will increase it inplace
 					i = ++(cast_fbgc_object_as_int(TOP())->content);
 				}
 
-				if(seq_ob->type == STRING){
+
+				if(seq_ob->type == RANGE){
+					seq_ob = get_element_in_fbgc_range_object(seq_ob,i);					
+				}
+				else if(seq_ob->type == STRING){
 					seq_ob = subscript_fbgc_str_object(seq_ob,i,i+1);
 				}
-				else if(seq_ob->type == RANGE){
-					seq_ob = get_element_in_fbgc_range_object(seq_ob,i);
+				else if(seq_ob->type == TUPLE){
+					seq_ob = get_object_in_fbgc_tuple_object(seq_ob,i);
 				}
+				else assert(0);
 
 
 				if(seq_ob != NULL){

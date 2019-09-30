@@ -50,11 +50,10 @@ struct fbgc_object * fbgc_binary_star(struct fbgc_object *, struct fbgc_object *
 struct fbgc_object * fbgc_binary_minus(struct fbgc_object *, struct fbgc_object *, fbgc_token);
 struct fbgc_object * fbgc_binary_plus(struct fbgc_object *, struct fbgc_object *, fbgc_token);*/
 
-struct fbgc_object * is_fbgc_object_true(struct fbgc_object * a);
 
 //extern struct fbgc_object * (*fbgc_binary_op[BINARY_FUNCTION_NO])(struct fbgc_object *, struct fbgc_object *, fbgc_token );
 
-extern struct fbgc_object * (*fbgc_binary_op[6]) (struct fbgc_object *, struct fbgc_object *, fbgc_token );
+extern struct fbgc_object * (*fbgc_binary_op[7]) (struct fbgc_object *, struct fbgc_object *, fbgc_token );
 
 // usage of this call definition is just calling binary function from its token
 // when we write call_fbgc_binary_op(PLUS,x,y) it will call plus, if we call STAR it will star function
@@ -63,9 +62,9 @@ extern struct fbgc_object * (*fbgc_binary_op[6]) (struct fbgc_object *, struct f
 //#define call_fbgc_binary_op(token,a,b,main_tok)(fbgc_binary_op[token - STARSTAR](a,b,main_tok))
 
 
-#define is_fbgc_binary_op_null(token)(fbgc_binary_op[token - INT] == NULL)
+#define is_fbgc_binary_op_null(token)(fbgc_binary_op[token - LOGIC] == NULL)
 
-#define call_fbgc_binary_op(main_tok,a,b,op_tok)(fbgc_binary_op[main_tok - INT](a,b,op_tok))
+#define call_fbgc_binary_op(main_tok,a,b,op_tok)(fbgc_binary_op[main_tok - LOGIC](a,b,op_tok))
 
 struct fbgc_object * safe_call_fbgc_binary_op(struct fbgc_object * , struct fbgc_object * , fbgc_token, fbgc_token);
 

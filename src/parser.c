@@ -419,6 +419,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 	#endif
 	
  	switch(iter->type){
+ 		case LOGIC:
  		case INT:
  		case DOUBLE:
  		case COMPLEX:
@@ -628,6 +629,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 				POP_LL(op);
 				current_scope = *field_obj;
 			}
+			//else assert(0);
 
 			while(TOP_LL(op) != NULL && TOP_LL(op)->type == JUMP){
 				struct fbgc_object * jump_obj = TOP_LL(op);
