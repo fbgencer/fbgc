@@ -2,7 +2,7 @@
 
 
 
-void cprintf(char color,const char *format, ...) {
+int cprintf(char color,const char *format, ...) {
 
 #ifndef CLOSE_CPRINTF
 
@@ -37,6 +37,8 @@ void cprintf(char color,const char *format, ...) {
     vprintf(format, args); printf("\033[0m");
     
     va_end(args);
+
+    return 1;
     
 #endif
 }

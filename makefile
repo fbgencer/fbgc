@@ -5,7 +5,7 @@ OBJ = ${SRC:.c=.o}
 
 #put -g in order to see good assembly output
 CC=gcc
-CFLAGS=-c -lm -Os -g -w
+CFLAGS=-c -lm -Os -w
 LDFLAGS += -lm 
 
 #CFLAGS += -DCLOSE_CPRINTF

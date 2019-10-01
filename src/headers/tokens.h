@@ -24,12 +24,12 @@ typedef struct {
 #define STRING 6 // string class
 #define MATRIX 7 // matrix class
 #define TUPLE 8 // tuple class
-#define CFUN 9 // c function
-#define FUN 10 // builtin fbgc function
-#define CSTRUCT 11 // 
-#define IDENTIFIER 12 // identifiers
-#define RANGE 13 // range obj
-#define CSTRING 14 //
+#define CSTRING 9 // raw c strings without length
+#define CFUN 10 // c function
+#define FUN 11 // builtin fbgc function
+#define CSTRUCT 12 // 
+#define IDENTIFIER 13 // identifiers
+#define RANGE 14 // range obj
 #define MONATRIX 15 //
 #define NUPLE 16 //
 #define MONUPLE 17 //
@@ -100,23 +100,24 @@ typedef struct {
 #define WHILE_BEGIN 82 //
 #define FOR_BEGIN 83 //
 #define FUN_CALL 84 //
-#define BUILD_TUPLE 85 //
-#define BUILD_MATRIX 86 //
-#define ROW 87 //
-#define AND 88 //
-#define OR 89 //
-#define NOT 90 //
-#define START 91 //
-#define EXPRESSION 92 //
-#define ASSIGNMENT 93 //
-#define STATEMENT 94 //
-#define ASSIGNMENT_EXPRESSION 95 //
-#define UNARY_EXPRESSION 96 //
-#define BINARY_EXPRESSION 97 //
-#define BALANCED_EXPRESSION_LIST 98 //
-#define UNBALANCED_EXPRESSION_LIST 99 //
-#define ASSIGN_SUBSCRIPT 100 //
-#define LOAD_SUBSCRIPT 101 //
+#define METHOD_CALL 85 //
+#define BUILD_TUPLE 86 //
+#define BUILD_MATRIX 87 //
+#define ROW 88 //
+#define AND 89 //
+#define OR 90 //
+#define NOT 91 //
+#define START 92 //
+#define EXPRESSION 93 //
+#define ASSIGNMENT 94 //
+#define STATEMENT 95 //
+#define ASSIGNMENT_EXPRESSION 96 //
+#define UNARY_EXPRESSION 97 //
+#define BINARY_EXPRESSION 98 //
+#define BALANCED_EXPRESSION_LIST 99 //
+#define UNBALANCED_EXPRESSION_LIST 100 //
+#define ASSIGN_SUBSCRIPT 101 //
+#define LOAD_SUBSCRIPT 102 //
 #define TOKEN_LIST_AS_STRINGS()\
 "UNKNOWN",\
 "NIL",\
@@ -127,12 +128,12 @@ typedef struct {
 "STRING",\
 "MATRIX",\
 "TUPLE",\
+"CSTRING",\
 "CFUN",\
 "FUN",\
 "CSTRUCT",\
 "IDENTIFIER",\
 "RANGE",\
-"CSTRING",\
 "MONATRIX",\
 "NUPLE",\
 "MONUPLE",\
@@ -203,6 +204,7 @@ typedef struct {
 "WHILE_BEGIN",\
 "FOR_BEGIN",\
 "FUN_CALL",\
+"METHOD_CALL",\
 "BUILD_TUPLE",\
 "BUILD_MATRIX",\
 "ROW",\

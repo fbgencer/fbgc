@@ -12,15 +12,9 @@ struct fbgc_object * new_fbgc_symbol_from_substr(const char * str1,const char * 
 	#ifdef SYMBOL_TABLE_DEBUG
 	cprintf(100,"Symbol table new symbol from substr..\n");
 	#endif
-	//############
-	//This part is for the recognization of the c module functions
-	//struct fbgc_object * o = new_cfun_object_from_substr(field_obj,str1,str2);
-	//if(o) return o;
-	
-	//first compare incoming str with the old identifiers
-	
-	//:>//struct fbgc_object * table = (struct fbgc_object *) cast_fbgc_object_as_field(field_obj)->symbols;
 
+
+	//General symbol holder see symbol_table.h
 	struct fbgc_object ** symbols = tuple_object_content(fbgc_symbols);
 
 

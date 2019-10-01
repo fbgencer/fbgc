@@ -1,6 +1,8 @@
-for(i = 0:0.000001:20.3)
-	:>print(i);
+x = 2j;
+y = x[0] == x.real
+
+if(y)
+	print("y = true")
+else
+	print("y = false")
 end
-
-print('finish')
-

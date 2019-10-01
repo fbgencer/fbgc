@@ -34,6 +34,7 @@ int convert_fbgc_object_to_int(struct fbgc_object * );
 double convert_fbgc_object_to_double(struct fbgc_object * );
 struct raw_complex convert_fbgc_object_to_complex(struct fbgc_object * obj);
 
+struct fbgc_object * get_set_fbgc_object_member(struct fbgc_object * o, const char * str, struct fbgc_object * nm);
 
 struct fbgc_object * get_length_fbgc_object(struct fbgc_object * t);
 

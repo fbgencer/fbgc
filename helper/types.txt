@@ -7,12 +7,12 @@ COMPLEX $ complex class
 STRING $ string class
 MATRIX $ matrix class
 TUPLE $ tuple class
+CSTRING $ raw c strings without length
 CFUN $ c function
 FUN $ builtin fbgc function
 CSTRUCT $ 
 IDENTIFIER $ identifiers
 RANGE $ range obj
-CSTRING
 MONATRIX
 NUPLE
 MONUPLE
@@ -83,6 +83,7 @@ ELIF_BEGIN
 WHILE_BEGIN
 FOR_BEGIN
 FUN_CALL
+METHOD_CALL
 BUILD_TUPLE
 BUILD_MATRIX
 ROW

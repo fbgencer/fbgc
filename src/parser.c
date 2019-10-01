@@ -210,14 +210,29 @@ struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,st
 
 		gm_seek_right(gm,TOP_LL(op));
 		struct fbgc_object * iter = iter_prev->next;
-
 		//Insert top op to the list  
 		iter_prev->next = TOP_LL(op);
 		POP_LL(op);
-		iter_prev = iter_prev->next;
-		iter_prev->next = new_fbgc_object(FUN_CALL);
-		iter_prev = iter_prev->next;
+		
+		if(iter_prev->next->type != CFUN && is_id_flag_MEMBER(iter_prev->next) ){
+			//method call
+			iter_prev->next->type = METHOD_CALL;
+			iter_prev = iter_prev->next;
+		}else{
+			//function call
+
+			iter_prev = iter_prev->next;
+			iter_prev->next = new_fbgc_object(FUN_CALL);
+			iter_prev = iter_prev->next;
+		}
+
 		iter_prev->next = iter;
+
+		
+
+		
+
+		
 
 		/*if(iter_prev->type == COMMA) iter_prev->type = INT; 
 		else {
@@ -437,15 +452,27 @@ uint8_t parser(struct fbgc_object ** field_obj){
 			cprintf(111,"current_scope :[%s]\n",object_name_array[current_scope->type]);
 			#endif
 
-			struct fbgc_object * cstr_obj = get_object_in_fbgc_tuple_object(fbgc_symbols,cast_fbgc_object_as_int(iter)->content);
+			struct fbgc_object * cstr_obj = get_object_in_fbgc_tuple_object(fbgc_symbols,cast_fbgc_object_as_id_opcode(iter)->loc);
 			#ifdef PARSER_DEBUG
 			cprintf(100,">>>:"); print_fbgc_object(cstr_obj);
+			cprintf(100,"\n");
 			#endif
+			
+			struct fbgc_object * cf = NULL;
 
-			struct fbgc_object * cf =  new_cfun_object_from_str(*field_obj,&cast_fbgc_object_as_cstr(cstr_obj)->content);
+			if(TOP_LL(op) != NULL && TOP_LL(op)->type == DOT){
+				//so this is just a member selection
+				POP_LL(op);
 
-			if(cf != NULL){
-				//remove identifier object, out cfun object into stack
+				/*struct fbgc_object * cstr = new_fbgc_cstr_object(&cast_fbgc_object_as_cstr(cstr_obj)->content); 
+				cstr->next = iter->next;
+				iter_prev->next = cstr;
+				iter_prev=cstr;*/
+				cast_fbgc_object_as_id_opcode(iter)->member_name = cstr_obj;
+				set_id_flag_MEMBER(iter);
+			}
+			else if((cf = new_cfun_object_from_str(*field_obj,&cast_fbgc_object_as_cstr(cstr_obj)->content)) != NULL){
+				//remove identifier object, put cfun object into stack
 				cf->next = iter->next;
 				iter = cf;
 			}
@@ -453,7 +480,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 
 				struct fbgc_object * local_array = cast_fbgc_object_as_field(current_scope)->locals;
 				struct fbgc_identifier * temp_id; 
-				int where = -1;//index_fbgc_array_object(local_tuple,name_obj);
+				int where = -1;
 
 				for(int i = 0; i<size_fbgc_array_object(local_array); i++){
 					temp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(local_array,i);
@@ -462,13 +489,17 @@ uint8_t parser(struct fbgc_object ** field_obj){
 
 				if(where == -1) {
 					#ifdef PARSER_DEBUG
-					cprintf(111,"couldn't find in locals/field obj..\n");
+					cprintf(111,"couldn't find in locals/field obj| creating variable inside global field\n");
 					#endif
 					struct fbgc_identifier id;		
 					id.name = cstr_obj; id.content = NULL;
 					local_array = push_back_fbgc_array_object(local_array,&id);
 					where = size_fbgc_array_object(local_array)-1;
 					cast_fbgc_object_as_field(current_scope)->locals = local_array;
+					
+					#ifdef PARSER_DEBUG
+					cprintf(111,"We put at where %d\n",where);
+					#endif
 				}
 				else{
 					#ifdef PARSER_DEBUG
@@ -997,6 +1028,19 @@ uint8_t parser(struct fbgc_object ** field_obj){
 			gm_error = gm_seek_left(&gm,iter);
 			
 			assert(TOP_LL(op)->type == IDENTIFIER );
+			
+			#ifdef INTERPRETER_DEBUG
+			struct fbgc_object * pc = TOP_LL(op);
+            if(is_id_flag_GLOBAL(pc) ) cprintf(011,"%s{G<%d>}","ID",cast_fbgc_object_as_id_opcode(pc)->loc);
+            else if(is_id_flag_LOCAL(pc) ) cprintf(011,"%s{L<%d>}","ID",cast_fbgc_object_as_id_opcode(pc)->loc);
+            else if(is_id_flag_MEMBER(pc) ) cprintf(011,"%s{M<%d>}","ID",cast_fbgc_object_as_id_opcode(pc)->loc);
+            else if(is_id_flag_SUBSCRIPT(pc) ) cprintf(011,"%s{S<%d>}","ID",cast_fbgc_object_as_id_opcode(pc)->loc);
+            else{
+                cprintf(111,"Undefined ID!\n"); 
+            }
+            cprintf(111,"\n");     				
+			#endif
+
 			TOP_LL(op)->type = iter->type;
 			iter_prev->next = iter->next;
 			break;

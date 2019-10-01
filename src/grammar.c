@@ -230,7 +230,7 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 			is_fbgc_ASSIGNMENT_OPERATOR(gm_left) ||
 			gm_left == LBRACK ||  gm_left == LPARA || gm_left == LBRACE ||
 			gm_left == IF_BEGIN || gm_left == ELIF_BEGIN || gm_left == WHILE_BEGIN ||
-			gm_left == ELSE || gm_left == SEMICOLON ||
+			gm_left == ELSE || gm_left == SEMICOLON || gm_left == DOT ||
 			gm_left == NEWLINE ))
 	{
 		gm->top = get_fbgc_object_type(obj);

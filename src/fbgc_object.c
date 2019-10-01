@@ -329,23 +329,6 @@ struct raw_complex convert_fbgc_object_to_complex(struct fbgc_object * obj){
 	return z;
 }
 
-/*
-char convert_fbgc_object_to_str(struct fbgc_object * obj){
-	if(get_fbgc_object_type(obj) == STRING) return &cast_fbgc_object_as_str(obj)->content;
-
-	switch(get_fbgc_object_type(obj)){
-		case INT:
-				//new_fbgc_int_object(strtol(int_str_begin, NULL,base));
-			return strtol(cast_fbgc_object_as_int(obj)->content);
-		default :
-
-			cprintf(111,"Error at double conversion! type %s\n",object_name_array[obj->type]);
-			assert(0);	
-	}
-	
-	return 0;
-}*/
-
 
 struct fbgc_object * get_length_fbgc_object(struct fbgc_object * t){
 	switch(t->type){
@@ -384,27 +367,14 @@ struct fbgc_object * get_length_fbgc_object(struct fbgc_object * t){
 } 
 
 
-void free_fbgc_object(struct fbgc_object * self){
-/*		#ifdef FREE_DEBUG
-			if(self == NULL) cprintf(100,"Null deleting..\n");
-		#endif			
-
-	if(self != NULL && (self->type & 0x80) != 0x80 ){
-		#ifdef FREE_DEBUG
-		cprintf(110,"Freeing["); print_fbgc_object(self); cprintf(110,"]\n");
-		#endif			
-		switch(self->type) {
-			case STRING:
-			case WORD:
-				free_fbgc_str_object(self);
-				break;
-			case TUPLE:
-				free_fbgc_tuple_object(self);
-				break;
-			default:
-				free(self);
-				break;
-		}
+struct fbgc_object * get_set_fbgc_object_member(struct fbgc_object * o, const char * str, struct fbgc_object * nm){
+	switch(o->type)
+	{
+		//case INT: return get_set_fbgc_int_object_member(o,str,nm);
+		//case DOUBLE: return get_set_fbgc_double_object_member(o,str,nm);
+		case COMPLEX: return get_set_fbgc_complex_object_member(o,str,nm);
+		default:
+			assert(0 && cprintf(100,"[%s] cannot accessible\n",o->type));
+		return NULL;
 	}
-*/
-}
+} 

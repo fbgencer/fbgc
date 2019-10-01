@@ -71,6 +71,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			case DOUBLE:
 			case COMPLEX:			
 			case STRING:
+			case CSTRING:
 			case CFUN:
 			case FUN:
 			case CSTRUCT:
@@ -81,6 +82,14 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			}
 			case IDENTIFIER:
 			{	
+
+				if(is_id_flag_MEMBER(pc)){
+					//if(TOP()->type == CSTRING)
+					struct fbgc_object * name = cast_fbgc_object_as_id_opcode(pc)->member_name;
+					SET_TOP( get_set_fbgc_object_member(TOP(),&cast_fbgc_object_as_cstr(name)->content , NULL) );
+					break;
+				}
+
 				if(is_id_flag_SUBSCRIPT(pc)){
 					//cprintf(111,"Id flag subscript \n");
 					//first pop the number of indexes
@@ -115,7 +124,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 							temp = subscript_fbgc_str_object(temp,index,index+1);
 						}
 						else {
-							cprintf(111,"Not index accessable!\n");
+							cprintf(111,"Not index accessible!\n");
 							print_fbgc_object(temp); printf("\n");
 							return 0;
 						}
@@ -243,11 +252,37 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			case  CARET_ASSIGN:
 			case  PERCENT_ASSIGN:			
 			{
+
+				#ifdef INTERPRETER_DEBUG
+		            if(is_id_flag_GLOBAL(pc) ) cprintf(011,"%s{G<%d>}","ID",cast_fbgc_object_as_id_opcode(pc)->loc);
+		            else if(is_id_flag_LOCAL(pc) ) cprintf(011,"%s{L<%d>}","ID",cast_fbgc_object_as_id_opcode(pc)->loc);
+		            else if(is_id_flag_MEMBER(pc) ) cprintf(011,"%s{M<%d>}","ID",cast_fbgc_object_as_id_opcode(pc)->loc);
+		            else if(is_id_flag_SUBSCRIPT(pc) ) cprintf(011,"%s{S<%d>}","ID",cast_fbgc_object_as_id_opcode(pc)->loc);
+		            else{
+		                cprintf(111,"Undefined ID!\n"); 
+		            }
+		            cprintf(111,"\n");     				
+				#endif
+
 				struct fbgc_object * rhs = POP();
 
 				struct fbgc_object ** lhs = NULL;
 
-				if(is_id_flag_GLOBAL(pc)){
+				if(is_id_flag_MEMBER(pc)){
+					struct fbgc_object * name = cast_fbgc_object_as_id_opcode(pc)->member_name;
+					struct fbgc_object * ok = get_set_fbgc_object_member(TOP(),&cast_fbgc_object_as_cstr(name)->content , rhs);
+
+					if(ok == NULL){
+						cprintf(100,"[%s] does not support [%s] member assignment\n",object_name_array[TOP()->type],&cast_fbgc_object_as_cstr(name)->content);
+						return 0;
+					}
+
+					_POP();
+
+					break;
+					
+				}
+				else if(is_id_flag_GLOBAL(pc)){
 					struct fbgc_identifier * tmp = 
 					(struct fbgc_identifier *) get_address_in_fbgc_array_object(globals,cast_fbgc_object_as_id_opcode(pc)->loc);
 					lhs = &tmp->content;
@@ -427,6 +462,23 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				//##Solve this pc->next problem!!!!!!!!
 				stack->next = cast_fbgc_object_as_fun(funo)->code;
 				pc = stack;
+				break;
+			}
+			case METHOD_CALL:
+			{
+				
+				int arg_no = cast_fbgc_object_as_int(POP())->content;
+				struct fbgc_object * name = cast_fbgc_object_as_id_opcode(pc)->member_name;
+
+				struct fbgc_object * method = get_set_fbgc_object_member(TOPN(arg_no+1),&cast_fbgc_object_as_cstr(name)->content , NULL);
+				
+				if(method->type == CFUN){
+					STACK_GOTO(-arg_no-1);
+					struct fbgc_object * res = cfun_object_call(method, sp+sctr, arg_no);
+					PUSH(res);
+				}
+				else assert(0);
+
 				break;
 			}
 			case BUILD_TUPLE:

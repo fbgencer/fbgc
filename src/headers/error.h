@@ -9,7 +9,7 @@ extern "C" {
 #if defined CLOSE_PRINTF
 #define cprintf(...)
 #else
-void cprintf(char color,const char *format, ...);
+int cprintf(char color,const char *format, ...);
 #endif
 
 //#define LEXER_DEBUG

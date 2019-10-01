@@ -34,6 +34,10 @@ struct fbgc_object * subscript_fbgc_complex_object(struct fbgc_object * self,uin
     return new_fbgc_double_object(d);
 }
 
+struct fbgc_object * conjugate_fbgc_complex_object(struct fbgc_object ** arg,int argc){
+    assert(argc == 0);
+        return new_fbgc_complex_object(cast_fbgc_object_as_complex(*arg)->z.real,-cast_fbgc_object_as_complex(*arg)->z.imag); 
+};
 
 
 
@@ -127,6 +131,29 @@ switch(op)
 
     return new_fbgc_complex_object(c.real,c.imag);
 }
+
+
+struct fbgc_object * get_set_fbgc_complex_object_member(struct fbgc_object * o, const char * str, struct fbgc_object * nm){
+
+    double * p = NULL;
+
+    if( !strcmp(str,"imag")){
+        p = &cast_fbgc_object_as_complex(o)->z.imag;
+    }
+    else if( !strcmp(str,"real") ){
+        p = &cast_fbgc_object_as_complex(o)->z.real;
+    }
+    else if( !strcmp(str,"conj") ){
+        return new_fbgc_cfun_object(&conjugate_fbgc_complex_object);
+    }   
+    else return NULL;
+
+    if(nm == NULL)
+        return new_fbgc_double_object( *p ); 
+    else {
+        *p = convert_fbgc_object_to_double(nm);
+    }
+} 
 
 
 void print_fbgc_complex_object(struct fbgc_object * obj){
