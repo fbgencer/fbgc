@@ -56,13 +56,13 @@ void printf_fbgc_object(struct fbgc_object * self){
 		{
 			    #define m cast_fbgc_object_as_matrix(self)
 
-			    double * contents = matrix_object_content(self);
+			    double * contents = content_fbgc_matrix_object(self);
 
 			    printf("[");
 			    for(int i = 0; i<m->row; i++){
 			        
 			        for(int j = 0; j<m->column; j++){
-			            printf("%f",contents[i * m->column + j]);
+			            printf("%g",contents[i * m->column + j]);
 			            if(j != m->column-1) printf(",");
 			        }
 			        if(i!= m->row-1) printf("\n");
@@ -72,8 +72,9 @@ void printf_fbgc_object(struct fbgc_object * self){
 			break;
 		}	
 		case FUN:
-		{
-			fprintf(stdout,"[Function object<%p>]",self);
+		{	
+			fprintf_fbgc_fun_object(self);
+			//fprintf(stdout,"[Function object<%p>]",self);
 			break;
 		}			
 		default:
@@ -87,6 +88,11 @@ void print_fbgc_object(struct fbgc_object * self){
 
 	if(self != NULL){ 
 		switch(get_fbgc_object_type(self)){
+			case LOGIC:
+			{
+				cprintf(110, "%s", (cast_fbgc_object_as_logic(self)->content) ? "true" :"false");
+				break;				
+			}
 			case INT:
 				print_fbgc_int_object(self);
 			break;
@@ -265,6 +271,7 @@ char convert_fbgc_object_to_logic(struct fbgc_object * obj){
 		case DOUBLE:
 			return (char)(cast_fbgc_object_as_int(obj)->content);
 		default :
+			printf_fbgc_object(obj);
 			cprintf(111,"Error at logic conversion! type %s\n",object_name_array[obj->type]);
 			assert(0);
 	}
@@ -373,8 +380,23 @@ struct fbgc_object * get_set_fbgc_object_member(struct fbgc_object * o, const ch
 		//case INT: return get_set_fbgc_int_object_member(o,str,nm);
 		//case DOUBLE: return get_set_fbgc_double_object_member(o,str,nm);
 		case COMPLEX: return get_set_fbgc_complex_object_member(o,str,nm);
+		case CSTRUCT:
+		{
+			struct fbgc_cstruct_object * so = cast_fbgc_object_as_cstruct(o);
+			struct fbgc_cmodule * cm = so->parent;
+			for (int i = 0; ; ++i){
+				const struct fbgc_cfunction * cc = cm->functions[i];
+				if(cc == NULL) break;
+				
+				if(!my_strcmp(str,cc->name)){
+					return new_fbgc_cfun_object(cc->function);
+				} 
+				
+			}
+			return NULL;
+		}
 		default:
-			assert(0 && cprintf(100,"[%s] cannot accessible\n",o->type));
+			assert(1 && !cprintf(100,"[%s] cannot accessible\n",object_name_array[o->type]) );
 		return NULL;
 	}
 } 

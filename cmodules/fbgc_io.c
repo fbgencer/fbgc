@@ -61,7 +61,9 @@ const struct fbgc_cmodule fbgc_io_module =
 	.initializer = &fbgc_io_initializer_struct,
 	.functions = (const struct fbgc_cfunction*[])
 	{
-		&fbgc_print_struct,&fbgc_read_struct,NULL
+		&fbgc_print_struct,
+		&fbgc_read_struct,
+		NULL
 	}
 };
 

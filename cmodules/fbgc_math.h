@@ -20,7 +20,7 @@ declare_new_fbgc_cfunction(fbgc_asin);
 declare_new_fbgc_cfunction(fbgc_atan);
 declare_new_fbgc_cfunction(fbgc_pow);
 declare_new_fbgc_cfunction(fbgc_sqrt);
-
+declare_new_fbgc_cfunction(fbgc_exp);
 
 
 #ifdef  __cplusplus

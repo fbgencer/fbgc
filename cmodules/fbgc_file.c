@@ -1,23 +1,6 @@
 #include "../src/fbgc.h"
 #include "fbgc_file.h"
 
-/*
-  FILE * pFile;
-   char buffer [100];
-
-   pFile = fopen ("myfile.txt" , "r");
-   if (pFile == NULL) perror ("Error opening file");
-   else
-   {
-     while ( ! feof (pFile) )
-     {
-       if ( fgets (buffer , 100 , pFile) == NULL ) break;
-       fputs (buffer , stdout);
-     }
-     fclose (pFile);
-   }
-*/
-
 new_fbgc_cfunction(fbgc_fopen,"fopen")
 {
 	
@@ -134,6 +117,7 @@ new_fbgc_cfunction(fbgc_freadline,"freadline")
 
 new_fbgc_cfunction(fbgc_fclose,"fclose")
 {
+
 	struct fbgc_cstruct_object * so = cast_fbgc_object_as_cstruct(arg[0]);
 	if(so->parent == &fbgc_file_module){
 		struct file_struct * fs = (struct file_struct *) so->cstruct; 

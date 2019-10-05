@@ -51,12 +51,50 @@
 # f.close()
 
 
+def partition(xs, start, end):
+	follower = leader = start
+	while leader < end:
+		if xs[leader] <= xs[end]:
+			xs[follower], xs[leader] = xs[leader], xs[follower]
+			follower += 1
+		leader += 1
+	xs[follower], xs[end] = xs[end], xs[follower]
+	return (follower)
 
-x = ()
-i = 0
-step = 0.000001
-while(i < 20.3):
-	#print(i)
-	i = i + step
+def _quicksort(xs, start, end):
+	if start >= end:
+		return
 
-#print(x,len(x))
+	p = partition(xs, start, end)
+	_quicksort(xs, start, p-1)
+	_quicksort(xs, p+1, end)
+	
+
+def quicksort(xs):
+	_quicksort(xs, 0, len(xs)-1)
+
+
+
+xs = [1,5,100,3,2,-1]
+quicksort(xs)
+print(xs)
+
+import dis
+
+def foo(a,b,c):
+	a = b
+	c = a
+	return c
+
+
+def lol():
+	tp = (5,10,20,30,40)
+	for i in tp:
+		print(i);
+
+def zo():
+	foo(1,2,3)
+
+dis.dis(foo)
+print("=============")
+dis.dis(zo)

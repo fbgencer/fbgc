@@ -226,12 +226,12 @@ struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,st
 			iter_prev = iter_prev->next;
 		}
 
+		if(is_empty_fbgc_ll_object(op) && TOP_LL(op)->type != ASSIGN ){
+			iter_prev->next = new_fbgc_object(POP_TOP);
+			iter_prev = iter_prev->next;			
+		}
+
 		iter_prev->next = iter;
-
-		
-
-		
-
 		
 
 		/*if(iter_prev->type == COMMA) iter_prev->type = INT; 
@@ -541,7 +541,11 @@ uint8_t parser(struct fbgc_object ** field_obj){
 							temp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(local_tuple,i);
 							if(temp_id->name == cstr_obj) where = i; 
 						}						
-						assert(where != -1);
+						
+						if(where == -1){
+							cprintf(100,"%s is not defined before\n",&cast_fbgc_object_as_cstr(cstr_obj)->content);
+							assert(0);
+						}
 						//cprintf(100,"field local tuple:["); print_fbgc_object(local_tuple); cprintf(100,"]\n");
 						
 						//iter->type = LOAD_GLOBAL;
@@ -1069,6 +1073,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 
 	//make the linked list connection proper
 	head->tail->next = iter_prev;
+
 	#ifdef PARSER_DEBUG
 	cprintf(111,"Locals:");
 	//:>print_fbgc_object(cast_fbgc_object_as_field(*field_obj)->symbols);
@@ -1077,6 +1082,10 @@ uint8_t parser(struct fbgc_object ** field_obj){
 	cprintf(111,"\n\n\n\n");
 	#endif
 
+	if(!is_empty_fbgc_ll_object(op) ){
+		cprintf(100,"Error occured in parser.. See operator stack\n");
+		print_fbgc_ll_object(op,"O");
+	}
 
 
 	return gm_error;

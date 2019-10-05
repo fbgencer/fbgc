@@ -202,7 +202,7 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 
 	#define gm_left (gm->top)
 	#ifdef GRAMMAR_DEBUG
-		cprintf(100,"Seek LEFT:[%s], OBJ:[%s] flag{0x%X}\n",object_name_array[gm_left],object_name_array[get_fbgc_object_type(obj)],gm->flag);
+		cprintf(110,"Seek LEFT:[%s], OBJ:[%s] flag{0x%X}\n",object_name_array[gm_left],object_name_array[get_fbgc_object_type(obj)],gm->flag);
 	#endif
 
 	if(gm == NULL || obj == NULL) return 0;
@@ -215,7 +215,7 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 			gm_left == UNBALANCED_EXPRESSION_LIST  || 
 			gm_left == LPARA || gm_left == LBRACK || gm_left == LBRACE ||
 			gm_left == IF_BEGIN || gm_left == ELIF_BEGIN || gm_left == WHILE_BEGIN ||
-			gm_left == ELSE || gm_left == SEMICOLON ||
+			gm_left == ELSE || gm_left == SEMICOLON || gm_left == COMMA ||
 			gm_left == NEWLINE
 		) 
 	)
@@ -230,7 +230,7 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 			is_fbgc_ASSIGNMENT_OPERATOR(gm_left) ||
 			gm_left == LBRACK ||  gm_left == LPARA || gm_left == LBRACE ||
 			gm_left == IF_BEGIN || gm_left == ELIF_BEGIN || gm_left == WHILE_BEGIN ||
-			gm_left == ELSE || gm_left == SEMICOLON || gm_left == DOT ||
+			gm_left == ELSE || gm_left == SEMICOLON || gm_left == DOT || gm_left == COMMA ||
 			gm_left == NEWLINE ))
 	{
 		gm->top = get_fbgc_object_type(obj);
@@ -349,7 +349,7 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 	else if(get_fbgc_object_type(obj) == CONT && (gm_left == IF_BEGIN || gm_left == ELIF_BEGIN || gm_left == NEWLINE || gm_left == SEMICOLON)){
 		gm->top = CONT;
 	}
-	else if(get_fbgc_object_type(obj) == NEWLINE && (is_fbgc_EXPRESSION(gm_left) || gm_left == ASSIGNMENT_EXPRESSION || gm_left == FOR_BEGIN || gm_left == IF_BEGIN || 
+	else if(get_fbgc_object_type(obj) == NEWLINE && (is_fbgc_EXPRESSION(gm_left) || gm_left == ASSIGNMENT_EXPRESSION || gm_left == NEWLINE || gm_left == FOR_BEGIN || gm_left == IF_BEGIN || 
 		gm_left == ELIF_BEGIN)  )
 	{
 		gm->top = NEWLINE;

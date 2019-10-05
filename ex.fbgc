@@ -1,8 +1,6 @@
-x = 2j;
-y = x[0] == x.real
-
-if(y)
-	print("y = true")
-else
-	print("y = false")
+foo = fun(a,b,c)
+	a = b
+	c = a
 end
+
+x = foo(1,2,3);

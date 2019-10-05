@@ -1,0 +1,40 @@
+swap_tuple = fun(tp,i,j)
+    t = tp[i]
+    tp[i] = tp[j]
+    tp[j] = t
+    return tp
+end
+
+
+partition = fun(xs, start, last)
+    follower = start;
+    leader = start;
+
+    while(leader < last)
+        if (xs[leader] <= xs[last])
+            xs = swap_tuple(xs,follower,leader)
+            follower += 1
+        end
+        leader += 1
+    end
+    xs = swap_tuple(xs,follower,last)
+    return (follower)
+end
+
+_quicksort = fun(xs, start, last)
+    if(start >= last)
+        return 0
+    end
+    p = partition(xs, start, last)
+    c = _quicksort(xs, start, p-1)
+    c = _quicksort(xs, p+1, last)
+end
+
+quicksort = fun(xs)
+    p = _quicksort(xs, 0, len(xs)-1);
+end
+
+
+xs = (1,5,100,3,2,0)
+quicksort(xs)
+print(xs)

@@ -20,6 +20,7 @@ struct fbgc_object * get_element_in_fbgc_range_object(struct fbgc_object * robj,
     if(tok == INT){
         //if tok is int we are absolutely sure that each element of range object is integer..
         int step = (r->step == NULL) ? 1 : cast_fbgc_object_as_int(r->step)->content; 
+        if(r->step == NULL && cast_fbgc_object_as_int(r->start)->content > cast_fbgc_object_as_int(r->end)->content) step = -1;
         int no = cast_fbgc_object_as_int(r->start)->content + (step*index);
 
         if(step>0)

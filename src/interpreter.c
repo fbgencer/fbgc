@@ -91,7 +91,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				}
 
 				if(is_id_flag_SUBSCRIPT(pc)){
-					//cprintf(111,"Id flag subscript \n");
+					cprintf(111,"Id flag subscript \n");
 					//first pop the number of indexes
 					int index_no = cast_fbgc_object_as_int(POP())->content;
 					//take index values one by one and finally left last index 
@@ -123,6 +123,15 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 						else if(temp->type == STRING){
 							temp = subscript_fbgc_str_object(temp,index,index+1);
 						}
+						else if(temp->type == MATRIX){
+							if(index_no == 2){
+								int index_no2 = cast_fbgc_object_as_int(TOPN(index_no-1))->content;
+								temp = subscript_fbgc_matrix_object(temp,index,index_no2);
+								assert(temp != NULL);
+								break;
+							}
+
+						}
 						else {
 							cprintf(111,"Not index accessible!\n");
 							print_fbgc_object(temp); printf("\n");
@@ -143,8 +152,13 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				if(is_id_flag_GLOBAL(pc)){
 					struct fbgc_identifier * tmp = (struct fbgc_identifier *) get_address_in_fbgc_array_object(globals,cast_fbgc_object_as_id_opcode(pc)->loc);
 					//Check undefined variable
-					assert(tmp->content != NULL);
-						PUSH(tmp->content);
+					if(tmp->content == NULL){
+						struct fbgc_object * name = tmp->name;
+						cprintf(100,"Undefined variable %s\n",&cast_fbgc_object_as_cstr(name)->content);
+						assert(0);
+					}
+					
+					PUSH(tmp->content);
 					//PUSH(globals[cast_fbgc_object_as_id_opcode(pc)->loc]);	
 				} 
 				else if(is_id_flag_LOCAL(pc))  PUSH(GET_AT_FP(cast_fbgc_object_as_id_opcode(pc)->loc));
@@ -163,7 +177,8 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				pc = stack;
 				break;
 			}				
-			case RETURN:{
+			case RETURN:
+			{
 
 				struct fbgc_object * ret = POP();
 				int old_fctr = fctr;
@@ -171,9 +186,15 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				stack->next = SECOND();
 				sctr = old_fctr;
 				//STACK_GOTO(-2);
-				PUSH(ret);
+				
 				//##Solve this pc->next problem!!!!!!!!
 				pc = stack;
+
+				PUSH(ret);
+
+				//if(ret->type == NIL && pc->next->type != ASSIGN) 
+				//	_POP();
+				
 
 				recursion_ctr = 0;
 
@@ -376,7 +397,10 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			}
 			case FOR_BEGIN:
 			{	
-				assert(TOP()->type == INT);
+				if(TOP()->type != INT){
+					cprintf(100,"For cannot start , type %s\n",object_name_array[TOP()->type]);
+					assert(0);
+				}
 
 				int i = cast_fbgc_object_as_int(TOP())->content;
 				struct fbgc_object * seq_ob = SECOND();
@@ -423,6 +447,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				
 				struct fbgc_fun_object * funo = cast_fbgc_object_as_fun(POP());
 				int arg_no = cast_fbgc_object_as_int(POP())->content;
+				cprintf(100,"----------------------------------\n\n\n");
 				//POP();
 				
 				//assert(funo->base.type == FUN || funo->base.type == CFUN);
@@ -467,15 +492,19 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			case METHOD_CALL:
 			{
 				
+				//increase arg_no so we can count object as well
 				int arg_no = cast_fbgc_object_as_int(POP())->content;
+				arg_no++;
+
 				struct fbgc_object * name = cast_fbgc_object_as_id_opcode(pc)->member_name;
 
-				struct fbgc_object * method = get_set_fbgc_object_member(TOPN(arg_no+1),&cast_fbgc_object_as_cstr(name)->content , NULL);
+				struct fbgc_object * method = get_set_fbgc_object_member(TOPN(arg_no),&cast_fbgc_object_as_cstr(name)->content , NULL);
 				
 				if(method->type == CFUN){
-					STACK_GOTO(-arg_no-1);
+					STACK_GOTO(-arg_no);
 					struct fbgc_object * res = cfun_object_call(method, sp+sctr, arg_no);
-					PUSH(res);
+					if(res!= NULL)
+						PUSH(res);
 				}
 				else assert(0);
 
@@ -501,6 +530,12 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			case BUILD_MATRIX:
 			{	
 				
+				if(TOP()->type == RANGE)
+				{
+					SET_TOP(new_fbgc_matrix_object_from_range(TOP()));
+					break;
+				}
+
 
 				int ctr = cast_fbgc_object_as_int(pc)->content;
 				if(ctr == 1 && TOP()->type == MATRIX) break;
@@ -558,8 +593,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 				
 				//struct fbgc_object * m = new_fbgc_matrix_object(ctr-row);
-				struct fbgc_object * m =
-				 matrix_creation_from_stack(sp+sctr-ctr ,ctr, msize, row);
+				struct fbgc_object * m = matrix_creation_from_stack(sp+sctr-ctr ,ctr, msize, row);
 				assert(m != NULL);
 				//print_fbgc_matrix_object(m);
 
@@ -570,6 +604,11 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 				break;
 				//return 0;
+			}
+			case POP_TOP:
+			{
+				_POP();
+				break;
 			}
 			
 			default:

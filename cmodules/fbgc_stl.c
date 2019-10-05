@@ -42,6 +42,60 @@ new_fbgc_cfunction(fbgc_type,"type"){
 	return NULL;
 }
 
+new_fbgc_cfunction(fbgc_int,"int"){
+	if(argc == 1){
+		int d = convert_fbgc_object_to_int(arg[0]);
+		return new_fbgc_int_object(d);
+	}
+	else cprintf(100,"<int> takes only 1 argument, %d given !\n",argc);
+	return NULL;
+}
+
+new_fbgc_cfunction(fbgc_double,"double"){
+	if(argc == 1){
+		double d = convert_fbgc_object_to_double(arg[0]);
+		return new_fbgc_double_object(d);
+	}
+	else cprintf(100,"<int> takes only 1 argument, %d given !\n",argc);
+	return NULL;
+}
+
+
+new_fbgc_cfunction(fbgc_tuple,"tuple"){
+	if(argc == 1){
+		switch(arg[0]->type )
+		{
+			case INT:
+				return new_fbgc_tuple_object(cast_fbgc_object_as_int(arg[0]));
+			case STRING:
+			{
+				struct fbgc_object * s = arg[0];
+				struct fbgc_object * t =  new_fbgc_tuple_object( length_fbgc_str_object(s) );
+				for(int i = 0; i < length_fbgc_str_object(s) ; ++i )
+					set_object_in_fbgc_tuple_object(t,subscript_fbgc_str_object(s,i,i+1), i);
+
+				size_fbgc_tuple_object(t) = length_fbgc_str_object(s) ;				
+
+				return t;
+			}
+		}
+	}
+	else cprintf(100,"<tuple> takes only 1 argument, %d given !\n",argc);
+	return NULL;
+}
+
+new_fbgc_cfunction(fbgc_matrix,"matrix"){
+	
+	if(argc == 3){
+		size_t r = convert_fbgc_object_to_int(arg[0]);
+		size_t c = convert_fbgc_object_to_int(arg[1]);
+		return new_fbgc_matrix_object(r,c,convert_fbgc_object_to_int(arg[2]));
+	}
+	else cprintf(100,"<int> takes only 3 argument, %d given !\n",argc);
+	return NULL;
+}
+
+
 new_fbgc_cfunction(fbgc_mem,"mem"){
 	if(argc == 0){
 		print_fbgc_memory_block();
@@ -66,6 +120,10 @@ const struct fbgc_cmodule fbgc_stl_module =
 	{
 		&fbgc_len_struct,
 		&fbgc_id_struct,
+		&fbgc_int_struct,
+		&fbgc_double_struct,
+		&fbgc_tuple_struct,	
+		&fbgc_matrix_struct,			
 		&fbgc_type_struct,
 		&fbgc_mem_struct,
 		NULL

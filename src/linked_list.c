@@ -129,6 +129,9 @@ void print_fbgc_ll_object(struct fbgc_object * head,const char *s1){
           print_fbgc_cstr_object(iter);
           cprintf(011,"}");
         }
+        else if(iter->type == LOGIC){
+            cprintf(011, "{%s}", (cast_fbgc_object_as_logic(iter)->content) ? "true" :"false");
+        }
         else if(iter->type == IDENTIFIER){
             if(is_id_flag_GLOBAL(iter) ) cprintf(011,"%s{G<%d>}","ID",cast_fbgc_object_as_id_opcode(iter)->loc);
             else if(is_id_flag_LOCAL(iter) ) cprintf(011,"%s{L<%d>}","ID",cast_fbgc_object_as_id_opcode(iter)->loc);
