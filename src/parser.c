@@ -226,7 +226,7 @@ struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,st
 			iter_prev = iter_prev->next;
 		}
 
-		if(is_empty_fbgc_ll_object(op) && TOP_LL(op)->type != ASSIGN ){
+		if(is_empty_fbgc_ll_object(op) && TOP_LL(op)->type != ASSIGN && top_type != CFUN ){
 			iter_prev->next = new_fbgc_object(POP_TOP);
 			iter_prev = iter_prev->next;			
 		}
@@ -649,14 +649,15 @@ uint8_t parser(struct fbgc_object ** field_obj){
 				cast_fbgc_object_as_fun(fun_obj)->no_locals = size_fbgc_tuple_object(cast_fbgc_object_as_fun(fun_obj)->code); 
 				cast_fbgc_object_as_fun(fun_obj)->code = fun_obj->next;
 
-				//fun_obj->next = iter->next;
-				if(iter_prev->type != RETURN){
+				//This is commented to just save the day..
+				//if(iter_prev->type != RETURN){
 					//add NIL object 
 					iter_prev->next = new_fbgc_object(NIL);
 					iter_prev = iter_prev->next;
 					iter_prev->next = new_fbgc_object(RETURN);
 					iter_prev = iter_prev->next;
-				}
+				//}
+
 				iter_prev->next = fun_obj; //last token in function code shows func object
 				iter_prev = fun_obj;
 
@@ -758,8 +759,32 @@ uint8_t parser(struct fbgc_object ** field_obj){
 		{
 			gm_error = gm_seek_left(&gm,iter);	
 
+
+
 			struct fbgc_object * jump_obj = new_fbgc_jumper_object(JUMP);
-			cast_fbgc_object_as_jumper(jump_obj)->content = iter_prev;
+			if(TOP_LL(op) != NULL && TOP_LL(op)->type == WHILE_BEGIN){
+				//This is a branch optimization to solve an issue between two while loops
+				//if we have a situation
+				// while(a)
+				//	while(b)
+				//jump object of second while holds 'a' to jump because a->next is b
+				//however, second while loop will be inserted between 'a' and 'b' so
+				//it will jump to while in the interpreter
+				//now we can directly put the jump branch at while object
+				// new configuration will look like this, first jump object jumps to the next of while which is 'b'
+				// a,while,b,while,jump,jump 
+				//		   ^---------|   |
+				// ^---------------------|
+
+				cast_fbgc_object_as_jumper(jump_obj)->content = TOP_LL(op);
+			}
+			else if(TOP_LL(op) != NULL && TOP_LL(op)->type == FOR_BEGIN){
+				cprintf(111,"korkmustum gercekten amcik\n");
+				assert(0);
+			}
+			else
+				cast_fbgc_object_as_jumper(jump_obj)->content = iter_prev;
+
 			push_front_fbgc_ll_object(op,jump_obj);
 			iter_prev->next = iter->next;	
 			push_front_fbgc_ll_object(op,iter);	

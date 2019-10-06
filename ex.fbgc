@@ -1,6 +1,55 @@
-foo = fun(a,b,c)
-	a = b
-	c = a
+fmat = fun(s,tp)
+	if(type(s) != type(""))
+		return ""
+	end
+
+	if(type(tp) != type( () ) )
+		tp = () << tp
+	end
+	
+	splitted_str = s / "<>"
+
+	if(splitted_str[0] == s)
+		return s
+	end
+
+	res = ""
+	index = 0
+	fmtstr = ""
+
+	for(i = tp)
+		if(type(i) == type(0))
+			fmtstr = "%d" % i 
+		elif(type(i) == type(1.2))
+			fmtstr = "%g" % i
+		elif(type(i) == type(""))
+			fmtstr = i
+		elif(type(i) == type(1j))
+			fmtstr = ("%g" % i.real) + ("%+gj" % i.imag)
+		else
+			return s
+		end
+		res += splitted_str[index] + fmtstr
+		index += 1
+	end
+	
+	res += splitted_str[index]
+
+	return res
 end
 
-x = foo(1,2,3);
+s = "I <> life <> now worthy at all <> when we <>"
+z = 0-2j
+tple = (50,z)
+
+:>print(fmat(s,("hehe",3,4,1.23) ))
+:>(end|for|elif|if|else)[^\w]
+a = 1.232323
+x = [0, a/23.3, a*12.45; a/23, a+0.49586412, a*0.97634]
+b = x
+c = [10;20]
+d = [10,20,30]
+:>print(a+b)
+:>print(a+d)
+print("x = ");
+print(x+c)

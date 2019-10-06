@@ -113,15 +113,14 @@ switch(op)
         
         if(a->type == STRING){
             char buf[100];
-            int len = 0;
+            size_t len = 0;
 
             if(b->type == INT){
-                len = sprintf(buf,content_fbgc_str_object(a),cast_fbgc_object_as_int(b)->content);
+                len += sprintf(buf,content_fbgc_str_object(a),cast_fbgc_object_as_int(b)->content);
             }
             else if(b->type == DOUBLE){
-                len = sprintf(buf,content_fbgc_str_object(a),cast_fbgc_object_as_double(b)->content);
+                len += sprintf(buf,content_fbgc_str_object(a),cast_fbgc_object_as_double(b)->content);
             }
-
             struct fbgc_object * o = new_fbgc_str_object_empty(len);
             memcpy(content_fbgc_str_object(o),buf,len);
 
@@ -149,6 +148,31 @@ switch(op)
     }        
     case SLASH:
     {
+        //split function for strings
+        //a and b must be string
+        if(a->type == b->type)
+        {
+            //we will return tuple of strings
+            struct fbgc_object * tp = new_fbgc_tuple_object(0);
+            const char * s1 = content_fbgc_str_object(a);
+            const char * s2 = s1;
+
+            for(;;)
+            {   
+                s2 = strstr(s2,content_fbgc_str_object(b));
+                if(s2 == NULL){
+                    s2 = content_fbgc_str_object(a) + length_fbgc_str_object(a);
+                }
+                tp = push_back_fbgc_tuple_object(tp, new_fbgc_str_object_from_substr(s1,s2) );
+                if(*s2 == '\0') break;
+                s1 = (s2 += length_fbgc_str_object(b));
+            }
+            
+            return tp;
+
+
+            //tp = push_back_fbgc_tuple_object(tp,);
+        }
         return NULL;
     }       
     case STAR:

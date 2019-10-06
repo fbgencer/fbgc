@@ -74,15 +74,16 @@ struct fbgc_object *  get_object_in_fbgc_tuple_object(struct fbgc_object * self,
 
 	index = (index < 0) * size_fbgc_tuple_object(self) +  index;
 
-	assert( index>=0 || index < size_fbgc_tuple_object(self) );
-
+	if( index < 0 || index >= size_fbgc_tuple_object(self) ) return NULL;
+	
 	struct fbgc_object ** contents = tuple_object_content(self);
 	return (struct fbgc_object *) contents[index]; 	
 }
 struct fbgc_object **  get_object_address_in_fbgc_tuple_object(struct fbgc_object * self,int index){
 
 	index = (index < 0) * size_fbgc_tuple_object(self) +  index;
-	assert( index>=0 || index < size_fbgc_tuple_object(self) );
+	
+	if( index < 0 || index >= size_fbgc_tuple_object(self) ) return NULL;
 
 	struct fbgc_object ** contents = tuple_object_content(self);
 	return contents+index; 	
@@ -259,7 +260,7 @@ switch(op)
     }
     case PERCENT:
     {
-        return NULL;
+      //  if(a->type == STRING) return binary_op_fbgc_str_object(a,b,PERCENT);
     }
     case LOWER:
     {

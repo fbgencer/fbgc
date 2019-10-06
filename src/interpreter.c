@@ -91,7 +91,6 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				}
 
 				if(is_id_flag_SUBSCRIPT(pc)){
-					cprintf(111,"Id flag subscript \n");
 					//first pop the number of indexes
 					int index_no = cast_fbgc_object_as_int(POP())->content;
 					//take index values one by one and finally left last index 
@@ -180,7 +179,11 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			case RETURN:
 			{
 
+				//(LOCALS..., OLD_SCTR,FRAME_CTR,GLOBAL_ARRAY,RETURN_VALUE)
+				//Notice that global array is just an indicator to collect properly
+
 				struct fbgc_object * ret = POP();
+				while(POP() != globals);
 				int old_fctr = fctr;
 				fctr = cast_fbgc_object_as_int(TOP())->content;
 				stack->next = SECOND();
@@ -381,7 +384,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			}			
 			case JUMP:
 			{
-				pc = cast_fbgc_object_as_jumper(pc)->content;	
+				pc = cast_fbgc_object_as_jumper(pc)->content;
 				break;
 			}		
 			case IF_BEGIN:
@@ -397,6 +400,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			}
 			case FOR_BEGIN:
 			{	
+
 				if(TOP()->type != INT){
 					cprintf(100,"For cannot start , type %s\n",object_name_array[TOP()->type]);
 					assert(0);
@@ -447,9 +451,6 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				
 				struct fbgc_fun_object * funo = cast_fbgc_object_as_fun(POP());
 				int arg_no = cast_fbgc_object_as_int(POP())->content;
-				cprintf(100,"----------------------------------\n\n\n");
-				//POP();
-				
 				//assert(funo->base.type == FUN || funo->base.type == CFUN);
 
 				if(funo->base.type == CFUN){
@@ -484,6 +485,15 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				//hold old position of sp with fp, assume that args already pushed into stack
 				fctr = sctr-funo->no_locals-2;
 				//execute function
+				//--------------------------------
+				//This next push added after first version of the fun call operations
+				//when we have a for loop, it changes stack and return simply makes three basic pop operations
+				//but for loops leave additional objects in the stack so we need to push something as an indicator that 
+				//return will pop everything till see this object.
+				//Nothing from the user side can push globals so we will push global key-value array
+				PUSH(globals);
+				//--------------------------------
+
 				//##Solve this pc->next problem!!!!!!!!
 				stack->next = cast_fbgc_object_as_fun(funo)->code;
 				pc = stack;

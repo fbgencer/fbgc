@@ -19,6 +19,10 @@ struct fbgc_matrix_object{
 #define cast_fbgc_object_as_matrix(x)(((struct fbgc_matrix_object*) x))
 #define sizeof_fbgc_matrix_object(x)(sizeof(struct fbgc_matrix_object) + sizeof(double) * (cast_fbgc_object_as_matrix(x)->row*cast_fbgc_object_as_matrix(x)->column) )
 
+
+#define row_fbgc_matrix_object(x)(cast_fbgc_object_as_matrix(x)->row)
+#define column_fbgc_matrix_object(x)(cast_fbgc_object_as_matrix(x)->column)
+
 struct fbgc_object * new_fbgc_matrix_object(size_t row,size_t col,char tp);
 struct fbgc_object * new_fbgc_matrix_object_from_range(struct fbgc_object * robj);
 struct fbgc_object * matrix_creation_from_stack(struct fbgc_object ** , int, int, int );
@@ -28,7 +32,6 @@ struct fbgc_object * subscript_fbgc_matrix_object(struct fbgc_object * mat, size
 #define content_fbgc_matrix_object(x) ((double *) ( (char*)(&cast_fbgc_object_as_matrix(x)->column) + sizeof(size_t) ))
 
 struct fbgc_object * multiply_fbgc_matrix_object(struct fbgc_object * mat1, struct fbgc_object * mat2);
-struct fbgc_object * add_fbgc_matrix_object(struct fbgc_object * mat1, struct fbgc_object * mat2);
 
 struct fbgc_object * binary_op_fbgc_matrix_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op);
 

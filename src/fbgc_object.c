@@ -58,16 +58,15 @@ void printf_fbgc_object(struct fbgc_object * self){
 
 			    double * contents = content_fbgc_matrix_object(self);
 
-			    printf("[");
+			    
 			    for(int i = 0; i<m->row; i++){
 			        
 			        for(int j = 0; j<m->column; j++){
-			            printf("%g",contents[i * m->column + j]);
-			            if(j != m->column-1) printf(",");
+			            fprintf(stdout,"%15g",contents[i * m->column + j]);
 			        }
-			        if(i!= m->row-1) printf("\n");
+			        if(i!= m->row-1) fprintf(stdout,"\n");
 			    }
-			    printf("]");
+			    
 			    #undef m 
 			break;
 		}	
@@ -83,6 +82,7 @@ void printf_fbgc_object(struct fbgc_object * self){
 
 	}	
 }
+
 
 void print_fbgc_object(struct fbgc_object * self){
 

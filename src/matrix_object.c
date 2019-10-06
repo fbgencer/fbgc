@@ -215,64 +215,113 @@ struct fbgc_object * multiply_fbgc_matrix_object(struct fbgc_object * mat1, stru
     #undef m2
 }
 
-struct fbgc_object * add_fbgc_matrix_object(struct fbgc_object * mat1, struct fbgc_object * mat2){
-        
-    #define m1 cast_fbgc_object_as_matrix(mat1)
-    #define m2 cast_fbgc_object_as_matrix(mat2)
-
-    if(m1->column != m2->column && m1->row != m2->row){
-        cprintf(111,"Error at matrix multiplication, dimension problem\n");
-        return NULL;
-    }
-
-    struct fbgc_matrix_object * m = (struct fbgc_matrix_object *) new_fbgc_matrix_object(m1->row,m1->column,UNINITIALIZED_MATRIX);
-
-    double * m_cont  = content_fbgc_matrix_object(m);
-    double * m1_cont = content_fbgc_matrix_object(mat1);
-    double * m2_cont = content_fbgc_matrix_object(mat2);
-
-    for(int i = 0; i< m1->row; ++i){
-        for(int j = 0; j< m1->column; ++j){
-            int index =  i*m1->column + j; 
-            m_cont[index] = m1_cont[ index ] + m2_cont[ index ];
-        }
-    }
-
-    return (struct fbgc_object *) m;
-    #undef m1
-    #undef m2
-}
-
-
 
 struct fbgc_object * binary_op_fbgc_matrix_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op){
 
-    assert(a->type == MATRIX && b->type == MATRIX);
 
-    #define m1 cast_fbgc_object_as_matrix(a)
-    #define m2 cast_fbgc_object_as_matrix(b)
-
-    if(op == STAR && m1->column != m2->row){
-        cprintf(111,"Error at matrix multiplication, dimension problem\n");
-        return NULL;
-    }
-    else if(op != STAR && m1->column != m2->column && m1->row != m2->row){
-        cprintf(111,"Error dimension problem\n");
-        return NULL;
+   if(a->type == MATRIX && b->type == MATRIX){
+        if(op == STAR){
+            //fast call matrix multiplication..
+            return multiply_fbgc_matrix_object(a,b);
+        }
+        else if(op != STAR && column_fbgc_matrix_object(a) != column_fbgc_matrix_object(b) && row_fbgc_matrix_object(a) != row_fbgc_matrix_object(b) ){
+            cprintf(111,"Error dimension problem\n");
+            return NULL;
+        }        
     }
 
+    size_t row = 0;
+    size_t column = 0;
 
-    struct fbgc_matrix_object * m = (struct fbgc_matrix_object *) new_fbgc_matrix_object(m1->row,m2->column,UNINITIALIZED_MATRIX);
+    // 1 -> same row a>b
+    // 2 -> same column a>b
+    // 3 -> same row and column
+    // 6 -> same col, row a < row b
+    // 7 -> same row, col a < col b
+
+    char index_type = 0;
+
+    if(a->type == MATRIX){
+        row = row_fbgc_matrix_object(a);
+        column = column_fbgc_matrix_object(a);
+    }
+    if(b->type == MATRIX){
+        index_type += (row == row_fbgc_matrix_object(b));
+        index_type += 2*(column == column_fbgc_matrix_object(b));
+        
+        index_type += 4*(row < row_fbgc_matrix_object(b));
+        row = MAX(row,row_fbgc_matrix_object(b));
+        
+        index_type += 6*(column < column_fbgc_matrix_object(b));
+        column = MAX(column,column_fbgc_matrix_object(b));     
+        
+    }
+
+    struct fbgc_matrix_object * m = (struct fbgc_matrix_object *) new_fbgc_matrix_object(row,column,UNINITIALIZED_MATRIX);
+
+    double * m_cont;
+    double a1,b1;
+    
+    if(a->type == INT || a->type == DOUBLE){
+        a1 = convert_fbgc_object_to_double(a);
+    }
+    else if(b->type == INT || b->type == DOUBLE){
+        b1 = convert_fbgc_object_to_double(b);
+    }  
+
+    /* Three types of matrix operations are allowed
+     * a = [1,2,3;4,5,6]
+     * b = [1,2,3;4,5,6]
+     * c = [10;20]
+     * d = [10,20,30]
+     * a+b -> a and b must be iterated with the same index 
+     * a+c -> index_c must change at the second row of a
+     * a+d -> index_d must change at the second row of a 
+     *
+     *
+     */
+
+for(size_t i = 0; i< row; ++i){
+    for(size_t j = 0; j< column; ++j){
+        size_t index =  i*column + j;
+        size_t a_index,b_index;
+
+        m_cont = content_fbgc_matrix_object(m)+index;
+
+        switch(index_type){
+            case 0:
+                    a_index = index;
+                    break;
+            case 1:
+                    a_index = index;
+                    b_index = i;
+                    break;  
+            case 2:
+                    a_index = index;
+                    b_index = j; 
+                    break;
+            case 3:
+                    a_index = b_index = index;
+                    break;
+            case 6:
+                    a_index = j;
+                    b_index = index; 
+                    break;
+            case 7:
+                    a_index = i;
+                    b_index = index;      
+                    break;
+        }
+        
 
 
-    double * m_cont  = content_fbgc_matrix_object(m);
-    double * m1_cont = content_fbgc_matrix_object(a);
-    double * m2_cont = content_fbgc_matrix_object(b);
+        if(a->type == MATRIX){
+            a1 = *(content_fbgc_matrix_object(a)+ a_index);
+        }
+        if(b->type == MATRIX){
+            b1 = *(content_fbgc_matrix_object(b)+b_index);
+        }      
 
-
-for(int i = 0; i< m1->row; ++i){
-    for(int j = 0; j< m2->column; ++j){
-        int index =  i*m1->column + j; 
 
 switch(op)
 {
@@ -282,26 +331,26 @@ switch(op)
     }
     case SLASHSLASH:
     {
-       return NULL; // m_cont[index] = (m1_cont[ index ] * m2_cont[ index ])/(m1_cont[ index ] + m2_cont[ index ]);
+       return NULL; 
     }
     case LO_EQ:
     {
-        m_cont[index] = m1_cont[ index ] <= m2_cont[ index ];
+        *m_cont = a1 <= b1;
         break;
     }
     case GR_EQ:
     {
-        m_cont[index] = m1_cont[ index ] >= m2_cont[ index ];
+        *m_cont = a1 >= b1;
         break;
     }
     case EQ_EQ:
     {
-        m_cont[index] = (m1_cont[index] == m2_cont[ index ]);
+        *m_cont = a1 == b1;
         break;
     }
     case NOT_EQ:
     {
-        m_cont[index] = m1_cont[ index ] != m2_cont[ index ];
+        *m_cont = a1 != b1;
         break;
     }
     case R_SHIFT:
@@ -322,44 +371,43 @@ switch(op)
     }
     case LOWER:
     {
-        m_cont[index] = m1_cont[ index ] < m2_cont[ index ];
+        *m_cont = a1 < b1;
         break;
     }
     case GREATER:
     {
-        m_cont[index] = m1_cont[ index ] > m2_cont[ index ];
+        *m_cont = a1 > b1;
         break;
     }
     case PIPE:
     {
-        m_cont[index] = m1_cont[ index ] || m2_cont[ index ];
+        *m_cont = a1 || b1;
         break;
     }
     case AMPERSAND:
     {
-        m_cont[index] = m1_cont[ index ] && m2_cont[ index ];
+        *m_cont = a1 && b1;
         break;
     }
     case SLASH:
     {
-        m_cont[index] = m1_cont[ index ] - m2_cont[ index ];
+        *m_cont = a1/b1;
         break;
     }
     case STAR:
     {
-        for(int k = 0; k< m2->row; ++k){
-            m_cont[i*m->column + j ] += m1_cont[i*m1->column + k] * m2_cont[ k * m2->column + j];
-        }
+        //scalar multiplication
+        *m_cont = a1*b1;
         break;
     }
     case MINUS:
     {
-        m_cont[index] = m1_cont[ index ] - m2_cont[ index ];
+        *m_cont = a1-b1;
         break;
     }
     case PLUS:
     {
-        m_cont[index] = m1_cont[ index ] + m2_cont[ index ];
+        *m_cont = a1+b1;
         break;
     }
 }
@@ -367,9 +415,6 @@ switch(op)
     }
 }
     return m;
-
-    #undef m1
-    #undef m2
 
 }
 

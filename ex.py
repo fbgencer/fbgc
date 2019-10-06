@@ -50,51 +50,34 @@
 
 # f.close()
 
+import sys
 
-def partition(xs, start, end):
-	follower = leader = start
-	while leader < end:
-		if xs[leader] <= xs[end]:
-			xs[follower], xs[leader] = xs[leader], xs[follower]
-			follower += 1
-		leader += 1
-	xs[follower], xs[end] = xs[end], xs[follower]
-	return (follower)
+# Writen by Attractive Chaos; distributed under the MIT license
 
-def _quicksort(xs, start, end):
-	if start >= end:
-		return
+# reference: http://www.syntagmatic.net/matrix-multiplication-in-python/
 
-	p = partition(xs, start, end)
-	_quicksort(xs, start, p-1)
-	_quicksort(xs, p+1, end)
+def matmul(a, b): # FIXME: no error checking
+	c = [[b[j][i] for j in range(len(b))] for i in range(len(b[0]))]
+	d = [[0 for j in range(len(b[0]))] for i in range(len(a))] # transpose
+	for i in range(len(a)):
+		for j in range(len(b[0])):
+			s = 0
+			ai = a[i]
+			cj = c[j]
+			for k in range(len(a[0])):
+				s += ai[k] * cj[k]
+			d[i][j] = s
+	return d
 	
+def main():
+	n = 10
+	if (len(sys.argv) > 1): n = int(sys.argv[1])
+	n = int(float(n)/2) * 2 # FIXME: I am sure there are better ways to do this...
+	tmp = 1. / n / n
+	a = [[tmp * (i - j) * (i + j) for j in range(n)] for i in range(n)]
+	b = [[tmp * (i - j) * (i + j) for j in range(n)] for i in range(n)]
+	print(len(a[0]))
+	d = matmul(a, b)
+	print(d[int(n/2)][int(n/2)])
 
-def quicksort(xs):
-	_quicksort(xs, 0, len(xs)-1)
-
-
-
-xs = [1,5,100,3,2,-1]
-quicksort(xs)
-print(xs)
-
-import dis
-
-def foo(a,b,c):
-	a = b
-	c = a
-	return c
-
-
-def lol():
-	tp = (5,10,20,30,40)
-	for i in tp:
-		print(i);
-
-def zo():
-	foo(1,2,3)
-
-dis.dis(foo)
-print("=============")
-dis.dis(zo)
+if __name__ == '__main__': main()
