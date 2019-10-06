@@ -1,7 +1,5 @@
 #Known bugs
 
-1) Lexer has a bug : format was read as "for" and mat words
-
 2) Return value of a void function
 	previously we were checking the last token in the list so if it wasn't return we were adding "return nil", but following function showed that this is a wrong approach  
 
@@ -23,3 +21,11 @@
 	end
 
 	creates wrong parsing
+
+
+
+1) Lexer has a bug : format was read as "for" and mat words
+	
+	--Solved
+	!b metachar is added to solve boundary problems for words
+	New location finding algorithm, now we can detect which part in the given regex pattern is catched

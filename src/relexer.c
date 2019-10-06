@@ -105,13 +105,14 @@ const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] =
 	{LEXER_TOK_DOUBLE,"!d!+ . !d!+ j!*"}, 	
 	{LEXER_TOK_BASE10_INT,"!d!+ j!*"},
 	{LEXER_TOK_PARA,"(|)|[|]|{|}"},		
-	{LEXER_TOK_KEYWORDS,"end|fun|elif|else|while|for|break|cont|load|if|return|true|false"},
+	{LEXER_TOK_KEYWORDS,"end|fun|elif|else|while|for|break|cont|load|if|return|true|false !b"},
 	{LEXER_TOK_NAME,"__ !w!d!o!+ __"},
-	{LEXER_TOK_NAME,"_!w _!w!d!*"},		
+	{LEXER_TOK_NAME,"_!w!d _!w!d!*"},		
 	{LEXER_TOK_OP0,"~|:|,|.|;"},
-	{LEXER_TOK_OP1,">>=|<<=|**=|//=|+=|-=|*=|/=|^=|%=|>>|<<|**|//|+|-|*|/|^|%"}, // do not change this
+	{LEXER_TOK_OP1,">>|<<|**|//|+|-|*|/|^|% =!*"}, // do not change this
 	{LEXER_TOK_OP2,"<=|>=|==|!=|<|>|||&|!|="},
 };
+//{LEXER_TOK_OP1,">>=|<<=|**=|//=|+=|-=|*=|/=|^=|%=|>>|<<|**|//|+|-|*|/|^|%"}, // do not change this
 /*
 Set0
 "~|:|,|.|;|++|--"
@@ -168,7 +169,7 @@ struct fbgc_object * tokenize_substr(const char *str1, const char*str2, lexer_to
 			//possible assigment operator and assignment operator
 			//check the last character, shift the token 
 			if(*(str2-1) == '=') where += (ASSIGN+1) ;
-			else where += R_SHIFT-10;
+			else where += R_SHIFT;
 			return new_fbgc_object(where);
 		}
 		case LEXER_TOK_OP2:
@@ -392,13 +393,13 @@ static uint8_t check_char(rule_flag_struct *rfs,char ** buffer_ptr){
 	}
 
 	check = ( rfs->pattern_flag && 
-			((rfs->pattern_flag & 0x01) && isdigit(*(*buffer_ptr))) ||
-			((rfs->pattern_flag & 0x02) && isalpha(*(*buffer_ptr))) ||
-			((rfs->pattern_flag & 0x04) && (ispunct(*(*buffer_ptr))) && (*(*buffer_ptr)) != '\'' && (* (*buffer_ptr)) != '"' && (* (*buffer_ptr)) != '_' ) || 
-			((rfs->pattern_flag & 0x08) && isxdigit(*(*buffer_ptr)))||
-			((rfs->pattern_flag & 0x10) && isprint(*(*buffer_ptr))) ||
-			((rfs->pattern_flag & 0x20) && isspace(*(*buffer_ptr))) ||
-			((rfs->pattern_flag & 0x40) && *(*buffer_ptr) == ' ' ) ); 
+			( (rfs->pattern_flag & LEXER_PATTERN_D_MASK) && isdigit(*(*buffer_ptr))) ||
+			( (rfs->pattern_flag & LEXER_PATTERN_W_MASK) && isalpha(*(*buffer_ptr))) ||
+			( (rfs->pattern_flag & LEXER_PATTERN_O_MASK) && (ispunct(*(*buffer_ptr))) && (*(*buffer_ptr)) != '\'' && (* (*buffer_ptr)) != '"' && (* (*buffer_ptr)) != '_' ) || 
+			( (rfs->pattern_flag & LEXER_PATTERN_X_MASK) && isxdigit(*(*buffer_ptr)))||
+			( (rfs->pattern_flag & LEXER_PATTERN_S_MASK) && isspace(*(*buffer_ptr))) ||
+			( (rfs->pattern_flag & LEXER_PATTERN_B_MASK) && ( !isalpha(*(*buffer_ptr)) && *buffer_ptr-- ) ) ||
+			( (rfs->pattern_flag & LEXER_PATTERN_SPACE_MASK) && *(*buffer_ptr) == ' ' ) ); 
 	
 	*buffer_ptr += check;
 	
@@ -438,7 +439,7 @@ uint8_t regex_lexer(struct fbgc_object ** field_obj,char * first_ptr){
 	uint8_t satisfied_rule_section = 0;
 	uint8_t rule_section = 0;
 
-	uint8_t check;
+	uint8_t check = 0;
 
 	for(;;){
 		#ifdef DEBUG
@@ -461,18 +462,17 @@ uint8_t regex_lexer(struct fbgc_object ** field_obj,char * first_ptr){
 			//}
 		}
 
-		//When reading from file \n is actually becomes a c string \\n, so we have to convert them to match sequence
-		//Later try to implement this feature in regex module as catch_and_convert
-		//we use const pointer but for this they are not constant, we have fetch the input somehow converted ones 
-		/*if(*mobile_ptr == '\\')
-		{
-			if(*(mobile_ptr+1)  == '\'') memmove (mobile_ptr,mobile_ptr+1,strlen(mobile_ptr)); 
-
-		}	*/
-			//convert_to_escape_sequence(&mobile_ptr);
-		//=====================================
-
+		uint8_t old_check = check;
 		check = check_char(&rfs,&mobile_ptr);
+		
+		if(check != 0  && old_check != 0 ) check = old_check; 
+		//Is this line works ok with everything ? 
+		if(check == 0 && IS_METACHAR_STAR_OPEN(rfs.metachar_flag) && old_check != 0){
+			check = old_check;
+			SET_METACHAR_STAR_FLAG_CLOSE(rfs.metachar_flag);
+		}
+
+
 		#ifdef DEBUG
 			cprintf(100,"Called check char, mobile_ptr:<%s>, check:%d\n",mobile_ptr,check);
 		#endif		

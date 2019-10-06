@@ -163,24 +163,38 @@ uint8_t match_and_replace(const char * inc_rule_ptr,char buffer[],const char *re
 #define LXR_TAB 6
 #define LXR_PATTERN_NUM 7
 
+#define LEXER_PATTERN_D_MASK 0x01
+#define LEXER_PATTERN_W_MASK 0x02
+#define LEXER_PATTERN_O_MASK 0x04
+#define LEXER_PATTERN_X_MASK 0x08
+#define LEXER_PATTERN_SPACE_MASK 0x10	
+#define LEXER_PATTERN_S_MASK 0x20
+#define LEXER_PATTERN_B_MASK 0x040
+#define LEXER_PATTERN_DOT_MASK 0b00011111 
+
 #define SET_PATTERN_FLAG_FROM_RULE(x)({\
-x == 'd' ? 0x01 :\
-x == 'w' ? 0x02 :\
-x == 'o' ? 0x04 :\
-x == 'x' ? 0x08 :\
-x == '.' ? 0x10 :\
-x == 's' ? 0x20 :\
-x == ' ' ? 0x40 :0;}) 
+x == 'd' ? LEXER_PATTERN_D_MASK :\
+x == 'w' ? LEXER_PATTERN_W_MASK :\
+x == 'o' ? LEXER_PATTERN_O_MASK :\
+x == 'x' ? LEXER_PATTERN_X_MASK :\
+x == 's' ? LEXER_PATTERN_S_MASK :\
+x == ' ' ? LEXER_PATTERN_SPACE_MASK:\
+x == 'b' ? LEXER_PATTERN_B_MASK:\
+x == '.' ? LEXER_PATTERN_DOT_MASK:0;}) 
 
 /*
 x == 'D' ? ~0x01:\
 x == 'W' ? ~0x02:\
 x == 'O' ? ~0x04:\
 x == 'X' ? ~0x08:\
-x == 'S' ? ~0x40:\
+x == 'S' ? ~0x20:\
+x == 'B' ? ~0x40
 */
 
-#define IS_SPECIAL_CHAR(x)(x == 'd' || x == 'w' || x == 'o' || x == 'x' || x == '.' || x == 's' || x == ' ')
+
+//Is there any special c function to check char is in string ? is_inside("dwoxs. ",char) 
+
+#define IS_SPECIAL_CHAR(x)(x == 'd' || x == 'w' || x == 'o' || x == 'x' || x == 's' || x == ' ' || x == 'b' || x == '.')
 
 
 
