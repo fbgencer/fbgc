@@ -21,11 +21,20 @@ struct fbgc_object * binary_op_fbgc_logic_object(struct fbgc_object * a,struct f
     char c = 0;
 
 switch(op)
-{
+{   
+
+    case R_SHIFT:
+    case L_SHIFT:
     case STARSTAR:
-    case SLASHSLASH:
+    case SLASHSLASH:    
+    case PLUS:
+    case MINUS:
+    case STAR: 
+    case SLASH:  
+    case CARET:
+    case PERCENT:
     {
-    	return NULL;
+        return NULL;
     }
     case LO_EQ:
     {
@@ -47,13 +56,6 @@ switch(op)
         c = a1 != b1;
         break;
     }
-    case R_SHIFT:
-    case L_SHIFT:
-    case CARET:
-    case PERCENT:
-    {
-    	return NULL;
-    }
     case LOWER:
     {
         c = a1<b1;
@@ -74,13 +76,7 @@ switch(op)
         c = a1 && b1;
         break;
     }        
-    case SLASH:   
-    case STAR:      
-    case MINUS: 
-    case PLUS:
-    {
-        return NULL;
-    } 
+
 }
 
     return new_fbgc_logic_object(c);

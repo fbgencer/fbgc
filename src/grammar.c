@@ -273,7 +273,7 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 	else if(get_fbgc_object_type(obj) == PIPE && gm_left == LEN){
 		gm->top = LEN;
 	}
-	else if(get_fbgc_object_type(obj) == PIPE && (is_fbgc_EXPRESSION(gm_left) == 0 || is_fbgc_ASSIGNMENT_OPERATOR(gm_left) ) ){
+	else if(get_fbgc_object_type(obj) == PIPE && (is_fbgc_EXPRESSION(gm_left) == 0 || is_fbgc_OPERATOR(gm_left) ) ){
 		gm->top = obj->type = LEN;
 	}
 	else if(is_fbgc_BINARY_OPERATOR(get_fbgc_object_type(obj)) && is_fbgc_EXPRESSION(gm_left)){

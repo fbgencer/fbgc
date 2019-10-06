@@ -26,6 +26,18 @@ struct fbgc_object * binary_op_fbgc_double_object(struct fbgc_object * a,struct 
 
     switch(op)
     {
+        case R_SHIFT:
+        {
+            return NULL;
+            //c = a1>>b1;
+            //break;
+        }
+        case L_SHIFT:
+        {
+            return NULL;
+            //c = a1<<b1;
+            //break;
+        }        
         case STARSTAR:
         {
             c = pow(a1,b1);
@@ -36,6 +48,37 @@ struct fbgc_object * binary_op_fbgc_double_object(struct fbgc_object * a,struct 
             c =  1.0/(1.0/a1 + 1.0/b1); 
             break;
         }
+        case PLUS:
+        {
+            c = a1+b1;
+            break;
+        }
+        case MINUS:
+        {
+            c = a1-b1;
+            break;
+        }
+        case STAR:
+        {
+            c = a1*b1;
+            break;
+        }        
+        case SLASH:
+        {
+            c = a1/b1;
+            break;
+        }
+        case CARET:
+        {
+            c = pow(a1,b1);
+            break;
+        }
+        case PERCENT:
+        {
+            //c = a1%b1;
+            return NULL;
+            //break;
+        }                                      
         case LO_EQ:
         {
             return new_fbgc_logic_object(a1<=b1);
@@ -52,71 +95,22 @@ struct fbgc_object * binary_op_fbgc_double_object(struct fbgc_object * a,struct 
         {
             return new_fbgc_logic_object(a1 != b1);
         }
-        case R_SHIFT:
-        {
-            return NULL;
-            //c = a1>>b1;
-            //break;
-        }
-        case L_SHIFT:
-        {
-            return NULL;
-            //c = a1<<b1;
-            //break;
-        }
-        case CARET:
-        {
-            c = pow(a1,b1);
-            break;
-        }
-        case PERCENT:
-        {
-            //c = a1%b1;
-            return NULL;
-            //break;
-        }        
         case LOWER:
         {
-            return new_fbgc_logic_object(a1 < b1);
-            break;
+            return new_fbgc_logic_object(a1 < b1); 
         }        
         case GREATER:
         {
             return new_fbgc_logic_object(a1 > b1);
-            break;
         }        
         case PIPE:
         {
             return new_fbgc_logic_object(a1 || b1);
-            break;
         } 
         case AMPERSAND:
         {
             return new_fbgc_logic_object(a1 && b1);
-            break;
         }        
-        case SLASH:
-        {
-            assert(b1 != 0);
-            c = a1/b1;
-
-            break;
-        }        
-        case STAR:
-        {
-            c = a1*b1;
-            break;
-        }        
-        case MINUS:
-        {
-            c = a1-b1;
-            break;
-        }        
-        case PLUS:
-        {
-            c = a1+b1;
-            break;
-        } 
     }
     return new_fbgc_double_object(c);
 }

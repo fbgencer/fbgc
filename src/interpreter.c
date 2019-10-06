@@ -374,7 +374,12 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					STACK_GOTO(-index_no);
 				}*/
 
-				*lhs = rhs;	
+				*lhs = rhs;
+
+				if(is_id_flag_PUSH_ITSELF(pc)){
+					PUSH(rhs);
+				}	
+				
 				break;
 			}
 			case LEN:

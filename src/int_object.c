@@ -40,6 +40,16 @@ struct fbgc_object * binary_op_fbgc_int_object(struct fbgc_object * a,struct fbg
 
 switch(op)
 {
+    case R_SHIFT:
+    {
+        c = a1>>b1;
+        break;
+    }
+    case L_SHIFT:
+    {
+        c = a1<<b1;
+        break;
+    }
     case STARSTAR:
     {
         c = pow(a1,b1);
@@ -50,6 +60,35 @@ switch(op)
         // a1//b1 = (a1*b1)/(a1+b1)
         return new_fbgc_double_object(a1*b1/(a1+b1+0.0)); 
     }
+    case PLUS:
+    {
+        c = a1+b1;
+        break;
+    }
+    case MINUS:
+    {
+        c = a1-b1;
+        break;
+    }
+    case STAR:
+    {
+        c = a1*b1;
+        break;
+    }
+    case SLASH:
+    {
+        return new_fbgc_double_object(((double)a1)/b1);
+    } 
+    case CARET:
+    {
+        c = pow(a1,b1);
+        break;
+    }
+    case PERCENT:
+    {
+        c = a1%b1;
+        break;
+    }                         
     case LO_EQ:
     {
         return new_fbgc_logic_object(a1<=b1);
@@ -66,26 +105,6 @@ switch(op)
     {
         return new_fbgc_logic_object(a1 != b1);
     }
-    case R_SHIFT:
-    {
-        c = a1>>b1;
-        break;
-    }
-    case L_SHIFT:
-    {
-        c = a1<<b1;
-        break;
-    }
-    case CARET:
-    {
-        c = pow(a1,b1);
-        break;
-    }
-    case PERCENT:
-    {
-        c = a1%b1;
-        break;
-    }        
     case LOWER:
     {
         return new_fbgc_logic_object(a1<b1);
@@ -102,25 +121,6 @@ switch(op)
     {
         return new_fbgc_logic_object(a1 && b1);
     }        
-    case SLASH:
-    {
-        return new_fbgc_double_object(((double)a1)/b1);
-    }        
-    case STAR:
-    {
-        c = a1*b1;
-        break;
-    }        
-    case MINUS:
-    {
-        c = a1-b1;
-        break;
-    }        
-    case PLUS:
-    {
-        c = a1+b1;
-        break;
-    } 
 }
 
     return new_fbgc_int_object(c);

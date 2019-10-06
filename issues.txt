@@ -14,18 +14,22 @@
 3) String format cannot work for more than one value 
 	"fbg %d c" % 3 will work but "f %d %d "% (3,4) won't work
 	
-4) | |  operator has precedence issues, check this
+
+
+*) Lexer has a bug : format was read as "for" and mat words
+	
+	--Solved
+	!b metachar is added to solve boundary problems for words
+	New location finding algorithm, now we can detect which part in the given regex pattern is catched
+
+*) | |  operator has precedence issues, check this
 
 	if(|a|-1 != |b|)
 		do smt
 	end
 
-	creates wrong parsing
-
-
-
-1) Lexer has a bug : format was read as "for" and mat words
-	
 	--Solved
-	!b metachar is added to solve boundary problems for words
-	New location finding algorithm, now we can detect which part in the given regex pattern is catched
+	But we have changed the precedence of pipe operator,which result to unexpected behaviors
+	this should be noted.
+
+	Should we make the same precedence for all logical operators ?

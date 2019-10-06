@@ -256,7 +256,6 @@ struct fbgc_object * binary_op_fbgc_matrix_object(struct fbgc_object * a,struct 
         column = MAX(column,column_fbgc_matrix_object(b));     
         
     }
-
     struct fbgc_matrix_object * m = (struct fbgc_matrix_object *) new_fbgc_matrix_object(row,column,UNINITIALIZED_MATRIX);
 
     double * m_cont;
@@ -277,8 +276,6 @@ struct fbgc_object * binary_op_fbgc_matrix_object(struct fbgc_object * a,struct 
      * a+b -> a and b must be iterated with the same index 
      * a+c -> index_c must change at the second row of a
      * a+d -> index_d must change at the second row of a 
-     *
-     *
      */
 
 for(size_t i = 0; i< row; ++i){
@@ -311,27 +308,66 @@ for(size_t i = 0; i< row; ++i){
                     a_index = i;
                     b_index = index;      
                     break;
+            case 10:
+                    b_index = index;
+                    break;
         }
         
-
-
-        if(a->type == MATRIX){
+        if(index_type != 10){
             a1 = *(content_fbgc_matrix_object(a)+ a_index);
         }
-        if(b->type == MATRIX){
+        if(index_type){
             b1 = *(content_fbgc_matrix_object(b)+b_index);
         }      
 
 
 switch(op)
 {
-    case STARSTAR:
+    case R_SHIFT:
     {
         return NULL;
+    }
+    case L_SHIFT:
+    {
+        return NULL;
+    }
+    case STARSTAR:
+    {
+        *m_cont = pow(a1,b1);
+        break;
     }
     case SLASHSLASH:
     {
        return NULL; 
+    }
+    case PLUS:
+    {
+        *m_cont = a1+b1;
+        break;
+    }
+    case MINUS:
+    {
+        *m_cont = a1-b1;
+        break;
+    }
+    case STAR:
+    {
+        //scalar multiplication
+        *m_cont = a1*b1;
+        break;
+    }            
+    case SLASH:
+    {
+        *m_cont = a1/b1;
+        break;
+    }
+    case CARET:
+    {
+       return NULL;
+    }
+    case PERCENT:
+    {
+        return NULL;
     }
     case LO_EQ:
     {
@@ -353,22 +389,6 @@ switch(op)
         *m_cont = a1 != b1;
         break;
     }
-    case R_SHIFT:
-    {
-        return NULL;
-    }
-    case L_SHIFT:
-    {
-        return NULL;
-    }
-    case CARET:
-    {
-       return NULL;
-    }
-    case PERCENT:
-    {
-        return NULL;
-    }
     case LOWER:
     {
         *m_cont = a1 < b1;
@@ -387,27 +407,6 @@ switch(op)
     case AMPERSAND:
     {
         *m_cont = a1 && b1;
-        break;
-    }
-    case SLASH:
-    {
-        *m_cont = a1/b1;
-        break;
-    }
-    case STAR:
-    {
-        //scalar multiplication
-        *m_cont = a1*b1;
-        break;
-    }
-    case MINUS:
-    {
-        *m_cont = a1-b1;
-        break;
-    }
-    case PLUS:
-    {
-        *m_cont = a1+b1;
         break;
     }
 }

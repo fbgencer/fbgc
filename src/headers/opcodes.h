@@ -20,6 +20,7 @@ struct fbgc_id_opcode{
 #define ID_FLAG_LOCAL 0x02 //0b00000010
 #define ID_FLAG_MEMBER 0x04 //0b00000100
 #define ID_FLAG_SUBSCRIPT 0x08 //0b00001000
+#define ID_FLAG_PUSH_ITSELF 0x10 // x=y=10 like enterance can be solve with this but it could be a problem..
 
 #define cast_fbgc_object_as_id_opcode(x)((struct fbgc_id_opcode *) x)
 
@@ -27,11 +28,13 @@ struct fbgc_id_opcode{
 #define set_id_flag_LOCAL(x)(cast_fbgc_object_as_id_opcode(x)->flag = ID_FLAG_LOCAL )
 #define set_id_flag_MEMBER(x)(cast_fbgc_object_as_id_opcode(x)->flag = ID_FLAG_MEMBER )
 #define set_id_flag_SUBSCRIPT(x)(cast_fbgc_object_as_id_opcode(x)->flag |= ID_FLAG_SUBSCRIPT )
+#define set_id_flag_PUSH_ITSELF(x)(cast_fbgc_object_as_id_opcode(x)->flag |= ID_FLAG_PUSH_ITSELF )
 
 #define is_id_flag_GLOBAL(x)(cast_fbgc_object_as_id_opcode(x)->flag & ID_FLAG_GLOBAL )
 #define is_id_flag_LOCAL(x)(cast_fbgc_object_as_id_opcode(x)->flag & ID_FLAG_LOCAL )
 #define is_id_flag_MEMBER(x)(cast_fbgc_object_as_id_opcode(x)->flag & ID_FLAG_MEMBER )
 #define is_id_flag_SUBSCRIPT(x)(cast_fbgc_object_as_id_opcode(x)->flag & ID_FLAG_SUBSCRIPT )
+#define is_id_flag_PUSH_ITSELF(x)(cast_fbgc_object_as_id_opcode(x)->flag & ID_FLAG_PUSH_ITSELF )
 
 #define get_id_flag(x)(cast_fbgc_object_as_id_opcode(x)->flag)
 

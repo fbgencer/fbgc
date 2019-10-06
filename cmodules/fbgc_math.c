@@ -68,10 +68,78 @@ new_fbgc_one_arg_math("sqrt",sqrt);
 const struct fbgc_cfunction fbgc_math_initializer_struct = {"math",fbgc_math_initializer};
 extern struct fbgc_object * fbgc_math_initializer (struct fbgc_object * cm)*/
 new_fbgc_cfunction(fbgc_math_initializer,"math")
-{
-	return arg;
+{	
+	return NULL;
 }
 
+
+new_fbgc_cfunction(fbgc_randint,"randint")
+{
+
+	srand((int) clock() );
+
+	int min = 0;
+	int max = 0;
+
+	if(argc == 1){	
+		max = convert_fbgc_object_to_int(arg[0]);
+	}
+	else if(argc == 2){
+		min = convert_fbgc_object_to_int(arg[0]);
+		max = convert_fbgc_object_to_int(arg[1]);
+	}
+	else{
+		cprintf(100,"randint requires one or two arg\n"); 
+		return NULL;
+	}
+
+	return new_fbgc_int_object(rand() % max + min );
+}
+
+new_fbgc_cfunction(fbgc_random,"random")
+{
+	srand((int) clock() );
+
+	double min = 0;
+	double max = 1.0;
+
+	if(argc == 1){	
+		max = convert_fbgc_object_to_double(arg[0]);
+	}
+	else if(argc == 2){
+		min = convert_fbgc_object_to_double(arg[0]);
+		max = convert_fbgc_object_to_double(arg[1]);
+	}
+	else if(argc > 2) return NULL;
+
+	double range = (max - min); 
+    double div = RAND_MAX / range;
+
+	return new_fbgc_double_object( min + rand() /( div ) );
+}
+
+new_fbgc_cfunction(fbgc_rand,"rand")
+{
+	srand((int) clock() );
+	size_t row,col;
+	if(argc == 1){	
+		row = col = convert_fbgc_object_to_int(arg[0]);
+	}
+	else if(argc == 2){
+		row = convert_fbgc_object_to_int(arg[0]);
+		col = convert_fbgc_object_to_int(arg[1]);
+	}
+	else return NULL;
+
+	struct fbgc_object * m = new_fbgc_matrix_object(row,col,UNINITIALIZED_MATRIX);
+	double * mc = content_fbgc_matrix_object(m);
+	for(size_t i = 0; i<row; ++i){
+		for(size_t j = 0; j<col; ++j){
+			mc[i*col+j] = rand() /( (double)RAND_MAX );
+		}
+	}	
+	return m;
+}
 
 
 //Work on this, is it possible to cast ?
@@ -86,6 +154,9 @@ const struct fbgc_cmodule fbgc_math_module =
 		&fbgc_tan_struct,
 		&fbgc_exp_struct,
 		&fbgc_sqrt_struct,
+		&fbgc_random_struct,
+		&fbgc_randint_struct,
+		&fbgc_rand_struct,		
 		NULL
 	}
 };

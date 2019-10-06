@@ -40,41 +40,13 @@ struct fbgc_object * binary_op_fbgc_str_object(struct fbgc_object * a,struct fbg
 
 switch(op)
 {
-    case STARSTAR:
-    {
-        return NULL;
-    }
-    case SLASHSLASH:
-    {
-        return NULL;
-    }
-    case LO_EQ:
-    {
-        return NULL;
-    }
-    case GR_EQ:
-    {
-        return NULL;
-    }
-    case EQ_EQ:
-    case NOT_EQ:
-    {   
-        //no need to check whether a or b is string, because one of them must be.
-        if(a->type == b->type){
-            uint8_t cmp = (length_fbgc_str_object(a) == length_fbgc_str_object(b) && 
-                memcmp(content_fbgc_str_object(a),content_fbgc_str_object(b),length_fbgc_str_object(a)) == 0);
-
-            return new_fbgc_logic_object( op == NOT_EQ ? !cmp : cmp );
-        }   
-        return NULL;        
-    }
     case R_SHIFT:
     {   
         //a>>b
         //only rhs can be string, otherwise it's meaningless
         if(b->type == STRING){
             if(a->type == STRING) goto STRING_CONCAT;
-            //Below codes are just an experimental codes, do not ever use them in alpha version
+            //Below codes are just an experimental codes, do not ever use them in the main version
             //Change the below codes and write appopriate converter functions
             /*else if(a->type == INT){
                 char tmp[100]={'\0'};
@@ -104,77 +76,24 @@ switch(op)
         }
         return NULL;
     }
-    case CARET:
+    case STARSTAR:
+    case SLASHSLASH:
     {
         return NULL;
     }
-    case PERCENT:
+    case PLUS:
     {
+        STRING_CONCAT: ;
         
-        if(a->type == STRING){
-            char buf[100];
-            size_t len = 0;
-
-            if(b->type == INT){
-                len += sprintf(buf,content_fbgc_str_object(a),cast_fbgc_object_as_int(b)->content);
-            }
-            else if(b->type == DOUBLE){
-                len += sprintf(buf,content_fbgc_str_object(a),cast_fbgc_object_as_double(b)->content);
-            }
-            struct fbgc_object * o = new_fbgc_str_object_empty(len);
-            memcpy(content_fbgc_str_object(o),buf,len);
-
-            return o;
-        }
-
-
+        struct fbgc_object * o = new_fbgc_str_object_empty(length_fbgc_str_object(a)+length_fbgc_str_object(b));
+        memcpy(content_fbgc_str_object(o),content_fbgc_str_object(a),  length_fbgc_str_object(a));
+        memcpy(content_fbgc_str_object(o)+length_fbgc_str_object(a)  , content_fbgc_str_object(b),length_fbgc_str_object(b));
+        return o;
+    }
+    case MINUS:
+    {   
         return NULL;
-    }        
-    case LOWER:
-    {
-        return NULL;
-    }        
-    case GREATER:
-    {
-        return NULL;
-    }        
-    case PIPE:
-    {
-        return NULL;
-    } 
-    case AMPERSAND:
-    {
-        return NULL;
-    }        
-    case SLASH:
-    {
-        //split function for strings
-        //a and b must be string
-        if(a->type == b->type)
-        {
-            //we will return tuple of strings
-            struct fbgc_object * tp = new_fbgc_tuple_object(0);
-            const char * s1 = content_fbgc_str_object(a);
-            const char * s2 = s1;
-
-            for(;;)
-            {   
-                s2 = strstr(s2,content_fbgc_str_object(b));
-                if(s2 == NULL){
-                    s2 = content_fbgc_str_object(a) + length_fbgc_str_object(a);
-                }
-                tp = push_back_fbgc_tuple_object(tp, new_fbgc_str_object_from_substr(s1,s2) );
-                if(*s2 == '\0') break;
-                s1 = (s2 += length_fbgc_str_object(b));
-            }
-            
-            return tp;
-
-
-            //tp = push_back_fbgc_tuple_object(tp,);
-        }
-        return NULL;
-    }       
+    }
     case STAR:
     {   
 
@@ -207,20 +126,98 @@ switch(op)
             memcpy(content_fbgc_str_object(o)+(count*len),content_fbgc_str_object(a),len);
        
         return o;
-    }        
-    case MINUS:
+    }
+    case SLASH:
+    {
+        //split function for strings
+        //a and b must be string
+        if(a->type == b->type)
+        {
+            //we will return tuple of strings
+            struct fbgc_object * tp = new_fbgc_tuple_object(0);
+            const char * s1 = content_fbgc_str_object(a);
+            const char * s2 = s1;
+
+            for(;;)
+            {   
+                s2 = strstr(s2,content_fbgc_str_object(b));
+                if(s2 == NULL){
+                    s2 = content_fbgc_str_object(a) + length_fbgc_str_object(a);
+                }
+                tp = push_back_fbgc_tuple_object(tp, new_fbgc_str_object_from_substr(s1,s2) );
+                if(*s2 == '\0') break;
+                s1 = (s2 += length_fbgc_str_object(b));
+            }
+            
+            return tp;
+
+
+            //tp = push_back_fbgc_tuple_object(tp,);
+        }
+        return NULL;
+    }
+    case CARET:
+    {
+        return NULL;
+    }
+    case PERCENT:
+    {
+        
+        if(a->type == STRING){
+            char buf[100];
+            size_t len = 0;
+
+            if(b->type == INT){
+                len += sprintf(buf,content_fbgc_str_object(a),cast_fbgc_object_as_int(b)->content);
+            }
+            else if(b->type == DOUBLE){
+                len += sprintf(buf,content_fbgc_str_object(a),cast_fbgc_object_as_double(b)->content);
+            }
+            struct fbgc_object * o = new_fbgc_str_object_empty(len);
+            memcpy(content_fbgc_str_object(o),buf,len);
+
+            return o;
+        }
+
+
+        return NULL;
+    }                                
+    case LO_EQ:
+    {
+        return NULL;
+    }
+    case GR_EQ:
+    {
+        return NULL;
+    }
+    case EQ_EQ:
+    case NOT_EQ:
     {   
+        //no need to check whether a or b is string, because one of them must be.
+        if(a->type == b->type){
+            uint8_t cmp = (length_fbgc_str_object(a) == length_fbgc_str_object(b) && 
+                memcmp(content_fbgc_str_object(a),content_fbgc_str_object(b),length_fbgc_str_object(a)) == 0);
+
+            return new_fbgc_logic_object( op == NOT_EQ ? !cmp : cmp );
+        }   
+        return NULL;        
+    }
+    case LOWER:
+    {
         return NULL;
     }        
-    case PLUS:
+    case GREATER:
     {
-        STRING_CONCAT: ;
-        
-        struct fbgc_object * o = new_fbgc_str_object_empty(length_fbgc_str_object(a)+length_fbgc_str_object(b));
-        memcpy(content_fbgc_str_object(o),content_fbgc_str_object(a),  length_fbgc_str_object(a));
-        memcpy(content_fbgc_str_object(o)+length_fbgc_str_object(a)  , content_fbgc_str_object(b),length_fbgc_str_object(b));
-        return o;
+        return NULL;
+    }        
+    case PIPE:
+    {
+        return NULL;
     } 
+    case AMPERSAND:
+    {
+        return NULL;
+    }        
 }
 
 return NULL;

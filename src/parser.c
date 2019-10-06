@@ -91,9 +91,9 @@ const fbgc_token const precedence_table[] =
 	38,//NOT_EQ
 	40,//LOWER
 	40,//GREATER
-	34,//PIPE
+	41,//PIPE
 	36,//AMPERSAND
-	44,//EXCLAMATION
+	40,//EXCLAMATION
 	RIGHT_ASSOC | 30,//ASSIGN
 	RIGHT_ASSOC | 30,//R_SHIFT_ASSIGN
 	RIGHT_ASSOC | 30,//L_SHIFT_ASSIGN
@@ -105,7 +105,7 @@ const fbgc_token const precedence_table[] =
 	RIGHT_ASSOC | 30,//SLASH_ASSIGN
 	RIGHT_ASSOC | 30,//CARET_ASSIGN
 	RIGHT_ASSOC | 30,//PERCENT_ASSIGN
-	34,//LEN
+	41,//LEN
 };
 
 uint8_t compare_operators(fbgc_token stack_top, fbgc_token obj_type){
@@ -890,8 +890,6 @@ uint8_t parser(struct fbgc_object ** field_obj){
 
 				gm_error = gm_seek_right(&gm,TOP_LL(op));
 				
-					
-
 				if(is_pushable_in_main(get_fbgc_object_type(TOP_LL(op)))){		
 					//Insert top op to the list  
 					iter_prev->next = TOP_LL(op);
@@ -1057,8 +1055,9 @@ uint8_t parser(struct fbgc_object ** field_obj){
 			gm_error = gm_seek_left(&gm,iter);
 			
 			assert(TOP_LL(op)->type == IDENTIFIER );
-			
-			#ifdef INTERPRETER_DEBUG
+
+			if(TOP_LL(op)->next != NULL && TOP_LL(op)->next->type == ASSIGN) set_id_flag_PUSH_ITSELF(TOP_LL(op));
+			#ifdef PARSER_DEBUG
 			struct fbgc_object * pc = TOP_LL(op);
             if(is_id_flag_GLOBAL(pc) ) cprintf(011,"%s{G<%d>}","ID",cast_fbgc_object_as_id_opcode(pc)->loc);
             else if(is_id_flag_LOCAL(pc) ) cprintf(011,"%s{L<%d>}","ID",cast_fbgc_object_as_id_opcode(pc)->loc);

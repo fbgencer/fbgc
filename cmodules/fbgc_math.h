@@ -23,6 +23,10 @@ declare_new_fbgc_cfunction(fbgc_sqrt);
 declare_new_fbgc_cfunction(fbgc_exp);
 
 
+declare_new_fbgc_cfunction(fbgc_random);
+declare_new_fbgc_cfunction(fbgc_randint);
+declare_new_fbgc_cfunction(fbgc_rand);
+
 #ifdef  __cplusplus
 }
 #endif
