@@ -108,9 +108,9 @@ const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] =
 	{LEXER_TOK_KEYWORDS,"end|fun|elif|else|while|for|break|cont|load|if|return|true|false !b"},
 	{LEXER_TOK_NAME,"__ !w!d!o!+ __"},
 	{LEXER_TOK_NAME,"_!w!d _!w!d!*"},		
-	{LEXER_TOK_OP0,"~|:|,|.|;"},
+	{LEXER_TOK_OP0,",|.|;|:"},
 	{LEXER_TOK_OP1,">>|<<|**|//|+|-|*|/|^|% =!*"}, // do not change this
-	{LEXER_TOK_OP2,"<=|>=|==|!=|<|>|||&|!|="},
+	{LEXER_TOK_OP2,"<=|>=|==|!=|<|>|||&|!|~|+|-|="}, // LAST TWO + AND - MUST BE CHANGED...
 };
 //{LEXER_TOK_OP1,">>=|<<=|**=|//=|+=|-=|*=|/=|^=|%=|>>|<<|**|//|+|-|*|/|^|%"}, // do not change this
 /*
@@ -159,8 +159,8 @@ struct fbgc_object * tokenize_substr(const char *str1, const char*str2, lexer_to
 		}
 		case LEXER_TOK_OP0:
 		{	
-			//"~|:|,|.|;|++|--"
-			return new_fbgc_object(TILDE+where);
+			//":|,|.|;|++|--"
+			return new_fbgc_object(COMMA+where);
 		}
 		case LEXER_TOK_OP1:
 		{	//Set1
@@ -174,7 +174,7 @@ struct fbgc_object * tokenize_substr(const char *str1, const char*str2, lexer_to
 		}
 		case LEXER_TOK_OP2:
 		{	
-			//"<=|>=|==|!=|<|>|||&|!|="
+			//"<=|>=|==|!=|<|>|||&|!|~|+|-|="
 			return new_fbgc_object(LO_EQ+where);
 		}											
 		case LEXER_TOK_PARA:

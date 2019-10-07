@@ -13,10 +13,10 @@ struct fbgc_object  * new_fbgc_logic_object(int i){
 
 
 
-struct fbgc_object * binary_op_fbgc_logic_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op){
+struct fbgc_object * operator_fbgc_logic_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op){
     //you have to check before calling this function, a and b must be int type 
     char a1 = cast_fbgc_object_as_logic(a)->content;
-    char b1 = cast_fbgc_object_as_logic(b)->content;
+    char b1 = (b!= NULL) ? cast_fbgc_object_as_logic(b)->content : 0;
     
     char c = 0;
 
@@ -76,7 +76,20 @@ switch(op)
         c = a1 && b1;
         break;
     }        
-
+    case EXCLAMATION:
+    {
+        c = !a1;  
+    }
+    case TILDE:
+    {
+        c = ~a1;
+        break;
+    }
+    case UPLUS:
+    case UMINUS:
+    {
+        return NULL;
+    }
 }
 
     return new_fbgc_logic_object(c);

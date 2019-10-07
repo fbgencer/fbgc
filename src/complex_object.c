@@ -40,9 +40,9 @@ struct fbgc_object * conjugate_fbgc_complex_object(struct fbgc_object ** arg,int
 };
 
 
-struct fbgc_object * binary_op_fbgc_complex_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op){
+struct fbgc_object * operator_fbgc_complex_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op){
     struct raw_complex a1 = convert_fbgc_object_to_complex(a);
-    struct raw_complex b1 = convert_fbgc_object_to_complex(b);
+    struct raw_complex b1 = ( b!= NULL ) ? convert_fbgc_object_to_complex(b) : a1;
     struct raw_complex c;
     
 
@@ -124,7 +124,28 @@ switch(op)
     {
         return NULL;
     }
-
+    case EXCLAMATION:
+    {
+        return NULL;  
+    }
+    case TILDE:
+    {
+        //conjugate
+        c.real = a1.real;
+        c.imag = -a1.imag;
+        break;
+    }
+    case UPLUS:
+    {
+        c = a1;
+        break;
+    }
+    case UMINUS:
+    {
+        c.real = -a1.real;
+        c.imag = -a1.imag;
+        break;
+    }
 }
 
     return new_fbgc_complex_object(c.real,c.imag);

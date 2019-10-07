@@ -56,32 +56,32 @@ typedef struct {
 #define RBRACK 38 // ]
 #define LBRACE 39 // {
 #define RBRACE 40 // }
-#define UMINUS 41 // -
-#define UPLUS 42 // +
-#define TILDE 43 // ~ set1 starts from here
-#define COLON 44 // :
-#define COMMA 45 // ,
-#define DOT 46 // .
-#define SEMICOLON 47 // ; -- set1 finish
-#define R_SHIFT 48 // >> assignment and binary operators start from here
-#define L_SHIFT 49 // <<
-#define STARSTAR 50 // **
-#define SLASHSLASH 51 // //
-#define PLUS 52 // +
-#define MINUS 53 // -
-#define STAR 54 // *
-#define SLASH 55 // /
-#define CARET 56 // ^
-#define PERCENT 57 // % assignment finish
-#define LO_EQ 58 // <=
-#define GR_EQ 59 // >=
-#define EQ_EQ 60 // ==
-#define NOT_EQ 61 // !=
-#define LOWER 62 // <
-#define GREATER 63 // >
-#define PIPE 64 // |
-#define AMPERSAND 65 // & binary finish
-#define EXCLAMATION 66 // !
+#define COMMA 41 // , -- set1 start
+#define DOT 42 // .
+#define SEMICOLON 43 // ; 
+#define COLON 44 // : set1 finish
+#define R_SHIFT 45 // >> assignment and binary operators start from here
+#define L_SHIFT 46 // <<
+#define STARSTAR 47 // **
+#define SLASHSLASH 48 // //
+#define PLUS 49 // +
+#define MINUS 50 // -
+#define STAR 51 // *
+#define SLASH 52 // /
+#define CARET 53 // ^
+#define PERCENT 54 // % assignment finish
+#define LO_EQ 55 // <=
+#define GR_EQ 56 // >=
+#define EQ_EQ 57 // ==
+#define NOT_EQ 58 // !=
+#define LOWER 59 // <
+#define GREATER 60 // >
+#define PIPE 61 // |
+#define AMPERSAND 62 // & binary finish
+#define EXCLAMATION 63 // !
+#define TILDE 64 // ~
+#define UPLUS 65 // +
+#define UMINUS 66 // -
 #define ASSIGN 67 // = assignment ops start from here
 #define R_SHIFT_ASSIGN 68 // >>=
 #define L_SHIFT_ASSIGN 69 // <<=
@@ -161,13 +161,10 @@ typedef struct {
 "RBRACK",\
 "LBRACE",\
 "RBRACE",\
-"UMINUS",\
-"UPLUS",\
-"TILDE",\
-"COLON",\
 "COMMA",\
 "DOT",\
 "SEMICOLON",\
+"COLON",\
 "R_SHIFT",\
 "L_SHIFT",\
 "STARSTAR",\
@@ -187,6 +184,9 @@ typedef struct {
 "PIPE",\
 "AMPERSAND",\
 "EXCLAMATION",\
+"TILDE",\
+"UPLUS",\
+"UMINUS",\
 "ASSIGN",\
 "R_SHIFT_ASSIGN",\
 "L_SHIFT_ASSIGN",\
@@ -239,17 +239,17 @@ fbgc_token get_reserved_word_code_from_substr(const char *str1,const char *str2)
 const char * get_token_as_str(fbgc_token tok);
 
 
-#define is_fbgc_OPERATOR(T)(T>=UMINUS && T< LEN )
+#define is_fbgc_OPERATOR(T)(T>=COLON && T< LEN )
 #define is_fbgc_IDENTIFIER(T)(T == IDENTIFIER)
 #define is_fbgc_ATOM(T)(T>= LOGIC && T<=STRING)
 #define is_fbgc_INT(T) (T == INT)
 #define is_fbgc_DOUBLE(T) (T == DOUBLE)
 #define is_fbgc_STRING(T) (T == STRING)
 #define is_fbgc_PARA(T)(T>=LPARA && T<= RBRACK)
-#define is_fbgc_UNARY_OPERATOR(T)( T == EXCLAMATION || T== TILDE || T == UPLUS || T == UMINUS)
+#define is_fbgc_UNARY_OPERATOR(T)( T >= EXCLAMATION && T<= UMINUS)
 #define is_fbgc_ASSIGNMENT_OPERATOR(T)( T >= ASSIGN && T< LEN)
 //solve this colon issue..
-#define is_fbgc_BINARY_OPERATOR(T)( T>=R_SHIFT && T<= AMPERSAND || T == COLON  )
+#define is_fbgc_BINARY_OPERATOR(T)( T>=COLON && T<= AMPERSAND)
 
 
 #define is_fbgc_MATRIX(x)(x == MATRIX || x == BUILD_MATRIX)

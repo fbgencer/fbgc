@@ -1,3 +1,9 @@
-x = y = z = p = t = 1.23
+x = rand(4,4)
 
-print(x,y,z,p,t)
+y = -x
+
+print(x)
+
+print(y)
+
+print(x+y)

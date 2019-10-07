@@ -68,13 +68,10 @@ const fbgc_token const precedence_table[] =
 	6,//RBRACK
 	RIGHT_ASSOC | 10,//LBRACE
 	6,//RBRACE
-	RIGHT_ASSOC | 48,//UMINUS
-	RIGHT_ASSOC | 48,//UPLUS
-	RIGHT_ASSOC | 44,//TILDE
-	32,//COLON
 	RIGHT_ASSOC | 20,//COMMA
 	52,//DOT
 	1,//SEMICOLON
+	32,//COLON	
 	42,//R_SHIFT
 	42,//L_SHIFT
 	RIGHT_ASSOC | 46,//STARSTAR
@@ -94,6 +91,9 @@ const fbgc_token const precedence_table[] =
 	41,//PIPE
 	36,//AMPERSAND
 	40,//EXCLAMATION
+	RIGHT_ASSOC | 44,//TILDE	
+	RIGHT_ASSOC | 48,//UPLUS
+	RIGHT_ASSOC | 48,//UMINUS
 	RIGHT_ASSOC | 30,//ASSIGN
 	RIGHT_ASSOC | 30,//R_SHIFT_ASSIGN
 	RIGHT_ASSOC | 30,//L_SHIFT_ASSIGN
@@ -853,13 +853,10 @@ uint8_t parser(struct fbgc_object ** field_obj){
 		case RBRACK:
 		case LBRACE:
 		case RBRACE:
-		case UMINUS:
-		case UPLUS:
-		case TILDE:
-		case COLON:
 		case COMMA:
 		case DOT:
 		case SEMICOLON:
+		case COLON:
 		case R_SHIFT:
 		case L_SHIFT:
 		case STARSTAR:
@@ -879,6 +876,9 @@ uint8_t parser(struct fbgc_object ** field_obj){
 		case PIPE:
 		case AMPERSAND:
 		case EXCLAMATION:
+		case TILDE:		
+		case UPLUS:
+		case UMINUS:
 		{
 			//take the op object from main list and connect previous one to the next one 
 			//[H]->[2]->[+]->[3] => [H]->[2]->[3], now iter holds the operator, iter->next is [3] but we will change that too 

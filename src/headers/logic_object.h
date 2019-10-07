@@ -16,7 +16,7 @@ struct fbgc_logic_object{
 
 struct fbgc_object * new_fbgc_logic_object(int);
 
-struct fbgc_object * binary_op_fbgc_logic_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op);
+struct fbgc_object * operator_fbgc_logic_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op);
 
 void print_fbgc_logic_object(struct fbgc_object *);
 void free_fbgc_logic_object(struct fbgc_object * );

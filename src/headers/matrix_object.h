@@ -33,7 +33,7 @@ struct fbgc_object * subscript_fbgc_matrix_object(struct fbgc_object * mat, size
 
 struct fbgc_object * multiply_fbgc_matrix_object(struct fbgc_object * mat1, struct fbgc_object * mat2);
 
-struct fbgc_object * binary_op_fbgc_matrix_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op);
+struct fbgc_object * operator_fbgc_matrix_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op);
 
 void print_fbgc_matrix_object(struct fbgc_object *);
 void free_fbgc_matrix_object(struct fbgc_object * );

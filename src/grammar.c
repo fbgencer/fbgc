@@ -403,11 +403,6 @@ uint8_t gm_seek_right(struct fbgc_grammar * gm, struct fbgc_object * obj){
 	else if(is_fbgc_OPERATOR(get_fbgc_object_type(obj)) && is_fbgc_EXPRESSION(gm_right)){
 		gm->top = EXPRESSION;
 	}
-
-	//Why do we have this ?
-	//else if(get_fbgc_object_type(obj) == COMMA && gm_right == UNBALANCED_EXPRESSION_LIST ){
-	//	;
-	//}	
 	else if( get_fbgc_object_type(obj) == IF && (gm_right == MONUPLE || gm_right == BUILD_TUPLE) ){
 		gm->top  = obj->type = IF_BEGIN;
 	}

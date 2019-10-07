@@ -292,7 +292,7 @@ int convert_fbgc_object_to_int(struct fbgc_object * obj){
 		case DOUBLE: 
 			return (int)(cast_fbgc_object_as_double(obj)->content);
 		default :
-			cprintf(111,"Error at int conversion!\n");
+			cprintf(111,"Error at int conversion! type %s\n",object_name_array[obj->type]);
 			assert(0);					
 	}
 	

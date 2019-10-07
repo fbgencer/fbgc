@@ -173,42 +173,9 @@ struct fbgc_object * copy_fbgc_tuple_object(struct fbgc_object * src){
 }
 
 
-
-
-struct fbgc_object * plus_fbgc_tuple_object(struct fbgc_object * a,struct fbgc_object * b){
-    /*
-    //(1,2,3) + 5 = (6,7,8);
-    // (1,5) + (10,200) = (11,205);
-	struct fbgc_object * res = NULL;
-	if(a->type == b->type && (cast_fbgc_object_as_tuple(a)->size == cast_fbgc_object_as_tuple(b)->size)){
-		// both tuple
-		res = new_fbgc_tuple_object(cast_fbgc_object_as_tuple(a)->size);
-		for (int i = 0; i < cast_fbgc_object_as_tuple(a)->size; ++i){
-			set_object_in_fbgc_tuple_object(res,fbgc_binary_plus(cast_fbgc_object_as_tuple(a)->contents[i],cast_fbgc_object_as_tuple(b)->contents[i]),i);
-		}
-	}
-	else if(a->type == TUPLE){
-		res = new_fbgc_tuple_object(cast_fbgc_object_as_tuple(a)->size);
-		for (int i = 0; i < cast_fbgc_object_as_tuple(a)->size; ++i){
-				set_object_in_fbgc_tuple_object(res,fbgc_binary_plus(cast_fbgc_object_as_tuple(a)->contents[i],b),i);
-		}
-	}
-	else if(b->type == TUPLE){
-		res = new_fbgc_tuple_object(cast_fbgc_object_as_tuple(b)->size);
-		for (int i = 0; i < cast_fbgc_object_as_tuple(b)->size; ++i){
-				set_object_in_fbgc_tuple_object(res,fbgc_binary_plus(cast_fbgc_object_as_tuple(b)->contents[i],a),i);
-		}		
-	}
-
-    return res;*/
-
-    return a;
-}
-
-
-
-struct fbgc_object * binary_op_fbgc_tuple_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op){
+struct fbgc_object * operator_fbgc_tuple_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op){
  
+	if(b == NULL) return NULL;
 
 switch(op)
 {

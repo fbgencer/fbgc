@@ -216,8 +216,9 @@ struct fbgc_object * multiply_fbgc_matrix_object(struct fbgc_object * mat1, stru
 }
 
 
-struct fbgc_object * binary_op_fbgc_matrix_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op){
+struct fbgc_object * operator_fbgc_matrix_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op){
 
+   if(b == NULL) b = a;
 
    if(a->type == MATRIX && b->type == MATRIX){
         if(op == STAR){
@@ -409,6 +410,24 @@ switch(op)
         *m_cont = a1 && b1;
         break;
     }
+    case EXCLAMATION:
+    {
+        *m_cont = !a1;   
+    }
+    case TILDE:
+    {
+        return NULL;
+    }
+    case UPLUS:
+    {
+        *m_cont = a1;
+        break;
+    }
+    case UMINUS:
+    {
+        *m_cont = -a1;
+        break;
+    }    
 }
 
     }

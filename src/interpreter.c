@@ -203,7 +203,28 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 				break;
 			}			
+			case COLON:
+			{
+				struct fbgc_object * x;
 
+				if(SECOND()->type == RANGE){
+					x = SECOND();
+					cast_fbgc_object_as_range(x)->step = cast_fbgc_object_as_range(x)->end;
+					cast_fbgc_object_as_range(x)->end = POP();
+					//range_obj_set_step(SECOND(),POP());
+				}
+				else {
+					x = new_fbgc_range_object(SECOND(),TOP());
+					STACK_GOTO(-1);
+					SET_TOP(x);
+
+					//Old version that works well with GCC compiler
+					//PUSH(new_fbgc_range_object(POP(),POP()));
+					//SET_TOP( new_fbgc_range_object(TOP(),POP()) );
+				}
+
+				break;
+			}
 			case R_SHIFT:
 			case L_SHIFT:
 			case STARSTAR:
@@ -232,7 +253,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					cprintf(111,"This type does not support operation.\n");
 					return 0;
 				}
-				struct fbgc_object * res =  call_fbgc_binary_op(main_tok,SECOND(),TOP(),type);
+				struct fbgc_object * res =  call_fbgc_operator(main_tok,SECOND(),TOP(),type);
 				STACK_GOTO(-1);
 				//struct fbgc_object * res =  safe_call_fbgc_binary_op(POP(),POP(),main_tok,type);
 
@@ -242,26 +263,15 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				break;	
 
 			}
-			case COLON:
+			case EXCLAMATION:
+			case TILDE:		
+			case UPLUS:
+			case UMINUS:
 			{
-				struct fbgc_object * x;
-
-				if(SECOND()->type == RANGE){
-					x = SECOND();
-					cast_fbgc_object_as_range(x)->step = cast_fbgc_object_as_range(x)->end;
-					cast_fbgc_object_as_range(x)->end = POP();
-					//range_obj_set_step(SECOND(),POP());
-				}
-				else {
-					x = new_fbgc_range_object(SECOND(),TOP());
-					STACK_GOTO(-1);
-					SET_TOP(x);
-
-					//Old version that works well with GCC compiler
-					//PUSH(new_fbgc_range_object(POP(),POP()));
-					//SET_TOP( new_fbgc_range_object(TOP(),POP()) );
-				}
-
+				assert(TOP() != NULL);
+				struct fbgc_object * res =  call_fbgc_operator(get_fbgc_object_type(TOP()),TOP(),NULL,type);
+				assert(res != NULL);
+				SET_TOP(res);
 				break;
 			}
 			case ASSIGN:	
@@ -365,7 +375,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					assert(lhs != NULL && *lhs != NULL);
 
 					fbgc_token main_tok = MAX(get_fbgc_object_type( (*lhs) ),get_fbgc_object_type(rhs));
-					rhs = call_fbgc_binary_op(main_tok,*lhs,rhs,op_type);
+					rhs = call_fbgc_operator(main_tok,*lhs,rhs,op_type);
 					assert(rhs != NULL);					
 				}
 

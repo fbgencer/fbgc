@@ -39,13 +39,10 @@ LBRACK $ [
 RBRACK $ ]
 LBRACE $ {
 RBRACE $ }
-UMINUS $ -
-UPLUS $ +
-TILDE $ ~ set1 starts from here
-COLON $ :
-COMMA $ ,
+COMMA $ , -- set1 start
 DOT $ .
-SEMICOLON $ ; -- set1 finish
+SEMICOLON $ ; 
+COLON $ : set1 finish
 R_SHIFT $ >> assignment and binary operators start from here
 L_SHIFT $ <<
 STARSTAR $ **
@@ -65,6 +62,9 @@ GREATER $ >
 PIPE $ |
 AMPERSAND $ & binary finish
 EXCLAMATION $ !
+TILDE $ ~
+UPLUS $ +
+UMINUS $ -
 ASSIGN $ = assignment ops start from here
 R_SHIFT_ASSIGN $ >>=
 L_SHIFT_ASSIGN $ <<=

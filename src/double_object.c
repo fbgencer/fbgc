@@ -18,10 +18,10 @@ struct fbgc_object * new_fbgc_double_object_from_substr(const char * db_str_begi
 }
 
 
-struct fbgc_object * binary_op_fbgc_double_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op){
+struct fbgc_object * operator_fbgc_double_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op){
     //you have to check before calling this function, a and b must be int type 
     double a1 = convert_fbgc_object_to_double(a);
-    double b1 = convert_fbgc_object_to_double(b);
+    double b1 = (b!= NULL) ? convert_fbgc_object_to_double(b) : 0;
     double c = 0;
 
     switch(op)
@@ -110,7 +110,26 @@ struct fbgc_object * binary_op_fbgc_double_object(struct fbgc_object * a,struct 
         case AMPERSAND:
         {
             return new_fbgc_logic_object(a1 && b1);
-        }        
+        }
+        case EXCLAMATION:
+        {
+            return new_fbgc_logic_object(!a1);   
+        }
+        case TILDE:
+        {
+            c = ceil(a1);
+            break;
+        }
+        case UPLUS:
+        {
+            c = +a1;
+            break;
+        }
+        case UMINUS:
+        {
+            c = -a1;
+            break;
+        }                
     }
     return new_fbgc_double_object(c);
 }

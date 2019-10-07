@@ -26,7 +26,7 @@ struct fbgc_object * real_fbgc_complex_object(struct fbgc_object * self);
 struct fbgc_object * imag_fbgc_complex_object(struct fbgc_object * self);
 struct fbgc_object * conjugate_fbgc_complex_object(struct fbgc_object ** self,int i);
 struct fbgc_object * subscript_fbgc_complex_object(struct fbgc_object * self,uint8_t index);
-struct fbgc_object * binary_op_fbgc_complex_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op);
+struct fbgc_object * operator_fbgc_complex_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op);
 
 struct fbgc_object * get_set_fbgc_complex_object_member(struct fbgc_object * o,const char * name, struct fbgc_object * new_m);
 

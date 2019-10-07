@@ -35,8 +35,9 @@ struct fbgc_object * new_fbgc_str_object_empty(int len){
     return (struct fbgc_object*) stro;  
 }
 
-struct fbgc_object * binary_op_fbgc_str_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op){
+struct fbgc_object * operator_fbgc_str_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op){
 
+    if(b == NULL) return NULL;
 
 switch(op)
 {
@@ -217,7 +218,7 @@ switch(op)
     case AMPERSAND:
     {
         return NULL;
-    }        
+    }     
 }
 
 return NULL;
