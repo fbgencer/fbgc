@@ -270,9 +270,9 @@ char convert_fbgc_object_to_logic(struct fbgc_object * obj){
 
 	switch(get_fbgc_object_type(obj)){
 		case INT:
-			return (char)(cast_fbgc_object_as_logic(obj)->content);
-		case DOUBLE:
 			return (char)(cast_fbgc_object_as_int(obj)->content);
+		case DOUBLE:
+			return (char)(cast_fbgc_object_as_double(obj)->content);
 		default :
 			printf_fbgc_object(obj);
 			cprintf(111,"Error at logic conversion! type %s\n",object_name_array[obj->type]);

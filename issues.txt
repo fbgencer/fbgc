@@ -1,5 +1,6 @@
 #Known bugs
 
+
 2) Return value of a void function
 	previously we were checking the last token in the list so if it wasn't return we were adding "return nil", but following function showed that this is a wrong approach  
 
@@ -16,13 +17,13 @@
 	
 
 
-*) Lexer has a bug : format was read as "for" and mat words
++) Lexer has a bug : format was read as "for" and mat words
 	
 	--Solved
 	!b metachar is added to solve boundary problems for words
 	New location finding algorithm, now we can detect which part in the given regex pattern is catched
 
-*) | |  operator has precedence issues, check this
++) | |  operator has precedence issues, check this
 
 	if(|a|-1 != |b|)
 		do smt
@@ -33,3 +34,11 @@
 	this should be noted.
 
 	Should we make the same precedence for all logical operators ?
++)
+	Parser crashes for unary operators.
+	check this
+	y = x*-x
+	will not exactly y = x*(-x) 
+
+
+	--Solved

@@ -7,6 +7,10 @@ OBJ = ${SRC:.c=.o}
 CC=gcc
 CFLAGS=-c -lm -Os -w
 LDFLAGS += -lm 
+OPTIMIZATION_FLAGS = -foptimize-strlen
+
+
+CFLAGS += $(OPTIMIZATION_FLAGS)
 
 #CFLAGS += -DCLOSE_CPRINTF
 #CFLAGS += -DLEXER_DETAILED_DEBUG

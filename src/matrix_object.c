@@ -321,7 +321,14 @@ for(size_t i = 0; i< row; ++i){
             b1 = *(content_fbgc_matrix_object(b)+b_index);
         }      
 
+        *m_cont = operator_method_double(a1,b1,op,NULL);
 
+    }
+}
+    return m;
+
+}
+/*
 switch(op)
 {
     case R_SHIFT:
@@ -429,13 +436,7 @@ switch(op)
         break;
     }    
 }
-
-    }
-}
-    return m;
-
-}
-
+*/
 
 
 

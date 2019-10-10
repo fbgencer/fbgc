@@ -39,116 +39,160 @@ struct fbgc_object * conjugate_fbgc_complex_object(struct fbgc_object ** arg,int
         return new_fbgc_complex_object(cast_fbgc_object_as_complex(*arg)->z.real,-cast_fbgc_object_as_complex(*arg)->z.imag); 
 };
 
+double absolute_fbgc_complex_object(struct fbgc_object * a){
+	return hypot(cast_fbgc_object_as_complex(a)->z.real,cast_fbgc_object_as_complex(a)->z.imag);
+}
+
+double arg_fbgc_complex_object(struct fbgc_object * a){
+	return atan2(cast_fbgc_object_as_complex(a)->z.imag,cast_fbgc_object_as_complex(a)->z.real);
+}
+
+struct raw_complex convert_to_radian_fbgc_complex_object(struct fbgc_object * a){
+	struct raw_complex c;
+	c.real = absolute_fbgc_complex_object(a);
+	c.imag = arg_fbgc_complex_object(a);
+	return c;
+}
 
 struct fbgc_object * operator_fbgc_complex_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op){
     struct raw_complex a1 = convert_fbgc_object_to_complex(a);
     struct raw_complex b1 = ( b!= NULL ) ? convert_fbgc_object_to_complex(b) : a1;
-    struct raw_complex c;
-    
-
-switch(op)
-{
-    case R_SHIFT:
-    {
-        return NULL;
-    }
-    case L_SHIFT:
-    {
-        return NULL;
-    }
-    case STARSTAR:
-    {
-        return NULL;
-    }
-    case SLASHSLASH:
-    {
-        return NULL;
-    }
-    case PLUS:
-    {
-        c.real = a1.real + b1.real;
-        c.imag = a1.imag + b1.imag;
-        break;
-    }
-    case MINUS:
-    {
-        c.real = a1.real - b1.real;
-        c.imag = a1.imag - b1.imag;
-        break;
-    }
-    case STAR:
-    {
-        c.real = a1.real * b1.real - a1.imag * b1.imag;
-        c.imag = a1.real * b1.imag + a1.imag * b1.real;
-        break;
-    }                
-    case SLASH:
-    {
-        return NULL;
-    }
-    case CARET:
-    {
-        return NULL;
-    }
-    case PERCENT:
-    {
-        return NULL;
-    }    
-    case LO_EQ:
-    {
-        return NULL;
-    }
-    case GR_EQ:
-    {
-        return NULL;
-    }
-    case EQ_EQ:
-    case NOT_EQ:
-    {
-        uint8_t cmp = (a1.real == b1.real && a1.imag == b1.imag );
-        return new_fbgc_int_object( op == NOT_EQ ? !cmp : cmp );
-    }
-    case LOWER:
-    {
-        return NULL;
-    }
-    case GREATER:
-    {
-        return NULL;
-    }
-    case PIPE:
-    {
-        return NULL;
-    }
-    case AMPERSAND:
-    {
-        return NULL;
-    }
-    case EXCLAMATION:
-    {
-        return NULL;  
-    }
-    case TILDE:
-    {
-        //conjugate
-        c.real = a1.real;
-        c.imag = -a1.imag;
-        break;
-    }
-    case UPLUS:
-    {
-        c = a1;
-        break;
-    }
-    case UMINUS:
-    {
-        c.real = -a1.real;
-        c.imag = -a1.imag;
-        break;
-    }
+    struct fbgc_object * cmplx = NULL;
+	//we are not gonna use a1 but make compiler happy..
+    a1 = operator_method_raw_complex(a1,b1,op,&cmplx);
+    return cmplx;
 }
 
-    return new_fbgc_complex_object(c.real,c.imag);
+struct raw_complex operator_method_raw_complex(struct raw_complex a1,struct raw_complex b1,fbgc_token op, struct fbgc_object ** result){
+	struct raw_complex c = {0,0};
+	fbgc_token result_type = (op>=LO_EQ && op<=EXCLAMATION) ? LOGIC : COMPLEX;
+
+	switch(op)
+	{
+	    case R_SHIFT:
+	    {
+	       	assert(0);
+	    }
+	    case L_SHIFT:
+	    {
+	        assert(0);
+	    }
+	    case STARSTAR:
+	    {
+	    	goto COMPLEX_POWER;
+	    }
+	    case SLASHSLASH:
+	    {
+	        assert(0);
+	    }
+	    case PLUS:
+	    {
+	        c.real = a1.real + b1.real;
+	        c.imag = a1.imag + b1.imag;
+	        break;
+	    }
+	    case MINUS:
+	    {
+	        c.real = a1.real - b1.real;
+	        c.imag = a1.imag - b1.imag;
+	        break;
+	    }
+	    case STAR:
+	    {
+	        c.real = a1.real * b1.real - a1.imag * b1.imag;
+	        c.imag = a1.real * b1.imag + a1.imag * b1.real;
+	        break;
+	    }                
+	    case SLASH:
+	    {
+	        assert(0);
+	    }
+	    case CARET:
+	    {
+	    	COMPLEX_POWER: ;
+
+	    	double abs = pow( hypot(a1.real,a1.imag) ,b1.real);
+	    	double arg = atan2(a1.imag,a1.real) * b1.real;
+	    	c.real = abs * cos(arg);
+	    	c.imag = abs * sin(arg);
+	    	break;
+	    }
+	    case PERCENT:
+	    {
+	        assert(0);
+	    }    
+	    case LO_EQ:
+	    {
+	        assert(0);
+	    }
+	    case GR_EQ:
+	    {
+	        assert(0);
+	    }
+	    case EQ_EQ:
+	    case NOT_EQ:
+	    {
+	        uint8_t cmp = (a1.real == b1.real && a1.imag == b1.imag );
+	        c.real = (op == NOT_EQ) ? !cmp : cmp ;
+	        break;
+	    }
+	    case LOWER:
+	    {
+	        
+	    }
+	    case GREATER:
+	    {
+	        
+	    }
+	    case PIPE:
+	    {
+	        
+	    }
+	    case AMPERSAND:
+	    {
+	        
+	    }
+	    case EXCLAMATION:
+	    {
+	        assert(0);  
+	    }
+	    case TILDE:
+	    {
+	        //conjugate
+	        c.real = a1.real;
+	        c.imag = -a1.imag;
+	        break;
+	    }
+	    case UPLUS:
+	    {
+	        c = a1;
+	        break;
+	    }
+	    case UMINUS:
+	    {
+	        c.real = -a1.real;
+	        c.imag = -a1.imag;
+	        break;
+	    }
+	}
+
+	if(result != NULL){
+		switch(result_type){
+			case LOGIC:
+			{
+				*result = new_fbgc_logic_object(c.real);
+				break;
+			}
+			case COMPLEX:
+			{
+				*result = new_fbgc_complex_object(c.real,c.imag);
+				break;
+			}
+		}
+	}
+
+	return c;
+
 }
 
 

@@ -88,10 +88,10 @@ const fbgc_token const precedence_table[] =
 	38,//NOT_EQ
 	40,//LOWER
 	40,//GREATER
-	41,//PIPE
+	34,//PIPE
 	36,//AMPERSAND
-	40,//EXCLAMATION
-	RIGHT_ASSOC | 44,//TILDE	
+	46,//EXCLAMATION
+	RIGHT_ASSOC | 46,//TILDE	
 	RIGHT_ASSOC | 48,//UPLUS
 	RIGHT_ASSOC | 48,//UMINUS
 	RIGHT_ASSOC | 30,//ASSIGN
@@ -105,7 +105,7 @@ const fbgc_token const precedence_table[] =
 	RIGHT_ASSOC | 30,//SLASH_ASSIGN
 	RIGHT_ASSOC | 30,//CARET_ASSIGN
 	RIGHT_ASSOC | 30,//PERCENT_ASSIGN
-	41,//LEN
+	47,//LEN
 };
 
 uint8_t compare_operators(fbgc_token stack_top, fbgc_token obj_type){
@@ -441,7 +441,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
  		case STRING:
  		{
  			iter_prev = iter;
-			gm_error = gm_seek_left(&gm,iter);	
+			gm_error = gm_seek_left(&gm,iter);
  			break;
  		}
  		case IDENTIFIER:
@@ -885,6 +885,8 @@ uint8_t parser(struct fbgc_object ** field_obj){
 			//     p^	i^					
 			iter_prev->next = iter->next;
 			//struct fbgc_object * iterp2 = iter_prev;
+
+			gm_error = gm_seek_left(&gm,iter);
 			
 			while( !is_empty_fbgc_ll_object(op) && compare_operators(get_fbgc_object_type(TOP_LL(op)),iter->type) ){
 
@@ -1009,7 +1011,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 				//if(!gm_error) goto END_OF_THE_PARSER;
 			}
 
-			if(iter->type != RPARA)	gm_error = gm_seek_left(&gm,iter);
+			//if(iter->type != RPARA)	gm_error = gm_seek_left(&gm,iter);
 			
 			if(iter->type == RPARA || iter->type == RBRACK|| 
 				iter->type == SEMICOLON|| iter->type == NEWLINE || 
