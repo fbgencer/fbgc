@@ -58,18 +58,27 @@ void printf_fbgc_object(struct fbgc_object * self){
 
 			    double * contents = content_fbgc_matrix_object(self);
 
-			    int width = 10;
+			    int width = 6;
+			    int slash_widht = m->column*width+1;
+				if(m->sub_type == COMPLEX)
+					slash_widht += 6;
 
-			    fprintf(stdout,"%2s%*s\n%1s","/",m->column*width+1,"\\","|");
+			    //fprintf(stdout,"%2s%*s\n%1s","/",slash_widht,"\\","|");
 			    for(int i = 0; i<m->row; i++){
 			        
 			        for(int j = 0; j<m->column; j++){
-			            fprintf(stdout,"%*g",width,contents[i * m->column + j]);
+        			    if(m->sub_type == COMPLEX){
+			    			fprintf(stdout,"%g",contents[i * m->column + j]);
+			    			fprintf(stdout,"%+gj%*s",contents[i * m->column + j+(m->row*m->column)],width," " );
+			    		}
+			    		else
+			            	fprintf(stdout,"%*g",width,contents[i * m->column + j]);
 
 			        }
-			        if(i!= m->row-1) fprintf(stdout,"%3s\n%1s","|","|");
+			        if(i!=m->row-1) fprintf(stdout,"\n");
+			        //if(i!= m->row-1) fprintf(stdout,"%3s\n%1s","|","|");
 			    }
-			    fprintf(stdout,"%3s\n%2s%*s","|","\\",m->column*width+1,"/");
+			    //fprintf(stdout,"%3s\n%2s%*s","|","\\",slash_widht,"/");
 			    #undef m 
 			break;
 		}	

@@ -9,9 +9,12 @@ extern "C" {
 #define UNINITIALIZED_MATRIX 10
 #define ZEROS_MATRIX 0
 #define ONES_MATRIX 1
+#define EYE_MATRIX 2
+
 
 struct fbgc_matrix_object{
     struct fbgc_object base;
+    fbgc_token sub_type;
    	size_t row;
    	size_t column;
 };
@@ -23,13 +26,14 @@ struct fbgc_matrix_object{
 #define row_fbgc_matrix_object(x)(cast_fbgc_object_as_matrix(x)->row)
 #define column_fbgc_matrix_object(x)(cast_fbgc_object_as_matrix(x)->column)
 
-struct fbgc_object * new_fbgc_matrix_object(size_t row,size_t col,char tp);
+struct fbgc_object * new_fbgc_matrix_object(fbgc_token sub_type, size_t row,size_t col,char tp);
 struct fbgc_object * new_fbgc_matrix_object_from_range(struct fbgc_object * robj);
-struct fbgc_object * matrix_creation_from_stack(struct fbgc_object ** , int, int, int );
+struct fbgc_object * matrix_creation_from_stack(struct fbgc_object ** , int, int, int , fbgc_token);
 
 struct fbgc_object * subscript_fbgc_matrix_object(struct fbgc_object * mat, size_t r, size_t c);
 
 #define content_fbgc_matrix_object(x) ((double *) ( (char*)(&cast_fbgc_object_as_matrix(x)->column) + sizeof(size_t) ))
+#define complex_content_fbgc_matrix_object(x) ( content_fbgc_matrix_object(x) + (cast_fbgc_object_as_matrix(x)->row*cast_fbgc_object_as_matrix(x)->column ) )
 
 struct fbgc_object * multiply_fbgc_matrix_object(struct fbgc_object * mat1, struct fbgc_object * mat2);
 

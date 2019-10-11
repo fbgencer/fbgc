@@ -2,28 +2,53 @@
 
 
 
-struct fbgc_object * new_fbgc_matrix_object(size_t row, size_t col, char tp){
-    size_t sz = row*col;
-	struct fbgc_matrix_object * mo =  (struct fbgc_matrix_object*) fbgc_malloc(sizeof(struct fbgc_matrix_object) + sizeof(double) * sz );
+struct fbgc_object * new_fbgc_matrix_object(fbgc_token sub_tp, size_t row, size_t col, char tp){
+    size_t len = row*col;
+
+    // if sub_tp == DOUBLE than open only an array with sz length
+    // if sub_tp == COMPLEX than open an array twice length as double, first array will contain real numbers while second will hold imaginary part
+
+/*  struct fbgc_matrix_object * mo = (tp == DOUBLE) 
+    (struct fbgc_matrix_object*) fbgc_malloc(sizeof(struct fbgc_matrix_object) + (sizeof(double) * len) ) :
+    (struct fbgc_matrix_object*) fbgc_malloc(sizeof(struct fbgc_matrix_object) + (sizeof(struct raw_complex) * len) ) :
+*/
+
+    struct fbgc_matrix_object * mo = (struct fbgc_matrix_object*) fbgc_malloc(sizeof(struct fbgc_matrix_object) + (1 + (sub_tp == COMPLEX) ) *(sizeof(double) * len) );
+
     mo->base.type = MATRIX;
     mo->row = row;
     mo->column = col;
+    mo->sub_type = sub_tp;
 
     //tp == -1 => do not initialize;
     //tp == 0 => zeros
     //tp == 1 => ones
+    //tp == 2 => eye
     double * ct = content_fbgc_matrix_object(mo);
 
     switch(tp){
         case ZEROS_MATRIX:
         case ONES_MATRIX:
         {
+            //tp = zero for ZEROS
+            //tp = one for ones
             double x = tp*(1.0);
-            while(sz--)
+            if(sub_tp == COMPLEX) len *= 2;
+            while(len--)
             {
-                *(ct+sz) = x;
+                *(ct+len) = x;
             }
+
             break;            
+        }
+        case EYE_MATRIX:
+        {
+            for(size_t i = 0; i<row; i++){
+                for(len = 0; len<col; len++){
+                    *(ct + i*col + len ) = (i == len) ? 1.0 : 0;
+                }
+            }
+            break;
         }
     }
     return mo;
@@ -53,7 +78,7 @@ struct fbgc_object * new_fbgc_matrix_object_from_range(struct fbgc_object * robj
         if(step>0) sz = 1 + ( cast_fbgc_object_as_int(r->end)->content - cast_fbgc_object_as_int(r->start)->content ) /( step );
         else sz = 1 + ( cast_fbgc_object_as_int(r->start)->content - cast_fbgc_object_as_int(r->end)->content ) /( -step );
 
-        struct fbgc_matrix_object * m = new_fbgc_matrix_object(1,sz,UNINITIALIZED_MATRIX);
+        struct fbgc_matrix_object * m = new_fbgc_matrix_object(DOUBLE,1,sz,UNINITIALIZED_MATRIX);
         double * d = content_fbgc_matrix_object(m);
 
         while(sz--){
@@ -61,38 +86,16 @@ struct fbgc_object * new_fbgc_matrix_object_from_range(struct fbgc_object * robj
         }
 
         return m;
-
-        /*
-        if(step>0)
-            return  (no >= cast_fbgc_object_as_int(r->end)->content ) ? NULL :
-            new_fbgc_int_object(no);
-        else
-            return  (no > cast_fbgc_object_as_int(r->end)->content ) ?  new_fbgc_int_object(no) : NULL ;*/
-    }
-   /* else if(tok == DOUBLE){
-        double step = (r->step == NULL) ? 1.0 : convert_fbgc_object_to_double(r->step); 
-        double no = convert_fbgc_object_to_double(r->start) + (step*index);
-
-        if(step>0)
-            return  (no >= convert_fbgc_object_to_double(r->end) ) ? NULL:
-            new_fbgc_double_object(no);
-        else
-            return  (no > convert_fbgc_object_to_double(r->end)  ) ?  new_fbgc_double_object(no) : NULL ;        
-    }
-    */
     #undef r
-
+    }
 }
 
 
-struct fbgc_object * matrix_creation_from_stack(struct fbgc_object ** sp, int ctr, int msize, int row){
+struct fbgc_object * matrix_creation_from_stack(struct fbgc_object ** sp, int ctr, int msize, int row,fbgc_token sub_type){
 
+    struct fbgc_matrix_object * m = (struct fbgc_matrix_object *) new_fbgc_matrix_object(sub_type,msize,1,UNINITIALIZED_MATRIX); // open ctr-row size array 
 
-    struct fbgc_matrix_object * m = (struct fbgc_matrix_object * )new_fbgc_matrix_object(msize,1,10); // open ctr-row size array 
-
-    double * db = (double *) ( (char*)(&m->column) +sizeof(m->column) );
-    //cprintf(111,"m %p DB: %p\n",m,db); 
-
+    double * db = content_fbgc_matrix_object(m);
 
     m->row = row+1;
 
@@ -102,16 +105,13 @@ struct fbgc_object * matrix_creation_from_stack(struct fbgc_object ** sp, int ct
     int x = 0,y = 0;
 
     for (int i = 0; i < ctr; ++i){
-            
         if(sp[i]->type == MATRIX){
             xof += x;
             yof += y;
-
            // cprintf(101,">>xof :%d, yof: %d column %d\n",xof,yof,m->column);
-
             struct fbgc_matrix_object * msub = cast_fbgc_object_as_matrix(sp[i]);
             struct fbgc_object * obj = sp[i];
-            double * ds = (double *) ( (char*)(&msub->column) +sizeof(msub->column) );
+            double * ds = content_fbgc_matrix_object(msub);
             
            // cprintf(101,">>msub r:%d, c:%d\n",msub->row,msub->column);
 
@@ -139,21 +139,23 @@ struct fbgc_object * matrix_creation_from_stack(struct fbgc_object ** sp, int ct
             //db[x++] 
         }
         else if(sp[i]->type != ROW){
-            //cprintf(111,"Now row, writing db..\n");
-            //cprintf(111,"xof :%d, yof: %d column %d\n",xof,yof,m->column);
-            //cprintf(111,"x=%d, y=%d\n",x,y);
-            db[ (xof + x*m->column) + (yof + y++) ] = convert_fbgc_object_to_double(sp[i]);
-            
-            //if(i == ctr-1 && m->column == 0){
-            //m->column = yof+y;
-            //}
+
+            if(sub_type == DOUBLE)
+                db[ (xof + x*m->column) + (yof + y++) ] = convert_fbgc_object_to_double(sp[i]);
+            else{
+                struct raw_complex z = convert_fbgc_object_to_complex(sp[i]);
+                size_t db_index = (xof + x*m->column) + (yof + y);
+                db[ db_index ]  = z.real;
+                db[ db_index + msize ]  = z.imag; 
+                y++;
+            }
         }   
         else if(sp[i]->type == ROW){
             m->column = y+yof;
             y = 0;
             x++;
         }
-        else return NULL;
+        else assert(0);
     }
 
     
@@ -167,7 +169,6 @@ struct fbgc_object * matrix_creation_from_stack(struct fbgc_object ** sp, int ct
 
   //  m->row = row+1;
   //  m->column /= m->row;
-
     return (struct fbgc_object * )m;
 }
 
@@ -194,18 +195,37 @@ struct fbgc_object * multiply_fbgc_matrix_object(struct fbgc_object * mat1, stru
         return NULL;
     }
 
-    struct fbgc_matrix_object * m = (struct fbgc_matrix_object *) new_fbgc_matrix_object(m1->row,m2->column,UNINITIALIZED_MATRIX);
+    fbgc_token sub_type = MAX(m1->sub_type,m2->sub_type);
 
+    struct fbgc_matrix_object * m = (struct fbgc_matrix_object *) new_fbgc_matrix_object(sub_type,m1->row,m2->column,UNINITIALIZED_MATRIX);
 
-    double * m_cont  = content_fbgc_matrix_object(m);
-    double * m1_cont = content_fbgc_matrix_object(mat1);
-    double * m2_cont = content_fbgc_matrix_object(mat2);
+    struct raw_complex a1 = {0,0},z = {0,0};
 
-    int i,j,k;
-    for(i = 0; i< m1->row; ++i){
-        for(j = 0; j< m2->column; ++j){
-            for(k = 0; k< m2->row; ++k){
-                m_cont[i*m->column + j ] += m1_cont[i*m1->column + k] * m2_cont[ k * m2->column + j];
+    for(size_t i = 0; i< m1->row; ++i){
+        for(size_t j = 0; j< m2->column; ++j){
+            for(size_t k = 0; k< m2->row; ++k){
+
+                size_t m1_index = i*m1->column + k;
+                size_t m2_index = k * m2->column + j;
+                size_t m_index = i*m->column + j;
+
+                a1.real = *(content_fbgc_matrix_object(m1)+ m1_index);
+                if(cast_fbgc_object_as_matrix(m1)->sub_type == COMPLEX){
+                    a1.imag = *(complex_content_fbgc_matrix_object(m1)+ m1_index);
+                }
+
+                z.real = *(content_fbgc_matrix_object(m2)+ m2_index);
+                if(cast_fbgc_object_as_matrix(m2)->sub_type == COMPLEX){
+                    z.imag = *(complex_content_fbgc_matrix_object(m2)+ m2_index);
+                }
+
+                z = operator_method_raw_complex(a1,z,STAR,NULL);
+
+                *(content_fbgc_matrix_object(m)+m_index) += z.real;
+                *(complex_content_fbgc_matrix_object(m)+m_index) += z.imag;
+
+                //original double version of matrix multiplication
+                //m_cont[ i*m->column + j ] += m1_cont[i*m1->column + k] * m2_cont[ k * m2->column + j];
             }
         }
     }
@@ -241,10 +261,12 @@ struct fbgc_object * operator_fbgc_matrix_object(struct fbgc_object * a,struct f
     // 7 -> same row, col a < col b
 
     char index_type = 0;
+    fbgc_token sub_type;
 
     if(a->type == MATRIX){
         row = row_fbgc_matrix_object(a);
         column = column_fbgc_matrix_object(a);
+        sub_type = cast_fbgc_object_as_matrix(a)->sub_type;
     }
     if(b->type == MATRIX){
         index_type += (row == row_fbgc_matrix_object(b));
@@ -254,20 +276,27 @@ struct fbgc_object * operator_fbgc_matrix_object(struct fbgc_object * a,struct f
         row = MAX(row,row_fbgc_matrix_object(b));
         
         index_type += 6*(column < column_fbgc_matrix_object(b));
-        column = MAX(column,column_fbgc_matrix_object(b));     
-        
+        column = MAX(column,column_fbgc_matrix_object(b)); 
+
+        if(sub_type == DOUBLE) sub_type = cast_fbgc_object_as_matrix(b)->sub_type;
     }
-    struct fbgc_matrix_object * m = (struct fbgc_matrix_object *) new_fbgc_matrix_object(row,column,UNINITIALIZED_MATRIX);
+
+    struct raw_complex a1 = {0,0}, b1 = {0,0};
+    
+    if(a->type >= INT && a->type <=COMPLEX){
+        a1 = convert_fbgc_object_to_complex(a);
+        sub_type = MAX(sub_type,a->type);
+    }
+    else if(b->type >= INT && b->type<= COMPLEX){
+        b1 = convert_fbgc_object_to_complex(b);
+        sub_type = MAX(sub_type,b->type);
+    }  
+
+    struct fbgc_matrix_object * m = (struct fbgc_matrix_object *) new_fbgc_matrix_object(sub_type,row,column,ZEROS_MATRIX);
 
     double * m_cont;
-    double a1,b1;
-    
-    if(a->type == INT || a->type == DOUBLE){
-        a1 = convert_fbgc_object_to_double(a);
-    }
-    else if(b->type == INT || b->type == DOUBLE){
-        b1 = convert_fbgc_object_to_double(b);
-    }  
+   // double a1,b1;
+
 
     /* Three types of matrix operations are allowed
      * a = [1,2,3;4,5,6]
@@ -278,6 +307,10 @@ struct fbgc_object * operator_fbgc_matrix_object(struct fbgc_object * a,struct f
      * a+c -> index_c must change at the second row of a
      * a+d -> index_d must change at the second row of a 
      */
+
+    const size_t rc = row*column;
+    const size_t arc = (a->type == MATRIX) ? row_fbgc_matrix_object(a)*column_fbgc_matrix_object(a) : 0;
+    const size_t brc = (b->type == MATRIX) ? row_fbgc_matrix_object(b)*column_fbgc_matrix_object(b) : 0;
 
 for(size_t i = 0; i< row; ++i){
     for(size_t j = 0; j< column; ++j){
@@ -315,14 +348,27 @@ for(size_t i = 0; i< row; ++i){
         }
         
         if(index_type != 10){
-            a1 = *(content_fbgc_matrix_object(a)+ a_index);
+            a1.real = *(content_fbgc_matrix_object(a)+ a_index);
+            if(cast_fbgc_object_as_matrix(a)->sub_type == COMPLEX){
+                a1.imag = *(content_fbgc_matrix_object(a)+ a_index + arc);
+            }
         }
+        //if index_type != 0
         if(index_type){
-            b1 = *(content_fbgc_matrix_object(b)+b_index);
+
+            b1.real = *(content_fbgc_matrix_object(b)+b_index);
+            if(cast_fbgc_object_as_matrix(b)->sub_type == COMPLEX )
+                b1.imag = *(content_fbgc_matrix_object(b)+brc+b_index);
+            else b1.imag = 0;
         }      
 
-        *m_cont = operator_method_double(a1,b1,op,NULL);
-
+        if(sub_type == COMPLEX){
+            struct raw_complex z = operator_method_raw_complex(a1,b1,op,NULL);
+            *m_cont = z.real;
+            *(m_cont+rc) = z.imag; 
+        }
+        else
+            *m_cont = operator_method_double(a1.real,b1.real,op,NULL);
     }
 }
     return m;
@@ -449,7 +495,10 @@ void print_fbgc_matrix_object(struct fbgc_object * mat){
     for(int i = 0; i<m->row; i++){
         
         for(int j = 0; j<m->column; j++){
-            cprintf(011,"%f",contents[i * m->column + j]);
+            cprintf(011,"%g",contents[i * m->column + j]);
+            if(m->sub_type == COMPLEX){
+                cprintf(011,"%+gj",contents[i * m->column + j+ (m->row*m->column)]);
+            }
             if(j != m->column-1) cprintf(010,",");
         }
         if(i!= m->row-1) cprintf(010,";");

@@ -577,6 +577,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				cprintf(111,"\n==============Stack==========================\n");
 				print_fbgc_object(stack);*/				
 				
+				fbgc_token matrix_sub_type = DOUBLE;
 
 				for( int i = 1; i<=sctr && i <= ctr; ++i){
 					//cprintf(011,"i = %d ctr %d\n",i,ctr);
@@ -586,6 +587,11 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 						{
 							++msize;
 							//cprintf(111,"int/db row:%d col:%d\n",row,col);
+							break;
+						}
+						case COMPLEX:{
+							++msize;
+							matrix_sub_type = COMPLEX;
 							break;
 						}	
 						case MATRIX:
@@ -618,7 +624,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 				
 				//struct fbgc_object * m = new_fbgc_matrix_object(ctr-row);
-				struct fbgc_object * m = matrix_creation_from_stack(sp+sctr-ctr ,ctr, msize, row);
+				struct fbgc_object * m = matrix_creation_from_stack(sp+sctr-ctr ,ctr, msize, row,matrix_sub_type);
 				assert(m != NULL);
 				//print_fbgc_matrix_object(m);
 

@@ -36,7 +36,7 @@ struct fbgc_object * one_arg_math(struct fbgc_object ** arg,int argc, double (*f
 			struct fbgc_matrix_object * m = (struct fbgc_matrix_object *)arg[0];
 			size_t r = m->row;
 			size_t c = m->column;
-			struct fbgc_object * res_m = new_fbgc_matrix_object(r,c,UNINITIALIZED_MATRIX);
+			struct fbgc_object * res_m = new_fbgc_matrix_object(DOUBLE,r,c,UNINITIALIZED_MATRIX);
 			double * mc = content_fbgc_matrix_object(m);
 			double * resc = content_fbgc_matrix_object(res_m);
 			for(size_t i = 0; i<r; ++i){
@@ -131,7 +131,7 @@ new_fbgc_cfunction(fbgc_rand,"rand")
 	}
 	else return NULL;
 
-	struct fbgc_object * m = new_fbgc_matrix_object(row,col,UNINITIALIZED_MATRIX);
+	struct fbgc_object * m = new_fbgc_matrix_object(DOUBLE,row,col,UNINITIALIZED_MATRIX);
 	double * mc = content_fbgc_matrix_object(m);
 	for(size_t i = 0; i<row; ++i){
 		for(size_t j = 0; j<col; ++j){

@@ -89,7 +89,7 @@ new_fbgc_cfunction(fbgc_matrix,"matrix"){
 	if(argc == 3){
 		size_t r = convert_fbgc_object_to_int(arg[0]);
 		size_t c = convert_fbgc_object_to_int(arg[1]);
-		return new_fbgc_matrix_object(r,c,convert_fbgc_object_to_int(arg[2]));
+		return new_fbgc_matrix_object(DOUBLE,r,c,convert_fbgc_object_to_int(arg[2]));
 	}
 	else cprintf(100,"<int> takes only 3 argument, %d given !\n",argc);
 	return NULL;

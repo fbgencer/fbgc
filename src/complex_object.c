@@ -105,7 +105,15 @@ struct raw_complex operator_method_raw_complex(struct raw_complex a1,struct raw_
 	    }                
 	    case SLASH:
 	    {
-	        assert(0);
+		    double denom = b1.real * b1.real + b1.imag * b1.imag;
+		    
+		    if (denom == 0.)
+		        assert(0);
+
+		    c.real = (a1.real * b1.real + a1.imag *b1.imag)/denom;
+		    c.imag = (a1.imag * b1.real - a1.real *b1.imag)/denom;
+
+		    break;
 	    }
 	    case CARET:
 	    {
