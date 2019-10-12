@@ -17,10 +17,6 @@ struct fbgc_object * new_fbgc_str_object_from_substr(const char * str1,const cha
     stro->base.type = STRING;
     //stro->base.next = NULL;
     stro->len = str2-str1;
-    //stro->content = ( (char *) stro ) + size_fbgc_str_object;
-    //cprintf(111,"stro %p CC: %p content %p\n",stro,cc,&stro->content);
-    //memcpy(cc,str1,stro->len);
-    //*(cc+stro->len) = '\0';    
     memcpy(&stro->content,str1,stro->len);
     *(&stro->content+stro->len) = '\0';
     return (struct fbgc_object*) stro;  
@@ -226,14 +222,31 @@ return NULL;
 
 
 
-struct fbgc_object * subscript_fbgc_str_object(struct fbgc_object * obj,int i1, int i2){
+struct fbgc_object * get_object_in_fbgc_str_object(struct fbgc_object * so,int i1, int i2){
     //return new str object, it could be sequence inside the object or just one char
 
-    if(i1<length_fbgc_str_object(obj) && i2<=length_fbgc_str_object(obj) && i2>i1 ){
-        char * c = content_fbgc_str_object(obj);
+    if(i1<length_fbgc_str_object(so) && i2<=length_fbgc_str_object(so) && i2>i1 ){
+        char * c = content_fbgc_str_object(so);
         return new_fbgc_str_object_from_substr(c+i1,c+i2);
     }
     return NULL;
+}
+struct fbgc_object * set_object_in_fbgc_str_object(struct fbgc_object * so,int i1, int i2,struct fbgc_object * obj){
+    //return new str object, it could be sequence inside the object or just one char
+
+    assert(obj->type == STRING);
+
+    assert(i1<length_fbgc_str_object(so) && i2<=length_fbgc_str_object(so) && i2>i1 );
+
+    if(length_fbgc_str_object(obj) == 1){
+        char * c = content_fbgc_str_object(so);
+        *(c+i1) = *(content_fbgc_str_object(obj)); 
+    }
+    else{
+        assert(0);
+    }
+
+    return so;
 }
 
 void print_fbgc_str_object(struct fbgc_object * obj){

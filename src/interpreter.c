@@ -94,7 +94,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					//first pop the number of indexes
 					int index_no = cast_fbgc_object_as_int(POP())->content;
 					//take index values one by one and finally left last index 
-					struct fbgc_object * temp;
+					struct fbgc_object * temp = NULL;
 
 					if(is_id_flag_GLOBAL(pc)){
 						//cprintf(111,"Globalde subscript\n");
@@ -108,6 +108,8 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 						temp = GET_AT_FP(cast_fbgc_object_as_id_opcode(pc)->loc);
 					}	
 
+					assert(temp != NULL && TOP()->type == INT);
+
 					int index = 0;
 					for(int i = 0; i<index_no; i++){
 						index = cast_fbgc_object_as_int(TOPN(index_no-i))->content;
@@ -120,12 +122,12 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 							temp = subscript_fbgc_complex_object(temp,index);
 						}
 						else if(temp->type == STRING){
-							temp = subscript_fbgc_str_object(temp,index,index+1);
+							temp = get_object_in_fbgc_str_object(temp,index,index+1);
 						}
 						else if(temp->type == MATRIX){
 							if(index_no == 2){
 								int index_no2 = cast_fbgc_object_as_int(TOPN(index_no-1))->content;
-								temp = subscript_fbgc_matrix_object(temp,index,index_no2);
+								temp = get_object_in_fbgc_matrix_object(temp,index,index_no2);
 								assert(temp != NULL);
 								break;
 							}
@@ -331,12 +333,38 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					int index_no = cast_fbgc_object_as_int(POP())->content;
 					//take index values one by one and finally left last index 
 					struct fbgc_object * temp = *lhs;
-
+					lhs = &temp;
 					int index = 0;
-					for(int i = 0; i<index_no-1; i++){
+					int stck_goto = index_no;
+					while(index_no > 0){
 						if(temp->type == TUPLE){
-							index = cast_fbgc_object_as_int(TOPN(index_no-i))->content;
-							temp = get_object_in_fbgc_tuple_object(temp,index);
+							index = cast_fbgc_object_as_int(TOPN(index_no))->content;
+							if(index_no > 1){
+								temp = get_object_in_fbgc_tuple_object(temp,index);
+								index_no--;
+							}
+							else
+							{
+								index = cast_fbgc_object_as_int(TOPN(index_no))->content;
+								cprintf(110,"Here index %d\n",index);
+								lhs = get_object_address_in_fbgc_tuple_object(temp,index);
+								break;
+							}
+						}
+						else if(temp->type == STRING){
+							index = cast_fbgc_object_as_int(TOPN(index_no))->content;
+							*lhs =  set_object_in_fbgc_str_object(temp,index,index+1,rhs);
+							rhs = *lhs;
+							break;
+						}
+						else if(temp->type == MATRIX){
+							assert(index_no > 1);
+							index = cast_fbgc_object_as_int(TOPN(index_no))->content;
+							int index_no2 = cast_fbgc_object_as_int(TOPN(--index_no))->content;
+							*lhs = set_object_in_fbgc_matrix_object(temp,index,index_no2,rhs);
+							rhs = *lhs;
+							assert(*lhs != NULL);
+							break;
 						}
 						else {
 							cprintf(111,"Not index accessable!\n");
@@ -344,9 +372,12 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 						}
 					}
 
-					//Since this is the top index we can just use top
-					index = cast_fbgc_object_as_int(TOP())->content;
-					lhs = get_object_address_in_fbgc_tuple_object(temp,index);
+					
+					/*if( (*lhs)->type == TUPLE ){
+						//Since this is the top index we can just use top
+						index = cast_fbgc_object_as_int(TOP())->content;
+						lhs = get_object_address_in_fbgc_tuple_object(temp,index);
+					}*/
 
 					//temp solution but it looks very bad..
 					/*if(type != ASSIGN){
@@ -364,7 +395,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					else 
 						assert(0);*/
 
-					STACK_GOTO(-index_no);
+					STACK_GOTO(-stck_goto);
 					//break;
 				}
 
@@ -383,7 +414,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					*lhs = rhs;
 					STACK_GOTO(-index_no);
 				}*/
-
+				
 				*lhs = rhs;
 
 				if(is_id_flag_PUSH_ITSELF(pc)){
@@ -439,7 +470,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					seq_ob = get_element_in_fbgc_range_object(seq_ob,i);					
 				}
 				else if(seq_ob->type == STRING){
-					seq_ob = subscript_fbgc_str_object(seq_ob,i,i+1);
+					seq_ob = get_object_in_fbgc_str_object(seq_ob,i,i+1);
 				}
 				else if(seq_ob->type == TUPLE){
 					seq_ob = get_object_in_fbgc_tuple_object(seq_ob,i);

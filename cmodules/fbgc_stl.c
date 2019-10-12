@@ -72,7 +72,7 @@ new_fbgc_cfunction(fbgc_tuple,"tuple"){
 				struct fbgc_object * s = arg[0];
 				struct fbgc_object * t =  new_fbgc_tuple_object( length_fbgc_str_object(s) );
 				for(int i = 0; i < length_fbgc_str_object(s) ; ++i )
-					set_object_in_fbgc_tuple_object(t,subscript_fbgc_str_object(s,i,i+1), i);
+					set_object_in_fbgc_tuple_object(t,get_object_in_fbgc_str_object(s,i,i+1), i);
 
 				size_fbgc_tuple_object(t) = length_fbgc_str_object(s) ;				
 

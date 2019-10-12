@@ -25,7 +25,8 @@ struct fbgc_object * new_fbgc_str_object_empty(int len);
 
 struct fbgc_object * operator_fbgc_str_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op);
 
-struct fbgc_object * subscript_fbgc_str_object(struct fbgc_object * obj,int i1, int i2);
+struct fbgc_object * get_object_in_fbgc_str_object(struct fbgc_object * obj,int i1, int i2);
+struct fbgc_object * set_object_in_fbgc_str_object(struct fbgc_object * obj,int i1, int i2,struct fbgc_object *o);
 
 void print_fbgc_str_object(struct fbgc_object *);
 void free_fbgc_str_object(struct fbgc_object * );

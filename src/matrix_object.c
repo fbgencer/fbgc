@@ -174,16 +174,39 @@ struct fbgc_object * matrix_creation_from_stack(struct fbgc_object ** sp, int ct
 
 
 
-struct fbgc_object * subscript_fbgc_matrix_object(struct fbgc_object * mat, size_t r, size_t c){
+struct fbgc_object * get_object_in_fbgc_matrix_object(struct fbgc_object * mat, size_t r, size_t c){
     #define m cast_fbgc_object_as_matrix(mat)
 
     if(r >= m->row || c >= m->column) return NULL;
-    double * d = content_fbgc_matrix_object(m);
-    return new_fbgc_double_object(d[ r * m->column + c ]);
+    double * d = content_fbgc_matrix_object(m) + r * m->column + c;
+    if(m->sub_type == COMPLEX)
+    {   
+        return new_fbgc_complex_object(*d,*(d+ m->row * m->column) );
+    }
+    else 
+        new_fbgc_double_object(*d);
 
     #undef m
 }  
 
+struct fbgc_object * set_object_in_fbgc_matrix_object(struct fbgc_object * mat, size_t r, size_t c,struct fbgc_object * obj){
+    #define m cast_fbgc_object_as_matrix(mat)
+
+    if(r >= m->row || c >= m->column) return NULL;
+    double * d = content_fbgc_matrix_object(mat) + r * m->column + c;
+
+    if(m->sub_type == COMPLEX)
+    {   
+        struct raw_complex z = convert_fbgc_object_to_complex(obj);
+        *d = z.real;
+        *(d+ m->row * m->column) = z.imag;
+    }
+    else 
+        *d = convert_fbgc_object_to_double(obj);
+
+    #undef m
+    return mat;
+}  
 
 struct fbgc_object * multiply_fbgc_matrix_object(struct fbgc_object * mat1, struct fbgc_object * mat2){
         

@@ -58,7 +58,7 @@ void printf_fbgc_object(struct fbgc_object * self){
 
 			    double * contents = content_fbgc_matrix_object(self);
 
-			    int width = 6;
+			    int width = 10;
 			    int slash_widht = m->column*width+1;
 				if(m->sub_type == COMPLEX)
 					slash_widht += 6;
