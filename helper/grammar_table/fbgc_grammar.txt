@@ -1,15 +1,79 @@
-:>This is a comment
-NEWLINE:
-	(NEWLINE | ATOM) (NEWLINE)
+#This is a comment
+GM_NEWLINE:
+	(GM_NEWLINE | GM_ATOM) (NEWLINE)
 
-ATOM:
-	(NEWLINE) (ATOM)
-	(BINARY_OPERATOR) (ATOM)
+#newline soluna atom ya da newline gelebilşr
 
-BINARY_OPERATOR:
-	(ATOM) (BINARY_OPERATOR)
+GM_ATOM:
+	(GM_NEWLINE) (ATOM)
+	(GM_BINARY_OPERATOR) (ATOM)
+	(GM_UNARY_OPERATOR) (ATOM)
 
-UNARY_OPERATOR:
-	(BINARY_OPERATOR) (BINARY_OPERATOR)
+#atom soluna newline ya da binary op gelebilir 1+2 gibi
+
+GM_BINARY_OPERATOR:
+	(GM_ATOM) (BINARY_OPERATOR)
+
+#binop soluna atom gelebilir
+# +2*4 : 2,+,4,*
+
+GM_UNARY_OPERATOR:
+#(GM_BINARY_OPERATOR) (BINARY_OPERATOR)
 	?PLUS -> UPLUS
 	?MINUS -> UMINUS 
+
+
+GM_ASSIGNMENT_OPERATOR:
+	GM_ID (ASSIGNMENT_OPERATOR) 
+
+
+# 1+-5
+# (-5)
+# +5
+# -(3)
+# --3 veya ----3 ama bu lexer'da hata verebilir
+# x=-4
+
+	# ASSIGNMENT_OPERATOR:
+	# 	ID ('=' | '+=' | '-=' | '*=' | '/=' | '<<=' | '>>=') 
+
+	# UNARY_OPERATOR: 
+	# 	(NEWLINE | LPARA | ASSIGNMENT_OPERATOR | BINARY_OPERATOR) ( + | - | ! | ++ | -- )
+
+	# BINARY_OPERATOR:
+	# 	EXPRESSION ('+' | '-' | '*' | '/' | '&' | '|' | '==') 
+	
+	# ATOM: 
+	# 	(NEWLINE | BINARY_OPERATOR | ASSIGNMENT_OPERATOR | UNBALANCED_EXPR_LIST | LPARA | LBRACK  | LBRACE) (INT | STRING | DOUBLE | ID)	
+
+	# LPARA: 
+	# 	(NEWLINE | OPERATOR | UNBALANCED_EXPR_LIST | IF_BEGIN | ELIF_BEGIN | WHILE_BEGIN | LPARA) LPARA
+
+	# FUN_ARG_LPARA:
+	# 	ID LPARA
+
+
+	# LBRACK:
+	# 	(NEWLINE | ID | OPERATOR | UNBALANCED_LIST | SEMICOLON) LBRACK
+	
+
+	# UNBALANCED_ID_LIST:
+	# 	ID COMMA 	
+
+	# UNBALANCED_EXPR_LIST:
+	# 	(EXPRESSION) COMMA 
+	
+	# IF_BEGIN:
+	# 	NEWLINE IF		
+	
+	# ELIF_BEGIN:
+	# 	IF STATEMENT 'ELIF'
+   
+	# ELSE_BEGIN: 
+	# 	(IF | ELIF) STATEMENT 'ELSE'
+
+	# FUN:
+	# 	ASSIGNMENT FUN
+
+	# PARA_BALANCED_EXPR_LIST:
+	# 	( (BALANCED_EXPR_LIST | EXPRESSION) & LPARA_FLAG == 1)  RPARA

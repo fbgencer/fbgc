@@ -18,6 +18,7 @@ extern "C" {
 #include <ctype.h>
 #include <math.h>
 #include <time.h>
+#include <signal.h>
 
 #define size_t unsigned int	
 

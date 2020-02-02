@@ -204,6 +204,7 @@ user_input = 0;
 :>y = (0,1,4,9,16,25,36,49)
 pi = 3.14159265359;
 x = my_linspace(0,2*pi,300);
-y = sin(x);
+z = 2*x;
+y = sin(z);
 
 plot(x,y,40);

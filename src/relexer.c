@@ -93,7 +93,7 @@ const token_table_struct lexer_table[1] =
 */
 const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] = 
 {
-	{LEXER_TOK_COMMENT,":> !.!* \n"},
+	{LEXER_TOK_COMMENT,"# !.!* \n"},
 	{LEXER_TOK_NEWLINE,"\n!+"},
 	{LEXER_TOK_SPACE,"!+! \t"},
 	{LEXER_TOK_BASE2_INT,"0b 1|0!+"},

@@ -18,7 +18,7 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
 	 
 	begin = clock();
 	while (fbgc_getline_from_file(line, sizeof(line), input_file)){
-		if(line[0] == ':' && line[1] == '>') continue;
+		if(line[0] == '#') continue; //past the comment fast
 		if(line[0] != '\0') regex_lexer(&main_field,line);
 	}
 	end = clock();
@@ -48,7 +48,7 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
 	 
 	begin = clock();
 	 //if(par) 
-	interpreter(&main_field); 
+	//interpreter(&main_field); 
 	end = clock();
 	interpreter_time = (double)(end - begin) / CLOCKS_PER_SEC; 
 

@@ -198,6 +198,7 @@
 
 
 
+
 uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 
 	#define gm_left (gm->top)
@@ -247,12 +248,8 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 	{	
 		gm->top = LPARA;
 	}
-	else if(get_fbgc_object_type(obj) == LBRACK && gm_left == IDENTIFIER)
-	{
-		gm->top = LBRACK;
-
-	}	
 	else if(get_fbgc_object_type(obj) == LBRACK &&
+			gm_left == IDENTIFIER ||
 			(is_fbgc_BINARY_OPERATOR(gm_left) ||
 			is_fbgc_UNARY_OPERATOR(gm_left)  ||
 			is_fbgc_ASSIGNMENT_OPERATOR(gm_left) ||
@@ -348,6 +345,9 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 	}
 	else if(get_fbgc_object_type(obj) == CONT && (gm_left == IF_BEGIN || gm_left == ELIF_BEGIN || gm_left == NEWLINE || gm_left == SEMICOLON)){
 		gm->top = CONT;
+	}
+	else if(get_fbgc_object_type(obj) == NEWLINE && (gm_left == BALANCED_EXPRESSION_LIST)){
+		gm->top = BUILD_TUPLE;
 	}
 	else if(get_fbgc_object_type(obj) == NEWLINE && (is_fbgc_EXPRESSION(gm_left) || gm_left == ASSIGNMENT_EXPRESSION || gm_left == NEWLINE || gm_left == FOR_BEGIN || gm_left == IF_BEGIN || 
 		gm_left == ELIF_BEGIN)  )

@@ -38,7 +38,7 @@ with open(filepath) as fp:
 		line = fp.readline()
 		if(line == '\n'):
 			continue
-		if(line == '' or ":>" in line):
+		if(line == '' or "#" in line):
 			continue
 		
 		a = {}
@@ -66,7 +66,7 @@ with open(filepath) as fp:
 				t = t.strip(' ')
 				#print("Type: ",t,end="\n--------------------\n")
 			line = fp.readline()
-			if(line == "" or ":>" in line): break
+			if(line == "" or "#" in line): break
 		
 
 		q = grammar(p,a,t)

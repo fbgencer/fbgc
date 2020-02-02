@@ -68,7 +68,7 @@ const fbgc_token const precedence_table[] =
 	6,//RBRACK
 	RIGHT_ASSOC | 10,//LBRACE
 	6,//RBRACE
-	RIGHT_ASSOC | 20,//COMMA
+	RIGHT_ASSOC | 31,//COMMA // it was 20 now we changed to make bigger than equal sign for x = 1,2,3 cases
 	52,//DOT
 	1,//SEMICOLON
 	32,//COLON	
@@ -425,12 +425,17 @@ uint8_t parser(struct fbgc_object ** field_obj){
 
 	uint8_t gm_error = 1;
 
-	for(int i = 0;  (iter != head->tail); i++){
+	uint8_t error_code = _FBGC_NO_ERROR;
+
+	for(int i = 0;  (iter != head->tail) && fbgc_error(error_code); i++){
 
 	#ifdef PARSER_DEBUG
 	cprintf(010,"----------------------[%d] = {%s:",i,object_name_array[iter->type]);
 	print_fbgc_object(iter);
 	cprintf(010,"}-----------------------\n");
+
+
+
 	#endif
 	
  	switch(iter->type){
@@ -454,8 +459,8 @@ uint8_t parser(struct fbgc_object ** field_obj){
 
 			struct fbgc_object * cstr_obj = get_object_in_fbgc_tuple_object(fbgc_symbols,cast_fbgc_object_as_id_opcode(iter)->loc);
 			#ifdef PARSER_DEBUG
-			cprintf(100,">>>:"); print_fbgc_object(cstr_obj);
-			cprintf(100,"\n");
+			cprintf(100,"symbol name:["); print_fbgc_object(cstr_obj);
+			cprintf(100,"]\n");
 			#endif
 			
 			struct fbgc_object * cf = NULL;
@@ -489,7 +494,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 
 				if(where == -1) {
 					#ifdef PARSER_DEBUG
-					cprintf(111,"couldn't find in locals/field obj| creating variable inside global field\n");
+					cprintf(111,"Creating variable inside global field\n");
 					#endif
 					struct fbgc_identifier id;		
 					id.name = cstr_obj; id.content = NULL;
@@ -498,12 +503,12 @@ uint8_t parser(struct fbgc_object ** field_obj){
 					cast_fbgc_object_as_field(current_scope)->locals = local_array;
 					
 					#ifdef PARSER_DEBUG
-					cprintf(111,"We put at where %d\n",where);
+					cprintf(111,"Location of this symbol[%d]\n",where);
 					#endif
 				}
 				else{
 					#ifdef PARSER_DEBUG
-					cprintf(111,"Found at %d!",where);
+					cprintf(111,"Symbol already defined @[%d]\n",where);
 					#endif
 				}
 				set_id_flag_GLOBAL(iter);
@@ -905,6 +910,9 @@ uint8_t parser(struct fbgc_object ** field_obj){
 					
 				}
 				else{
+
+					cprintf(010,"Cannot push in main list\n");
+
 					//not pushables in main, like paranthesis 
 					if(iter->type == RPARA && get_fbgc_object_type(TOP_LL(op)) == LPARA){
 						//balanced paranthesis now search other objects in the stack top is lpara but what is the previous ? 
@@ -1001,7 +1009,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 				}
 
 					#ifdef PARSER_DEBUG
-						cprintf(010,"##############WHile###############\n");
+						cprintf(010,"#############< While >###############\n");
 						print_fbgc_ll_object(head_obj,"M");
 						print_fbgc_ll_object(op,"O");
 						cprintf(101,"[GM]:{Top:%s} Flag{0x%X} \n",object_name_array[gm.top],gm.flag);
@@ -1014,7 +1022,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 			//if(iter->type != RPARA)	gm_error = gm_seek_left(&gm,iter);
 			
 			if(iter->type == RPARA || iter->type == RBRACK|| 
-				iter->type == SEMICOLON|| iter->type == NEWLINE || 
+				iter->type == SEMICOLON||  
 				iter->type == ROW ){
 			}
 			else if(iter->type == COMMA){
@@ -1036,6 +1044,29 @@ uint8_t parser(struct fbgc_object ** field_obj){
 					push_front_fbgc_ll_object(op,derive_from_new_int_object(COMMA,2));
 				}
 			}
+			else if(iter->type == NEWLINE){
+				cprintf(010,"Newline \n");
+				assert(TOP_LL(op) != NULL);
+
+				if(TOP_LL(op)->type == COMMA){
+					gm_error = gm_seek_right(&gm,TOP_LL(op));
+					
+					iter_prev->next = TOP_LL(op);
+					//Pop top from stack
+					POP_LL(op);
+					//connect list again
+					iter_prev->next->next = iter->next; 
+					//make the iter_prev proper
+					iter_prev = iter_prev->next;
+
+					gm_error = gm_seek_left(&gm,iter);
+					iter_prev = handle_before_paranthesis(iter_prev,op,&gm);
+					iter_prev->next = iter;
+					iter = iter_prev;
+					cprintf(111,"pr %s it %s\n",object_name_array[iter_prev->next->type],object_name_array[iter->next->type]);
+					//iter = iter_prev;
+				}
+			}
 			else {
 				push_front_fbgc_ll_object(op,iter);
 				
@@ -1055,8 +1086,13 @@ uint8_t parser(struct fbgc_object ** field_obj){
 		case  PERCENT_ASSIGN:
 		{
 			gm_error = gm_seek_left(&gm,iter);
-			
-			assert(TOP_LL(op)->type == IDENTIFIER );
+				
+			if(TOP_LL(op)->type != IDENTIFIER) {
+				error_code = _FBGC_SYNTAX_ERROR;
+				cprintf(111,"Breaking\n");
+				break;
+			}		
+			//fbgc_assert(TOP_LL(op)->type == IDENTIFIER ,"Assignment to a non-identifier object, object type:%s\n",object_name_array[TOP_LL(op)->type]);
 
 			if(TOP_LL(op)->next != NULL && TOP_LL(op)->next->type == ASSIGN) set_id_flag_PUSH_ITSELF(TOP_LL(op));
 			#ifdef PARSER_DEBUG
@@ -1116,4 +1152,4 @@ uint8_t parser(struct fbgc_object ** field_obj){
 
 	return gm_error;
 
-}
+} 	
