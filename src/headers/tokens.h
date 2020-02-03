@@ -242,9 +242,7 @@ const char * get_token_as_str(fbgc_token tok);
 #define is_fbgc_OPERATOR(T)(T>=COLON && T< LEN )
 #define is_fbgc_IDENTIFIER(T)(T == IDENTIFIER)
 #define is_fbgc_ATOM(T)(T>= LOGIC && T<=STRING)
-#define is_fbgc_INT(T) (T == INT)
-#define is_fbgc_DOUBLE(T) (T == DOUBLE)
-#define is_fbgc_STRING(T) (T == STRING)
+
 #define is_fbgc_PARA(T)(T>=LPARA && T<= RBRACK)
 #define is_fbgc_UNARY_OPERATOR(T)( T >= EXCLAMATION && T<= UMINUS)
 #define is_fbgc_ASSIGNMENT_OPERATOR(T)( T >= ASSIGN && T< LEN)
