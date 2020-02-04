@@ -115,7 +115,7 @@ uint8_t compare_operators(fbgc_token stack_top, fbgc_token obj_type){
 
 	uint8_t result = 0;
 	#ifdef PARSER_DEBUG
-	cprintf(100,"Object type comparison stack top:[%s] >= obj[%s] ",object_name_array[stack_top],object_name_array[obj_type]);
+	cprintf(010,"Object type comparison StackTop:[%s]>=Obj[%s] ",object_name_array[stack_top],object_name_array[obj_type]);
 	#endif
 
 	/*if(stack_top == obj_type){
@@ -150,7 +150,7 @@ uint8_t compare_operators(fbgc_token stack_top, fbgc_token obj_type){
 	}
 
 	#ifdef PARSER_DEBUG
-	cprintf(100,": %d\n",result && 1);
+	cprintf(101,": %d\n",result && 1);
 	#endif
 
 	return result;
@@ -178,17 +178,16 @@ void handle_function_args(struct fbgc_object * fun_obj,struct fbgc_object * arg_
 	
 }
 
-struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,struct fbgc_object * op, struct fbgc_grammar * gm){
+struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,struct fbgc_object * op, struct fbgc_grammar * gm,uint8_t state){
 	
 	uint8_t gm_error = 1;
 
 
 	fbgc_token top_type = get_fbgc_object_type(TOP_LL(op));
 
-	#ifdef PARSER_DEBUG
-	cprintf(111,"In %s op top [%s]\n",__FUNCTION__,object_name_array[top_type]);
-	cprintf(111,">>gm.top %s\n",object_name_array[gm->top]);
-	#endif
+	//	#ifdef PARSER_DEBUG
+	//cprintf(111,"In %s op top [%s]\n",__FUNCTION__,object_name_array[top_type]);
+	//#endif
 
 	//know that iter_prev is iter_prev_prev!!
 
@@ -200,9 +199,11 @@ struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,st
 		
 		#endif
 
+		//state == 2
 		if(iter_prev->type == COMMA) iter_prev->type = INT; 
-		else {
-			struct fbgc_object * ito = new_fbgc_int_object(gm->top != NUPLE);
+		//state == 0
+		else{
+			struct fbgc_object * ito = new_fbgc_int_object(state == 1); //nuple
 			ito->next = iter_prev->next;
 			iter_prev->next = ito;
 			iter_prev = ito;
@@ -301,7 +302,7 @@ struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,st
 	}	
 	else{
 
-		if(gm->top != MONUPLE){
+		if(state != 1){
 			
 			if(iter_prev->type == COMMA){
 				iter_prev->type = BUILD_TUPLE;
@@ -309,7 +310,7 @@ struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,st
 			else {
 				//Actually this is always zero ? Check this later
 				struct fbgc_object * ito = 
-				derive_from_new_int_object(BUILD_TUPLE,(gm->top != NUPLE));
+				derive_from_new_int_object(BUILD_TUPLE,0);
 				ito->next = iter_prev->next;
 				iter_prev->next = ito;
 				iter_prev = ito;
@@ -336,7 +337,7 @@ struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,st
 
 }
 
-struct fbgc_object * handle_before_brackets(struct fbgc_object * iter_prev,struct fbgc_object * op, struct fbgc_grammar * gm){
+struct fbgc_object * handle_before_brackets(struct fbgc_object * iter_prev,struct fbgc_object * op, struct fbgc_grammar * gm,uint8_t state){
 	#ifdef PARSER_DEBUG
 	cprintf(111,">>%s<<\n",__FUNCTION__);
 	cprintf(111,"iter_prev %s\n",object_name_array[iter_prev->type]);
@@ -345,7 +346,7 @@ struct fbgc_object * handle_before_brackets(struct fbgc_object * iter_prev,struc
 
 	if(iter_prev->type == COMMA) iter_prev->type = INT; 
 	else {
-		struct fbgc_object * ito = new_fbgc_int_object(1);
+		struct fbgc_object * ito = new_fbgc_int_object(state == 1);
 		ito->next = iter_prev->next;
 		iter_prev->next = ito;
 		iter_prev = ito;
@@ -355,7 +356,7 @@ struct fbgc_object * handle_before_brackets(struct fbgc_object * iter_prev,struc
 	if(TOP_LL(op) != NULL){
 		cprintf(110,"############## IN bracket closing ###############\n");
 		print_fbgc_ll_object(op,"O");
-		cprintf(101,"[GM]:{Top:%s} Flag{0x%X} \n",object_name_array[gm->top],gm->flag);
+		cprintf(101,"[GM]:{%s}\n",gm_name_array[gm->top]);
 		cprintf(110,"###############$$$$################\n");		
 	}
 	#endif
@@ -419,7 +420,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 	struct fbgc_object * iter = head->base.next;
 	struct fbgc_object * iter_prev = (struct fbgc_object *)head; //note that iter_prev->next is iter, always this is the case!
 	struct fbgc_object * op = new_fbgc_ll_object();
-	struct fbgc_grammar gm = {.flag = 0, .top =  NEWLINE};
+	struct fbgc_grammar gm = {.top =  GM_NEWLINE};
 	
 	struct fbgc_object * current_scope = *field_obj;
 
@@ -576,7 +577,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 			cprintf(010,"############## BEFORE END ###############\n");
 			print_fbgc_ll_object(head_obj,"M");
 			print_fbgc_ll_object(op,"O");
-			cprintf(101,"[GM]:{Top:%s} Flag{0x%X} \n",object_name_array[gm.top],gm.flag);
+			cprintf(101,"[GM]:{Top:%s}\n",gm_name_array[gm.top]);
 			cprintf(010,"###############$$$$################\n");
 			#endif
 
@@ -688,8 +689,8 @@ uint8_t parser(struct fbgc_object ** field_obj){
 			cprintf(010,"############## AFTER END ###############\n");
 			print_fbgc_ll_object(head_obj,"M");
 			print_fbgc_ll_object(op,"O");
-			cprintf(101,"[GM]:{Top:%s} Flag{0x%X} \n",object_name_array[gm.top],gm.flag);
-			cprintf(010,"###############$$$$################\n");
+			cprintf(101,"[GM]:{Top:%s} \n",gm_name_array[gm.top]);
+			cprintf(010,"##############$$$$################\n");
 			#endif
 
 			break;			
@@ -848,16 +849,71 @@ uint8_t parser(struct fbgc_object ** field_obj){
 				op_top = op_top->next;
 			}
 			break;		
-		} 		
+		}
+
+		case RPARA:
+		case RBRACK:
+		case RBRACE:
+		{
+
+
+			//check this part again
+			uint8_t which_para = iter->type-1;
+
+			uint8_t element_number = 0;
+			//determine nuple,monuple or tuple
+
+			//cprintf(111,"gm top %s\n",gm_name_array[gm.top]);
+			//buna bir cozum bulalim gm bilmeden bulmak mumkun mu?
+			element_number = (gm.top != GM_LPARA && gm.top != GM_LBRACK) + (get_fbgc_object_type(TOP_LL(op)) != which_para);
+
+			//cprintf(111,"element_number %d\n",element_number);
+			iter_prev->next = iter->next;
+
+			while(get_fbgc_object_type(TOP_LL(op)) != which_para){
+
+				gm_error = gm_seek_right(&gm,TOP_LL(op));
+					
+				//Insert top op to the list  
+				iter_prev->next = TOP_LL(op);
+				//Pop top from stack
+				POP_LL(op);
+				//connect list again
+				iter_prev->next->next = iter->next; 
+				
+				//make the iter_prev proper
+				iter_prev = iter_prev->next;
+
+				if(is_empty_fbgc_ll_object(op)){
+					cprintf(100,"Para match error\n");
+					return 0;
+				}
+			}
+
+			//so everything is ok
+			//pop the left paranthesis
+			delete_front_fbgc_ll_object(op);
+			gm_error = gm_seek_left(&gm,iter);
+			//gm_error = gm_seek_left(&gm,iter);
+			if(iter->type == RPARA){
+				//balanced paranthesis now search other objects in the stack top is lpara but what is the previous ? 
+				iter_prev = handle_before_paranthesis(iter_prev,op,&gm,element_number);
+			}
+			else if(iter->type == RBRACK){
+				iter_prev = handle_before_brackets(iter_prev,op,&gm,element_number);
+			}			
+			break;
+		}
+
 		case IF:
 		case RETURN:
 		case NEWLINE:
 		case LPARA:
-		case RPARA:
+		//case RPARA:
 		case LBRACK:
-		case RBRACK:
+		//case RBRACK:
 		case LBRACE:
-		case RBRACE:
+		//case RBRACE:
 		case COMMA:
 		case DOT:
 		case SEMICOLON:
@@ -914,7 +970,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 					cprintf(010,"Cannot push in main list\n");
 
 					//not pushables in main, like paranthesis 
-					if(iter->type == RPARA && get_fbgc_object_type(TOP_LL(op)) == LPARA){
+					/*if(iter->type == RPARA && get_fbgc_object_type(TOP_LL(op)) == LPARA){
 						//balanced paranthesis now search other objects in the stack top is lpara but what is the previous ? 
 
 						#ifdef PARSER_DEBUG
@@ -935,7 +991,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 						//	object_name_array[iter_prev->type]);
 
 
-						iter_prev = handle_before_paranthesis(iter_prev,op,&gm);
+						//iter_prev = handle_before_paranthesis(iter_prev,op,&gm);
 						//iter_prev = iterp2->next;
 
 						#ifdef PARSER_DEBUG
@@ -961,10 +1017,11 @@ uint8_t parser(struct fbgc_object ** field_obj){
 							cprintf(100,"\n\n ERROR BRACK \n\n");
 						#endif
 
-						iter_prev = handle_before_brackets(iter_prev,op,&gm);
+						//iter_prev = handle_before_brackets(iter_prev,op,&gm);
 						break;
 					}
-					else if(iter->type == SEMICOLON && get_fbgc_object_type(TOP_LL(op)) == LBRACK){
+					else */
+					if(iter->type == SEMICOLON && get_fbgc_object_type(TOP_LL(op)) == LBRACK){
 						#ifdef PARSER_DEBUG
 						cprintf(110,"\tBRACK AND SEMICOLON\n");
 						#endif
@@ -1012,7 +1069,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 						cprintf(010,"#############< While >###############\n");
 						print_fbgc_ll_object(head_obj,"M");
 						print_fbgc_ll_object(op,"O");
-						cprintf(101,"[GM]:{Top:%s} Flag{0x%X} \n",object_name_array[gm.top],gm.flag);
+						cprintf(101,"[GM]:{%s}\n",gm_name_array[gm.top]);
 						cprintf(010,"###############$$$$################\n");
 					#endif
 
@@ -1060,7 +1117,8 @@ uint8_t parser(struct fbgc_object ** field_obj){
 					iter_prev = iter_prev->next;
 
 					gm_error = gm_seek_left(&gm,iter);
-					iter_prev = handle_before_paranthesis(iter_prev,op,&gm);
+					//bu kisim duzelmeli.
+					iter_prev = handle_before_paranthesis(iter_prev,op,&gm,1);
 					iter_prev->next = iter;
 					iter = iter_prev;
 					cprintf(111,"pr %s it %s\n",object_name_array[iter_prev->next->type],object_name_array[iter->next->type]);
@@ -1126,7 +1184,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 	#ifdef PARSER_DEBUG
 		print_fbgc_ll_object(head_obj,"M");
 		print_fbgc_ll_object(op,"O");
-		cprintf(101,"[GM]:{Top:%s} Flag{0x%X} \n",object_name_array[gm.top],gm.flag);
+		cprintf(101,"[GM]:{%s}\n",gm_name_array[gm.top]);
 	#endif
 	}
 

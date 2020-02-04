@@ -6,6 +6,7 @@ from pprint import *
 def take_type(elem):
     return gm.tokens[elem.type]
 
+
 class rule():
 	#product is num
 	#accept is list
@@ -40,18 +41,17 @@ class grammar():
 
 	def append_rule(self,where,rule):
 		if(where == "left"):
-			rule_list = self.lrule_list
+			self.lrule_list.append(rule)
+			self.lrule_list.sort(key=take_type)
 		elif(where == "right"):
-			rule_list = self.rrule_list
-
-		rule_list.append(rule)
-		rule_list.sort(key=take_type)
+			self.rrule_list.append(rule)
+			self.rrule_list.sort(key=take_type)
 
 	def append_define(self,word,val):
 
 		for vl in range(len(val)): 
 			st = val[vl]
-			print("st:",st)
+			#print("st:",st)
 			is_predefined = (st in self.defines.keys());
 			if((st in self.tokens.keys()) == False and is_predefined == False ):
 				self.tokens[st];
@@ -64,8 +64,9 @@ class grammar():
 		self.defines[word] = val
 		
 	def make_ltable(self):
+		#make an empty table
 		self.table = [[0 for x in range(len(self.grammar_tokens))] for y in range(len(self.tokens))]
-
+		
 		for rl in self.lrule_list:
 			x = self.tokens[rl.type]-1
 			for a in rl.accept:
@@ -93,12 +94,26 @@ gm = grammar()
 filepath = 'fbgc_grammar.txt'
 
 state = ''
+line_no = 0;
+
+def getline(fp):
+	global line_no
+	line = fp.readline(); line_no += 1
+	line = line.split('#')
+	if(line[0] == '' and len(line)>1 and line[1] != ''):
+		line = '\n'
+	else: 
+		line = line[0]
+	#print("Line :%s"%line)
+	#line.replace(' ','')
+	#print(line)
+	return line
 
 with open(filepath) as fp:
 	line = 1
 	while line:
-		line = fp.readline()
-		if(line == '\n' or line == '' or "#" in line):
+		line = getline(fp)
+		if(line == '\n' or line == ''):
 			continue
 		
 		p,a,t,special = '',[],'',[]
@@ -111,35 +126,41 @@ with open(filepath) as fp:
 			print("Reading keyword:",line)
 			if(line == "grammar_tokens"):
 				state = line;
-				line = fp.readline()
+				line = getline(fp)
 				while(line[0] == '\t'):
 					gm.grammar_tokens[line.strip('\t\n ')] = len(gm.grammar_tokens)+1
-					line = fp.readline()
+					line = getline(fp)
 
-				pprint(gm.grammar_tokens)
+				#pprint(gm.grammar_tokens)
+				print(gm.grammar_tokens)
 				print("="*50)
 
 			elif(line == "tokens"):
 				state = line;
-				line = fp.readline()
-				while(line[0] == '\t'):
-					gm.tokens[line.strip('\t\n ')] = len(gm.tokens)+1
-					line = fp.readline()
+				line = getline(fp)
+				while(line[0] == '\t' and line != ''):
+					key = line.strip('\t\n ')
+					if(key != ''):
+						gm.tokens[key] = len(gm.tokens)+1
+					line = getline(fp)
 
-				pprint(gm.tokens)
+				print(gm.tokens)
 				print("="*50)
 
-			elif(line == "left"):
+			elif(line == "left" or line == "right"):
 				state = line
 				continue
+			else:
+				print("Undefined keyword!")
+
 
 		elif(line[0] == '.'):
 			#read assignments
 			definition = line 
-			line = fp.readline()
+			line = getline(fp)
 			while(line[0] == '\t'):
 				definition += line
-				line = fp.readline()
+				line = getline(fp)
 
 			#print(definition)
 			line = definition
@@ -162,42 +183,69 @@ with open(filepath) as fp:
 		elif(line[0] != "\t" and line[-2:] == ":\n"):
 			p = line.split(":")[0]
 			#print("p:",p)
-			line = fp.readline()
-		while(line != "" and line[0] == '\t'):
-			if(line[1] == '('):
-				dummy = line.split(') (')
-				#print(dummy)
-				ls = dummy[0].strip('\t( )\n').split(' | ')
-				for i in ls:
-					a.append(i)
-				#a = accept_line.split('|')
-				t = dummy[1].strip('\t( )\n')
-				t = t.strip(' ')
-				#print("a:",a,"t:",t)
-			elif(line[1] == '?'):
+			line = getline(fp)
+			while(line != "" and line[0] == '\t'):
+				if(line[1] == '('):
+					dummy = line.split(') (')
+
+					if(state =="left"):
+						ls = dummy[0].strip('\t( )\n').split(' | ')
+						for i in ls:
+							a.append(i)
+						t = dummy[1].strip('\t( )\n')
+						t = t.strip(' ')
+					elif(state == "right"):
+						#print("dummy:",dummy)
+						ls = dummy[1].strip('\t( )\n').split(' | ')
+						for i in ls:
+							a.append(i)
+						t = dummy[0].strip('\t( )\n')
+						t = t.strip(' ')					
+
+					#print("a:",a,"t:",t)
+				elif(line[1] == '?'):
+					
+					line = "".join(line.split())
+					line = line.strip('?')
+					special = line.split("->")
+					print("Condition:",special)
+				line = getline(fp)
+
+
+			if(len(a) > 0):
+				print("Product: ",p)
+				print("Accept: ",a)
+				print("Type: ",t,end="\n"+"-"*50+"\n")
 				
-				line = "".join(line.split())
-				line = line.strip('?')
-				special = line.split("->")
-				print("Condition:",special)
-			line = fp.readline()
+				for aiter in a:
+					if((aiter in gm.grammar_tokens.keys()) == False):
+						print("%s did not defined before in grammar tokens"%a)
+						1/0;
+				if((p in gm.grammar_tokens) == False):
+					print("%s did not defined before in grammar tokens"%p)
+					1/0;				
+
+				if(t in gm.defines):
+					for tit in gm.defines:
+						is_defined = 0
+						if(tit == t):
+							is_defined = 1
+							for q in gm.defines[t]:
+								gm.tokens[q];#this part will throw an error if we used undefined token
+								gm.append_rule(state,rule(p,a,q,special))
+						if(is_defined):
+							break	
+				else:
+					print("Here")
+					gm.append_rule(state,rule(p,a,t,special))
 
 
-		if(len(a) > 0):
-			print("Product: ",p)
-			print("Accept: ",a)
-			print("Type: ",t,end="\n"+"-"*50+"\n")
-			
-			for tit in gm.defines:
-				is_defined = 0
-				if(tit == t):
-					is_defined = 1
-					for q in gm.defines[t]:
-						gm.tokens[q];#this part will throw an error if we used undefined token
-						gm.append_rule(state,rule(p,a,q,special))
-				if(is_defined):
-					break		
-
+		elif(line == "" or line == "\n" or line == " "):
+			continue			
+		else:
+			print("Undefined situtation line number %d"%line_no)
+			print("[%s] type:"%line,type(line))
+			1/0;
 
 
 lm = gm.make_ltable()
@@ -209,9 +257,9 @@ rm = gm.make_rtable()
 #	print("%s\t\t\t"%list(tokens.keys())[list(tokens.values()).index(i+1)],m[i])
 #print()
 
-output_file = 'gm_matrix.csv'
+outputcsv_file = 'gm_matrix.csv'
 
-with open(output_file, mode='w') as gm_matrix:
+with open(outputcsv_file, mode='w') as gm_matrix:
     gm_matrix = csv.writer(gm_matrix, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
     gm_matrix.writerow(["Left Table",*gm.grammar_tokens])
     for i in range(len(lm)):
@@ -223,9 +271,75 @@ with open(output_file, mode='w') as gm_matrix:
 
 print("Definitions")
 pprint(gm.defines)
+print("File:%s is constructed."%outputcsv_file)
 
 
-print("File:%s is constructed."%output_file)
+matrix_text_as_str = ""
+
+matrix_text_as_str += "uint8_t left_matrix[%d][%d] = {\n"%(len(gm.tokens),len(gm.grammar_tokens))
+line = ""
+for i in range(len(lm)):
+	matrix_text_as_str += "{"
+	for j in range(len(lm[i])):
+		line += str(lm[i][j])+","
+	matrix_text_as_str += line[0:-1]+"},\n"
+	line = ""
+matrix_text_as_str += "};\n"
+matrix_text_as_str += "uint8_t right_matrix[%d][%d] = {\n"%(len(gm.tokens),len(gm.grammar_tokens))
+
+for i in range(len(rm)):
+	matrix_text_as_str += "{"
+	for j in range(len(rm[i])):
+		line += str(rm[i][j])+","
+	matrix_text_as_str += line[0:-1]+"},\n"
+	line = ""
+matrix_text_as_str += "};\n"
+
+
+outputtxt_file = 'gm_matrix.txt'
+with open(outputtxt_file, mode='w') as txt:
+	txt.write(matrix_text_as_str)
+	
+#Write the same things to .c file
+
+gm_matrix_cfile = "../../src/grammar.c"
+
+lines = [line.rstrip('\n') for line in open(gm_matrix_cfile)]
+
+start = lines.index("//MATRIX_BEGIN")
+end = lines.index("//MATRIX_END")
+
+
+f = open(gm_matrix_cfile,"w")
+
+i = 0
+while(i < len(lines) ):
+	if(i <= start or i >= end):
+		#print(lines[i])
+		f.write(lines[i]+'\n')
+		i += 1
+	else:
+		f.write("//Autogenerated by helper/grammar_gen2.py\n")
+		f.write(matrix_text_as_str)
+		i = end
+
+
+
+
+with open(outputtxt_file, mode='a+') as txt:
+	i = 1
+	txt.write("#define GM_ERROR 0\n")
+	for gmt in gm.grammar_tokens:
+		txt.write("#define "+str(gmt)+" %d\n"%i)
+		i += 1
+	txt.write("#define GRAMMAR_TOKENS_AS_STRINGS()\\\n")
+	txt.write('"GM_ERROR",\\\n')
+	for gmt in gm.grammar_tokens:
+		txt.write('"'+str(gmt)+'",\\\n')
+	
+	txt.write("const char * gm_name_array[%d]\n"%len(gm.grammar_tokens))
+	
+print("C-format is written into %s"%outputtxt_file)
 
 
 

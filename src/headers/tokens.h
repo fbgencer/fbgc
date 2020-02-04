@@ -226,6 +226,42 @@ typedef struct {
 "LOAD_SUBSCRIPT",\
 //TOKENS_END
 
+#define GM_ERROR 0
+#define GM_NEWLINE 1
+#define GM_ATOM 2
+#define GM_ID 3
+#define GM_BINOP 4
+#define GM_UNOP 5
+#define GM_ASSIGNOP 6
+#define GM_STATEMENT 7
+#define GM_ASSIGNMENT_EXPRESSION 8
+#define GM_EXPRESSION 9
+#define GM_UNBALANCED_LIST 10
+#define GM_BALANCED_LIST 11
+#define GM_LPARA 12
+#define GM_LBRACK 13
+#define GM_SEMICOLON 14
+#define GM_COMMA 15
+#define GRAMMAR_TOKENS_AS_STRINGS()\
+"GM_ERROR",\
+"GM_NEWLINE",\
+"GM_ATOM",\
+"GM_ID",\
+"GM_BINOP",\
+"GM_UNOP",\
+"GM_ASSIGNOP",\
+"GM_STATEMENT",\
+"GM_ASSIGNMENT_EXPRESSION",\
+"GM_EXPRESSION",\
+"GM_UNBALANCED_LIST",\
+"GM_BALANCED_LIST",\
+"GM_LPARA",\
+"GM_LBRACK",\
+"GM_SEMICOLON",\
+"GM_COMMA",\
+
+
+extern const char * gm_name_array[];
 extern const char * object_name_array[];
 extern const token_struct operator_token_array[];
 extern const token_struct reserved_words_token_array[];

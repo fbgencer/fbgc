@@ -8,6 +8,11 @@ const char * object_name_array[]={
  TOKEN_LIST_AS_STRINGS()
 };
 
+
+const char * gm_name_array[]={
+	GRAMMAR_TOKENS_AS_STRINGS()
+};
+
 const token_struct operator_token_array[]={
 	{LPARA,"("},
 	{RPARA,")"},
