@@ -20,7 +20,7 @@ int cprintf(char color,const char *format, ...);
 #endif
 
 int fbgc_assert(unsigned char cond,const char * format,...);
-int fbgc_error(unsigned char error_code);
+int fbgc_error(unsigned char error_code,int line_no);
 //#define LEXER_DEBUG
 //#define GRAMMAR_DEBUG
 //#define PARSER_DEBUG

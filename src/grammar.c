@@ -41,7 +41,7 @@ uint8_t left_matrix[93][15] = {
 {12,0,12,12,12,12,0,0,0,12,0,12,12,12,12},
 {0,9,9,0,0,0,0,0,9,0,9,9,0,0,0},
 {13,0,13,13,13,13,0,0,0,13,0,13,13,13,13},
-{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{0,9,9,0,0,0,0,0,9,0,9,9,0,0,0},
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 {0,10,10,0,0,0,0,0,10,0,0,0,0,0,0},
@@ -135,7 +135,7 @@ uint8_t right_matrix[93][15] = {
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{0,9,9,0,0,0,0,0,0,0,9,0,0,0,0},
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -205,7 +205,20 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 	#endif
 
 	uint8_t new_left = left_matrix[get_fbgc_object_type(obj)][gm_left-1];
+	
+	#ifdef GRAMMAR_DEBUG
+	if(new_left == GM_ERROR){
+		cprintf(100,"Unexpected grammar! LEFT:(%s), OBJ:(%s)\n",gm_name_array[gm_left],object_name_array[get_fbgc_object_type(obj)]);
+		
+	}
+	#endif	
+	gm_left = new_left;
 
+	return (new_left == GM_ERROR) ? _FBGC_SYNTAX_ERROR : _FBGC_NO_ERROR;
+
+	#undef gm_left
+
+	/*
 	if(new_left == GM_ERROR){
 		#ifdef GRAMMAR_DEBUG
 		cprintf(100,"Unexpected grammar! LEFT:(%s), OBJ:(%s)\n",gm_name_array[gm_left],object_name_array[get_fbgc_object_type(obj)]);
@@ -213,11 +226,9 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 		return 0;
 	}
 
-	gm_left = new_left;
-
-	#undef gm_left
 
 	return 1;
+	*/
 }
 uint8_t gm_seek_right(struct fbgc_grammar * gm, struct fbgc_object * obj){
 
@@ -226,19 +237,32 @@ uint8_t gm_seek_right(struct fbgc_grammar * gm, struct fbgc_object * obj){
 	cprintf(110,"Seek RIGHT: OBJ:[%s] Right:[%s]\n",object_name_array[get_fbgc_object_type(obj)],gm_name_array[gm_right]);
 	#endif	
 	
+
 	uint8_t new_right = right_matrix[get_fbgc_object_type(obj)][gm_right-1];
-	
+
+
+	#ifdef GRAMMAR_DEBUG
+	if(new_right == GM_ERROR){
+		cprintf(100,"Unexpected grammar! OBJ:(%s) RIGHT:(%s)\n",object_name_array[get_fbgc_object_type(obj)],gm_name_array[gm_right]);
+	}
+	#endif
+	gm_right = new_right;
+	return (new_right == GM_ERROR) ? _FBGC_SYNTAX_ERROR : _FBGC_NO_ERROR;
+
+
+	#undef gm_right
+
+/*
+
 	if(new_right == GM_ERROR){
 		#ifdef GRAMMAR_DEBUG
 		cprintf(100,"Unexpected grammar! OBJ:(%s) RIGHT:(%s)\n",object_name_array[get_fbgc_object_type(obj)],gm_name_array[gm_right]);
 		#endif	
 		return 0;
 	}
-
 	gm_right = new_right;
 
-	#undef gm_right
-	return 1;
+	return 1;*/
 }
 
 

@@ -435,10 +435,10 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 	struct fbgc_object * iter_prev = (struct fbgc_object *)head; //note that iter_prev->next is iter, always this is the case!
 	
 
-	int line_no = 1;
+	int line_no = 0;
 
 
-	for(int i = 0; fbgc_error(error_code); i++){
+	for(int i = 0; fbgc_error(error_code,line_no); i++){
 		
 
 		if(iter == head->tail){
@@ -975,7 +975,10 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			
 			while( !is_empty_fbgc_ll_object(op) && compare_operators(get_fbgc_object_type(TOP_LL(op)),iter->type) ){
 
-				gm_error = gm_seek_right(&gm,TOP_LL(op));
+				if( (error_code = gm_seek_right(&gm,TOP_LL(op))) != _FBGC_NO_ERROR  ){
+					goto PARSER_ERROR_LABEL;
+				}
+
 				
 				if(is_pushable_in_main(get_fbgc_object_type(TOP_LL(op)))){		
 
@@ -996,58 +999,6 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 
 					cprintf(010,"Cannot push in main list\n");
 
-					//not pushables in main, like paranthesis 
-					/*if(iter->type == RPARA && get_fbgc_object_type(TOP_LL(op)) == LPARA){
-						//balanced paranthesis now search other objects in the stack top is lpara but what is the previous ? 
-
-						#ifdef PARSER_DEBUG
-						cprintf(110,"=== Rpara and Lpara ===\n");
-						//cprintf(110,"iterp2 : "); print_fbgc_object(iterp2); cprintf(111,"\n");
-						#endif
-
-						//popping the lpara
-						delete_front_fbgc_ll_object(op);
-						gm_error = gm_seek_left(&gm,iter);
-
-						#ifdef PARSER_DEBUG
-						cprintf(101,"[GM]:{Top:%s} Flag{0x%X} \n",object_name_array[gm.top],gm.flag);
-						#endif
-						//if(TOP_LL(op) == NULL) break;
-						//cprintf(111,"After handling paranthesis, operator stack top :");
-						//cprintf(011,"Op Top :[%s], Iter_prev:[%s]\n",object_name_array[get_fbgc_object_type(TOP_LL(op))],
-						//	object_name_array[iter_prev->type]);
-
-
-						//iter_prev = handle_before_paranthesis(iter_prev,op,&gm);
-						//iter_prev = iterp2->next;
-
-						#ifdef PARSER_DEBUG
-						cprintf(010,"##############After handle paranthesis###############\n");
-						print_fbgc_ll_object(head_obj,"M");
-						print_fbgc_ll_object(op,"O");
-						cprintf(101,"[GM]:{Top:%s} Flag{0x%X} \n",object_name_array[gm.top],gm.flag);
-						cprintf(010,"###############$$$$################\n");
-						#endif
-
-						break;
-					}
-					else if(iter->type == RBRACK && get_fbgc_object_type(TOP_LL(op)) == LBRACK){
-						#ifdef PARSER_DEBUG
-						cprintf(110,"=== RBRACK and LBRACK ===\n");
-						#endif
-
-						delete_front_fbgc_ll_object(op);
-						gm_error = gm_seek_left(&gm,iter);
-
-						#ifdef PARSER_DEBUG
-						if(gm.top != BUILD_MATRIX && gm.top != MONATRIX) 
-							cprintf(100,"\n\n ERROR BRACK \n\n");
-						#endif
-
-						//iter_prev = handle_before_brackets(iter_prev,op,&gm);
-						break;
-					}
-					else */
 					if(iter->type == SEMICOLON && get_fbgc_object_type(TOP_LL(op)) == LBRACK){
 						#ifdef PARSER_DEBUG
 						cprintf(110,"\tBRACK AND SEMICOLON\n");
@@ -1104,8 +1055,10 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			}
 
 			//if(iter->type != RPARA)	
-			gm_error = gm_seek_left(&gm,iter);
-			
+			//gm_error = gm_seek_left(&gm,iter);
+			if( (error_code = gm_seek_left(&gm,iter)) != _FBGC_NO_ERROR  ){
+					goto PARSER_ERROR_LABEL;
+			}
 			//cprintf(011,"iter prev %s, iter_prev-next %s, iter %s iter-next %s\n",
 			//	object_name_array[iter_prev->type],object_name_array[iter_prev->next->type],
 			//	object_name_array[iter->type],object_name_array[iter->next->type]);
@@ -1186,11 +1139,8 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 		{
 			gm_error = gm_seek_left(&gm,iter);
 				
-			if(TOP_LL(op)->type != IDENTIFIER) {
-				error_code = _FBGC_SYNTAX_ERROR;
-				cprintf(111,"Breaking\n");
-				break;
-			}		
+			assert(TOP_LL(op)->type == IDENTIFIER);
+			
 			//fbgc_assert(TOP_LL(op)->type == IDENTIFIER ,"Assignment to a non-identifier object, object type:%s\n",object_name_array[TOP_LL(op)->type]);
 
 			if(TOP_LL(op)->next != NULL && TOP_LL(op)->next->type == ASSIGN) {
@@ -1220,7 +1170,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			#ifdef PARSER_DEBUG
 			cprintf(100,"Error else in parser incoming obj %s|%d\n",object_name_array[iter->type],iter->type);
 			#endif
-			goto END_OF_THE_PARSER;	
+			goto PARSER_ERROR_LABEL;
 		}
  	}
 	iter = iter_prev->next;
@@ -1232,8 +1182,6 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 	#endif
 	}
 
-
-	END_OF_THE_PARSER:
 
 	//make the linked list connection proper
 	head->tail->next = iter_prev;
@@ -1249,9 +1197,15 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 	if(!is_empty_fbgc_ll_object(op) ){
 		cprintf(100,"Error occured in parser.. See operator stack\n");
 		print_fbgc_ll_object(op,"O");
+		assert(0);
 	}
 
+	return 1;
 
-	return gm_error;
+
+	PARSER_ERROR_LABEL:
+	fbgc_error(error_code,line_no);
+		cprintf(100,"%s\n",line);
+	return 0;
 
 } 	

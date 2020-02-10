@@ -81,7 +81,7 @@ int fbgc_assert(unsigned char cond,const char * format,...){
 }
 
 
-int fbgc_error(unsigned char error_code){
+int fbgc_error(unsigned char error_code, int line_no){
     
     int state = 0;
     switch(error_code){
@@ -97,7 +97,7 @@ int fbgc_error(unsigned char error_code){
         }
         case _FBGC_SYNTAX_ERROR:
         {
-            cprintf(100,"-- Syntax error --\n");
+            cprintf(100,"Syntax error at line %d\n",line_no);
             break;
         }
         default:
