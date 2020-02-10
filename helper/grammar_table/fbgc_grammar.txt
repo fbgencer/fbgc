@@ -180,6 +180,11 @@ GM_IDENTIFIER:
 	(GM_UNBALANCED_LIST | GM_LPARA | GM_LBRACK ) (IDENTIFIER)
 	(GM_SEMICOLON | GM_COMMA) (IDENTIFIER)
 
+GM_IDENTIFIER:
+	(GM_NEWLINE) (CFUN)
+	(GM_BINOP | GM_ASSIGNOP | GM_UNOP) (CFUN)
+	(GM_UNBALANCED_LIST | GM_LPARA | GM_LBRACK ) (CFUN)
+	(GM_SEMICOLON | GM_COMMA) (CFUN)
 
 GM_LPARA:
 	(GM_NEWLINE) (LPARA)
@@ -225,9 +230,19 @@ GM_UNBALANCED_LIST:
 	(GM_IDENTIFIER | GM_ATOM | GM_EXPRESSION) (COMMA)
 
 GM_EXPRESSION:
-	(GM_IDENTIFIER | GM_ATOM | GM_EXPRESSION) (NEWLINE)
+	(GM_IDENTIFIER | GM_ATOM | GM_EXPRESSION | GM_BALANCED_LIST) (NEWLINE)
 
-#test icin yaziyorz
+GM_NEWLINE:
+	(GM_NEWLINE) (NEWLINE)
+
+GM_NEWLINE:
+	(GM_IDENTIFIER | GM_ATOM | GM_EXPRESSION | GM_BALANCED_LIST) (SEMICOLON)
+
+GM_NEWLINE:
+	(GM_NEWLINE) (SEMICOLON)
+
+
+#test icin yaziyoruz, not parser'da kullanilmiyor
 GM_ATOM:
 	(GM_NEWLINE) (NOT)
 
@@ -237,6 +252,28 @@ GM_ATOM:
 GM_EXPRESSION:
 	(BINOP) (GM_IDENTIFIER | GM_ATOM | GM_EXPRESSION)
 
+GM_EXPRESSION:
+	(ASSIGNOP) (GM_IDENTIFIER | GM_ATOM | GM_EXPRESSION)
+
+GM_EXPRESSION:
+	(UNOP) (GM_IDENTIFIER | GM_ATOM | GM_EXPRESSION)
+
+GM_EXPRESSION:
+	(ATOM) (GM_NEWLINE)
+
 GM_BALANCED_LIST:
 	(COMMA) (GM_IDENTIFIER | GM_ATOM | GM_EXPRESSION)
 
+
+
+
+
+
+#x = y gibi durumlarda newline soluna bakip y gordugunde gm_exp yaptigi icin id saginda bunu kontrol etmeye calisiyor
+#gm_pass gibi bir durum konulup halledilebilir
+#BURAYI DUZELT! identifier sagina bakmamali ama id op stack icine atildigi icin bakiyor bu yuzden pass atilip her duruma gitmeli 
+$:
+	(IDENTIFIER) ($)
+
+GM_EXPRESSION:
+	(CFUN) (GM_EXPRESSION)

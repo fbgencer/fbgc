@@ -281,7 +281,7 @@ char * fbgc_getline_from_file(char * s, int n, FILE *fp){
     }
 
     end_of_getline:
-    *cs = (c == EOF) ? '\n':'\0'; //handle this, i added because of comment understanding...
+    *cs = (c == EOF) ? '\n':'\0'; //handle this, i added to understand comments
     *(cs+1)='\0';
     return (c == EOF && cs == s) ? NULL : s;
 }

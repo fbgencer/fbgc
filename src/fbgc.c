@@ -14,17 +14,19 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
 
 
 	char line[MAX_INPUT_BUFFER] = {0};
-	FILE *input_file = fopen(file_name,"r");
+/*	FILE *input_file = fopen(file_name,"r");
 	 
 	begin = clock();
 	while (fbgc_getline_from_file(line, sizeof(line), input_file)){
-		if(line[0] == '#') continue; //past the comment fast
-		if(line[0] != '\0') regex_lexer(&main_field,line);
+		cprintf(111,"line[%s]\n",line);
+		//if(line[0] == '#') continue; //past the comment fast
+		//if(line[0] != '\0') regex_lexer(&main_field,line);
 	}
 	end = clock();
 	fclose(input_file); 
 	lexer_time = (double)(end - begin) / CLOCKS_PER_SEC; 
 
+*/
 	#ifdef LEXER_DEBUG
 		cprintf(111,"Lexer output array\n");
 		print_fbgc_ll_object(cast_fbgc_object_as_field(main_field)->head,"Main"); 
@@ -33,7 +35,15 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
 
 	begin = clock();
 
-   int par = parser(&main_field);
+	FILE *input_file = fopen("ex.fbgc","r");
+	if(input_file == NULL){
+		cprintf(111,"file error\n");
+		return 0;
+	}
+	 
+   int par = parser(&main_field,input_file);
+
+	fclose(input_file); 
 	
 	end = clock();
 	parser_time = (double)(end - begin) / CLOCKS_PER_SEC; 
@@ -66,9 +76,9 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
 
 static void compile_one_line(struct fbgc_object * main_field,char *line){
 	
-	regex_lexer(&main_field,line);      
-	parser(&main_field);
-	interpreter(&main_field);     
+	//regex_lexer(&main_field,line);      
+	//parser(&main_field);
+	//interpreter(&main_field);     
 }
 
 

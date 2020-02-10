@@ -69,23 +69,37 @@ class grammar():
 		
 		for rl in self.lrule_list:
 			x = self.tokens[rl.type]-1
-			for a in rl.accept:
-				y = self.grammar_tokens[a]-1
+			if(type(rl.accept) == type([])):
+				for a in rl.accept:
+					y = self.grammar_tokens[a]-1
+					self.table[x][y] = self.grammar_tokens[rl.product]
+					if(rl.special != []):
+						self.table[x][y] *= -1
+			else:
+				y = self.grammar_tokens[rl.accept]-1
 				self.table[x][y] = self.grammar_tokens[rl.product]
 				if(rl.special != []):
 					self.table[x][y] *= -1
-	
 		return self.table;
 	def make_rtable(self):
 		self.table = [[0 for x in range(len(self.grammar_tokens))] for y in range(len(self.tokens))]
 
 		for rl in self.rrule_list:
+			print("p:",rl.product,"a",rl.accept,"t",rl.type)
+	
+		for rl in self.rrule_list:
 			x = self.tokens[rl.type]-1
-			for a in rl.accept:
-				y = self.grammar_tokens[a]-1
+			if(type(rl.accept) == type([])):
+				for a in rl.accept:
+					y = self.grammar_tokens[a]-1
+					self.table[x][y] = self.grammar_tokens[rl.product]
+					if(rl.special != []):
+						self.table[x][y] *= -1
+			else:
+				y = self.grammar_tokens[rl.accept]-1
 				self.table[x][y] = self.grammar_tokens[rl.product]
 				if(rl.special != []):
-					self.table[x][y] *= -1
+					self.table[x][y] *= -1				
 	
 		return self.table;
 
@@ -182,6 +196,7 @@ with open(filepath) as fp:
 		#reading product
 		elif(line[0] != "\t" and line[-2:] == ":\n"):
 			p = line.split(":")[0]
+
 			#print("p:",p)
 			line = getline(fp)
 			while(line != "" and line[0] == '\t'):
@@ -213,10 +228,20 @@ with open(filepath) as fp:
 
 
 			if(len(a) > 0):
-				print("Product: ",p)
-				print("Accept: ",a)
-				print("Type: ",t,end="\n"+"-"*50+"\n")
+				print("Product:",p)
+				print("Accept:",a)
+				print("Type:",t,end="\n"+"-"*50+"\n")
 				
+
+				if(p == '$' and a[0] == '$'):
+					print("ikisi de dolar")
+					for piter in gm.grammar_tokens:
+						print("piter:",piter)
+						gm.append_rule(state,rule(piter,piter,t,special))	
+
+					continue
+
+
 				for aiter in a:
 					if((aiter in gm.grammar_tokens.keys()) == False):
 						print("%s did not defined before in grammar tokens"%a)
@@ -238,6 +263,7 @@ with open(filepath) as fp:
 				else:
 					print("Here")
 					gm.append_rule(state,rule(p,a,t,special))
+				print("buradaya")
 
 
 		elif(line == "" or line == "\n" or line == " "):

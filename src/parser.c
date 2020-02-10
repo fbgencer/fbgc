@@ -60,7 +60,7 @@ uint8_t operator_precedence(fbgc_token T){
 const fbgc_token const precedence_table[] =
 {
 	0,//IF
-	3,//RETURN
+	4,//RETURN
 	2,//NEWLINE
 	RIGHT_ASSOC | 10,//LPARA
 	6,//RPARA
@@ -70,7 +70,7 @@ const fbgc_token const precedence_table[] =
 	6,//RBRACE
 	RIGHT_ASSOC | 31,//COMMA // it was 20 now we changed to make bigger than equal sign for x = 1,2,3 cases
 	52,//DOT
-	1,//SEMICOLON
+	3,//SEMICOLON
 	32,//COLON	
 	42,//R_SHIFT
 	42,//L_SHIFT
@@ -410,15 +410,13 @@ struct fbgc_object * new_cfun_object_from_str(struct fbgc_object * field_obj,con
 
 
 
-uint8_t parser(struct fbgc_object ** field_obj){
+uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 	#ifdef PARSER_DEBUG
 	cprintf(111,"==========[PARSER]==========\n");
 	#endif
 
 	struct fbgc_ll_object * head = cast_fbgc_object_as_ll( cast_fbgc_object_as_field(*field_obj)->head );
 	struct fbgc_object * head_obj =  cast_fbgc_object_as_field(*field_obj)->head;
-	struct fbgc_object * iter = head->base.next;
-	struct fbgc_object * iter_prev = (struct fbgc_object *)head; //note that iter_prev->next is iter, always this is the case!
 	struct fbgc_object * op = new_fbgc_ll_object();
 	struct fbgc_grammar gm = {.top =  GM_NEWLINE};
 	
@@ -428,15 +426,42 @@ uint8_t parser(struct fbgc_object ** field_obj){
 
 	uint8_t error_code = _FBGC_NO_ERROR;
 
-	for(int i = 0;  (iter != head->tail) && fbgc_error(error_code); i++){
+	char line[1000] = {0};
 
+	
+	
+	
+	struct fbgc_object * iter = head->base.next;
+	struct fbgc_object * iter_prev = (struct fbgc_object *)head; //note that iter_prev->next is iter, always this is the case!
+	
+
+	int line_no = 1;
+
+
+	for(int i = 0; fbgc_error(error_code); i++){
+		
+
+		if(iter == head->tail){
+			if(fbgc_getline_from_file(line, sizeof(line), input_file)){
+
+				cprintf(111,"#########################Line:[%d]#####################\n",line_no);
+				++line_no;
+
+				if(line[0] == '#' || line[0] == '\0' || line[0] == '\n') continue; //past the comment fast
+				
+				head->tail->next = iter_prev;
+				regex_lexer(field_obj,line);
+				
+				iter = iter_prev->next;
+				
+			}
+			else break;
+		}
+	
 	#ifdef PARSER_DEBUG
 	cprintf(010,"----------------------[%d] = {%s:",i,object_name_array[iter->type]);
 	print_fbgc_object(iter);
 	cprintf(010,"}-----------------------\n");
-
-
-
 	#endif
 	
  	switch(iter->type){
@@ -947,13 +972,15 @@ uint8_t parser(struct fbgc_object ** field_obj){
 			iter_prev->next = iter->next;
 			//struct fbgc_object * iterp2 = iter_prev;
 
-			gm_error = gm_seek_left(&gm,iter);
 			
 			while( !is_empty_fbgc_ll_object(op) && compare_operators(get_fbgc_object_type(TOP_LL(op)),iter->type) ){
 
 				gm_error = gm_seek_right(&gm,TOP_LL(op));
 				
 				if(is_pushable_in_main(get_fbgc_object_type(TOP_LL(op)))){		
+
+					//gm_error = gm_seek_left(&gm,iter);
+					
 					//Insert top op to the list  
 					iter_prev->next = TOP_LL(op);
 					//Pop top from stack
@@ -1076,8 +1103,13 @@ uint8_t parser(struct fbgc_object ** field_obj){
 				//if(!gm_error) goto END_OF_THE_PARSER;
 			}
 
-			//if(iter->type != RPARA)	gm_error = gm_seek_left(&gm,iter);
+			//if(iter->type != RPARA)	
+			gm_error = gm_seek_left(&gm,iter);
 			
+			//cprintf(011,"iter prev %s, iter_prev-next %s, iter %s iter-next %s\n",
+			//	object_name_array[iter_prev->type],object_name_array[iter_prev->next->type],
+			//	object_name_array[iter->type],object_name_array[iter->next->type]);
+
 			if(iter->type == RPARA || iter->type == RBRACK|| 
 				iter->type == SEMICOLON||  
 				iter->type == ROW ){
@@ -1105,6 +1137,10 @@ uint8_t parser(struct fbgc_object ** field_obj){
 				cprintf(010,"Newline \n");
 				assert(TOP_LL(op) != NULL);
 
+				//SON OLARAK buna baktir ve newline ile dogru bittigini anlayalim
+			//	gm_error = gm_seek_left(&gm,iter);
+
+
 				if(TOP_LL(op)->type == COMMA){
 					gm_error = gm_seek_right(&gm,TOP_LL(op));
 					
@@ -1118,12 +1154,17 @@ uint8_t parser(struct fbgc_object ** field_obj){
 
 					gm_error = gm_seek_left(&gm,iter);
 					//bu kisim duzelmeli.
-					iter_prev = handle_before_paranthesis(iter_prev,op,&gm,1);
+					iter_prev = handle_before_paranthesis(iter_prev,op,&gm,2);
 					iter_prev->next = iter;
 					iter = iter_prev;
 					cprintf(111,"pr %s it %s\n",object_name_array[iter_prev->next->type],object_name_array[iter->next->type]);
 					//iter = iter_prev;
+					gm.top = GM_EXPRESSION;
+				}else{
+					//BU HATA CIKARIYOR DEGISTIR
+					gm.top = GM_NEWLINE;		
 				}
+
 			}
 			else {
 				push_front_fbgc_ll_object(op,iter);
@@ -1131,7 +1172,7 @@ uint8_t parser(struct fbgc_object ** field_obj){
 			}
 			break;
 		}
-		case ASSIGN: 		
+		case  ASSIGN: 		
 		case  R_SHIFT_ASSIGN:
 		case  L_SHIFT_ASSIGN:
 		case  STARSTAR_ASSIGN:
@@ -1152,13 +1193,16 @@ uint8_t parser(struct fbgc_object ** field_obj){
 			}		
 			//fbgc_assert(TOP_LL(op)->type == IDENTIFIER ,"Assignment to a non-identifier object, object type:%s\n",object_name_array[TOP_LL(op)->type]);
 
-			if(TOP_LL(op)->next != NULL && TOP_LL(op)->next->type == ASSIGN) set_id_flag_PUSH_ITSELF(TOP_LL(op));
+			if(TOP_LL(op)->next != NULL && TOP_LL(op)->next->type == ASSIGN) {
+				cprintf(100,"Opening flag push itsel\n");
+				set_id_flag_PUSH_ITSELF(TOP_LL(op));
+			}
 			#ifdef PARSER_DEBUG
 			struct fbgc_object * pc = TOP_LL(op);
-            if(is_id_flag_GLOBAL(pc) ) cprintf(011,"%s{G<%d>}","ID",cast_fbgc_object_as_id_opcode(pc)->loc);
-            else if(is_id_flag_LOCAL(pc) ) cprintf(011,"%s{L<%d>}","ID",cast_fbgc_object_as_id_opcode(pc)->loc);
-            else if(is_id_flag_MEMBER(pc) ) cprintf(011,"%s{M<%d>}","ID",cast_fbgc_object_as_id_opcode(pc)->loc);
-            else if(is_id_flag_SUBSCRIPT(pc) ) cprintf(011,"%s{S<%d>}","ID",cast_fbgc_object_as_id_opcode(pc)->loc);
+            if(is_id_flag_GLOBAL(pc) ) cprintf(011,"%s{G<%d>}","GlobalID",cast_fbgc_object_as_id_opcode(pc)->loc);
+            else if(is_id_flag_LOCAL(pc) ) cprintf(011,"%s{L<%d>}","LocalID",cast_fbgc_object_as_id_opcode(pc)->loc);
+            else if(is_id_flag_MEMBER(pc) ) cprintf(011,"%s{M<%d>}","MemberID",cast_fbgc_object_as_id_opcode(pc)->loc);
+            else if(is_id_flag_SUBSCRIPT(pc) ) cprintf(011,"%s{S<%d>}","[]ID",cast_fbgc_object_as_id_opcode(pc)->loc);
             else{
                 cprintf(111,"Undefined ID!\n"); 
             }

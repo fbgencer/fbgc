@@ -41,11 +41,11 @@ void push_back_fbgc_ll_object(struct fbgc_object * head,struct fbgc_object * obj
     obj->next = head_ll->tail;//[O1]->[obj]->[T]
     head_ll->tail->next = obj;//[O1]->[obj]<->[T]
 
+
     #undef head_ll
 }
 
-struct
-fbgc_object * insert_next_fbgc_ll_object(struct fbgc_object * head,struct fbgc_object * prev,struct fbgc_object * obj){
+struct fbgc_object * insert_next_fbgc_ll_object(struct fbgc_object * head,struct fbgc_object * prev,struct fbgc_object * obj){
     //If you are sure about that obj is inside head list use this function
     //but it won't check anything, it could cause memory problems!
     #define head_ll cast_fbgc_object_as_ll(head)
