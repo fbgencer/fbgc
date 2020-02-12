@@ -14,7 +14,12 @@
 
 3) String format cannot work for more than one value 
 	"fbg %d c" % 3 will work but "f %d %d "% (3,4) won't work
-	
+
+4) empty if-end blocks create problem in the parser. The connection of the "if" object in the main list cannot be done
+	Try to see the error
+	if(3);end #this is problematic
+	if(3);x;end #this is ok
+
 
 
 +) Lexer has a bug : format was read as "for" and mat words
@@ -42,3 +47,5 @@
 
 
 	--Solved
+
+

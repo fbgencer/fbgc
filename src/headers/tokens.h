@@ -241,7 +241,7 @@ typedef struct {
 #define GM_LPARA 12
 #define GM_LBRACK 13
 #define GM_SEMICOLON 14
-#define GM_COMMA 15
+#define GM_FUNCTIONAL 15
 #define GRAMMAR_TOKENS_AS_STRINGS()\
 "GM_ERROR",\
 "GM_NEWLINE",\
@@ -258,7 +258,7 @@ typedef struct {
 "GM_LPARA",\
 "GM_LBRACK",\
 "GM_SEMICOLON",\
-"GM_COMMA",\
+"GM_FUNCTIONAL"
 
 
 extern const char * gm_name_array[];

@@ -59,7 +59,7 @@ uint8_t operator_precedence(fbgc_token T){
 #define LEFT_ASSOC 0	
 const fbgc_token const precedence_table[] =
 {
-	0,//IF
+	RIGHT_ASSOC | 0,//IF
 	4,//RETURN
 	2,//NEWLINE
 	RIGHT_ASSOC | 10,//LPARA
@@ -194,7 +194,7 @@ struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,st
  
 	if(top_type == IDENTIFIER || top_type == CFUN){
 		#ifdef PARSER_DEBUG
-		cprintf(100,"Operator stack top ID or CFUN, this is a function call template!\n");
+		cprintf(110,"Operator stack top ID or CFUN, this is a function call template!\n");
 		print_fbgc_object(iter_prev);
 		
 		#endif
@@ -257,7 +257,7 @@ struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,st
 	}
 	else if( top_type == FUN_MAKE){
 		#ifdef PARSER_DEBUG
-		cprintf(100,"Operator stack top FUN, this is an fun template!\n");
+		cprintf(110,"Operator stack top FUN, this is an fun template!\n");
 		#endif
 		//fun_make content holds function object, parse the arguments
 		gm_seek_right(gm,TOP_LL(op));
@@ -438,7 +438,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 	int line_no = 0;
 
 
-	for(int i = 0; fbgc_error(error_code,line_no); i++){
+	for(int i = 0; fbgc_error(error_code,line_no) && i<50; i++){
 		
 
 		if(iter == head->tail){
@@ -597,7 +597,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
  		}
 		case END:
 		{
-			//gm_error = gm_seek_left(&gm,iter);
+			gm_error = gm_seek_left(&gm,iter);
 			#ifdef PARSER_DEBUG
 			cprintf(010,"############## BEFORE END ###############\n");
 			print_fbgc_ll_object(head_obj,"M");
@@ -606,8 +606,28 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			cprintf(010,"###############$$$$################\n");
 			#endif
 
+			iter_prev->next = iter->next;
+			//iter = iter_prev;
 
-			if(TOP_LL(op)->type == IF_BEGIN){
+			//iter_prev = iter_prev->next;
+			
+
+			print_fbgc_ll_object(head_obj,"??");	
+
+			if(TOP_LL(op)->type == IF){
+				//now insert if in its place,
+
+				struct fbgc_object * if_obj = TOP_LL(op);
+				POP_LL(op);
+
+				if_obj->next = cast_fbgc_object_as_jumper(if_obj)->content->next;
+				cast_fbgc_object_as_jumper(if_obj)->content->next = if_obj;
+				cast_fbgc_object_as_jumper(if_obj)->content = iter_prev; //now assign where to jump
+
+
+				print_fbgc_ll_object(head_obj,"M");	
+			}
+			else if(TOP_LL(op)->type == ELIF){
 				//now insert if in its place,
 				struct fbgc_object * if_obj = TOP_LL(op);
 				POP_LL(op);
@@ -617,17 +637,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 
 				cast_fbgc_object_as_jumper(if_obj)->content = iter_prev;
 			}
-			else if(TOP_LL(op)->type == ELIF_BEGIN){
-				//now insert if in its place,
-				struct fbgc_object * if_obj = TOP_LL(op);
-				POP_LL(op);
-
-				if_obj->next = cast_fbgc_object_as_jumper(if_obj)->content->next;
-				cast_fbgc_object_as_jumper(if_obj)->content->next = if_obj;
-
-				cast_fbgc_object_as_jumper(if_obj)->content = iter_prev;
-			}
-			else if(TOP_LL(op)->type == WHILE_BEGIN){
+			else if(TOP_LL(op)->type == WHILE){
 				//now insert while in its place,
 				struct fbgc_object * if_obj = TOP_LL(op);
 				POP_LL(op);
@@ -644,7 +654,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 				
 				cast_fbgc_object_as_jumper(if_obj)->content = jump_obj;
 			}
-			else if(TOP_LL(op)->type == FOR_BEGIN){
+			else if(TOP_LL(op)->type == FOR){
 				//now insert while in its place,
 				struct fbgc_object * if_obj = TOP_LL(op);
 				POP_LL(op);
@@ -668,6 +678,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 
 			}
 			else if(TOP_LL(op)->type == FUN_MAKE){
+
 				assert(iter_prev->type != FUN); 
 				struct fbgc_object * fun_obj = cast_fbgc_object_as_jumper(TOP_LL(op))->content;
 				
@@ -695,8 +706,12 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 
 				POP_LL(op);
 				current_scope = *field_obj;
+				iter_prev->next = iter->next;
+				
 			}
 			//else assert(0);
+
+
 
 			while(TOP_LL(op) != NULL && TOP_LL(op)->type == JUMP){
 				struct fbgc_object * jump_obj = TOP_LL(op);
@@ -708,7 +723,8 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 				cast_fbgc_object_as_jumper(jump_obj)->content = iter_prev;	
 			}
 
-			iter_prev->next = iter->next;
+			//iter_prev->next = iter->next;
+
 
 			#ifdef PARSER_DEBUG
 			cprintf(010,"############## AFTER END ###############\n");
@@ -722,7 +738,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 		}
 		case FUN_MAKE:
 		{
-			//gm_error = gm_seek_left(&gm,iter);	
+			gm_error = gm_seek_left(&gm,iter);	
 			struct fbgc_object * fun_obj = new_fbgc_fun_object();	
 			fun_obj->next = iter->next;
 			iter_prev->next = fun_obj;
@@ -736,11 +752,11 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 		}
 		case ELIF:
 		{
-			gm_error = gm_seek_right(&gm,TOP_LL(op));
-			gm_error = gm_seek_left(&gm,iter);	
+			//gm_error = gm_seek_right(&gm,TOP_LL(op));
+			//gm_error = gm_seek_left(&gm,iter);	
 
 			assert(TOP_LL(op) != NULL && 
-				(TOP_LL(op)->type == IF_BEGIN || TOP_LL(op)->type == ELIF_BEGIN));
+				(TOP_LL(op)->type == IF || TOP_LL(op)->type == ELIF));
 
 			//now insert if in its place,
 			struct fbgc_object * if_obj = TOP_LL(op);
@@ -763,10 +779,10 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 		case ELSE:
 		{
 
-			gm_error = gm_seek_right(&gm,TOP_LL(op));
-			gm_error = gm_seek_left(&gm,iter);	
+			//gm_error = gm_seek_right(&gm,TOP_LL(op));
+			//gm_error = gm_seek_left(&gm,iter);	
 
-			assert(TOP_LL(op)->type == IF_BEGIN || TOP_LL(op)->type == ELIF_BEGIN);
+			assert(TOP_LL(op)->type == IF || TOP_LL(op)->type == ELIF);
 
 			//now insert if in its place,
 			struct fbgc_object * if_obj = TOP_LL(op);
@@ -793,7 +809,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 
 
 			struct fbgc_object * jump_obj = new_fbgc_jumper_object(JUMP);
-			if(TOP_LL(op) != NULL && TOP_LL(op)->type == WHILE_BEGIN){
+			if(TOP_LL(op) != NULL && TOP_LL(op)->type == WHILE){
 				//This is a branch optimization to solve an issue between two while loops
 				//if we have a situation
 				// while(a)
@@ -809,7 +825,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 
 				cast_fbgc_object_as_jumper(jump_obj)->content = TOP_LL(op);
 			}
-			else if(TOP_LL(op) != NULL && TOP_LL(op)->type == FOR_BEGIN){
+			else if(TOP_LL(op) != NULL && TOP_LL(op)->type == FOR){
 				cprintf(111,"korkmustum gercekten amcik\n");
 				assert(0);
 			}
@@ -845,7 +861,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 
 			for(;;){
 				assert(op_top != NULL);
-				if(op_top->type == WHILE_BEGIN || op_top->type == FOR_BEGIN){
+				if(op_top->type == WHILE || op_top->type == FOR){
 					cast_fbgc_object_as_jumper(iter)->content = op_top;
 					break;
 				}
@@ -864,7 +880,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			for(;;){
 
 				assert(op_top != NULL);
-				if(op_top->type == WHILE_BEGIN || op_top->type == FOR_BEGIN){
+				if(op_top->type == WHILE || op_top->type == FOR){
 					//here we assumed there will be always jump object after while in the stack
 					op_top = op_top->next;
 					
@@ -890,9 +906,11 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 
 			//cprintf(111,"gm top %s\n",gm_name_array[gm.top]);
 			//buna bir cozum bulalim gm bilmeden bulmak mumkun mu?
-			element_number = (gm.top != GM_LPARA && gm.top != GM_LBRACK) + (get_fbgc_object_type(TOP_LL(op)) != which_para);
+			// && get_fbgc_object_type(TOP_LL(op)) != which_para 
+			element_number = (gm.top != GM_LPARA && gm.top != GM_LBRACK) + (get_fbgc_object_type(TOP_LL(op)) == COMMA);
+			
 
-			//cprintf(111,"element_number %d\n",element_number);
+			cprintf(111,"element_number %d\n",element_number);
 			iter_prev->next = iter->next;
 
 			while(get_fbgc_object_type(TOP_LL(op)) != which_para){

@@ -168,7 +168,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			case BREAK:
 			{
 				struct fbgc_object * loop_obj =  cast_fbgc_object_as_jumper(pc)->content;
-				if(loop_obj->type == FOR_BEGIN) STACK_GOTO(-2); //clean the for loop remainders
+				if(loop_obj->type == FOR) STACK_GOTO(-2); //clean the for loop remainders
 				pc = cast_fbgc_object_as_jumper(loop_obj)->content;
 				break;
 			}
@@ -433,9 +433,9 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				pc = cast_fbgc_object_as_jumper(pc)->content;
 				break;
 			}		
-			case IF_BEGIN:
-			case ELIF_BEGIN:
-			case WHILE_BEGIN:
+			case IF:
+			case ELIF:
+			case WHILE:
 			{
 				struct fbgc_object * cond = POP();
 				char c = convert_fbgc_object_to_logic(cond);
@@ -444,7 +444,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				}
 				break;
 			}
-			case FOR_BEGIN:
+			case FOR:
 			{	
 
 				if(TOP()->type != INT){
