@@ -9,8 +9,9 @@ extern "C" {
 #define _FBGC_NO_ERROR 0
 #define _FBGC_LEXER_ERROR 1
 #define _FBGC_SYNTAX_ERROR 2
-#define _FBGC_DUMMY_ERROR 3
+#define _FBGC_UNDEFINED_IDENTIFIER_ERROR 3
 #define _FBGC_DUMMY2_ERROR 4
+
 
 
 #if defined CLOSE_PRINTF

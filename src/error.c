@@ -100,6 +100,12 @@ int fbgc_error(unsigned char error_code, int line_no){
             cprintf(100,"Syntax error at line %d\n",line_no);
             break;
         }
+        case _FBGC_UNDEFINED_IDENTIFIER_ERROR:
+        {
+            cprintf(100,"Undefined identifier at line %d\n",line_no);
+            break;
+        }
+
         default:
         {
             cprintf(100,"Undefined error type\n");

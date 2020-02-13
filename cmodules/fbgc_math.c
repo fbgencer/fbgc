@@ -179,6 +179,7 @@ new_fbgc_cfunction(fbgc_random,"random")
 
 new_fbgc_cfunction(fbgc_rand,"rand")
 {
+	cprintf(111,"calling me!\n");
 	srand((int) clock() );
 	size_t row,col;
 	if(argc == 1){	

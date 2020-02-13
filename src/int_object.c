@@ -73,7 +73,6 @@ switch(op)
     }
     case STAR:
     {
-        cprintf(111,"ben a1,b1 %d %d\n",a1,b1);
         c = a1*b1;
         break;
     }

@@ -24,7 +24,7 @@ struct fbgc_cfunction{
 
 //C module holds CONSTANT array of c functions, this array is (pre)determined during the compilation time
 struct fbgc_cmodule{
-    const struct fbgc_cfunction * initializer;
+    const struct fbgc_cfunction * initializer; //do we need this?
     const struct fbgc_cfunction ** functions;
 };
 
@@ -46,6 +46,7 @@ struct fbgc_cfun_object{
 
 
 #define cast_fbgc_object_as_cfun(x)(((struct fbgc_cfun_object*) x))
+#define cast_fbgc_object_as_cmodule(x)(((struct fbgc_cmodule_object*) x))
 
 
 
@@ -62,6 +63,9 @@ extern struct fbgc_object * fun_name(struct fbgc_object ** arg, int argc)\
 struct fbgc_object * new_fbgc_cfun_object( struct fbgc_object * (* function_obj)(struct fbgc_object **, int argc) );
 void print_fbgc_cmodule(const struct fbgc_cmodule * );
 void free_fbgc_cfun_object(struct fbgc_object * obj);
+
+
+struct fbgc_object * new_cfun_object_from_str(struct fbgc_object * field_obj,const char * str);
 
 #define cfun_object_call(cfuno,args,argc)(cast_fbgc_object_as_cfun(cfuno)->function(args,argc))
 

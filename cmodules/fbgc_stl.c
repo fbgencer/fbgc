@@ -23,6 +23,17 @@ new_fbgc_cfunction(fbgc_len,"len")
 	return NULL;
 }
 
+new_fbgc_cfunction(fbgc_load,"load")
+{
+
+	cprintf(111,"Load is called");
+	if(argc == 1){
+		return module_deneme(content_fbgc_str_object(arg[0]));	
+	}
+	return NULL;
+	//load_module_in_field_object(main_field,&fbgc_math_module);
+}
+
 
 
 new_fbgc_cfunction(fbgc_id,"id"){
@@ -119,6 +130,7 @@ const struct fbgc_cmodule fbgc_stl_module =
 	.functions = (const struct fbgc_cfunction*[])
 	{
 		&fbgc_len_struct,
+		&fbgc_load_struct,
 		&fbgc_id_struct,
 		&fbgc_int_struct,
 		&fbgc_double_struct,

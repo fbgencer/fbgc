@@ -154,9 +154,11 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					struct fbgc_identifier * tmp = (struct fbgc_identifier *) get_address_in_fbgc_array_object(globals,cast_fbgc_object_as_id_opcode(pc)->loc);
 					//Check undefined variable
 					if(tmp->content == NULL){
+						
 						struct fbgc_object * name = tmp->name;
 						cprintf(100,"Undefined variable %s\n",&cast_fbgc_object_as_cstr(name)->content);
-						assert(0);
+						//fbgc_error(_FBGC_UNDEFINED_IDENTIFIER_ERROR,-1);
+						return 0;
 					}
 					
 					PUSH(tmp->content);
@@ -547,17 +549,16 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			}
 			case METHOD_CALL:
 			{
-				
 				//increase arg_no so we can count object as well
 				int arg_no = cast_fbgc_object_as_int(POP())->content;
-				arg_no++;
 
-				struct fbgc_object * name = cast_fbgc_object_as_id_opcode(pc)->member_name;
+				struct fbgc_object * name = cast_fbgc_object_as_id_opcode(pc)->member_name; // holds name after dot: x.name
 
-				struct fbgc_object * method = get_set_fbgc_object_member(TOPN(arg_no),&cast_fbgc_object_as_cstr(name)->content , NULL);
+				struct fbgc_object * method = get_set_fbgc_object_member(TOPN(arg_no+1),&cast_fbgc_object_as_cstr(name)->content , NULL);
 				
 				if(method->type == CFUN){
 					STACK_GOTO(-arg_no);
+					//assert(0);
 					struct fbgc_object * res = cfun_object_call(method, sp+sctr, arg_no);
 					if(res!= NULL)
 						PUSH(res);

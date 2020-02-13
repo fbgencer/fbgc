@@ -105,7 +105,7 @@ const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] =
 	{LEXER_TOK_DOUBLE,"!d!+ . !d!+ j!*"}, 	
 	{LEXER_TOK_BASE10_INT,"!d!+ j!*"},
 	{LEXER_TOK_PARA,"(|)|[|]|{|}"},		
-	{LEXER_TOK_KEYWORDS,"end|fun|elif|else|while|for|break|cont|load|if|return|true|false !b"},
+	{LEXER_TOK_KEYWORDS,"end|fun|elif|else|while|for|break|cont|loqd|if|return|true|false !b"},
 	{LEXER_TOK_NAME,"__ !w!d!o!+ __"},
 	{LEXER_TOK_NAME,"_!w!d _!w!d!*"},		
 	{LEXER_TOK_OP0,",|.|;|:"},

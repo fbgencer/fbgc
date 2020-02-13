@@ -85,6 +85,34 @@ static void compile_one_line(struct fbgc_object * main_field,char *line){
 void realtime_fbgc(struct fbgc_object * main_field){
 }
 
+struct fbgc_object * main_field;
+
+
+
+struct fbgc_object * module_deneme(const char * x){
+
+	struct fbgc_cmodule * cm = NULL; 
+
+	if(strcmp(x,"math") == 0){
+		cm = &fbgc_math_module;
+	}
+	else {
+		cprintf(100,"Module could not be found!\n");
+	}
+
+	if(cm != NULL){
+		struct fbgc_cmodule_object * cmo = (struct fbgc_cmodule_object *) fbgc_malloc(sizeof(struct fbgc_cmodule_object ));
+		cmo->module = cm;
+		cmo->base.type = CMODULE;//CHANGE THIS
+
+		load_module_in_field_object(main_field,cm);
+		return cmo;
+	}
+
+	return NULL;
+}
+
+
 int main(int argc, char **argv){
 
 #ifdef INTERPRETER_DEBUG    
@@ -94,11 +122,11 @@ cprintf(110,"\n\n\n\n\n[========================================================
 //******************************************************************
 	initialize_fbgc_memory_block();
 	initialize_fbgc_symbol_table();
-	struct fbgc_object * main_field = new_fbgc_field_object();
-	load_module_in_field_object(main_field,&fbgc_math_module);
+	 main_field = new_fbgc_field_object();
+	//load_module_in_field_object(main_field,&fbgc_math_module);
 	load_module_in_field_object(main_field,&fbgc_io_module);
 	load_module_in_field_object(main_field,&fbgc_stl_module);
-	load_module_in_field_object(main_field,&fbgc_file_module);
+	//load_module_in_field_object(main_field,&fbgc_file_module);
 
 	if(argc > 1)
 	{   

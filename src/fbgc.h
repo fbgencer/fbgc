@@ -61,6 +61,10 @@ extern "C" {
 
 
 
+//extern struct fbgc_object * main_field;
+struct fbgc_object * module_deneme(const char * x);
+
+
 #ifdef  __cplusplus
 }
 #endif

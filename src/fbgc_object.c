@@ -407,6 +407,27 @@ struct fbgc_object * get_set_fbgc_object_member(struct fbgc_object * o, const ch
 			}
 			return NULL;
 		}
+		case CMODULE:{
+			struct fbgc_cmodule_object * cm = cast_fbgc_object_as_cmodule(o);
+			const struct fbgc_cfunction * cc = cm->module->functions[0];
+			//cprintf(111,"Functions:\n");
+			for (int i = 1; cc!=NULL; ++i){
+				//optimize strlen part
+				if(!my_strcmp(str,cc->name) ){
+					#ifdef PARSER_DEBUG
+					cprintf(010,"\n**Function [%s] matched with str [%s]\n",cc->name,str);
+					#endif
+					return new_fbgc_cfun_object(cc->function);
+				} 
+				//cprintf(101,"{%s}\n",cc->name);
+				cc = cm->module->functions[i];
+			}
+			
+			#ifdef PARSER_DEBUG
+			cprintf(111,"Not a cfunction!\n");
+			#endif				
+			return NULL;
+		}
 		default:
 			assert(1 && !cprintf(100,"[%s] cannot accessible\n",object_name_array[o->type]) );
 		return NULL;

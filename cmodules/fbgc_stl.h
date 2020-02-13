@@ -12,6 +12,7 @@ extern const struct fbgc_cmodule fbgc_stl_module;
 
 declare_new_fbgc_cfunction(fbgc_stl_initializer);
 declare_new_fbgc_cfunction(fbgc_len);
+declare_new_fbgc_cfunction(fbgc_load);
 declare_new_fbgc_cfunction(fbgc_id);
 declare_new_fbgc_cfunction(fbgc_int);
 declare_new_fbgc_cfunction(fbgc_tuple);
