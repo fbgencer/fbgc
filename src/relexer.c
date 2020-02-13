@@ -253,11 +253,21 @@ void pretty_print_pointer(const char *buffer ,const char * ptr){
 char * fbgc_getline_from_file(char * s, int n, FILE *fp){
    	int c = 0;
     char* cs = s;
+
+    int count_dot = 0;
+
     while(--n > 0 && (c = getc(fp)) != EOF){
     // put the input char into the current pointer position, then increment it
     // if a newline entered, break
     	switch((*cs++ = c)){
-    		case '\n': goto end_of_getline;
+    		case '.': ++count_dot; break;
+    		case '\n':{
+    			if(count_dot == 3){
+    				cs -= 4;
+    				break;
+    			}else
+    				goto end_of_getline;
+    		} 
     		case '\\': 
     			switch( c = getc(fp)){
 					case 'a': *(cs-1) = '\a'; break;

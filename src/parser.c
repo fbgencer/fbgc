@@ -438,14 +438,14 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 	int line_no = 0;
 
 
-	for(int i = 0; fbgc_error(error_code,line_no) && i<50; i++){
+	for(int i = 0; fbgc_error(error_code,line_no); i++){
 		
 
 		if(iter == head->tail){
 			if(fbgc_getline_from_file(line, sizeof(line), input_file)){
-
-				cprintf(111,"#########################Line:[%d]#####################\n",line_no);
 				++line_no;
+				cprintf(111,"#########################Line:[%d]#####################\n",line_no);
+				
 
 				if(line[0] == '#' || line[0] == '\0' || line[0] == '\n') continue; //past the comment fast
 				

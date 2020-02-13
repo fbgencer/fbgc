@@ -57,8 +57,8 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
 	//print_fbgc_memory_block();
 	 
 	begin = clock();
-	 //if(par) 
-	interpreter(&main_field); 
+	if(par) 
+		interpreter(&main_field); 
 	end = clock();
 	interpreter_time = (double)(end - begin) / CLOCKS_PER_SEC; 
 

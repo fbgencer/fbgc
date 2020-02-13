@@ -240,7 +240,7 @@ typedef struct {
 #define GM_BALANCED_LIST 11
 #define GM_LPARA 12
 #define GM_LBRACK 13
-#define GM_SEMICOLON 14
+#define GM_PIPE 14
 #define GM_FUNCTIONAL 15
 #define GRAMMAR_TOKENS_AS_STRINGS()\
 "GM_ERROR",\
@@ -257,7 +257,7 @@ typedef struct {
 "GM_BALANCED_LIST",\
 "GM_LPARA",\
 "GM_LBRACK",\
-"GM_SEMICOLON",\
+"GM_PIPE",\
 "GM_FUNCTIONAL"
 
 
