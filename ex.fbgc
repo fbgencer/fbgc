@@ -1,1 +1,7 @@
-load('math')
+a = 1
+b = 2
+c = 3
+d = 10
+f = 99
+load('')
+print(cos(3.14/2))

@@ -459,6 +459,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			#endif
 
 			struct fbgc_object * cstr_obj = get_object_in_fbgc_tuple_object(fbgc_symbols,cast_fbgc_object_as_id_opcode(iter)->loc);
+
 			#ifdef PARSER_DEBUG
 			cprintf(100,"symbol name:["); print_fbgc_object(cstr_obj);
 			cprintf(100,"]\n");
@@ -490,7 +491,10 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 
 				for(int i = 0; i<size_fbgc_array_object(local_array); i++){
 					temp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(local_array,i);
-					if(temp_id->name == cstr_obj) where = i; 
+					if(temp_id->name == cstr_obj) {
+						where = i;
+						break;
+					} 
 				}
 
 				if(where == -1) {

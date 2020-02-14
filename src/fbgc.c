@@ -93,7 +93,69 @@ struct fbgc_object * module_deneme(const char * x){
 
 	struct fbgc_cmodule * cm = NULL; 
 
-	if(strcmp(x,"math") == 0){
+
+
+	cm = &fbgc_math_module;
+ 	
+ 	const struct fbgc_cfunction * cc = cm->functions[1];
+	struct fbgc_object *rhs = new_fbgc_cfun_object(cc->function);
+	print_fbgc_object(rhs);
+
+
+
+	const char * str1 = cc->name;
+	struct fbgc_object * iter = new_fbgc_symbol_from_substr(str1,str1 + strlen(str1));
+		//this location is from symbols, we need to find location in fields
+	struct fbgc_object * cstr_obj = get_object_in_fbgc_tuple_object(fbgc_symbols,cast_fbgc_object_as_id_opcode(iter)->loc);
+
+	cprintf(100,"Loc : %d\n",cast_fbgc_object_as_id_opcode(iter)->loc);
+
+	struct fbgc_object * local_array = cast_fbgc_object_as_field(main_field)->locals;
+	struct fbgc_identifier * temp_id; 
+	int where = -1;
+
+	for(int i = 0; i<size_fbgc_array_object(local_array); i++){
+		temp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(local_array,i);
+		if(temp_id->name == cstr_obj) {
+			where = i;
+			break;
+		} 
+	}
+
+	if(where == -1){
+		//## this is unexpected, handle this
+		cprintf(100,"Error!\n");
+		assert(0);
+	}
+
+	set_id_flag_GLOBAL(iter);
+	cast_fbgc_object_as_id_opcode(temp_id)->loc = where;
+	temp_id->content = rhs;
+
+	
+
+
+
+/*
+
+				struct fbgc_cmodule_object * cm = cast_fbgc_object_as_cmodule(o);
+			const struct fbgc_cfunction * cc = cm->module->functions[0];
+			//cprintf(111,"Functions:\n");
+			for (int i = 1; cc!=NULL; ++i){
+				//optimize strlen part
+				if(!my_strcmp(str,cc->name) ){
+					#ifdef PARSER_DEBUG
+					cprintf(010,"\n**Function [%s] matched with str [%s]\n",cc->name,str);
+					#endif
+					return new_fbgc_cfun_object(cc->function);
+				} 
+				//cprintf(101,"{%s}\n",cc->name);
+				cc = cm->module->functions[i];
+			}
+
+*/
+
+	/*if(strcmp(x,fbgc_math_initializer_struct.name) == 0){
 		cm = &fbgc_math_module;
 	}
 	else {
@@ -105,13 +167,29 @@ struct fbgc_object * module_deneme(const char * x){
 		cmo->module = cm;
 		cmo->base.type = CMODULE;//CHANGE THIS
 
-		load_module_in_field_object(main_field,cm);
+		//load_module_in_field_object(main_field,cm);
 		return cmo;
-	}
+	}*/
 
 	return NULL;
 }
 
+/*
+
+void module_load_all(struct fbgc_object * field_obj,struct fbgc_object * module_obj){
+	struct fbgc_field_object * ll = cast_fbgc_object_as_field(field_obj);
+	struct fbgc_cmodule_object * cm = module_obj;
+
+	for (uint8_t i = 0; cc!=NULL; ++i){
+		const struct fbgc_cfunction * cc = cm->module->functions[i];
+		new_fbgc_cfun_object(cc->function);
+	}
+	cm = (struct fbgc_cmodule_object * )cm->base.next;
+
+
+	new_fbgc_id_opcode(size_fbgc_tuple_object(fbgc_symbols)-1);
+		
+}*/
 
 int main(int argc, char **argv){
 

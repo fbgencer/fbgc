@@ -29,9 +29,6 @@ struct fbgc_object * new_cfun_object_from_str(struct fbgc_object * field_obj,con
 		for (int i = 1; cc!=NULL; ++i){
 			//optimize strlen part
 			if(!my_strcmp(str,cc->name) ){
-				#ifdef PARSER_DEBUG
-				cprintf(010,"\n**Function [%s] matched with str [%s]\n",cc->name,str);
-				#endif
 				return new_fbgc_cfun_object(cc->function);
 			} 
 			//cprintf(101,"{%s}\n",cc->name);
@@ -39,9 +36,6 @@ struct fbgc_object * new_cfun_object_from_str(struct fbgc_object * field_obj,con
 		}
 		cm = (struct fbgc_cmodule_object * )cm->base.next;
 	}
-	#ifdef PARSER_DEBUG
-	cprintf(111,"Not a cfunction!\n");
-	#endif
 	return NULL;
 }
 

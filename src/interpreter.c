@@ -16,7 +16,8 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 	int sctr = 0;
 	int fctr = -1;
 	
-	struct fbgc_object * globals = cast_fbgc_object_as_field(*field_obj)->locals;
+	//## change this!!
+	#define globals cast_fbgc_object_as_field(*field_obj)->locals
 
 	struct fbgc_object * last_called_function = NULL;
 	size_t recursion_ctr = 0;
@@ -46,6 +47,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 #define RECURSION_LIMIT 1000
 
 	for(int i = 0;  (pc != head->tail) ; i++){
+
 
 		if(recursion_ctr>RECURSION_LIMIT){
 			printf("Reached Recursion limit!\n");
@@ -108,6 +110,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 						temp = GET_AT_FP(cast_fbgc_object_as_id_opcode(pc)->loc);
 					}	
 
+
 					assert(temp != NULL && TOP()->type == INT);
 
 					int index = 0;
@@ -151,7 +154,9 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					break;
 				}
 				if(is_id_flag_GLOBAL(pc)){
+
 					struct fbgc_identifier * tmp = (struct fbgc_identifier *) get_address_in_fbgc_array_object(globals,cast_fbgc_object_as_id_opcode(pc)->loc);
+					
 					//Check undefined variable
 					if(tmp->content == NULL){
 						
@@ -160,7 +165,8 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 						//fbgc_error(_FBGC_UNDEFINED_IDENTIFIER_ERROR,-1);
 						return 0;
 					}
-					
+						
+					cprintf(111,"pushing...\n");
 					PUSH(tmp->content);
 					//PUSH(globals[cast_fbgc_object_as_id_opcode(pc)->loc]);	
 				} 
@@ -502,10 +508,11 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				//assert(funo->base.type == FUN || funo->base.type == CFUN);
 
 				if(funo->base.type == CFUN){
-					
 					STACK_GOTO(-arg_no);
 					struct fbgc_object * res = cfun_object_call(funo, sp+sctr, arg_no);
+					
 					if(res != NULL) PUSH(res);
+					
 					break;
 
 					// In order to increase speed, DELETE new tuple creation it causes 2sec for 100,000 print('ffdfds') code

@@ -25,8 +25,7 @@ new_fbgc_cfunction(fbgc_len,"len")
 
 new_fbgc_cfunction(fbgc_load,"load")
 {
-
-	cprintf(111,"Load is called");
+	cprintf(111,"Load is called\n");
 	if(argc == 1){
 		return module_deneme(content_fbgc_str_object(arg[0]));	
 	}

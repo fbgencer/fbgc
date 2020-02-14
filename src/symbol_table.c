@@ -10,7 +10,7 @@ struct fbgc_object * initialize_fbgc_symbol_table(){
 struct fbgc_object * new_fbgc_symbol_from_substr(const char * str1,const char * str2){
 	
 	#ifdef SYMBOL_TABLE_DEBUG
-	cprintf(100,"Symbol table new symbol from substr..\n");
+	cprintf(100,"Symbol table from substring\n");
 	#endif
 
 
@@ -25,13 +25,27 @@ struct fbgc_object * new_fbgc_symbol_from_substr(const char * str1,const char * 
    // double search_time;
 	//begin = clock();
 	
+	#ifdef SYMBOL_TABLE_DEBUG
+		cprintf(111,"Trying to find str in old symbols\n");
+	#endif
+
 	for(size_t i = 0; i<size_fbgc_tuple_object(fbgc_symbols); i++){
 		//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 		// Find something proper, don't check the string size first but without checking the first match of n characters will return true 
 		//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-		if( strlen(content_fbgc_cstr_object(symbols[i])) == str2-str1 && !my_strncmp(content_fbgc_cstr_object(symbols[i]),str1,str2-str1)  )
+		if( strlen(content_fbgc_cstr_object(symbols[i])) == str2-str1 && !my_strncmp(content_fbgc_cstr_object(symbols[i]),str1,str2-str1)  ){
+
+			#ifdef SYMBOL_TABLE_DEBUG
+				cprintf(110,"Found!\n");
+			#endif
 			return new_fbgc_id_opcode(i); 
+		}
 	}
+
+
+	#ifdef SYMBOL_TABLE_DEBUG
+		cprintf(111,"Couldn't found, creating symbol!\n");
+	#endif	
 	//end = clock();
 	//search_time = (double)(end - begin) / CLOCKS_PER_SEC; 
 	//printf("Time :%f\n",search_time );
@@ -39,7 +53,7 @@ struct fbgc_object * new_fbgc_symbol_from_substr(const char * str1,const char * 
 	struct fbgc_object * temp_obj =  new_fbgc_cstr_object_from_substr(str1,str2);
 
 	#ifdef SYMBOL_TABLE_DEBUG
-	cprintf(100,"OLD the symbol table : ");
+	cprintf(100,"OLD symbol table : ");
 	//:>print_fbgc_object(cast_fbgc_object_as_field(field_obj)->symbols);
 	print_fbgc_object(fbgc_symbols);
 	cprintf(111,"\n");
@@ -68,27 +82,6 @@ struct fbgc_object * new_fbgc_symbol_from_substr(const char * str1,const char * 
 	return new_fbgc_id_opcode(size_fbgc_tuple_object(fbgc_symbols)-1);
 }
 
-struct fbgc_object * new_cfun_object_from_substr(struct fbgc_object * field_obj,const char * str1,const char * str2){
-
-	/*struct fbgc_ll_object * ll = cast_fbgc_object_as_ll( cast_fbgc_object_as_field(field_obj)->modules );
-	struct fbgc_cmodule_object * cm = (struct fbgc_cmodule_object *)ll->base.next;
-	while(cm!= NULL && (struct fbgc_object * )cm != ll->tail){
-		const struct fbgc_cfunction * cc = cm->module->functions[0];
-		cprintf(111,"Functions:\n");
-		for (int i = 1; cc!=NULL; ++i){
-			if(!memcmp(str1,cc->name,str2-str1)){
-				cprintf(010,"\n**Function [%s] is founded in module [%s]**\n",cc->name,cm->module->name);
-				return new_fbgc_cfun_object(cc->function);
-			} 
-			cprintf(101,"{%s}\n",cc->name);
-			cc = cm->module->functions[i];
-		}
-		cm = (struct fbgc_cmodule_object * )cm->base.next;
-	}*/
-
-	return NULL;
-}
-
 
 void print_fbgc_symbol_table(struct fbgc_object * ll){
 
@@ -99,17 +92,3 @@ void print_fbgc_symbol_table(struct fbgc_object * ll){
 	cprintf(010,"[~~~~~~~~~~~~~~~~~~~~~~~~~]\n");
 
 }
-
-void free_fbgc_symbol_table(struct fbgc_object * table_obj){
-	;
-}
-
-
-/*
-struct fbgc_object * new_fbgc_identifier(struct fbgc_object* name_cstring){ 
-	struct fbgc_identifier * id =  (struct fbgc_identifier * ) fbgc_malloc( sizeof(fbgc_identifier) );
-    sym->name = name_cstring;
-    sym->content = NULL;
-    return (struct fbgc_object*) sym;
-}
-*/
