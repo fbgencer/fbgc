@@ -31,19 +31,16 @@ new_fbgc_cfunction(fbgc_load,"load")
 	// 
 
 
+	struct fbgc_object * res = NULL;
 
 	if(argc == 1){
-		if(arg[0]->type != STRING){
-			return NULL;
-		}
-		return fbgc_load_module(content_fbgc_str_object(arg[0]),NULL,0);	
+		if(arg[0]->type == STRING)
+			return fbgc_load_module(content_fbgc_str_object(arg[0]),NULL,0);	
 	}
 	else if(argc > 1){
 		for(uint8_t i = 0; i<argc; ++i){
 			if(arg[i]->type != STRING) return NULL;
 		}
-
-		struct fbgc_object * res = NULL;
 
 		if(!my_strcmp(content_fbgc_str_object(arg[1]),"*")){
 			res = fbgc_load_module(content_fbgc_str_object(arg[0]),NULL,1);
@@ -57,7 +54,7 @@ new_fbgc_cfunction(fbgc_load,"load")
 
 	}
 	
-	return NULL;
+	return res;
 	//load_module_in_field_object(main_field,&fbgc_math_module);
 }
 

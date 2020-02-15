@@ -26,6 +26,44 @@ void load_module_in_field_object(struct fbgc_object * field_obj, const struct fb
 	
 }
 
+struct fbgc_object * add_variable_in_field_object(struct fbgc_object * field_obj,const char * var_name, struct fbgc_object * rhs){
+		
+		//if(rhs == NULL) return NULL;
+
+	struct fbgc_object * iter = new_fbgc_symbol_from_substr(var_name,var_name + strlen(var_name));
+	//this location is from symbols, we need to find location in fields
+	struct fbgc_object * cstr_obj = get_object_in_fbgc_tuple_object(fbgc_symbols,cast_fbgc_object_as_id_opcode(iter)->loc);
+
+
+	struct fbgc_object * local_array = cast_fbgc_object_as_field(field_obj)->locals;
+	struct fbgc_identifier * temp_id; 
+	int where = -1;
+
+	//first search this in created variables
+	for(int i = 0; i<size_fbgc_array_object(local_array); i++){
+		temp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(local_array,i);
+		if(temp_id->name == cstr_obj) {
+			where = i;
+			break;
+		} 
+	}
+
+	if(where == -1){
+		struct fbgc_identifier id;		
+		id.name = cstr_obj; id.content = rhs;
+		local_array = push_back_fbgc_array_object(local_array,&id);
+		where = size_fbgc_array_object(local_array)-1;
+		cast_fbgc_object_as_field(field_obj)->locals = local_array;
+	}else{
+
+		cast_fbgc_object_as_id_opcode(temp_id)->loc = where;
+		temp_id->content = rhs;
+	}
+	set_id_flag_GLOBAL(iter);
+
+	return iter;
+}
+
 
 void print_field_object_locals(struct fbgc_object * field_obj){
 	struct fbgc_object * ao = cast_fbgc_object_as_field(field_obj)->locals;
@@ -36,6 +74,9 @@ void print_field_object_locals(struct fbgc_object * field_obj){
 		cprintf(010,"}");
 	}
 }
+
+
+
 
 void free_fbgc_field_object(struct fbgc_object * field_obj){
 /*	free_fbgc_ll_object(cast_fbgc_object_as_field(field_obj)->head);

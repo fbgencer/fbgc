@@ -94,6 +94,8 @@ struct fbgc_object * fbgc_load_module(const char * module_name,const char * fun_
 	//load_key == 1, load all and return 
 	//load_key == 2, load specific and return
 
+	add_variable_in_field_object(main_field,"pi",new_fbgc_double_object(3.14159));
+
 	struct fbgc_cmodule * cm = NULL; 
 
 
@@ -119,38 +121,40 @@ struct fbgc_object * fbgc_load_module(const char * module_name,const char * fun_
 				cc = cm->functions[i];
 				continue;
 			}
-			struct fbgc_object *rhs = new_fbgc_cfun_object(cc->function);
-			const char * str1 = cc->name;
-			struct fbgc_object * iter = new_fbgc_symbol_from_substr(str1,str1 + strlen(str1));
-				//this location is from symbols, we need to find location in fields
-			struct fbgc_object * cstr_obj = get_object_in_fbgc_tuple_object(fbgc_symbols,cast_fbgc_object_as_id_opcode(iter)->loc);
+
+			add_variable_in_field_object(main_field,cc->name,new_fbgc_cfun_object(cc->function));
+			// struct fbgc_object *rhs = new_fbgc_cfun_object(cc->function);
+			// const char * str1 = cc->name;
+			// struct fbgc_object * iter = new_fbgc_symbol_from_substr(str1,str1 + strlen(str1));
+			// 	//this location is from symbols, we need to find location in fields
+			// struct fbgc_object * cstr_obj = get_object_in_fbgc_tuple_object(fbgc_symbols,cast_fbgc_object_as_id_opcode(iter)->loc);
 
 
-			struct fbgc_object * local_array = cast_fbgc_object_as_field(main_field)->locals;
-			struct fbgc_identifier * temp_id; 
-			int where = -1;
+			// struct fbgc_object * local_array = cast_fbgc_object_as_field(main_field)->locals;
+			// struct fbgc_identifier * temp_id; 
+			// int where = -1;
 
-			for(int i = 0; i<size_fbgc_array_object(local_array); i++){
-				temp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(local_array,i);
-				if(temp_id->name == cstr_obj) {
-					where = i;
-					break;
-				} 
-			}
+			// for(int i = 0; i<size_fbgc_array_object(local_array); i++){
+			// 	temp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(local_array,i);
+			// 	if(temp_id->name == cstr_obj) {
+			// 		where = i;
+			// 		break;
+			// 	} 
+			// }
 
-			if(where == -1){
+			// if(where == -1){
 
-				struct fbgc_identifier id;		
-				id.name = cstr_obj; id.content = rhs;
-				local_array = push_back_fbgc_array_object(local_array,&id);
-				where = size_fbgc_array_object(local_array)-1;
-				cast_fbgc_object_as_field(main_field)->locals = local_array;
-			}else{
+			// 	struct fbgc_identifier id;		
+			// 	id.name = cstr_obj; id.content = rhs;
+			// 	local_array = push_back_fbgc_array_object(local_array,&id);
+			// 	where = size_fbgc_array_object(local_array)-1;
+			// 	cast_fbgc_object_as_field(main_field)->locals = local_array;
+			// }else{
 
-				cast_fbgc_object_as_id_opcode(temp_id)->loc = where;
-				temp_id->content = rhs;
-			}
-			set_id_flag_GLOBAL(iter);
+			// 	cast_fbgc_object_as_id_opcode(temp_id)->loc = where;
+			// 	temp_id->content = rhs;
+			// }
+			// set_id_flag_GLOBAL(iter);
 
 			if(load_key == 2) break;
 
@@ -158,11 +162,12 @@ struct fbgc_object * fbgc_load_module(const char * module_name,const char * fun_
 		}
 	}
 
-	if(cm != NULL){
-		return new_fbgc_cmodule_object(cm);
-	}
-	return NULL;
+
+	return new_fbgc_cmodule_object(cm);
 }
+
+
+
 
 
 // struct fbgc_object * fbgc_load_module_specific(const char * module_name, const char * fun_name){

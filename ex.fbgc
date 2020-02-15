@@ -1,3 +1,2 @@
-x = load('math')
-pi = 3.14/2
-print(x.sin(pi),x.cos(pi),x.tan(1.5))
+x = load('math','sin','cos')
+print("This is pi:%f"%pi,x.tan(pi/4))
