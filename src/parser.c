@@ -216,10 +216,13 @@ struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,st
 		iter_prev->next = TOP_LL(op);
 		POP_LL(op);
 		
+		int put_pop_top = 0;
+
 		if(iter_prev->next->type != CFUN && is_id_flag_MEMBER(iter_prev->next) ){
 			//method call
 			iter_prev->next->type = METHOD_CALL;
 			iter_prev = iter_prev->next;
+			put_pop_top = 1;
 		}else{
 			//function call
 
@@ -228,7 +231,13 @@ struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,st
 			iter_prev = iter_prev->next;
 		}
 
-		if(is_empty_fbgc_ll_object(op) && TOP_LL(op)->type != ASSIGN && top_type != CFUN ){
+		if(is_empty_fbgc_ll_object(op) && TOP_LL(op)->type != ASSIGN && top_type != CFUN)
+			put_pop_top = 1;
+
+
+		put_pop_top = 0;
+
+		if(put_pop_top){
 			iter_prev->next = new_fbgc_object(POP_TOP);
 			iter_prev = iter_prev->next;			
 		}
@@ -418,8 +427,10 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 		if(iter == head->tail){
 			if(fbgc_getline_from_file(line, sizeof(line), input_file)){
 				++line_no;
+
+				#ifdef PARSER_DEBUG
 				cprintf(111,"#########################Line:[%d]#####################\n",line_no);
-				
+				#endif
 
 				if(line[0] == '#' || line[0] == '\0' || line[0] == '\n') continue; //past the comment fast
 				
@@ -589,8 +600,9 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 
 			//iter_prev = iter_prev->next;
 			
-
+			#ifdef PARSER_DEBUG
 			print_fbgc_ll_object(head_obj,"??");	
+			#endif
 
 			if(TOP_LL(op)->type == IF){
 				//now insert if in its place,
@@ -886,8 +898,9 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			// && get_fbgc_object_type(TOP_LL(op)) != which_para 
 			element_number = (gm.top != GM_LPARA && gm.top != GM_LBRACK) + (get_fbgc_object_type(TOP_LL(op)) == COMMA);
 			
-
+			#ifdef PARSER_DEBUG
 			cprintf(111,"element_number %d\n",element_number);
+			#endif
 			iter_prev->next = iter->next;
 
 			while(get_fbgc_object_type(TOP_LL(op)) != which_para){
@@ -1096,7 +1109,9 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 				}
 			}
 			else if(iter->type == NEWLINE){
-				cprintf(010,"Newline OUT\n");
+				#ifdef PARSER_DEBUG
+					cprintf(010,"Newline OUT\n");
+				#endif
 
 				if(is_empty_fbgc_ll_object(op) ){
 					gm.top = GM_NEWLINE;
@@ -1104,7 +1119,9 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 				}
 
 				if(TOP_LL(op)->type == FOR){
+					#ifdef PARSER_DEBUG
 					cprintf(111,"Newline will handle FOR !\n");
+					#endif
 
 					if(cast_fbgc_object_as_jumper(TOP_LL(op))->content->type != INT ||
 					 cast_fbgc_object_as_int(cast_fbgc_object_as_jumper(TOP_LL(op))->content)->content != -1){
@@ -1112,18 +1129,16 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 					}
 				}
 				else if(TOP_LL(op)->type == IF || TOP_LL(op)->type == ELIF || TOP_LL(op)->type == WHILE){
+					#ifdef PARSER_DEBUG 
 					cprintf(111,"Newline will handle IF|ELIF !\n");
+					#endif
 					//cast_fbgc_object_as_jumper(TOP_LL(op))->content
 
 					if(cast_fbgc_object_as_jumper(TOP_LL(op))->content == NULL){
 						handle_before_paranthesis(iter_prev,op,&gm,1);
 					}
 				}
-				
 
-				if(TOP_LL(op)->type == LOAD){
-					cprintf(111,"Top type is load!\n");
-				}
 
 				if(TOP_LL(op)->type == COMMA && TOP_LL(op)->next->type != LPARA){
 					

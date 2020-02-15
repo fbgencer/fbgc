@@ -156,7 +156,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				if(is_id_flag_GLOBAL(pc)){
 
 					struct fbgc_identifier * tmp = (struct fbgc_identifier *) get_address_in_fbgc_array_object(globals,cast_fbgc_object_as_id_opcode(pc)->loc);
-					
+
 					//Check undefined variable
 					if(tmp->content == NULL){
 						
@@ -166,7 +166,6 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 						return 0;
 					}
 						
-					cprintf(111,"pushing...\n");
 					PUSH(tmp->content);
 					//PUSH(globals[cast_fbgc_object_as_id_opcode(pc)->loc]);	
 				} 
@@ -563,14 +562,21 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 				struct fbgc_object * method = get_set_fbgc_object_member(TOPN(arg_no+1),&cast_fbgc_object_as_cstr(name)->content , NULL);
 				
+				assert(method != NULL);
+
 				if(method->type == CFUN){
 					STACK_GOTO(-arg_no);
 					//assert(0);
 					struct fbgc_object * res = cfun_object_call(method, sp+sctr, arg_no);
+					STACK_GOTO(-1);
 					if(res!= NULL)
 						PUSH(res);
+
+					//
 				}
 				else assert(0);
+
+				//
 
 				break;
 			}

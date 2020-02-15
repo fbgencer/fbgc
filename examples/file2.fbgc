@@ -1,0 +1,17 @@
+file = load('file')
+#load('math','*')
+
+
+pi = 3.14150
+fl = file.fopen("mos.txt","w+")
+
+file.fprint(fl,"Theta\tSin(Theta)")
+
+for i = 0:0.01:2*pi
+	st = "%f\t"%i + "%f\n"%sin(i)
+	file.fprint(fl,st)
+end
+
+
+print("finished.")
+file.fclose(fl);

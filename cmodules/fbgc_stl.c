@@ -24,11 +24,39 @@ new_fbgc_cfunction(fbgc_len,"len")
 }
 
 new_fbgc_cfunction(fbgc_load,"load")
-{
-	cprintf(111,"Load is called\n");
+{	
+	// load('module_name') : just returns module 
+	// load('module_name','*') : loads all in the field object,
+	// load('module_name','fun1','fun2','funN') : loads desired functions
+	// 
+
+
+
 	if(argc == 1){
-		return module_deneme(content_fbgc_str_object(arg[0]));	
+		if(arg[0]->type != STRING){
+			return NULL;
+		}
+		return fbgc_load_module(content_fbgc_str_object(arg[0]),NULL,0);	
 	}
+	else if(argc > 1){
+		for(uint8_t i = 0; i<argc; ++i){
+			if(arg[i]->type != STRING) return NULL;
+		}
+
+		struct fbgc_object * res = NULL;
+
+		if(!my_strcmp(content_fbgc_str_object(arg[1]),"*")){
+			res = fbgc_load_module(content_fbgc_str_object(arg[0]),NULL,1);
+		}
+		else{
+			//fbgc_load_module_specific(const char * module_name, const char * fun_name){
+			for(uint8_t i = 1; i<argc; ++i)
+				res = fbgc_load_module(content_fbgc_str_object(arg[0]),content_fbgc_str_object(arg[i]),2);	
+		}
+	
+
+	}
+	
 	return NULL;
 	//load_module_in_field_object(main_field,&fbgc_math_module);
 }

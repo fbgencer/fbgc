@@ -1,7 +1,3 @@
-a = 1
-b = 2
-c = 3
-d = 10
-f = 99
-load('')
-print(cos(3.14/2))
+x = load('math')
+pi = 3.14/2
+print(x.sin(pi),x.cos(pi),x.tan(1.5))

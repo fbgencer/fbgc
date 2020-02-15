@@ -11,6 +11,14 @@ struct fbgc_object * new_fbgc_cfun_object( struct fbgc_object * (* function_obj)
     return (struct fbgc_object*) cfuno;
 }
 
+struct fbgc_object * new_fbgc_cmodule_object(struct fbgc_cmodule * cm){
+	struct fbgc_cmodule_object * cmo = (struct fbgc_cmodule_object *) fbgc_malloc(sizeof(struct fbgc_cmodule_object ));
+	cmo->base.type = CMODULE;
+	cmo->module = cm;
+	return cmo;	
+}
+
+
 /*
 void print_fbgc_cfun_object(const struct fbgc_cmodule_object * obj){
 	cprintf(100,"Cmodule Object\n{");

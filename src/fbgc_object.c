@@ -414,7 +414,7 @@ struct fbgc_object * get_set_fbgc_object_member(struct fbgc_object * o, const ch
 			for (int i = 1; cc!=NULL; ++i){
 				//optimize strlen part
 				if(!my_strcmp(str,cc->name) ){
-					#ifdef PARSER_DEBUG
+					#ifdef INTERPRETER_DEBUG
 					cprintf(010,"\n**Function [%s] matched with str [%s]\n",cc->name,str);
 					#endif
 					return new_fbgc_cfun_object(cc->function);
@@ -423,7 +423,7 @@ struct fbgc_object * get_set_fbgc_object_member(struct fbgc_object * o, const ch
 				cc = cm->module->functions[i];
 			}
 			
-			#ifdef PARSER_DEBUG
+			#ifdef INTERPRETER_DEBUG
 			cprintf(111,"Not a cfunction!\n");
 			#endif				
 			return NULL;
