@@ -84,6 +84,24 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			}
 			case IDENTIFIER:
 			{	
+				if(is_id_flag_GLOBAL(pc)){
+
+					struct fbgc_identifier * tmp = (struct fbgc_identifier *) get_address_in_fbgc_array_object(globals,cast_fbgc_object_as_id_opcode(pc)->loc);
+
+					//Check undefined variable
+					if(tmp->content == NULL){
+						
+						struct fbgc_object * name = tmp->name;
+						cprintf(100,"Undefined variable %s\n",&cast_fbgc_object_as_cstr(name)->content);
+						//fbgc_error(_FBGC_UNDEFINED_IDENTIFIER_ERROR,-1);
+						return 0;
+					}
+						
+					PUSH(tmp->content);
+					break;
+					//PUSH(globals[cast_fbgc_object_as_id_opcode(pc)->loc]);	
+				} 
+				else if(is_id_flag_LOCAL(pc))  PUSH(GET_AT_FP(cast_fbgc_object_as_id_opcode(pc)->loc));
 
 				if(is_id_flag_MEMBER(pc)){
 					//if(TOP()->type == CSTRING)
@@ -153,23 +171,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					PUSH(temp);
 					break;
 				}
-				if(is_id_flag_GLOBAL(pc)){
 
-					struct fbgc_identifier * tmp = (struct fbgc_identifier *) get_address_in_fbgc_array_object(globals,cast_fbgc_object_as_id_opcode(pc)->loc);
-
-					//Check undefined variable
-					if(tmp->content == NULL){
-						
-						struct fbgc_object * name = tmp->name;
-						cprintf(100,"Undefined variable %s\n",&cast_fbgc_object_as_cstr(name)->content);
-						//fbgc_error(_FBGC_UNDEFINED_IDENTIFIER_ERROR,-1);
-						return 0;
-					}
-						
-					PUSH(tmp->content);
-					//PUSH(globals[cast_fbgc_object_as_id_opcode(pc)->loc]);	
-				} 
-				else if(is_id_flag_LOCAL(pc))  PUSH(GET_AT_FP(cast_fbgc_object_as_id_opcode(pc)->loc));
 				break;
 			}
 			case BREAK:
@@ -311,7 +313,12 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 				struct fbgc_object ** lhs = NULL;
 
-				if(is_id_flag_MEMBER(pc)){
+				if(is_id_flag_GLOBAL(pc)){
+					struct fbgc_identifier * tmp = 
+					(struct fbgc_identifier *) get_address_in_fbgc_array_object(globals,cast_fbgc_object_as_id_opcode(pc)->loc);
+					lhs = &tmp->content;
+				}
+				else if(is_id_flag_MEMBER(pc)){
 					struct fbgc_object * name = cast_fbgc_object_as_id_opcode(pc)->member_name;
 					struct fbgc_object * ok = get_set_fbgc_object_member(TOP(),&cast_fbgc_object_as_cstr(name)->content , rhs);
 
@@ -325,11 +332,6 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					break;
 					
 				}
-				else if(is_id_flag_GLOBAL(pc)){
-					struct fbgc_identifier * tmp = 
-					(struct fbgc_identifier *) get_address_in_fbgc_array_object(globals,cast_fbgc_object_as_id_opcode(pc)->loc);
-					lhs = &tmp->content;
-				} 
 				else if(is_id_flag_LOCAL(pc)){
 					lhs = &(GET_AT_FP(cast_fbgc_object_as_id_opcode(pc)->loc));
 				}
@@ -410,11 +412,11 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				if(type != ASSIGN)
 				{
 					fbgc_token op_type = R_SHIFT + type - R_SHIFT_ASSIGN;
-					assert(lhs != NULL && *lhs != NULL);
+					//assert(lhs != NULL && *lhs != NULL);
 
 					fbgc_token main_tok = MAX(get_fbgc_object_type( (*lhs) ),get_fbgc_object_type(rhs));
 					rhs = call_fbgc_operator(main_tok,*lhs,rhs,op_type);
-					assert(rhs != NULL);					
+					//assert(rhs != NULL);					
 				}
 
 				/*if(is_id_flag_SUBSCRIPT(pc)){
@@ -424,9 +426,11 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				
 				*lhs = rhs;
 
-				if(is_id_flag_PUSH_ITSELF(pc)){
-					PUSH(rhs);
-				}	
+				
+				// for x = y= 5
+				// if(is_id_flag_PUSH_ITSELF(pc)){
+				// 	PUSH(rhs);
+				// }	
 				
 				break;
 			}
@@ -474,6 +478,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 
 				if(seq_ob->type == RANGE){
+					//this function is very slow!
 					seq_ob = get_element_in_fbgc_range_object(seq_ob,i);					
 				}
 				else if(seq_ob->type == STRING){
@@ -482,7 +487,10 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				else if(seq_ob->type == TUPLE){
 					seq_ob = get_object_in_fbgc_tuple_object(seq_ob,i);
 				}
-				else assert(0);
+				else {
+					cprintf(100,"%s is not sequential object!\n",object_name_array[seq_ob->type]);
+					assert(0);
+				}
 
 
 				if(seq_ob != NULL){

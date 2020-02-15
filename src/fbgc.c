@@ -86,15 +86,13 @@ void realtime_fbgc(struct fbgc_object * main_field){
 struct fbgc_object * main_field;
 
 
-
-
 struct fbgc_object * fbgc_load_module(const char * module_name,const char * fun_name, uint8_t load_key){
 		
 	//load_key == 0, just return the module
 	//load_key == 1, load all and return 
 	//load_key == 2, load specific and return
 
-	add_variable_in_field_object(main_field,"pi",new_fbgc_double_object(3.14159));
+
 
 	struct fbgc_cmodule * cm = NULL; 
 
@@ -111,7 +109,8 @@ struct fbgc_object * fbgc_load_module(const char * module_name,const char * fun_
 	}
 
 	if(load_key != 0){
-		
+		//call function initializer
+		cm->initializer->function(&main_field, 1);
 
 	 	const struct fbgc_cfunction * cc = cm->functions[0];
 	 	for(int i = 1; cc!= NULL; i++){
@@ -121,41 +120,7 @@ struct fbgc_object * fbgc_load_module(const char * module_name,const char * fun_
 				cc = cm->functions[i];
 				continue;
 			}
-
 			add_variable_in_field_object(main_field,cc->name,new_fbgc_cfun_object(cc->function));
-			// struct fbgc_object *rhs = new_fbgc_cfun_object(cc->function);
-			// const char * str1 = cc->name;
-			// struct fbgc_object * iter = new_fbgc_symbol_from_substr(str1,str1 + strlen(str1));
-			// 	//this location is from symbols, we need to find location in fields
-			// struct fbgc_object * cstr_obj = get_object_in_fbgc_tuple_object(fbgc_symbols,cast_fbgc_object_as_id_opcode(iter)->loc);
-
-
-			// struct fbgc_object * local_array = cast_fbgc_object_as_field(main_field)->locals;
-			// struct fbgc_identifier * temp_id; 
-			// int where = -1;
-
-			// for(int i = 0; i<size_fbgc_array_object(local_array); i++){
-			// 	temp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(local_array,i);
-			// 	if(temp_id->name == cstr_obj) {
-			// 		where = i;
-			// 		break;
-			// 	} 
-			// }
-
-			// if(where == -1){
-
-			// 	struct fbgc_identifier id;		
-			// 	id.name = cstr_obj; id.content = rhs;
-			// 	local_array = push_back_fbgc_array_object(local_array,&id);
-			// 	where = size_fbgc_array_object(local_array)-1;
-			// 	cast_fbgc_object_as_field(main_field)->locals = local_array;
-			// }else{
-
-			// 	cast_fbgc_object_as_id_opcode(temp_id)->loc = where;
-			// 	temp_id->content = rhs;
-			// }
-			// set_id_flag_GLOBAL(iter);
-
 			if(load_key == 2) break;
 
 			cc = cm->functions[i];
@@ -304,6 +269,18 @@ int main(int argc, char **argv){
 #ifdef INTERPRETER_DEBUG    
 cprintf(110,"\n\n\n\n\n[=======================================================================]\n"); 
 #endif
+
+	// clock_t begin = clock();
+	// long y = 0;
+	// for(long i = 0; i<30000000000; ++i){
+	// 	y = i;
+	// }
+	// printf("y = %ld\n",y);
+	// clock_t end = clock();
+	// double dif = (double)(end - begin) / CLOCKS_PER_SEC; 
+
+	// printf("Time difference :%f sec\n",dif);
+
 
 //******************************************************************
 	initialize_fbgc_memory_block();

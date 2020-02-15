@@ -126,8 +126,19 @@ new_fbgc_one_arg_math("sqrt",sqrt,NULL);
 /*
 const struct fbgc_cfunction fbgc_math_initializer_struct = {"math",fbgc_math_initializer};
 extern struct fbgc_object * fbgc_math_initializer (struct fbgc_object * cm)*/
+
+// #define new_fbgc_cfunction(fun_name,str_fun_name)\
+// const struct fbgc_cfunction fun_name##_struct  = {str_fun_name,fun_name};\
+// extern struct fbgc_object * fun_name(struct fbgc_object ** arg, int argc)
+
+
+
 new_fbgc_cfunction(fbgc_math_initializer,"math")
 {	
+	//cprintf(111,"Called math initializer!\n");
+	add_variable_in_field_object(arg[0],"pi",new_fbgc_double_object(FBGC_MATH_PI));
+	add_variable_in_field_object(arg[0],"e",new_fbgc_double_object(FBGC_MATH_E));
+
 	return NULL;
 }
 

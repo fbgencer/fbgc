@@ -39,6 +39,7 @@ struct fbgc_object * operator_fbgc_int_object(struct fbgc_object * a,struct fbgc
     int b1 = (b != NULL) ? convert_fbgc_object_to_int(b) : 0;
     int c = 0;
 
+
 switch(op)
 {
     case R_SHIFT:
@@ -92,39 +93,48 @@ switch(op)
     }                         
     case LO_EQ:
     {
-        return new_fbgc_logic_object(a1<=b1);
+        c = (a1<=b1);
+        break;
     }
     case GR_EQ:
     {
-        return new_fbgc_logic_object(a1 >= b1);
+        c = (a1 >= b1);
+        break;
     }
     case EQ_EQ:
     {
-        return new_fbgc_logic_object(a1 == b1);
+        c = (a1 == b1);
+        break;
     }
     case NOT_EQ:
     {
-        return new_fbgc_logic_object(a1 != b1);
+        c = (a1 != b1);
+        break;
     }
     case LOWER:
     {
-        return new_fbgc_logic_object(a1<b1);
+        c = (a1<b1);
+        break;
     }        
     case GREATER:
     {
-        return new_fbgc_logic_object(a1>b1);
+        c = (a1>b1);
+        break;
     }        
     case PIPE:
     {
-        return new_fbgc_logic_object(a1 || b1);
+        c = (a1 || b1);
+        break;
     } 
     case AMPERSAND:
     {
-        return new_fbgc_logic_object(a1 && b1);
+        c = (a1 && b1);
+        break;
     } 
     case EXCLAMATION:
     {
-        return new_fbgc_logic_object(!a1);   
+        c = (!a1);
+        break;   
     }
     case TILDE:
     {

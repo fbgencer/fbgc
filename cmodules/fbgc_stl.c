@@ -100,8 +100,9 @@ new_fbgc_cfunction(fbgc_tuple,"tuple"){
 	if(argc == 1){
 		switch(arg[0]->type )
 		{
-			case INT:
-				return new_fbgc_tuple_object(cast_fbgc_object_as_int(arg[0]));
+			case INT:{
+				return new_fbgc_tuple_object(cast_fbgc_object_as_int(arg[0])->content);
+			}
 			case STRING:
 			{
 				struct fbgc_object * s = arg[0];
@@ -112,6 +113,26 @@ new_fbgc_cfunction(fbgc_tuple,"tuple"){
 				size_fbgc_tuple_object(t) = length_fbgc_str_object(s) ;				
 
 				return t;
+			}
+			case RANGE:
+			{
+				//assume everything is integer..
+				struct fbgc_range_object * ran = (struct fbgc_range_object*) arg[0];
+				int start = cast_fbgc_object_as_int(ran->start)->content;
+				int end = cast_fbgc_object_as_int(ran->end)->content;
+				int step = ran->step == NULL ? 1 : cast_fbgc_object_as_int(ran->step)->content;
+
+				int sz = (double)(end-start)/(step * 1.0);
+
+				struct fbgc_object * tp = new_fbgc_tuple_object(sz);
+				for(int i = start; i<end; i+=step){
+					set_object_in_fbgc_tuple_object(tp,new_fbgc_int_object(i), i);
+				}
+
+				size_fbgc_tuple_object(tp) = sz;
+
+				return tp;
+
 			}
 		}
 	}

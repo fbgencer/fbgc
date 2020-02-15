@@ -126,6 +126,7 @@ struct fbgc_object * tokenize_substr(const char *str1, const char*str2, lexer_to
 	struct fbgc_object *obj = NULL;
 
 	switch(token){
+		case LEXER_TOK_COMMENT:
 		case LEXER_TOK_NEWLINE:
 		{
 			return new_fbgc_object(NEWLINE);
@@ -502,7 +503,8 @@ uint8_t regex_lexer(struct fbgc_object ** field_obj,char * first_ptr){
 			}
 			else{
 				if(first_ptr != mobile_ptr && satisfied_rule_section == rule_section && *rule_ptr == '\0'){
-					if(current_token != LEXER_TOK_SPACE && current_token != LEXER_TOK_COMMENT){
+					if(current_token != LEXER_TOK_SPACE ){
+						//&& current_token != LEXER_TOK_COMMENT
 					//#ifdef DEBUG
 						#ifdef LEXER_DEBUG
 							char * tempstr = (char *) malloc(sizeof(char) * ((mobile_ptr - first_ptr)+1) );

@@ -12,13 +12,15 @@ extern "C" {
 
 #include "../cmodules/fbgc_math.h"
 #include "../cmodules/fbgc_file.h"
+#include "../cmodules/fbgc_time.h"
 
 
 
 const struct fbgc_cmodule  * __cmodules[] =
 {
 	&fbgc_math_module,
-	&fbgc_file_module,			
+	&fbgc_file_module,
+	&fbgc_time_module			
 };
 
 

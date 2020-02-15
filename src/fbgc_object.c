@@ -89,7 +89,8 @@ void printf_fbgc_object(struct fbgc_object * self){
 			break;
 		}			
 		default:
-				fprintf(stdout,"Error undefined object!\n"); 
+				fprintf(stdout,"Error undefined object %s!\n",object_name_array[self->type]);
+				assert(0); 
 		break;
 
 	}	

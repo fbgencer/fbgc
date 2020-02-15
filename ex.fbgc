@@ -1,2 +1,37 @@
-x = load('math','sin','cos')
-print("This is pi:%f"%pi,x.tan(pi/4))
+load('time','*') # loads the whole math module
+
+
+big_number = 30000000
+
+y = 0
+i = 0
+
+t = tic()
+while i < big_number
+	y = i
+	i += 1
+end
+dif = toc(t)
+
+print("While :%f sec"%dif)
+
+
+p = tuple(0:big_number)
+y = 0
+
+t = tic()
+for i = p
+	y = i
+end
+
+dif = toc(t)
+print("Tuple :%f sec"%dif)
+
+t = tic()
+y = 0
+for i = 0:big_number
+	y = i
+end
+
+dif = toc(t)
+print("For :%f sec"%dif)

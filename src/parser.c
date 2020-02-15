@@ -429,10 +429,10 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 				++line_no;
 
 				#ifdef PARSER_DEBUG
-				cprintf(111,"#########################Line:[%d]#####################\n",line_no);
+				cprintf(111,"---Line:[%d]:{%s}\n",line_no,line);
 				#endif
 
-				if(line[0] == '#' || line[0] == '\0' || line[0] == '\n') continue; //past the comment fast
+				if(line[0] == '#' || line[0] == '\0' || line[0] == '\n') continue; //fast passing the comment
 				
 				head->tail->next = iter_prev;
 				regex_lexer(field_obj,line);

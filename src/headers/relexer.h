@@ -8,9 +8,9 @@ extern "C" {
 
 
 #define lexer_token uint8_t
-
-#define LEXER_TOK_COMMENT 0
-#define LEXER_TOK_SPACE 1
+	
+#define LEXER_TOK_SPACE 0
+#define LEXER_TOK_COMMENT 1
 #define LEXER_TOK_NEWLINE 2
 #define LEXER_TOK_BASE2_INT 3
 #define LEXER_TOK_BASE10_INT 4
@@ -25,8 +25,8 @@ extern "C" {
 #define LEXER_TOK_KEYWORDS 13	
 #define LEXER_TOK_NAME 14		
 #define LEXER_TOK_AS_STRINGS()\
-"LEXER_TOK_COMMENT",\
 "LEXER_TOK_SPACE",\
+"LEXER_TOK_COMMENT",\
 "LEXER_TOK_NEWLINE",\
 "LEXER_TOK_BASE2_INT",\
 "LEXER_TOK_BASE10_INT",\
