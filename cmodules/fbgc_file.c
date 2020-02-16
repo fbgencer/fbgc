@@ -5,7 +5,7 @@ new_fbgc_cfunction(fbgc_fopen,"fopen")
 {
 	
 	if(argc == 2 && arg[0]->type == STRING && arg[1]->type == STRING){
-		struct fbgc_cstruct_object * so = new_fbgc_cstruct_object(sizeof(struct file_struct), &fbgc_file_module);
+		struct fbgc_cstruct_object * so = (struct fbgc_cstruct_object *) new_fbgc_cstruct_object(sizeof(struct file_struct), &fbgc_file_module);
 		struct file_struct * fs = (struct file_struct *) so->cstruct; 		
 	
 		fs->fp = fopen(content_fbgc_str_object(arg[0]),content_fbgc_str_object(arg[1]));
@@ -130,7 +130,7 @@ new_fbgc_cfunction(fbgc_fclose,"fclose")
 
 const struct fbgc_cfunction fbgc_file_initializer_struct = {"file",fbgc_file_initializer};
 extern struct fbgc_object * fbgc_file_initializer (struct fbgc_object ** arg,int argc){
-	return arg;
+	return NULL;
 }
 
 

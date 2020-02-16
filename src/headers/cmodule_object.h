@@ -61,7 +61,7 @@ extern struct fbgc_object * fun_name(struct fbgc_object ** arg, int argc)\
 
 
 struct fbgc_object * new_fbgc_cfun_object( struct fbgc_object * (* function_obj)(struct fbgc_object **, int argc) );
-struct fbgc_object * new_fbgc_cmodule_object(struct fbgc_cmodule * cm);
+struct fbgc_object * new_fbgc_cmodule_object(const struct fbgc_cmodule * cm);
 void print_fbgc_cmodule(const struct fbgc_cmodule * );
 void free_fbgc_cfun_object(struct fbgc_object * obj);
 

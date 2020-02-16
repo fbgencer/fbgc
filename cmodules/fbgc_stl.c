@@ -163,7 +163,7 @@ new_fbgc_cfunction(fbgc_mem,"mem"){
 
 const struct fbgc_cfunction fbgc_stl_initializer_struct = {"stl",fbgc_stl_initializer};
 extern struct fbgc_object * fbgc_stl_initializer (struct fbgc_object ** arg,int argc){
-	return arg;
+	return NULL;
 }
 
 

@@ -1,0 +1,1528 @@
+
+;; Function fbgc_io_initializer (fbgc_io_initializer, funcdef_no=58, decl_uid=5685, cgraph_uid=59, symbol_order=63)
+
+
+3 basic blocks, 2 edges.
+;; basic block 0, loop depth 0, count 1073741824 (estimated locally), maybe hot
+;;  prev block (nil), next block 2, flags: (RTL, MODIFIED)
+;;  pred:      
+;; bb 0 artificial_defs: { d1(0){ }d2(1){ }d3(2){ }d4(4){ }d5(5){ }d6(6){ }d7(7){ }d8(16){ }d9(19){ }d10(20){ }d11(21){ }d12(22){ }d13(23){ }d14(24){ }d15(25){ }d16(26){ }d17(27){ }d18(36){ }d19(37){ }}
+;; bb 0 artificial_uses: { }
+;; lr  in  	
+;; lr  use 	
+;; lr  def 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 36 [r8] 37 [r9]
+;; live  in  	
+;; live  gen 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 36 [r8] 37 [r9]
+;; live  kill	
+
+;; lr  out 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; live  out 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+
+;;  succ:       2 [always]  count:1073741824 (estimated locally) (FALLTHRU)
+
+;; basic block 2, loop depth 0, count 1073741824 (estimated locally), maybe hot
+;;  prev block 0, next block 1, flags: (REACHABLE, RTL, MODIFIED)
+;;  pred:       ENTRY [always]  count:1073741824 (estimated locally) (FALLTHRU)
+;; bb 2 artificial_defs: { }
+;; bb 2 artificial_uses: { u0(6){ }u1(7){ }u2(16){ }u3(19){ }}
+;; lr  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; lr  use 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; lr  def 	 0 [ax]
+;; live  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; live  gen 	 0 [ax]
+;; live  kill	
+
+(note 5 0 4 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(note 4 5 7 2 NOTE_INSN_FUNCTION_BEG)
+(debug_insn 7 4 12 2 (debug_marker) "cmodules/fbgc_io.c":49:2 -1
+     (nil))
+(insn 12 7 13 2 (set (reg/i:DI 0 ax)
+        (const_int 0 [0])) "cmodules/fbgc_io.c":50:1 66 {*movdi_internal}
+     (nil))
+(insn 13 12 0 2 (use (reg/i:DI 0 ax)) "cmodules/fbgc_io.c":50:1 -1
+     (nil))
+;; lr  out 	 0 [ax] 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; live  out 	 0 [ax] 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+
+;;  succ:       EXIT [always]  count:1073741824 (estimated locally) (FALLTHRU)
+
+;; basic block 1, loop depth 0, count 1073741824 (estimated locally), maybe hot
+;;  prev block 2, next block (nil), flags: (REACHABLE, RTL, MODIFIED)
+;;  pred:       2 [always]  count:1073741824 (estimated locally) (FALLTHRU)
+;; bb 1 artificial_defs: { }
+;; bb 1 artificial_uses: { u5(0){ }u6(6){ }u7(7){ }u8(19){ }}
+;; lr  in  	 0 [ax] 6 [bp] 7 [sp] 19 [frame]
+;; lr  use 	 0 [ax] 6 [bp] 7 [sp] 19 [frame]
+;; lr  def 	
+;; live  in  	 0 [ax] 6 [bp] 7 [sp] 19 [frame]
+;; live  gen 	
+;; live  kill	
+
+;; lr  out 	
+;; live  out 	
+
+;;  succ:      
+
+
+starting the processing of deferred insns
+ending the processing of deferred insns
+df_analyze called
+;; Following path with 3 sets: 2 
+starting the processing of deferred insns
+ending the processing of deferred insns
+
+
+fbgc_io_initializer
+
+Dataflow summary:
+;;  invalidated by call 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 8 [st] 9 [st(1)] 10 [st(2)] 11 [st(3)] 12 [st(4)] 13 [st(5)] 14 [st(6)] 15 [st(7)] 17 [flags] 18 [fpsr] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 28 [mm0] 29 [mm1] 30 [mm2] 31 [mm3] 32 [mm4] 33 [mm5] 34 [mm6] 35 [mm7] 36 [r8] 37 [r9] 38 [r10] 39 [r11] 44 [xmm8] 45 [xmm9] 46 [xmm10] 47 [xmm11] 48 [xmm12] 49 [xmm13] 50 [xmm14] 51 [xmm15] 52 [] 53 [] 54 [] 55 [] 56 [] 57 [] 58 [] 59 [] 60 [] 61 [] 62 [] 63 [] 64 [] 65 [] 66 [] 67 [] 68 [] 69 [] 70 [] 71 [] 72 [] 73 [] 74 [] 75 []
+;;  hardware regs used 	 7 [sp] 16 [argp] 19 [frame]
+;;  regular block artificial uses 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;;  eh block artificial uses 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;;  entry block defs 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 36 [r8] 37 [r9]
+;;  exit block uses 	 0 [ax] 6 [bp] 7 [sp] 19 [frame]
+;;  regs ever live 	 0 [ax]
+;;  ref usage 	r0={2d,2u} r1={1d} r2={1d} r4={1d} r5={1d} r6={1d,2u} r7={1d,2u} r16={1d,1u} r19={1d,2u} r20={1d} r21={1d} r22={1d} r23={1d} r24={1d} r25={1d} r26={1d} r27={1d} r36={1d} r37={1d} 
+;;    total ref usage 29{20d,9u,0e} in 3{3 regular + 0 call} insns.
+;; basic block 2, loop depth 0, count 1073741824 (estimated locally), maybe hot
+;;  prev block 0, next block 1, flags: (REACHABLE, RTL, MODIFIED)
+;;  pred:       ENTRY [always]  count:1073741824 (estimated locally) (FALLTHRU)
+;; bb 2 artificial_defs: { }
+;; bb 2 artificial_uses: { u0(6){ }u1(7){ }u2(16){ }u3(19){ }}
+;; lr  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; lr  use 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; lr  def 	 0 [ax]
+;; live  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; live  gen 	 0 [ax]
+;; live  kill	
+(note 5 0 4 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(note 4 5 7 2 NOTE_INSN_FUNCTION_BEG)
+(debug_insn 7 4 12 2 (debug_marker) "cmodules/fbgc_io.c":49:2 -1
+     (nil))
+(insn 12 7 13 2 (set (reg/i:DI 0 ax)
+        (const_int 0 [0])) "cmodules/fbgc_io.c":50:1 66 {*movdi_internal}
+     (nil))
+(insn 13 12 0 2 (use (reg/i:DI 0 ax)) "cmodules/fbgc_io.c":50:1 -1
+     (nil))
+;;  succ:       EXIT [always]  count:1073741824 (estimated locally) (FALLTHRU)
+;; lr  out 	 0 [ax] 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; live  out 	 0 [ax] 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+
+
+;; Function fbgc_print (fbgc_print, funcdef_no=56, decl_uid=5689, cgraph_uid=57, symbol_order=59)
+
+
+6 basic blocks, 7 edges.
+;; basic block 0, loop depth 0, count 118111600 (estimated locally), maybe hot
+;;  prev block (nil), next block 2, flags: (RTL, MODIFIED)
+;;  pred:      
+;; bb 0 artificial_defs: { d4(0){ }d8(1){ }d12(2){ }d18(4){ }d25(5){ }d26(6){ }d27(7){ }d52(16){ }d66(19){ }d70(20){ }d74(21){ }d78(22){ }d82(23){ }d86(24){ }d90(25){ }d94(26){ }d98(27){ }d126(36){ }d130(37){ }}
+;; bb 0 artificial_uses: { }
+;; lr  in  	
+;; lr  use 	
+;; lr  def 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 36 [r8] 37 [r9]
+;; live  in  	
+;; live  gen 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 36 [r8] 37 [r9]
+;; live  kill	
+
+;; lr  out 	 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; live  out 	 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+
+;;  succ:       2 [always]  count:118111600 (estimated locally) (FALLTHRU)
+
+;; basic block 2, loop depth 0, count 118111600 (estimated locally), maybe hot
+;;  prev block 0, next block 4, flags: (REACHABLE, RTL, MODIFIED)
+;;  pred:       ENTRY [always]  count:118111600 (estimated locally) (FALLTHRU)
+;; bb 2 artificial_defs: { }
+;; bb 2 artificial_uses: { u0(6){ }u1(7){ }u2(16){ }u3(19){ }}
+;; lr  in  	 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; lr  use 	 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; lr  def 	 17 [flags] 94 95
+;; live  in  	 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; live  gen 	 17 [flags] 94 95
+;; live  kill	
+
+(note 5 0 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 5 3 2 (set (reg/v/f:DI 94 [ arg ])
+        (reg:DI 5 di [ arg ])) "cmodules/fbgc_io.c":17:1 66 {*movdi_internal}
+     (expr_list:REG_DEAD (reg:DI 5 di [ arg ])
+        (nil)))
+(insn 3 2 4 2 (set (reg/v:SI 95 [ argc ])
+        (reg:SI 4 si [ argc ])) "cmodules/fbgc_io.c":17:1 67 {*movsi_internal}
+     (expr_list:REG_DEAD (reg:SI 4 si [ argc ])
+        (nil)))
+(note 4 3 7 2 NOTE_INSN_FUNCTION_BEG)
+(debug_insn 7 4 8 2 (debug_marker) "cmodules/fbgc_io.c":19:2 -1
+     (nil))
+(debug_insn 8 7 9 2 (debug_marker) "cmodules/fbgc_io.c":19:6 -1
+     (nil))
+(debug_insn 9 8 10 2 (var_location:SI i (const_int 0 [0])) -1
+     (nil))
+(debug_insn 10 9 12 2 (debug_marker) "cmodules/fbgc_io.c":19:20 -1
+     (nil))
+(insn 12 10 13 2 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg/v:SI 95 [ argc ])
+            (const_int 0 [0]))) "cmodules/fbgc_io.c":19:2 7 {*cmpsi_ccno_1}
+     (nil))
+(jump_insn 13 12 14 2 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref:DI 44)
+            (pc))) "cmodules/fbgc_io.c":19:2 659 {*jcc}
+     (expr_list:REG_DEAD (reg:CCZ 17 flags)
+        (int_list:REG_BR_PROB 118111604 (nil)))
+ -> 44)
+;; lr  out 	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 94 95
+;; live  out 	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 94 95
+
+;;  succ:       4 [89.0% (guessed)]  count:105119324 (estimated locally) (FALLTHRU)
+;;              6 [11.0% (guessed)]  count:12992276 (estimated locally)
+
+;; basic block 4, loop depth 0, count 105119324 (estimated locally), maybe hot
+;;  prev block 2, next block 5, flags: (REACHABLE, RTL, MODIFIED)
+;;  pred:       2 [89.0% (guessed)]  count:105119324 (estimated locally) (FALLTHRU)
+;; bb 4 artificial_defs: { }
+;; bb 4 artificial_uses: { u9(6){ }u10(7){ }u11(16){ }u12(19){ }}
+;; lr  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 94 95
+;; lr  use 	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 94 95
+;; lr  def 	 17 [flags] 90 92 96 97 98 99
+;; live  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 94 95
+;; live  gen 	 90 92 96 97 98 99
+;; live  kill	 17 [flags]
+
+(note 14 13 15 4 [bb 4] NOTE_INSN_BASIC_BLOCK)
+(insn 15 14 16 4 (set (reg:DI 90 [ ivtmp.17 ])
+        (reg/v/f:DI 94 [ arg ])) 66 {*movdi_internal}
+     (nil))
+(insn 16 15 17 4 (parallel [
+            (set (reg:SI 96)
+                (plus:SI (reg/v:SI 95 [ argc ])
+                    (const_int -1 [0xffffffffffffffff])))
+            (clobber (reg:CC 17 flags))
+        ]) 190 {*addsi_1}
+     (expr_list:REG_DEAD (reg/v:SI 95 [ argc ])
+        (expr_list:REG_UNUSED (reg:CC 17 flags)
+            (nil))))
+(insn 17 16 18 4 (set (reg:DI 97)
+        (zero_extend:DI (reg:SI 96))) 114 {*zero_extendsidi2}
+     (expr_list:REG_DEAD (reg:SI 96)
+        (nil)))
+(insn 18 17 19 4 (parallel [
+            (set (reg:DI 98)
+                (ashift:DI (reg:DI 97)
+                    (const_int 3 [0x3])))
+            (clobber (reg:CC 17 flags))
+        ]) 520 {*ashldi3_1}
+     (expr_list:REG_DEAD (reg:DI 97)
+        (expr_list:REG_UNUSED (reg:CC 17 flags)
+            (nil))))
+(insn 19 18 20 4 (parallel [
+            (set (reg/f:DI 99)
+                (plus:DI (reg/v/f:DI 94 [ arg ])
+                    (const_int 8 [0x8])))
+            (clobber (reg:CC 17 flags))
+        ]) 191 {*adddi_1}
+     (expr_list:REG_DEAD (reg/v/f:DI 94 [ arg ])
+        (expr_list:REG_UNUSED (reg:CC 17 flags)
+            (nil))))
+(insn 20 19 41 4 (parallel [
+            (set (reg:DI 92 [ _28 ])
+                (plus:DI (reg:DI 98)
+                    (reg/f:DI 99)))
+            (clobber (reg:CC 17 flags))
+        ]) 191 {*adddi_1}
+     (expr_list:REG_DEAD (reg/f:DI 99)
+        (expr_list:REG_DEAD (reg:DI 98)
+            (expr_list:REG_UNUSED (reg:CC 17 flags)
+                (nil)))))
+;; lr  out 	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 90 92
+;; live  out 	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 90 92
+
+;;  succ:       5 [always]  count:105119324 (estimated locally) (FALLTHRU)
+
+;; basic block 5, loop depth 0, count 955630224 (estimated locally), maybe hot
+;;  prev block 4, next block 6, flags: (REACHABLE, RTL, MODIFIED)
+;;  pred:       4 [always]  count:105119324 (estimated locally) (FALLTHRU)
+;;              5 [89.0% (guessed)]  count:850510900 (estimated locally) (DFS_BACK)
+;; bb 5 artificial_defs: { }
+;; bb 5 artificial_uses: { u20(6){ }u21(7){ }u22(16){ }u23(19){ }}
+;; lr  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 90 92
+;; lr  use 	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 90 92
+;; lr  def 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 8 [st] 9 [st(1)] 10 [st(2)] 11 [st(3)] 12 [st(4)] 13 [st(5)] 14 [st(6)] 15 [st(7)] 17 [flags] 18 [fpsr] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 28 [mm0] 29 [mm1] 30 [mm2] 31 [mm3] 32 [mm4] 33 [mm5] 34 [mm6] 35 [mm7] 36 [r8] 37 [r9] 38 [r10] 39 [r11] 44 [xmm8] 45 [xmm9] 46 [xmm10] 47 [xmm11] 48 [xmm12] 49 [xmm13] 50 [xmm14] 51 [xmm15] 52 [] 53 [] 54 [] 55 [] 56 [] 57 [] 58 [] 59 [] 60 [] 61 [] 62 [] 63 [] 64 [] 65 [] 66 [] 67 [] 68 [] 69 [] 70 [] 71 [] 72 [] 73 [] 74 [] 75 [] 90 100
+;; live  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 90 92
+;; live  gen 	 0 [ax] 4 [si] 5 [di] 17 [flags] 90 100
+;; live  kill	 17 [flags]
+
+(code_label 41 20 21 5 5 (nil) [1 uses])
+(note 21 41 22 5 [bb 5] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 22 21 23 5 (var_location:SI i (clobber (const_int 0 [0]))) -1
+     (nil))
+(debug_insn 23 22 24 5 (debug_marker) "cmodules/fbgc_io.c":20:3 -1
+     (nil))
+(insn 24 23 25 5 (set (reg:DI 5 di)
+        (mem/f:DI (reg:DI 90 [ ivtmp.17 ]) [1 MEM[base: _8, offset: 0B]+0 S8 A64])) "cmodules/fbgc_io.c":20:3 66 {*movdi_internal}
+     (nil))
+(call_insn 25 24 26 5 (call (mem:QI (symbol_ref:DI ("printf_fbgc_object") [flags 0x41]  <function_decl 0x7f4442ae4d00 printf_fbgc_object>) [0 printf_fbgc_object S1 A8])
+        (const_int 0 [0])) "cmodules/fbgc_io.c":20:3 666 {*call}
+     (expr_list:REG_DEAD (reg:DI 5 di)
+        (expr_list:REG_CALL_DECL (symbol_ref:DI ("printf_fbgc_object") [flags 0x41]  <function_decl 0x7f4442ae4d00 printf_fbgc_object>)
+            (nil)))
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(debug_insn 26 25 27 5 (debug_marker) "cmodules/fbgc_io.c":21:3 -1
+     (nil))
+(debug_insn 27 26 28 5 (var_location:DI __stream (mem/f/c:DI (symbol_ref:DI ("stdout") [flags 0x40]  <var_decl 0x7f4442d1d240 stdout>) [2 stdout+0 S8 A64])) "cmodules/fbgc_io.c":21:3 -1
+     (nil))
+(debug_insn 28 27 29 5 (var_location:DI __fmt (const_string:DI (" "))) "cmodules/fbgc_io.c":21:3 -1
+     (nil))
+(debug_insn 29 28 30 5 (debug_marker:BLK) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":98:1 -1
+     (nil))
+(debug_insn 30 29 31 5 (debug_marker) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":100:3 -1
+     (nil))
+(insn 31 30 32 5 (set (reg/f:DI 100 [ stdout ])
+        (mem/f/c:DI (symbol_ref:DI ("stdout") [flags 0x40]  <var_decl 0x7f4442d1d240 stdout>) [2 stdout+0 S8 A64])) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":100:10 66 {*movdi_internal}
+     (nil))
+(insn 32 31 33 5 (set (reg:DI 4 si)
+        (reg/f:DI 100 [ stdout ])) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":100:10 66 {*movdi_internal}
+     (expr_list:REG_DEAD (reg/f:DI 100 [ stdout ])
+        (nil)))
+(insn 33 32 34 5 (set (reg:SI 5 di)
+        (const_int 32 [0x20])) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":100:10 67 {*movsi_internal}
+     (nil))
+(call_insn 34 33 35 5 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("fputc") [flags 0x41]  <function_decl 0x7f4442be8b00 __builtin_fputc>) [0 __builtin_fputc S1 A8])
+            (const_int 0 [0]))) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":100:10 677 {*call_value}
+     (expr_list:REG_DEAD (reg:SI 5 di)
+        (expr_list:REG_DEAD (reg:DI 4 si)
+            (expr_list:REG_UNUSED (reg:SI 0 ax)
+                (expr_list:REG_CALL_DECL (symbol_ref:DI ("fputc") [flags 0x41]  <function_decl 0x7f4442be8b00 __builtin_fputc>)
+                    (nil)))))
+    (expr_list:SI (use (reg:SI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+(debug_insn 35 34 36 5 (var_location:DI __stream (clobber (const_int 0 [0]))) "cmodules/fbgc_io.c":21:3 -1
+     (nil))
+(debug_insn 36 35 37 5 (var_location:DI __fmt (clobber (const_int 0 [0]))) "cmodules/fbgc_io.c":21:3 -1
+     (nil))
+(debug_insn 37 36 38 5 (debug_marker) "cmodules/fbgc_io.c":19:28 -1
+     (nil))
+(debug_insn 38 37 39 5 (var_location:SI i (clobber (const_int 0 [0]))) -1
+     (nil))
+(debug_insn 39 38 40 5 (debug_marker) "cmodules/fbgc_io.c":19:20 -1
+     (nil))
+(insn 40 39 42 5 (parallel [
+            (set (reg:DI 90 [ ivtmp.17 ])
+                (plus:DI (reg:DI 90 [ ivtmp.17 ])
+                    (const_int 8 [0x8])))
+            (clobber (reg:CC 17 flags))
+        ]) 191 {*adddi_1}
+     (expr_list:REG_UNUSED (reg:CC 17 flags)
+        (nil)))
+(insn 42 40 43 5 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg:DI 90 [ ivtmp.17 ])
+            (reg:DI 92 [ _28 ]))) "cmodules/fbgc_io.c":19:2 12 {*cmpdi_1}
+     (nil))
+(jump_insn 43 42 44 5 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref:DI 41)
+            (pc))) "cmodules/fbgc_io.c":19:2 659 {*jcc}
+     (expr_list:REG_DEAD (reg:CCZ 17 flags)
+        (int_list:REG_BR_PROB 955630228 (nil)))
+ -> 41)
+;; lr  out 	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 90 92
+;; live  out 	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 90 92
+
+;;  succ:       5 [89.0% (guessed)]  count:850510900 (estimated locally) (DFS_BACK)
+;;              6 [11.0% (guessed)]  count:105119324 (estimated locally) (FALLTHRU,LOOP_EXIT)
+
+;; basic block 6, loop depth 0, count 118111601 (estimated locally), maybe hot
+;;  prev block 5, next block 1, flags: (REACHABLE, RTL, MODIFIED)
+;;  pred:       2 [11.0% (guessed)]  count:12992276 (estimated locally)
+;;              5 [11.0% (guessed)]  count:105119324 (estimated locally) (FALLTHRU,LOOP_EXIT)
+;; bb 6 artificial_defs: { }
+;; bb 6 artificial_uses: { u35(6){ }u36(7){ }u37(16){ }u38(19){ }}
+;; lr  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; lr  use 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; lr  def 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 8 [st] 9 [st(1)] 10 [st(2)] 11 [st(3)] 12 [st(4)] 13 [st(5)] 14 [st(6)] 15 [st(7)] 17 [flags] 18 [fpsr] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 28 [mm0] 29 [mm1] 30 [mm2] 31 [mm3] 32 [mm4] 33 [mm5] 34 [mm6] 35 [mm7] 36 [r8] 37 [r9] 38 [r10] 39 [r11] 44 [xmm8] 45 [xmm9] 46 [xmm10] 47 [xmm11] 48 [xmm12] 49 [xmm13] 50 [xmm14] 51 [xmm15] 52 [] 53 [] 54 [] 55 [] 56 [] 57 [] 58 [] 59 [] 60 [] 61 [] 62 [] 63 [] 64 [] 65 [] 66 [] 67 [] 68 [] 69 [] 70 [] 71 [] 72 [] 73 [] 74 [] 75 [] 101
+;; live  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; live  gen 	 0 [ax] 4 [si] 5 [di] 101
+;; live  kill	
+
+(code_label 44 43 45 6 4 (nil) [1 uses])
+(note 45 44 46 6 [bb 6] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 46 45 47 6 (debug_marker) "cmodules/fbgc_io.c":23:2 -1
+     (nil))
+(debug_insn 47 46 48 6 (var_location:DI __stream (mem/f/c:DI (symbol_ref:DI ("stdout") [flags 0x40]  <var_decl 0x7f4442d1d240 stdout>) [2 stdout+0 S8 A64])) "cmodules/fbgc_io.c":23:2 -1
+     (nil))
+(debug_insn 48 47 49 6 (var_location:DI __fmt (const_string:DI ("
+"))) "cmodules/fbgc_io.c":23:2 -1
+     (nil))
+(debug_insn 49 48 50 6 (debug_marker:BLK) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":98:1 -1
+     (nil))
+(debug_insn 50 49 51 6 (debug_marker) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":100:3 -1
+     (nil))
+(insn 51 50 52 6 (set (reg/f:DI 101 [ stdout ])
+        (mem/f/c:DI (symbol_ref:DI ("stdout") [flags 0x40]  <var_decl 0x7f4442d1d240 stdout>) [2 stdout+0 S8 A64])) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":100:10 66 {*movdi_internal}
+     (nil))
+(insn 52 51 53 6 (set (reg:DI 4 si)
+        (reg/f:DI 101 [ stdout ])) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":100:10 66 {*movdi_internal}
+     (expr_list:REG_DEAD (reg/f:DI 101 [ stdout ])
+        (nil)))
+(insn 53 52 54 6 (set (reg:SI 5 di)
+        (const_int 10 [0xa])) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":100:10 67 {*movsi_internal}
+     (nil))
+(call_insn 54 53 55 6 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("fputc") [flags 0x41]  <function_decl 0x7f4442be8b00 __builtin_fputc>) [0 __builtin_fputc S1 A8])
+            (const_int 0 [0]))) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":100:10 677 {*call_value}
+     (expr_list:REG_DEAD (reg:SI 5 di)
+        (expr_list:REG_DEAD (reg:DI 4 si)
+            (expr_list:REG_UNUSED (reg:SI 0 ax)
+                (expr_list:REG_CALL_DECL (symbol_ref:DI ("fputc") [flags 0x41]  <function_decl 0x7f4442be8b00 __builtin_fputc>)
+                    (nil)))))
+    (expr_list:SI (use (reg:SI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+(debug_insn 55 54 56 6 (var_location:DI __stream (clobber (const_int 0 [0]))) "cmodules/fbgc_io.c":23:2 -1
+     (nil))
+(debug_insn 56 55 57 6 (var_location:DI __fmt (clobber (const_int 0 [0]))) "cmodules/fbgc_io.c":23:2 -1
+     (nil))
+(debug_insn 57 56 62 6 (debug_marker) "cmodules/fbgc_io.c":25:2 -1
+     (nil))
+(insn 62 57 63 6 (set (reg/i:DI 0 ax)
+        (const_int 0 [0])) "cmodules/fbgc_io.c":26:1 66 {*movdi_internal}
+     (nil))
+(insn 63 62 0 6 (use (reg/i:DI 0 ax)) "cmodules/fbgc_io.c":26:1 -1
+     (nil))
+;; lr  out 	 0 [ax] 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; live  out 	 0 [ax] 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+
+;;  succ:       EXIT [always]  count:118111601 (estimated locally) (FALLTHRU)
+
+;; basic block 1, loop depth 0, count 118111601 (estimated locally), maybe hot
+;;  prev block 6, next block (nil), flags: (REACHABLE, RTL, MODIFIED)
+;;  pred:       6 [always]  count:118111601 (estimated locally) (FALLTHRU)
+;; bb 1 artificial_defs: { }
+;; bb 1 artificial_uses: { u44(0){ }u45(6){ }u46(7){ }u47(19){ }}
+;; lr  in  	 0 [ax] 6 [bp] 7 [sp] 19 [frame]
+;; lr  use 	 0 [ax] 6 [bp] 7 [sp] 19 [frame]
+;; lr  def 	
+;; live  in  	 0 [ax] 6 [bp] 7 [sp] 19 [frame]
+;; live  gen 	
+;; live  kill	
+
+;; lr  out 	
+;; live  out 	
+
+;;  succ:      
+
+
+starting the processing of deferred insns
+ending the processing of deferred insns
+df_analyze called
+;; Following path with 18 sets: 2 4 
+deferring rescan insn with uid = 19.
+;; Following path with 22 sets: 5 
+;; Following path with 14 sets: 6 
+starting the processing of deferred insns
+rescanning insn with uid = 19.
+ending the processing of deferred insns
+
+
+fbgc_print
+
+Dataflow summary:
+;;  invalidated by call 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 8 [st] 9 [st(1)] 10 [st(2)] 11 [st(3)] 12 [st(4)] 13 [st(5)] 14 [st(6)] 15 [st(7)] 17 [flags] 18 [fpsr] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 28 [mm0] 29 [mm1] 30 [mm2] 31 [mm3] 32 [mm4] 33 [mm5] 34 [mm6] 35 [mm7] 36 [r8] 37 [r9] 38 [r10] 39 [r11] 44 [xmm8] 45 [xmm9] 46 [xmm10] 47 [xmm11] 48 [xmm12] 49 [xmm13] 50 [xmm14] 51 [xmm15] 52 [] 53 [] 54 [] 55 [] 56 [] 57 [] 58 [] 59 [] 60 [] 61 [] 62 [] 63 [] 64 [] 65 [] 66 [] 67 [] 68 [] 69 [] 70 [] 71 [] 72 [] 73 [] 74 [] 75 []
+;;  hardware regs used 	 7 [sp] 16 [argp] 19 [frame]
+;;  regular block artificial uses 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;;  eh block artificial uses 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;;  entry block defs 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 36 [r8] 37 [r9]
+;;  exit block uses 	 0 [ax] 6 [bp] 7 [sp] 19 [frame]
+;;  regs ever live 	 0 [ax] 4 [si] 5 [di] 7 [sp] 17 [flags]
+;;  ref usage 	r0={5d,2u} r1={4d} r2={4d} r4={6d,3u} r5={7d,4u} r6={1d,5u} r7={1d,8u} r8={3d} r9={3d} r10={3d} r11={3d} r12={3d} r13={3d} r14={3d} r15={3d} r16={1d,4u} r17={10d,2u} r18={3d} r19={1d,5u} r20={4d} r21={4d} r22={4d} r23={4d} r24={4d} r25={4d} r26={4d} r27={4d} r28={3d} r29={3d} r30={3d} r31={3d} r32={3d} r33={3d} r34={3d} r35={3d} r36={4d} r37={4d} r38={3d} r39={3d} r44={3d} r45={3d} r46={3d} r47={3d} r48={3d} r49={3d} r50={3d} r51={3d} r52={3d} r53={3d} r54={3d} r55={3d} r56={3d} r57={3d} r58={3d} r59={3d} r60={3d} r61={3d} r62={3d} r63={3d} r64={3d} r65={3d} r66={3d} r67={3d} r68={3d} r69={3d} r70={3d} r71={3d} r72={3d} r73={3d} r74={3d} r75={3d} r90={2d,4u} r92={1d,1u} r94={1d,1u} r95={1d,2u} r96={1d,1u} r97={1d,1u} r98={1d,1u} r99={1d,1u} r100={1d,1u} r101={1d,1u} 
+;;    total ref usage 291{244d,47u,0e} in 49{46 regular + 3 call} insns.
+;; basic block 2, loop depth 0, count 118111600 (estimated locally), maybe hot
+;;  prev block 0, next block 4, flags: (REACHABLE, RTL, MODIFIED)
+;;  pred:       ENTRY [always]  count:118111600 (estimated locally) (FALLTHRU)
+;; bb 2 artificial_defs: { }
+;; bb 2 artificial_uses: { u0(6){ }u1(7){ }u2(16){ }u3(19){ }}
+;; lr  in  	 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; lr  use 	 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; lr  def 	 17 [flags] 94 95
+;; live  in  	 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; live  gen 	 17 [flags] 94 95
+;; live  kill	
+(note 5 0 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 5 3 2 (set (reg/v/f:DI 94 [ arg ])
+        (reg:DI 5 di [ arg ])) "cmodules/fbgc_io.c":17:1 66 {*movdi_internal}
+     (expr_list:REG_DEAD (reg:DI 5 di [ arg ])
+        (nil)))
+(insn 3 2 4 2 (set (reg/v:SI 95 [ argc ])
+        (reg:SI 4 si [ argc ])) "cmodules/fbgc_io.c":17:1 67 {*movsi_internal}
+     (expr_list:REG_DEAD (reg:SI 4 si [ argc ])
+        (nil)))
+(note 4 3 7 2 NOTE_INSN_FUNCTION_BEG)
+(debug_insn 7 4 8 2 (debug_marker) "cmodules/fbgc_io.c":19:2 -1
+     (nil))
+(debug_insn 8 7 9 2 (debug_marker) "cmodules/fbgc_io.c":19:6 -1
+     (nil))
+(debug_insn 9 8 10 2 (var_location:SI i (const_int 0 [0])) -1
+     (nil))
+(debug_insn 10 9 12 2 (debug_marker) "cmodules/fbgc_io.c":19:20 -1
+     (nil))
+(insn 12 10 13 2 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg/v:SI 95 [ argc ])
+            (const_int 0 [0]))) "cmodules/fbgc_io.c":19:2 7 {*cmpsi_ccno_1}
+     (nil))
+(jump_insn 13 12 14 2 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref:DI 44)
+            (pc))) "cmodules/fbgc_io.c":19:2 659 {*jcc}
+     (expr_list:REG_DEAD (reg:CCZ 17 flags)
+        (int_list:REG_BR_PROB 118111604 (nil)))
+ -> 44)
+;;  succ:       4 [89.0% (guessed)]  count:105119324 (estimated locally) (FALLTHRU)
+;;              6 [11.0% (guessed)]  count:12992276 (estimated locally)
+;; lr  out 	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 94 95
+;; live  out 	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 94 95
+
+;; basic block 4, loop depth 0, count 105119324 (estimated locally), maybe hot
+;;  prev block 2, next block 5, flags: (REACHABLE, RTL, MODIFIED)
+;;  pred:       2 [89.0% (guessed)]  count:105119324 (estimated locally) (FALLTHRU)
+;; bb 4 artificial_defs: { }
+;; bb 4 artificial_uses: { u9(6){ }u10(7){ }u11(16){ }u12(19){ }}
+;; lr  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 94 95
+;; lr  use 	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 94 95
+;; lr  def 	 17 [flags] 90 92 96 97 98 99
+;; live  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 94 95
+;; live  gen 	 90 92 96 97 98 99
+;; live  kill	 17 [flags]
+(note 14 13 15 4 [bb 4] NOTE_INSN_BASIC_BLOCK)
+(insn 15 14 16 4 (set (reg:DI 90 [ ivtmp.17 ])
+        (reg/v/f:DI 94 [ arg ])) 66 {*movdi_internal}
+     (nil))
+(insn 16 15 17 4 (parallel [
+            (set (reg:SI 96)
+                (plus:SI (reg/v:SI 95 [ argc ])
+                    (const_int -1 [0xffffffffffffffff])))
+            (clobber (reg:CC 17 flags))
+        ]) 190 {*addsi_1}
+     (expr_list:REG_DEAD (reg/v:SI 95 [ argc ])
+        (expr_list:REG_UNUSED (reg:CC 17 flags)
+            (nil))))
+(insn 17 16 18 4 (set (reg:DI 97)
+        (zero_extend:DI (reg:SI 96))) 114 {*zero_extendsidi2}
+     (expr_list:REG_DEAD (reg:SI 96)
+        (nil)))
+(insn 18 17 19 4 (parallel [
+            (set (reg:DI 98)
+                (ashift:DI (reg:DI 97)
+                    (const_int 3 [0x3])))
+            (clobber (reg:CC 17 flags))
+        ]) 520 {*ashldi3_1}
+     (expr_list:REG_DEAD (reg:DI 97)
+        (expr_list:REG_UNUSED (reg:CC 17 flags)
+            (nil))))
+(insn 19 18 20 4 (parallel [
+            (set (reg/f:DI 99)
+                (plus:DI (reg:DI 90 [ ivtmp.17 ])
+                    (const_int 8 [0x8])))
+            (clobber (reg:CC 17 flags))
+        ]) 191 {*adddi_1}
+     (expr_list:REG_DEAD (reg/v/f:DI 94 [ arg ])
+        (expr_list:REG_UNUSED (reg:CC 17 flags)
+            (nil))))
+(insn 20 19 41 4 (parallel [
+            (set (reg:DI 92 [ _28 ])
+                (plus:DI (reg:DI 98)
+                    (reg/f:DI 99)))
+            (clobber (reg:CC 17 flags))
+        ]) 191 {*adddi_1}
+     (expr_list:REG_DEAD (reg/f:DI 99)
+        (expr_list:REG_DEAD (reg:DI 98)
+            (expr_list:REG_UNUSED (reg:CC 17 flags)
+                (nil)))))
+;;  succ:       5 [always]  count:105119324 (estimated locally) (FALLTHRU)
+;; lr  out 	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 90 92
+;; live  out 	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 90 92
+
+;; basic block 5, loop depth 0, count 955630224 (estimated locally), maybe hot
+;;  prev block 4, next block 6, flags: (REACHABLE, RTL, MODIFIED)
+;;  pred:       4 [always]  count:105119324 (estimated locally) (FALLTHRU)
+;;              5 [89.0% (guessed)]  count:850510900 (estimated locally) (DFS_BACK)
+;; bb 5 artificial_defs: { }
+;; bb 5 artificial_uses: { u20(6){ }u21(7){ }u22(16){ }u23(19){ }}
+;; lr  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 90 92
+;; lr  use 	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 90 92
+;; lr  def 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 8 [st] 9 [st(1)] 10 [st(2)] 11 [st(3)] 12 [st(4)] 13 [st(5)] 14 [st(6)] 15 [st(7)] 17 [flags] 18 [fpsr] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 28 [mm0] 29 [mm1] 30 [mm2] 31 [mm3] 32 [mm4] 33 [mm5] 34 [mm6] 35 [mm7] 36 [r8] 37 [r9] 38 [r10] 39 [r11] 44 [xmm8] 45 [xmm9] 46 [xmm10] 47 [xmm11] 48 [xmm12] 49 [xmm13] 50 [xmm14] 51 [xmm15] 52 [] 53 [] 54 [] 55 [] 56 [] 57 [] 58 [] 59 [] 60 [] 61 [] 62 [] 63 [] 64 [] 65 [] 66 [] 67 [] 68 [] 69 [] 70 [] 71 [] 72 [] 73 [] 74 [] 75 [] 90 100
+;; live  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 90 92
+;; live  gen 	 0 [ax] 4 [si] 5 [di] 17 [flags] 90 100
+;; live  kill	 17 [flags]
+(code_label 41 20 21 5 5 (nil) [1 uses])
+(note 21 41 22 5 [bb 5] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 22 21 23 5 (var_location:SI i (clobber (const_int 0 [0]))) -1
+     (nil))
+(debug_insn 23 22 24 5 (debug_marker) "cmodules/fbgc_io.c":20:3 -1
+     (nil))
+(insn 24 23 25 5 (set (reg:DI 5 di)
+        (mem/f:DI (reg:DI 90 [ ivtmp.17 ]) [1 MEM[base: _8, offset: 0B]+0 S8 A64])) "cmodules/fbgc_io.c":20:3 66 {*movdi_internal}
+     (nil))
+(call_insn 25 24 26 5 (call (mem:QI (symbol_ref:DI ("printf_fbgc_object") [flags 0x41]  <function_decl 0x7f4442ae4d00 printf_fbgc_object>) [0 printf_fbgc_object S1 A8])
+        (const_int 0 [0])) "cmodules/fbgc_io.c":20:3 666 {*call}
+     (expr_list:REG_DEAD (reg:DI 5 di)
+        (expr_list:REG_CALL_DECL (symbol_ref:DI ("printf_fbgc_object") [flags 0x41]  <function_decl 0x7f4442ae4d00 printf_fbgc_object>)
+            (nil)))
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(debug_insn 26 25 27 5 (debug_marker) "cmodules/fbgc_io.c":21:3 -1
+     (nil))
+(debug_insn 27 26 28 5 (var_location:DI __stream (mem/f/c:DI (symbol_ref:DI ("stdout") [flags 0x40]  <var_decl 0x7f4442d1d240 stdout>) [2 stdout+0 S8 A64])) "cmodules/fbgc_io.c":21:3 -1
+     (nil))
+(debug_insn 28 27 29 5 (var_location:DI __fmt (const_string:DI (" "))) "cmodules/fbgc_io.c":21:3 -1
+     (nil))
+(debug_insn 29 28 30 5 (debug_marker:BLK) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":98:1 -1
+     (nil))
+(debug_insn 30 29 31 5 (debug_marker) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":100:3 -1
+     (nil))
+(insn 31 30 32 5 (set (reg/f:DI 100 [ stdout ])
+        (mem/f/c:DI (symbol_ref:DI ("stdout") [flags 0x40]  <var_decl 0x7f4442d1d240 stdout>) [2 stdout+0 S8 A64])) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":100:10 66 {*movdi_internal}
+     (nil))
+(insn 32 31 33 5 (set (reg:DI 4 si)
+        (reg/f:DI 100 [ stdout ])) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":100:10 66 {*movdi_internal}
+     (expr_list:REG_DEAD (reg/f:DI 100 [ stdout ])
+        (nil)))
+(insn 33 32 34 5 (set (reg:SI 5 di)
+        (const_int 32 [0x20])) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":100:10 67 {*movsi_internal}
+     (nil))
+(call_insn 34 33 35 5 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("fputc") [flags 0x41]  <function_decl 0x7f4442be8b00 __builtin_fputc>) [0 __builtin_fputc S1 A8])
+            (const_int 0 [0]))) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":100:10 677 {*call_value}
+     (expr_list:REG_DEAD (reg:SI 5 di)
+        (expr_list:REG_DEAD (reg:DI 4 si)
+            (expr_list:REG_UNUSED (reg:SI 0 ax)
+                (expr_list:REG_CALL_DECL (symbol_ref:DI ("fputc") [flags 0x41]  <function_decl 0x7f4442be8b00 __builtin_fputc>)
+                    (nil)))))
+    (expr_list:SI (use (reg:SI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+(debug_insn 35 34 36 5 (var_location:DI __stream (clobber (const_int 0 [0]))) "cmodules/fbgc_io.c":21:3 -1
+     (nil))
+(debug_insn 36 35 37 5 (var_location:DI __fmt (clobber (const_int 0 [0]))) "cmodules/fbgc_io.c":21:3 -1
+     (nil))
+(debug_insn 37 36 38 5 (debug_marker) "cmodules/fbgc_io.c":19:28 -1
+     (nil))
+(debug_insn 38 37 39 5 (var_location:SI i (clobber (const_int 0 [0]))) -1
+     (nil))
+(debug_insn 39 38 40 5 (debug_marker) "cmodules/fbgc_io.c":19:20 -1
+     (nil))
+(insn 40 39 42 5 (parallel [
+            (set (reg:DI 90 [ ivtmp.17 ])
+                (plus:DI (reg:DI 90 [ ivtmp.17 ])
+                    (const_int 8 [0x8])))
+            (clobber (reg:CC 17 flags))
+        ]) 191 {*adddi_1}
+     (expr_list:REG_UNUSED (reg:CC 17 flags)
+        (nil)))
+(insn 42 40 43 5 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg:DI 90 [ ivtmp.17 ])
+            (reg:DI 92 [ _28 ]))) "cmodules/fbgc_io.c":19:2 12 {*cmpdi_1}
+     (nil))
+(jump_insn 43 42 44 5 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref:DI 41)
+            (pc))) "cmodules/fbgc_io.c":19:2 659 {*jcc}
+     (expr_list:REG_DEAD (reg:CCZ 17 flags)
+        (int_list:REG_BR_PROB 955630228 (nil)))
+ -> 41)
+;;  succ:       5 [89.0% (guessed)]  count:850510900 (estimated locally) (DFS_BACK)
+;;              6 [11.0% (guessed)]  count:105119324 (estimated locally) (FALLTHRU,LOOP_EXIT)
+;; lr  out 	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 90 92
+;; live  out 	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 90 92
+
+;; basic block 6, loop depth 0, count 118111601 (estimated locally), maybe hot
+;;  prev block 5, next block 1, flags: (REACHABLE, RTL, MODIFIED)
+;;  pred:       2 [11.0% (guessed)]  count:12992276 (estimated locally)
+;;              5 [11.0% (guessed)]  count:105119324 (estimated locally) (FALLTHRU,LOOP_EXIT)
+;; bb 6 artificial_defs: { }
+;; bb 6 artificial_uses: { u35(6){ }u36(7){ }u37(16){ }u38(19){ }}
+;; lr  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; lr  use 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; lr  def 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 8 [st] 9 [st(1)] 10 [st(2)] 11 [st(3)] 12 [st(4)] 13 [st(5)] 14 [st(6)] 15 [st(7)] 17 [flags] 18 [fpsr] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 28 [mm0] 29 [mm1] 30 [mm2] 31 [mm3] 32 [mm4] 33 [mm5] 34 [mm6] 35 [mm7] 36 [r8] 37 [r9] 38 [r10] 39 [r11] 44 [xmm8] 45 [xmm9] 46 [xmm10] 47 [xmm11] 48 [xmm12] 49 [xmm13] 50 [xmm14] 51 [xmm15] 52 [] 53 [] 54 [] 55 [] 56 [] 57 [] 58 [] 59 [] 60 [] 61 [] 62 [] 63 [] 64 [] 65 [] 66 [] 67 [] 68 [] 69 [] 70 [] 71 [] 72 [] 73 [] 74 [] 75 [] 101
+;; live  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; live  gen 	 0 [ax] 4 [si] 5 [di] 101
+;; live  kill	
+(code_label 44 43 45 6 4 (nil) [1 uses])
+(note 45 44 46 6 [bb 6] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 46 45 47 6 (debug_marker) "cmodules/fbgc_io.c":23:2 -1
+     (nil))
+(debug_insn 47 46 48 6 (var_location:DI __stream (mem/f/c:DI (symbol_ref:DI ("stdout") [flags 0x40]  <var_decl 0x7f4442d1d240 stdout>) [2 stdout+0 S8 A64])) "cmodules/fbgc_io.c":23:2 -1
+     (nil))
+(debug_insn 48 47 49 6 (var_location:DI __fmt (const_string:DI ("
+"))) "cmodules/fbgc_io.c":23:2 -1
+     (nil))
+(debug_insn 49 48 50 6 (debug_marker:BLK) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":98:1 -1
+     (nil))
+(debug_insn 50 49 51 6 (debug_marker) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":100:3 -1
+     (nil))
+(insn 51 50 52 6 (set (reg/f:DI 101 [ stdout ])
+        (mem/f/c:DI (symbol_ref:DI ("stdout") [flags 0x40]  <var_decl 0x7f4442d1d240 stdout>) [2 stdout+0 S8 A64])) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":100:10 66 {*movdi_internal}
+     (nil))
+(insn 52 51 53 6 (set (reg:DI 4 si)
+        (reg/f:DI 101 [ stdout ])) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":100:10 66 {*movdi_internal}
+     (expr_list:REG_DEAD (reg/f:DI 101 [ stdout ])
+        (nil)))
+(insn 53 52 54 6 (set (reg:SI 5 di)
+        (const_int 10 [0xa])) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":100:10 67 {*movsi_internal}
+     (nil))
+(call_insn 54 53 55 6 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("fputc") [flags 0x41]  <function_decl 0x7f4442be8b00 __builtin_fputc>) [0 __builtin_fputc S1 A8])
+            (const_int 0 [0]))) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":100:10 677 {*call_value}
+     (expr_list:REG_DEAD (reg:SI 5 di)
+        (expr_list:REG_DEAD (reg:DI 4 si)
+            (expr_list:REG_UNUSED (reg:SI 0 ax)
+                (expr_list:REG_CALL_DECL (symbol_ref:DI ("fputc") [flags 0x41]  <function_decl 0x7f4442be8b00 __builtin_fputc>)
+                    (nil)))))
+    (expr_list:SI (use (reg:SI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+(debug_insn 55 54 56 6 (var_location:DI __stream (clobber (const_int 0 [0]))) "cmodules/fbgc_io.c":23:2 -1
+     (nil))
+(debug_insn 56 55 57 6 (var_location:DI __fmt (clobber (const_int 0 [0]))) "cmodules/fbgc_io.c":23:2 -1
+     (nil))
+(debug_insn 57 56 62 6 (debug_marker) "cmodules/fbgc_io.c":25:2 -1
+     (nil))
+(insn 62 57 63 6 (set (reg/i:DI 0 ax)
+        (const_int 0 [0])) "cmodules/fbgc_io.c":26:1 66 {*movdi_internal}
+     (nil))
+(insn 63 62 0 6 (use (reg/i:DI 0 ax)) "cmodules/fbgc_io.c":26:1 -1
+     (nil))
+;;  succ:       EXIT [always]  count:118111601 (estimated locally) (FALLTHRU)
+;; lr  out 	 0 [ax] 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; live  out 	 0 [ax] 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+
+
+;; Function fbgc_read (fbgc_read, funcdef_no=57, decl_uid=5693, cgraph_uid=58, symbol_order=61)
+
+
+9 basic blocks, 8 edges.
+;; basic block 0, loop depth 0, count 1073741824 (estimated locally), maybe hot
+;;  prev block (nil), next block 2, flags: (RTL, MODIFIED)
+;;  pred:      
+;; bb 0 artificial_defs: { d9(0){ }d19(1){ }d29(2){ }d40(4){ }d54(5){ }d55(6){ }d56(7){ }d113(16){ }d133(19){ }d141(20){ }d149(21){ }d157(22){ }d165(23){ }d173(24){ }d181(25){ }d189(26){ }d197(27){ }d261(36){ }d269(37){ }}
+;; bb 0 artificial_uses: { }
+;; lr  in  	
+;; lr  use 	
+;; lr  def 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 36 [r8] 37 [r9]
+;; live  in  	
+;; live  gen 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 36 [r8] 37 [r9]
+;; live  kill	
+
+;; lr  out 	 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; live  out 	 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+
+;;  succ:       2 [always]  count:1073741824 (estimated locally) (FALLTHRU)
+
+;; basic block 2, loop depth 0, count 1073741824 (estimated locally), maybe hot
+;;  prev block 0, next block 3, flags: (REACHABLE, RTL, MODIFIED)
+;;  pred:       ENTRY [always]  count:1073741824 (estimated locally) (FALLTHRU)
+;; bb 2 artificial_defs: { }
+;; bb 2 artificial_uses: { u0(6){ }u1(7){ }u2(16){ }u3(19){ }}
+;; lr  in  	 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; lr  use 	 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; lr  def 	 17 [flags] 87 88
+;; live  in  	 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; live  gen 	 17 [flags] 87 88
+;; live  kill	 17 [flags]
+
+(note 7 0 79 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 79 7 2 2 (var_location:DI D#5 (reg:DI 5 di [ arg ])) -1
+     (nil))
+(insn 2 79 80 2 (set (reg/v/f:DI 87 [ arg ])
+        (reg:DI 5 di [ arg ])) "cmodules/fbgc_io.c":28:37 66 {*movdi_internal}
+     (expr_list:REG_DEAD (reg:DI 5 di [ arg ])
+        (nil)))
+(debug_insn 80 2 3 2 (var_location:SI D#6 (reg:SI 4 si [ argc ])) -1
+     (nil))
+(insn 3 80 4 2 (set (reg/v:SI 88 [ argc ])
+        (reg:SI 4 si [ argc ])) "cmodules/fbgc_io.c":28:37 67 {*movsi_internal}
+     (expr_list:REG_DEAD (reg:SI 4 si [ argc ])
+        (nil)))
+(note 4 3 6 2 NOTE_INSN_FUNCTION_BEG)
+(insn 6 4 9 2 (parallel [
+            (set (mem/v/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                        (const_int -8 [0xfffffffffffffff8])) [4 D.5774+0 S8 A64])
+                (unspec:DI [
+                        (mem/v/f:DI (const_int 40 [0x28]) [5 MEM[(<address-space-1> long unsigned int *)40B]+0 S8 A64 AS1])
+                    ] UNSPEC_SP_SET))
+            (set (scratch:DI)
+                (const_int 0 [0]))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_io.c":28:37 976 {stack_protect_set_di}
+     (expr_list:REG_UNUSED (reg:CC 17 flags)
+        (nil)))
+(debug_insn 9 6 12 2 (debug_marker) "cmodules/fbgc_io.c":30:2 -1
+     (nil))
+(insn 12 9 13 2 (set (reg:CCNO 17 flags)
+        (compare:CCNO (reg/v:SI 88 [ argc ])
+            (const_int 0 [0]))) "cmodules/fbgc_io.c":30:2 7 {*cmpsi_ccno_1}
+     (expr_list:REG_DEAD (reg/v:SI 88 [ argc ])
+        (nil)))
+(jump_insn 13 12 14 2 (set (pc)
+        (if_then_else (gt (reg:CCNO 17 flags)
+                (const_int 0 [0]))
+            (label_ref 22)
+            (pc))) "cmodules/fbgc_io.c":30:2 659 {*jcc}
+     (expr_list:REG_DEAD (reg:CCNO 17 flags)
+        (int_list:REG_BR_PROB 1073312332 (nil)))
+ -> 22)
+;; lr  out 	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 87
+;; live  out 	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 87
+
+;;  succ:       4 [100.0% (guessed)]  count:1073312328 (estimated locally)
+;;              3 [0.0% (guessed)]  count:429496 (estimated locally) (FALLTHRU)
+
+;; basic block 3, loop depth 0, count 429497 (estimated locally)
+;;  prev block 2, next block 4, flags: (REACHABLE, RTL, MODIFIED)
+;;  pred:       2 [0.0% (guessed)]  count:429496 (estimated locally) (FALLTHRU)
+;; bb 3 artificial_defs: { }
+;; bb 3 artificial_uses: { u12(6){ }u13(7){ }u14(16){ }u15(19){ }}
+;; lr  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; lr  use 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; lr  def 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 8 [st] 9 [st(1)] 10 [st(2)] 11 [st(3)] 12 [st(4)] 13 [st(5)] 14 [st(6)] 15 [st(7)] 17 [flags] 18 [fpsr] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 28 [mm0] 29 [mm1] 30 [mm2] 31 [mm3] 32 [mm4] 33 [mm5] 34 [mm6] 35 [mm7] 36 [r8] 37 [r9] 38 [r10] 39 [r11] 44 [xmm8] 45 [xmm9] 46 [xmm10] 47 [xmm11] 48 [xmm12] 49 [xmm13] 50 [xmm14] 51 [xmm15] 52 [] 53 [] 54 [] 55 [] 56 [] 57 [] 58 [] 59 [] 60 [] 61 [] 62 [] 63 [] 64 [] 65 [] 66 [] 67 [] 68 [] 69 [] 70 [] 71 [] 72 [] 73 [] 74 [] 75 []
+;; live  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; live  gen 	 1 [dx] 2 [cx] 4 [si] 5 [di]
+;; live  kill	
+
+(note 14 13 15 3 [bb 3] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 15 14 16 3 (debug_marker) "cmodules/fbgc_io.c":30:2 -1
+     (nil))
+(insn 16 15 17 3 (set (reg:DI 2 cx)
+        (symbol_ref:DI ("__PRETTY_FUNCTION__.5709") [flags 0x2]  <var_decl 0x7f4442aead80 __PRETTY_FUNCTION__>)) "cmodules/fbgc_io.c":30:2 66 {*movdi_internal}
+     (nil))
+(insn 17 16 18 3 (set (reg:SI 1 dx)
+        (const_int 30 [0x1e])) "cmodules/fbgc_io.c":30:2 67 {*movsi_internal}
+     (nil))
+(insn 18 17 19 3 (set (reg:DI 4 si)
+        (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7f44426df480 *.LC0>)) "cmodules/fbgc_io.c":30:2 66 {*movdi_internal}
+     (nil))
+(insn 19 18 20 3 (set (reg:DI 5 di)
+        (symbol_ref/f:DI ("*.LC1") [flags 0x2]  <var_decl 0x7f44426df510 *.LC1>)) "cmodules/fbgc_io.c":30:2 66 {*movdi_internal}
+     (nil))
+(call_insn 20 19 22 3 (call (mem:QI (symbol_ref:DI ("__assert_fail") [flags 0x41]  <function_decl 0x7f44429aac00 __assert_fail>) [0 __assert_fail S1 A8])
+        (const_int 0 [0])) "cmodules/fbgc_io.c":30:2 666 {*call}
+     (expr_list:REG_DEAD (reg:DI 5 di)
+        (expr_list:REG_DEAD (reg:DI 4 si)
+            (expr_list:REG_DEAD (reg:DI 2 cx)
+                (expr_list:REG_DEAD (reg:SI 1 dx)
+                    (expr_list:REG_CALL_DECL (symbol_ref:DI ("__assert_fail") [flags 0x41]  <function_decl 0x7f44429aac00 __assert_fail>)
+                        (expr_list:REG_ARGS_SIZE (const_int 0 [0])
+                            (expr_list:REG_NORETURN (const_int 0 [0])
+                                (expr_list:REG_EH_REGION (const_int 0 [0])
+                                    (nil)))))))))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:SI (use (reg:SI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+;; lr  out 	 7 [sp] 16 [argp] 19 [frame]
+;; live  out 	 7 [sp] 16 [argp] 19 [frame]
+
+;;  succ:      
+
+;; basic block 4, loop depth 0, count 1073312328 (estimated locally), maybe hot
+;;  prev block 3, next block 5, flags: (REACHABLE, RTL, MODIFIED)
+;;  pred:       2 [100.0% (guessed)]  count:1073312328 (estimated locally)
+;; bb 4 artificial_defs: { }
+;; bb 4 artificial_uses: { u21(6){ }u22(7){ }u23(16){ }u24(19){ }}
+;; lr  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 87
+;; lr  use 	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 87
+;; lr  def 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 8 [st] 9 [st(1)] 10 [st(2)] 11 [st(3)] 12 [st(4)] 13 [st(5)] 14 [st(6)] 15 [st(7)] 17 [flags] 18 [fpsr] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 28 [mm0] 29 [mm1] 30 [mm2] 31 [mm3] 32 [mm4] 33 [mm5] 34 [mm6] 35 [mm7] 36 [r8] 37 [r9] 38 [r10] 39 [r11] 44 [xmm8] 45 [xmm9] 46 [xmm10] 47 [xmm11] 48 [xmm12] 49 [xmm13] 50 [xmm14] 51 [xmm15] 52 [] 53 [] 54 [] 55 [] 56 [] 57 [] 58 [] 59 [] 60 [] 61 [] 62 [] 63 [] 64 [] 65 [] 66 [] 67 [] 68 [] 69 [] 70 [] 71 [] 72 [] 73 [] 74 [] 75 [] 83 90
+;; live  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 87
+;; live  gen 	 0 [ax] 4 [si] 5 [di] 17 [flags] 83 90
+;; live  kill	 17 [flags]
+
+(code_label 22 20 23 4 12 (nil) [1 uses])
+(note 23 22 24 4 [bb 4] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 24 23 25 4 (debug_marker) "cmodules/fbgc_io.c":32:2 -1
+     (nil))
+(insn 25 24 26 4 (set (reg:DI 5 di)
+        (mem/f:DI (reg/v/f:DI 87 [ arg ]) [1 *arg_8(D)+0 S8 A64])) "cmodules/fbgc_io.c":32:2 66 {*movdi_internal}
+     (expr_list:REG_DEAD (reg/v/f:DI 87 [ arg ])
+        (nil)))
+(call_insn 26 25 27 4 (call (mem:QI (symbol_ref:DI ("printf_fbgc_object") [flags 0x41]  <function_decl 0x7f4442ae4d00 printf_fbgc_object>) [0 printf_fbgc_object S1 A8])
+        (const_int 0 [0])) "cmodules/fbgc_io.c":32:2 666 {*call}
+     (expr_list:REG_DEAD (reg:DI 5 di)
+        (expr_list:REG_CALL_DECL (symbol_ref:DI ("printf_fbgc_object") [flags 0x41]  <function_decl 0x7f4442ae4d00 printf_fbgc_object>)
+            (nil)))
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(debug_insn 27 26 28 4 (debug_marker) "cmodules/fbgc_io.c":33:2 -1
+     (nil))
+(debug_insn 28 27 29 4 (debug_marker) "cmodules/fbgc_io.c":34:2 -1
+     (nil))
+(insn 29 28 30 4 (parallel [
+            (set (reg/f:DI 90)
+                (plus:DI (reg/f:DI 19 frame)
+                    (const_int -16 [0xfffffffffffffff0])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_io.c":34:2 191 {*adddi_1}
+     (expr_list:REG_UNUSED (reg:CC 17 flags)
+        (nil)))
+(insn 30 29 31 4 (set (reg:DI 4 si)
+        (reg/f:DI 90)) "cmodules/fbgc_io.c":34:2 66 {*movdi_internal}
+     (expr_list:REG_DEAD (reg/f:DI 90)
+        (expr_list:REG_EQUAL (plus:DI (reg/f:DI 19 frame)
+                (const_int -16 [0xfffffffffffffff0]))
+            (nil))))
+(insn 31 30 32 4 (set (reg:DI 5 di)
+        (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0x7f44426df5a0 *.LC2>)) "cmodules/fbgc_io.c":34:2 66 {*movdi_internal}
+     (nil))
+(insn 32 31 33 4 (set (reg:QI 0 ax)
+        (const_int 0 [0])) "cmodules/fbgc_io.c":34:2 69 {*movqi_internal}
+     (nil))
+(call_insn 33 32 34 4 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("*__isoc99_scanf") [flags 0x41]  <function_decl 0x7f4442bec600 scanf>) [0 __builtin_scanf S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_io.c":34:2 677 {*call_value}
+     (expr_list:REG_DEAD (reg:DI 5 di)
+        (expr_list:REG_DEAD (reg:DI 4 si)
+            (expr_list:REG_CALL_DECL (symbol_ref:DI ("*__isoc99_scanf") [flags 0x41]  <function_decl 0x7f4442bec600 scanf>)
+                (nil))))
+    (expr_list (use (reg:QI 0 ax))
+        (expr_list:DI (use (reg:DI 5 di))
+            (expr_list:DI (use (reg:DI 4 si))
+                (nil)))))
+(insn 34 33 35 4 (set (reg:SI 83 [ _2 ])
+        (reg:SI 0 ax)) "cmodules/fbgc_io.c":34:2 67 {*movsi_internal}
+     (expr_list:REG_DEAD (reg:SI 0 ax)
+        (nil)))
+(insn 35 34 36 4 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg:SI 83 [ _2 ])
+            (const_int 1 [0x1]))) "cmodules/fbgc_io.c":34:2 11 {*cmpsi_1}
+     (expr_list:REG_DEAD (reg:SI 83 [ _2 ])
+        (nil)))
+(jump_insn 36 35 37 4 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 52)
+            (pc))) "cmodules/fbgc_io.c":34:2 659 {*jcc}
+     (expr_list:REG_DEAD (reg:CCZ 17 flags)
+        (int_list:REG_BR_PROB 1073312332 (nil)))
+ -> 52)
+;; lr  out 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; live  out 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+
+;;  succ:       6 [100.0% (guessed)]  count:1072883004 (estimated locally)
+;;              5 [0.0% (guessed)]  count:429324 (estimated locally) (FALLTHRU)
+
+;; basic block 5, loop depth 0, count 429325 (estimated locally)
+;;  prev block 4, next block 6, flags: (REACHABLE, RTL, MODIFIED)
+;;  pred:       4 [0.0% (guessed)]  count:429324 (estimated locally) (FALLTHRU)
+;; bb 5 artificial_defs: { }
+;; bb 5 artificial_uses: { u38(6){ }u39(7){ }u40(16){ }u41(19){ }}
+;; lr  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; lr  use 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; lr  def 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 8 [st] 9 [st(1)] 10 [st(2)] 11 [st(3)] 12 [st(4)] 13 [st(5)] 14 [st(6)] 15 [st(7)] 17 [flags] 18 [fpsr] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 28 [mm0] 29 [mm1] 30 [mm2] 31 [mm3] 32 [mm4] 33 [mm5] 34 [mm6] 35 [mm7] 36 [r8] 37 [r9] 38 [r10] 39 [r11] 44 [xmm8] 45 [xmm9] 46 [xmm10] 47 [xmm11] 48 [xmm12] 49 [xmm13] 50 [xmm14] 51 [xmm15] 52 [] 53 [] 54 [] 55 [] 56 [] 57 [] 58 [] 59 [] 60 [] 61 [] 62 [] 63 [] 64 [] 65 [] 66 [] 67 [] 68 [] 69 [] 70 [] 71 [] 72 [] 73 [] 74 [] 75 []
+;; live  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; live  gen 	 1 [dx] 2 [cx] 4 [si] 5 [di]
+;; live  kill	
+
+(note 37 36 38 5 [bb 5] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 38 37 39 5 (var_location:DI D#1 (debug_expr:DI D#5)) -1
+     (nil))
+(debug_insn 39 38 40 5 (var_location:SI D#2 (debug_expr:SI D#6)) -1
+     (nil))
+(debug_insn 40 39 41 5 (debug_marker:BLK) "cmodules/fbgc_io.c":28:1 -1
+     (nil))
+(debug_insn 41 40 42 5 (var_location:DI D#4 (debug_expr:DI D#1)) -1
+     (nil))
+(debug_insn 42 41 43 5 (var_location:DI arg (debug_expr:DI D#4)) -1
+     (nil))
+(debug_insn 43 42 44 5 (var_location:SI D#3 (debug_expr:SI D#2)) -1
+     (nil))
+(debug_insn 44 43 45 5 (var_location:SI argc (debug_expr:SI D#3)) -1
+     (nil))
+(debug_insn 45 44 46 5 (debug_marker) "cmodules/fbgc_io.c":34:2 -1
+     (nil))
+(insn 46 45 47 5 (set (reg:DI 2 cx)
+        (symbol_ref:DI ("__PRETTY_FUNCTION__.5709") [flags 0x2]  <var_decl 0x7f4442aead80 __PRETTY_FUNCTION__>)) "cmodules/fbgc_io.c":34:2 66 {*movdi_internal}
+     (nil))
+(insn 47 46 48 5 (set (reg:SI 1 dx)
+        (const_int 34 [0x22])) "cmodules/fbgc_io.c":34:2 67 {*movsi_internal}
+     (nil))
+(insn 48 47 49 5 (set (reg:DI 4 si)
+        (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7f44426df480 *.LC0>)) "cmodules/fbgc_io.c":34:2 66 {*movdi_internal}
+     (nil))
+(insn 49 48 50 5 (set (reg:DI 5 di)
+        (symbol_ref/f:DI ("*.LC3") [flags 0x2]  <var_decl 0x7f44426df630 *.LC3>)) "cmodules/fbgc_io.c":34:2 66 {*movdi_internal}
+     (nil))
+(call_insn 50 49 52 5 (call (mem:QI (symbol_ref:DI ("__assert_fail") [flags 0x41]  <function_decl 0x7f44429aac00 __assert_fail>) [0 __assert_fail S1 A8])
+        (const_int 0 [0])) "cmodules/fbgc_io.c":34:2 666 {*call}
+     (expr_list:REG_DEAD (reg:DI 5 di)
+        (expr_list:REG_DEAD (reg:DI 4 si)
+            (expr_list:REG_DEAD (reg:DI 2 cx)
+                (expr_list:REG_DEAD (reg:SI 1 dx)
+                    (expr_list:REG_CALL_DECL (symbol_ref:DI ("__assert_fail") [flags 0x41]  <function_decl 0x7f44429aac00 __assert_fail>)
+                        (expr_list:REG_ARGS_SIZE (const_int 0 [0])
+                            (expr_list:REG_NORETURN (const_int 0 [0])
+                                (expr_list:REG_EH_REGION (const_int 0 [0])
+                                    (nil)))))))))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:SI (use (reg:SI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+;; lr  out 	 7 [sp] 16 [argp] 19 [frame]
+;; live  out 	 7 [sp] 16 [argp] 19 [frame]
+
+;;  succ:      
+
+;; basic block 6, loop depth 0, count 1072883003 (estimated locally), maybe hot
+;;  prev block 5, next block 7, flags: (REACHABLE, RTL, MODIFIED)
+;;  pred:       4 [100.0% (guessed)]  count:1072883004 (estimated locally)
+;; bb 6 artificial_defs: { }
+;; bb 6 artificial_uses: { u47(6){ }u48(7){ }u49(16){ }u50(19){ }}
+;; lr  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; lr  use 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; lr  def 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 8 [st] 9 [st(1)] 10 [st(2)] 11 [st(3)] 12 [st(4)] 13 [st(5)] 14 [st(6)] 15 [st(7)] 17 [flags] 18 [fpsr] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 28 [mm0] 29 [mm1] 30 [mm2] 31 [mm3] 32 [mm4] 33 [mm5] 34 [mm6] 35 [mm7] 36 [r8] 37 [r9] 38 [r10] 39 [r11] 44 [xmm8] 45 [xmm9] 46 [xmm10] 47 [xmm11] 48 [xmm12] 49 [xmm13] 50 [xmm14] 51 [xmm15] 52 [] 53 [] 54 [] 55 [] 56 [] 57 [] 58 [] 59 [] 60 [] 61 [] 62 [] 63 [] 64 [] 65 [] 66 [] 67 [] 68 [] 69 [] 70 [] 71 [] 72 [] 73 [] 74 [] 75 [] 86 91 92
+;; live  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; live  gen 	 0 [ax] 5 [di] 17 [flags] 86 91 92
+;; live  kill	
+
+(code_label 52 50 53 6 13 (nil) [1 uses])
+(note 53 52 54 6 [bb 6] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 54 53 55 6 (debug_marker) "cmodules/fbgc_io.c":36:2 -1
+     (nil))
+(insn 55 54 56 6 (set (reg/f:DI 91 [ str_content ])
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -16 [0xfffffffffffffff0])) [3 str_content+0 S8 A64])) "cmodules/fbgc_io.c":36:29 66 {*movdi_internal}
+     (nil))
+(insn 56 55 57 6 (set (reg:DI 5 di)
+        (reg/f:DI 91 [ str_content ])) "cmodules/fbgc_io.c":36:29 66 {*movdi_internal}
+     (expr_list:REG_DEAD (reg/f:DI 91 [ str_content ])
+        (nil)))
+(call_insn 57 56 58 6 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("new_fbgc_str_object") [flags 0x41]  <function_decl 0x7f4442b02000 new_fbgc_str_object>) [0 new_fbgc_str_object S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_io.c":36:29 677 {*call_value}
+     (expr_list:REG_DEAD (reg:DI 5 di)
+        (expr_list:REG_CALL_DECL (symbol_ref:DI ("new_fbgc_str_object") [flags 0x41]  <function_decl 0x7f4442b02000 new_fbgc_str_object>)
+            (nil)))
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(insn 58 57 59 6 (set (reg/v/f:DI 86 [ <retval> ])
+        (reg:DI 0 ax)) "cmodules/fbgc_io.c":36:29 66 {*movdi_internal}
+     (expr_list:REG_DEAD (reg:DI 0 ax)
+        (nil)))
+(debug_insn 59 58 60 6 (var_location:DI res (reg/v/f:DI 86 [ <retval> ])) "cmodules/fbgc_io.c":36:29 -1
+     (nil))
+(debug_insn 60 59 61 6 (debug_marker) "cmodules/fbgc_io.c":37:2 -1
+     (nil))
+(insn 61 60 62 6 (set (reg/f:DI 92 [ str_content ])
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -16 [0xfffffffffffffff0])) [3 str_content+0 S8 A64])) "cmodules/fbgc_io.c":37:2 66 {*movdi_internal}
+     (nil))
+(insn 62 61 63 6 (set (reg:DI 5 di)
+        (reg/f:DI 92 [ str_content ])) "cmodules/fbgc_io.c":37:2 66 {*movdi_internal}
+     (expr_list:REG_DEAD (reg/f:DI 92 [ str_content ])
+        (nil)))
+(call_insn 63 62 64 6 (call (mem:QI (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7f4442c04400 free>) [0 __builtin_free S1 A8])
+        (const_int 0 [0])) "cmodules/fbgc_io.c":37:2 666 {*call}
+     (expr_list:REG_DEAD (reg:DI 5 di)
+        (expr_list:REG_CALL_DECL (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7f4442c04400 free>)
+            (expr_list:REG_EH_REGION (const_int 0 [0])
+                (nil))))
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(debug_insn 64 63 69 6 (debug_marker) "cmodules/fbgc_io.c":38:2 -1
+     (nil))
+(insn 69 64 70 6 (parallel [
+            (set (reg:CCZ 17 flags)
+                (unspec:CCZ [
+                        (mem/v/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                                (const_int -8 [0xfffffffffffffff8])) [4 D.5774+0 S8 A64])
+                        (mem/v/f:DI (const_int 40 [0x28]) [5 MEM[(<address-space-1> long unsigned int *)40B]+0 S8 A64 AS1])
+                    ] UNSPEC_SP_TEST))
+            (clobber (scratch:DI))
+        ]) "cmodules/fbgc_io.c":39:1 978 {stack_protect_test_di}
+     (nil))
+(jump_insn 70 69 77 6 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 73)
+            (pc))) "cmodules/fbgc_io.c":39:1 659 {*jcc}
+     (expr_list:REG_DEAD (reg:CCZ 17 flags)
+        (int_list:REG_BR_PROB 1073312332 (nil)))
+ -> 73)
+;; lr  out 	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 86
+;; live  out 	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 86
+
+;;  succ:       8 [100.0% (guessed)]  count:1072453851 (estimated locally)
+;;              7 [0.0% (guessed)]  count:429152 (estimated locally) (FALLTHRU)
+
+;; basic block 7, loop depth 0, count 429152 (estimated locally)
+;;  prev block 6, next block 8, flags: (REACHABLE, RTL, MODIFIED)
+;;  pred:       6 [0.0% (guessed)]  count:429152 (estimated locally) (FALLTHRU)
+;; bb 7 artificial_defs: { }
+;; bb 7 artificial_uses: { u64(6){ }u65(7){ }u66(16){ }u67(19){ }}
+;; lr  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; lr  use 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; lr  def 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 8 [st] 9 [st(1)] 10 [st(2)] 11 [st(3)] 12 [st(4)] 13 [st(5)] 14 [st(6)] 15 [st(7)] 17 [flags] 18 [fpsr] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 28 [mm0] 29 [mm1] 30 [mm2] 31 [mm3] 32 [mm4] 33 [mm5] 34 [mm6] 35 [mm7] 36 [r8] 37 [r9] 38 [r10] 39 [r11] 44 [xmm8] 45 [xmm9] 46 [xmm10] 47 [xmm11] 48 [xmm12] 49 [xmm13] 50 [xmm14] 51 [xmm15] 52 [] 53 [] 54 [] 55 [] 56 [] 57 [] 58 [] 59 [] 60 [] 61 [] 62 [] 63 [] 64 [] 65 [] 66 [] 67 [] 68 [] 69 [] 70 [] 71 [] 72 [] 73 [] 74 [] 75 []
+;; live  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; live  gen 	
+;; live  kill	
+
+(note 77 70 71 7 [bb 7] NOTE_INSN_BASIC_BLOCK)
+(call_insn 71 77 73 7 (call (mem:QI (symbol_ref:DI ("__stack_chk_fail") [flags 0x41]  <function_decl 0x7f44426cfa00 __stack_chk_fail>) [0 __stack_chk_fail S1 A8])
+        (const_int 0 [0])) "cmodules/fbgc_io.c":39:1 666 {*call}
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("__stack_chk_fail") [flags 0x41]  <function_decl 0x7f44426cfa00 __stack_chk_fail>)
+        (expr_list:REG_ARGS_SIZE (const_int 0 [0])
+            (expr_list:REG_NORETURN (const_int 0 [0])
+                (expr_list:REG_EH_REGION (const_int 0 [0])
+                    (nil)))))
+    (nil))
+;; lr  out 	 7 [sp] 16 [argp] 19 [frame]
+;; live  out 	 7 [sp] 16 [argp] 19 [frame]
+
+;;  succ:      
+
+;; basic block 8, loop depth 0, count 1072453851 (estimated locally), maybe hot
+;;  prev block 7, next block 1, flags: (REACHABLE, RTL, MODIFIED)
+;;  pred:       6 [100.0% (guessed)]  count:1072453851 (estimated locally)
+;; bb 8 artificial_defs: { }
+;; bb 8 artificial_uses: { u69(6){ }u70(7){ }u71(16){ }u72(19){ }}
+;; lr  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 86
+;; lr  use 	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 86
+;; lr  def 	 0 [ax]
+;; live  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 86
+;; live  gen 	 0 [ax]
+;; live  kill	
+
+(code_label 73 71 78 8 14 (nil) [1 uses])
+(note 78 73 74 8 [bb 8] NOTE_INSN_BASIC_BLOCK)
+(insn 74 78 75 8 (set (reg/i:DI 0 ax)
+        (reg/v/f:DI 86 [ <retval> ])) "cmodules/fbgc_io.c":39:1 66 {*movdi_internal}
+     (expr_list:REG_DEAD (reg/v/f:DI 86 [ <retval> ])
+        (nil)))
+(insn 75 74 0 8 (use (reg/i:DI 0 ax)) "cmodules/fbgc_io.c":39:1 -1
+     (nil))
+;; lr  out 	 0 [ax] 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; live  out 	 0 [ax] 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+
+;;  succ:       EXIT [always]  count:1072453851 (estimated locally) (FALLTHRU)
+
+;; basic block 1, loop depth 0, count 1072883003 (estimated locally), maybe hot
+;;  prev block 8, next block (nil), flags: (REACHABLE, RTL, MODIFIED)
+;;  pred:       8 [always]  count:1072453851 (estimated locally) (FALLTHRU)
+;; bb 1 artificial_defs: { }
+;; bb 1 artificial_uses: { u75(0){ }u76(6){ }u77(7){ }u78(19){ }}
+;; lr  in  	 0 [ax] 6 [bp] 7 [sp] 19 [frame]
+;; lr  use 	 0 [ax] 6 [bp] 7 [sp] 19 [frame]
+;; lr  def 	
+;; live  in  	 0 [ax] 6 [bp] 7 [sp] 19 [frame]
+;; live  gen 	
+;; live  kill	
+
+;; lr  out 	
+;; live  out 	
+
+;;  succ:      
+
+
+starting the processing of deferred insns
+ending the processing of deferred insns
+df_analyze called
+;; Following path with 40 sets: 2 4 6 8 
+;; Following path with 39 sets: 2 4 6 7 
+;; Following path with 37 sets: 2 4 5 
+;; Following path with 16 sets: 2 3 
+;; Following path with 2 sets: 8 
+starting the processing of deferred insns
+ending the processing of deferred insns
+
+
+fbgc_read
+
+Dataflow summary:
+;;  invalidated by call 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 8 [st] 9 [st(1)] 10 [st(2)] 11 [st(3)] 12 [st(4)] 13 [st(5)] 14 [st(6)] 15 [st(7)] 17 [flags] 18 [fpsr] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 28 [mm0] 29 [mm1] 30 [mm2] 31 [mm3] 32 [mm4] 33 [mm5] 34 [mm6] 35 [mm7] 36 [r8] 37 [r9] 38 [r10] 39 [r11] 44 [xmm8] 45 [xmm9] 46 [xmm10] 47 [xmm11] 48 [xmm12] 49 [xmm13] 50 [xmm14] 51 [xmm15] 52 [] 53 [] 54 [] 55 [] 56 [] 57 [] 58 [] 59 [] 60 [] 61 [] 62 [] 63 [] 64 [] 65 [] 66 [] 67 [] 68 [] 69 [] 70 [] 71 [] 72 [] 73 [] 74 [] 75 []
+;;  hardware regs used 	 7 [sp] 16 [argp] 19 [frame]
+;;  regular block artificial uses 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;;  eh block artificial uses 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;;  entry block defs 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 36 [r8] 37 [r9]
+;;  exit block uses 	 0 [ax] 6 [bp] 7 [sp] 19 [frame]
+;;  regs ever live 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 7 [sp] 17 [flags]
+;;  ref usage 	r0={10d,5u} r1={10d,2u} r2={10d,2u} r4={11d,5u} r5={14d,8u} r6={1d,8u} r7={1d,15u} r8={7d} r9={7d} r10={7d} r11={7d} r12={7d} r13={7d} r14={7d} r15={7d} r16={1d,7u} r17={12d,3u} r18={7d} r19={1d,13u,1e} r20={8d} r21={8d} r22={8d} r23={8d} r24={8d} r25={8d} r26={8d} r27={8d} r28={7d} r29={7d} r30={7d} r31={7d} r32={7d} r33={7d} r34={7d} r35={7d} r36={8d} r37={8d} r38={7d} r39={7d} r44={7d} r45={7d} r46={7d} r47={7d} r48={7d} r49={7d} r50={7d} r51={7d} r52={7d} r53={7d} r54={7d} r55={7d} r56={7d} r57={7d} r58={7d} r59={7d} r60={7d} r61={7d} r62={7d} r63={7d} r64={7d} r65={7d} r66={7d} r67={7d} r68={7d} r69={7d} r70={7d} r71={7d} r72={7d} r73={7d} r74={7d} r75={7d} r83={1d,1u} r86={1d,2u} r87={1d,1u} r88={1d,1u} r90={1d,1u} r91={1d,1u} r92={1d,1u} 
+;;    total ref usage 592{515d,76u,1e} in 56{49 regular + 7 call} insns.
+;; basic block 2, loop depth 0, count 1073741824 (estimated locally), maybe hot
+;;  prev block 0, next block 3, flags: (REACHABLE, RTL, MODIFIED)
+;;  pred:       ENTRY [always]  count:1073741824 (estimated locally) (FALLTHRU)
+;; bb 2 artificial_defs: { }
+;; bb 2 artificial_uses: { u0(6){ }u1(7){ }u2(16){ }u3(19){ }}
+;; lr  in  	 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; lr  use 	 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; lr  def 	 17 [flags] 87 88
+;; live  in  	 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; live  gen 	 17 [flags] 87 88
+;; live  kill	 17 [flags]
+(note 7 0 79 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 79 7 2 2 (var_location:DI D#5 (reg:DI 5 di [ arg ])) -1
+     (nil))
+(insn 2 79 80 2 (set (reg/v/f:DI 87 [ arg ])
+        (reg:DI 5 di [ arg ])) "cmodules/fbgc_io.c":28:37 66 {*movdi_internal}
+     (expr_list:REG_DEAD (reg:DI 5 di [ arg ])
+        (nil)))
+(debug_insn 80 2 3 2 (var_location:SI D#6 (reg:SI 4 si [ argc ])) -1
+     (nil))
+(insn 3 80 4 2 (set (reg/v:SI 88 [ argc ])
+        (reg:SI 4 si [ argc ])) "cmodules/fbgc_io.c":28:37 67 {*movsi_internal}
+     (expr_list:REG_DEAD (reg:SI 4 si [ argc ])
+        (nil)))
+(note 4 3 6 2 NOTE_INSN_FUNCTION_BEG)
+(insn 6 4 9 2 (parallel [
+            (set (mem/v/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                        (const_int -8 [0xfffffffffffffff8])) [4 D.5774+0 S8 A64])
+                (unspec:DI [
+                        (mem/v/f:DI (const_int 40 [0x28]) [5 MEM[(<address-space-1> long unsigned int *)40B]+0 S8 A64 AS1])
+                    ] UNSPEC_SP_SET))
+            (set (scratch:DI)
+                (const_int 0 [0]))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_io.c":28:37 976 {stack_protect_set_di}
+     (expr_list:REG_UNUSED (reg:CC 17 flags)
+        (nil)))
+(debug_insn 9 6 12 2 (debug_marker) "cmodules/fbgc_io.c":30:2 -1
+     (nil))
+(insn 12 9 13 2 (set (reg:CCNO 17 flags)
+        (compare:CCNO (reg/v:SI 88 [ argc ])
+            (const_int 0 [0]))) "cmodules/fbgc_io.c":30:2 7 {*cmpsi_ccno_1}
+     (expr_list:REG_DEAD (reg/v:SI 88 [ argc ])
+        (nil)))
+(jump_insn 13 12 14 2 (set (pc)
+        (if_then_else (gt (reg:CCNO 17 flags)
+                (const_int 0 [0]))
+            (label_ref 22)
+            (pc))) "cmodules/fbgc_io.c":30:2 659 {*jcc}
+     (expr_list:REG_DEAD (reg:CCNO 17 flags)
+        (int_list:REG_BR_PROB 1073312332 (nil)))
+ -> 22)
+;;  succ:       4 [100.0% (guessed)]  count:1073312328 (estimated locally)
+;;              3 [0.0% (guessed)]  count:429496 (estimated locally) (FALLTHRU)
+;; lr  out 	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 87
+;; live  out 	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 87
+
+;; basic block 3, loop depth 0, count 429497 (estimated locally)
+;;  prev block 2, next block 4, flags: (REACHABLE, RTL, MODIFIED)
+;;  pred:       2 [0.0% (guessed)]  count:429496 (estimated locally) (FALLTHRU)
+;; bb 3 artificial_defs: { }
+;; bb 3 artificial_uses: { u12(6){ }u13(7){ }u14(16){ }u15(19){ }}
+;; lr  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; lr  use 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; lr  def 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 8 [st] 9 [st(1)] 10 [st(2)] 11 [st(3)] 12 [st(4)] 13 [st(5)] 14 [st(6)] 15 [st(7)] 17 [flags] 18 [fpsr] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 28 [mm0] 29 [mm1] 30 [mm2] 31 [mm3] 32 [mm4] 33 [mm5] 34 [mm6] 35 [mm7] 36 [r8] 37 [r9] 38 [r10] 39 [r11] 44 [xmm8] 45 [xmm9] 46 [xmm10] 47 [xmm11] 48 [xmm12] 49 [xmm13] 50 [xmm14] 51 [xmm15] 52 [] 53 [] 54 [] 55 [] 56 [] 57 [] 58 [] 59 [] 60 [] 61 [] 62 [] 63 [] 64 [] 65 [] 66 [] 67 [] 68 [] 69 [] 70 [] 71 [] 72 [] 73 [] 74 [] 75 []
+;; live  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; live  gen 	 1 [dx] 2 [cx] 4 [si] 5 [di]
+;; live  kill	
+(note 14 13 15 3 [bb 3] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 15 14 16 3 (debug_marker) "cmodules/fbgc_io.c":30:2 -1
+     (nil))
+(insn 16 15 17 3 (set (reg:DI 2 cx)
+        (symbol_ref:DI ("__PRETTY_FUNCTION__.5709") [flags 0x2]  <var_decl 0x7f4442aead80 __PRETTY_FUNCTION__>)) "cmodules/fbgc_io.c":30:2 66 {*movdi_internal}
+     (nil))
+(insn 17 16 18 3 (set (reg:SI 1 dx)
+        (const_int 30 [0x1e])) "cmodules/fbgc_io.c":30:2 67 {*movsi_internal}
+     (nil))
+(insn 18 17 19 3 (set (reg:DI 4 si)
+        (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7f44426df480 *.LC0>)) "cmodules/fbgc_io.c":30:2 66 {*movdi_internal}
+     (nil))
+(insn 19 18 20 3 (set (reg:DI 5 di)
+        (symbol_ref/f:DI ("*.LC1") [flags 0x2]  <var_decl 0x7f44426df510 *.LC1>)) "cmodules/fbgc_io.c":30:2 66 {*movdi_internal}
+     (nil))
+(call_insn 20 19 22 3 (call (mem:QI (symbol_ref:DI ("__assert_fail") [flags 0x41]  <function_decl 0x7f44429aac00 __assert_fail>) [0 __assert_fail S1 A8])
+        (const_int 0 [0])) "cmodules/fbgc_io.c":30:2 666 {*call}
+     (expr_list:REG_DEAD (reg:DI 5 di)
+        (expr_list:REG_DEAD (reg:DI 4 si)
+            (expr_list:REG_DEAD (reg:DI 2 cx)
+                (expr_list:REG_DEAD (reg:SI 1 dx)
+                    (expr_list:REG_CALL_DECL (symbol_ref:DI ("__assert_fail") [flags 0x41]  <function_decl 0x7f44429aac00 __assert_fail>)
+                        (expr_list:REG_ARGS_SIZE (const_int 0 [0])
+                            (expr_list:REG_NORETURN (const_int 0 [0])
+                                (expr_list:REG_EH_REGION (const_int 0 [0])
+                                    (nil)))))))))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:SI (use (reg:SI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+;;  succ:      
+;; lr  out 	 7 [sp] 16 [argp] 19 [frame]
+;; live  out 	 7 [sp] 16 [argp] 19 [frame]
+
+;; basic block 4, loop depth 0, count 1073312328 (estimated locally), maybe hot
+;;  prev block 3, next block 5, flags: (REACHABLE, RTL, MODIFIED)
+;;  pred:       2 [100.0% (guessed)]  count:1073312328 (estimated locally)
+;; bb 4 artificial_defs: { }
+;; bb 4 artificial_uses: { u21(6){ }u22(7){ }u23(16){ }u24(19){ }}
+;; lr  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 87
+;; lr  use 	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 87
+;; lr  def 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 8 [st] 9 [st(1)] 10 [st(2)] 11 [st(3)] 12 [st(4)] 13 [st(5)] 14 [st(6)] 15 [st(7)] 17 [flags] 18 [fpsr] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 28 [mm0] 29 [mm1] 30 [mm2] 31 [mm3] 32 [mm4] 33 [mm5] 34 [mm6] 35 [mm7] 36 [r8] 37 [r9] 38 [r10] 39 [r11] 44 [xmm8] 45 [xmm9] 46 [xmm10] 47 [xmm11] 48 [xmm12] 49 [xmm13] 50 [xmm14] 51 [xmm15] 52 [] 53 [] 54 [] 55 [] 56 [] 57 [] 58 [] 59 [] 60 [] 61 [] 62 [] 63 [] 64 [] 65 [] 66 [] 67 [] 68 [] 69 [] 70 [] 71 [] 72 [] 73 [] 74 [] 75 [] 83 90
+;; live  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 87
+;; live  gen 	 0 [ax] 4 [si] 5 [di] 17 [flags] 83 90
+;; live  kill	 17 [flags]
+(code_label 22 20 23 4 12 (nil) [1 uses])
+(note 23 22 24 4 [bb 4] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 24 23 25 4 (debug_marker) "cmodules/fbgc_io.c":32:2 -1
+     (nil))
+(insn 25 24 26 4 (set (reg:DI 5 di)
+        (mem/f:DI (reg/v/f:DI 87 [ arg ]) [1 *arg_8(D)+0 S8 A64])) "cmodules/fbgc_io.c":32:2 66 {*movdi_internal}
+     (expr_list:REG_DEAD (reg/v/f:DI 87 [ arg ])
+        (nil)))
+(call_insn 26 25 27 4 (call (mem:QI (symbol_ref:DI ("printf_fbgc_object") [flags 0x41]  <function_decl 0x7f4442ae4d00 printf_fbgc_object>) [0 printf_fbgc_object S1 A8])
+        (const_int 0 [0])) "cmodules/fbgc_io.c":32:2 666 {*call}
+     (expr_list:REG_DEAD (reg:DI 5 di)
+        (expr_list:REG_CALL_DECL (symbol_ref:DI ("printf_fbgc_object") [flags 0x41]  <function_decl 0x7f4442ae4d00 printf_fbgc_object>)
+            (nil)))
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(debug_insn 27 26 28 4 (debug_marker) "cmodules/fbgc_io.c":33:2 -1
+     (nil))
+(debug_insn 28 27 29 4 (debug_marker) "cmodules/fbgc_io.c":34:2 -1
+     (nil))
+(insn 29 28 30 4 (parallel [
+            (set (reg/f:DI 90)
+                (plus:DI (reg/f:DI 19 frame)
+                    (const_int -16 [0xfffffffffffffff0])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_io.c":34:2 191 {*adddi_1}
+     (expr_list:REG_UNUSED (reg:CC 17 flags)
+        (nil)))
+(insn 30 29 31 4 (set (reg:DI 4 si)
+        (reg/f:DI 90)) "cmodules/fbgc_io.c":34:2 66 {*movdi_internal}
+     (expr_list:REG_DEAD (reg/f:DI 90)
+        (expr_list:REG_EQUAL (plus:DI (reg/f:DI 19 frame)
+                (const_int -16 [0xfffffffffffffff0]))
+            (nil))))
+(insn 31 30 32 4 (set (reg:DI 5 di)
+        (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0x7f44426df5a0 *.LC2>)) "cmodules/fbgc_io.c":34:2 66 {*movdi_internal}
+     (nil))
+(insn 32 31 33 4 (set (reg:QI 0 ax)
+        (const_int 0 [0])) "cmodules/fbgc_io.c":34:2 69 {*movqi_internal}
+     (nil))
+(call_insn 33 32 34 4 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("*__isoc99_scanf") [flags 0x41]  <function_decl 0x7f4442bec600 scanf>) [0 __builtin_scanf S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_io.c":34:2 677 {*call_value}
+     (expr_list:REG_DEAD (reg:DI 5 di)
+        (expr_list:REG_DEAD (reg:DI 4 si)
+            (expr_list:REG_CALL_DECL (symbol_ref:DI ("*__isoc99_scanf") [flags 0x41]  <function_decl 0x7f4442bec600 scanf>)
+                (nil))))
+    (expr_list (use (reg:QI 0 ax))
+        (expr_list:DI (use (reg:DI 5 di))
+            (expr_list:DI (use (reg:DI 4 si))
+                (nil)))))
+(insn 34 33 35 4 (set (reg:SI 83 [ _2 ])
+        (reg:SI 0 ax)) "cmodules/fbgc_io.c":34:2 67 {*movsi_internal}
+     (expr_list:REG_DEAD (reg:SI 0 ax)
+        (nil)))
+(insn 35 34 36 4 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg:SI 83 [ _2 ])
+            (const_int 1 [0x1]))) "cmodules/fbgc_io.c":34:2 11 {*cmpsi_1}
+     (expr_list:REG_DEAD (reg:SI 83 [ _2 ])
+        (nil)))
+(jump_insn 36 35 37 4 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 52)
+            (pc))) "cmodules/fbgc_io.c":34:2 659 {*jcc}
+     (expr_list:REG_DEAD (reg:CCZ 17 flags)
+        (int_list:REG_BR_PROB 1073312332 (nil)))
+ -> 52)
+;;  succ:       6 [100.0% (guessed)]  count:1072883004 (estimated locally)
+;;              5 [0.0% (guessed)]  count:429324 (estimated locally) (FALLTHRU)
+;; lr  out 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; live  out 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+
+;; basic block 5, loop depth 0, count 429325 (estimated locally)
+;;  prev block 4, next block 6, flags: (REACHABLE, RTL, MODIFIED)
+;;  pred:       4 [0.0% (guessed)]  count:429324 (estimated locally) (FALLTHRU)
+;; bb 5 artificial_defs: { }
+;; bb 5 artificial_uses: { u38(6){ }u39(7){ }u40(16){ }u41(19){ }}
+;; lr  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; lr  use 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; lr  def 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 8 [st] 9 [st(1)] 10 [st(2)] 11 [st(3)] 12 [st(4)] 13 [st(5)] 14 [st(6)] 15 [st(7)] 17 [flags] 18 [fpsr] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 28 [mm0] 29 [mm1] 30 [mm2] 31 [mm3] 32 [mm4] 33 [mm5] 34 [mm6] 35 [mm7] 36 [r8] 37 [r9] 38 [r10] 39 [r11] 44 [xmm8] 45 [xmm9] 46 [xmm10] 47 [xmm11] 48 [xmm12] 49 [xmm13] 50 [xmm14] 51 [xmm15] 52 [] 53 [] 54 [] 55 [] 56 [] 57 [] 58 [] 59 [] 60 [] 61 [] 62 [] 63 [] 64 [] 65 [] 66 [] 67 [] 68 [] 69 [] 70 [] 71 [] 72 [] 73 [] 74 [] 75 []
+;; live  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; live  gen 	 1 [dx] 2 [cx] 4 [si] 5 [di]
+;; live  kill	
+(note 37 36 38 5 [bb 5] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 38 37 39 5 (var_location:DI D#1 (debug_expr:DI D#5)) -1
+     (nil))
+(debug_insn 39 38 40 5 (var_location:SI D#2 (debug_expr:SI D#6)) -1
+     (nil))
+(debug_insn 40 39 41 5 (debug_marker:BLK) "cmodules/fbgc_io.c":28:1 -1
+     (nil))
+(debug_insn 41 40 42 5 (var_location:DI D#4 (debug_expr:DI D#1)) -1
+     (nil))
+(debug_insn 42 41 43 5 (var_location:DI arg (debug_expr:DI D#4)) -1
+     (nil))
+(debug_insn 43 42 44 5 (var_location:SI D#3 (debug_expr:SI D#2)) -1
+     (nil))
+(debug_insn 44 43 45 5 (var_location:SI argc (debug_expr:SI D#3)) -1
+     (nil))
+(debug_insn 45 44 46 5 (debug_marker) "cmodules/fbgc_io.c":34:2 -1
+     (nil))
+(insn 46 45 47 5 (set (reg:DI 2 cx)
+        (symbol_ref:DI ("__PRETTY_FUNCTION__.5709") [flags 0x2]  <var_decl 0x7f4442aead80 __PRETTY_FUNCTION__>)) "cmodules/fbgc_io.c":34:2 66 {*movdi_internal}
+     (nil))
+(insn 47 46 48 5 (set (reg:SI 1 dx)
+        (const_int 34 [0x22])) "cmodules/fbgc_io.c":34:2 67 {*movsi_internal}
+     (nil))
+(insn 48 47 49 5 (set (reg:DI 4 si)
+        (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7f44426df480 *.LC0>)) "cmodules/fbgc_io.c":34:2 66 {*movdi_internal}
+     (nil))
+(insn 49 48 50 5 (set (reg:DI 5 di)
+        (symbol_ref/f:DI ("*.LC3") [flags 0x2]  <var_decl 0x7f44426df630 *.LC3>)) "cmodules/fbgc_io.c":34:2 66 {*movdi_internal}
+     (nil))
+(call_insn 50 49 52 5 (call (mem:QI (symbol_ref:DI ("__assert_fail") [flags 0x41]  <function_decl 0x7f44429aac00 __assert_fail>) [0 __assert_fail S1 A8])
+        (const_int 0 [0])) "cmodules/fbgc_io.c":34:2 666 {*call}
+     (expr_list:REG_DEAD (reg:DI 5 di)
+        (expr_list:REG_DEAD (reg:DI 4 si)
+            (expr_list:REG_DEAD (reg:DI 2 cx)
+                (expr_list:REG_DEAD (reg:SI 1 dx)
+                    (expr_list:REG_CALL_DECL (symbol_ref:DI ("__assert_fail") [flags 0x41]  <function_decl 0x7f44429aac00 __assert_fail>)
+                        (expr_list:REG_ARGS_SIZE (const_int 0 [0])
+                            (expr_list:REG_NORETURN (const_int 0 [0])
+                                (expr_list:REG_EH_REGION (const_int 0 [0])
+                                    (nil)))))))))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:SI (use (reg:SI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+;;  succ:      
+;; lr  out 	 7 [sp] 16 [argp] 19 [frame]
+;; live  out 	 7 [sp] 16 [argp] 19 [frame]
+
+;; basic block 6, loop depth 0, count 1072883003 (estimated locally), maybe hot
+;;  prev block 5, next block 7, flags: (REACHABLE, RTL, MODIFIED)
+;;  pred:       4 [100.0% (guessed)]  count:1072883004 (estimated locally)
+;; bb 6 artificial_defs: { }
+;; bb 6 artificial_uses: { u47(6){ }u48(7){ }u49(16){ }u50(19){ }}
+;; lr  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; lr  use 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; lr  def 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 8 [st] 9 [st(1)] 10 [st(2)] 11 [st(3)] 12 [st(4)] 13 [st(5)] 14 [st(6)] 15 [st(7)] 17 [flags] 18 [fpsr] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 28 [mm0] 29 [mm1] 30 [mm2] 31 [mm3] 32 [mm4] 33 [mm5] 34 [mm6] 35 [mm7] 36 [r8] 37 [r9] 38 [r10] 39 [r11] 44 [xmm8] 45 [xmm9] 46 [xmm10] 47 [xmm11] 48 [xmm12] 49 [xmm13] 50 [xmm14] 51 [xmm15] 52 [] 53 [] 54 [] 55 [] 56 [] 57 [] 58 [] 59 [] 60 [] 61 [] 62 [] 63 [] 64 [] 65 [] 66 [] 67 [] 68 [] 69 [] 70 [] 71 [] 72 [] 73 [] 74 [] 75 [] 86 91 92
+;; live  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; live  gen 	 0 [ax] 5 [di] 17 [flags] 86 91 92
+;; live  kill	
+(code_label 52 50 53 6 13 (nil) [1 uses])
+(note 53 52 54 6 [bb 6] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 54 53 55 6 (debug_marker) "cmodules/fbgc_io.c":36:2 -1
+     (nil))
+(insn 55 54 56 6 (set (reg/f:DI 91 [ str_content ])
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -16 [0xfffffffffffffff0])) [3 str_content+0 S8 A64])) "cmodules/fbgc_io.c":36:29 66 {*movdi_internal}
+     (nil))
+(insn 56 55 57 6 (set (reg:DI 5 di)
+        (reg/f:DI 91 [ str_content ])) "cmodules/fbgc_io.c":36:29 66 {*movdi_internal}
+     (expr_list:REG_DEAD (reg/f:DI 91 [ str_content ])
+        (nil)))
+(call_insn 57 56 58 6 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("new_fbgc_str_object") [flags 0x41]  <function_decl 0x7f4442b02000 new_fbgc_str_object>) [0 new_fbgc_str_object S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_io.c":36:29 677 {*call_value}
+     (expr_list:REG_DEAD (reg:DI 5 di)
+        (expr_list:REG_CALL_DECL (symbol_ref:DI ("new_fbgc_str_object") [flags 0x41]  <function_decl 0x7f4442b02000 new_fbgc_str_object>)
+            (nil)))
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(insn 58 57 59 6 (set (reg/v/f:DI 86 [ <retval> ])
+        (reg:DI 0 ax)) "cmodules/fbgc_io.c":36:29 66 {*movdi_internal}
+     (expr_list:REG_DEAD (reg:DI 0 ax)
+        (nil)))
+(debug_insn 59 58 60 6 (var_location:DI res (reg/v/f:DI 86 [ <retval> ])) "cmodules/fbgc_io.c":36:29 -1
+     (nil))
+(debug_insn 60 59 61 6 (debug_marker) "cmodules/fbgc_io.c":37:2 -1
+     (nil))
+(insn 61 60 62 6 (set (reg/f:DI 92 [ str_content ])
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -16 [0xfffffffffffffff0])) [3 str_content+0 S8 A64])) "cmodules/fbgc_io.c":37:2 66 {*movdi_internal}
+     (nil))
+(insn 62 61 63 6 (set (reg:DI 5 di)
+        (reg/f:DI 92 [ str_content ])) "cmodules/fbgc_io.c":37:2 66 {*movdi_internal}
+     (expr_list:REG_DEAD (reg/f:DI 92 [ str_content ])
+        (nil)))
+(call_insn 63 62 64 6 (call (mem:QI (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7f4442c04400 free>) [0 __builtin_free S1 A8])
+        (const_int 0 [0])) "cmodules/fbgc_io.c":37:2 666 {*call}
+     (expr_list:REG_DEAD (reg:DI 5 di)
+        (expr_list:REG_CALL_DECL (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7f4442c04400 free>)
+            (expr_list:REG_EH_REGION (const_int 0 [0])
+                (nil))))
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(debug_insn 64 63 69 6 (debug_marker) "cmodules/fbgc_io.c":38:2 -1
+     (nil))
+(insn 69 64 70 6 (parallel [
+            (set (reg:CCZ 17 flags)
+                (unspec:CCZ [
+                        (mem/v/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                                (const_int -8 [0xfffffffffffffff8])) [4 D.5774+0 S8 A64])
+                        (mem/v/f:DI (const_int 40 [0x28]) [5 MEM[(<address-space-1> long unsigned int *)40B]+0 S8 A64 AS1])
+                    ] UNSPEC_SP_TEST))
+            (clobber (scratch:DI))
+        ]) "cmodules/fbgc_io.c":39:1 978 {stack_protect_test_di}
+     (nil))
+(jump_insn 70 69 77 6 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 73)
+            (pc))) "cmodules/fbgc_io.c":39:1 659 {*jcc}
+     (expr_list:REG_DEAD (reg:CCZ 17 flags)
+        (int_list:REG_BR_PROB 1073312332 (nil)))
+ -> 73)
+;;  succ:       8 [100.0% (guessed)]  count:1072453851 (estimated locally)
+;;              7 [0.0% (guessed)]  count:429152 (estimated locally) (FALLTHRU)
+;; lr  out 	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 86
+;; live  out 	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 86
+
+;; basic block 7, loop depth 0, count 429152 (estimated locally)
+;;  prev block 6, next block 8, flags: (REACHABLE, RTL, MODIFIED)
+;;  pred:       6 [0.0% (guessed)]  count:429152 (estimated locally) (FALLTHRU)
+;; bb 7 artificial_defs: { }
+;; bb 7 artificial_uses: { u64(6){ }u65(7){ }u66(16){ }u67(19){ }}
+;; lr  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; lr  use 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; lr  def 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 8 [st] 9 [st(1)] 10 [st(2)] 11 [st(3)] 12 [st(4)] 13 [st(5)] 14 [st(6)] 15 [st(7)] 17 [flags] 18 [fpsr] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 28 [mm0] 29 [mm1] 30 [mm2] 31 [mm3] 32 [mm4] 33 [mm5] 34 [mm6] 35 [mm7] 36 [r8] 37 [r9] 38 [r10] 39 [r11] 44 [xmm8] 45 [xmm9] 46 [xmm10] 47 [xmm11] 48 [xmm12] 49 [xmm13] 50 [xmm14] 51 [xmm15] 52 [] 53 [] 54 [] 55 [] 56 [] 57 [] 58 [] 59 [] 60 [] 61 [] 62 [] 63 [] 64 [] 65 [] 66 [] 67 [] 68 [] 69 [] 70 [] 71 [] 72 [] 73 [] 74 [] 75 []
+;; live  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; live  gen 	
+;; live  kill	
+(note 77 70 71 7 [bb 7] NOTE_INSN_BASIC_BLOCK)
+(call_insn 71 77 73 7 (call (mem:QI (symbol_ref:DI ("__stack_chk_fail") [flags 0x41]  <function_decl 0x7f44426cfa00 __stack_chk_fail>) [0 __stack_chk_fail S1 A8])
+        (const_int 0 [0])) "cmodules/fbgc_io.c":39:1 666 {*call}
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("__stack_chk_fail") [flags 0x41]  <function_decl 0x7f44426cfa00 __stack_chk_fail>)
+        (expr_list:REG_ARGS_SIZE (const_int 0 [0])
+            (expr_list:REG_NORETURN (const_int 0 [0])
+                (expr_list:REG_EH_REGION (const_int 0 [0])
+                    (nil)))))
+    (nil))
+;;  succ:      
+;; lr  out 	 7 [sp] 16 [argp] 19 [frame]
+;; live  out 	 7 [sp] 16 [argp] 19 [frame]
+
+;; basic block 8, loop depth 0, count 1072453851 (estimated locally), maybe hot
+;;  prev block 7, next block 1, flags: (REACHABLE, RTL, MODIFIED)
+;;  pred:       6 [100.0% (guessed)]  count:1072453851 (estimated locally)
+;; bb 8 artificial_defs: { }
+;; bb 8 artificial_uses: { u69(6){ }u70(7){ }u71(16){ }u72(19){ }}
+;; lr  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 86
+;; lr  use 	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 86
+;; lr  def 	 0 [ax]
+;; live  in  	 6 [bp] 7 [sp] 16 [argp] 19 [frame] 86
+;; live  gen 	 0 [ax]
+;; live  kill	
+(code_label 73 71 78 8 14 (nil) [1 uses])
+(note 78 73 74 8 [bb 8] NOTE_INSN_BASIC_BLOCK)
+(insn 74 78 75 8 (set (reg/i:DI 0 ax)
+        (reg/v/f:DI 86 [ <retval> ])) "cmodules/fbgc_io.c":39:1 66 {*movdi_internal}
+     (expr_list:REG_DEAD (reg/v/f:DI 86 [ <retval> ])
+        (nil)))
+(insn 75 74 0 8 (use (reg/i:DI 0 ax)) "cmodules/fbgc_io.c":39:1 -1
+     (nil))
+;;  succ:       EXIT [always]  count:1072453851 (estimated locally) (FALLTHRU)
+;; lr  out 	 0 [ax] 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;; live  out 	 0 [ax] 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+

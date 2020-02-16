@@ -41,7 +41,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 #define FETCH_NEXT()(pc = pc->next)
 
-#define MAX(a,b)( a > b ? a : b )
+//#define MAX(a,b)( a > b ? a : b )
 
 
 #define RECURSION_LIMIT 1000
@@ -310,7 +310,6 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				#endif
 
 				struct fbgc_object * rhs = POP();
-
 				struct fbgc_object ** lhs = NULL;
 
 				if(is_id_flag_GLOBAL(pc)){
@@ -329,6 +328,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 					_POP();
 
+					//why do we have break here?
 					break;
 					
 				}
@@ -414,8 +414,8 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					fbgc_token op_type = R_SHIFT + type - R_SHIFT_ASSIGN;
 					//assert(lhs != NULL && *lhs != NULL);
 
-					fbgc_token main_tok = MAX(get_fbgc_object_type( (*lhs) ),get_fbgc_object_type(rhs));
-					rhs = call_fbgc_operator(main_tok,*lhs,rhs,op_type);
+					//fbgc_token main_tok = MAX(get_fbgc_object_type( (*lhs) ),get_fbgc_object_type(rhs));
+					rhs = call_fbgc_operator2(0,*lhs,rhs,op_type);
 					//assert(rhs != NULL);					
 				}
 
@@ -448,11 +448,10 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			case ELIF:
 			case WHILE:
 			{
-				struct fbgc_object * cond = POP();
-				char c = convert_fbgc_object_to_logic(cond);
-				if(!c){
+				if(!convert_fbgc_object_to_logic(TOP())){
 					pc = cast_fbgc_object_as_jumper(pc)->content;
 				}
+				_POP();
 				break;
 			}
 			case FOR:
@@ -467,8 +466,8 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				struct fbgc_object * seq_ob = SECOND();
 
 				if(i == -1){
-					//New construciont of the for loop
-					//change the top put the new iterator
+					//New construcion of the for loop
+					//change the top and put the new iterator
 					SET_TOP(new_fbgc_int_object(i = 0));
 				}
 				else {
@@ -479,6 +478,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 				if(seq_ob->type == RANGE){
 					//this function is very slow!
+					//## change this function..
 					seq_ob = get_element_in_fbgc_range_object(seq_ob,i);					
 				}
 				else if(seq_ob->type == STRING){

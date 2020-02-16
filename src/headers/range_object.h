@@ -21,6 +21,8 @@ struct fbgc_object * new_fbgc_range_object(struct fbgc_object * s,struct fbgc_ob
 struct fbgc_object * get_element_in_fbgc_range_object(struct fbgc_object * robj,int index);
 fbgc_token get_fbgc_range_object_iter_type(struct fbgc_object * robj);
 
+void print_fbgc_range_object(struct fbgc_object * obj);
+
 #ifdef  __cplusplus
 }
 #endif

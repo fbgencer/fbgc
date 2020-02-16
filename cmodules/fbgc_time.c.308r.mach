@@ -1,0 +1,421 @@
+
+;; Function fbgc_time_initializer (fbgc_time_initializer, funcdef_no=58, decl_uid=5687, cgraph_uid=59, symbol_order=63)
+
+
+
+fbgc_time_initializer
+
+Dataflow summary:
+;;  invalidated by call 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 8 [st] 9 [st(1)] 10 [st(2)] 11 [st(3)] 12 [st(4)] 13 [st(5)] 14 [st(6)] 15 [st(7)] 17 [flags] 18 [fpsr] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 28 [mm0] 29 [mm1] 30 [mm2] 31 [mm3] 32 [mm4] 33 [mm5] 34 [mm6] 35 [mm7] 36 [r8] 37 [r9] 38 [r10] 39 [r11] 44 [xmm8] 45 [xmm9] 46 [xmm10] 47 [xmm11] 48 [xmm12] 49 [xmm13] 50 [xmm14] 51 [xmm15] 52 [] 53 [] 54 [] 55 [] 56 [] 57 [] 58 [] 59 [] 60 [] 61 [] 62 [] 63 [] 64 [] 65 [] 66 [] 67 [] 68 [] 69 [] 70 [] 71 [] 72 [] 73 [] 74 [] 75 []
+;;  hardware regs used 	 7 [sp]
+;;  regular block artificial uses 	 7 [sp]
+;;  eh block artificial uses 	 7 [sp] 16 [argp]
+;;  entry block defs 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 7 [sp] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 36 [r8] 37 [r9]
+;;  exit block uses 	 0 [ax] 7 [sp]
+;;  regs ever live 	 0 [ax] 17 [flags]
+;;  ref usage 	r0={2d,2u} r1={1d} r2={1d} r4={1d} r5={1d} r7={1d,2u} r17={1d} r20={1d} r21={1d} r22={1d} r23={1d} r24={1d} r25={1d} r26={1d} r27={1d} r36={1d} r37={1d} 
+;;    total ref usage 22{18d,4u,0e} in 3{3 regular + 0 call} insns.
+(note 1 0 25 NOTE_INSN_DELETED)
+(note 25 1 26 (var_location arg (reg:DI 5 di [ arg ])) NOTE_INSN_VAR_LOCATION)
+(note 26 25 5 (var_location argc (reg:SI 4 si [ argc ])) NOTE_INSN_VAR_LOCATION)
+(note 5 26 16 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(note 16 5 4 2 NOTE_INSN_PROLOGUE_END)
+(note 4 16 24 2 NOTE_INSN_FUNCTION_BEG)
+(note 24 4 22 2 cmodules/fbgc_time.c:44 NOTE_INSN_BEGIN_STMT)
+(insn:TI 22 24 13 2 (parallel [
+            (set (reg/i:DI 0 ax)
+                (const_int 0 [0]))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_time.c":45:1 60 {*movdi_xor}
+     (expr_list:REG_UNUSED (reg:CC 17 flags)
+        (nil)))
+(insn 13 22 23 2 (use (reg/i:DI 0 ax)) "cmodules/fbgc_time.c":45:1 -1
+     (nil))
+(note 23 13 18 2 NOTE_INSN_EPILOGUE_BEG)
+(jump_insn:TI 18 23 19 2 (simple_return) "cmodules/fbgc_time.c":45:1 690 {simple_return_internal}
+     (nil)
+ -> simple_return)
+(barrier 19 18 15)
+(note 15 19 0 NOTE_INSN_DELETED)
+
+;; Function fbgc_tic (fbgc_tic, funcdef_no=56, decl_uid=5691, cgraph_uid=57, symbol_order=59)
+
+
+
+fbgc_tic
+
+Dataflow summary:
+;;  invalidated by call 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 8 [st] 9 [st(1)] 10 [st(2)] 11 [st(3)] 12 [st(4)] 13 [st(5)] 14 [st(6)] 15 [st(7)] 17 [flags] 18 [fpsr] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 28 [mm0] 29 [mm1] 30 [mm2] 31 [mm3] 32 [mm4] 33 [mm5] 34 [mm6] 35 [mm7] 36 [r8] 37 [r9] 38 [r10] 39 [r11] 44 [xmm8] 45 [xmm9] 46 [xmm10] 47 [xmm11] 48 [xmm12] 49 [xmm13] 50 [xmm14] 51 [xmm15] 52 [] 53 [] 54 [] 55 [] 56 [] 57 [] 58 [] 59 [] 60 [] 61 [] 62 [] 63 [] 64 [] 65 [] 66 [] 67 [] 68 [] 69 [] 70 [] 71 [] 72 [] 73 [] 74 [] 75 []
+;;  hardware regs used 	 7 [sp]
+;;  regular block artificial uses 	 7 [sp]
+;;  eh block artificial uses 	 7 [sp] 16 [argp]
+;;  entry block defs 	 0 [ax] 1 [dx] 2 [cx] 3 [bx] 4 [si] 5 [di] 7 [sp] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 36 [r8] 37 [r9] 40 [r12]
+;;  exit block uses 	 0 [ax] 3 [bx] 7 [sp] 40 [r12]
+;;  regs ever live 	 0 [ax] 3 [bx] 4 [si] 5 [di] 7 [sp] 17 [flags] 40 [r12]
+;;  ref usage 	r0={4d,5u} r1={3d} r2={3d} r3={3d,3u} r4={4d,2u} r5={4d,1u} r7={7d,14u} r8={2d} r9={2d} r10={2d} r11={2d} r12={2d} r13={2d} r14={2d} r15={2d} r17={6d,1u} r18={2d} r20={3d} r21={3d} r22={3d} r23={3d} r24={3d} r25={3d} r26={3d} r27={3d} r28={2d} r29={2d} r30={2d} r31={2d} r32={2d} r33={2d} r34={2d} r35={2d} r36={3d} r37={3d} r38={2d} r39={2d} r40={4d,3u} r44={2d} r45={2d} r46={2d} r47={2d} r48={2d} r49={2d} r50={2d} r51={2d} r52={2d} r53={2d} r54={2d} r55={2d} r56={2d} r57={2d} r58={2d} r59={2d} r60={2d} r61={2d} r62={2d} r63={2d} r64={2d} r65={2d} r66={2d} r67={2d} r68={2d} r69={2d} r70={2d} r71={2d} r72={2d} r73={2d} r74={2d} r75={2d} 
+;;    total ref usage 199{170d,29u,0e} in 19{17 regular + 2 call} insns.
+(note 1 0 66 NOTE_INSN_DELETED)
+(note 66 1 67 (var_location arg (reg:DI 5 di [ arg ])) NOTE_INSN_VAR_LOCATION)
+(note 67 66 6 (var_location argc (reg:SI 4 si [ argc ])) NOTE_INSN_VAR_LOCATION)
+(note 6 67 3 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(note 3 6 4 2 NOTE_INSN_DELETED)
+(note 4 3 61 2 NOTE_INSN_FUNCTION_BEG)
+(note 61 4 42 2 cmodules/fbgc_time.c:9 NOTE_INSN_BEGIN_STMT)
+(insn/f:TI 42 61 59 2 (set (mem:DI (pre_dec:DI (reg/f:DI 7 sp)) [0  S8 A8])
+        (reg:DI 40 r12)) "cmodules/fbgc_time.c":8:1 42 {*pushdi2_rex64}
+     (expr_list:REG_DEAD (reg:DI 40 r12)
+        (nil)))
+(insn 59 42 43 2 (parallel [
+            (set (reg/v/f:DI 40 r12 [orig:84 <retval> ] [84])
+                (const_int 0 [0]))
+            (clobber (reg:CC 17 flags))
+        ]) 60 {*movdi_xor}
+     (expr_list:REG_UNUSED (reg:CC 17 flags)
+        (nil)))
+(insn/f:TI 43 59 44 2 (set (mem:DI (pre_dec:DI (reg/f:DI 7 sp)) [0  S8 A8])
+        (reg:DI 3 bx)) "cmodules/fbgc_time.c":8:1 42 {*pushdi2_rex64}
+     (expr_list:REG_DEAD (reg:DI 3 bx)
+        (nil)))
+(insn/f:TI 44 43 45 2 (parallel [
+            (set (reg/f:DI 7 sp)
+                (plus:DI (reg/f:DI 7 sp)
+                    (const_int -8 [0xfffffffffffffff8])))
+            (clobber (reg:CC 17 flags))
+            (clobber (mem:BLK (scratch) [0  A8]))
+        ]) "cmodules/fbgc_time.c":8:1 959 {pro_epilogue_adjust_stack_di_add}
+     (expr_list:REG_UNUSED (reg:CC 17 flags)
+        (expr_list:REG_CFA_ADJUST_CFA (set (reg/f:DI 7 sp)
+                (plus:DI (reg/f:DI 7 sp)
+                    (const_int -8 [0xfffffffffffffff8])))
+            (nil))))
+(note 45 44 9 2 NOTE_INSN_PROLOGUE_END)
+(insn 9 45 10 2 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg:SI 4 si [88])
+            (const_int 0 [0]))) "cmodules/fbgc_time.c":9:4 7 {*cmpsi_ccno_1}
+     (expr_list:REG_DEAD (reg:SI 4 si [88])
+        (nil)))
+(jump_insn 10 9 11 2 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref:DI 30)
+            (pc))) "cmodules/fbgc_time.c":9:4 659 {*jcc}
+     (expr_list:REG_DEAD (reg:CCZ 17 flags)
+        (int_list:REG_BR_PROB 321370932 (nil)))
+ -> 30)
+(note 11 10 23 3 [bb 3] NOTE_INSN_BASIC_BLOCK)
+(note 23 11 62 3 NOTE_INSN_DELETED)
+(note 62 23 13 3 cmodules/fbgc_time.c:11 NOTE_INSN_BEGIN_STMT)
+(insn:TI 13 62 68 3 (set (reg:DI 4 si)
+        (symbol_ref:DI ("fbgc_time_module") [flags 0x2]  <var_decl 0x7f0f19661990 fbgc_time_module>)) "cmodules/fbgc_time.c":11:66 66 {*movdi_internal}
+     (nil))
+(note 68 13 14 3 (var_location argc (entry_value:SI (reg:SI 4 si [ argc ]))) NOTE_INSN_VAR_LOCATION)
+(insn 14 68 69 3 (set (reg:SI 5 di)
+        (const_int 8 [0x8])) "cmodules/fbgc_time.c":11:66 67 {*movsi_internal}
+     (nil))
+(note 69 14 15 3 (var_location arg (entry_value:DI (reg:DI 5 di [ arg ]))) NOTE_INSN_VAR_LOCATION)
+(call_insn:TI 15 69 19 3 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("new_fbgc_cstruct_object") [flags 0x41]  <function_decl 0x7f0f1968ca00 new_fbgc_cstruct_object>) [0 new_fbgc_cstruct_object S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_time.c":11:66 677 {*call_value}
+     (expr_list:REG_CALL_ARG_LOCATION (expr_list:REG_DEP_TRUE (concat:SI (reg:SI 5 di)
+                (const_int 8 [0x8]))
+            (expr_list:REG_DEP_TRUE (concat:DI (reg:DI 4 si)
+                    (symbol_ref:DI ("fbgc_time_module") [flags 0x2]  <var_decl 0x7f0f19661990 fbgc_time_module>))
+                (nil)))
+        (expr_list:REG_DEAD (reg:SI 5 di)
+            (expr_list:REG_DEAD (reg:DI 4 si)
+                (expr_list:REG_CALL_DECL (symbol_ref:DI ("new_fbgc_cstruct_object") [flags 0x41]  <function_decl 0x7f0f1968ca00 new_fbgc_cstruct_object>)
+                    (nil)))))
+    (expr_list:SI (use (reg:SI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+(insn:TI 19 15 16 3 (set (reg/v/f:DI 3 bx [orig:83 ts ] [83])
+        (mem/f:DI (plus:DI (reg/f:DI 0 ax [orig:84 <retval> ] [84])
+                (const_int 21 [0x15])) [1 so_7->cstruct+0 S8 A8])) "cmodules/fbgc_time.c":12:23 66 {*movdi_internal}
+     (expr_list:REG_DEAD (reg/f:DI 0 ax [orig:84 <retval> ] [84])
+        (nil)))
+(insn 16 19 70 3 (set (reg/v/f:DI 40 r12 [orig:84 <retval> ] [84])
+        (reg:DI 0 ax [89])) "cmodules/fbgc_time.c":11:66 66 {*movdi_internal}
+     (nil))
+(note 70 16 63 3 (var_location so (reg/f:DI 0 ax [orig:84 <retval> ] [84])) NOTE_INSN_VAR_LOCATION)
+(note 63 70 71 3 cmodules/fbgc_time.c:12 NOTE_INSN_BEGIN_STMT)
+(note 71 63 64 3 (var_location ts (reg/v/f:DI 3 bx [orig:83 ts ] [83])) NOTE_INSN_VAR_LOCATION)
+(note 64 71 22 3 cmodules/fbgc_time.c:14 NOTE_INSN_BEGIN_STMT)
+(call_insn:TI 22 64 72 3 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("clock") [flags 0x41]  <function_decl 0x7f0f195eda00 clock>) [0 clock S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_time.c":14:12 677 {*call_value}
+     (expr_list:REG_CALL_ARG_LOCATION (nil)
+        (expr_list:REG_CALL_DECL (symbol_ref:DI ("clock") [flags 0x41]  <function_decl 0x7f0f195eda00 clock>)
+            (expr_list:REG_EH_REGION (const_int 0 [0])
+                (nil))))
+    (nil))
+(note/c 72 22 24 3 (var_location so (reg/v/f:DI 40 r12 [orig:84 <retval> ] [84])) NOTE_INSN_VAR_LOCATION)
+(insn:TI 24 72 65 3 (set (mem:DI (reg/v/f:DI 3 bx [orig:83 ts ] [83]) [2 ts_8->clk+0 S8 A8])
+        (reg:DI 0 ax [90])) "cmodules/fbgc_time.c":14:10 66 {*movdi_internal}
+     (expr_list:REG_DEAD (reg/v/f:DI 3 bx [orig:83 ts ] [83])
+        (expr_list:REG_DEAD (reg:DI 0 ax [90])
+            (nil))))
+(note 65 24 73 3 cmodules/fbgc_time.c:16 NOTE_INSN_BEGIN_STMT)
+(note 73 65 74 (var_location so (nil)) NOTE_INSN_VAR_LOCATION)
+(note 74 73 30 (var_location ts (nil)) NOTE_INSN_VAR_LOCATION)
+(code_label 30 74 33 4 3 (nil) [1 uses])
+(note 33 30 60 4 [bb 4] NOTE_INSN_BASIC_BLOCK)
+(note 60 33 47 4 NOTE_INSN_EPILOGUE_BEG)
+(insn/f:TI 47 60 31 4 (parallel [
+            (set (reg/f:DI 7 sp)
+                (plus:DI (reg/f:DI 7 sp)
+                    (const_int 8 [0x8])))
+            (clobber (reg:CC 17 flags))
+            (clobber (mem:BLK (scratch) [0  A8]))
+        ]) "cmodules/fbgc_time.c":17:1 959 {pro_epilogue_adjust_stack_di_add}
+     (expr_list:REG_UNUSED (reg:CC 17 flags)
+        (expr_list:REG_CFA_ADJUST_CFA (set (reg/f:DI 7 sp)
+                (plus:DI (reg/f:DI 7 sp)
+                    (const_int 8 [0x8])))
+            (nil))))
+(insn 31 47 32 4 (set (reg/i:DI 0 ax)
+        (reg/v/f:DI 40 r12 [orig:84 <retval> ] [84])) "cmodules/fbgc_time.c":17:1 66 {*movdi_internal}
+     (expr_list:REG_DEAD (reg/v/f:DI 40 r12 [orig:84 <retval> ] [84])
+        (nil)))
+(insn 32 31 48 4 (use (reg/i:DI 0 ax)) "cmodules/fbgc_time.c":17:1 -1
+     (nil))
+(insn/f:TI 48 32 49 4 (set (reg:DI 3 bx)
+        (mem:DI (post_inc:DI (reg/f:DI 7 sp)) [0  S8 A8])) "cmodules/fbgc_time.c":17:1 52 {*popdi1}
+     (expr_list:REG_CFA_ADJUST_CFA (set (reg/f:DI 7 sp)
+            (plus:DI (reg/f:DI 7 sp)
+                (const_int 8 [0x8])))
+        (nil)))
+(insn/f 49 48 50 4 (set (reg:DI 40 r12)
+        (mem:DI (post_inc:DI (reg/f:DI 7 sp)) [0  S8 A8])) "cmodules/fbgc_time.c":17:1 52 {*popdi1}
+     (expr_list:REG_CFA_ADJUST_CFA (set (reg/f:DI 7 sp)
+            (plus:DI (reg/f:DI 7 sp)
+                (const_int 8 [0x8])))
+        (nil)))
+(jump_insn:TI 50 49 58 4 (simple_return) "cmodules/fbgc_time.c":17:1 690 {simple_return_internal}
+     (nil)
+ -> simple_return)
+(barrier 58 50 41)
+(note 41 58 0 NOTE_INSN_DELETED)
+
+;; Function fbgc_toc (fbgc_toc, funcdef_no=57, decl_uid=5695, cgraph_uid=58, symbol_order=61)
+
+
+
+fbgc_toc
+
+Dataflow summary:
+;;  invalidated by call 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 8 [st] 9 [st(1)] 10 [st(2)] 11 [st(3)] 12 [st(4)] 13 [st(5)] 14 [st(6)] 15 [st(7)] 17 [flags] 18 [fpsr] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 28 [mm0] 29 [mm1] 30 [mm2] 31 [mm3] 32 [mm4] 33 [mm5] 34 [mm6] 35 [mm7] 36 [r8] 37 [r9] 38 [r10] 39 [r11] 44 [xmm8] 45 [xmm9] 46 [xmm10] 47 [xmm11] 48 [xmm12] 49 [xmm13] 50 [xmm14] 51 [xmm15] 52 [] 53 [] 54 [] 55 [] 56 [] 57 [] 58 [] 59 [] 60 [] 61 [] 62 [] 63 [] 64 [] 65 [] 66 [] 67 [] 68 [] 69 [] 70 [] 71 [] 72 [] 73 [] 74 [] 75 []
+;;  hardware regs used 	 7 [sp]
+;;  regular block artificial uses 	 7 [sp]
+;;  eh block artificial uses 	 7 [sp] 16 [argp]
+;;  entry block defs 	 0 [ax] 1 [dx] 2 [cx] 3 [bx] 4 [si] 5 [di] 7 [sp] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 36 [r8] 37 [r9]
+;;  exit block uses 	 0 [ax] 3 [bx] 7 [sp]
+;;  regs ever live 	 0 [ax] 1 [dx] 2 [cx] 3 [bx] 4 [si] 5 [di] 7 [sp] 17 [flags] 20 [xmm0]
+;;  ref usage 	r0={8d,7u,1e} r1={6d,2u} r2={5d,1u} r3={3d,3u} r4={5d,2u} r5={5d,2u} r7={3d,11u} r8={3d} r9={3d} r10={3d} r11={3d} r12={3d} r13={3d} r14={3d} r15={3d} r17={7d,2u} r18={3d} r20={7d,3u} r21={4d} r22={4d} r23={4d} r24={4d} r25={4d} r26={4d} r27={4d} r28={3d} r29={3d} r30={3d} r31={3d} r32={3d} r33={3d} r34={3d} r35={3d} r36={4d} r37={4d} r38={3d} r39={3d} r44={3d} r45={3d} r46={3d} r47={3d} r48={3d} r49={3d} r50={3d} r51={3d} r52={3d} r53={3d} r54={3d} r55={3d} r56={3d} r57={3d} r58={3d} r59={3d} r60={3d} r61={3d} r62={3d} r63={3d} r64={3d} r65={3d} r66={3d} r67={3d} r68={3d} r69={3d} r70={3d} r71={3d} r72={3d} r73={3d} r74={3d} r75={3d} 
+;;    total ref usage 272{238d,33u,1e} in 24{21 regular + 3 call} insns.
+(note 1 0 105 NOTE_INSN_DELETED)
+(note 105 1 106 (var_location arg (reg:DI 5 di [ arg ])) NOTE_INSN_VAR_LOCATION)
+(note 106 105 6 (var_location argc (reg:SI 4 si [ argc ])) NOTE_INSN_VAR_LOCATION)
+(note 6 106 3 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(note 3 6 4 2 NOTE_INSN_DELETED)
+(note 4 3 95 2 NOTE_INSN_FUNCTION_BEG)
+(note 95 4 9 2 cmodules/fbgc_time.c:21 NOTE_INSN_BEGIN_STMT)
+(insn:TI 9 95 10 2 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg:SI 4 si [101])
+            (const_int 1 [0x1]))) "cmodules/fbgc_time.c":21:4 11 {*cmpsi_1}
+     (expr_list:REG_DEAD (reg:SI 4 si [101])
+        (nil)))
+(jump_insn 10 9 11 2 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 57)
+            (pc))) "cmodules/fbgc_time.c":21:4 659 {*jcc}
+     (expr_list:REG_DEAD (reg:CCZ 17 flags)
+        (int_list:REG_BR_PROB 311385132 (nil)))
+ -> 57)
+(note 11 10 96 3 [bb 3] NOTE_INSN_BASIC_BLOCK)
+(note 96 11 71 3 cmodules/fbgc_time.c:23 NOTE_INSN_BEGIN_STMT)
+(insn/f:TI 71 96 72 3 (set (mem:DI (pre_dec:DI (reg/f:DI 7 sp)) [0  S8 A8])
+        (reg:DI 3 bx)) "cmodules/fbgc_time.c":20:1 42 {*pushdi2_rex64}
+     (expr_list:REG_DEAD (reg:DI 3 bx)
+        (nil)))
+(note 72 71 13 3 NOTE_INSN_PROLOGUE_END)
+(insn 13 72 107 3 (set (reg/v/f:DI 0 ax [orig:85 so ] [85])
+        (mem/f:DI (reg/v/f:DI 5 di [orig:91 arg ] [91]) [3 *arg_7(D)+0 S8 A64])) "cmodules/fbgc_time.c":23:31 66 {*movdi_internal}
+     (expr_list:REG_DEAD (reg/v/f:DI 5 di [orig:91 arg ] [91])
+        (nil)))
+(note 107 13 97 3 (var_location so (reg/v/f:DI 0 ax [orig:85 so ] [85])) NOTE_INSN_VAR_LOCATION)
+(note 97 107 16 3 cmodules/fbgc_time.c:24 NOTE_INSN_BEGIN_STMT)
+(insn 16 97 17 3 (set (reg/f:DI 1 dx [93])
+        (symbol_ref:DI ("fbgc_time_module") [flags 0x2]  <var_decl 0x7f0f19661990 fbgc_time_module>)) "cmodules/fbgc_time.c":24:2 66 {*movdi_internal}
+     (expr_list:REG_EQUIV (symbol_ref:DI ("fbgc_time_module") [flags 0x2]  <var_decl 0x7f0f19661990 fbgc_time_module>)
+        (nil)))
+(insn:TI 17 16 18 3 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem/f:DI (plus:DI (reg/v/f:DI 0 ax [orig:85 so ] [85])
+                    (const_int 13 [0xd])) [4 so_8->parent+0 S8 A8])
+            (reg/f:DI 1 dx [93]))) "cmodules/fbgc_time.c":24:2 12 {*cmpdi_1}
+     (expr_list:REG_DEAD (reg/f:DI 1 dx [93])
+        (expr_list:REG_EQUAL (compare:CCZ (mem/f:DI (plus:DI (reg/v/f:DI 0 ax [orig:85 so ] [85])
+                        (const_int 13 [0xd])) [4 so_8->parent+0 S8 A8])
+                (symbol_ref:DI ("fbgc_time_module") [flags 0x2]  <var_decl 0x7f0f19661990 fbgc_time_module>))
+            (nil))))
+(jump_insn 18 17 35 3 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref:DI 91)
+            (pc))) "cmodules/fbgc_time.c":24:2 659 {*jcc}
+     (expr_list:REG_DEAD (reg:CCZ 17 flags)
+        (int_list:REG_BR_PROB 429500 (nil)))
+ -> 91)
+(note 35 18 44 4 [bb 4] NOTE_INSN_BASIC_BLOCK)
+(note 44 35 98 4 NOTE_INSN_DELETED)
+(note 98 44 108 4 cmodules/fbgc_time.c:26 NOTE_INSN_BEGIN_STMT)
+(note 108 98 99 4 (var_location ts (mem/f:DI (plus:DI (reg/v/f:DI 0 ax [orig:85 so ] [85])
+        (const_int 21 [0x15])) [1 so_8->cstruct+0 S8 A8])) NOTE_INSN_VAR_LOCATION)
+(note 99 108 39 4 cmodules/fbgc_time.c:28 NOTE_INSN_BEGIN_STMT)
+(insn:TI 39 99 109 4 (set (reg/f:DI 0 ax [orig:94 so_8->cstruct ] [94])
+        (mem/f:DI (plus:DI (reg/v/f:DI 0 ax [orig:85 so ] [85])
+                (const_int 21 [0x15])) [1 so_8->cstruct+0 S8 A8])) "cmodules/fbgc_time.c":28:10 66 {*movdi_internal}
+     (nil))
+(note 109 39 110 4 (var_location so (mem/f:DI (reg:DI 5 di [ arg ]) [3 *arg_7(D)+0 S8 A64])) NOTE_INSN_VAR_LOCATION)
+(note 110 109 40 4 (var_location ts (reg/f:DI 0 ax [orig:94 so_8->cstruct ] [94])) NOTE_INSN_VAR_LOCATION)
+(insn:TI 40 110 111 4 (set (reg/v:DI 3 bx [orig:87 begin ] [87])
+        (mem:DI (reg/f:DI 0 ax [orig:94 so_8->cstruct ] [94]) [2 ts_9->clk+0 S8 A8])) "cmodules/fbgc_time.c":28:10 66 {*movdi_internal}
+     (expr_list:REG_DEAD (reg/f:DI 0 ax [orig:94 so_8->cstruct ] [94])
+        (nil)))
+(note 111 40 100 4 (var_location begin (reg/v:DI 3 bx [orig:87 begin ] [87])) NOTE_INSN_VAR_LOCATION)
+(note 100 111 43 4 cmodules/fbgc_time.c:29 NOTE_INSN_BEGIN_STMT)
+(call_insn:TI 43 100 115 4 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("clock") [flags 0x41]  <function_decl 0x7f0f195eda00 clock>) [0 clock S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_time.c":29:16 677 {*call_value}
+     (expr_list:REG_CALL_ARG_LOCATION (nil)
+        (expr_list:REG_CALL_DECL (symbol_ref:DI ("clock") [flags 0x41]  <function_decl 0x7f0f195eda00 clock>)
+            (expr_list:REG_EH_REGION (const_int 0 [0])
+                (nil))))
+    (nil))
+(note/c 115 43 114 4 (var_location ts (nil)) NOTE_INSN_VAR_LOCATION)
+(note/c 114 115 113 4 (var_location argc (entry_value:SI (reg:SI 4 si [ argc ]))) NOTE_INSN_VAR_LOCATION)
+(note/c 113 114 112 4 (var_location arg (entry_value:DI (reg:DI 5 di [ arg ]))) NOTE_INSN_VAR_LOCATION)
+(note/c 112 113 116 4 (var_location so (nil)) NOTE_INSN_VAR_LOCATION)
+(note 116 112 101 4 (var_location end (reg:DI 0 ax [102])) NOTE_INSN_VAR_LOCATION)
+(note 101 116 117 4 cmodules/fbgc_time.c:31 NOTE_INSN_BEGIN_STMT)
+(note 117 101 102 4 (var_location tm (div:DF (float:DF (minus:DI (reg:DI 0 ax [102])
+            (reg/v:DI 3 bx [orig:87 begin ] [87])))
+    (const_double:DF 1.0e+6 [0x0.f424p+20]))) NOTE_INSN_VAR_LOCATION)
+(note 102 117 92 4 cmodules/fbgc_time.c:33 NOTE_INSN_BEGIN_STMT)
+(insn 92 102 49 4 (set (reg:V2DF 20 xmm0 [96])
+        (const_vector:V2DF [
+                (const_double:DF 0.0 [0x0.0p+0]) repeated x2
+            ])) "cmodules/fbgc_time.c":31:14 1220 {movv2df_internal}
+     (nil))
+(insn:TI 49 92 118 4 (parallel [
+            (set (reg:DI 0 ax [95])
+                (minus:DI (reg:DI 0 ax [102])
+                    (reg/v:DI 3 bx [orig:87 begin ] [87])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_time.c":31:27 247 {*subdi_1}
+     (expr_list:REG_DEAD (reg/v:DI 3 bx [orig:87 begin ] [87])
+        (expr_list:REG_UNUSED (reg:CC 17 flags)
+            (nil))))
+(note 118 49 119 4 (var_location end (nil)) NOTE_INSN_VAR_LOCATION)
+(note 119 118 94 4 (var_location tm (nil)) NOTE_INSN_VAR_LOCATION)
+(note 94 119 88 4 NOTE_INSN_EPILOGUE_BEG)
+(insn/f 88 94 120 4 (set (reg:DI 3 bx)
+        (mem:DI (post_inc:DI (reg/f:DI 7 sp)) [0  S8 A8])) "cmodules/fbgc_time.c":34:1 52 {*popdi1}
+     (expr_list:REG_CFA_ADJUST_CFA (set (reg/f:DI 7 sp)
+            (plus:DI (reg/f:DI 7 sp)
+                (const_int 8 [0x8])))
+        (expr_list:REG_CFA_RESTORE (reg:DI 3 bx)
+            (nil))))
+(note 120 88 93 4 (var_location begin (nil)) NOTE_INSN_VAR_LOCATION)
+(insn:TI 93 120 52 4 (set (reg:V2DF 20 xmm0 [96])
+        (vec_merge:V2DF (vec_duplicate:V2DF (float:DF (reg:DI 0 ax [95])))
+            (reg:V2DF 20 xmm0 [96])
+            (const_int 1 [0x1]))) "cmodules/fbgc_time.c":31:14 2437 {sse2_cvtsi2sdq}
+     (expr_list:REG_DEAD (reg:DI 0 ax [95])
+        (nil)))
+(insn 52 93 54 4 (set (reg:DF 20 xmm0 [orig:97 tm ] [97])
+        (div:DF (reg:DF 20 xmm0 [96])
+            (mem/u/c:DF (symbol_ref/u:DI ("*.LC2") [flags 0x2]) [0  S8 A64]))) "cmodules/fbgc_time.c":31:9 822 {*fop_df_1}
+     (nil))
+(call_insn/j:TI 54 52 55 4 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("new_fbgc_double_object") [flags 0x41]  <function_decl 0x7f0f19666d00 new_fbgc_double_object>) [0 new_fbgc_double_object S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_time.c":33:9 681 {*sibcall_value}
+     (expr_list:REG_CALL_ARG_LOCATION (nil)
+        (expr_list:REG_DEAD (reg:DF 20 xmm0)
+            (expr_list:REG_CALL_DECL (symbol_ref:DI ("new_fbgc_double_object") [flags 0x41]  <function_decl 0x7f0f19666d00 new_fbgc_double_object>)
+                (nil))))
+    (expr_list:DF (use (reg:DF 20 xmm0))
+        (nil)))
+(barrier 55 54 121)
+(note 121 55 122 (var_location arg (reg:DI 5 di [ arg ])) NOTE_INSN_VAR_LOCATION)
+(note 122 121 123 (var_location argc (reg:SI 4 si [ argc ])) NOTE_INSN_VAR_LOCATION)
+(note 123 122 124 (var_location so (nil)) NOTE_INSN_VAR_LOCATION)
+(note 124 123 125 (var_location ts (nil)) NOTE_INSN_VAR_LOCATION)
+(note 125 124 126 (var_location begin (nil)) NOTE_INSN_VAR_LOCATION)
+(note 126 125 127 (var_location end (nil)) NOTE_INSN_VAR_LOCATION)
+(note 127 126 57 (var_location tm (nil)) NOTE_INSN_VAR_LOCATION)
+(code_label 57 127 58 5 9 (nil) [1 uses])
+(note 58 57 90 5 [bb 5] NOTE_INSN_BASIC_BLOCK)
+(insn:TI 90 58 63 5 (parallel [
+            (set (reg/i:DI 0 ax)
+                (const_int 0 [0]))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_time.c":34:1 60 {*movdi_xor}
+     (expr_list:REG_UNUSED (reg:CC 17 flags)
+        (nil)))
+(insn 63 90 78 5 (use (reg/i:DI 0 ax)) "cmodules/fbgc_time.c":34:1 -1
+     (nil))
+(jump_insn:TI 78 63 79 5 (simple_return) "cmodules/fbgc_time.c":34:1 690 {simple_return_internal}
+     (nil)
+ -> simple_return)
+(barrier 79 78 128)
+(note 128 79 91 (var_location so (reg/v/f:DI 0 ax [orig:85 so ] [85])) NOTE_INSN_VAR_LOCATION)
+(code_label 91 128 19 6 14 (nil) [1 uses])
+(note 19 91 103 6 [bb 6] NOTE_INSN_BASIC_BLOCK)
+(note 103 19 129 6 cmodules/fbgc_time.c:19 NOTE_INSN_INLINE_ENTRY)
+(note 129 103 130 6 (var_location arg (reg:DI 5 di [ arg ])) NOTE_INSN_VAR_LOCATION)
+(note 130 129 104 6 (var_location argc (const_int 1 [0x1])) NOTE_INSN_VAR_LOCATION)
+(note 104 130 28 6 cmodules/fbgc_time.c:24 NOTE_INSN_BEGIN_STMT)
+(insn:TI 28 104 29 6 (set (reg:DI 2 cx)
+        (symbol_ref:DI ("__PRETTY_FUNCTION__.5710") [flags 0x2]  <var_decl 0x7f0f19661ea0 __PRETTY_FUNCTION__>)) "cmodules/fbgc_time.c":24:2 66 {*movdi_internal}
+     (nil))
+(insn 29 28 30 6 (set (reg:SI 1 dx)
+        (const_int 24 [0x18])) "cmodules/fbgc_time.c":24:2 67 {*movsi_internal}
+     (nil))
+(insn 30 29 131 6 (set (reg:DI 4 si)
+        (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7f0f19240bd0 *.LC0>)) "cmodules/fbgc_time.c":24:2 66 {*movdi_internal}
+     (nil))
+(note 131 30 31 6 (var_location argc (entry_value:SI (reg:SI 4 si [ argc ]))) NOTE_INSN_VAR_LOCATION)
+(insn:TI 31 131 132 6 (set (reg:DI 5 di)
+        (symbol_ref/f:DI ("*.LC1") [flags 0x2]  <var_decl 0x7f0f19240c60 *.LC1>)) "cmodules/fbgc_time.c":24:2 66 {*movdi_internal}
+     (nil))
+(note 132 31 133 6 (var_location arg (entry_value:DI (reg:DI 5 di [ arg ]))) NOTE_INSN_VAR_LOCATION)
+(note 133 132 32 6 (var_location arg (entry_value:DI (reg:DI 5 di [ arg ]))) NOTE_INSN_VAR_LOCATION)
+(call_insn:TI 32 133 134 6 (call (mem:QI (symbol_ref:DI ("__assert_fail") [flags 0x41]  <function_decl 0x7f0f19521c00 __assert_fail>) [0 __assert_fail S1 A8])
+        (const_int 0 [0])) "cmodules/fbgc_time.c":24:2 666 {*call}
+     (expr_list:REG_CALL_ARG_LOCATION (expr_list:REG_DEP_TRUE (concat:DI (reg:DI 5 di)
+                (symbol_ref/f:DI ("*.LC1") [flags 0x2]  <var_decl 0x7f0f19240c60 *.LC1>))
+            (expr_list:REG_DEP_TRUE (concat:DI (reg:DI 4 si)
+                    (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7f0f19240bd0 *.LC0>))
+                (expr_list:REG_DEP_TRUE (concat:SI (reg:SI 1 dx)
+                        (const_int 24 [0x18]))
+                    (expr_list:REG_DEP_TRUE (concat:DI (reg:DI 2 cx)
+                            (symbol_ref:DI ("__PRETTY_FUNCTION__.5710") [flags 0x2]  <var_decl 0x7f0f19661ea0 __PRETTY_FUNCTION__>))
+                        (nil)))))
+        (expr_list:REG_DEAD (reg:DI 5 di)
+            (expr_list:REG_DEAD (reg:DI 4 si)
+                (expr_list:REG_DEAD (reg:DI 2 cx)
+                    (expr_list:REG_DEAD (reg:SI 1 dx)
+                        (expr_list:REG_CALL_DECL (symbol_ref:DI ("__assert_fail") [flags 0x41]  <function_decl 0x7f0f19521c00 __assert_fail>)
+                            (expr_list:REG_ARGS_SIZE (const_int 0 [0])
+                                (expr_list:REG_NORETURN (const_int 0 [0])
+                                    (expr_list:REG_EH_REGION (const_int 0 [0])
+                                        (nil))))))))))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:SI (use (reg:SI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+(note/c 134 32 33 (var_location so (nil)) NOTE_INSN_VAR_LOCATION)
+(barrier 33 134 70)
+(note 70 33 0 NOTE_INSN_DELETED)

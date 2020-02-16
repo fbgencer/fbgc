@@ -8,7 +8,7 @@ new_fbgc_cfunction(fbgc_tic,"tic")
 {	
 	if(argc != 0) return NULL;
 
-	struct fbgc_cstruct_object * so = new_fbgc_cstruct_object(sizeof(struct time_struct), &fbgc_time_module);
+	struct fbgc_cstruct_object * so = (struct fbgc_cstruct_object *)new_fbgc_cstruct_object(sizeof(struct time_struct), &fbgc_time_module);
 	struct time_struct * ts = (struct time_struct *) so->cstruct; 	
 
 	ts->clk = clock();

@@ -36,7 +36,6 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
 	FILE *input_file = fopen("ex.fbgc","r");
 	if(input_file == NULL){
 		cprintf(111,"file error\n");
-		return 0;
 	}
 	 
    int par = parser(&main_field,input_file);
@@ -94,7 +93,7 @@ struct fbgc_object * fbgc_load_module(const char * module_name,const char * fun_
 
 
 
-	struct fbgc_cmodule * cm = NULL; 
+	const struct fbgc_cmodule * cm = NULL; 
 
 
 	for(uint8_t i = 0; i<sizeof(__cmodules)/sizeof(__cmodules[0]); ++i){

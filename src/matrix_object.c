@@ -51,7 +51,7 @@ struct fbgc_object * new_fbgc_matrix_object(fbgc_token sub_tp, size_t row, size_
             break;
         }
     }
-    return mo;
+    return (struct fbgc_object *) mo;
 }
 
 struct fbgc_object * new_fbgc_matrix_object_from_range(struct fbgc_object * robj){
@@ -78,14 +78,14 @@ struct fbgc_object * new_fbgc_matrix_object_from_range(struct fbgc_object * robj
         if(step>0) sz = 1 + ( cast_fbgc_object_as_int(r->end)->content - cast_fbgc_object_as_int(r->start)->content ) /( step );
         else sz = 1 + ( cast_fbgc_object_as_int(r->start)->content - cast_fbgc_object_as_int(r->end)->content ) /( -step );
 
-        struct fbgc_matrix_object * m = new_fbgc_matrix_object(DOUBLE,1,sz,UNINITIALIZED_MATRIX);
+        struct fbgc_matrix_object * m = (struct fbgc_matrix_object *)new_fbgc_matrix_object(DOUBLE,1,sz,UNINITIALIZED_MATRIX);
         double * d = content_fbgc_matrix_object(m);
 
         while(sz--){
             *(d+sz) = ( (cast_fbgc_object_as_int(r->start)->content) +(step*(double)sz));
         }
 
-        return m;
+        return (struct fbgc_object *) m;
     #undef r
     }
 }
@@ -394,7 +394,7 @@ for(size_t i = 0; i< row; ++i){
             *m_cont = operator_method_double(a1.real,b1.real,op,NULL);
     }
 }
-    return m;
+    return (struct fbgc_object *)m;
 
 }
 /*

@@ -21,6 +21,8 @@ struct fbgc_object * new_fbgc_int_object_from_substr(const char *,const char *,f
 
 struct fbgc_object * operator_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op);
 
+struct fbgc_object * operator_fbgc_int_object2(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op);
+
 void print_fbgc_int_object(struct fbgc_object *);
 void free_fbgc_int_object(struct fbgc_object * );
 

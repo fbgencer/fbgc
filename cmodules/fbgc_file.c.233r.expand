@@ -1,0 +1,5068 @@
+
+;; Function fbgc_file_initializer (fbgc_file_initializer, funcdef_no=61, decl_uid=5687, cgraph_uid=62, symbol_order=69)
+
+fbgc_file_initializer (struct fbgc_object * * arg, int argc)
+{
+;;   basic block 2, loop depth 0
+;;    pred:       ENTRY
+  # DEBUG BEGIN_STMT
+  return 0B;
+;;    succ:       EXIT
+
+}
+
+
+
+Partition map 
+
+Partition 2 (arg_2(D) - 2 )
+Partition 3 (argc_3(D) - 3 )
+Partition 4 (_4(D) - 4 )
+
+
+Coalescible Partition map 
+
+Partition 0, base 0 (arg_2(D) - 2 )
+Partition 1, base 1 (argc_3(D) - 3 )
+Partition 2, base 2 (_4(D) - 4 )
+
+
+Partition map 
+
+Partition 0 (arg_2(D) - 2 )
+Partition 1 (argc_3(D) - 3 )
+Partition 2 (_4(D) - 4 )
+
+
+Conflict graph:
+
+After sorting:
+Coalesce List:
+
+Partition map 
+
+Partition 0 (arg_2(D) - 2 )
+Partition 1 (argc_3(D) - 3 )
+Partition 2 (_4(D) - 4 )
+
+After Coalescing:
+
+Partition map 
+
+Partition 0 (arg_2(D) - 2 )
+Partition 1 (argc_3(D) - 3 )
+Partition 2 (_4(D) - 4 )
+
+fbgc_file_initializer (struct fbgc_object * * arg, int argc)
+{
+;;   basic block 2, loop depth 0
+;;    pred:       ENTRY
+  # DEBUG BEGIN_STMT
+  return 0B;
+;;    succ:       EXIT
+
+}
+
+
+
+;; Generating RTL for gimple basic block 2
+
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 7 6 0 (debug_marker) "cmodules/fbgc_file.c":133:2 -1
+     (nil))
+;; return 0B;
+
+(insn 8 7 9 (set (reg/f:DI 82 [ <retval> ])
+        (const_int 0 [0])) "cmodules/fbgc_file.c":133:9 -1
+     (nil))
+
+(jump_insn 9 8 10 (set (pc)
+        (label_ref 0)) "cmodules/fbgc_file.c":133:9 -1
+     (nil))
+
+(barrier 10 9 0)
+
+
+try_optimize_cfg iteration 1
+
+Merging block 3 into block 2...
+Merged blocks 2 and 3.
+Merged 2 and 3 without moving.
+Removing jump 9.
+Merging block 4 into block 2...
+Merged blocks 2 and 4.
+Merged 2 and 4 without moving.
+
+
+try_optimize_cfg iteration 2
+
+fix_loop_structure: fixing up loops for function
+
+
+;;
+;; Full RTL generated for this function:
+;;
+(note 1 0 5 NOTE_INSN_DELETED)
+;; basic block 2, loop depth 0, count 1073741824 (estimated locally), maybe hot
+;;  prev block 0, next block 1, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       ENTRY [always]  count:1073741824 (estimated locally) (FALLTHRU)
+(note 5 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 5 3 2 (set (reg/v/f:DI 83 [ arg ])
+        (reg:DI 5 di [ arg ])) "cmodules/fbgc_file.c":132:87 -1
+     (nil))
+(insn 3 2 4 2 (set (reg/v:SI 84 [ argc ])
+        (reg:SI 4 si [ argc ])) "cmodules/fbgc_file.c":132:87 -1
+     (nil))
+(note 4 3 7 2 NOTE_INSN_FUNCTION_BEG)
+(debug_insn 7 4 8 2 (debug_marker) "cmodules/fbgc_file.c":133:2 -1
+     (nil))
+(insn 8 7 12 2 (set (reg/f:DI 82 [ <retval> ])
+        (const_int 0 [0])) "cmodules/fbgc_file.c":133:9 -1
+     (nil))
+(insn 12 8 13 2 (set (reg/i:DI 0 ax)
+        (reg/f:DI 82 [ <retval> ])) "cmodules/fbgc_file.c":134:1 -1
+     (nil))
+(insn 13 12 0 2 (use (reg/i:DI 0 ax)) "cmodules/fbgc_file.c":134:1 -1
+     (nil))
+;;  succ:       EXIT [always]  count:1073741824 (estimated locally) (FALLTHRU)
+
+
+;; Function fbgc_fread (fbgc_fread, funcdef_no=58, decl_uid=5699, cgraph_uid=59, symbol_order=63)
+
+fbgc_fread (struct fbgc_object * * arg, int argc)
+{
+  struct fbgc_object * str;
+  long int file_text_len;
+  struct file_struct * fs;
+  struct fbgc_cstruct_object * so;
+  static const char __PRETTY_FUNCTION__[11] = "fbgc_fread";
+  const struct fbgc_cmodule * _1;
+  struct FILE * _2;
+  struct FILE * _3;
+  struct FILE * _4;
+  int _5;
+  struct FILE * _6;
+  long unsigned int file_text_len.0_7;
+  char * _8;
+  long int _9;
+  struct fbgc_object * _10;
+  long unsigned int _26;
+  long unsigned int _31;
+
+;;   basic block 2, loop depth 0
+;;    pred:       ENTRY
+  # DEBUG BEGIN_STMT
+  if (argc_12(D) == 1)
+    goto <bb 3>; [71.91%]
+  else
+    goto <bb 6>; [28.09%]
+;;    succ:       3
+;;                6
+
+;;   basic block 3, loop depth 0
+;;    pred:       2
+  # DEBUG BEGIN_STMT
+  so_16 = *arg_15(D);
+  # DEBUG so => so_16
+  # DEBUG BEGIN_STMT
+  _1 = so_16->parent;
+  if (_1 == &fbgc_file_module)
+    goto <bb 4>; [34.07%]
+  else
+    goto <bb 7>; [65.93%]
+;;    succ:       4
+;;                7
+
+;;   basic block 4, loop depth 0
+;;    pred:       3
+  # DEBUG BEGIN_STMT
+  fs_17 = so_16->cstruct;
+  # DEBUG fs => fs_17
+  # DEBUG BEGIN_STMT
+  _2 = fs_17->fp;
+  fseek (_2, 0, 2);
+  # DEBUG BEGIN_STMT
+  _3 = fs_17->fp;
+  file_text_len_20 = ftell (_3);
+  # DEBUG file_text_len => file_text_len_20
+  # DEBUG BEGIN_STMT
+  _4 = fs_17->fp;
+  rewind (_4);
+  # DEBUG BEGIN_STMT
+  _5 = (int) file_text_len_20;
+  str_23 = new_fbgc_str_object_empty (_5);
+  # DEBUG str => str_23
+  # DEBUG BEGIN_STMT
+  _6 = fs_17->fp;
+  file_text_len.0_7 = (long unsigned int) file_text_len_20;
+  _8 = &MEM[(struct fbgc_str_object *)str_23].content;
+  # DEBUG __ptr => _8
+  # DEBUG __size => 1
+  # DEBUG __n => file_text_len.0_7
+  # DEBUG __stream => _6
+  # DEBUG INLINE_ENTRY fread
+  # DEBUG BEGIN_STMT
+  # DEBUG BEGIN_STMT
+  _31 = __fread_alias (_8, 1, file_text_len.0_7, _6);
+  # DEBUG __ptr => NULL
+  # DEBUG __size => NULL
+  # DEBUG __n => NULL
+  # DEBUG __stream => NULL
+  # DEBUG res => (unsigned int) _31
+  # DEBUG BEGIN_STMT
+  _26 = _31 & 4294967295;
+  _9 = (long int) _26;
+  if (_9 == file_text_len_20)
+    goto <bb 7>; [99.96%]
+  else
+    goto <bb 5>; [0.04%]
+;;    succ:       7
+;;                5
+
+;;   basic block 5, loop depth 0
+;;    pred:       4
+  # DEBUG BEGIN_STMT
+  __assert_fail ("res == file_text_len", "cmodules/fbgc_file.c", 52, &__PRETTY_FUNCTION__);
+;;    succ:      
+
+;;   basic block 6, loop depth 0
+;;    pred:       2
+  # DEBUG BEGIN_STMT
+  cprintf (100, "fread takes exactly one arguments!\n");
+;;    succ:       7
+
+;;   basic block 7, loop depth 0
+;;    pred:       3
+;;                6
+;;                4
+  # _10 = PHI <0B(3), 0B(6), str_23(4)>
+  return _10;
+;;    succ:       EXIT
+
+}
+
+
+
+Partition map 
+
+Partition 1 (_1 - 1 )
+Partition 2 (_2 - 2 )
+Partition 3 (_3 - 3 )
+Partition 4 (_4 - 4 )
+Partition 5 (_5 - 5 )
+Partition 6 (_6 - 6 )
+Partition 7 (file_text_len.0_7 - 7 )
+Partition 8 (_8 - 8 )
+Partition 9 (_9 - 9 )
+Partition 10 (_10 - 10 )
+Partition 12 (argc_12(D) - 12 )
+Partition 15 (arg_15(D) - 15 )
+Partition 16 (so_16 - 16 )
+Partition 17 (fs_17 - 17 )
+Partition 20 (file_text_len_20 - 20 )
+Partition 23 (str_23 - 23 )
+Partition 26 (_26 - 26 )
+Partition 31 (_31 - 31 )
+Partition 32 (_32(D) - 32 )
+
+
+Coalescible Partition map 
+
+Partition 0, base 0 (_10 - 10 23 32 )
+Partition 1, base 1 (argc_12(D) - 12 )
+Partition 2, base 2 (arg_15(D) - 15 )
+
+
+Partition map 
+
+Partition 0 (_10 - 10 )
+Partition 1 (argc_12(D) - 12 )
+Partition 2 (arg_15(D) - 15 )
+Partition 3 (str_23 - 23 )
+Partition 4 (_32(D) - 32 )
+
+
+Conflict graph:
+
+After sorting:
+Sorted Coalesce list:
+(9999, 0) _10 <-> _32(D)
+(4898, 0) _10 <-> str_23
+
+Partition map 
+
+Partition 0 (_10 - 10 )
+Partition 1 (argc_12(D) - 12 )
+Partition 2 (arg_15(D) - 15 )
+Partition 3 (str_23 - 23 )
+Partition 4 (_32(D) - 32 )
+
+Coalesce list: (10)_10 & (32)_32(D) [map: 0, 4] : Success -> 0
+Coalesce list: (10)_10 & (23)str_23 [map: 0, 3] : Success -> 0
+After Coalescing:
+
+Partition map 
+
+Partition 0 (_1 - 1 )
+Partition 1 (_2 - 2 )
+Partition 2 (_3 - 3 )
+Partition 3 (_4 - 4 )
+Partition 4 (_5 - 5 )
+Partition 5 (_6 - 6 )
+Partition 6 (file_text_len.0_7 - 7 )
+Partition 7 (_8 - 8 )
+Partition 8 (_9 - 9 )
+Partition 9 (_10 - 10 23 32 )
+Partition 10 (argc_12(D) - 12 )
+Partition 11 (arg_15(D) - 15 )
+Partition 12 (so_16 - 16 )
+Partition 13 (fs_17 - 17 )
+Partition 14 (file_text_len_20 - 20 )
+Partition 15 (_26 - 26 )
+Partition 16 (_31 - 31 )
+
+
+Replacing Expressions
+_1 replace with --> _1 = so_16->parent;
+
+_2 replace with --> _2 = fs_17->fp;
+
+_3 replace with --> _3 = fs_17->fp;
+
+_4 replace with --> _4 = fs_17->fp;
+
+_5 replace with --> _5 = (int) file_text_len_20;
+
+_6 replace with --> _6 = fs_17->fp;
+
+file_text_len.0_7 replace with --> file_text_len.0_7 = (long unsigned int) file_text_len_20;
+
+_8 replace with --> _8 = &MEM[(struct fbgc_str_object *)str_23].content;
+
+_9 replace with --> _9 = (long int) _26;
+
+_26 replace with --> _26 = _31 & 4294967295;
+
+
+fbgc_fread (struct fbgc_object * * arg, int argc)
+{
+  struct fbgc_object * str;
+  long int file_text_len;
+  struct file_struct * fs;
+  struct fbgc_cstruct_object * so;
+  static const char __PRETTY_FUNCTION__[11] = "fbgc_fread";
+  const struct fbgc_cmodule * _1;
+  struct FILE * _2;
+  struct FILE * _3;
+  struct FILE * _4;
+  int _5;
+  struct FILE * _6;
+  long unsigned int file_text_len.0_7;
+  char * _8;
+  long int _9;
+  struct fbgc_object * _10;
+  long unsigned int _26;
+  long unsigned int _31;
+
+;;   basic block 2, loop depth 0
+;;    pred:       ENTRY
+  # DEBUG BEGIN_STMT
+  if (argc_12(D) == 1)
+    goto <bb 3>; [71.91%]
+  else
+    goto <bb 6>; [28.09%]
+;;    succ:       3
+;;                6
+
+;;   basic block 3, loop depth 0
+;;    pred:       2
+  # DEBUG BEGIN_STMT
+  so_16 = *arg_15(D);
+  # DEBUG so => so_16
+  # DEBUG BEGIN_STMT
+  _1 = so_16->parent;
+  if (_1 == &fbgc_file_module)
+    goto <bb 4>; [34.07%]
+  else
+    goto <bb 7>; [65.93%]
+;;    succ:       4
+;;                7
+
+;;   basic block 4, loop depth 0
+;;    pred:       3
+  # DEBUG BEGIN_STMT
+  fs_17 = so_16->cstruct;
+  # DEBUG fs => fs_17
+  # DEBUG BEGIN_STMT
+  _2 = fs_17->fp;
+  fseek (_2, 0, 2);
+  # DEBUG BEGIN_STMT
+  _3 = fs_17->fp;
+  file_text_len_20 = ftell (_3);
+  # DEBUG file_text_len => file_text_len_20
+  # DEBUG BEGIN_STMT
+  _4 = fs_17->fp;
+  rewind (_4);
+  # DEBUG BEGIN_STMT
+  _5 = (int) file_text_len_20;
+  str_23 = new_fbgc_str_object_empty (_5);
+  # DEBUG str => str_23
+  # DEBUG BEGIN_STMT
+  _6 = fs_17->fp;
+  file_text_len.0_7 = (long unsigned int) file_text_len_20;
+  _8 = &MEM[(struct fbgc_str_object *)str_23].content;
+  # DEBUG __ptr => _8
+  # DEBUG __size => 1
+  # DEBUG __n => file_text_len.0_7
+  # DEBUG __stream => _6
+  # DEBUG INLINE_ENTRY fread
+  # DEBUG BEGIN_STMT
+  # DEBUG BEGIN_STMT
+  _31 = __fread_alias (_8, 1, file_text_len.0_7, _6);
+  # DEBUG __ptr => NULL
+  # DEBUG __size => NULL
+  # DEBUG __n => NULL
+  # DEBUG __stream => NULL
+  # DEBUG res => (unsigned int) _31
+  # DEBUG BEGIN_STMT
+  _26 = _31 & 4294967295;
+  _9 = (long int) _26;
+  if (_9 == file_text_len_20)
+    goto <bb 7>; [99.96%]
+  else
+    goto <bb 5>; [0.04%]
+;;    succ:       7
+;;                5
+
+;;   basic block 5, loop depth 0
+;;    pred:       4
+  # DEBUG BEGIN_STMT
+  __assert_fail ("res == file_text_len", "cmodules/fbgc_file.c", 52, &__PRETTY_FUNCTION__);
+;;    succ:      
+
+;;   basic block 6, loop depth 0
+;;    pred:       2
+  # DEBUG BEGIN_STMT
+  cprintf (100, "fread takes exactly one arguments!\n");
+;;    succ:       7
+
+;;   basic block 7, loop depth 0
+;;    pred:       3
+;;                6
+;;                4
+  # _10 = PHI <0B(3), 0B(6), str_23(4)>
+  return _10;
+;;    succ:       EXIT
+
+}
+
+
+Inserting a value copy on edge BB3->BB7 : PART.9 = 0B
+Inserting a value copy on edge BB6->BB7 : PART.9 = 0B
+
+;; Generating RTL for gimple basic block 2
+
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 9 8 0 (debug_marker) "cmodules/fbgc_file.c":39:2 -1
+     (nil))
+;; if (argc_12(D) == 1)
+
+(insn 10 9 11 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg/v:SI 98 [ argc ])
+            (const_int 1 [0x1]))) "cmodules/fbgc_file.c":39:4 -1
+     (nil))
+
+(jump_insn 11 10 0 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 0)
+            (pc))) "cmodules/fbgc_file.c":39:4 -1
+     (int_list:REG_BR_PROB 301614084 (nil)))
+
+;; Generating RTL for gimple basic block 3
+
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 13 12 0 (debug_marker) "cmodules/fbgc_file.c":40:3 -1
+     (nil))
+;; so_16 = *arg_15(D);
+
+(insn 14 13 0 (set (reg/v/f:DI 91 [ so ])
+        (mem/f:DI (reg/v/f:DI 97 [ arg ]) [1 *arg_15(D)+0 S8 A64])) "cmodules/fbgc_file.c":40:32 -1
+     (nil))
+
+;; # DEBUG so => so_16
+
+(debug_insn 15 14 0 (var_location:DI so (const_int 0 [0])) "cmodules/fbgc_file.c":40:32 -1
+     (nil))
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 16 15 0 (debug_marker) "cmodules/fbgc_file.c":41:3 -1
+     (nil))
+;; if (_1 == &fbgc_file_module)
+
+(insn 17 16 18 (set (reg:DI 99)
+        (symbol_ref:DI ("fbgc_file_module") [flags 0x2]  <var_decl 0x7f7f56ce1990 fbgc_file_module>)) "cmodules/fbgc_file.c":41:5 -1
+     (nil))
+
+(insn 18 17 19 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem/f:DI (plus:DI (reg/v/f:DI 91 [ so ])
+                    (const_int 13 [0xd])) [2 so_16->parent+0 S8 A8])
+            (reg:DI 99))) "cmodules/fbgc_file.c":41:5 -1
+     (nil))
+
+(jump_insn 19 18 0 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 0)
+            (pc))) "cmodules/fbgc_file.c":41:5 -1
+     (int_list:REG_BR_PROB 707917988 (nil)))
+
+;; Generating RTL for gimple basic block 4
+
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 21 20 0 (debug_marker) "cmodules/fbgc_file.c":42:4 -1
+     (nil))
+;; fs_17 = so_16->cstruct;
+
+(insn 22 21 0 (set (reg/v/f:DI 92 [ fs ])
+        (mem/f:DI (plus:DI (reg/v/f:DI 91 [ so ])
+                (const_int 21 [0x15])) [3 so_16->cstruct+0 S8 A8])) "cmodules/fbgc_file.c":42:25 -1
+     (nil))
+
+;; # DEBUG fs => fs_17
+
+(debug_insn 23 22 0 (var_location:DI fs (const_int 0 [0])) "cmodules/fbgc_file.c":42:25 -1
+     (nil))
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 24 23 0 (debug_marker) "cmodules/fbgc_file.c":46:4 -1
+     (nil))
+;; fseek (_2, 0, 2);
+
+(insn 25 24 26 (set (reg:SI 1 dx)
+        (const_int 2 [0x2])) "cmodules/fbgc_file.c":46:4 -1
+     (nil))
+
+(insn 26 25 27 (set (reg:DI 4 si)
+        (const_int 0 [0])) "cmodules/fbgc_file.c":46:4 -1
+     (nil))
+
+(insn 27 26 28 (set (reg:DI 5 di)
+        (mem/f:DI (reg/v/f:DI 92 [ fs ]) [5 fs_17->fp+0 S8 A8])) "cmodules/fbgc_file.c":46:4 -1
+     (nil))
+
+(call_insn 28 27 0 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("fseek") [flags 0x41]  <function_decl 0x7f7f56b7d300 fseek>) [0 fseek S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_file.c":46:4 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("fseek") [flags 0x41]  <function_decl 0x7f7f56b7d300 fseek>)
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:SI (use (reg:SI 1 dx))
+                (nil)))))
+
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 29 28 0 (debug_marker) "cmodules/fbgc_file.c":47:5 -1
+     (nil))
+;; file_text_len_20 = ftell (_3);
+
+(insn 30 29 31 (set (reg:DI 5 di)
+        (mem/f:DI (reg/v/f:DI 92 [ fs ]) [5 fs_17->fp+0 S8 A8])) "cmodules/fbgc_file.c":47:26 -1
+     (nil))
+
+(call_insn 31 30 32 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("ftell") [flags 0x41]  <function_decl 0x7f7f56b7d400 ftell>) [0 ftell S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_file.c":47:26 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("ftell") [flags 0x41]  <function_decl 0x7f7f56b7d400 ftell>)
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+
+(insn 32 31 0 (set (reg/v:DI 93 [ file_text_len ])
+        (reg:DI 0 ax)) "cmodules/fbgc_file.c":47:26 -1
+     (nil))
+
+;; # DEBUG file_text_len => file_text_len_20
+
+(debug_insn 33 32 0 (var_location:DI file_text_len (const_int 0 [0])) "cmodules/fbgc_file.c":47:26 -1
+     (nil))
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 34 33 0 (debug_marker) "cmodules/fbgc_file.c":48:6 -1
+     (nil))
+;; rewind (_4);
+
+(insn 35 34 36 (set (reg:DI 5 di)
+        (mem/f:DI (reg/v/f:DI 92 [ fs ]) [5 fs_17->fp+0 S8 A8])) "cmodules/fbgc_file.c":48:6 -1
+     (nil))
+
+(call_insn 36 35 0 (call (mem:QI (symbol_ref:DI ("rewind") [flags 0x41]  <function_decl 0x7f7f56b7d500 rewind>) [0 rewind S1 A8])
+        (const_int 0 [0])) "cmodules/fbgc_file.c":48:6 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("rewind") [flags 0x41]  <function_decl 0x7f7f56b7d500 rewind>)
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 37 36 0 (debug_marker) "cmodules/fbgc_file.c":50:6 -1
+     (nil))
+;; str_23 = new_fbgc_str_object_empty (_5);
+
+(insn 38 37 39 (set (reg:SI 5 di)
+        (subreg:SI (reg/v:DI 93 [ file_text_len ]) 0)) "cmodules/fbgc_file.c":50:33 -1
+     (nil))
+
+(call_insn 39 38 40 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("new_fbgc_str_object_empty") [flags 0x41]  <function_decl 0x7f7f56cf9200 new_fbgc_str_object_empty>) [0 new_fbgc_str_object_empty S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_file.c":50:33 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("new_fbgc_str_object_empty") [flags 0x41]  <function_decl 0x7f7f56cf9200 new_fbgc_str_object_empty>)
+        (nil))
+    (expr_list:SI (use (reg:SI 5 di))
+        (nil)))
+
+(insn 40 39 0 (set (reg/v/f:DI 96 [ <retval> ])
+        (reg:DI 0 ax)) "cmodules/fbgc_file.c":50:33 -1
+     (nil))
+
+;; # DEBUG str => str_23
+
+(debug_insn 41 40 0 (var_location:DI str (const_int 0 [0])) "cmodules/fbgc_file.c":50:33 -1
+     (nil))
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 42 41 0 (debug_marker) "cmodules/fbgc_file.c":51:4 -1
+     (nil))
+;; # DEBUG __ptr => _8
+
+(debug_insn 43 42 0 (var_location:DI __ptr (const_int 0 [0])) "cmodules/fbgc_file.c":51:23 -1
+     (nil))
+;; # DEBUG __size => 1
+
+(debug_insn 44 43 0 (var_location:DI __size (const_int 0 [0])) "cmodules/fbgc_file.c":51:23 -1
+     (nil))
+;; # DEBUG __n => file_text_len.0_7
+
+(debug_insn 45 44 0 (var_location:DI __n (const_int 0 [0])) "cmodules/fbgc_file.c":51:23 -1
+     (nil))
+;; # DEBUG __stream => _6
+
+(debug_insn 46 45 0 (var_location:DI __stream (const_int 0 [0])) "cmodules/fbgc_file.c":51:23 -1
+     (nil))
+;; # DEBUG INLINE_ENTRY fread
+
+(debug_insn 47 46 0 (debug_marker:BLK) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":284:1 -1
+     (nil))
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 48 47 0 (debug_marker) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":287:3 -1
+     (nil))
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 49 48 0 (debug_marker) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":297:3 -1
+     (nil))
+;; _31 = __fread_alias (_8, 1, file_text_len.0_7, _6);
+
+(insn 50 49 51 (parallel [
+            (set (reg:DI 100)
+                (plus:DI (reg/v/f:DI 96 [ <retval> ])
+                    (const_int 13 [0xd])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_file.c":51:23 -1
+     (nil))
+
+(insn 51 50 52 (set (reg:DI 2 cx)
+        (mem/f:DI (reg/v/f:DI 92 [ fs ]) [5 fs_17->fp+0 S8 A8])) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":297:10 -1
+     (nil))
+
+(insn 52 51 53 (set (reg:DI 1 dx)
+        (reg/v:DI 93 [ file_text_len ])) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":297:10 -1
+     (nil))
+
+(insn 53 52 54 (set (reg:DI 4 si)
+        (const_int 1 [0x1])) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":297:10 -1
+     (nil))
+
+(insn 54 53 55 (set (reg:DI 5 di)
+        (reg:DI 100)) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":297:10 -1
+     (nil))
+
+(call_insn 55 54 56 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("*fread") [flags 0x41]  <function_decl 0x7f7f56ba1100 __fread_alias>) [0 __fread_alias S1 A8])
+            (const_int 0 [0]))) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":297:10 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("*fread") [flags 0x41]  <function_decl 0x7f7f56ba1100 __fread_alias>)
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:DI (use (reg:DI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+
+(insn 56 55 0 (set (reg:DI 95 [ _31 ])
+        (reg:DI 0 ax)) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":297:10 -1
+     (nil))
+
+;; # DEBUG __ptr => NULL
+
+(debug_insn 57 56 0 (var_location:DI __ptr (const_int 0 [0])) "cmodules/fbgc_file.c":51:17 -1
+     (nil))
+;; # DEBUG __size => NULL
+
+(debug_insn 58 57 0 (var_location:DI __size (const_int 0 [0])) "cmodules/fbgc_file.c":51:17 -1
+     (nil))
+;; # DEBUG __n => NULL
+
+(debug_insn 59 58 0 (var_location:DI __n (const_int 0 [0])) "cmodules/fbgc_file.c":51:17 -1
+     (nil))
+;; # DEBUG __stream => NULL
+
+(debug_insn 60 59 0 (var_location:DI __stream (const_int 0 [0])) "cmodules/fbgc_file.c":51:17 -1
+     (nil))
+;; # DEBUG res => (unsigned int) _31
+
+(debug_insn 61 60 0 (var_location:SI res (const_int 0 [0])) "cmodules/fbgc_file.c":51:11 -1
+     (nil))
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 62 61 0 (debug_marker) "cmodules/fbgc_file.c":52:4 -1
+     (nil))
+;; if (_9 == file_text_len_20)
+
+(insn 63 62 64 (set (reg:DI 101)
+        (zero_extend:DI (subreg:SI (reg:DI 95 [ _31 ]) 0))) "cmodules/fbgc_file.c":52:4 -1
+     (nil))
+
+(insn 64 63 65 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg:DI 101)
+            (reg/v:DI 93 [ file_text_len ]))) "cmodules/fbgc_file.c":52:4 -1
+     (nil))
+
+(jump_insn 65 64 0 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 0)
+            (pc))) "cmodules/fbgc_file.c":52:4 -1
+     (int_list:REG_BR_PROB 1073312332 (nil)))
+
+;; Generating RTL for gimple basic block 5
+
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 67 66 0 (debug_marker) "cmodules/fbgc_file.c":52:4 -1
+     (nil))
+;; __assert_fail ("res == file_text_len", "cmodules/fbgc_file.c", 52, &__PRETTY_FUNCTION__);
+
+(insn 68 67 69 (set (reg:DI 2 cx)
+        (symbol_ref:DI ("__PRETTY_FUNCTION__.5734") [flags 0x2]  <var_decl 0x7f7f568a9480 __PRETTY_FUNCTION__>)) "cmodules/fbgc_file.c":52:4 -1
+     (nil))
+
+(insn 69 68 70 (set (reg:SI 1 dx)
+        (const_int 52 [0x34])) "cmodules/fbgc_file.c":52:4 -1
+     (nil))
+
+(insn 70 69 71 (set (reg:DI 4 si)
+        (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7f7f568f91b0 *.LC0>)) "cmodules/fbgc_file.c":52:4 -1
+     (nil))
+
+(insn 71 70 72 (set (reg:DI 5 di)
+        (symbol_ref/f:DI ("*.LC1") [flags 0x2]  <var_decl 0x7f7f568f9240 *.LC1>)) "cmodules/fbgc_file.c":52:4 -1
+     (nil))
+
+(call_insn 72 71 73 (call (mem:QI (symbol_ref:DI ("__assert_fail") [flags 0x41]  <function_decl 0x7f7f56ba1c00 __assert_fail>) [0 __assert_fail S1 A8])
+        (const_int 0 [0])) "cmodules/fbgc_file.c":52:4 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("__assert_fail") [flags 0x41]  <function_decl 0x7f7f56ba1c00 __assert_fail>)
+        (expr_list:REG_ARGS_SIZE (const_int 0 [0])
+            (expr_list:REG_NORETURN (const_int 0 [0])
+                (expr_list:REG_EH_REGION (const_int 0 [0])
+                    (nil)))))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:SI (use (reg:SI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+
+(barrier 73 72 0)
+
+;; Generating RTL for gimple basic block 6
+
+;; 
+
+(code_label 74 73 75 4 (nil) [0 uses])
+
+(note 75 74 0 NOTE_INSN_BASIC_BLOCK)
+
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 76 75 0 (debug_marker) "cmodules/fbgc_file.c":60:3 -1
+     (nil))
+;; cprintf (100, "fread takes exactly one arguments!\n");
+
+(insn 77 76 78 (set (reg:DI 4 si)
+        (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0x7f7f568f92d0 *.LC2>)) "cmodules/fbgc_file.c":60:3 -1
+     (nil))
+
+(insn 78 77 79 (set (reg:SI 5 di)
+        (const_int 100 [0x64])) "cmodules/fbgc_file.c":60:3 -1
+     (nil))
+
+(insn 79 78 80 (set (reg:QI 0 ax)
+        (const_int 0 [0])) "cmodules/fbgc_file.c":60:3 -1
+     (nil))
+
+(call_insn 80 79 0 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("cprintf") [flags 0x41]  <function_decl 0x7f7f56cd6d00 cprintf>) [0 cprintf S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_file.c":60:3 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("cprintf") [flags 0x41]  <function_decl 0x7f7f56cd6d00 cprintf>)
+        (nil))
+    (expr_list (use (reg:QI 0 ax))
+        (expr_list:SI (use (reg:SI 5 di))
+            (expr_list:DI (use (reg:DI 4 si))
+                (nil)))))
+
+;; Generating RTL for gimple basic block 7
+
+;; 
+
+(code_label 81 80 82 5 (nil) [0 uses])
+
+(note 82 81 0 NOTE_INSN_BASIC_BLOCK)
+
+;; return _10;
+
+(jump_insn 83 82 84 (set (pc)
+        (label_ref 0)) -1
+     (nil))
+
+(barrier 84 83 0)
+Edge 3->7 redirected to 10
+
+
+try_optimize_cfg iteration 1
+
+Merging block 3 into block 2...
+Merged blocks 2 and 3.
+Merged 2 and 3 without moving.
+Edge 5->9 redirected to 10
+Redirecting jump 89 from 9 to 10.
+Merging block 9 into block 8...
+Merged blocks 8 and 9.
+Merged 8 and 9 without moving.
+Removing jump 83.
+
+
+try_optimize_cfg iteration 2
+
+fix_loop_structure: fixing up loops for function
+
+
+;;
+;; Full RTL generated for this function:
+;;
+(note 1 0 7 NOTE_INSN_DELETED)
+;; basic block 2, loop depth 0, count 1073741824 (estimated locally), maybe hot
+;;  prev block 0, next block 4, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       ENTRY [always]  count:1073741824 (estimated locally) (FALLTHRU)
+(note 7 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 7 3 2 (set (reg/v/f:DI 97 [ arg ])
+        (reg:DI 5 di [ arg ])) "cmodules/fbgc_file.c":37:1 -1
+     (nil))
+(insn 3 2 4 2 (set (reg/v:SI 98 [ argc ])
+        (reg:SI 4 si [ argc ])) "cmodules/fbgc_file.c":37:1 -1
+     (nil))
+(note 4 3 9 2 NOTE_INSN_FUNCTION_BEG)
+(debug_insn 9 4 10 2 (debug_marker) "cmodules/fbgc_file.c":39:2 -1
+     (nil))
+(insn 10 9 11 2 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg/v:SI 98 [ argc ])
+            (const_int 1 [0x1]))) "cmodules/fbgc_file.c":39:4 -1
+     (nil))
+(jump_insn 11 10 12 2 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 74)
+            (pc))) "cmodules/fbgc_file.c":39:4 -1
+     (int_list:REG_BR_PROB 301614084 (nil))
+ -> 74)
+;;  succ:       4 [71.9% (guessed)]  count:772127744 (estimated locally) (FALLTHRU)
+;;              7 [28.1% (guessed)]  count:301614080 (estimated locally)
+
+;; basic block 4, loop depth 0, count 772127746 (estimated locally), maybe hot
+;;  prev block 2, next block 5, flags: (NEW, REACHABLE, RTL, MODIFIED, VISITED)
+;;  pred:       2 [71.9% (guessed)]  count:772127744 (estimated locally) (FALLTHRU)
+(note 12 11 13 4 [bb 4] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 13 12 14 4 (debug_marker) "cmodules/fbgc_file.c":40:3 -1
+     (nil))
+(insn 14 13 15 4 (set (reg/v/f:DI 91 [ so ])
+        (mem/f:DI (reg/v/f:DI 97 [ arg ]) [1 *arg_15(D)+0 S8 A64])) "cmodules/fbgc_file.c":40:32 -1
+     (nil))
+(debug_insn 15 14 16 4 (var_location:DI so (reg/v/f:DI 91 [ so ])) "cmodules/fbgc_file.c":40:32 -1
+     (nil))
+(debug_insn 16 15 17 4 (debug_marker) "cmodules/fbgc_file.c":41:3 -1
+     (nil))
+(insn 17 16 18 4 (set (reg:DI 99)
+        (symbol_ref:DI ("fbgc_file_module") [flags 0x2]  <var_decl 0x7f7f56ce1990 fbgc_file_module>)) "cmodules/fbgc_file.c":41:5 -1
+     (nil))
+(insn 18 17 19 4 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem/f:DI (plus:DI (reg/v/f:DI 91 [ so ])
+                    (const_int 13 [0xd])) [2 so_16->parent+0 S8 A8])
+            (reg:DI 99))) "cmodules/fbgc_file.c":41:5 -1
+     (nil))
+(jump_insn 19 18 20 4 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref:DI 92)
+            (pc))) "cmodules/fbgc_file.c":41:5 659 {*jcc}
+     (int_list:REG_BR_PROB 707917988 (nil))
+ -> 92)
+;;  succ:       5 [34.1% (guessed)]  count:263063923 (estimated locally) (FALLTHRU)
+;;              8 [65.9% (guessed)]  count:509063823 (estimated locally)
+
+;; basic block 5, loop depth 0, count 263063923 (estimated locally), maybe hot
+;;  prev block 4, next block 6, flags: (NEW, REACHABLE, RTL, MODIFIED, VISITED)
+;;  pred:       4 [34.1% (guessed)]  count:263063923 (estimated locally) (FALLTHRU)
+(note 20 19 21 5 [bb 5] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 21 20 22 5 (debug_marker) "cmodules/fbgc_file.c":42:4 -1
+     (nil))
+(insn 22 21 23 5 (set (reg/v/f:DI 92 [ fs ])
+        (mem/f:DI (plus:DI (reg/v/f:DI 91 [ so ])
+                (const_int 21 [0x15])) [3 so_16->cstruct+0 S8 A8])) "cmodules/fbgc_file.c":42:25 -1
+     (nil))
+(debug_insn 23 22 24 5 (var_location:DI fs (reg/v/f:DI 92 [ fs ])) "cmodules/fbgc_file.c":42:25 -1
+     (nil))
+(debug_insn 24 23 25 5 (debug_marker) "cmodules/fbgc_file.c":46:4 -1
+     (nil))
+(insn 25 24 26 5 (set (reg:SI 1 dx)
+        (const_int 2 [0x2])) "cmodules/fbgc_file.c":46:4 -1
+     (nil))
+(insn 26 25 27 5 (set (reg:DI 4 si)
+        (const_int 0 [0])) "cmodules/fbgc_file.c":46:4 -1
+     (nil))
+(insn 27 26 28 5 (set (reg:DI 5 di)
+        (mem/f:DI (reg/v/f:DI 92 [ fs ]) [5 fs_17->fp+0 S8 A8])) "cmodules/fbgc_file.c":46:4 -1
+     (nil))
+(call_insn 28 27 29 5 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("fseek") [flags 0x41]  <function_decl 0x7f7f56b7d300 fseek>) [0 fseek S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_file.c":46:4 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("fseek") [flags 0x41]  <function_decl 0x7f7f56b7d300 fseek>)
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:SI (use (reg:SI 1 dx))
+                (nil)))))
+(debug_insn 29 28 30 5 (debug_marker) "cmodules/fbgc_file.c":47:5 -1
+     (nil))
+(insn 30 29 31 5 (set (reg:DI 5 di)
+        (mem/f:DI (reg/v/f:DI 92 [ fs ]) [5 fs_17->fp+0 S8 A8])) "cmodules/fbgc_file.c":47:26 -1
+     (nil))
+(call_insn 31 30 32 5 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("ftell") [flags 0x41]  <function_decl 0x7f7f56b7d400 ftell>) [0 ftell S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_file.c":47:26 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("ftell") [flags 0x41]  <function_decl 0x7f7f56b7d400 ftell>)
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(insn 32 31 33 5 (set (reg/v:DI 93 [ file_text_len ])
+        (reg:DI 0 ax)) "cmodules/fbgc_file.c":47:26 -1
+     (nil))
+(debug_insn 33 32 34 5 (var_location:DI file_text_len (reg/v:DI 93 [ file_text_len ])) "cmodules/fbgc_file.c":47:26 -1
+     (nil))
+(debug_insn 34 33 35 5 (debug_marker) "cmodules/fbgc_file.c":48:6 -1
+     (nil))
+(insn 35 34 36 5 (set (reg:DI 5 di)
+        (mem/f:DI (reg/v/f:DI 92 [ fs ]) [5 fs_17->fp+0 S8 A8])) "cmodules/fbgc_file.c":48:6 -1
+     (nil))
+(call_insn 36 35 37 5 (call (mem:QI (symbol_ref:DI ("rewind") [flags 0x41]  <function_decl 0x7f7f56b7d500 rewind>) [0 rewind S1 A8])
+        (const_int 0 [0])) "cmodules/fbgc_file.c":48:6 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("rewind") [flags 0x41]  <function_decl 0x7f7f56b7d500 rewind>)
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(debug_insn 37 36 38 5 (debug_marker) "cmodules/fbgc_file.c":50:6 -1
+     (nil))
+(insn 38 37 39 5 (set (reg:SI 5 di)
+        (subreg:SI (reg/v:DI 93 [ file_text_len ]) 0)) "cmodules/fbgc_file.c":50:33 -1
+     (nil))
+(call_insn 39 38 40 5 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("new_fbgc_str_object_empty") [flags 0x41]  <function_decl 0x7f7f56cf9200 new_fbgc_str_object_empty>) [0 new_fbgc_str_object_empty S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_file.c":50:33 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("new_fbgc_str_object_empty") [flags 0x41]  <function_decl 0x7f7f56cf9200 new_fbgc_str_object_empty>)
+        (nil))
+    (expr_list:SI (use (reg:SI 5 di))
+        (nil)))
+(insn 40 39 41 5 (set (reg/v/f:DI 96 [ <retval> ])
+        (reg:DI 0 ax)) "cmodules/fbgc_file.c":50:33 -1
+     (nil))
+(debug_insn 41 40 42 5 (var_location:DI str (reg/v/f:DI 96 [ <retval> ])) "cmodules/fbgc_file.c":50:33 -1
+     (nil))
+(debug_insn 42 41 43 5 (debug_marker) "cmodules/fbgc_file.c":51:4 -1
+     (nil))
+(debug_insn 43 42 44 5 (var_location:DI __ptr (plus:DI (reg/v/f:DI 96 [ <retval> ])
+        (const_int 13 [0xd]))) "cmodules/fbgc_file.c":51:23 -1
+     (nil))
+(debug_insn 44 43 45 5 (var_location:DI __size (const_int 1 [0x1])) "cmodules/fbgc_file.c":51:23 -1
+     (nil))
+(debug_insn 45 44 46 5 (var_location:DI __n (reg/v:DI 93 [ file_text_len ])) "cmodules/fbgc_file.c":51:23 -1
+     (nil))
+(debug_insn 46 45 47 5 (var_location:DI __stream (mem/f:DI (reg/v/f:DI 92 [ fs ]) [5 fs_17->fp+0 S8 A8])) "cmodules/fbgc_file.c":51:23 -1
+     (nil))
+(debug_insn 47 46 48 5 (debug_marker:BLK) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":284:1 -1
+     (nil))
+(debug_insn 48 47 49 5 (debug_marker) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":287:3 -1
+     (nil))
+(debug_insn 49 48 50 5 (debug_marker) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":297:3 -1
+     (nil))
+(insn 50 49 51 5 (parallel [
+            (set (reg:DI 100)
+                (plus:DI (reg/v/f:DI 96 [ <retval> ])
+                    (const_int 13 [0xd])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_file.c":51:23 -1
+     (nil))
+(insn 51 50 52 5 (set (reg:DI 2 cx)
+        (mem/f:DI (reg/v/f:DI 92 [ fs ]) [5 fs_17->fp+0 S8 A8])) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":297:10 -1
+     (nil))
+(insn 52 51 53 5 (set (reg:DI 1 dx)
+        (reg/v:DI 93 [ file_text_len ])) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":297:10 -1
+     (nil))
+(insn 53 52 54 5 (set (reg:DI 4 si)
+        (const_int 1 [0x1])) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":297:10 -1
+     (nil))
+(insn 54 53 55 5 (set (reg:DI 5 di)
+        (reg:DI 100)) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":297:10 -1
+     (nil))
+(call_insn 55 54 56 5 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("*fread") [flags 0x41]  <function_decl 0x7f7f56ba1100 __fread_alias>) [0 __fread_alias S1 A8])
+            (const_int 0 [0]))) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":297:10 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("*fread") [flags 0x41]  <function_decl 0x7f7f56ba1100 __fread_alias>)
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:DI (use (reg:DI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+(insn 56 55 57 5 (set (reg:DI 95 [ _31 ])
+        (reg:DI 0 ax)) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":297:10 -1
+     (nil))
+(debug_insn 57 56 58 5 (var_location:DI __ptr (clobber (const_int 0 [0]))) "cmodules/fbgc_file.c":51:17 -1
+     (nil))
+(debug_insn 58 57 59 5 (var_location:DI __size (clobber (const_int 0 [0]))) "cmodules/fbgc_file.c":51:17 -1
+     (nil))
+(debug_insn 59 58 60 5 (var_location:DI __n (clobber (const_int 0 [0]))) "cmodules/fbgc_file.c":51:17 -1
+     (nil))
+(debug_insn 60 59 61 5 (var_location:DI __stream (clobber (const_int 0 [0]))) "cmodules/fbgc_file.c":51:17 -1
+     (nil))
+(debug_insn 61 60 62 5 (var_location:SI res (subreg:SI (reg:DI 95 [ _31 ]) 0)) "cmodules/fbgc_file.c":51:11 -1
+     (nil))
+(debug_insn 62 61 63 5 (debug_marker) "cmodules/fbgc_file.c":52:4 -1
+     (nil))
+(insn 63 62 64 5 (set (reg:DI 101)
+        (zero_extend:DI (subreg:SI (reg:DI 95 [ _31 ]) 0))) "cmodules/fbgc_file.c":52:4 -1
+     (nil))
+(insn 64 63 65 5 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg:DI 101)
+            (reg/v:DI 93 [ file_text_len ]))) "cmodules/fbgc_file.c":52:4 -1
+     (nil))
+(jump_insn 65 64 66 5 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref:DI 85)
+            (pc))) "cmodules/fbgc_file.c":52:4 659 {*jcc}
+     (int_list:REG_BR_PROB 1073312332 (nil))
+ -> 85)
+;;  succ:       10 [100.0% (guessed)]  count:262958698 (estimated locally)
+;;              6 [0.0% (guessed)]  count:105225 (estimated locally) (FALLTHRU)
+
+;; basic block 6, loop depth 0, count 105226 (estimated locally)
+;;  prev block 5, next block 7, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       5 [0.0% (guessed)]  count:105225 (estimated locally) (FALLTHRU)
+(note 66 65 67 6 [bb 6] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 67 66 68 6 (debug_marker) "cmodules/fbgc_file.c":52:4 -1
+     (nil))
+(insn 68 67 69 6 (set (reg:DI 2 cx)
+        (symbol_ref:DI ("__PRETTY_FUNCTION__.5734") [flags 0x2]  <var_decl 0x7f7f568a9480 __PRETTY_FUNCTION__>)) "cmodules/fbgc_file.c":52:4 -1
+     (nil))
+(insn 69 68 70 6 (set (reg:SI 1 dx)
+        (const_int 52 [0x34])) "cmodules/fbgc_file.c":52:4 -1
+     (nil))
+(insn 70 69 71 6 (set (reg:DI 4 si)
+        (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7f7f568f91b0 *.LC0>)) "cmodules/fbgc_file.c":52:4 -1
+     (nil))
+(insn 71 70 72 6 (set (reg:DI 5 di)
+        (symbol_ref/f:DI ("*.LC1") [flags 0x2]  <var_decl 0x7f7f568f9240 *.LC1>)) "cmodules/fbgc_file.c":52:4 -1
+     (nil))
+(call_insn 72 71 73 6 (call (mem:QI (symbol_ref:DI ("__assert_fail") [flags 0x41]  <function_decl 0x7f7f56ba1c00 __assert_fail>) [0 __assert_fail S1 A8])
+        (const_int 0 [0])) "cmodules/fbgc_file.c":52:4 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("__assert_fail") [flags 0x41]  <function_decl 0x7f7f56ba1c00 __assert_fail>)
+        (expr_list:REG_ARGS_SIZE (const_int 0 [0])
+            (expr_list:REG_NORETURN (const_int 0 [0])
+                (expr_list:REG_EH_REGION (const_int 0 [0])
+                    (nil)))))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:SI (use (reg:SI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+;;  succ:      
+
+(barrier 73 72 74)
+;; basic block 7, loop depth 0, count 301614079 (estimated locally), maybe hot
+;;  prev block 6, next block 8, flags: (NEW, REACHABLE, RTL, MODIFIED, VISITED)
+;;  pred:       2 [28.1% (guessed)]  count:301614080 (estimated locally)
+(code_label 74 73 75 7 4 (nil) [1 uses])
+(note 75 74 76 7 [bb 7] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 76 75 77 7 (debug_marker) "cmodules/fbgc_file.c":60:3 -1
+     (nil))
+(insn 77 76 78 7 (set (reg:DI 4 si)
+        (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0x7f7f568f92d0 *.LC2>)) "cmodules/fbgc_file.c":60:3 -1
+     (nil))
+(insn 78 77 79 7 (set (reg:SI 5 di)
+        (const_int 100 [0x64])) "cmodules/fbgc_file.c":60:3 -1
+     (nil))
+(insn 79 78 80 7 (set (reg:QI 0 ax)
+        (const_int 0 [0])) "cmodules/fbgc_file.c":60:3 -1
+     (nil))
+(call_insn 80 79 6 7 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("cprintf") [flags 0x41]  <function_decl 0x7f7f56cd6d00 cprintf>) [0 cprintf S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_file.c":60:3 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("cprintf") [flags 0x41]  <function_decl 0x7f7f56cd6d00 cprintf>)
+        (nil))
+    (expr_list (use (reg:QI 0 ax))
+        (expr_list:SI (use (reg:SI 5 di))
+            (expr_list:DI (use (reg:DI 4 si))
+                (nil)))))
+(insn 6 80 89 7 (set (reg/v/f:DI 96 [ <retval> ])
+        (const_int 0 [0])) "cmodules/fbgc_file.c":63:9 -1
+     (nil))
+(jump_insn 89 6 90 7 (set (pc)
+        (label_ref:DI 85)) 660 {jump}
+     (nil)
+ -> 85)
+;;  succ:       10 [always]  count:301614079 (estimated locally)
+
+(barrier 90 89 92)
+;; basic block 8, loop depth 0, count 509063823 (estimated locally), maybe hot
+;;  prev block 7, next block 10, flags: (NEW, REACHABLE, RTL, MODIFIED, VISITED)
+;;  pred:       4 [65.9% (guessed)]  count:509063823 (estimated locally)
+(code_label 92 90 91 8 6 (nil) [1 uses])
+(note 91 92 5 8 [bb 8] NOTE_INSN_BASIC_BLOCK)
+(insn 5 91 85 8 (set (reg/v/f:DI 96 [ <retval> ])
+        (const_int 0 [0])) "cmodules/fbgc_file.c":63:9 -1
+     (nil))
+;;  succ:       10 [always]  count:509063823 (estimated locally) (FALLTHRU)
+
+;; basic block 10, loop depth 0, count 1073636600 (estimated locally), maybe hot
+;;  prev block 8, next block 1, flags: (NEW, REACHABLE, RTL)
+;;  pred:       8 [always]  count:509063823 (estimated locally) (FALLTHRU)
+;;              5 [100.0% (guessed)]  count:262958698 (estimated locally)
+;;              7 [always]  count:301614079 (estimated locally)
+(code_label 85 5 88 10 3 (nil) [2 uses])
+(note 88 85 86 10 [bb 10] NOTE_INSN_BASIC_BLOCK)
+(insn 86 88 87 10 (set (reg/i:DI 0 ax)
+        (reg/v/f:DI 96 [ <retval> ])) "cmodules/fbgc_file.c":64:1 -1
+     (nil))
+(insn 87 86 0 10 (use (reg/i:DI 0 ax)) "cmodules/fbgc_file.c":64:1 -1
+     (nil))
+;;  succ:       EXIT [always]  count:1073636600 (estimated locally) (FALLTHRU)
+
+
+;; Function fbgc_freadline (fbgc_freadline, funcdef_no=59, decl_uid=5703, cgraph_uid=60, symbol_order=65)
+
+fbgc_freadline (struct fbgc_object * * arg, int argc)
+{
+  struct fbgc_object * str;
+  int count_line;
+  int count_char;
+  int c;
+  long int old_fp_loc;
+  int which_line;
+  struct file_struct * fs;
+  struct fbgc_cstruct_object * so;
+  const struct fbgc_cmodule * _1;
+  struct fbgc_object * _2;
+  unsigned char _3;
+  struct FILE * _4;
+  struct FILE * _5;
+  struct FILE * _6;
+  int _7;
+  long int _8;
+  struct FILE * _9;
+  struct FILE * _10;
+  long unsigned int _11;
+  char * _12;
+  struct FILE * _13;
+  struct fbgc_object * _20;
+
+;;   basic block 2, loop depth 0
+;;    pred:       ENTRY
+  # DEBUG BEGIN_STMT
+  if (argc_23(D) == 2)
+    goto <bb 3>; [71.91%]
+  else
+    goto <bb 16>; [28.09%]
+;;    succ:       3
+;;                16
+
+;;   basic block 3, loop depth 0
+;;    pred:       2
+  # DEBUG BEGIN_STMT
+  so_27 = *arg_26(D);
+  # DEBUG so => so_27
+  # DEBUG BEGIN_STMT
+  _1 = so_27->parent;
+  if (_1 == &fbgc_file_module)
+    goto <bb 4>; [51.20%]
+  else
+    goto <bb 17>; [48.80%]
+;;    succ:       4
+;;                17
+
+;;   basic block 4, loop depth 0
+;;    pred:       3
+  _2 = MEM[(struct fbgc_object * *)arg_26(D) + 8B];
+  _3 = _2->type;
+  if (_3 == 3)
+    goto <bb 5>; [55.78%]
+  else
+    goto <bb 17>; [44.22%]
+;;    succ:       5
+;;                17
+
+;;   basic block 5, loop depth 0
+;;    pred:       4
+  # DEBUG BEGIN_STMT
+  fs_28 = so_27->cstruct;
+  # DEBUG fs => fs_28
+  # DEBUG BEGIN_STMT
+  which_line_29 = MEM[(struct fbgc_int_object *)_2].content;
+  # DEBUG which_line => which_line_29
+  # DEBUG BEGIN_STMT
+  if (which_line_29 < 0)
+    goto <bb 6>; [12.76%]
+  else
+    goto <bb 7>; [87.24%]
+;;    succ:       6
+;;                7
+
+;;   basic block 6, loop depth 0
+;;    pred:       5
+  # DEBUG BEGIN_STMT
+  cprintf (100, "Line no cannot be negative\n");
+  # DEBUG BEGIN_STMT
+  goto <bb 17>; [100.00%]
+;;    succ:       17
+
+;;   basic block 7, loop depth 0
+;;    pred:       5
+  # DEBUG BEGIN_STMT
+  _4 = fs_28->fp;
+  old_fp_loc_31 = ftell (_4);
+  # DEBUG old_fp_loc => old_fp_loc_31
+  # DEBUG BEGIN_STMT
+  _5 = fs_28->fp;
+  rewind (_5);
+  # DEBUG BEGIN_STMT
+  # DEBUG c => 0
+  # DEBUG BEGIN_STMT
+  # DEBUG count_char => 0
+  # DEBUG BEGIN_STMT
+  # DEBUG count_line => 0
+  goto <bb 9>; [100.00%]
+;;    succ:       9
+
+;;   basic block 8, loop depth 1
+;;    pred:       11
+;;                12
+  # count_char_65 = PHI <0(11), count_char_37(12)>
+  # count_line_64 = PHI <count_line_36(11), count_line_17(12)>
+;;    succ:       9
+
+;;   basic block 9, loop depth 1
+;;    pred:       8
+;;                7
+  # count_char_14 = PHI <count_char_65(8), 0(7)>
+  # count_line_17 = PHI <count_line_64(8), 0(7)>
+  # DEBUG count_line => count_line_17
+  # DEBUG count_char => count_char_14
+  # DEBUG BEGIN_STMT
+  # DEBUG BEGIN_STMT
+  _6 = fs_28->fp;
+  c_35 = fgetc (_6);
+  # DEBUG c => c_35
+  # DEBUG BEGIN_STMT
+  if (c_35 == 10)
+    goto <bb 10>; [34.00%]
+  else
+    goto <bb 12>; [66.00%]
+;;    succ:       10
+;;                12
+
+;;   basic block 10, loop depth 1
+;;    pred:       9
+  # DEBUG BEGIN_STMT
+  if (count_line_17 == which_line_29)
+    goto <bb 15>; [5.50%]
+  else
+    goto <bb 11>; [94.50%]
+;;    succ:       15
+;;                11
+
+;;   basic block 11, loop depth 1
+;;    pred:       10
+  # DEBUG BEGIN_STMT
+  count_line_36 = count_line_17 + 1;
+  # DEBUG count_line => count_line_36
+  # DEBUG BEGIN_STMT
+  # DEBUG count_line => count_line_36
+  # DEBUG count_char => -1
+  # DEBUG BEGIN_STMT
+  # DEBUG count_char => 0
+  # DEBUG BEGIN_STMT
+  goto <bb 8>; [100.00%]
+;;    succ:       8
+
+;;   basic block 12, loop depth 1
+;;    pred:       9
+  # DEBUG count_line => count_line_17
+  # DEBUG count_char => count_char_14
+  # DEBUG BEGIN_STMT
+  count_char_37 = count_char_14 + 1;
+  # DEBUG count_char => count_char_37
+  # DEBUG BEGIN_STMT
+  if (c_35 != -1)
+    goto <bb 8>; [91.82%]
+  else
+    goto <bb 13>; [8.18%]
+;;    succ:       8
+;;                13
+
+;;   basic block 13, loop depth 0
+;;    pred:       12
+  # DEBUG count_line => count_line_17
+  # DEBUG count_char => count_char_37
+  # DEBUG BEGIN_STMT
+  if (count_line_17 != which_line_29)
+    goto <bb 14>; [59.54%]
+  else
+    goto <bb 15>; [40.46%]
+;;    succ:       14
+;;                15
+
+;;   basic block 14, loop depth 0
+;;    pred:       13
+  # DEBUG BEGIN_STMT
+  cprintf (100, "File contains %d line(s), cannot find %d. line\n", count_line_17, which_line_29);
+  # DEBUG BEGIN_STMT
+  goto <bb 17>; [100.00%]
+;;    succ:       17
+
+;;   basic block 15, loop depth 0
+;;    pred:       10
+;;                13
+  # count_char_63 = PHI <count_char_14(10), count_char_37(13)>
+  # DEBUG count_line => NULL
+  # DEBUG count_char => count_char_63
+  # DEBUG BEGIN_STMT
+  _7 = ~count_char_63;
+  _8 = (long int) _7;
+  _9 = fs_28->fp;
+  fseek (_9, _8, 1);
+  # DEBUG BEGIN_STMT
+  str_40 = new_fbgc_str_object_empty (count_char_63);
+  # DEBUG str => str_40
+  # DEBUG BEGIN_STMT
+  _10 = fs_28->fp;
+  _11 = (long unsigned int) count_char_63;
+  _12 = &MEM[(struct fbgc_str_object *)str_40].content;
+  # DEBUG __ptr => _12
+  # DEBUG __size => 1
+  # DEBUG __n => _11
+  # DEBUG __stream => _10
+  # DEBUG INLINE_ENTRY fread
+  # DEBUG BEGIN_STMT
+  # DEBUG BEGIN_STMT
+  __fread_alias (_12, 1, _11, _10);
+  # DEBUG __ptr => NULL
+  # DEBUG __size => NULL
+  # DEBUG __n => NULL
+  # DEBUG __stream => NULL
+  # DEBUG res => NULL
+  # DEBUG BEGIN_STMT
+  _13 = fs_28->fp;
+  fseek (_13, old_fp_loc_31, 0);
+  # DEBUG BEGIN_STMT
+  goto <bb 17>; [100.00%]
+;;    succ:       17
+
+;;   basic block 16, loop depth 0
+;;    pred:       2
+  # DEBUG BEGIN_STMT
+  cprintf (100, "fread takes exactly two arguments!\n");
+;;    succ:       17
+
+;;   basic block 17, loop depth 0
+;;    pred:       6
+;;                14
+;;                15
+;;                16
+;;                3
+;;                4
+  # _20 = PHI <0B(6), 0B(14), str_40(15), 0B(16), 0B(3), 0B(4)>
+  return _20;
+;;    succ:       EXIT
+
+}
+
+
+
+Partition map 
+
+Partition 1 (_1 - 1 )
+Partition 2 (_2 - 2 )
+Partition 3 (_3 - 3 )
+Partition 4 (_4 - 4 )
+Partition 5 (_5 - 5 )
+Partition 6 (_6 - 6 )
+Partition 7 (_7 - 7 )
+Partition 8 (_8 - 8 )
+Partition 9 (_9 - 9 )
+Partition 10 (_10 - 10 )
+Partition 11 (_11 - 11 )
+Partition 12 (_12 - 12 )
+Partition 13 (_13 - 13 )
+Partition 14 (count_char_14 - 14 )
+Partition 17 (count_line_17 - 17 )
+Partition 18 (_18(D) - 18 )
+Partition 20 (_20 - 20 )
+Partition 23 (argc_23(D) - 23 )
+Partition 26 (arg_26(D) - 26 )
+Partition 27 (so_27 - 27 )
+Partition 28 (fs_28 - 28 )
+Partition 29 (which_line_29 - 29 )
+Partition 31 (old_fp_loc_31 - 31 )
+Partition 35 (c_35 - 35 )
+Partition 36 (count_line_36 - 36 )
+Partition 37 (count_char_37 - 37 )
+Partition 40 (str_40 - 40 )
+Partition 63 (count_char_63 - 63 )
+Partition 64 (count_line_64 - 64 )
+Partition 65 (count_char_65 - 65 )
+
+
+Coalescible Partition map 
+
+Partition 0, base 0 (count_char_14 - 14 37 63 65 )
+Partition 1, base 1 (count_line_17 - 17 36 64 )
+Partition 3, base 2 (_18(D) - 18 20 40 )
+Partition 4, base 3 (argc_23(D) - 23 )
+Partition 5, base 4 (arg_26(D) - 26 )
+
+
+Partition map 
+
+Partition 0 (count_char_14 - 14 )
+Partition 1 (count_line_17 - 17 )
+Partition 2 (_18(D) - 18 )
+Partition 3 (_20 - 20 )
+Partition 4 (argc_23(D) - 23 )
+Partition 5 (arg_26(D) - 26 )
+Partition 6 (count_line_36 - 36 )
+Partition 7 (count_char_37 - 37 )
+Partition 8 (str_40 - 40 )
+Partition 9 (count_char_63 - 63 )
+Partition 10 (count_line_64 - 64 )
+Partition 11 (count_char_65 - 65 )
+
+
+Conflict graph:
+
+After sorting:
+Sorted Coalesce list:
+(21393, 0) count_line_17 <-> count_line_64
+(12120, 0) count_char_37 <-> count_char_65
+(9273, 0) count_char_14 <-> count_char_65
+(4056, 0) _18(D) <-> _20
+(3213, 0) count_line_36 <-> count_line_64
+(436, 0) count_char_37 <-> count_char_63
+(405, 0) _20 <-> str_40
+(374, 0) count_char_14 <-> count_char_63
+
+Partition map 
+
+Partition 0 (count_char_14 - 14 )
+Partition 1 (count_line_17 - 17 )
+Partition 2 (_18(D) - 18 )
+Partition 3 (_20 - 20 )
+Partition 4 (argc_23(D) - 23 )
+Partition 5 (arg_26(D) - 26 )
+Partition 6 (count_line_36 - 36 )
+Partition 7 (count_char_37 - 37 )
+Partition 8 (str_40 - 40 )
+Partition 9 (count_char_63 - 63 )
+Partition 10 (count_line_64 - 64 )
+Partition 11 (count_char_65 - 65 )
+
+Coalesce list: (17)count_line_17 & (64)count_line_64 [map: 1, 10] : Success -> 1
+Coalesce list: (37)count_char_37 & (65)count_char_65 [map: 7, 11] : Success -> 7
+Coalesce list: (14)count_char_14 & (65)count_char_37 [map: 0, 7] : Success -> 7
+Coalesce list: (18)_18(D) & (20)_20 [map: 2, 3] : Success -> 2
+Coalesce list: (36)count_line_36 & (64)count_line_17 [map: 6, 1] : Success -> 1
+Coalesce list: (37)count_char_37 & (63)count_char_63 [map: 7, 9] : Success -> 7
+Coalesce list: (20)_18(D) & (40)str_40 [map: 2, 8] : Success -> 2
+Coalesce list: (14)count_char_37 & (63)count_char_37: Already Coalesced.
+After Coalescing:
+
+Partition map 
+
+Partition 0 (_1 - 1 )
+Partition 1 (_2 - 2 )
+Partition 2 (_3 - 3 )
+Partition 3 (_4 - 4 )
+Partition 4 (_5 - 5 )
+Partition 5 (_6 - 6 )
+Partition 6 (_7 - 7 )
+Partition 7 (_8 - 8 )
+Partition 8 (_9 - 9 )
+Partition 9 (_10 - 10 )
+Partition 10 (_11 - 11 )
+Partition 11 (_12 - 12 )
+Partition 12 (_13 - 13 )
+Partition 13 (count_line_17 - 17 36 64 )
+Partition 14 (_18(D) - 18 20 40 )
+Partition 15 (argc_23(D) - 23 )
+Partition 16 (arg_26(D) - 26 )
+Partition 17 (so_27 - 27 )
+Partition 18 (fs_28 - 28 )
+Partition 19 (which_line_29 - 29 )
+Partition 20 (old_fp_loc_31 - 31 )
+Partition 21 (c_35 - 35 )
+Partition 22 (count_char_37 - 14 37 63 65 )
+
+
+Replacing Expressions
+_1 replace with --> _1 = so_27->parent;
+
+_3 replace with --> _3 = _2->type;
+
+_4 replace with --> _4 = fs_28->fp;
+
+_5 replace with --> _5 = fs_28->fp;
+
+_6 replace with --> _6 = fs_28->fp;
+
+_7 replace with --> _7 = ~count_char_63;
+
+_8 replace with --> _8 = (long int) _7;
+
+_9 replace with --> _9 = fs_28->fp;
+
+_10 replace with --> _10 = fs_28->fp;
+
+_11 replace with --> _11 = (long unsigned int) count_char_63;
+
+_12 replace with --> _12 = &MEM[(struct fbgc_str_object *)str_40].content;
+
+_13 replace with --> _13 = fs_28->fp;
+
+
+fbgc_freadline (struct fbgc_object * * arg, int argc)
+{
+  struct fbgc_object * str;
+  int count_line;
+  int count_char;
+  int c;
+  long int old_fp_loc;
+  int which_line;
+  struct file_struct * fs;
+  struct fbgc_cstruct_object * so;
+  const struct fbgc_cmodule * _1;
+  struct fbgc_object * _2;
+  unsigned char _3;
+  struct FILE * _4;
+  struct FILE * _5;
+  struct FILE * _6;
+  int _7;
+  long int _8;
+  struct FILE * _9;
+  struct FILE * _10;
+  long unsigned int _11;
+  char * _12;
+  struct FILE * _13;
+  struct fbgc_object * _20;
+
+;;   basic block 2, loop depth 0
+;;    pred:       ENTRY
+  # DEBUG BEGIN_STMT
+  if (argc_23(D) == 2)
+    goto <bb 3>; [71.91%]
+  else
+    goto <bb 16>; [28.09%]
+;;    succ:       3
+;;                16
+
+;;   basic block 3, loop depth 0
+;;    pred:       2
+  # DEBUG BEGIN_STMT
+  so_27 = *arg_26(D);
+  # DEBUG so => so_27
+  # DEBUG BEGIN_STMT
+  _1 = so_27->parent;
+  if (_1 == &fbgc_file_module)
+    goto <bb 4>; [51.20%]
+  else
+    goto <bb 17>; [48.80%]
+;;    succ:       4
+;;                17
+
+;;   basic block 4, loop depth 0
+;;    pred:       3
+  _2 = MEM[(struct fbgc_object * *)arg_26(D) + 8B];
+  _3 = _2->type;
+  if (_3 == 3)
+    goto <bb 5>; [55.78%]
+  else
+    goto <bb 17>; [44.22%]
+;;    succ:       5
+;;                17
+
+;;   basic block 5, loop depth 0
+;;    pred:       4
+  # DEBUG BEGIN_STMT
+  fs_28 = so_27->cstruct;
+  # DEBUG fs => fs_28
+  # DEBUG BEGIN_STMT
+  which_line_29 = MEM[(struct fbgc_int_object *)_2].content;
+  # DEBUG which_line => which_line_29
+  # DEBUG BEGIN_STMT
+  if (which_line_29 < 0)
+    goto <bb 6>; [12.76%]
+  else
+    goto <bb 7>; [87.24%]
+;;    succ:       6
+;;                7
+
+;;   basic block 6, loop depth 0
+;;    pred:       5
+  # DEBUG BEGIN_STMT
+  cprintf (100, "Line no cannot be negative\n");
+  # DEBUG BEGIN_STMT
+  goto <bb 17>; [100.00%]
+;;    succ:       17
+
+;;   basic block 7, loop depth 0
+;;    pred:       5
+  # DEBUG BEGIN_STMT
+  _4 = fs_28->fp;
+  old_fp_loc_31 = ftell (_4);
+  # DEBUG old_fp_loc => old_fp_loc_31
+  # DEBUG BEGIN_STMT
+  _5 = fs_28->fp;
+  rewind (_5);
+  # DEBUG BEGIN_STMT
+  # DEBUG c => 0
+  # DEBUG BEGIN_STMT
+  # DEBUG count_char => 0
+  # DEBUG BEGIN_STMT
+  # DEBUG count_line => 0
+  goto <bb 9>; [100.00%]
+;;    succ:       9
+
+;;   basic block 8, loop depth 1
+;;    pred:       11
+;;                12
+  # count_char_65 = PHI <0(11), count_char_37(12)>
+  # count_line_64 = PHI <count_line_36(11), count_line_17(12)>
+;;    succ:       9
+
+;;   basic block 9, loop depth 1
+;;    pred:       8
+;;                7
+  # count_char_14 = PHI <count_char_65(8), 0(7)>
+  # count_line_17 = PHI <count_line_64(8), 0(7)>
+  # DEBUG count_line => count_line_17
+  # DEBUG count_char => count_char_14
+  # DEBUG BEGIN_STMT
+  # DEBUG BEGIN_STMT
+  _6 = fs_28->fp;
+  c_35 = fgetc (_6);
+  # DEBUG c => c_35
+  # DEBUG BEGIN_STMT
+  if (c_35 == 10)
+    goto <bb 10>; [34.00%]
+  else
+    goto <bb 12>; [66.00%]
+;;    succ:       10
+;;                12
+
+;;   basic block 10, loop depth 1
+;;    pred:       9
+  # DEBUG BEGIN_STMT
+  if (count_line_17 == which_line_29)
+    goto <bb 15>; [5.50%]
+  else
+    goto <bb 11>; [94.50%]
+;;    succ:       15
+;;                11
+
+;;   basic block 11, loop depth 1
+;;    pred:       10
+  # DEBUG BEGIN_STMT
+  count_line_36 = count_line_17 + 1;
+  # DEBUG count_line => count_line_36
+  # DEBUG BEGIN_STMT
+  # DEBUG count_line => count_line_36
+  # DEBUG count_char => -1
+  # DEBUG BEGIN_STMT
+  # DEBUG count_char => 0
+  # DEBUG BEGIN_STMT
+  goto <bb 8>; [100.00%]
+;;    succ:       8
+
+;;   basic block 12, loop depth 1
+;;    pred:       9
+  # DEBUG count_line => count_line_17
+  # DEBUG count_char => count_char_14
+  # DEBUG BEGIN_STMT
+  count_char_37 = count_char_14 + 1;
+  # DEBUG count_char => count_char_37
+  # DEBUG BEGIN_STMT
+  if (c_35 != -1)
+    goto <bb 8>; [91.82%]
+  else
+    goto <bb 13>; [8.18%]
+;;    succ:       8
+;;                13
+
+;;   basic block 13, loop depth 0
+;;    pred:       12
+  # DEBUG count_line => count_line_17
+  # DEBUG count_char => count_char_37
+  # DEBUG BEGIN_STMT
+  if (count_line_17 != which_line_29)
+    goto <bb 14>; [59.54%]
+  else
+    goto <bb 15>; [40.46%]
+;;    succ:       14
+;;                15
+
+;;   basic block 14, loop depth 0
+;;    pred:       13
+  # DEBUG BEGIN_STMT
+  cprintf (100, "File contains %d line(s), cannot find %d. line\n", count_line_17, which_line_29);
+  # DEBUG BEGIN_STMT
+  goto <bb 17>; [100.00%]
+;;    succ:       17
+
+;;   basic block 15, loop depth 0
+;;    pred:       10
+;;                13
+  # count_char_63 = PHI <count_char_14(10), count_char_37(13)>
+  # DEBUG count_line => NULL
+  # DEBUG count_char => count_char_63
+  # DEBUG BEGIN_STMT
+  _7 = ~count_char_63;
+  _8 = (long int) _7;
+  _9 = fs_28->fp;
+  fseek (_9, _8, 1);
+  # DEBUG BEGIN_STMT
+  str_40 = new_fbgc_str_object_empty (count_char_63);
+  # DEBUG str => str_40
+  # DEBUG BEGIN_STMT
+  _10 = fs_28->fp;
+  _11 = (long unsigned int) count_char_63;
+  _12 = &MEM[(struct fbgc_str_object *)str_40].content;
+  # DEBUG __ptr => _12
+  # DEBUG __size => 1
+  # DEBUG __n => _11
+  # DEBUG __stream => _10
+  # DEBUG INLINE_ENTRY fread
+  # DEBUG BEGIN_STMT
+  # DEBUG BEGIN_STMT
+  __fread_alias (_12, 1, _11, _10);
+  # DEBUG __ptr => NULL
+  # DEBUG __size => NULL
+  # DEBUG __n => NULL
+  # DEBUG __stream => NULL
+  # DEBUG res => NULL
+  # DEBUG BEGIN_STMT
+  _13 = fs_28->fp;
+  fseek (_13, old_fp_loc_31, 0);
+  # DEBUG BEGIN_STMT
+  goto <bb 17>; [100.00%]
+;;    succ:       17
+
+;;   basic block 16, loop depth 0
+;;    pred:       2
+  # DEBUG BEGIN_STMT
+  cprintf (100, "fread takes exactly two arguments!\n");
+;;    succ:       17
+
+;;   basic block 17, loop depth 0
+;;    pred:       6
+;;                14
+;;                15
+;;                16
+;;                3
+;;                4
+  # _20 = PHI <0B(6), 0B(14), str_40(15), 0B(16), 0B(3), 0B(4)>
+  return _20;
+;;    succ:       EXIT
+
+}
+
+
+Inserting a value copy on edge BB11->BB8 : PART.22 = 0
+Inserting a value copy on edge BB7->BB9 : PART.13 = 0
+Inserting a value copy on edge BB7->BB9 : PART.22 = 0
+Inserting a value copy on edge BB6->BB17 : PART.14 = 0B
+Inserting a value copy on edge BB14->BB17 : PART.14 = 0B
+Inserting a value copy on edge BB16->BB17 : PART.14 = 0B
+Inserting a value copy on edge BB3->BB17 : PART.14 = 0B
+Inserting a value copy on edge BB4->BB17 : PART.14 = 0B
+
+;; Generating RTL for gimple basic block 2
+
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 15 14 0 (debug_marker) "cmodules/fbgc_file.c":69:2 -1
+     (nil))
+;; if (argc_23(D) == 2)
+
+(insn 16 15 17 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg/v:SI 104 [ argc ])
+            (const_int 2 [0x2]))) "cmodules/fbgc_file.c":69:4 -1
+     (nil))
+
+(jump_insn 17 16 0 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 0)
+            (pc))) "cmodules/fbgc_file.c":69:4 -1
+     (int_list:REG_BR_PROB 301614084 (nil)))
+
+;; Generating RTL for gimple basic block 3
+
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 19 18 0 (debug_marker) "cmodules/fbgc_file.c":70:3 -1
+     (nil))
+;; so_27 = *arg_26(D);
+
+(insn 20 19 0 (set (reg/v/f:DI 96 [ so ])
+        (mem/f:DI (reg/v/f:DI 103 [ arg ]) [1 *arg_26(D)+0 S8 A64])) "cmodules/fbgc_file.c":70:32 -1
+     (nil))
+
+;; # DEBUG so => so_27
+
+(debug_insn 21 20 0 (var_location:DI so (const_int 0 [0])) "cmodules/fbgc_file.c":70:32 -1
+     (nil))
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 22 21 0 (debug_marker) "cmodules/fbgc_file.c":71:3 -1
+     (nil))
+;; if (_1 == &fbgc_file_module)
+
+(insn 23 22 24 (set (reg:DI 105)
+        (symbol_ref:DI ("fbgc_file_module") [flags 0x2]  <var_decl 0x7f7f56ce1990 fbgc_file_module>)) "cmodules/fbgc_file.c":71:5 -1
+     (nil))
+
+(insn 24 23 25 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem/f:DI (plus:DI (reg/v/f:DI 96 [ so ])
+                    (const_int 13 [0xd])) [2 so_27->parent+0 S8 A8])
+            (reg:DI 105))) "cmodules/fbgc_file.c":71:5 -1
+     (nil))
+
+(jump_insn 25 24 0 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 0)
+            (pc))) "cmodules/fbgc_file.c":71:5 -1
+     (int_list:REG_BR_PROB 523986012 (nil)))
+
+;; Generating RTL for gimple basic block 4
+
+;; _2 = MEM[(struct fbgc_object * *)arg_26(D) + 8B];
+
+(insn 27 26 0 (set (reg/f:DI 83 [ _2 ])
+        (mem/f:DI (plus:DI (reg/v/f:DI 103 [ arg ])
+                (const_int 8 [0x8])) [1 MEM[(struct fbgc_object * *)arg_26(D) + 8B]+0 S8 A64])) "cmodules/fbgc_file.c":71:44 -1
+     (nil))
+
+;; if (_3 == 3)
+
+(insn 28 27 29 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem:QI (reg/f:DI 83 [ _2 ]) [0 _2->type+0 S1 A8])
+            (const_int 3 [0x3]))) "cmodules/fbgc_file.c":71:38 -1
+     (nil))
+
+(jump_insn 29 28 0 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 0)
+            (pc))) "cmodules/fbgc_file.c":71:38 -1
+     (int_list:REG_BR_PROB 474808636 (nil)))
+
+;; Generating RTL for gimple basic block 5
+
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 31 30 0 (debug_marker) "cmodules/fbgc_file.c":72:4 -1
+     (nil))
+;; fs_28 = so_27->cstruct;
+
+(insn 32 31 0 (set (reg/v/f:DI 97 [ fs ])
+        (mem/f:DI (plus:DI (reg/v/f:DI 96 [ so ])
+                (const_int 21 [0x15])) [3 so_27->cstruct+0 S8 A8])) "cmodules/fbgc_file.c":72:25 -1
+     (nil))
+
+;; # DEBUG fs => fs_28
+
+(debug_insn 33 32 0 (var_location:DI fs (const_int 0 [0])) "cmodules/fbgc_file.c":72:25 -1
+     (nil))
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 34 33 0 (debug_marker) "cmodules/fbgc_file.c":74:4 -1
+     (nil))
+;; which_line_29 = MEM[(struct fbgc_int_object *)_2].content;
+
+(insn 35 34 0 (set (reg/v:SI 98 [ which_line ])
+        (mem:SI (plus:DI (reg/f:DI 83 [ _2 ])
+                (const_int 9 [0x9])) [6 MEM[(struct fbgc_int_object *)_2].content+0 S4 A8])) "cmodules/fbgc_file.c":74:8 -1
+     (nil))
+
+;; # DEBUG which_line => which_line_29
+
+(debug_insn 36 35 0 (var_location:SI which_line (const_int 0 [0])) "cmodules/fbgc_file.c":74:8 -1
+     (nil))
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 37 36 0 (debug_marker) "cmodules/fbgc_file.c":75:4 -1
+     (nil))
+;; if (which_line_29 < 0)
+
+(insn 40 37 41 (set (reg:CCGOC 17 flags)
+        (compare:CCGOC (reg/v:SI 98 [ which_line ])
+            (const_int 0 [0]))) "cmodules/fbgc_file.c":75:6 -1
+     (nil))
+
+(jump_insn 41 40 0 (set (pc)
+        (if_then_else (ge (reg:CCGOC 17 flags)
+                (const_int 0 [0]))
+            (label_ref 0)
+            (pc))) "cmodules/fbgc_file.c":75:6 -1
+     (int_list:REG_BR_PROB 936732372 (nil)))
+
+;; Generating RTL for gimple basic block 6
+
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 43 42 0 (debug_marker) "cmodules/fbgc_file.c":76:5 -1
+     (nil))
+;; cprintf (100, "Line no cannot be negative\n");
+
+(insn 44 43 45 (set (reg:DI 4 si)
+        (symbol_ref/f:DI ("*.LC3") [flags 0x2]  <var_decl 0x7f7f568f9cf0 *.LC3>)) "cmodules/fbgc_file.c":76:5 -1
+     (nil))
+
+(insn 45 44 46 (set (reg:SI 5 di)
+        (const_int 100 [0x64])) "cmodules/fbgc_file.c":76:5 -1
+     (nil))
+
+(insn 46 45 47 (set (reg:QI 0 ax)
+        (const_int 0 [0])) "cmodules/fbgc_file.c":76:5 -1
+     (nil))
+
+(call_insn 47 46 0 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("cprintf") [flags 0x41]  <function_decl 0x7f7f56cd6d00 cprintf>) [0 cprintf S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_file.c":76:5 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("cprintf") [flags 0x41]  <function_decl 0x7f7f56cd6d00 cprintf>)
+        (nil))
+    (expr_list (use (reg:QI 0 ax))
+        (expr_list:SI (use (reg:SI 5 di))
+            (expr_list:DI (use (reg:DI 4 si))
+                (nil)))))
+
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 48 47 0 (debug_marker) "cmodules/fbgc_file.c":77:5 -1
+     (nil))
+;; Generating RTL for gimple basic block 7
+
+;; 
+
+(code_label 51 50 52 12 (nil) [0 uses])
+
+(note 52 51 0 NOTE_INSN_BASIC_BLOCK)
+
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 53 52 0 (debug_marker) "cmodules/fbgc_file.c":80:4 -1
+     (nil))
+;; old_fp_loc_31 = ftell (_4);
+
+(insn 54 53 55 (set (reg:DI 5 di)
+        (mem/f:DI (reg/v/f:DI 97 [ fs ]) [5 fs_28->fp+0 S8 A8])) "cmodules/fbgc_file.c":80:22 -1
+     (nil))
+
+(call_insn 55 54 56 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("ftell") [flags 0x41]  <function_decl 0x7f7f56b7d400 ftell>) [0 ftell S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_file.c":80:22 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("ftell") [flags 0x41]  <function_decl 0x7f7f56b7d400 ftell>)
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+
+(insn 56 55 0 (set (reg/v:DI 99 [ old_fp_loc ])
+        (reg:DI 0 ax)) "cmodules/fbgc_file.c":80:22 -1
+     (nil))
+
+;; # DEBUG old_fp_loc => old_fp_loc_31
+
+(debug_insn 57 56 0 (var_location:DI old_fp_loc (const_int 0 [0])) "cmodules/fbgc_file.c":80:22 -1
+     (nil))
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 58 57 0 (debug_marker) "cmodules/fbgc_file.c":82:4 -1
+     (nil))
+;; rewind (_5);
+
+(insn 59 58 60 (set (reg:DI 5 di)
+        (mem/f:DI (reg/v/f:DI 97 [ fs ]) [5 fs_28->fp+0 S8 A8])) "cmodules/fbgc_file.c":82:4 -1
+     (nil))
+
+(call_insn 60 59 0 (call (mem:QI (symbol_ref:DI ("rewind") [flags 0x41]  <function_decl 0x7f7f56b7d500 rewind>) [0 rewind S1 A8])
+        (const_int 0 [0])) "cmodules/fbgc_file.c":82:4 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("rewind") [flags 0x41]  <function_decl 0x7f7f56b7d500 rewind>)
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 61 60 0 (debug_marker) "cmodules/fbgc_file.c":84:4 -1
+     (nil))
+;; # DEBUG c => 0
+
+(debug_insn 62 61 0 (var_location:SI c (const_int 0 [0])) "cmodules/fbgc_file.c":84:8 -1
+     (nil))
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 63 62 0 (debug_marker) "cmodules/fbgc_file.c":85:4 -1
+     (nil))
+;; # DEBUG count_char => 0
+
+(debug_insn 64 63 0 (var_location:SI count_char (const_int 0 [0])) "cmodules/fbgc_file.c":85:8 -1
+     (nil))
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 65 64 0 (debug_marker) "cmodules/fbgc_file.c":86:4 -1
+     (nil))
+;; # DEBUG count_line => 0
+
+(debug_insn 66 65 0 (var_location:SI count_line (const_int 0 [0])) "cmodules/fbgc_file.c":86:8 -1
+     (nil))
+;; Generating RTL for gimple basic block 8
+
+;; Generating RTL for gimple basic block 9
+
+;; 
+
+(code_label 70 69 71 13 (nil) [0 uses])
+
+(note 71 70 0 NOTE_INSN_BASIC_BLOCK)
+
+;; # DEBUG count_line => count_line_17
+
+(debug_insn 72 71 0 (var_location:SI count_line (const_int 0 [0])) -1
+     (nil))
+;; # DEBUG count_char => count_char_14
+
+(debug_insn 73 72 0 (var_location:SI count_char (const_int 0 [0])) -1
+     (nil))
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 74 73 0 (debug_marker) "cmodules/fbgc_file.c":88:4 -1
+     (nil))
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 75 74 0 (debug_marker) "cmodules/fbgc_file.c":89:5 -1
+     (nil))
+;; c_35 = fgetc (_6);
+
+(insn 76 75 77 (set (reg:DI 5 di)
+        (mem/f:DI (reg/v/f:DI 97 [ fs ]) [5 fs_28->fp+0 S8 A8])) "cmodules/fbgc_file.c":89:9 -1
+     (nil))
+
+(call_insn 77 76 78 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("fgetc") [flags 0x41]  <function_decl 0x7f7f56b75500 fgetc>) [0 fgetc S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_file.c":89:9 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("fgetc") [flags 0x41]  <function_decl 0x7f7f56b75500 fgetc>)
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+
+(insn 78 77 0 (set (reg/v:SI 100 [ c ])
+        (reg:SI 0 ax)) "cmodules/fbgc_file.c":89:9 -1
+     (nil))
+
+;; # DEBUG c => c_35
+
+(debug_insn 79 78 0 (var_location:SI c (const_int 0 [0])) "cmodules/fbgc_file.c":89:9 -1
+     (nil))
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 80 79 0 (debug_marker) "cmodules/fbgc_file.c":90:5 -1
+     (nil))
+;; if (c_35 == 10)
+
+(insn 81 80 82 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg/v:SI 100 [ c ])
+            (const_int 10 [0xa]))) "cmodules/fbgc_file.c":90:7 -1
+     (nil))
+
+(jump_insn 82 81 0 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 0)
+            (pc))) "cmodules/fbgc_file.c":90:7 -1
+     (int_list:REG_BR_PROB 708669604 (nil)))
+
+;; Generating RTL for gimple basic block 10
+
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 84 83 0 (debug_marker) "cmodules/fbgc_file.c":91:6 -1
+     (nil))
+;; if (count_line_17 == which_line_29)
+
+(insn 85 84 86 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg/v:SI 95 [ count_line ])
+            (reg/v:SI 98 [ which_line ]))) "cmodules/fbgc_file.c":91:8 -1
+     (nil))
+
+(jump_insn 86 85 0 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 0)
+            (pc))) "cmodules/fbgc_file.c":91:8 -1
+     (int_list:REG_BR_PROB 59055804 (nil)))
+
+;; Generating RTL for gimple basic block 11
+
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 88 87 0 (debug_marker) "cmodules/fbgc_file.c":92:6 -1
+     (nil))
+;; count_line_36 = count_line_17 + 1;
+
+(insn 89 88 0 (parallel [
+            (set (reg/v:SI 95 [ count_line ])
+                (plus:SI (reg/v:SI 95 [ count_line ])
+                    (const_int 1 [0x1])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_file.c":92:16 -1
+     (nil))
+
+;; # DEBUG count_line => count_line_36
+
+(debug_insn 90 89 0 (var_location:SI count_line (const_int 0 [0])) "cmodules/fbgc_file.c":92:16 -1
+     (nil))
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 91 90 0 (debug_marker) "cmodules/fbgc_file.c":93:6 -1
+     (nil))
+;; # DEBUG count_line => count_line_36
+
+(debug_insn 92 91 0 (var_location:SI count_line (const_int 0 [0])) -1
+     (nil))
+;; # DEBUG count_char => -1
+
+(debug_insn 93 92 0 (var_location:SI count_char (const_int 0 [0])) -1
+     (nil))
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 94 93 0 (debug_marker) "cmodules/fbgc_file.c":95:5 -1
+     (nil))
+;; # DEBUG count_char => 0
+
+(debug_insn 95 94 0 (var_location:SI count_char (const_int 0 [0])) "cmodules/fbgc_file.c":95:15 -1
+     (nil))
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 96 95 0 (debug_marker) "cmodules/fbgc_file.c":96:10 -1
+     (nil))
+;; Generating RTL for gimple basic block 12
+
+;; 
+
+(code_label 100 99 101 14 (nil) [0 uses])
+
+(note 101 100 0 NOTE_INSN_BASIC_BLOCK)
+
+;; # DEBUG count_line => count_line_17
+
+(debug_insn 102 101 0 (var_location:SI count_line (const_int 0 [0])) -1
+     (nil))
+;; # DEBUG count_char => count_char_14
+
+(debug_insn 103 102 0 (var_location:SI count_char (const_int 0 [0])) -1
+     (nil))
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 104 103 0 (debug_marker) "cmodules/fbgc_file.c":95:5 -1
+     (nil))
+;; count_char_37 = count_char_14 + 1;
+
+(insn 105 104 0 (parallel [
+            (set (reg/v:SI 101 [ count_char ])
+                (plus:SI (reg/v:SI 101 [ count_char ])
+                    (const_int 1 [0x1])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_file.c":95:15 -1
+     (nil))
+
+;; # DEBUG count_char => count_char_37
+
+(debug_insn 106 105 0 (var_location:SI count_char (const_int 0 [0])) "cmodules/fbgc_file.c":95:15 -1
+     (nil))
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 107 106 0 (debug_marker) "cmodules/fbgc_file.c":96:10 -1
+     (nil))
+;; if (c_35 != -1)
+
+(insn 108 107 109 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg/v:SI 100 [ c ])
+            (const_int -1 [0xffffffffffffffff]))) "cmodules/fbgc_file.c":96:4 -1
+     (nil))
+
+(jump_insn 109 108 0 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 97)
+            (pc))) "cmodules/fbgc_file.c":96:4 -1
+     (int_list:REG_BR_PROB 985936588 (nil)))
+
+;; Generating RTL for gimple basic block 13
+
+;; # DEBUG count_line => count_line_17
+
+(debug_insn 111 110 0 (var_location:SI count_line (const_int 0 [0])) -1
+     (nil))
+;; # DEBUG count_char => count_char_37
+
+(debug_insn 112 111 0 (var_location:SI count_char (const_int 0 [0])) -1
+     (nil))
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 113 112 0 (debug_marker) "cmodules/fbgc_file.c":98:4 -1
+     (nil))
+;; if (count_line_17 != which_line_29)
+
+(insn 114 113 115 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg/v:SI 95 [ count_line ])
+            (reg/v:SI 98 [ which_line ]))) "cmodules/fbgc_file.c":98:6 -1
+     (nil))
+
+(jump_insn 115 114 0 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 0)
+            (pc))) "cmodules/fbgc_file.c":98:6 -1
+     (int_list:REG_BR_PROB 434421892 (nil)))
+
+;; Generating RTL for gimple basic block 14
+
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 117 116 0 (debug_marker) "cmodules/fbgc_file.c":99:5 -1
+     (nil))
+;; cprintf (100, "File contains %d line(s), cannot find %d. line\n", count_line_17, which_line_29);
+
+(insn 118 117 119 (set (reg:SI 2 cx)
+        (reg/v:SI 98 [ which_line ])) "cmodules/fbgc_file.c":99:5 -1
+     (nil))
+
+(insn 119 118 120 (set (reg:SI 1 dx)
+        (reg/v:SI 95 [ count_line ])) "cmodules/fbgc_file.c":99:5 -1
+     (nil))
+
+(insn 120 119 121 (set (reg:DI 4 si)
+        (symbol_ref/f:DI ("*.LC4") [flags 0x2]  <var_decl 0x7f7f568f9d80 *.LC4>)) "cmodules/fbgc_file.c":99:5 -1
+     (nil))
+
+(insn 121 120 122 (set (reg:SI 5 di)
+        (const_int 100 [0x64])) "cmodules/fbgc_file.c":99:5 -1
+     (nil))
+
+(insn 122 121 123 (set (reg:QI 0 ax)
+        (const_int 0 [0])) "cmodules/fbgc_file.c":99:5 -1
+     (nil))
+
+(call_insn 123 122 0 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("cprintf") [flags 0x41]  <function_decl 0x7f7f56cd6d00 cprintf>) [0 cprintf S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_file.c":99:5 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("cprintf") [flags 0x41]  <function_decl 0x7f7f56cd6d00 cprintf>)
+        (nil))
+    (expr_list (use (reg:QI 0 ax))
+        (expr_list:SI (use (reg:SI 5 di))
+            (expr_list:DI (use (reg:DI 4 si))
+                (expr_list:SI (use (reg:SI 1 dx))
+                    (expr_list:SI (use (reg:SI 2 cx))
+                        (nil)))))))
+
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 124 123 0 (debug_marker) "cmodules/fbgc_file.c":100:5 -1
+     (nil))
+;; Generating RTL for gimple basic block 15
+
+;; 
+
+(code_label 127 126 128 15 (nil) [0 uses])
+
+(note 128 127 0 NOTE_INSN_BASIC_BLOCK)
+
+;; # DEBUG count_line => NULL
+
+(debug_insn 129 128 0 (var_location:SI count_line (const_int 0 [0])) -1
+     (nil))
+;; # DEBUG count_char => count_char_63
+
+(debug_insn 130 129 0 (var_location:SI count_char (const_int 0 [0])) -1
+     (nil))
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 131 130 0 (debug_marker) "cmodules/fbgc_file.c":103:4 -1
+     (nil))
+;; fseek (_9, _8, 1);
+
+(insn 132 131 133 (set (reg:SI 106)
+        (not:SI (reg/v:SI 101 [ count_char ]))) "cmodules/fbgc_file.c":103:28 -1
+     (nil))
+
+(insn 133 132 134 (set (reg:DI 107)
+        (sign_extend:DI (reg:SI 106))) "cmodules/fbgc_file.c":103:4 -1
+     (nil))
+
+(insn 134 133 135 (set (reg:SI 1 dx)
+        (const_int 1 [0x1])) "cmodules/fbgc_file.c":103:4 -1
+     (nil))
+
+(insn 135 134 136 (set (reg:DI 4 si)
+        (reg:DI 107)) "cmodules/fbgc_file.c":103:4 -1
+     (nil))
+
+(insn 136 135 137 (set (reg:DI 5 di)
+        (mem/f:DI (reg/v/f:DI 97 [ fs ]) [5 fs_28->fp+0 S8 A8])) "cmodules/fbgc_file.c":103:4 -1
+     (nil))
+
+(call_insn 137 136 0 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("fseek") [flags 0x41]  <function_decl 0x7f7f56b7d300 fseek>) [0 fseek S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_file.c":103:4 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("fseek") [flags 0x41]  <function_decl 0x7f7f56b7d300 fseek>)
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:SI (use (reg:SI 1 dx))
+                (nil)))))
+
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 138 137 0 (debug_marker) "cmodules/fbgc_file.c":104:4 -1
+     (nil))
+;; str_40 = new_fbgc_str_object_empty (count_char_63);
+
+(insn 139 138 140 (set (reg:SI 5 di)
+        (reg/v:SI 101 [ count_char ])) "cmodules/fbgc_file.c":104:31 -1
+     (nil))
+
+(call_insn 140 139 141 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("new_fbgc_str_object_empty") [flags 0x41]  <function_decl 0x7f7f56cf9200 new_fbgc_str_object_empty>) [0 new_fbgc_str_object_empty S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_file.c":104:31 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("new_fbgc_str_object_empty") [flags 0x41]  <function_decl 0x7f7f56cf9200 new_fbgc_str_object_empty>)
+        (nil))
+    (expr_list:SI (use (reg:SI 5 di))
+        (nil)))
+
+(insn 141 140 0 (set (reg/v/f:DI 102 [ <retval> ])
+        (reg:DI 0 ax)) "cmodules/fbgc_file.c":104:31 -1
+     (nil))
+
+;; # DEBUG str => str_40
+
+(debug_insn 142 141 0 (var_location:DI str (const_int 0 [0])) "cmodules/fbgc_file.c":104:31 -1
+     (nil))
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 143 142 0 (debug_marker) "cmodules/fbgc_file.c":105:4 -1
+     (nil))
+;; # DEBUG __ptr => _12
+
+(debug_insn 144 143 0 (var_location:DI __ptr (const_int 0 [0])) "cmodules/fbgc_file.c":105:23 -1
+     (nil))
+;; # DEBUG __size => 1
+
+(debug_insn 145 144 0 (var_location:DI __size (const_int 0 [0])) "cmodules/fbgc_file.c":105:23 -1
+     (nil))
+;; # DEBUG __n => _11
+
+(debug_insn 146 145 0 (var_location:DI __n (const_int 0 [0])) "cmodules/fbgc_file.c":105:23 -1
+     (nil))
+;; # DEBUG __stream => _10
+
+(debug_insn 147 146 0 (var_location:DI __stream (const_int 0 [0])) "cmodules/fbgc_file.c":105:23 -1
+     (nil))
+;; # DEBUG INLINE_ENTRY fread
+
+(debug_insn 148 147 0 (debug_marker:BLK) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":284:1 -1
+     (nil))
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 149 148 0 (debug_marker) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":287:3 -1
+     (nil))
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 150 149 0 (debug_marker) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":297:3 -1
+     (nil))
+;; __fread_alias (_12, 1, _11, _10);
+
+(insn 151 150 152 (set (reg:DI 108)
+        (sign_extend:DI (reg/v:SI 101 [ count_char ]))) "cmodules/fbgc_file.c":105:17 -1
+     (nil))
+
+(insn 152 151 153 (parallel [
+            (set (reg:DI 109)
+                (plus:DI (reg/v/f:DI 102 [ <retval> ])
+                    (const_int 13 [0xd])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_file.c":105:23 -1
+     (nil))
+
+(insn 153 152 154 (set (reg:DI 2 cx)
+        (mem/f:DI (reg/v/f:DI 97 [ fs ]) [5 fs_28->fp+0 S8 A8])) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":297:10 -1
+     (nil))
+
+(insn 154 153 155 (set (reg:DI 1 dx)
+        (reg:DI 108)) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":297:10 -1
+     (nil))
+
+(insn 155 154 156 (set (reg:DI 4 si)
+        (const_int 1 [0x1])) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":297:10 -1
+     (nil))
+
+(insn 156 155 157 (set (reg:DI 5 di)
+        (reg:DI 109)) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":297:10 -1
+     (nil))
+
+(call_insn 157 156 0 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("*fread") [flags 0x41]  <function_decl 0x7f7f56ba1100 __fread_alias>) [0 __fread_alias S1 A8])
+            (const_int 0 [0]))) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":297:10 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("*fread") [flags 0x41]  <function_decl 0x7f7f56ba1100 __fread_alias>)
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:DI (use (reg:DI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+
+;; # DEBUG __ptr => NULL
+
+(debug_insn 158 157 0 (var_location:DI __ptr (const_int 0 [0])) "cmodules/fbgc_file.c":105:17 -1
+     (nil))
+;; # DEBUG __size => NULL
+
+(debug_insn 159 158 0 (var_location:DI __size (const_int 0 [0])) "cmodules/fbgc_file.c":105:17 -1
+     (nil))
+;; # DEBUG __n => NULL
+
+(debug_insn 160 159 0 (var_location:DI __n (const_int 0 [0])) "cmodules/fbgc_file.c":105:17 -1
+     (nil))
+;; # DEBUG __stream => NULL
+
+(debug_insn 161 160 0 (var_location:DI __stream (const_int 0 [0])) "cmodules/fbgc_file.c":105:17 -1
+     (nil))
+;; # DEBUG res => NULL
+
+(debug_insn 162 161 0 (var_location:SI res (const_int 0 [0])) "cmodules/fbgc_file.c":105:11 -1
+     (nil))
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 163 162 0 (debug_marker) "cmodules/fbgc_file.c":106:4 -1
+     (nil))
+;; fseek (_13, old_fp_loc_31, 0);
+
+(insn 164 163 165 (set (reg:SI 1 dx)
+        (const_int 0 [0])) "cmodules/fbgc_file.c":106:4 -1
+     (nil))
+
+(insn 165 164 166 (set (reg:DI 4 si)
+        (reg/v:DI 99 [ old_fp_loc ])) "cmodules/fbgc_file.c":106:4 -1
+     (nil))
+
+(insn 166 165 167 (set (reg:DI 5 di)
+        (mem/f:DI (reg/v/f:DI 97 [ fs ]) [5 fs_28->fp+0 S8 A8])) "cmodules/fbgc_file.c":106:4 -1
+     (nil))
+
+(call_insn 167 166 0 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("fseek") [flags 0x41]  <function_decl 0x7f7f56b7d300 fseek>) [0 fseek S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_file.c":106:4 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("fseek") [flags 0x41]  <function_decl 0x7f7f56b7d300 fseek>)
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:SI (use (reg:SI 1 dx))
+                (nil)))))
+
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 168 167 0 (debug_marker) "cmodules/fbgc_file.c":107:4 -1
+     (nil))
+;; Generating RTL for gimple basic block 16
+
+;; 
+
+(code_label 171 170 172 10 (nil) [0 uses])
+
+(note 172 171 0 NOTE_INSN_BASIC_BLOCK)
+
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 173 172 0 (debug_marker) "cmodules/fbgc_file.c":111:3 -1
+     (nil))
+;; cprintf (100, "fread takes exactly two arguments!\n");
+
+(insn 174 173 175 (set (reg:DI 4 si)
+        (symbol_ref/f:DI ("*.LC5") [flags 0x2]  <var_decl 0x7f7f568f9e10 *.LC5>)) "cmodules/fbgc_file.c":111:3 -1
+     (nil))
+
+(insn 175 174 176 (set (reg:SI 5 di)
+        (const_int 100 [0x64])) "cmodules/fbgc_file.c":111:3 -1
+     (nil))
+
+(insn 176 175 177 (set (reg:QI 0 ax)
+        (const_int 0 [0])) "cmodules/fbgc_file.c":111:3 -1
+     (nil))
+
+(call_insn 177 176 0 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("cprintf") [flags 0x41]  <function_decl 0x7f7f56cd6d00 cprintf>) [0 cprintf S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_file.c":111:3 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("cprintf") [flags 0x41]  <function_decl 0x7f7f56cd6d00 cprintf>)
+        (nil))
+    (expr_list (use (reg:QI 0 ax))
+        (expr_list:SI (use (reg:SI 5 di))
+            (expr_list:DI (use (reg:DI 4 si))
+                (nil)))))
+
+;; Generating RTL for gimple basic block 17
+
+;; 
+
+(code_label 178 177 179 11 (nil) [0 uses])
+
+(note 179 178 0 NOTE_INSN_BASIC_BLOCK)
+
+;; return _20;
+
+(jump_insn 180 179 181 (set (pc)
+        (label_ref 0)) -1
+     (nil))
+
+(barrier 181 180 0)
+Edge 3->17 redirected to 20
+Edge 4->17 redirected to 21
+
+
+try_optimize_cfg iteration 1
+
+Merging block 3 into block 2...
+Merged blocks 2 and 3.
+Merged 2 and 3 without moving.
+Redirecting jump 49 from 20 to 21.
+Redirecting jump 125 from 20 to 21.
+Redirecting jump 169 from 20 to 21.
+Redirecting jump 186 from 20 to 21.
+Redirecting jump 190 from 20 to 21.
+Merging block 20 into block 19...
+Merged blocks 19 and 20.
+Merged 19 and 20 without moving.
+Removing jump 180.
+
+
+try_optimize_cfg iteration 2
+
+fix_loop_structure: fixing up loops for function
+
+
+;;
+;; Full RTL generated for this function:
+;;
+(note 1 0 13 NOTE_INSN_DELETED)
+;; basic block 2, loop depth 0, count 435522477 (estimated locally), maybe hot
+;;  prev block 0, next block 4, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       ENTRY [always]  count:435522477 (estimated locally) (FALLTHRU)
+(note 13 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 13 3 2 (set (reg/v/f:DI 103 [ arg ])
+        (reg:DI 5 di [ arg ])) "cmodules/fbgc_file.c":67:1 -1
+     (nil))
+(insn 3 2 4 2 (set (reg/v:SI 104 [ argc ])
+        (reg:SI 4 si [ argc ])) "cmodules/fbgc_file.c":67:1 -1
+     (nil))
+(note 4 3 15 2 NOTE_INSN_FUNCTION_BEG)
+(debug_insn 15 4 16 2 (debug_marker) "cmodules/fbgc_file.c":69:2 -1
+     (nil))
+(insn 16 15 17 2 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg/v:SI 104 [ argc ])
+            (const_int 2 [0x2]))) "cmodules/fbgc_file.c":69:4 -1
+     (nil))
+(jump_insn 17 16 18 2 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 171)
+            (pc))) "cmodules/fbgc_file.c":69:4 -1
+     (int_list:REG_BR_PROB 301614084 (nil))
+ -> 171)
+;;  succ:       4 [71.9% (guessed)]  count:313184213 (estimated locally) (FALLTHRU)
+;;              17 [28.1% (guessed)]  count:122338264 (estimated locally)
+
+;; basic block 4, loop depth 0, count 313184213 (estimated locally), maybe hot
+;;  prev block 2, next block 5, flags: (NEW, REACHABLE, RTL, MODIFIED, VISITED)
+;;  pred:       2 [71.9% (guessed)]  count:313184213 (estimated locally) (FALLTHRU)
+(note 18 17 19 4 [bb 4] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 19 18 20 4 (debug_marker) "cmodules/fbgc_file.c":70:3 -1
+     (nil))
+(insn 20 19 21 4 (set (reg/v/f:DI 96 [ so ])
+        (mem/f:DI (reg/v/f:DI 103 [ arg ]) [1 *arg_26(D)+0 S8 A64])) "cmodules/fbgc_file.c":70:32 -1
+     (nil))
+(debug_insn 21 20 22 4 (var_location:DI so (reg/v/f:DI 96 [ so ])) "cmodules/fbgc_file.c":70:32 -1
+     (nil))
+(debug_insn 22 21 23 4 (debug_marker) "cmodules/fbgc_file.c":71:3 -1
+     (nil))
+(insn 23 22 24 4 (set (reg:DI 105)
+        (symbol_ref:DI ("fbgc_file_module") [flags 0x2]  <var_decl 0x7f7f56ce1990 fbgc_file_module>)) "cmodules/fbgc_file.c":71:5 -1
+     (nil))
+(insn 24 23 25 4 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem/f:DI (plus:DI (reg/v/f:DI 96 [ so ])
+                    (const_int 13 [0xd])) [2 so_27->parent+0 S8 A8])
+            (reg:DI 105))) "cmodules/fbgc_file.c":71:5 -1
+     (nil))
+(jump_insn 25 24 26 4 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref:DI 189)
+            (pc))) "cmodules/fbgc_file.c":71:5 659 {*jcc}
+     (int_list:REG_BR_PROB 523986012 (nil))
+ -> 189)
+;;  succ:       5 [51.2% (guessed)]  count:160350318 (estimated locally) (FALLTHRU)
+;;              18 [48.8% (guessed)]  count:152833895 (estimated locally)
+
+;; basic block 5, loop depth 0, count 160350317 (estimated locally), maybe hot
+;;  prev block 4, next block 6, flags: (NEW, REACHABLE, RTL, MODIFIED, VISITED)
+;;  pred:       4 [51.2% (guessed)]  count:160350318 (estimated locally) (FALLTHRU)
+(note 26 25 27 5 [bb 5] NOTE_INSN_BASIC_BLOCK)
+(insn 27 26 28 5 (set (reg/f:DI 83 [ _2 ])
+        (mem/f:DI (plus:DI (reg/v/f:DI 103 [ arg ])
+                (const_int 8 [0x8])) [1 MEM[(struct fbgc_object * *)arg_26(D) + 8B]+0 S8 A64])) "cmodules/fbgc_file.c":71:44 -1
+     (nil))
+(insn 28 27 29 5 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem:QI (reg/f:DI 83 [ _2 ]) [0 _2->type+0 S1 A8])
+            (const_int 3 [0x3]))) "cmodules/fbgc_file.c":71:38 -1
+     (nil))
+(jump_insn 29 28 30 5 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref:DI 193)
+            (pc))) "cmodules/fbgc_file.c":71:38 659 {*jcc}
+     (int_list:REG_BR_PROB 474808636 (nil))
+ -> 193)
+;;  succ:       6 [55.8% (guessed)]  count:89443407 (estimated locally) (FALLTHRU)
+;;              19 [44.2% (guessed)]  count:70906910 (estimated locally)
+
+;; basic block 6, loop depth 0, count 89443407 (estimated locally), maybe hot
+;;  prev block 5, next block 7, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       5 [55.8% (guessed)]  count:89443407 (estimated locally) (FALLTHRU)
+(note 30 29 31 6 [bb 6] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 31 30 32 6 (debug_marker) "cmodules/fbgc_file.c":72:4 -1
+     (nil))
+(insn 32 31 33 6 (set (reg/v/f:DI 97 [ fs ])
+        (mem/f:DI (plus:DI (reg/v/f:DI 96 [ so ])
+                (const_int 21 [0x15])) [3 so_27->cstruct+0 S8 A8])) "cmodules/fbgc_file.c":72:25 -1
+     (nil))
+(debug_insn 33 32 34 6 (var_location:DI fs (reg/v/f:DI 97 [ fs ])) "cmodules/fbgc_file.c":72:25 -1
+     (nil))
+(debug_insn 34 33 35 6 (debug_marker) "cmodules/fbgc_file.c":74:4 -1
+     (nil))
+(insn 35 34 36 6 (set (reg/v:SI 98 [ which_line ])
+        (mem:SI (plus:DI (reg/f:DI 83 [ _2 ])
+                (const_int 9 [0x9])) [6 MEM[(struct fbgc_int_object *)_2].content+0 S4 A8])) "cmodules/fbgc_file.c":74:8 -1
+     (nil))
+(debug_insn 36 35 37 6 (var_location:SI which_line (reg/v:SI 98 [ which_line ])) "cmodules/fbgc_file.c":74:8 -1
+     (nil))
+(debug_insn 37 36 40 6 (debug_marker) "cmodules/fbgc_file.c":75:4 -1
+     (nil))
+(insn 40 37 41 6 (set (reg:CCGOC 17 flags)
+        (compare:CCGOC (reg/v:SI 98 [ which_line ])
+            (const_int 0 [0]))) "cmodules/fbgc_file.c":75:6 -1
+     (nil))
+(jump_insn 41 40 42 6 (set (pc)
+        (if_then_else (ge (reg:CCGOC 17 flags)
+                (const_int 0 [0]))
+            (label_ref 51)
+            (pc))) "cmodules/fbgc_file.c":75:6 -1
+     (int_list:REG_BR_PROB 936732372 (nil))
+ -> 51)
+;;  succ:       7 [12.8% (guessed)]  count:11412979 (estimated locally) (FALLTHRU)
+;;              8 [87.2% (guessed)]  count:78030428 (estimated locally)
+
+;; basic block 7, loop depth 0, count 11412979 (estimated locally), maybe hot
+;;  prev block 6, next block 8, flags: (NEW, REACHABLE, RTL, MODIFIED, VISITED)
+;;  pred:       6 [12.8% (guessed)]  count:11412979 (estimated locally) (FALLTHRU)
+(note 42 41 43 7 [bb 7] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 43 42 44 7 (debug_marker) "cmodules/fbgc_file.c":76:5 -1
+     (nil))
+(insn 44 43 45 7 (set (reg:DI 4 si)
+        (symbol_ref/f:DI ("*.LC3") [flags 0x2]  <var_decl 0x7f7f568f9cf0 *.LC3>)) "cmodules/fbgc_file.c":76:5 -1
+     (nil))
+(insn 45 44 46 7 (set (reg:SI 5 di)
+        (const_int 100 [0x64])) "cmodules/fbgc_file.c":76:5 -1
+     (nil))
+(insn 46 45 47 7 (set (reg:QI 0 ax)
+        (const_int 0 [0])) "cmodules/fbgc_file.c":76:5 -1
+     (nil))
+(call_insn 47 46 48 7 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("cprintf") [flags 0x41]  <function_decl 0x7f7f56cd6d00 cprintf>) [0 cprintf S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_file.c":76:5 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("cprintf") [flags 0x41]  <function_decl 0x7f7f56cd6d00 cprintf>)
+        (nil))
+    (expr_list (use (reg:QI 0 ax))
+        (expr_list:SI (use (reg:SI 5 di))
+            (expr_list:DI (use (reg:DI 4 si))
+                (nil)))))
+(debug_insn 48 47 8 7 (debug_marker) "cmodules/fbgc_file.c":77:5 -1
+     (nil))
+(insn 8 48 49 7 (set (reg/v/f:DI 102 [ <retval> ])
+        (const_int 0 [0])) "cmodules/fbgc_file.c":77:12 -1
+     (nil))
+(jump_insn 49 8 50 7 (set (pc)
+        (label_ref:DI 182)) "cmodules/fbgc_file.c":77:12 660 {jump}
+     (nil)
+ -> 182)
+;;  succ:       21 [always]  count:11412979 (estimated locally)
+
+(barrier 50 49 51)
+;; basic block 8, loop depth 0, count 78030428 (estimated locally), maybe hot
+;;  prev block 7, next block 9, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       6 [87.2% (guessed)]  count:78030428 (estimated locally)
+(code_label 51 50 52 8 12 (nil) [1 uses])
+(note 52 51 53 8 [bb 8] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 53 52 54 8 (debug_marker) "cmodules/fbgc_file.c":80:4 -1
+     (nil))
+(insn 54 53 55 8 (set (reg:DI 5 di)
+        (mem/f:DI (reg/v/f:DI 97 [ fs ]) [5 fs_28->fp+0 S8 A8])) "cmodules/fbgc_file.c":80:22 -1
+     (nil))
+(call_insn 55 54 56 8 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("ftell") [flags 0x41]  <function_decl 0x7f7f56b7d400 ftell>) [0 ftell S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_file.c":80:22 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("ftell") [flags 0x41]  <function_decl 0x7f7f56b7d400 ftell>)
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(insn 56 55 57 8 (set (reg/v:DI 99 [ old_fp_loc ])
+        (reg:DI 0 ax)) "cmodules/fbgc_file.c":80:22 -1
+     (nil))
+(debug_insn 57 56 58 8 (var_location:DI old_fp_loc (reg/v:DI 99 [ old_fp_loc ])) "cmodules/fbgc_file.c":80:22 -1
+     (nil))
+(debug_insn 58 57 59 8 (debug_marker) "cmodules/fbgc_file.c":82:4 -1
+     (nil))
+(insn 59 58 60 8 (set (reg:DI 5 di)
+        (mem/f:DI (reg/v/f:DI 97 [ fs ]) [5 fs_28->fp+0 S8 A8])) "cmodules/fbgc_file.c":82:4 -1
+     (nil))
+(call_insn 60 59 61 8 (call (mem:QI (symbol_ref:DI ("rewind") [flags 0x41]  <function_decl 0x7f7f56b7d500 rewind>) [0 rewind S1 A8])
+        (const_int 0 [0])) "cmodules/fbgc_file.c":82:4 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("rewind") [flags 0x41]  <function_decl 0x7f7f56b7d500 rewind>)
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(debug_insn 61 60 62 8 (debug_marker) "cmodules/fbgc_file.c":84:4 -1
+     (nil))
+(debug_insn 62 61 63 8 (var_location:SI c (const_int 0 [0])) "cmodules/fbgc_file.c":84:8 -1
+     (nil))
+(debug_insn 63 62 64 8 (debug_marker) "cmodules/fbgc_file.c":85:4 -1
+     (nil))
+(debug_insn 64 63 65 8 (var_location:SI count_char (const_int 0 [0])) "cmodules/fbgc_file.c":85:8 -1
+     (nil))
+(debug_insn 65 64 66 8 (debug_marker) "cmodules/fbgc_file.c":86:4 -1
+     (nil))
+(debug_insn 66 65 6 8 (var_location:SI count_line (const_int 0 [0])) "cmodules/fbgc_file.c":86:8 -1
+     (nil))
+(insn 6 66 7 8 (set (reg/v:SI 95 [ count_line ])
+        (const_int 0 [0])) "cmodules/fbgc_file.c":86:8 -1
+     (nil))
+(insn 7 6 67 8 (set (reg/v:SI 101 [ count_char ])
+        (const_int 0 [0])) "cmodules/fbgc_file.c":85:8 -1
+     (nil))
+(jump_insn 67 7 68 8 (set (pc)
+        (label_ref 70)) "cmodules/fbgc_file.c":82:4 -1
+     (nil)
+ -> 70)
+;;  succ:       10 [always]  count:78030428 (estimated locally)
+
+(barrier 68 67 97)
+;; basic block 9, loop depth 1, count 995711395 (estimated locally), maybe hot
+;;  prev block 8, next block 10, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       12 [always (guessed)]  count:344993248 (estimated locally)
+;;              13 [91.8% (guessed)]  count:650718147 (estimated locally)
+(code_label 97 68 69 9 16 (nil) [2 uses])
+(note 69 97 70 9 [bb 9] NOTE_INSN_BASIC_BLOCK)
+;;  succ:       10 [always]  count:995711395 (estimated locally) (FALLTHRU,DFS_BACK)
+
+;; basic block 10, loop depth 1, count 1073741824 (estimated locally), maybe hot
+;;  prev block 9, next block 11, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       9 [always]  count:995711395 (estimated locally) (FALLTHRU,DFS_BACK)
+;;              8 [always]  count:78030428 (estimated locally)
+(code_label 70 69 71 10 13 (nil) [1 uses])
+(note 71 70 72 10 [bb 10] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 72 71 73 10 (var_location:SI count_line (reg/v:SI 95 [ count_line ])) -1
+     (nil))
+(debug_insn 73 72 74 10 (var_location:SI count_char (reg/v:SI 101 [ count_char ])) -1
+     (nil))
+(debug_insn 74 73 75 10 (debug_marker) "cmodules/fbgc_file.c":88:4 -1
+     (nil))
+(debug_insn 75 74 76 10 (debug_marker) "cmodules/fbgc_file.c":89:5 -1
+     (nil))
+(insn 76 75 77 10 (set (reg:DI 5 di)
+        (mem/f:DI (reg/v/f:DI 97 [ fs ]) [5 fs_28->fp+0 S8 A8])) "cmodules/fbgc_file.c":89:9 -1
+     (nil))
+(call_insn 77 76 78 10 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("fgetc") [flags 0x41]  <function_decl 0x7f7f56b75500 fgetc>) [0 fgetc S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_file.c":89:9 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("fgetc") [flags 0x41]  <function_decl 0x7f7f56b75500 fgetc>)
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(insn 78 77 79 10 (set (reg/v:SI 100 [ c ])
+        (reg:SI 0 ax)) "cmodules/fbgc_file.c":89:9 -1
+     (nil))
+(debug_insn 79 78 80 10 (var_location:SI c (reg/v:SI 100 [ c ])) "cmodules/fbgc_file.c":89:9 -1
+     (nil))
+(debug_insn 80 79 81 10 (debug_marker) "cmodules/fbgc_file.c":90:5 -1
+     (nil))
+(insn 81 80 82 10 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg/v:SI 100 [ c ])
+            (const_int 10 [0xa]))) "cmodules/fbgc_file.c":90:7 -1
+     (nil))
+(jump_insn 82 81 83 10 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 100)
+            (pc))) "cmodules/fbgc_file.c":90:7 -1
+     (int_list:REG_BR_PROB 708669604 (nil))
+ -> 100)
+;;  succ:       11 [34.0% (guessed)]  count:365072224 (estimated locally) (FALLTHRU)
+;;              13 [66.0% (guessed)]  count:708669600 (estimated locally)
+
+;; basic block 11, loop depth 1, count 365072220 (estimated locally), maybe hot
+;;  prev block 10, next block 12, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       10 [34.0% (guessed)]  count:365072224 (estimated locally) (FALLTHRU)
+(note 83 82 84 11 [bb 11] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 84 83 85 11 (debug_marker) "cmodules/fbgc_file.c":91:6 -1
+     (nil))
+(insn 85 84 86 11 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg/v:SI 95 [ count_line ])
+            (reg/v:SI 98 [ which_line ]))) "cmodules/fbgc_file.c":91:8 -1
+     (nil))
+(jump_insn 86 85 87 11 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 127)
+            (pc))) "cmodules/fbgc_file.c":91:8 -1
+     (int_list:REG_BR_PROB 59055804 (nil))
+ -> 127)
+;;  succ:       16 [5.5% (guessed)]  count:20078972 (estimated locally)
+;;              12 [94.5% (guessed)]  count:344993248 (estimated locally) (FALLTHRU)
+
+;; basic block 12, loop depth 1, count 344993248 (estimated locally), maybe hot
+;;  prev block 11, next block 13, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       11 [94.5% (guessed)]  count:344993248 (estimated locally) (FALLTHRU)
+(note 87 86 88 12 [bb 12] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 88 87 89 12 (debug_marker) "cmodules/fbgc_file.c":92:6 -1
+     (nil))
+(insn 89 88 90 12 (parallel [
+            (set (reg/v:SI 95 [ count_line ])
+                (plus:SI (reg/v:SI 95 [ count_line ])
+                    (const_int 1 [0x1])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_file.c":92:16 -1
+     (nil))
+(debug_insn 90 89 91 12 (var_location:SI count_line (reg/v:SI 95 [ count_line ])) "cmodules/fbgc_file.c":92:16 -1
+     (nil))
+(debug_insn 91 90 92 12 (debug_marker) "cmodules/fbgc_file.c":93:6 -1
+     (nil))
+(debug_insn 92 91 93 12 (var_location:SI count_line (reg/v:SI 95 [ count_line ])) -1
+     (nil))
+(debug_insn 93 92 94 12 (var_location:SI count_char (const_int -1 [0xffffffffffffffff])) -1
+     (nil))
+(debug_insn 94 93 95 12 (debug_marker) "cmodules/fbgc_file.c":95:5 -1
+     (nil))
+(debug_insn 95 94 96 12 (var_location:SI count_char (const_int 0 [0])) "cmodules/fbgc_file.c":95:15 -1
+     (nil))
+(debug_insn 96 95 5 12 (debug_marker) "cmodules/fbgc_file.c":96:10 -1
+     (nil))
+(insn 5 96 98 12 (set (reg/v:SI 101 [ count_char ])
+        (const_int 0 [0])) "cmodules/fbgc_file.c":95:15 -1
+     (nil))
+(jump_insn 98 5 99 12 (set (pc)
+        (label_ref 97)) "cmodules/fbgc_file.c":92:16 -1
+     (nil)
+ -> 97)
+;;  succ:       9 [always (guessed)]  count:344993248 (estimated locally)
+
+(barrier 99 98 100)
+;; basic block 13, loop depth 1, count 708669605 (estimated locally), maybe hot
+;;  prev block 12, next block 14, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       10 [66.0% (guessed)]  count:708669600 (estimated locally)
+(code_label 100 99 101 13 14 (nil) [1 uses])
+(note 101 100 102 13 [bb 13] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 102 101 103 13 (var_location:SI count_line (reg/v:SI 95 [ count_line ])) -1
+     (nil))
+(debug_insn 103 102 104 13 (var_location:SI count_char (reg/v:SI 101 [ count_char ])) -1
+     (nil))
+(debug_insn 104 103 105 13 (debug_marker) "cmodules/fbgc_file.c":95:5 -1
+     (nil))
+(insn 105 104 106 13 (parallel [
+            (set (reg/v:SI 101 [ count_char ])
+                (plus:SI (reg/v:SI 101 [ count_char ])
+                    (const_int 1 [0x1])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_file.c":95:15 -1
+     (nil))
+(debug_insn 106 105 107 13 (var_location:SI count_char (reg/v:SI 101 [ count_char ])) "cmodules/fbgc_file.c":95:15 -1
+     (nil))
+(debug_insn 107 106 108 13 (debug_marker) "cmodules/fbgc_file.c":96:10 -1
+     (nil))
+(insn 108 107 109 13 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg/v:SI 100 [ c ])
+            (const_int -1 [0xffffffffffffffff]))) "cmodules/fbgc_file.c":96:4 -1
+     (nil))
+(jump_insn 109 108 110 13 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 97)
+            (pc))) "cmodules/fbgc_file.c":96:4 -1
+     (int_list:REG_BR_PROB 985936588 (nil))
+ -> 97)
+;;  succ:       9 [91.8% (guessed)]  count:650718147 (estimated locally)
+;;              14 [8.2% (guessed)]  count:57951458 (estimated locally) (FALLTHRU)
+
+;; basic block 14, loop depth 0, count 57951457 (estimated locally), maybe hot
+;;  prev block 13, next block 15, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       13 [8.2% (guessed)]  count:57951458 (estimated locally) (FALLTHRU)
+(note 110 109 111 14 [bb 14] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 111 110 112 14 (var_location:SI count_line (reg/v:SI 95 [ count_line ])) -1
+     (nil))
+(debug_insn 112 111 113 14 (var_location:SI count_char (reg/v:SI 101 [ count_char ])) -1
+     (nil))
+(debug_insn 113 112 114 14 (debug_marker) "cmodules/fbgc_file.c":98:4 -1
+     (nil))
+(insn 114 113 115 14 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg/v:SI 95 [ count_line ])
+            (reg/v:SI 98 [ which_line ]))) "cmodules/fbgc_file.c":98:6 -1
+     (nil))
+(jump_insn 115 114 116 14 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 127)
+            (pc))) "cmodules/fbgc_file.c":98:6 -1
+     (int_list:REG_BR_PROB 434421892 (nil))
+ -> 127)
+;;  succ:       15 [59.5% (guessed)]  count:34505056 (estimated locally) (FALLTHRU)
+;;              16 [40.5% (guessed)]  count:23446401 (estimated locally)
+
+;; basic block 15, loop depth 0, count 34505056 (estimated locally), maybe hot
+;;  prev block 14, next block 16, flags: (NEW, REACHABLE, RTL, MODIFIED, VISITED)
+;;  pred:       14 [59.5% (guessed)]  count:34505056 (estimated locally) (FALLTHRU)
+(note 116 115 117 15 [bb 15] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 117 116 118 15 (debug_marker) "cmodules/fbgc_file.c":99:5 -1
+     (nil))
+(insn 118 117 119 15 (set (reg:SI 2 cx)
+        (reg/v:SI 98 [ which_line ])) "cmodules/fbgc_file.c":99:5 -1
+     (nil))
+(insn 119 118 120 15 (set (reg:SI 1 dx)
+        (reg/v:SI 95 [ count_line ])) "cmodules/fbgc_file.c":99:5 -1
+     (nil))
+(insn 120 119 121 15 (set (reg:DI 4 si)
+        (symbol_ref/f:DI ("*.LC4") [flags 0x2]  <var_decl 0x7f7f568f9d80 *.LC4>)) "cmodules/fbgc_file.c":99:5 -1
+     (nil))
+(insn 121 120 122 15 (set (reg:SI 5 di)
+        (const_int 100 [0x64])) "cmodules/fbgc_file.c":99:5 -1
+     (nil))
+(insn 122 121 123 15 (set (reg:QI 0 ax)
+        (const_int 0 [0])) "cmodules/fbgc_file.c":99:5 -1
+     (nil))
+(call_insn 123 122 124 15 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("cprintf") [flags 0x41]  <function_decl 0x7f7f56cd6d00 cprintf>) [0 cprintf S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_file.c":99:5 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("cprintf") [flags 0x41]  <function_decl 0x7f7f56cd6d00 cprintf>)
+        (nil))
+    (expr_list (use (reg:QI 0 ax))
+        (expr_list:SI (use (reg:SI 5 di))
+            (expr_list:DI (use (reg:DI 4 si))
+                (expr_list:SI (use (reg:SI 1 dx))
+                    (expr_list:SI (use (reg:SI 2 cx))
+                        (nil)))))))
+(debug_insn 124 123 9 15 (debug_marker) "cmodules/fbgc_file.c":100:5 -1
+     (nil))
+(insn 9 124 125 15 (set (reg/v/f:DI 102 [ <retval> ])
+        (const_int 0 [0])) "cmodules/fbgc_file.c":100:12 -1
+     (nil))
+(jump_insn 125 9 126 15 (set (pc)
+        (label_ref:DI 182)) "cmodules/fbgc_file.c":100:12 660 {jump}
+     (nil)
+ -> 182)
+;;  succ:       21 [always]  count:34505056 (estimated locally)
+
+(barrier 126 125 127)
+;; basic block 16, loop depth 0, count 43525373 (estimated locally), maybe hot
+;;  prev block 15, next block 17, flags: (NEW, REACHABLE, RTL, MODIFIED, VISITED)
+;;  pred:       11 [5.5% (guessed)]  count:20078972 (estimated locally)
+;;              14 [40.5% (guessed)]  count:23446401 (estimated locally)
+(code_label 127 126 128 16 15 (nil) [2 uses])
+(note 128 127 129 16 [bb 16] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 129 128 130 16 (var_location:SI count_line (clobber (const_int 0 [0]))) -1
+     (nil))
+(debug_insn 130 129 131 16 (var_location:SI count_char (reg/v:SI 101 [ count_char ])) -1
+     (nil))
+(debug_insn 131 130 132 16 (debug_marker) "cmodules/fbgc_file.c":103:4 -1
+     (nil))
+(insn 132 131 133 16 (set (reg:SI 106)
+        (not:SI (reg/v:SI 101 [ count_char ]))) "cmodules/fbgc_file.c":103:28 -1
+     (nil))
+(insn 133 132 134 16 (set (reg:DI 107)
+        (sign_extend:DI (reg:SI 106))) "cmodules/fbgc_file.c":103:4 -1
+     (nil))
+(insn 134 133 135 16 (set (reg:SI 1 dx)
+        (const_int 1 [0x1])) "cmodules/fbgc_file.c":103:4 -1
+     (nil))
+(insn 135 134 136 16 (set (reg:DI 4 si)
+        (reg:DI 107)) "cmodules/fbgc_file.c":103:4 -1
+     (nil))
+(insn 136 135 137 16 (set (reg:DI 5 di)
+        (mem/f:DI (reg/v/f:DI 97 [ fs ]) [5 fs_28->fp+0 S8 A8])) "cmodules/fbgc_file.c":103:4 -1
+     (nil))
+(call_insn 137 136 138 16 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("fseek") [flags 0x41]  <function_decl 0x7f7f56b7d300 fseek>) [0 fseek S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_file.c":103:4 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("fseek") [flags 0x41]  <function_decl 0x7f7f56b7d300 fseek>)
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:SI (use (reg:SI 1 dx))
+                (nil)))))
+(debug_insn 138 137 139 16 (debug_marker) "cmodules/fbgc_file.c":104:4 -1
+     (nil))
+(insn 139 138 140 16 (set (reg:SI 5 di)
+        (reg/v:SI 101 [ count_char ])) "cmodules/fbgc_file.c":104:31 -1
+     (nil))
+(call_insn 140 139 141 16 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("new_fbgc_str_object_empty") [flags 0x41]  <function_decl 0x7f7f56cf9200 new_fbgc_str_object_empty>) [0 new_fbgc_str_object_empty S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_file.c":104:31 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("new_fbgc_str_object_empty") [flags 0x41]  <function_decl 0x7f7f56cf9200 new_fbgc_str_object_empty>)
+        (nil))
+    (expr_list:SI (use (reg:SI 5 di))
+        (nil)))
+(insn 141 140 142 16 (set (reg/v/f:DI 102 [ <retval> ])
+        (reg:DI 0 ax)) "cmodules/fbgc_file.c":104:31 -1
+     (nil))
+(debug_insn 142 141 143 16 (var_location:DI str (reg/v/f:DI 102 [ <retval> ])) "cmodules/fbgc_file.c":104:31 -1
+     (nil))
+(debug_insn 143 142 144 16 (debug_marker) "cmodules/fbgc_file.c":105:4 -1
+     (nil))
+(debug_insn 144 143 145 16 (var_location:DI __ptr (plus:DI (reg/v/f:DI 102 [ <retval> ])
+        (const_int 13 [0xd]))) "cmodules/fbgc_file.c":105:23 -1
+     (nil))
+(debug_insn 145 144 146 16 (var_location:DI __size (const_int 1 [0x1])) "cmodules/fbgc_file.c":105:23 -1
+     (nil))
+(debug_insn 146 145 147 16 (var_location:DI __n (sign_extend:DI (reg/v:SI 101 [ count_char ]))) "cmodules/fbgc_file.c":105:23 -1
+     (nil))
+(debug_insn 147 146 148 16 (var_location:DI __stream (mem/f:DI (reg/v/f:DI 97 [ fs ]) [5 fs_28->fp+0 S8 A8])) "cmodules/fbgc_file.c":105:23 -1
+     (nil))
+(debug_insn 148 147 149 16 (debug_marker:BLK) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":284:1 -1
+     (nil))
+(debug_insn 149 148 150 16 (debug_marker) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":287:3 -1
+     (nil))
+(debug_insn 150 149 151 16 (debug_marker) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":297:3 -1
+     (nil))
+(insn 151 150 152 16 (set (reg:DI 108)
+        (sign_extend:DI (reg/v:SI 101 [ count_char ]))) "cmodules/fbgc_file.c":105:17 -1
+     (nil))
+(insn 152 151 153 16 (parallel [
+            (set (reg:DI 109)
+                (plus:DI (reg/v/f:DI 102 [ <retval> ])
+                    (const_int 13 [0xd])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_file.c":105:23 -1
+     (nil))
+(insn 153 152 154 16 (set (reg:DI 2 cx)
+        (mem/f:DI (reg/v/f:DI 97 [ fs ]) [5 fs_28->fp+0 S8 A8])) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":297:10 -1
+     (nil))
+(insn 154 153 155 16 (set (reg:DI 1 dx)
+        (reg:DI 108)) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":297:10 -1
+     (nil))
+(insn 155 154 156 16 (set (reg:DI 4 si)
+        (const_int 1 [0x1])) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":297:10 -1
+     (nil))
+(insn 156 155 157 16 (set (reg:DI 5 di)
+        (reg:DI 109)) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":297:10 -1
+     (nil))
+(call_insn 157 156 158 16 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("*fread") [flags 0x41]  <function_decl 0x7f7f56ba1100 __fread_alias>) [0 __fread_alias S1 A8])
+            (const_int 0 [0]))) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":297:10 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("*fread") [flags 0x41]  <function_decl 0x7f7f56ba1100 __fread_alias>)
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:DI (use (reg:DI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+(debug_insn 158 157 159 16 (var_location:DI __ptr (clobber (const_int 0 [0]))) "cmodules/fbgc_file.c":105:17 -1
+     (nil))
+(debug_insn 159 158 160 16 (var_location:DI __size (clobber (const_int 0 [0]))) "cmodules/fbgc_file.c":105:17 -1
+     (nil))
+(debug_insn 160 159 161 16 (var_location:DI __n (clobber (const_int 0 [0]))) "cmodules/fbgc_file.c":105:17 -1
+     (nil))
+(debug_insn 161 160 162 16 (var_location:DI __stream (clobber (const_int 0 [0]))) "cmodules/fbgc_file.c":105:17 -1
+     (nil))
+(debug_insn 162 161 163 16 (var_location:SI res (clobber (const_int 0 [0]))) "cmodules/fbgc_file.c":105:11 -1
+     (nil))
+(debug_insn 163 162 164 16 (debug_marker) "cmodules/fbgc_file.c":106:4 -1
+     (nil))
+(insn 164 163 165 16 (set (reg:SI 1 dx)
+        (const_int 0 [0])) "cmodules/fbgc_file.c":106:4 -1
+     (nil))
+(insn 165 164 166 16 (set (reg:DI 4 si)
+        (reg/v:DI 99 [ old_fp_loc ])) "cmodules/fbgc_file.c":106:4 -1
+     (nil))
+(insn 166 165 167 16 (set (reg:DI 5 di)
+        (mem/f:DI (reg/v/f:DI 97 [ fs ]) [5 fs_28->fp+0 S8 A8])) "cmodules/fbgc_file.c":106:4 -1
+     (nil))
+(call_insn 167 166 168 16 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("fseek") [flags 0x41]  <function_decl 0x7f7f56b7d300 fseek>) [0 fseek S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_file.c":106:4 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("fseek") [flags 0x41]  <function_decl 0x7f7f56b7d300 fseek>)
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:SI (use (reg:SI 1 dx))
+                (nil)))))
+(debug_insn 168 167 169 16 (debug_marker) "cmodules/fbgc_file.c":107:4 -1
+     (nil))
+(jump_insn 169 168 170 16 (set (pc)
+        (label_ref:DI 182)) "cmodules/fbgc_file.c":107:11 660 {jump}
+     (nil)
+ -> 182)
+;;  succ:       21 [always]  count:43525373 (estimated locally)
+
+(barrier 170 169 171)
+;; basic block 17, loop depth 0, count 122338264 (estimated locally), maybe hot
+;;  prev block 16, next block 18, flags: (NEW, REACHABLE, RTL, MODIFIED, VISITED)
+;;  pred:       2 [28.1% (guessed)]  count:122338264 (estimated locally)
+(code_label 171 170 172 17 10 (nil) [1 uses])
+(note 172 171 173 17 [bb 17] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 173 172 174 17 (debug_marker) "cmodules/fbgc_file.c":111:3 -1
+     (nil))
+(insn 174 173 175 17 (set (reg:DI 4 si)
+        (symbol_ref/f:DI ("*.LC5") [flags 0x2]  <var_decl 0x7f7f568f9e10 *.LC5>)) "cmodules/fbgc_file.c":111:3 -1
+     (nil))
+(insn 175 174 176 17 (set (reg:SI 5 di)
+        (const_int 100 [0x64])) "cmodules/fbgc_file.c":111:3 -1
+     (nil))
+(insn 176 175 177 17 (set (reg:QI 0 ax)
+        (const_int 0 [0])) "cmodules/fbgc_file.c":111:3 -1
+     (nil))
+(call_insn 177 176 10 17 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("cprintf") [flags 0x41]  <function_decl 0x7f7f56cd6d00 cprintf>) [0 cprintf S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_file.c":111:3 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("cprintf") [flags 0x41]  <function_decl 0x7f7f56cd6d00 cprintf>)
+        (nil))
+    (expr_list (use (reg:QI 0 ax))
+        (expr_list:SI (use (reg:SI 5 di))
+            (expr_list:DI (use (reg:DI 4 si))
+                (nil)))))
+(insn 10 177 186 17 (set (reg/v/f:DI 102 [ <retval> ])
+        (const_int 0 [0])) "cmodules/fbgc_file.c":114:9 -1
+     (nil))
+(jump_insn 186 10 187 17 (set (pc)
+        (label_ref:DI 182)) 660 {jump}
+     (nil)
+ -> 182)
+;;  succ:       21 [always]  count:122338264 (estimated locally)
+
+(barrier 187 186 189)
+;; basic block 18, loop depth 0, count 152833895 (estimated locally), maybe hot
+;;  prev block 17, next block 19, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       4 [48.8% (guessed)]  count:152833895 (estimated locally)
+(code_label 189 187 188 18 17 (nil) [1 uses])
+(note 188 189 11 18 [bb 18] NOTE_INSN_BASIC_BLOCK)
+(insn 11 188 190 18 (set (reg/v/f:DI 102 [ <retval> ])
+        (const_int 0 [0])) "cmodules/fbgc_file.c":114:9 -1
+     (nil))
+(jump_insn 190 11 191 18 (set (pc)
+        (label_ref:DI 182)) 660 {jump}
+     (nil)
+ -> 182)
+;;  succ:       21 [always]  count:152833895 (estimated locally)
+
+(barrier 191 190 193)
+;; basic block 19, loop depth 0, count 70906910 (estimated locally), maybe hot
+;;  prev block 18, next block 21, flags: (NEW, REACHABLE, RTL, MODIFIED, VISITED)
+;;  pred:       5 [44.2% (guessed)]  count:70906910 (estimated locally)
+(code_label 193 191 192 19 18 (nil) [1 uses])
+(note 192 193 12 19 [bb 19] NOTE_INSN_BASIC_BLOCK)
+(insn 12 192 182 19 (set (reg/v/f:DI 102 [ <retval> ])
+        (const_int 0 [0])) "cmodules/fbgc_file.c":114:9 -1
+     (nil))
+;;  succ:       21 [always]  count:70906910 (estimated locally) (FALLTHRU)
+
+;; basic block 21, loop depth 0, count 435522478 (estimated locally), maybe hot
+;;  prev block 19, next block 1, flags: (NEW, REACHABLE, RTL)
+;;  pred:       19 [always]  count:70906910 (estimated locally) (FALLTHRU)
+;;              7 [always]  count:11412979 (estimated locally)
+;;              15 [always]  count:34505056 (estimated locally)
+;;              16 [always]  count:43525373 (estimated locally)
+;;              17 [always]  count:122338264 (estimated locally)
+;;              18 [always]  count:152833895 (estimated locally)
+(code_label 182 12 185 21 9 (nil) [5 uses])
+(note 185 182 183 21 [bb 21] NOTE_INSN_BASIC_BLOCK)
+(insn 183 185 184 21 (set (reg/i:DI 0 ax)
+        (reg/v/f:DI 102 [ <retval> ])) "cmodules/fbgc_file.c":115:1 -1
+     (nil))
+(insn 184 183 0 21 (use (reg/i:DI 0 ax)) "cmodules/fbgc_file.c":115:1 -1
+     (nil))
+;;  succ:       EXIT [always]  count:435522478 (estimated locally) (FALLTHRU)
+
+
+;; Function fbgc_fclose (fbgc_fclose, funcdef_no=60, decl_uid=5707, cgraph_uid=61, symbol_order=67)
+
+fbgc_fclose (struct fbgc_object * * arg, int argc)
+{
+  struct file_struct * fs;
+  struct fbgc_cstruct_object * so;
+  const struct fbgc_cmodule * _1;
+  struct FILE * _2;
+
+;;   basic block 2, loop depth 0
+;;    pred:       ENTRY
+  # DEBUG BEGIN_STMT
+  so_6 = *arg_5(D);
+  # DEBUG so => so_6
+  # DEBUG BEGIN_STMT
+  _1 = so_6->parent;
+  if (_1 == &fbgc_file_module)
+    goto <bb 3>; [17.43%]
+  else
+    goto <bb 4>; [82.57%]
+;;    succ:       3
+;;                4
+
+;;   basic block 3, loop depth 0
+;;    pred:       2
+  # DEBUG BEGIN_STMT
+  fs_7 = so_6->cstruct;
+  # DEBUG fs => fs_7
+  # DEBUG BEGIN_STMT
+  _2 = fs_7->fp;
+  fclose (_2);
+;;    succ:       4
+
+;;   basic block 4, loop depth 0
+;;    pred:       3
+;;                2
+  # DEBUG BEGIN_STMT
+  return 0B;
+;;    succ:       EXIT
+
+}
+
+
+
+Partition map 
+
+Partition 1 (_1 - 1 )
+Partition 2 (_2 - 2 )
+Partition 5 (arg_5(D) - 5 )
+Partition 6 (so_6 - 6 )
+Partition 7 (fs_7 - 7 )
+Partition 9 (argc_9(D) - 9 )
+Partition 10 (_10(D) - 10 )
+
+
+Coalescible Partition map 
+
+Partition 0, base 0 (arg_5(D) - 5 )
+Partition 1, base 1 (argc_9(D) - 9 )
+Partition 2, base 2 (_10(D) - 10 )
+
+
+Partition map 
+
+Partition 0 (arg_5(D) - 5 )
+Partition 1 (argc_9(D) - 9 )
+Partition 2 (_10(D) - 10 )
+
+
+Conflict graph:
+
+After sorting:
+Coalesce List:
+
+Partition map 
+
+Partition 0 (arg_5(D) - 5 )
+Partition 1 (argc_9(D) - 9 )
+Partition 2 (_10(D) - 10 )
+
+After Coalescing:
+
+Partition map 
+
+Partition 0 (_1 - 1 )
+Partition 1 (_2 - 2 )
+Partition 2 (arg_5(D) - 5 )
+Partition 3 (so_6 - 6 )
+Partition 4 (fs_7 - 7 )
+Partition 5 (argc_9(D) - 9 )
+Partition 6 (_10(D) - 10 )
+
+
+Replacing Expressions
+_1 replace with --> _1 = so_6->parent;
+
+_2 replace with --> _2 = fs_7->fp;
+
+fs_7 replace with --> fs_7 = so_6->cstruct;
+
+
+fbgc_fclose (struct fbgc_object * * arg, int argc)
+{
+  struct file_struct * fs;
+  struct fbgc_cstruct_object * so;
+  const struct fbgc_cmodule * _1;
+  struct FILE * _2;
+
+;;   basic block 2, loop depth 0
+;;    pred:       ENTRY
+  # DEBUG BEGIN_STMT
+  so_6 = *arg_5(D);
+  # DEBUG so => so_6
+  # DEBUG BEGIN_STMT
+  _1 = so_6->parent;
+  if (_1 == &fbgc_file_module)
+    goto <bb 3>; [17.43%]
+  else
+    goto <bb 4>; [82.57%]
+;;    succ:       3
+;;                4
+
+;;   basic block 3, loop depth 0
+;;    pred:       2
+  # DEBUG BEGIN_STMT
+  fs_7 = so_6->cstruct;
+  # DEBUG fs => fs_7
+  # DEBUG BEGIN_STMT
+  _2 = fs_7->fp;
+  fclose (_2);
+;;    succ:       4
+
+;;   basic block 4, loop depth 0
+;;    pred:       3
+;;                2
+  # DEBUG BEGIN_STMT
+  return 0B;
+;;    succ:       EXIT
+
+}
+
+
+
+;; Generating RTL for gimple basic block 2
+
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 7 6 0 (debug_marker) "cmodules/fbgc_file.c":121:2 -1
+     (nil))
+;; so_6 = *arg_5(D);
+
+(insn 8 7 0 (set (reg/v/f:DI 84 [ so ])
+        (mem/f:DI (reg/v/f:DI 87 [ arg ]) [1 *arg_5(D)+0 S8 A64])) "cmodules/fbgc_file.c":121:31 -1
+     (nil))
+
+;; # DEBUG so => so_6
+
+(debug_insn 9 8 0 (var_location:DI so (const_int 0 [0])) "cmodules/fbgc_file.c":121:31 -1
+     (nil))
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 10 9 0 (debug_marker) "cmodules/fbgc_file.c":122:2 -1
+     (nil))
+;; if (_1 == &fbgc_file_module)
+
+(insn 11 10 12 (set (reg:DI 89)
+        (symbol_ref:DI ("fbgc_file_module") [flags 0x2]  <var_decl 0x7f7f56ce1990 fbgc_file_module>)) "cmodules/fbgc_file.c":122:4 -1
+     (nil))
+
+(insn 12 11 13 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem/f:DI (plus:DI (reg/v/f:DI 84 [ so ])
+                    (const_int 13 [0xd])) [2 so_6->parent+0 S8 A8])
+            (reg:DI 89))) "cmodules/fbgc_file.c":122:4 -1
+     (nil))
+
+(jump_insn 13 12 0 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 0)
+            (pc))) "cmodules/fbgc_file.c":122:4 -1
+     (int_list:REG_BR_PROB 886588628 (nil)))
+
+;; Generating RTL for gimple basic block 3
+
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 15 14 0 (debug_marker) "cmodules/fbgc_file.c":123:3 -1
+     (nil))
+;; # DEBUG fs => fs_7
+
+(debug_insn 16 15 0 (var_location:DI fs (const_int 0 [0])) "cmodules/fbgc_file.c":123:24 -1
+     (nil))
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 17 16 0 (debug_marker) "cmodules/fbgc_file.c":124:3 -1
+     (nil))
+;; fclose (_2);
+
+(insn 18 17 19 (set (reg/f:DI 90)
+        (mem/f:DI (plus:DI (reg/v/f:DI 84 [ so ])
+                (const_int 21 [0x15])) [3 so_6->cstruct+0 S8 A8])) "cmodules/fbgc_file.c":124:3 -1
+     (nil))
+
+(insn 19 18 20 (set (reg:DI 5 di)
+        (mem/f:DI (reg/f:DI 90) [5 fs_7->fp+0 S8 A8])) "cmodules/fbgc_file.c":124:3 -1
+     (nil))
+
+(call_insn 20 19 0 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("fclose") [flags 0x41]  <function_decl 0x7f7f56b55300 fclose>) [0 fclose S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_file.c":124:3 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("fclose") [flags 0x41]  <function_decl 0x7f7f56b55300 fclose>)
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+
+;; Generating RTL for gimple basic block 4
+
+;; 
+
+(code_label 21 20 22 23 (nil) [0 uses])
+
+(note 22 21 0 NOTE_INSN_BASIC_BLOCK)
+
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 23 22 0 (debug_marker) "cmodules/fbgc_file.c":127:2 -1
+     (nil))
+;; return 0B;
+
+(insn 24 23 25 (set (reg/f:DI 86 [ <retval> ])
+        (const_int 0 [0])) "cmodules/fbgc_file.c":127:9 -1
+     (nil))
+
+(jump_insn 25 24 26 (set (pc)
+        (label_ref 0)) "cmodules/fbgc_file.c":127:9 -1
+     (nil))
+
+(barrier 26 25 0)
+
+
+try_optimize_cfg iteration 1
+
+Merging block 3 into block 2...
+Merged blocks 2 and 3.
+Merged 2 and 3 without moving.
+Removing jump 25.
+Merging block 6 into block 5...
+Merged blocks 5 and 6.
+Merged 5 and 6 without moving.
+
+
+try_optimize_cfg iteration 2
+
+fix_loop_structure: fixing up loops for function
+
+
+;;
+;; Full RTL generated for this function:
+;;
+(note 1 0 5 NOTE_INSN_DELETED)
+;; basic block 2, loop depth 0, count 1073741824 (estimated locally), maybe hot
+;;  prev block 0, next block 4, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       ENTRY [always]  count:1073741824 (estimated locally) (FALLTHRU)
+(note 5 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 5 3 2 (set (reg/v/f:DI 87 [ arg ])
+        (reg:DI 5 di [ arg ])) "cmodules/fbgc_file.c":119:1 -1
+     (nil))
+(insn 3 2 4 2 (set (reg/v:SI 88 [ argc ])
+        (reg:SI 4 si [ argc ])) "cmodules/fbgc_file.c":119:1 -1
+     (nil))
+(note 4 3 7 2 NOTE_INSN_FUNCTION_BEG)
+(debug_insn 7 4 8 2 (debug_marker) "cmodules/fbgc_file.c":121:2 -1
+     (nil))
+(insn 8 7 9 2 (set (reg/v/f:DI 84 [ so ])
+        (mem/f:DI (reg/v/f:DI 87 [ arg ]) [1 *arg_5(D)+0 S8 A64])) "cmodules/fbgc_file.c":121:31 -1
+     (nil))
+(debug_insn 9 8 10 2 (var_location:DI so (reg/v/f:DI 84 [ so ])) "cmodules/fbgc_file.c":121:31 -1
+     (nil))
+(debug_insn 10 9 11 2 (debug_marker) "cmodules/fbgc_file.c":122:2 -1
+     (nil))
+(insn 11 10 12 2 (set (reg:DI 89)
+        (symbol_ref:DI ("fbgc_file_module") [flags 0x2]  <var_decl 0x7f7f56ce1990 fbgc_file_module>)) "cmodules/fbgc_file.c":122:4 -1
+     (nil))
+(insn 12 11 13 2 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem/f:DI (plus:DI (reg/v/f:DI 84 [ so ])
+                    (const_int 13 [0xd])) [2 so_6->parent+0 S8 A8])
+            (reg:DI 89))) "cmodules/fbgc_file.c":122:4 -1
+     (nil))
+(jump_insn 13 12 14 2 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 21)
+            (pc))) "cmodules/fbgc_file.c":122:4 -1
+     (int_list:REG_BR_PROB 886588628 (nil))
+ -> 21)
+;;  succ:       4 [17.4% (guessed)]  count:187153200 (estimated locally) (FALLTHRU)
+;;              5 [82.6% (guessed)]  count:886588624 (estimated locally)
+
+;; basic block 4, loop depth 0, count 187153200 (estimated locally), maybe hot
+;;  prev block 2, next block 5, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       2 [17.4% (guessed)]  count:187153200 (estimated locally) (FALLTHRU)
+(note 14 13 15 4 [bb 4] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 15 14 16 4 (debug_marker) "cmodules/fbgc_file.c":123:3 -1
+     (nil))
+(debug_insn 16 15 17 4 (var_location:DI fs (mem/f:DI (plus:DI (reg/v/f:DI 84 [ so ])
+            (const_int 21 [0x15])) [3 so_6->cstruct+0 S8 A8])) "cmodules/fbgc_file.c":123:24 -1
+     (nil))
+(debug_insn 17 16 18 4 (debug_marker) "cmodules/fbgc_file.c":124:3 -1
+     (nil))
+(insn 18 17 19 4 (set (reg/f:DI 90)
+        (mem/f:DI (plus:DI (reg/v/f:DI 84 [ so ])
+                (const_int 21 [0x15])) [3 so_6->cstruct+0 S8 A8])) "cmodules/fbgc_file.c":124:3 -1
+     (nil))
+(insn 19 18 20 4 (set (reg:DI 5 di)
+        (mem/f:DI (reg/f:DI 90) [5 fs_7->fp+0 S8 A8])) "cmodules/fbgc_file.c":124:3 -1
+     (nil))
+(call_insn 20 19 21 4 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("fclose") [flags 0x41]  <function_decl 0x7f7f56b55300 fclose>) [0 fclose S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_file.c":124:3 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("fclose") [flags 0x41]  <function_decl 0x7f7f56b55300 fclose>)
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+;;  succ:       5 [always]  count:187153200 (estimated locally) (FALLTHRU)
+
+;; basic block 5, loop depth 0, count 1073741824 (estimated locally), maybe hot
+;;  prev block 4, next block 1, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       4 [always]  count:187153200 (estimated locally) (FALLTHRU)
+;;              2 [82.6% (guessed)]  count:886588624 (estimated locally)
+(code_label 21 20 22 5 23 (nil) [1 uses])
+(note 22 21 23 5 [bb 5] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 23 22 24 5 (debug_marker) "cmodules/fbgc_file.c":127:2 -1
+     (nil))
+(insn 24 23 28 5 (set (reg/f:DI 86 [ <retval> ])
+        (const_int 0 [0])) "cmodules/fbgc_file.c":127:9 -1
+     (nil))
+(insn 28 24 29 5 (set (reg/i:DI 0 ax)
+        (reg/f:DI 86 [ <retval> ])) "cmodules/fbgc_file.c":128:1 -1
+     (nil))
+(insn 29 28 0 5 (use (reg/i:DI 0 ax)) "cmodules/fbgc_file.c":128:1 -1
+     (nil))
+;;  succ:       EXIT [always]  count:1073741824 (estimated locally) (FALLTHRU)
+
+
+;; Function fbgc_fprint (fbgc_fprint, funcdef_no=57, decl_uid=5695, cgraph_uid=58, symbol_order=61)
+
+fbgc_fprint (struct fbgc_object * * arg, int argc)
+{
+  struct file_struct * fs;
+  struct fbgc_cstruct_object * so;
+  const struct fbgc_cmodule * _7;
+  struct fbgc_object * _9;
+  char * _10;
+  struct FILE * _11;
+
+;;   basic block 2, loop depth 0
+;;    pred:       ENTRY
+  # DEBUG BEGIN_STMT
+  if (argc_2(D) == 2)
+    goto <bb 3>; [34.00%]
+  else
+    goto <bb 5>; [66.00%]
+;;    succ:       3
+;;                5
+
+;;   basic block 3, loop depth 0
+;;    pred:       2
+  # DEBUG D#1 => 2
+  # DEBUG arg => arg_4(D)
+  # DEBUG INLINE_ENTRY fbgc_fprint
+  # DEBUG D#2 => D#1
+  # DEBUG argc => D#2
+  # DEBUG BEGIN_STMT
+  so_6 = *arg_4(D);
+  # DEBUG so => so_6
+  # DEBUG BEGIN_STMT
+  _7 = so_6->parent;
+  if (_7 == &fbgc_file_module)
+    goto <bb 4>; [17.43%]
+  else
+    goto <bb 5>; [82.57%]
+;;    succ:       4
+;;                5
+
+;;   basic block 4, loop depth 0
+;;    pred:       3
+  # DEBUG BEGIN_STMT
+  fs_8 = so_6->cstruct;
+  # DEBUG fs => fs_8
+  # DEBUG BEGIN_STMT
+  _9 = MEM[(struct fbgc_object * *)arg_4(D) + 8B];
+  _10 = &MEM[(struct fbgc_str_object *)_9].content;
+  _11 = fs_8->fp;
+  # DEBUG __stream => _11
+  # DEBUG __fmt => "%s"
+  # DEBUG INLINE_ENTRY fprintf
+  # DEBUG BEGIN_STMT
+  __builtin_fputs (_10, _11);
+;;    succ:       5
+
+;;   basic block 5, loop depth 0
+;;    pred:       2
+;;                4
+;;                3
+  # DEBUG arg => NULL
+  # DEBUG so => NULL
+  # DEBUG fs => NULL
+  # DEBUG argc => NULL
+  # DEBUG __stream => NULL
+  # DEBUG __fmt => NULL
+  # DEBUG BEGIN_STMT
+  return 0B;
+;;    succ:       EXIT
+
+}
+
+
+
+Partition map 
+
+Partition 2 (argc_2(D) - 2 )
+Partition 4 (arg_4(D) - 4 )
+Partition 6 (so_6 - 6 )
+Partition 7 (_7 - 7 )
+Partition 8 (fs_8 - 8 )
+Partition 9 (_9 - 9 )
+Partition 10 (_10 - 10 )
+Partition 11 (_11 - 11 )
+Partition 12 (_12(D) - 12 )
+
+
+Coalescible Partition map 
+
+Partition 0, base 0 (argc_2(D) - 2 )
+Partition 1, base 1 (arg_4(D) - 4 )
+Partition 2, base 2 (_12(D) - 12 )
+
+
+Partition map 
+
+Partition 0 (argc_2(D) - 2 )
+Partition 1 (arg_4(D) - 4 )
+Partition 2 (_12(D) - 12 )
+
+
+Conflict graph:
+
+After sorting:
+Coalesce List:
+
+Partition map 
+
+Partition 0 (argc_2(D) - 2 )
+Partition 1 (arg_4(D) - 4 )
+Partition 2 (_12(D) - 12 )
+
+After Coalescing:
+
+Partition map 
+
+Partition 0 (argc_2(D) - 2 )
+Partition 1 (arg_4(D) - 4 )
+Partition 2 (so_6 - 6 )
+Partition 3 (_7 - 7 )
+Partition 4 (fs_8 - 8 )
+Partition 5 (_9 - 9 )
+Partition 6 (_10 - 10 )
+Partition 7 (_11 - 11 )
+Partition 8 (_12(D) - 12 )
+
+
+Replacing Expressions
+_7 replace with --> _7 = so_6->parent;
+
+fs_8 replace with --> fs_8 = so_6->cstruct;
+
+_9 replace with --> _9 = MEM[(struct fbgc_object * *)arg_4(D) + 8B];
+
+_10 replace with --> _10 = &MEM[(struct fbgc_str_object *)_9].content;
+
+_11 replace with --> _11 = fs_8->fp;
+
+
+fbgc_fprint (struct fbgc_object * * arg, int argc)
+{
+  struct file_struct * fs;
+  struct fbgc_cstruct_object * so;
+  const struct fbgc_cmodule * _7;
+  struct fbgc_object * _9;
+  char * _10;
+  struct FILE * _11;
+
+;;   basic block 2, loop depth 0
+;;    pred:       ENTRY
+  # DEBUG BEGIN_STMT
+  if (argc_2(D) == 2)
+    goto <bb 3>; [34.00%]
+  else
+    goto <bb 5>; [66.00%]
+;;    succ:       3
+;;                5
+
+;;   basic block 3, loop depth 0
+;;    pred:       2
+  # DEBUG D#1 => 2
+  # DEBUG arg => arg_4(D)
+  # DEBUG INLINE_ENTRY fbgc_fprint
+  # DEBUG D#2 => D#1
+  # DEBUG argc => D#2
+  # DEBUG BEGIN_STMT
+  so_6 = *arg_4(D);
+  # DEBUG so => so_6
+  # DEBUG BEGIN_STMT
+  _7 = so_6->parent;
+  if (_7 == &fbgc_file_module)
+    goto <bb 4>; [17.43%]
+  else
+    goto <bb 5>; [82.57%]
+;;    succ:       4
+;;                5
+
+;;   basic block 4, loop depth 0
+;;    pred:       3
+  # DEBUG BEGIN_STMT
+  fs_8 = so_6->cstruct;
+  # DEBUG fs => fs_8
+  # DEBUG BEGIN_STMT
+  _9 = MEM[(struct fbgc_object * *)arg_4(D) + 8B];
+  _10 = &MEM[(struct fbgc_str_object *)_9].content;
+  _11 = fs_8->fp;
+  # DEBUG __stream => _11
+  # DEBUG __fmt => "%s"
+  # DEBUG INLINE_ENTRY fprintf
+  # DEBUG BEGIN_STMT
+  __builtin_fputs (_10, _11);
+;;    succ:       5
+
+;;   basic block 5, loop depth 0
+;;    pred:       2
+;;                4
+;;                3
+  # DEBUG arg => NULL
+  # DEBUG so => NULL
+  # DEBUG fs => NULL
+  # DEBUG argc => NULL
+  # DEBUG __stream => NULL
+  # DEBUG __fmt => NULL
+  # DEBUG BEGIN_STMT
+  return 0B;
+;;    succ:       EXIT
+
+}
+
+
+
+;; Generating RTL for gimple basic block 2
+
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 7 6 0 (debug_marker) "cmodules/fbgc_file.c":25:2 -1
+     (nil))
+;; if (argc_2(D) == 2)
+
+(insn 8 7 9 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg/v:SI 90 [ argc ])
+            (const_int 2 [0x2]))) "cmodules/fbgc_file.c":25:4 -1
+     (nil))
+
+(jump_insn 9 8 0 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 0)
+            (pc))) "cmodules/fbgc_file.c":25:4 -1
+     (int_list:REG_BR_PROB 708669604 (nil)))
+
+;; Generating RTL for gimple basic block 3
+
+;; # DEBUG D#1 => 2
+
+(debug_insn 11 10 0 (var_location:SI D#1 (const_int 0 [0])) -1
+     (nil))
+;; # DEBUG arg => arg_4(D)
+
+(debug_insn 12 11 0 (var_location:DI arg (const_int 0 [0])) -1
+     (nil))
+;; # DEBUG INLINE_ENTRY fbgc_fprint
+
+(debug_insn 13 12 0 (debug_marker:BLK) "cmodules/fbgc_file.c":22:1 -1
+     (nil))
+;; # DEBUG D#2 => D#1
+
+(debug_insn 14 13 0 (var_location:SI D#2 (const_int 0 [0])) -1
+     (nil))
+;; # DEBUG argc => D#2
+
+(debug_insn 15 14 0 (var_location:SI argc (const_int 0 [0])) -1
+     (nil))
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 16 15 0 (debug_marker) "cmodules/fbgc_file.c":26:3 -1
+     (nil))
+;; so_6 = *arg_4(D);
+
+(insn 17 16 0 (set (reg/v/f:DI 82 [ so ])
+        (mem/f:DI (reg/v/f:DI 89 [ arg ]) [1 *arg_4(D)+0 S8 A64])) "cmodules/fbgc_file.c":26:32 -1
+     (nil))
+
+;; # DEBUG so => so_6
+
+(debug_insn 18 17 0 (var_location:DI so (const_int 0 [0])) "cmodules/fbgc_file.c":26:32 -1
+     (nil))
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 19 18 0 (debug_marker) "cmodules/fbgc_file.c":27:3 -1
+     (nil))
+;; if (_7 == &fbgc_file_module)
+
+(insn 20 19 21 (set (reg:DI 91)
+        (symbol_ref:DI ("fbgc_file_module") [flags 0x2]  <var_decl 0x7f7f56ce1990 fbgc_file_module>)) "cmodules/fbgc_file.c":27:5 -1
+     (nil))
+
+(insn 21 20 22 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem/f:DI (plus:DI (reg/v/f:DI 82 [ so ])
+                    (const_int 13 [0xd])) [2 so_6->parent+0 S8 A8])
+            (reg:DI 91))) "cmodules/fbgc_file.c":27:5 -1
+     (nil))
+
+(jump_insn 22 21 0 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 0)
+            (pc))) "cmodules/fbgc_file.c":27:5 -1
+     (int_list:REG_BR_PROB 886588628 (nil)))
+
+;; Generating RTL for gimple basic block 4
+
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 24 23 0 (debug_marker) "cmodules/fbgc_file.c":28:4 -1
+     (nil))
+;; # DEBUG fs => fs_8
+
+(debug_insn 25 24 0 (var_location:DI fs (const_int 0 [0])) "cmodules/fbgc_file.c":28:25 -1
+     (nil))
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 26 25 0 (debug_marker) "cmodules/fbgc_file.c":29:4 -1
+     (nil))
+;; # DEBUG __stream => _11
+
+(debug_insn 27 26 0 (var_location:DI __stream (const_int 0 [0])) "cmodules/fbgc_file.c":29:4 -1
+     (nil))
+;; # DEBUG __fmt => "%s"
+
+(debug_insn 28 27 0 (var_location:DI __fmt (const_int 0 [0])) "cmodules/fbgc_file.c":29:4 -1
+     (nil))
+;; # DEBUG INLINE_ENTRY fprintf
+
+(debug_insn 29 28 0 (debug_marker:BLK) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":98:1 -1
+     (nil))
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 30 29 0 (debug_marker) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":100:3 -1
+     (nil))
+;; __builtin_fputs (_10, _11);
+
+(insn 31 30 32 (set (reg/f:DI 92)
+        (mem/f:DI (plus:DI (reg/v/f:DI 82 [ so ])
+                (const_int 21 [0x15])) [3 so_6->cstruct+0 S8 A8])) "cmodules/fbgc_file.c":29:4 -1
+     (nil))
+
+(insn 32 31 33 (set (reg/f:DI 94)
+        (mem/f:DI (plus:DI (reg/v/f:DI 89 [ arg ])
+                (const_int 8 [0x8])) [1 MEM[(struct fbgc_object * *)arg_4(D) + 8B]+0 S8 A64])) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":100:10 -1
+     (nil))
+
+(insn 33 32 34 (parallel [
+            (set (reg:DI 93)
+                (plus:DI (reg/f:DI 94)
+                    (const_int 13 [0xd])))
+            (clobber (reg:CC 17 flags))
+        ]) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":100:10 -1
+     (expr_list:REG_EQUAL (plus:DI (mem/f:DI (plus:DI (reg/v/f:DI 89 [ arg ])
+                    (const_int 8 [0x8])) [1 MEM[(struct fbgc_object * *)arg_4(D) + 8B]+0 S8 A64])
+            (const_int 13 [0xd]))
+        (nil)))
+
+(insn 34 33 35 (set (reg:DI 4 si)
+        (mem/f:DI (reg/f:DI 92) [5 fs_8->fp+0 S8 A8])) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":100:10 -1
+     (nil))
+
+(insn 35 34 36 (set (reg:DI 5 di)
+        (reg:DI 93)) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":100:10 -1
+     (nil))
+
+(call_insn 36 35 0 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("fputs") [flags 0x41]  <function_decl 0x7f7f56ddff00 __builtin_fputs>) [0 __builtin_fputs S1 A8])
+            (const_int 0 [0]))) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":100:10 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("fputs") [flags 0x41]  <function_decl 0x7f7f56ddff00 __builtin_fputs>)
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+
+;; Generating RTL for gimple basic block 5
+
+;; 
+
+(code_label 37 36 38 30 (nil) [0 uses])
+
+(note 38 37 0 NOTE_INSN_BASIC_BLOCK)
+
+;; # DEBUG arg => NULL
+
+(debug_insn 39 38 0 (var_location:DI arg (const_int 0 [0])) -1
+     (nil))
+;; # DEBUG so => NULL
+
+(debug_insn 40 39 0 (var_location:DI so (const_int 0 [0])) -1
+     (nil))
+;; # DEBUG fs => NULL
+
+(debug_insn 41 40 0 (var_location:DI fs (const_int 0 [0])) -1
+     (nil))
+;; # DEBUG argc => NULL
+
+(debug_insn 42 41 0 (var_location:SI argc (const_int 0 [0])) -1
+     (nil))
+;; # DEBUG __stream => NULL
+
+(debug_insn 43 42 0 (var_location:DI __stream (const_int 0 [0])) "cmodules/fbgc_file.c":29:4 -1
+     (nil))
+;; # DEBUG __fmt => NULL
+
+(debug_insn 44 43 0 (var_location:DI __fmt (const_int 0 [0])) "cmodules/fbgc_file.c":29:4 -1
+     (nil))
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 45 44 0 (debug_marker) "cmodules/fbgc_file.c":33:2 -1
+     (nil))
+;; return 0B;
+
+(insn 46 45 47 (set (reg/f:DI 88 [ <retval> ])
+        (const_int 0 [0])) "cmodules/fbgc_file.c":33:9 -1
+     (nil))
+
+(jump_insn 47 46 48 (set (pc)
+        (label_ref 0)) "cmodules/fbgc_file.c":33:9 -1
+     (nil))
+
+(barrier 48 47 0)
+
+
+try_optimize_cfg iteration 1
+
+Merging block 3 into block 2...
+Merged blocks 2 and 3.
+Merged 2 and 3 without moving.
+Removing jump 47.
+Merging block 7 into block 6...
+Merged blocks 6 and 7.
+Merged 6 and 7 without moving.
+
+
+try_optimize_cfg iteration 2
+
+fix_loop_structure: fixing up loops for function
+
+
+;;
+;; Full RTL generated for this function:
+;;
+(note 1 0 5 NOTE_INSN_DELETED)
+;; basic block 2, loop depth 0, count 1073741824 (estimated locally), maybe hot
+;;  prev block 0, next block 4, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       ENTRY [always]  count:1073741824 (estimated locally) (FALLTHRU)
+(note 5 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 5 3 2 (set (reg/v/f:DI 89 [ arg ])
+        (reg:DI 5 di [ arg ])) "cmodules/fbgc_file.c":23:1 -1
+     (nil))
+(insn 3 2 4 2 (set (reg/v:SI 90 [ argc ])
+        (reg:SI 4 si [ argc ])) "cmodules/fbgc_file.c":23:1 -1
+     (nil))
+(note 4 3 7 2 NOTE_INSN_FUNCTION_BEG)
+(debug_insn 7 4 8 2 (debug_marker) "cmodules/fbgc_file.c":25:2 -1
+     (nil))
+(insn 8 7 9 2 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg/v:SI 90 [ argc ])
+            (const_int 2 [0x2]))) "cmodules/fbgc_file.c":25:4 -1
+     (nil))
+(jump_insn 9 8 10 2 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 37)
+            (pc))) "cmodules/fbgc_file.c":25:4 -1
+     (int_list:REG_BR_PROB 708669604 (nil))
+ -> 37)
+;;  succ:       4 [34.0% (guessed)]  count:365072224 (estimated locally) (FALLTHRU)
+;;              6 [66.0% (guessed)]  count:708669600 (estimated locally)
+
+;; basic block 4, loop depth 0, count 365072220 (estimated locally), maybe hot
+;;  prev block 2, next block 5, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       2 [34.0% (guessed)]  count:365072224 (estimated locally) (FALLTHRU)
+(note 10 9 11 4 [bb 4] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 11 10 12 4 (var_location:SI D#1 (const_int 2 [0x2])) -1
+     (nil))
+(debug_insn 12 11 13 4 (var_location:DI arg (reg/v/f:DI 89 [ arg ])) -1
+     (nil))
+(debug_insn 13 12 14 4 (debug_marker:BLK) "cmodules/fbgc_file.c":22:1 -1
+     (nil))
+(debug_insn 14 13 15 4 (var_location:SI D#2 (debug_expr:SI D#1)) -1
+     (nil))
+(debug_insn 15 14 16 4 (var_location:SI argc (debug_expr:SI D#2)) -1
+     (nil))
+(debug_insn 16 15 17 4 (debug_marker) "cmodules/fbgc_file.c":26:3 -1
+     (nil))
+(insn 17 16 18 4 (set (reg/v/f:DI 82 [ so ])
+        (mem/f:DI (reg/v/f:DI 89 [ arg ]) [1 *arg_4(D)+0 S8 A64])) "cmodules/fbgc_file.c":26:32 -1
+     (nil))
+(debug_insn 18 17 19 4 (var_location:DI so (reg/v/f:DI 82 [ so ])) "cmodules/fbgc_file.c":26:32 -1
+     (nil))
+(debug_insn 19 18 20 4 (debug_marker) "cmodules/fbgc_file.c":27:3 -1
+     (nil))
+(insn 20 19 21 4 (set (reg:DI 91)
+        (symbol_ref:DI ("fbgc_file_module") [flags 0x2]  <var_decl 0x7f7f56ce1990 fbgc_file_module>)) "cmodules/fbgc_file.c":27:5 -1
+     (nil))
+(insn 21 20 22 4 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem/f:DI (plus:DI (reg/v/f:DI 82 [ so ])
+                    (const_int 13 [0xd])) [2 so_6->parent+0 S8 A8])
+            (reg:DI 91))) "cmodules/fbgc_file.c":27:5 -1
+     (nil))
+(jump_insn 22 21 23 4 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 37)
+            (pc))) "cmodules/fbgc_file.c":27:5 -1
+     (int_list:REG_BR_PROB 886588628 (nil))
+ -> 37)
+;;  succ:       5 [17.4% (guessed)]  count:63632088 (estimated locally) (FALLTHRU)
+;;              6 [82.6% (guessed)]  count:301440132 (estimated locally)
+
+;; basic block 5, loop depth 0, count 63632088 (estimated locally), maybe hot
+;;  prev block 4, next block 6, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       4 [17.4% (guessed)]  count:63632088 (estimated locally) (FALLTHRU)
+(note 23 22 24 5 [bb 5] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 24 23 25 5 (debug_marker) "cmodules/fbgc_file.c":28:4 -1
+     (nil))
+(debug_insn 25 24 26 5 (var_location:DI fs (mem/f:DI (plus:DI (reg/v/f:DI 82 [ so ])
+            (const_int 21 [0x15])) [3 so_6->cstruct+0 S8 A8])) "cmodules/fbgc_file.c":28:25 -1
+     (nil))
+(debug_insn 26 25 27 5 (debug_marker) "cmodules/fbgc_file.c":29:4 -1
+     (nil))
+(debug_insn 27 26 28 5 (var_location:DI __stream (mem/f:DI (mem/f:DI (plus:DI (reg/v/f:DI 82 [ so ])
+                (const_int 21 [0x15])) [3 so_6->cstruct+0 S8 A8]) [5 fs_8->fp+0 S8 A8])) "cmodules/fbgc_file.c":29:4 -1
+     (nil))
+(debug_insn 28 27 29 5 (var_location:DI __fmt (const_string:DI ("%s"))) "cmodules/fbgc_file.c":29:4 -1
+     (nil))
+(debug_insn 29 28 30 5 (debug_marker:BLK) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":98:1 -1
+     (nil))
+(debug_insn 30 29 31 5 (debug_marker) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":100:3 -1
+     (nil))
+(insn 31 30 32 5 (set (reg/f:DI 92)
+        (mem/f:DI (plus:DI (reg/v/f:DI 82 [ so ])
+                (const_int 21 [0x15])) [3 so_6->cstruct+0 S8 A8])) "cmodules/fbgc_file.c":29:4 -1
+     (nil))
+(insn 32 31 33 5 (set (reg/f:DI 94)
+        (mem/f:DI (plus:DI (reg/v/f:DI 89 [ arg ])
+                (const_int 8 [0x8])) [1 MEM[(struct fbgc_object * *)arg_4(D) + 8B]+0 S8 A64])) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":100:10 -1
+     (nil))
+(insn 33 32 34 5 (parallel [
+            (set (reg:DI 93)
+                (plus:DI (reg/f:DI 94)
+                    (const_int 13 [0xd])))
+            (clobber (reg:CC 17 flags))
+        ]) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":100:10 -1
+     (expr_list:REG_EQUAL (plus:DI (mem/f:DI (plus:DI (reg/v/f:DI 89 [ arg ])
+                    (const_int 8 [0x8])) [1 MEM[(struct fbgc_object * *)arg_4(D) + 8B]+0 S8 A64])
+            (const_int 13 [0xd]))
+        (nil)))
+(insn 34 33 35 5 (set (reg:DI 4 si)
+        (mem/f:DI (reg/f:DI 92) [5 fs_8->fp+0 S8 A8])) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":100:10 -1
+     (nil))
+(insn 35 34 36 5 (set (reg:DI 5 di)
+        (reg:DI 93)) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":100:10 -1
+     (nil))
+(call_insn 36 35 37 5 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("fputs") [flags 0x41]  <function_decl 0x7f7f56ddff00 __builtin_fputs>) [0 __builtin_fputs S1 A8])
+            (const_int 0 [0]))) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":100:10 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("fputs") [flags 0x41]  <function_decl 0x7f7f56ddff00 __builtin_fputs>)
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+;;  succ:       6 [always]  count:63632088 (estimated locally) (FALLTHRU)
+
+;; basic block 6, loop depth 0, count 1073741824 (estimated locally), maybe hot
+;;  prev block 5, next block 1, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       2 [66.0% (guessed)]  count:708669600 (estimated locally)
+;;              5 [always]  count:63632088 (estimated locally) (FALLTHRU)
+;;              4 [82.6% (guessed)]  count:301440132 (estimated locally)
+(code_label 37 36 38 6 30 (nil) [2 uses])
+(note 38 37 39 6 [bb 6] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 39 38 40 6 (var_location:DI arg (clobber (const_int 0 [0]))) -1
+     (nil))
+(debug_insn 40 39 41 6 (var_location:DI so (clobber (const_int 0 [0]))) -1
+     (nil))
+(debug_insn 41 40 42 6 (var_location:DI fs (clobber (const_int 0 [0]))) -1
+     (nil))
+(debug_insn 42 41 43 6 (var_location:SI argc (clobber (const_int 0 [0]))) -1
+     (nil))
+(debug_insn 43 42 44 6 (var_location:DI __stream (clobber (const_int 0 [0]))) "cmodules/fbgc_file.c":29:4 -1
+     (nil))
+(debug_insn 44 43 45 6 (var_location:DI __fmt (clobber (const_int 0 [0]))) "cmodules/fbgc_file.c":29:4 -1
+     (nil))
+(debug_insn 45 44 46 6 (debug_marker) "cmodules/fbgc_file.c":33:2 -1
+     (nil))
+(insn 46 45 50 6 (set (reg/f:DI 88 [ <retval> ])
+        (const_int 0 [0])) "cmodules/fbgc_file.c":33:9 -1
+     (nil))
+(insn 50 46 51 6 (set (reg/i:DI 0 ax)
+        (reg/f:DI 88 [ <retval> ])) "cmodules/fbgc_file.c":34:1 -1
+     (nil))
+(insn 51 50 0 6 (use (reg/i:DI 0 ax)) "cmodules/fbgc_file.c":34:1 -1
+     (nil))
+;;  succ:       EXIT [always]  count:1073741824 (estimated locally) (FALLTHRU)
+
+
+;; Function fbgc_fopen (fbgc_fopen, funcdef_no=56, decl_uid=5691, cgraph_uid=57, symbol_order=59)
+
+fbgc_fopen (struct fbgc_object * * arg, int argc)
+{
+  struct file_struct * fs;
+  struct fbgc_cstruct_object * so;
+  struct fbgc_object * _1;
+  unsigned char _2;
+  struct fbgc_object * _3;
+  unsigned char _4;
+  struct fbgc_object * _6;
+  char * _7;
+  struct fbgc_object * _8;
+  char * _9;
+  struct FILE * _10;
+  struct fbgc_object * _12;
+
+;;   basic block 2, loop depth 0
+;;    pred:       ENTRY
+  # DEBUG BEGIN_STMT
+  if (argc_13(D) == 2)
+    goto <bb 3>; [71.91%]
+  else
+    goto <bb 7>; [28.09%]
+;;    succ:       3
+;;                7
+
+;;   basic block 3, loop depth 0
+;;    pred:       2
+  _1 = *arg_15(D);
+  _2 = _1->type;
+  if (_2 == 6)
+    goto <bb 4>; [55.78%]
+  else
+    goto <bb 7>; [44.22%]
+;;    succ:       4
+;;                7
+
+;;   basic block 4, loop depth 0
+;;    pred:       3
+  _3 = MEM[(struct fbgc_object * *)arg_15(D) + 8B];
+  _4 = _3->type;
+  if (_4 == 6)
+    goto <bb 5>; [38.32%]
+  else
+    goto <bb 7>; [61.68%]
+;;    succ:       5
+;;                7
+
+;;   basic block 5, loop depth 0
+;;    pred:       4
+  # DEBUG BEGIN_STMT
+  so_17 = new_fbgc_cstruct_object (8, &fbgc_file_module);
+  # DEBUG so => so_17
+  # DEBUG BEGIN_STMT
+  fs_18 = so_17->cstruct;
+  # DEBUG fs => fs_18
+  # DEBUG BEGIN_STMT
+  _6 = MEM[(struct fbgc_object * *)arg_15(D) + 8B];
+  _7 = &MEM[(struct fbgc_str_object *)_6].content;
+  _8 = *arg_15(D);
+  _9 = &MEM[(struct fbgc_str_object *)_8].content;
+  _10 = fopen (_9, _7);
+  fs_18->fp = _10;
+  # DEBUG BEGIN_STMT
+  if (_10 != 0B)
+    goto <bb 8>; [99.96%]
+  else
+    goto <bb 6>; [0.04%]
+;;    succ:       8
+;;                6
+
+;;   basic block 6, loop depth 0
+;;    pred:       5
+  # DEBUG D#3 => arg_15(D)
+  # DEBUG D#4 => 2
+  # DEBUG INLINE_ENTRY fbgc_fopen
+  # DEBUG D#6 => D#3
+  # DEBUG arg => D#6
+  # DEBUG D#5 => D#4
+  # DEBUG argc => D#5
+  # DEBUG BEGIN_STMT
+  __assert_fail ("fs->fp != NULL", "cmodules/fbgc_file.c", 12, &__PRETTY_FUNCTION__);
+;;    succ:      
+
+;;   basic block 7, loop depth 0
+;;    pred:       3
+;;                2
+;;                4
+  # DEBUG BEGIN_STMT
+  cprintf (100, "fopen takes exactly two arguments!\n");
+  # DEBUG BEGIN_STMT
+;;    succ:       8
+
+;;   basic block 8, loop depth 0
+;;    pred:       7
+;;                5
+  # _12 = PHI <0B(7), so_17(5)>
+  return _12;
+;;    succ:       EXIT
+
+}
+
+
+
+Partition map 
+
+Partition 1 (_1 - 1 )
+Partition 2 (_2 - 2 )
+Partition 3 (_3 - 3 )
+Partition 4 (_4 - 4 )
+Partition 5 (_5(D) - 5 )
+Partition 6 (_6 - 6 )
+Partition 7 (_7 - 7 )
+Partition 8 (_8 - 8 )
+Partition 9 (_9 - 9 )
+Partition 10 (_10 - 10 )
+Partition 12 (_12 - 12 )
+Partition 13 (argc_13(D) - 13 )
+Partition 15 (arg_15(D) - 15 )
+Partition 17 (so_17 - 17 )
+Partition 18 (fs_18 - 18 )
+
+
+Coalescible Partition map 
+
+Partition 1, base 0 (_5(D) - 5 12 17 )
+Partition 2, base 1 (argc_13(D) - 13 )
+Partition 3, base 2 (arg_15(D) - 15 )
+
+
+Partition map 
+
+Partition 0 (_5(D) - 5 )
+Partition 1 (_12 - 12 )
+Partition 2 (argc_13(D) - 13 )
+Partition 3 (arg_15(D) - 15 )
+Partition 4 (so_17 - 17 )
+
+
+Conflict graph:
+
+After sorting:
+Sorted Coalesce list:
+(9999, 0) _5(D) <-> _12
+(3072, 0) _12 <-> so_17
+
+Partition map 
+
+Partition 0 (_5(D) - 5 )
+Partition 1 (_12 - 12 )
+Partition 2 (argc_13(D) - 13 )
+Partition 3 (arg_15(D) - 15 )
+Partition 4 (so_17 - 17 )
+
+Coalesce list: (5)_5(D) & (12)_12 [map: 0, 1] : Success -> 0
+Coalesce list: (12)_5(D) & (17)so_17 [map: 0, 4] : Success -> 0
+After Coalescing:
+
+Partition map 
+
+Partition 0 (_1 - 1 )
+Partition 1 (_2 - 2 )
+Partition 2 (_3 - 3 )
+Partition 3 (_4 - 4 )
+Partition 4 (_5(D) - 5 12 17 )
+Partition 5 (_6 - 6 )
+Partition 6 (_7 - 7 )
+Partition 7 (_8 - 8 )
+Partition 8 (_9 - 9 )
+Partition 9 (_10 - 10 )
+Partition 10 (argc_13(D) - 13 )
+Partition 11 (arg_15(D) - 15 )
+Partition 12 (fs_18 - 18 )
+
+
+Replacing Expressions
+_1 replace with --> _1 = *arg_15(D);
+
+_2 replace with --> _2 = _1->type;
+
+_3 replace with --> _3 = MEM[(struct fbgc_object * *)arg_15(D) + 8B];
+
+_4 replace with --> _4 = _3->type;
+
+_6 replace with --> _6 = MEM[(struct fbgc_object * *)arg_15(D) + 8B];
+
+_7 replace with --> _7 = &MEM[(struct fbgc_str_object *)_6].content;
+
+_8 replace with --> _8 = *arg_15(D);
+
+_9 replace with --> _9 = &MEM[(struct fbgc_str_object *)_8].content;
+
+
+fbgc_fopen (struct fbgc_object * * arg, int argc)
+{
+  struct file_struct * fs;
+  struct fbgc_cstruct_object * so;
+  struct fbgc_object * _1;
+  unsigned char _2;
+  struct fbgc_object * _3;
+  unsigned char _4;
+  struct fbgc_object * _6;
+  char * _7;
+  struct fbgc_object * _8;
+  char * _9;
+  struct FILE * _10;
+  struct fbgc_object * _12;
+
+;;   basic block 2, loop depth 0
+;;    pred:       ENTRY
+  # DEBUG BEGIN_STMT
+  if (argc_13(D) == 2)
+    goto <bb 3>; [71.91%]
+  else
+    goto <bb 7>; [28.09%]
+;;    succ:       3
+;;                7
+
+;;   basic block 3, loop depth 0
+;;    pred:       2
+  _1 = *arg_15(D);
+  _2 = _1->type;
+  if (_2 == 6)
+    goto <bb 4>; [55.78%]
+  else
+    goto <bb 7>; [44.22%]
+;;    succ:       4
+;;                7
+
+;;   basic block 4, loop depth 0
+;;    pred:       3
+  _3 = MEM[(struct fbgc_object * *)arg_15(D) + 8B];
+  _4 = _3->type;
+  if (_4 == 6)
+    goto <bb 5>; [38.32%]
+  else
+    goto <bb 7>; [61.68%]
+;;    succ:       5
+;;                7
+
+;;   basic block 5, loop depth 0
+;;    pred:       4
+  # DEBUG BEGIN_STMT
+  so_17 = new_fbgc_cstruct_object (8, &fbgc_file_module);
+  # DEBUG so => so_17
+  # DEBUG BEGIN_STMT
+  fs_18 = so_17->cstruct;
+  # DEBUG fs => fs_18
+  # DEBUG BEGIN_STMT
+  _6 = MEM[(struct fbgc_object * *)arg_15(D) + 8B];
+  _7 = &MEM[(struct fbgc_str_object *)_6].content;
+  _8 = *arg_15(D);
+  _9 = &MEM[(struct fbgc_str_object *)_8].content;
+  _10 = fopen (_9, _7);
+  fs_18->fp = _10;
+  # DEBUG BEGIN_STMT
+  if (_10 != 0B)
+    goto <bb 8>; [99.96%]
+  else
+    goto <bb 6>; [0.04%]
+;;    succ:       8
+;;                6
+
+;;   basic block 6, loop depth 0
+;;    pred:       5
+  # DEBUG D#3 => arg_15(D)
+  # DEBUG D#4 => 2
+  # DEBUG INLINE_ENTRY fbgc_fopen
+  # DEBUG D#6 => D#3
+  # DEBUG arg => D#6
+  # DEBUG D#5 => D#4
+  # DEBUG argc => D#5
+  # DEBUG BEGIN_STMT
+  __assert_fail ("fs->fp != NULL", "cmodules/fbgc_file.c", 12, &__PRETTY_FUNCTION__);
+;;    succ:      
+
+;;   basic block 7, loop depth 0
+;;    pred:       3
+;;                2
+;;                4
+  # DEBUG BEGIN_STMT
+  cprintf (100, "fopen takes exactly two arguments!\n");
+  # DEBUG BEGIN_STMT
+;;    succ:       8
+
+;;   basic block 8, loop depth 0
+;;    pred:       7
+;;                5
+  # _12 = PHI <0B(7), so_17(5)>
+  return _12;
+;;    succ:       EXIT
+
+}
+
+
+Inserting a value copy on edge BB7->BB8 : PART.4 = 0B
+
+;; Generating RTL for gimple basic block 2
+
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 8 7 0 (debug_marker) "cmodules/fbgc_file.c":7:2 -1
+     (nil))
+;; if (argc_13(D) == 2)
+
+(insn 9 8 10 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg/v:SI 94 [ argc ])
+            (const_int 2 [0x2]))) "cmodules/fbgc_file.c":7:4 -1
+     (nil))
+
+(jump_insn 10 9 0 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 0)
+            (pc))) "cmodules/fbgc_file.c":7:4 -1
+     (int_list:REG_BR_PROB 301614084 (nil)))
+
+;; Generating RTL for gimple basic block 3
+
+;; if (_2 == 6)
+
+(insn 12 11 13 (set (reg/f:DI 95)
+        (mem/f:DI (reg/v/f:DI 93 [ arg ]) [1 *arg_15(D)+0 S8 A64])) "cmodules/fbgc_file.c":7:24 -1
+     (nil))
+
+(insn 13 12 14 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem:QI (reg/f:DI 95) [0 _1->type+0 S1 A8])
+            (const_int 6 [0x6]))) "cmodules/fbgc_file.c":7:15 -1
+     (nil))
+
+(jump_insn 14 13 0 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 0)
+            (pc))) "cmodules/fbgc_file.c":7:15 -1
+     (int_list:REG_BR_PROB 474808636 (nil)))
+
+;; Generating RTL for gimple basic block 4
+
+;; if (_4 == 6)
+
+(insn 16 15 17 (set (reg/f:DI 96)
+        (mem/f:DI (plus:DI (reg/v/f:DI 93 [ arg ])
+                (const_int 8 [0x8])) [1 MEM[(struct fbgc_object * *)arg_15(D) + 8B]+0 S8 A64])) "cmodules/fbgc_file.c":7:50 -1
+     (nil))
+
+(insn 17 16 18 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem:QI (reg/f:DI 96) [0 _3->type+0 S1 A8])
+            (const_int 6 [0x6]))) "cmodules/fbgc_file.c":7:41 -1
+     (nil))
+
+(jump_insn 18 17 0 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 0)
+            (pc))) "cmodules/fbgc_file.c":7:41 -1
+     (int_list:REG_BR_PROB 662283964 (nil)))
+
+;; Generating RTL for gimple basic block 5
+
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 20 19 0 (debug_marker) "cmodules/fbgc_file.c":8:3 -1
+     (nil))
+;; so_17 = new_fbgc_cstruct_object (8, &fbgc_file_module);
+
+(insn 21 20 22 (set (reg:DI 4 si)
+        (symbol_ref:DI ("fbgc_file_module") [flags 0x2]  <var_decl 0x7f7f56ce1990 fbgc_file_module>)) "cmodules/fbgc_file.c":8:68 -1
+     (nil))
+
+(insn 22 21 23 (set (reg:SI 5 di)
+        (const_int 8 [0x8])) "cmodules/fbgc_file.c":8:68 -1
+     (nil))
+
+(call_insn 23 22 24 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("new_fbgc_cstruct_object") [flags 0x41]  <function_decl 0x7f7f56d0ca00 new_fbgc_cstruct_object>) [0 new_fbgc_cstruct_object S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_file.c":8:68 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("new_fbgc_cstruct_object") [flags 0x41]  <function_decl 0x7f7f56d0ca00 new_fbgc_cstruct_object>)
+        (nil))
+    (expr_list:SI (use (reg:SI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+
+(insn 24 23 0 (set (reg/v/f:DI 92 [ <retval> ])
+        (reg:DI 0 ax)) "cmodules/fbgc_file.c":8:68 -1
+     (nil))
+
+;; # DEBUG so => so_17
+
+(debug_insn 25 24 0 (var_location:DI so (const_int 0 [0])) "cmodules/fbgc_file.c":8:68 -1
+     (nil))
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 26 25 0 (debug_marker) "cmodules/fbgc_file.c":9:3 -1
+     (nil))
+;; fs_18 = so_17->cstruct;
+
+(insn 27 26 0 (set (reg/v/f:DI 91 [ fs ])
+        (mem/f:DI (plus:DI (reg/v/f:DI 92 [ <retval> ])
+                (const_int 21 [0x15])) [3 so_17->cstruct+0 S8 A8])) "cmodules/fbgc_file.c":9:24 -1
+     (nil))
+
+;; # DEBUG fs => fs_18
+
+(debug_insn 28 27 0 (var_location:DI fs (const_int 0 [0])) "cmodules/fbgc_file.c":9:24 -1
+     (nil))
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 29 28 0 (debug_marker) "cmodules/fbgc_file.c":11:3 -1
+     (nil))
+;; _10 = fopen (_9, _7);
+
+(insn 30 29 31 (set (reg/f:DI 98)
+        (mem/f:DI (plus:DI (reg/v/f:DI 93 [ arg ])
+                (const_int 8 [0x8])) [1 MEM[(struct fbgc_object * *)arg_15(D) + 8B]+0 S8 A64])) "cmodules/fbgc_file.c":11:50 -1
+     (nil))
+
+(insn 31 30 32 (parallel [
+            (set (reg:DI 97)
+                (plus:DI (reg/f:DI 98)
+                    (const_int 13 [0xd])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_file.c":11:50 -1
+     (expr_list:REG_EQUAL (plus:DI (mem/f:DI (plus:DI (reg/v/f:DI 93 [ arg ])
+                    (const_int 8 [0x8])) [1 MEM[(struct fbgc_object * *)arg_15(D) + 8B]+0 S8 A64])
+            (const_int 13 [0xd]))
+        (nil)))
+
+(insn 32 31 33 (set (reg/f:DI 100)
+        (mem/f:DI (reg/v/f:DI 93 [ arg ]) [1 *arg_15(D)+0 S8 A64])) "cmodules/fbgc_file.c":11:18 -1
+     (nil))
+
+(insn 33 32 34 (parallel [
+            (set (reg:DI 99)
+                (plus:DI (reg/f:DI 100)
+                    (const_int 13 [0xd])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_file.c":11:18 -1
+     (expr_list:REG_EQUAL (plus:DI (mem/f:DI (reg/v/f:DI 93 [ arg ]) [1 *arg_15(D)+0 S8 A64])
+            (const_int 13 [0xd]))
+        (nil)))
+
+(insn 34 33 35 (set (reg:DI 4 si)
+        (reg:DI 97)) "cmodules/fbgc_file.c":11:12 -1
+     (nil))
+
+(insn 35 34 36 (set (reg:DI 5 di)
+        (reg:DI 99)) "cmodules/fbgc_file.c":11:12 -1
+     (nil))
+
+(call_insn 36 35 37 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("fopen") [flags 0x41]  <function_decl 0x7f7f56b6b100 fopen>) [0 fopen S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_file.c":11:12 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("fopen") [flags 0x41]  <function_decl 0x7f7f56b6b100 fopen>)
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+
+(insn 37 36 0 (set (reg/f:DI 90 [ _10 ])
+        (reg:DI 0 ax)) "cmodules/fbgc_file.c":11:12 -1
+     (nil))
+
+;; fs_18->fp = _10;
+
+(insn 38 37 0 (set (mem/f:DI (reg/v/f:DI 91 [ fs ]) [5 fs_18->fp+0 S8 A8])
+        (reg/f:DI 90 [ _10 ])) "cmodules/fbgc_file.c":11:10 -1
+     (nil))
+
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 39 38 0 (debug_marker) "cmodules/fbgc_file.c":12:3 -1
+     (nil))
+;; if (_10 != 0B)
+
+(insn 40 39 41 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg/f:DI 90 [ _10 ])
+            (const_int 0 [0]))) "cmodules/fbgc_file.c":12:3 -1
+     (nil))
+
+(jump_insn 41 40 0 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 0)
+            (pc))) "cmodules/fbgc_file.c":12:3 -1
+     (int_list:REG_BR_PROB 1073312332 (nil)))
+
+;; Generating RTL for gimple basic block 6
+
+;; # DEBUG D#3 => arg_15(D)
+
+(debug_insn 43 42 0 (var_location:DI D#3 (const_int 0 [0])) -1
+     (nil))
+;; # DEBUG D#4 => 2
+
+(debug_insn 44 43 0 (var_location:SI D#4 (const_int 0 [0])) -1
+     (nil))
+;; # DEBUG INLINE_ENTRY fbgc_fopen
+
+(debug_insn 45 44 0 (debug_marker:BLK) "cmodules/fbgc_file.c":4:1 -1
+     (nil))
+;; # DEBUG D#6 => D#3
+
+(debug_insn 46 45 0 (var_location:DI D#6 (const_int 0 [0])) -1
+     (nil))
+;; # DEBUG arg => D#6
+
+(debug_insn 47 46 0 (var_location:DI arg (const_int 0 [0])) -1
+     (nil))
+;; # DEBUG D#5 => D#4
+
+(debug_insn 48 47 0 (var_location:SI D#5 (const_int 0 [0])) -1
+     (nil))
+;; # DEBUG argc => D#5
+
+(debug_insn 49 48 0 (var_location:SI argc (const_int 0 [0])) -1
+     (nil))
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 50 49 0 (debug_marker) "cmodules/fbgc_file.c":12:3 -1
+     (nil))
+;; __assert_fail ("fs->fp != NULL", "cmodules/fbgc_file.c", 12, &__PRETTY_FUNCTION__);
+
+(insn 51 50 52 (set (reg:DI 2 cx)
+        (symbol_ref:DI ("__PRETTY_FUNCTION__.5716") [flags 0x2]  <var_decl 0x7f7f56ce1f30 __PRETTY_FUNCTION__>)) "cmodules/fbgc_file.c":12:3 -1
+     (nil))
+
+(insn 52 51 53 (set (reg:SI 1 dx)
+        (const_int 12 [0xc])) "cmodules/fbgc_file.c":12:3 -1
+     (nil))
+
+(insn 53 52 54 (set (reg:DI 4 si)
+        (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7f7f568f91b0 *.LC0>)) "cmodules/fbgc_file.c":12:3 -1
+     (nil))
+
+(insn 54 53 55 (set (reg:DI 5 di)
+        (symbol_ref/f:DI ("*.LC6") [flags 0x2]  <var_decl 0x7f7f5693aab0 *.LC6>)) "cmodules/fbgc_file.c":12:3 -1
+     (nil))
+
+(call_insn 55 54 56 (call (mem:QI (symbol_ref:DI ("__assert_fail") [flags 0x41]  <function_decl 0x7f7f56ba1c00 __assert_fail>) [0 __assert_fail S1 A8])
+        (const_int 0 [0])) "cmodules/fbgc_file.c":12:3 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("__assert_fail") [flags 0x41]  <function_decl 0x7f7f56ba1c00 __assert_fail>)
+        (expr_list:REG_ARGS_SIZE (const_int 0 [0])
+            (expr_list:REG_NORETURN (const_int 0 [0])
+                (expr_list:REG_EH_REGION (const_int 0 [0])
+                    (nil)))))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:SI (use (reg:SI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+
+(barrier 56 55 0)
+
+;; Generating RTL for gimple basic block 7
+
+;; 
+
+(code_label 57 56 58 37 (nil) [0 uses])
+
+(note 58 57 0 NOTE_INSN_BASIC_BLOCK)
+
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 59 58 0 (debug_marker) "cmodules/fbgc_file.c":17:3 -1
+     (nil))
+;; cprintf (100, "fopen takes exactly two arguments!\n");
+
+(insn 60 59 61 (set (reg:DI 4 si)
+        (symbol_ref/f:DI ("*.LC7") [flags 0x2]  <var_decl 0x7f7f5693ab40 *.LC7>)) "cmodules/fbgc_file.c":17:3 -1
+     (nil))
+
+(insn 61 60 62 (set (reg:SI 5 di)
+        (const_int 100 [0x64])) "cmodules/fbgc_file.c":17:3 -1
+     (nil))
+
+(insn 62 61 63 (set (reg:QI 0 ax)
+        (const_int 0 [0])) "cmodules/fbgc_file.c":17:3 -1
+     (nil))
+
+(call_insn 63 62 0 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("cprintf") [flags 0x41]  <function_decl 0x7f7f56cd6d00 cprintf>) [0 cprintf S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_file.c":17:3 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("cprintf") [flags 0x41]  <function_decl 0x7f7f56cd6d00 cprintf>)
+        (nil))
+    (expr_list (use (reg:QI 0 ax))
+        (expr_list:SI (use (reg:SI 5 di))
+            (expr_list:DI (use (reg:DI 4 si))
+                (nil)))))
+
+;; # DEBUG BEGIN_STMT
+
+(debug_insn 64 63 0 (debug_marker) "cmodules/fbgc_file.c":20:2 -1
+     (nil))
+;; Generating RTL for gimple basic block 8
+
+;; 
+
+(code_label 65 64 66 38 (nil) [0 uses])
+
+(note 66 65 0 NOTE_INSN_BASIC_BLOCK)
+
+;; return _12;
+
+(jump_insn 67 66 68 (set (pc)
+        (label_ref 0)) -1
+     (nil))
+
+(barrier 68 67 0)
+
+
+try_optimize_cfg iteration 1
+
+Merging block 3 into block 2...
+Merged blocks 2 and 3.
+Merged 2 and 3 without moving.
+Edge 6->9 redirected to 10
+Merging block 9 into block 8...
+Merged blocks 8 and 9.
+Merged 8 and 9 without moving.
+Removing jump 67.
+
+
+try_optimize_cfg iteration 2
+
+fix_loop_structure: fixing up loops for function
+
+
+;;
+;; Full RTL generated for this function:
+;;
+(note 1 0 6 NOTE_INSN_DELETED)
+;; basic block 2, loop depth 0, count 1073741824 (estimated locally), maybe hot
+;;  prev block 0, next block 4, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       ENTRY [always]  count:1073741824 (estimated locally) (FALLTHRU)
+(note 6 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 6 3 2 (set (reg/v/f:DI 93 [ arg ])
+        (reg:DI 5 di [ arg ])) "cmodules/fbgc_file.c":5:1 -1
+     (nil))
+(insn 3 2 4 2 (set (reg/v:SI 94 [ argc ])
+        (reg:SI 4 si [ argc ])) "cmodules/fbgc_file.c":5:1 -1
+     (nil))
+(note 4 3 8 2 NOTE_INSN_FUNCTION_BEG)
+(debug_insn 8 4 9 2 (debug_marker) "cmodules/fbgc_file.c":7:2 -1
+     (nil))
+(insn 9 8 10 2 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg/v:SI 94 [ argc ])
+            (const_int 2 [0x2]))) "cmodules/fbgc_file.c":7:4 -1
+     (nil))
+(jump_insn 10 9 11 2 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 57)
+            (pc))) "cmodules/fbgc_file.c":7:4 -1
+     (int_list:REG_BR_PROB 301614084 (nil))
+ -> 57)
+;;  succ:       4 [71.9% (guessed)]  count:772127744 (estimated locally) (FALLTHRU)
+;;              8 [28.1% (guessed)]  count:301614080 (estimated locally)
+
+;; basic block 4, loop depth 0, count 772127746 (estimated locally), maybe hot
+;;  prev block 2, next block 5, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       2 [71.9% (guessed)]  count:772127744 (estimated locally) (FALLTHRU)
+(note 11 10 12 4 [bb 4] NOTE_INSN_BASIC_BLOCK)
+(insn 12 11 13 4 (set (reg/f:DI 95)
+        (mem/f:DI (reg/v/f:DI 93 [ arg ]) [1 *arg_15(D)+0 S8 A64])) "cmodules/fbgc_file.c":7:24 -1
+     (nil))
+(insn 13 12 14 4 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem:QI (reg/f:DI 95) [0 _1->type+0 S1 A8])
+            (const_int 6 [0x6]))) "cmodules/fbgc_file.c":7:15 -1
+     (nil))
+(jump_insn 14 13 15 4 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 57)
+            (pc))) "cmodules/fbgc_file.c":7:15 -1
+     (int_list:REG_BR_PROB 474808636 (nil))
+ -> 57)
+;;  succ:       5 [55.8% (guessed)]  count:430692859 (estimated locally) (FALLTHRU)
+;;              8 [44.2% (guessed)]  count:341434887 (estimated locally)
+
+;; basic block 5, loop depth 0, count 430692856 (estimated locally), maybe hot
+;;  prev block 4, next block 6, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       4 [55.8% (guessed)]  count:430692859 (estimated locally) (FALLTHRU)
+(note 15 14 16 5 [bb 5] NOTE_INSN_BASIC_BLOCK)
+(insn 16 15 17 5 (set (reg/f:DI 96)
+        (mem/f:DI (plus:DI (reg/v/f:DI 93 [ arg ])
+                (const_int 8 [0x8])) [1 MEM[(struct fbgc_object * *)arg_15(D) + 8B]+0 S8 A64])) "cmodules/fbgc_file.c":7:50 -1
+     (nil))
+(insn 17 16 18 5 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem:QI (reg/f:DI 96) [0 _3->type+0 S1 A8])
+            (const_int 6 [0x6]))) "cmodules/fbgc_file.c":7:41 -1
+     (nil))
+(jump_insn 18 17 19 5 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 57)
+            (pc))) "cmodules/fbgc_file.c":7:41 -1
+     (int_list:REG_BR_PROB 662283964 (nil))
+ -> 57)
+;;  succ:       6 [38.3% (guessed)]  count:165041501 (estimated locally) (FALLTHRU)
+;;              8 [61.7% (guessed)]  count:265651355 (estimated locally)
+
+;; basic block 6, loop depth 0, count 165041502 (estimated locally), maybe hot
+;;  prev block 5, next block 7, flags: (NEW, REACHABLE, RTL, MODIFIED, VISITED)
+;;  pred:       5 [38.3% (guessed)]  count:165041501 (estimated locally) (FALLTHRU)
+(note 19 18 20 6 [bb 6] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 20 19 21 6 (debug_marker) "cmodules/fbgc_file.c":8:3 -1
+     (nil))
+(insn 21 20 22 6 (set (reg:DI 4 si)
+        (symbol_ref:DI ("fbgc_file_module") [flags 0x2]  <var_decl 0x7f7f56ce1990 fbgc_file_module>)) "cmodules/fbgc_file.c":8:68 -1
+     (nil))
+(insn 22 21 23 6 (set (reg:SI 5 di)
+        (const_int 8 [0x8])) "cmodules/fbgc_file.c":8:68 -1
+     (nil))
+(call_insn 23 22 24 6 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("new_fbgc_cstruct_object") [flags 0x41]  <function_decl 0x7f7f56d0ca00 new_fbgc_cstruct_object>) [0 new_fbgc_cstruct_object S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_file.c":8:68 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("new_fbgc_cstruct_object") [flags 0x41]  <function_decl 0x7f7f56d0ca00 new_fbgc_cstruct_object>)
+        (nil))
+    (expr_list:SI (use (reg:SI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+(insn 24 23 25 6 (set (reg/v/f:DI 92 [ <retval> ])
+        (reg:DI 0 ax)) "cmodules/fbgc_file.c":8:68 -1
+     (nil))
+(debug_insn 25 24 26 6 (var_location:DI so (reg/v/f:DI 92 [ <retval> ])) "cmodules/fbgc_file.c":8:68 -1
+     (nil))
+(debug_insn 26 25 27 6 (debug_marker) "cmodules/fbgc_file.c":9:3 -1
+     (nil))
+(insn 27 26 28 6 (set (reg/v/f:DI 91 [ fs ])
+        (mem/f:DI (plus:DI (reg/v/f:DI 92 [ <retval> ])
+                (const_int 21 [0x15])) [3 so_17->cstruct+0 S8 A8])) "cmodules/fbgc_file.c":9:24 -1
+     (nil))
+(debug_insn 28 27 29 6 (var_location:DI fs (reg/v/f:DI 91 [ fs ])) "cmodules/fbgc_file.c":9:24 -1
+     (nil))
+(debug_insn 29 28 30 6 (debug_marker) "cmodules/fbgc_file.c":11:3 -1
+     (nil))
+(insn 30 29 31 6 (set (reg/f:DI 98)
+        (mem/f:DI (plus:DI (reg/v/f:DI 93 [ arg ])
+                (const_int 8 [0x8])) [1 MEM[(struct fbgc_object * *)arg_15(D) + 8B]+0 S8 A64])) "cmodules/fbgc_file.c":11:50 -1
+     (nil))
+(insn 31 30 32 6 (parallel [
+            (set (reg:DI 97)
+                (plus:DI (reg/f:DI 98)
+                    (const_int 13 [0xd])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_file.c":11:50 -1
+     (expr_list:REG_EQUAL (plus:DI (mem/f:DI (plus:DI (reg/v/f:DI 93 [ arg ])
+                    (const_int 8 [0x8])) [1 MEM[(struct fbgc_object * *)arg_15(D) + 8B]+0 S8 A64])
+            (const_int 13 [0xd]))
+        (nil)))
+(insn 32 31 33 6 (set (reg/f:DI 100)
+        (mem/f:DI (reg/v/f:DI 93 [ arg ]) [1 *arg_15(D)+0 S8 A64])) "cmodules/fbgc_file.c":11:18 -1
+     (nil))
+(insn 33 32 34 6 (parallel [
+            (set (reg:DI 99)
+                (plus:DI (reg/f:DI 100)
+                    (const_int 13 [0xd])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_file.c":11:18 -1
+     (expr_list:REG_EQUAL (plus:DI (mem/f:DI (reg/v/f:DI 93 [ arg ]) [1 *arg_15(D)+0 S8 A64])
+            (const_int 13 [0xd]))
+        (nil)))
+(insn 34 33 35 6 (set (reg:DI 4 si)
+        (reg:DI 97)) "cmodules/fbgc_file.c":11:12 -1
+     (nil))
+(insn 35 34 36 6 (set (reg:DI 5 di)
+        (reg:DI 99)) "cmodules/fbgc_file.c":11:12 -1
+     (nil))
+(call_insn 36 35 37 6 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("fopen") [flags 0x41]  <function_decl 0x7f7f56b6b100 fopen>) [0 fopen S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_file.c":11:12 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("fopen") [flags 0x41]  <function_decl 0x7f7f56b6b100 fopen>)
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+(insn 37 36 38 6 (set (reg/f:DI 90 [ _10 ])
+        (reg:DI 0 ax)) "cmodules/fbgc_file.c":11:12 -1
+     (nil))
+(insn 38 37 39 6 (set (mem/f:DI (reg/v/f:DI 91 [ fs ]) [5 fs_18->fp+0 S8 A8])
+        (reg/f:DI 90 [ _10 ])) "cmodules/fbgc_file.c":11:10 -1
+     (nil))
+(debug_insn 39 38 40 6 (debug_marker) "cmodules/fbgc_file.c":12:3 -1
+     (nil))
+(insn 40 39 41 6 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg/f:DI 90 [ _10 ])
+            (const_int 0 [0]))) "cmodules/fbgc_file.c":12:3 -1
+     (nil))
+(jump_insn 41 40 42 6 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref:DI 69)
+            (pc))) "cmodules/fbgc_file.c":12:3 659 {*jcc}
+     (int_list:REG_BR_PROB 1073312332 (nil))
+ -> 69)
+;;  succ:       10 [100.0% (guessed)]  count:164975486 (estimated locally)
+;;              7 [0.0% (guessed)]  count:66016 (estimated locally) (FALLTHRU)
+
+;; basic block 7, loop depth 0, count 66017 (estimated locally)
+;;  prev block 6, next block 8, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       6 [0.0% (guessed)]  count:66016 (estimated locally) (FALLTHRU)
+(note 42 41 43 7 [bb 7] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 43 42 44 7 (var_location:DI D#3 (reg/v/f:DI 93 [ arg ])) -1
+     (nil))
+(debug_insn 44 43 45 7 (var_location:SI D#4 (const_int 2 [0x2])) -1
+     (nil))
+(debug_insn 45 44 46 7 (debug_marker:BLK) "cmodules/fbgc_file.c":4:1 -1
+     (nil))
+(debug_insn 46 45 47 7 (var_location:DI D#6 (debug_expr:DI D#3)) -1
+     (nil))
+(debug_insn 47 46 48 7 (var_location:DI arg (debug_expr:DI D#6)) -1
+     (nil))
+(debug_insn 48 47 49 7 (var_location:SI D#5 (debug_expr:SI D#4)) -1
+     (nil))
+(debug_insn 49 48 50 7 (var_location:SI argc (debug_expr:SI D#5)) -1
+     (nil))
+(debug_insn 50 49 51 7 (debug_marker) "cmodules/fbgc_file.c":12:3 -1
+     (nil))
+(insn 51 50 52 7 (set (reg:DI 2 cx)
+        (symbol_ref:DI ("__PRETTY_FUNCTION__.5716") [flags 0x2]  <var_decl 0x7f7f56ce1f30 __PRETTY_FUNCTION__>)) "cmodules/fbgc_file.c":12:3 -1
+     (nil))
+(insn 52 51 53 7 (set (reg:SI 1 dx)
+        (const_int 12 [0xc])) "cmodules/fbgc_file.c":12:3 -1
+     (nil))
+(insn 53 52 54 7 (set (reg:DI 4 si)
+        (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7f7f568f91b0 *.LC0>)) "cmodules/fbgc_file.c":12:3 -1
+     (nil))
+(insn 54 53 55 7 (set (reg:DI 5 di)
+        (symbol_ref/f:DI ("*.LC6") [flags 0x2]  <var_decl 0x7f7f5693aab0 *.LC6>)) "cmodules/fbgc_file.c":12:3 -1
+     (nil))
+(call_insn 55 54 56 7 (call (mem:QI (symbol_ref:DI ("__assert_fail") [flags 0x41]  <function_decl 0x7f7f56ba1c00 __assert_fail>) [0 __assert_fail S1 A8])
+        (const_int 0 [0])) "cmodules/fbgc_file.c":12:3 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("__assert_fail") [flags 0x41]  <function_decl 0x7f7f56ba1c00 __assert_fail>)
+        (expr_list:REG_ARGS_SIZE (const_int 0 [0])
+            (expr_list:REG_NORETURN (const_int 0 [0])
+                (expr_list:REG_EH_REGION (const_int 0 [0])
+                    (nil)))))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:SI (use (reg:SI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+;;  succ:      
+
+(barrier 56 55 57)
+;; basic block 8, loop depth 0, count 908700323 (estimated locally), maybe hot
+;;  prev block 7, next block 10, flags: (NEW, REACHABLE, RTL, MODIFIED, VISITED)
+;;  pred:       4 [44.2% (guessed)]  count:341434887 (estimated locally)
+;;              2 [28.1% (guessed)]  count:301614080 (estimated locally)
+;;              5 [61.7% (guessed)]  count:265651355 (estimated locally)
+(code_label 57 56 58 8 37 (nil) [3 uses])
+(note 58 57 59 8 [bb 8] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 59 58 60 8 (debug_marker) "cmodules/fbgc_file.c":17:3 -1
+     (nil))
+(insn 60 59 61 8 (set (reg:DI 4 si)
+        (symbol_ref/f:DI ("*.LC7") [flags 0x2]  <var_decl 0x7f7f5693ab40 *.LC7>)) "cmodules/fbgc_file.c":17:3 -1
+     (nil))
+(insn 61 60 62 8 (set (reg:SI 5 di)
+        (const_int 100 [0x64])) "cmodules/fbgc_file.c":17:3 -1
+     (nil))
+(insn 62 61 63 8 (set (reg:QI 0 ax)
+        (const_int 0 [0])) "cmodules/fbgc_file.c":17:3 -1
+     (nil))
+(call_insn 63 62 64 8 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("cprintf") [flags 0x41]  <function_decl 0x7f7f56cd6d00 cprintf>) [0 cprintf S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_file.c":17:3 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("cprintf") [flags 0x41]  <function_decl 0x7f7f56cd6d00 cprintf>)
+        (nil))
+    (expr_list (use (reg:QI 0 ax))
+        (expr_list:SI (use (reg:SI 5 di))
+            (expr_list:DI (use (reg:DI 4 si))
+                (nil)))))
+(debug_insn 64 63 5 8 (debug_marker) "cmodules/fbgc_file.c":20:2 -1
+     (nil))
+(insn 5 64 69 8 (set (reg/v/f:DI 92 [ <retval> ])
+        (const_int 0 [0])) "cmodules/fbgc_file.c":20:9 -1
+     (nil))
+;;  succ:       10 [always]  count:908700323 (estimated locally) (FALLTHRU)
+
+;; basic block 10, loop depth 0, count 1073675807 (estimated locally), maybe hot
+;;  prev block 8, next block 1, flags: (NEW, REACHABLE, RTL)
+;;  pred:       8 [always]  count:908700323 (estimated locally) (FALLTHRU)
+;;              6 [100.0% (guessed)]  count:164975486 (estimated locally)
+(code_label 69 5 72 10 36 (nil) [1 uses])
+(note 72 69 70 10 [bb 10] NOTE_INSN_BASIC_BLOCK)
+(insn 70 72 71 10 (set (reg/i:DI 0 ax)
+        (reg/v/f:DI 92 [ <retval> ])) "cmodules/fbgc_file.c":21:1 -1
+     (nil))
+(insn 71 70 0 10 (use (reg/i:DI 0 ax)) "cmodules/fbgc_file.c":21:1 -1
+     (nil))
+;;  succ:       EXIT [always]  count:1073675807 (estimated locally) (FALLTHRU)
+

@@ -1,0 +1,515 @@
+
+;; Function fbgc_print (fbgc_print, funcdef_no=6, decl_uid=5268, cgraph_uid=7, symbol_order=9)
+
+verify found no changes in insn with uid = 17.
+verify found no changes in insn with uid = 21.
+verify found no changes in insn with uid = 33.
+
+
+fbgc_print
+
+Dataflow summary:
+;;  invalidated by call 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 8 [st] 9 [st(1)] 10 [st(2)] 11 [st(3)] 12 [st(4)] 13 [st(5)] 14 [st(6)] 15 [st(7)] 17 [flags] 18 [fpsr] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 28 [mm0] 29 [mm1] 30 [mm2] 31 [mm3] 32 [mm4] 33 [mm5] 34 [mm6] 35 [mm7] 36 [r8] 37 [r9] 38 [r10] 39 [r11] 44 [xmm8] 45 [xmm9] 46 [xmm10] 47 [xmm11] 48 [xmm12] 49 [xmm13] 50 [xmm14] 51 [xmm15] 52 [] 53 [] 54 [] 55 [] 56 [] 57 [] 58 [] 59 [] 60 [] 61 [] 62 [] 63 [] 64 [] 65 [] 66 [] 67 [] 68 [] 69 [] 70 [] 71 [] 72 [] 73 [] 74 [] 75 []
+;;  hardware regs used 	
+;;  regular block artificial uses 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;;  eh block artificial uses 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;;  entry block defs 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 36 [r8] 37 [r9]
+;;  exit block uses 	 0 [ax] 6 [bp] 7 [sp] 19 [frame]
+;;  regs ever live 	 0 [ax] 4 [si] 5 [di] 7 [sp] 17 [flags]
+;;  ref usage 	r0={5d,2u} r1={4d} r2={4d} r4={6d,3u} r5={7d,4u} r6={1d,5u} r7={1d,8u} r8={3d} r9={3d} r10={3d} r11={3d} r12={3d} r13={3d} r14={3d} r15={3d} r16={1d,4u} r17={7d,1u} r18={3d} r19={1d,14u,1e} r20={4d} r21={4d} r22={4d} r23={4d} r24={4d} r25={4d} r26={4d} r27={4d} r28={3d} r29={3d} r30={3d} r31={3d} r32={3d} r33={3d} r34={3d} r35={3d} r36={4d} r37={4d} r38={3d} r39={3d} r44={3d} r45={3d} r46={3d} r47={3d} r48={3d} r49={3d} r50={3d} r51={3d} r52={3d} r53={3d} r54={3d} r55={3d} r56={3d} r57={3d} r58={3d} r59={3d} r60={3d} r61={3d} r62={3d} r63={3d} r64={3d} r65={3d} r66={3d} r67={3d} r68={3d} r69={3d} r70={3d} r71={3d} r72={3d} r73={3d} r74={3d} r75={3d} r82={1d,1u} r83={1d,1u,1e} r84={1d,1u} r85={1d,1u} r86={1d,1u} r87={1d,1u} r88={1d,1u} r89={1d,1u} r90={1d,1u} r91={1d,1u} 
+;;    total ref usage 293{240d,51u,2e} in 27{24 regular + 3 call} insns.
+(note 1 0 5 NOTE_INSN_DELETED)
+;; basic block 2, loop depth 0, maybe hot
+;;  prev block 0, next block 3, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       ENTRY (FALLTHRU)
+;; bb 2 artificial_defs: { }
+;; bb 2 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 5 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 5 3 2 (set (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -24 [0xffffffffffffffe8])) [11 arg+0 S8 A64])
+        (reg:DI 5 di [ arg ])) "cmodules/fbgc_io.c":17:1 66 {*movdi_internal}
+     (nil))
+(insn 3 2 4 2 (set (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -28 [0xffffffffffffffe4])) [3 argc+0 S4 A32])
+        (reg:SI 4 si [ argc ])) "cmodules/fbgc_io.c":17:1 67 {*movsi_internal}
+     (nil))
+(note 4 3 7 2 NOTE_INSN_FUNCTION_BEG)
+(insn 7 4 44 2 (set (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -4 [0xfffffffffffffffc])) [3 i+0 S4 A32])
+        (const_int 0 [0])) "cmodules/fbgc_io.c":19:13 67 {*movsi_internal}
+     (nil))
+(jump_insn 44 7 45 2 (set (pc)
+        (label_ref 23)) "cmodules/fbgc_io.c":19:2 -1
+     (nil)
+ -> 23)
+;;  succ:       4 [always] 
+
+(barrier 45 44 26)
+;; basic block 3, loop depth 0, maybe hot
+;;  prev block 2, next block 4, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       4
+;; bb 3 artificial_defs: { }
+;; bb 3 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 26 45 10 3 3 (nil) [1 uses])
+(note 10 26 11 3 [bb 3] NOTE_INSN_BASIC_BLOCK)
+(insn 11 10 12 3 (set (reg:DI 82 [ _1 ])
+        (zero_extend:DI (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -4 [0xfffffffffffffffc])) [3 i+0 S4 A32]))) "cmodules/fbgc_io.c":20:25 114 {*zero_extendsidi2}
+     (nil))
+(insn 12 11 13 3 (parallel [
+            (set (reg:DI 83 [ _2 ])
+                (ashift:DI (reg:DI 82 [ _1 ])
+                    (const_int 3 [0x3])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_io.c":20:25 520 {*ashldi3_1}
+     (nil))
+(insn 13 12 14 3 (set (reg/f:DI 91)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -24 [0xffffffffffffffe8])) [11 arg+0 S8 A64])) "cmodules/fbgc_io.c":20:25 66 {*movdi_internal}
+     (nil))
+(insn 14 13 15 3 (parallel [
+            (set (reg/f:DI 84 [ _3 ])
+                (plus:DI (reg:DI 83 [ _2 ])
+                    (reg/f:DI 91)))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_io.c":20:25 191 {*adddi_1}
+     (expr_list:REG_EQUAL (plus:DI (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -24 [0xffffffffffffffe8])) [11 arg+0 S8 A64])
+            (reg:DI 83 [ _2 ]))
+        (nil)))
+(insn 15 14 16 3 (set (reg/f:DI 85 [ _4 ])
+        (mem/f:DI (reg/f:DI 84 [ _3 ]) [6 *_3+0 S8 A64])) "cmodules/fbgc_io.c":20:3 66 {*movdi_internal}
+     (nil))
+(insn 16 15 17 3 (set (reg:DI 5 di)
+        (reg/f:DI 85 [ _4 ])) "cmodules/fbgc_io.c":20:3 66 {*movdi_internal}
+     (nil))
+(call_insn 17 16 18 3 (call (mem:QI (symbol_ref:DI ("printf_fbgc_object") [flags 0x41]  <function_decl 0x7f8148df6500 printf_fbgc_object>) [0 printf_fbgc_object S1 A8])
+        (const_int 0 [0])) "cmodules/fbgc_io.c":20:3 666 {*call}
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(insn 18 17 19 3 (set (reg/f:DI 86 [ stdout.0_5 ])
+        (mem/f/c:DI (symbol_ref:DI ("stdout") [flags 0x40]  <var_decl 0x7f814a9b2cf0 stdout>) [12 stdout+0 S8 A64])) "cmodules/fbgc_io.c":21:3 66 {*movdi_internal}
+     (nil))
+(insn 19 18 20 3 (set (reg:DI 4 si)
+        (reg/f:DI 86 [ stdout.0_5 ])) "cmodules/fbgc_io.c":21:3 66 {*movdi_internal}
+     (nil))
+(insn 20 19 21 3 (set (reg:SI 5 di)
+        (const_int 32 [0x20])) "cmodules/fbgc_io.c":21:3 67 {*movsi_internal}
+     (nil))
+(call_insn 21 20 22 3 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("fputc") [flags 0x41]  <function_decl 0x7f8148f4bb00 __builtin_fputc>) [0 __builtin_fputc S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_io.c":21:3 677 {*call_value}
+     (nil)
+    (expr_list:SI (use (reg:SI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+(insn 22 21 23 3 (parallel [
+            (set (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                        (const_int -4 [0xfffffffffffffffc])) [3 i+0 S4 A32])
+                (plus:SI (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                            (const_int -4 [0xfffffffffffffffc])) [3 i+0 S4 A32])
+                    (const_int 1 [0x1])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_io.c":19:28 190 {*addsi_1}
+     (nil))
+;;  succ:       4 (FALLTHRU,DFS_BACK)
+
+;; basic block 4, loop depth 0, maybe hot
+;;  prev block 3, next block 5, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       3 (FALLTHRU,DFS_BACK)
+;;              2 [always] 
+;; bb 4 artificial_defs: { }
+;; bb 4 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 23 22 24 4 2 (nil) [1 uses])
+(note 24 23 25 4 [bb 4] NOTE_INSN_BASIC_BLOCK)
+(insn 25 24 27 4 (set (reg:SI 87 [ argc.1_6 ])
+        (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -28 [0xffffffffffffffe4])) [3 argc+0 S4 A32])) "cmodules/fbgc_io.c":19:21 67 {*movsi_internal}
+     (nil))
+(insn 27 25 28 4 (set (reg:CC 17 flags)
+        (compare:CC (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -4 [0xfffffffffffffffc])) [3 i+0 S4 A32])
+            (reg:SI 87 [ argc.1_6 ]))) "cmodules/fbgc_io.c":19:2 11 {*cmpsi_1}
+     (nil))
+(jump_insn 28 27 29 4 (set (pc)
+        (if_then_else (ltu (reg:CC 17 flags)
+                (const_int 0 [0]))
+            (label_ref 26)
+            (pc))) "cmodules/fbgc_io.c":19:2 659 {*jcc}
+     (nil)
+ -> 26)
+;;  succ:       3
+;;              5 (FALLTHRU)
+
+;; basic block 5, loop depth 0, maybe hot
+;;  prev block 4, next block 1, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       4 (FALLTHRU)
+;; bb 5 artificial_defs: { }
+;; bb 5 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 29 28 30 5 [bb 5] NOTE_INSN_BASIC_BLOCK)
+(insn 30 29 31 5 (set (reg/f:DI 88 [ stdout.2_7 ])
+        (mem/f/c:DI (symbol_ref:DI ("stdout") [flags 0x40]  <var_decl 0x7f814a9b2cf0 stdout>) [12 stdout+0 S8 A64])) "cmodules/fbgc_io.c":23:2 66 {*movdi_internal}
+     (nil))
+(insn 31 30 32 5 (set (reg:DI 4 si)
+        (reg/f:DI 88 [ stdout.2_7 ])) "cmodules/fbgc_io.c":23:2 66 {*movdi_internal}
+     (nil))
+(insn 32 31 33 5 (set (reg:SI 5 di)
+        (const_int 10 [0xa])) "cmodules/fbgc_io.c":23:2 67 {*movsi_internal}
+     (nil))
+(call_insn 33 32 34 5 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("fputc") [flags 0x41]  <function_decl 0x7f8148f4bb00 __builtin_fputc>) [0 __builtin_fputc S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_io.c":23:2 677 {*call_value}
+     (nil)
+    (expr_list:SI (use (reg:SI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+(insn 34 33 37 5 (set (reg/f:DI 89 [ _14 ])
+        (const_int 0 [0])) "cmodules/fbgc_io.c":25:9 66 {*movdi_internal}
+     (nil))
+(insn 37 34 41 5 (set (reg/f:DI 90 [ <retval> ])
+        (reg/f:DI 89 [ _14 ])) "cmodules/fbgc_io.c":25:9 66 {*movdi_internal}
+     (nil))
+(insn 41 37 42 5 (set (reg/i:DI 0 ax)
+        (reg/f:DI 90 [ <retval> ])) "cmodules/fbgc_io.c":26:1 66 {*movdi_internal}
+     (nil))
+(insn 42 41 0 5 (use (reg/i:DI 0 ax)) "cmodules/fbgc_io.c":26:1 -1
+     (nil))
+;;  succ:       EXIT [always]  (FALLTHRU)
+
+
+;; Function fbgc_read (fbgc_read, funcdef_no=7, decl_uid=5272, cgraph_uid=8, symbol_order=11)
+
+verify found no changes in insn with uid = 17.
+verify found no changes in insn with uid = 24.
+verify found no changes in insn with uid = 29.
+verify found no changes in insn with uid = 38.
+verify found no changes in insn with uid = 44.
+verify found no changes in insn with uid = 49.
+verify found no changes in insn with uid = 59.
+
+
+fbgc_read
+
+Dataflow summary:
+;;  invalidated by call 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 8 [st] 9 [st(1)] 10 [st(2)] 11 [st(3)] 12 [st(4)] 13 [st(5)] 14 [st(6)] 15 [st(7)] 17 [flags] 18 [fpsr] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 28 [mm0] 29 [mm1] 30 [mm2] 31 [mm3] 32 [mm4] 33 [mm5] 34 [mm6] 35 [mm7] 36 [r8] 37 [r9] 38 [r10] 39 [r11] 44 [xmm8] 45 [xmm9] 46 [xmm10] 47 [xmm11] 48 [xmm12] 49 [xmm13] 50 [xmm14] 51 [xmm15] 52 [] 53 [] 54 [] 55 [] 56 [] 57 [] 58 [] 59 [] 60 [] 61 [] 62 [] 63 [] 64 [] 65 [] 66 [] 67 [] 68 [] 69 [] 70 [] 71 [] 72 [] 73 [] 74 [] 75 []
+;;  hardware regs used 	
+;;  regular block artificial uses 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;;  eh block artificial uses 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;;  entry block defs 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 36 [r8] 37 [r9]
+;;  exit block uses 	 0 [ax] 6 [bp] 7 [sp] 19 [frame]
+;;  regs ever live 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 7 [sp] 17 [flags]
+;;  ref usage 	r0={10d,5u} r1={10d,2u} r2={10d,2u} r4={11d,4u} r5={14d,7u} r6={1d,8u} r7={1d,15u} r8={7d} r9={7d} r10={7d} r11={7d} r12={7d} r13={7d} r14={7d} r15={7d} r16={1d,7u} r17={12d,3u} r18={7d} r19={1d,19u} r20={8d} r21={8d} r22={8d} r23={8d} r24={8d} r25={8d} r26={8d} r27={8d} r28={7d} r29={7d} r30={7d} r31={7d} r32={7d} r33={7d} r34={7d} r35={7d} r36={8d} r37={8d} r38={7d} r39={7d} r44={7d} r45={7d} r46={7d} r47={7d} r48={7d} r49={7d} r50={7d} r51={7d} r52={7d} r53={7d} r54={7d} r55={7d} r56={7d} r57={7d} r58={7d} r59={7d} r60={7d} r61={7d} r62={7d} r63={7d} r64={7d} r65={7d} r66={7d} r67={7d} r68={7d} r69={7d} r70={7d} r71={7d} r72={7d} r73={7d} r74={7d} r75={7d} r82={1d,1u} r83={1d,1u} r84={1d,1u} r85={1d,1u} r86={1d,1u} r87={1d,1u} r88={1d,1u} r89={1d,1u} r90={1d,1u} 
+;;    total ref usage 598{517d,81u,0e} in 42{35 regular + 7 call} insns.
+(note 1 0 6 NOTE_INSN_DELETED)
+;; basic block 2, loop depth 0, maybe hot
+;;  prev block 0, next block 3, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       ENTRY (FALLTHRU)
+;; bb 2 artificial_defs: { }
+;; bb 2 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 6 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 6 3 2 (set (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -40 [0xffffffffffffffd8])) [11 arg+0 S8 A64])
+        (reg:DI 5 di [ arg ])) "cmodules/fbgc_io.c":28:37 66 {*movdi_internal}
+     (nil))
+(insn 3 2 4 2 (set (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -44 [0xffffffffffffffd4])) [3 argc+0 S4 A32])
+        (reg:SI 4 si [ argc ])) "cmodules/fbgc_io.c":28:37 67 {*movsi_internal}
+     (nil))
+(note 4 3 5 2 NOTE_INSN_FUNCTION_BEG)
+(insn 5 4 10 2 (parallel [
+            (set (mem/v/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                        (const_int -8 [0xfffffffffffffff8])) [2 D.5317+0 S8 A64])
+                (unspec:DI [
+                        (mem/v/f:DI (const_int 40 [0x28]) [0 MEM[(<address-space-1> long unsigned int *)40B]+0 S8 A64 AS1])
+                    ] UNSPEC_SP_SET))
+            (set (scratch:DI)
+                (const_int 0 [0]))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_io.c":28:37 976 {stack_protect_set_di}
+     (nil))
+(insn 10 5 11 2 (set (reg:CCNO 17 flags)
+        (compare:CCNO (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -44 [0xffffffffffffffd4])) [3 argc+0 S4 A32])
+            (const_int 0 [0]))) "cmodules/fbgc_io.c":30:2 7 {*cmpsi_ccno_1}
+     (nil))
+(jump_insn 11 10 12 2 (set (pc)
+        (if_then_else (gt (reg:CCNO 17 flags)
+                (const_int 0 [0]))
+            (label_ref 19)
+            (pc))) "cmodules/fbgc_io.c":30:2 659 {*jcc}
+     (nil)
+ -> 19)
+;;  succ:       4
+;;              3 (FALLTHRU)
+
+;; basic block 3, loop depth 0, maybe hot
+;;  prev block 2, next block 4, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       2 (FALLTHRU)
+;; bb 3 artificial_defs: { }
+;; bb 3 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 12 11 13 3 [bb 3] NOTE_INSN_BASIC_BLOCK)
+(insn 13 12 14 3 (set (reg:DI 2 cx)
+        (symbol_ref:DI ("__PRETTY_FUNCTION__.5288") [flags 0x2]  <var_decl 0x7f8148e3b6c0 __PRETTY_FUNCTION__>)) "cmodules/fbgc_io.c":30:2 66 {*movdi_internal}
+     (nil))
+(insn 14 13 15 3 (set (reg:SI 1 dx)
+        (const_int 30 [0x1e])) "cmodules/fbgc_io.c":30:2 67 {*movsi_internal}
+     (nil))
+(insn 15 14 16 3 (set (reg:DI 4 si)
+        (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0x7f8148e53a20 *.LC2>)) "cmodules/fbgc_io.c":30:2 66 {*movdi_internal}
+     (nil))
+(insn 16 15 17 3 (set (reg:DI 5 di)
+        (symbol_ref/f:DI ("*.LC3") [flags 0x2]  <var_decl 0x7f8148e53ab0 *.LC3>)) "cmodules/fbgc_io.c":30:2 66 {*movdi_internal}
+     (nil))
+(call_insn 17 16 18 3 (call (mem:QI (symbol_ref:DI ("__assert_fail") [flags 0x41]  <function_decl 0x7f8148cc2400 __assert_fail>) [0 __assert_fail S1 A8])
+        (const_int 0 [0])) "cmodules/fbgc_io.c":30:2 666 {*call}
+     (expr_list:REG_ARGS_SIZE (const_int 0 [0])
+        (expr_list:REG_NORETURN (const_int 0 [0])
+            (expr_list:REG_EH_REGION (const_int 0 [0])
+                (nil))))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:SI (use (reg:SI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+;;  succ:      
+
+(barrier 18 17 19)
+;; basic block 4, loop depth 0, maybe hot
+;;  prev block 3, next block 5, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       2
+;; bb 4 artificial_defs: { }
+;; bb 4 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 19 18 20 4 6 (nil) [1 uses])
+(note 20 19 21 4 [bb 4] NOTE_INSN_BASIC_BLOCK)
+(insn 21 20 22 4 (set (reg/f:DI 88)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -40 [0xffffffffffffffd8])) [11 arg+0 S8 A64])) "cmodules/fbgc_io.c":32:2 66 {*movdi_internal}
+     (nil))
+(insn 22 21 23 4 (set (reg/f:DI 82 [ _1 ])
+        (mem/f:DI (reg/f:DI 88) [6 *arg_8(D)+0 S8 A64])) "cmodules/fbgc_io.c":32:2 66 {*movdi_internal}
+     (nil))
+(insn 23 22 24 4 (set (reg:DI 5 di)
+        (reg/f:DI 82 [ _1 ])) "cmodules/fbgc_io.c":32:2 66 {*movdi_internal}
+     (nil))
+(call_insn 24 23 25 4 (call (mem:QI (symbol_ref:DI ("printf_fbgc_object") [flags 0x41]  <function_decl 0x7f8148df6500 printf_fbgc_object>) [0 printf_fbgc_object S1 A8])
+        (const_int 0 [0])) "cmodules/fbgc_io.c":32:2 666 {*call}
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(insn 25 24 26 4 (parallel [
+            (set (reg:DI 89)
+                (plus:DI (reg/f:DI 19 frame)
+                    (const_int -24 [0xffffffffffffffe8])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_io.c":34:2 191 {*adddi_1}
+     (nil))
+(insn 26 25 27 4 (set (reg:DI 4 si)
+        (reg:DI 89)) "cmodules/fbgc_io.c":34:2 66 {*movdi_internal}
+     (nil))
+(insn 27 26 28 4 (set (reg:DI 5 di)
+        (symbol_ref/f:DI ("*.LC4") [flags 0x2]  <var_decl 0x7f8148e53b40 *.LC4>)) "cmodules/fbgc_io.c":34:2 66 {*movdi_internal}
+     (nil))
+(insn 28 27 29 4 (set (reg:QI 0 ax)
+        (const_int 0 [0])) "cmodules/fbgc_io.c":34:2 69 {*movqi_internal}
+     (nil))
+(call_insn 29 28 30 4 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("*__isoc99_scanf") [flags 0x41]  <function_decl 0x7f8148f4f600 scanf>) [0 __builtin_scanf S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_io.c":34:2 677 {*call_value}
+     (nil)
+    (expr_list (use (reg:QI 0 ax))
+        (expr_list:DI (use (reg:DI 5 di))
+            (expr_list:DI (use (reg:DI 4 si))
+                (nil)))))
+(insn 30 29 31 4 (set (reg:SI 83 [ _2 ])
+        (reg:SI 0 ax)) "cmodules/fbgc_io.c":34:2 67 {*movsi_internal}
+     (nil))
+(insn 31 30 32 4 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg:SI 83 [ _2 ])
+            (const_int 1 [0x1]))) "cmodules/fbgc_io.c":34:2 11 {*cmpsi_1}
+     (nil))
+(jump_insn 32 31 33 4 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 40)
+            (pc))) "cmodules/fbgc_io.c":34:2 659 {*jcc}
+     (nil)
+ -> 40)
+;;  succ:       6
+;;              5 (FALLTHRU)
+
+;; basic block 5, loop depth 0, maybe hot
+;;  prev block 4, next block 6, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       4 (FALLTHRU)
+;; bb 5 artificial_defs: { }
+;; bb 5 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 33 32 34 5 [bb 5] NOTE_INSN_BASIC_BLOCK)
+(insn 34 33 35 5 (set (reg:DI 2 cx)
+        (symbol_ref:DI ("__PRETTY_FUNCTION__.5288") [flags 0x2]  <var_decl 0x7f8148e3b6c0 __PRETTY_FUNCTION__>)) "cmodules/fbgc_io.c":34:2 66 {*movdi_internal}
+     (nil))
+(insn 35 34 36 5 (set (reg:SI 1 dx)
+        (const_int 34 [0x22])) "cmodules/fbgc_io.c":34:2 67 {*movsi_internal}
+     (nil))
+(insn 36 35 37 5 (set (reg:DI 4 si)
+        (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0x7f8148e53a20 *.LC2>)) "cmodules/fbgc_io.c":34:2 66 {*movdi_internal}
+     (nil))
+(insn 37 36 38 5 (set (reg:DI 5 di)
+        (symbol_ref/f:DI ("*.LC5") [flags 0x2]  <var_decl 0x7f8148e53bd0 *.LC5>)) "cmodules/fbgc_io.c":34:2 66 {*movdi_internal}
+     (nil))
+(call_insn 38 37 39 5 (call (mem:QI (symbol_ref:DI ("__assert_fail") [flags 0x41]  <function_decl 0x7f8148cc2400 __assert_fail>) [0 __assert_fail S1 A8])
+        (const_int 0 [0])) "cmodules/fbgc_io.c":34:2 666 {*call}
+     (expr_list:REG_ARGS_SIZE (const_int 0 [0])
+        (expr_list:REG_NORETURN (const_int 0 [0])
+            (expr_list:REG_EH_REGION (const_int 0 [0])
+                (nil))))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:SI (use (reg:SI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+;;  succ:      
+
+(barrier 39 38 40)
+;; basic block 6, loop depth 0, maybe hot
+;;  prev block 5, next block 7, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       4
+;; bb 6 artificial_defs: { }
+;; bb 6 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 40 39 41 6 7 (nil) [1 uses])
+(note 41 40 42 6 [bb 6] NOTE_INSN_BASIC_BLOCK)
+(insn 42 41 43 6 (set (reg/f:DI 84 [ str_content.3_3 ])
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -24 [0xffffffffffffffe8])) [9 str_content+0 S8 A64])) "cmodules/fbgc_io.c":36:29 66 {*movdi_internal}
+     (nil))
+(insn 43 42 44 6 (set (reg:DI 5 di)
+        (reg/f:DI 84 [ str_content.3_3 ])) "cmodules/fbgc_io.c":36:29 66 {*movdi_internal}
+     (nil))
+(call_insn 44 43 45 6 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("new_fbgc_str_object") [flags 0x41]  <function_decl 0x7f8148e0a800 new_fbgc_str_object>) [0 new_fbgc_str_object S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_io.c":36:29 677 {*call_value}
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(insn 45 44 46 6 (set (reg:DI 90)
+        (reg:DI 0 ax)) "cmodules/fbgc_io.c":36:29 66 {*movdi_internal}
+     (nil))
+(insn 46 45 47 6 (set (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -16 [0xfffffffffffffff0])) [6 res+0 S8 A64])
+        (reg:DI 90)) "cmodules/fbgc_io.c":36:29 66 {*movdi_internal}
+     (nil))
+(insn 47 46 48 6 (set (reg/f:DI 85 [ str_content.4_4 ])
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -24 [0xffffffffffffffe8])) [9 str_content+0 S8 A64])) "cmodules/fbgc_io.c":37:2 66 {*movdi_internal}
+     (nil))
+(insn 48 47 49 6 (set (reg:DI 5 di)
+        (reg/f:DI 85 [ str_content.4_4 ])) "cmodules/fbgc_io.c":37:2 66 {*movdi_internal}
+     (nil))
+(call_insn 49 48 50 6 (call (mem:QI (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7f8148f67400 free>) [0 __builtin_free S1 A8])
+        (const_int 0 [0])) "cmodules/fbgc_io.c":37:2 666 {*call}
+     (expr_list:REG_EH_REGION (const_int 0 [0])
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(insn 50 49 53 6 (set (reg/f:DI 86 [ _15 ])
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -16 [0xfffffffffffffff0])) [6 res+0 S8 A64])) "cmodules/fbgc_io.c":38:9 66 {*movdi_internal}
+     (nil))
+(insn 53 50 57 6 (set (reg/f:DI 87 [ <retval> ])
+        (reg/f:DI 86 [ _15 ])) "cmodules/fbgc_io.c":38:9 66 {*movdi_internal}
+     (nil))
+(insn 57 53 58 6 (parallel [
+            (set (reg:CCZ 17 flags)
+                (unspec:CCZ [
+                        (mem/v/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                                (const_int -8 [0xfffffffffffffff8])) [2 D.5317+0 S8 A64])
+                        (mem/v/f:DI (const_int 40 [0x28]) [0 MEM[(<address-space-1> long unsigned int *)40B]+0 S8 A64 AS1])
+                    ] UNSPEC_SP_TEST))
+            (clobber (scratch:DI))
+        ]) "cmodules/fbgc_io.c":39:1 978 {stack_protect_test_di}
+     (nil))
+(jump_insn 58 57 65 6 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 61)
+            (pc))) "cmodules/fbgc_io.c":39:1 659 {*jcc}
+     (nil)
+ -> 61)
+;;  succ:       8
+;;              7 (FALLTHRU)
+
+;; basic block 7, loop depth 0, maybe hot
+;;  prev block 6, next block 8, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       6 (FALLTHRU)
+;; bb 7 artificial_defs: { }
+;; bb 7 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 65 58 59 7 [bb 7] NOTE_INSN_BASIC_BLOCK)
+(call_insn 59 65 60 7 (call (mem:QI (symbol_ref:DI ("__stack_chk_fail") [flags 0x41]  <function_decl 0x7f8148e51b00 __stack_chk_fail>) [0 __stack_chk_fail S1 A8])
+        (const_int 0 [0])) "cmodules/fbgc_io.c":39:1 666 {*call}
+     (expr_list:REG_ARGS_SIZE (const_int 0 [0])
+        (expr_list:REG_NORETURN (const_int 0 [0])
+            (expr_list:REG_EH_REGION (const_int 0 [0])
+                (nil))))
+    (nil))
+;;  succ:      
+
+(barrier 60 59 61)
+;; basic block 8, loop depth 0, maybe hot
+;;  prev block 7, next block 1, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       6
+;; bb 8 artificial_defs: { }
+;; bb 8 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 61 60 66 8 9 (nil) [1 uses])
+(note 66 61 62 8 [bb 8] NOTE_INSN_BASIC_BLOCK)
+(insn 62 66 63 8 (set (reg/i:DI 0 ax)
+        (reg/f:DI 87 [ <retval> ])) "cmodules/fbgc_io.c":39:1 66 {*movdi_internal}
+     (nil))
+(insn 63 62 0 8 (use (reg/i:DI 0 ax)) "cmodules/fbgc_io.c":39:1 -1
+     (nil))
+;;  succ:       EXIT [always]  (FALLTHRU)
+
+
+;; Function fbgc_io_initializer (fbgc_io_initializer, funcdef_no=8, decl_uid=5264, cgraph_uid=9, symbol_order=13)
+
+
+
+fbgc_io_initializer
+
+Dataflow summary:
+;;  invalidated by call 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 8 [st] 9 [st(1)] 10 [st(2)] 11 [st(3)] 12 [st(4)] 13 [st(5)] 14 [st(6)] 15 [st(7)] 17 [flags] 18 [fpsr] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 28 [mm0] 29 [mm1] 30 [mm2] 31 [mm3] 32 [mm4] 33 [mm5] 34 [mm6] 35 [mm7] 36 [r8] 37 [r9] 38 [r10] 39 [r11] 44 [xmm8] 45 [xmm9] 46 [xmm10] 47 [xmm11] 48 [xmm12] 49 [xmm13] 50 [xmm14] 51 [xmm15] 52 [] 53 [] 54 [] 55 [] 56 [] 57 [] 58 [] 59 [] 60 [] 61 [] 62 [] 63 [] 64 [] 65 [] 66 [] 67 [] 68 [] 69 [] 70 [] 71 [] 72 [] 73 [] 74 [] 75 []
+;;  hardware regs used 	
+;;  regular block artificial uses 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;;  eh block artificial uses 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;;  entry block defs 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 36 [r8] 37 [r9]
+;;  exit block uses 	 0 [ax] 6 [bp] 7 [sp] 19 [frame]
+;;  regs ever live 	 0 [ax] 4 [si] 5 [di]
+;;  ref usage 	r0={2d,2u} r1={1d} r2={1d} r4={1d,1u} r5={1d,1u} r6={1d,2u} r7={1d,2u} r16={1d,1u} r19={1d,4u} r20={1d} r21={1d} r22={1d} r23={1d} r24={1d} r25={1d} r26={1d} r27={1d} r36={1d} r37={1d} r82={1d,1u} r83={1d,1u} 
+;;    total ref usage 37{22d,15u,0e} in 6{6 regular + 0 call} insns.
+(note 1 0 5 NOTE_INSN_DELETED)
+;; basic block 2, loop depth 0, maybe hot
+;;  prev block 0, next block 1, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       ENTRY (FALLTHRU)
+;; bb 2 artificial_defs: { }
+;; bb 2 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 5 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 5 3 2 (set (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -8 [0xfffffffffffffff8])) [11 arg+0 S8 A64])
+        (reg:DI 5 di [ arg ])) "cmodules/fbgc_io.c":48:86 66 {*movdi_internal}
+     (nil))
+(insn 3 2 4 2 (set (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -12 [0xfffffffffffffff4])) [3 argc+0 S4 A32])
+        (reg:SI 4 si [ argc ])) "cmodules/fbgc_io.c":48:86 67 {*movsi_internal}
+     (nil))
+(note 4 3 7 2 NOTE_INSN_FUNCTION_BEG)
+(insn 7 4 10 2 (set (reg/f:DI 82 [ _1 ])
+        (const_int 0 [0])) "cmodules/fbgc_io.c":49:9 66 {*movdi_internal}
+     (nil))
+(insn 10 7 14 2 (set (reg/f:DI 83 [ <retval> ])
+        (reg/f:DI 82 [ _1 ])) "cmodules/fbgc_io.c":49:9 66 {*movdi_internal}
+     (nil))
+(insn 14 10 15 2 (set (reg/i:DI 0 ax)
+        (reg/f:DI 83 [ <retval> ])) "cmodules/fbgc_io.c":50:1 66 {*movdi_internal}
+     (nil))
+(insn 15 14 0 2 (use (reg/i:DI 0 ax)) "cmodules/fbgc_io.c":50:1 -1
+     (nil))
+;;  succ:       EXIT [always]  (FALLTHRU)
+

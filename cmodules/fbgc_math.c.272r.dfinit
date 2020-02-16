@@ -1,0 +1,3765 @@
+
+;; Function c_exp (c_exp, funcdef_no=6, decl_uid=5327, cgraph_uid=7, symbol_order=8)
+
+verify found no changes in insn with uid = 13.
+verify found no changes in insn with uid = 18.
+verify found no changes in insn with uid = 24.
+
+
+c_exp
+
+Dataflow summary:
+;;  invalidated by call 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 8 [st] 9 [st(1)] 10 [st(2)] 11 [st(3)] 12 [st(4)] 13 [st(5)] 14 [st(6)] 15 [st(7)] 17 [flags] 18 [fpsr] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 28 [mm0] 29 [mm1] 30 [mm2] 31 [mm3] 32 [mm4] 33 [mm5] 34 [mm6] 35 [mm7] 36 [r8] 37 [r9] 38 [r10] 39 [r11] 44 [xmm8] 45 [xmm9] 46 [xmm10] 47 [xmm11] 48 [xmm12] 49 [xmm13] 50 [xmm14] 51 [xmm15] 52 [] 53 [] 54 [] 55 [] 56 [] 57 [] 58 [] 59 [] 60 [] 61 [] 62 [] 63 [] 64 [] 65 [] 66 [] 67 [] 68 [] 69 [] 70 [] 71 [] 72 [] 73 [] 74 [] 75 []
+;;  hardware regs used 	
+;;  regular block artificial uses 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;;  eh block artificial uses 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;;  entry block defs 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 36 [r8] 37 [r9]
+;;  exit block uses 	 6 [bp] 7 [sp] 19 [frame] 20 [xmm0] 21 [xmm1]
+;;  regs ever live 	 7 [sp] 20 [xmm0] 21 [xmm1]
+;;  ref usage 	r0={4d} r1={4d} r2={4d} r4={4d} r5={4d} r6={1d,2u} r7={1d,5u} r8={3d} r9={3d} r10={3d} r11={3d} r12={3d} r13={3d} r14={3d} r15={3d} r16={1d,1u} r17={3d} r18={3d} r19={1d,12u} r20={8d,9u} r21={5d,3u} r22={4d} r23={4d} r24={4d} r25={4d} r26={4d} r27={4d} r28={3d} r29={3d} r30={3d} r31={3d} r32={3d} r33={3d} r34={3d} r35={3d} r36={4d} r37={4d} r38={3d} r39={3d} r44={3d} r45={3d} r46={3d} r47={3d} r48={3d} r49={3d} r50={3d} r51={3d} r52={3d} r53={3d} r54={3d} r55={3d} r56={3d} r57={3d} r58={3d} r59={3d} r60={3d} r61={3d} r62={3d} r63={3d} r64={3d} r65={3d} r66={3d} r67={3d} r68={3d} r69={3d} r70={3d} r71={3d} r72={3d} r73={3d} r74={3d} r75={3d} r82={1d,1u} r83={1d,1u} r84={1d,1u} r85={1d,1u} r86={1d,1u} r87={1d,1u} r88={1d,1u} r89={1d,2u} r90={1d,1u} r91={1d,1u} r92={3d,3u} r93={1d,1u} r94={1d,1u} r95={1d,1u} r97={1d,1u} r98={1d,1u} 
+;;    total ref usage 294{243d,51u,0e} in 32{29 regular + 3 call} insns.
+(note 1 0 9 NOTE_INSN_DELETED)
+;; basic block 2, loop depth 0, maybe hot
+;;  prev block 0, next block 1, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       ENTRY (FALLTHRU)
+;; bb 2 artificial_defs: { }
+;; bb 2 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 9 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 9 3 2 (set (reg:DF 93)
+        (reg:DF 20 xmm0 [ z ])) "cmodules/fbgc_math.c":22:47 111 {*movdf_internal}
+     (nil))
+(insn 3 2 4 2 (set (reg:DF 94)
+        (reg:DF 21 xmm1 [ z+8 ])) "cmodules/fbgc_math.c":22:47 111 {*movdf_internal}
+     (nil))
+(insn 4 3 5 2 (set (reg:TI 92)
+        (const_int 0 [0])) "cmodules/fbgc_math.c":22:47 65 {*movti_internal}
+     (nil))
+(insn 5 4 6 2 (set (subreg:DF (reg:TI 92) 0)
+        (reg:DF 93)) "cmodules/fbgc_math.c":22:47 111 {*movdf_internal}
+     (nil))
+(insn 6 5 7 2 (set (subreg:DF (reg:TI 92) 8)
+        (reg:DF 94)) "cmodules/fbgc_math.c":22:47 111 {*movdf_internal}
+     (nil))
+(insn 7 6 8 2 (set (mem/c:TI (plus:DI (reg/f:DI 19 frame)
+                (const_int -48 [0xffffffffffffffd0])) [8 z+0 S16 A128])
+        (reg:TI 92)) "cmodules/fbgc_math.c":22:47 65 {*movti_internal}
+     (nil))
+(note 8 7 11 2 NOTE_INSN_FUNCTION_BEG)
+(insn 11 8 12 2 (set (reg:DF 82 [ _1 ])
+        (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -48 [0xffffffffffffffd0])) [9 z.real+0 S8 A128])) "cmodules/fbgc_math.c":25:13 111 {*movdf_internal}
+     (nil))
+(insn 12 11 13 2 (set (reg:DF 20 xmm0)
+        (reg:DF 82 [ _1 ])) "cmodules/fbgc_math.c":25:13 111 {*movdf_internal}
+     (nil))
+(call_insn 13 12 14 2 (set (reg:DF 20 xmm0)
+        (call (mem:QI (symbol_ref:DI ("exp") [flags 0x41]  <function_decl 0x7fe77b289700 exp>) [0 __builtin_exp S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":25:13 677 {*call_value}
+     (expr_list:REG_EH_REGION (const_int 0 [0])
+        (nil))
+    (expr_list:DF (use (reg:DF 20 xmm0))
+        (nil)))
+(insn 14 13 15 2 (set (reg:DF 95)
+        (reg:DF 20 xmm0)) "cmodules/fbgc_math.c":25:13 111 {*movdf_internal}
+     (nil))
+(insn 15 14 16 2 (set (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -24 [0xffffffffffffffe8])) [9 r+0 S8 A64])
+        (reg:DF 95)) "cmodules/fbgc_math.c":25:13 111 {*movdf_internal}
+     (nil))
+(insn 16 15 17 2 (set (reg:DF 83 [ _2 ])
+        (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -40 [0xffffffffffffffd8])) [9 z.imag+0 S8 A64])) "cmodules/fbgc_math.c":26:15 111 {*movdf_internal}
+     (nil))
+(insn 17 16 18 2 (set (reg:DF 20 xmm0)
+        (reg:DF 83 [ _2 ])) "cmodules/fbgc_math.c":26:15 111 {*movdf_internal}
+     (nil))
+(call_insn/u 18 17 19 2 (set (reg:DF 20 xmm0)
+        (call (mem:QI (symbol_ref:DI ("cos") [flags 0x41]  <function_decl 0x7fe77b284900 cos>) [0 __builtin_cos S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":26:15 677 {*call_value}
+     (expr_list:REG_EH_REGION (const_int 0 [0])
+        (nil))
+    (expr_list:DF (use (reg:DF 20 xmm0))
+        (nil)))
+(insn 19 18 20 2 (set (reg:DF 84 [ _3 ])
+        (reg:DF 20 xmm0)) "cmodules/fbgc_math.c":26:15 111 {*movdf_internal}
+     (nil))
+(insn 20 19 21 2 (set (reg:DF 85 [ _4 ])
+        (mult:DF (reg:DF 84 [ _3 ])
+            (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                    (const_int -24 [0xffffffffffffffe8])) [9 r+0 S8 A64]))) "cmodules/fbgc_math.c":26:14 818 {*fop_df_comm}
+     (nil))
+(insn 21 20 22 2 (set (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -16 [0xfffffffffffffff0])) [9 res.real+0 S8 A64])
+        (reg:DF 85 [ _4 ])) "cmodules/fbgc_math.c":26:11 111 {*movdf_internal}
+     (nil))
+(insn 22 21 23 2 (set (reg:DF 86 [ _5 ])
+        (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -40 [0xffffffffffffffd8])) [9 z.imag+0 S8 A64])) "cmodules/fbgc_math.c":27:15 111 {*movdf_internal}
+     (nil))
+(insn 23 22 24 2 (set (reg:DF 20 xmm0)
+        (reg:DF 86 [ _5 ])) "cmodules/fbgc_math.c":27:15 111 {*movdf_internal}
+     (nil))
+(call_insn/u 24 23 25 2 (set (reg:DF 20 xmm0)
+        (call (mem:QI (symbol_ref:DI ("sin") [flags 0x41]  <function_decl 0x7fe77b2c1300 sin>) [0 __builtin_sin S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":27:15 677 {*call_value}
+     (expr_list:REG_EH_REGION (const_int 0 [0])
+        (nil))
+    (expr_list:DF (use (reg:DF 20 xmm0))
+        (nil)))
+(insn 25 24 26 2 (set (reg:DF 87 [ _6 ])
+        (reg:DF 20 xmm0)) "cmodules/fbgc_math.c":27:15 111 {*movdf_internal}
+     (nil))
+(insn 26 25 27 2 (set (reg:DF 88 [ _7 ])
+        (mult:DF (reg:DF 87 [ _6 ])
+            (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                    (const_int -24 [0xffffffffffffffe8])) [9 r+0 S8 A64]))) "cmodules/fbgc_math.c":27:14 818 {*fop_df_comm}
+     (nil))
+(insn 27 26 28 2 (set (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -8 [0xfffffffffffffff8])) [9 res.imag+0 S8 A64])
+        (reg:DF 88 [ _7 ])) "cmodules/fbgc_math.c":27:11 111 {*movdf_internal}
+     (nil))
+(insn 28 27 31 2 (set (reg:TI 89 [ D.5442 ])
+        (mem/c:TI (plus:DI (reg/f:DI 19 frame)
+                (const_int -16 [0xfffffffffffffff0])) [8 res+0 S16 A64])) "cmodules/fbgc_math.c":28:9 65 {*movti_internal}
+     (nil))
+(insn 31 28 32 2 (set (reg:TI 97)
+        (reg:TI 89 [ D.5442 ])) "cmodules/fbgc_math.c":28:9 65 {*movti_internal}
+     (nil))
+(insn 32 31 33 2 (set (reg:TI 98)
+        (reg:TI 89 [ D.5442 ])) "cmodules/fbgc_math.c":28:9 65 {*movti_internal}
+     (nil))
+(insn 33 32 34 2 (set (reg:DF 90 [ <retval> ])
+        (subreg:DF (reg:TI 97) 0)) "cmodules/fbgc_math.c":28:9 111 {*movdf_internal}
+     (nil))
+(insn 34 33 38 2 (set (reg:DF 91 [ <retval>+8 ])
+        (subreg:DF (reg:TI 98) 8)) "cmodules/fbgc_math.c":28:9 111 {*movdf_internal}
+     (nil))
+(insn 38 34 39 2 (set (reg:DF 20 xmm0)
+        (reg:DF 90 [ <retval> ])) "cmodules/fbgc_math.c":29:1 111 {*movdf_internal}
+     (nil))
+(insn 39 38 40 2 (set (reg:DF 21 xmm1)
+        (reg:DF 91 [ <retval>+8 ])) "cmodules/fbgc_math.c":29:1 111 {*movdf_internal}
+     (nil))
+(insn 40 39 41 2 (use (reg:DF 20 xmm0)) "cmodules/fbgc_math.c":29:1 -1
+     (nil))
+(insn 41 40 0 2 (use (reg:DF 21 xmm1)) "cmodules/fbgc_math.c":29:1 -1
+     (nil))
+;;  succ:       EXIT [always]  (FALLTHRU)
+
+
+;; Function c_cos (c_cos, funcdef_no=7, decl_uid=5332, cgraph_uid=8, symbol_order=9)
+
+verify found no changes in insn with uid = 27.
+verify found no changes in insn with uid = 36.
+
+
+c_cos
+
+Dataflow summary:
+;;  invalidated by call 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 8 [st] 9 [st(1)] 10 [st(2)] 11 [st(3)] 12 [st(4)] 13 [st(5)] 14 [st(6)] 15 [st(7)] 17 [flags] 18 [fpsr] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 28 [mm0] 29 [mm1] 30 [mm2] 31 [mm3] 32 [mm4] 33 [mm5] 34 [mm6] 35 [mm7] 36 [r8] 37 [r9] 38 [r10] 39 [r11] 44 [xmm8] 45 [xmm9] 46 [xmm10] 47 [xmm11] 48 [xmm12] 49 [xmm13] 50 [xmm14] 51 [xmm15] 52 [] 53 [] 54 [] 55 [] 56 [] 57 [] 58 [] 59 [] 60 [] 61 [] 62 [] 63 [] 64 [] 65 [] 66 [] 67 [] 68 [] 69 [] 70 [] 71 [] 72 [] 73 [] 74 [] 75 []
+;;  hardware regs used 	
+;;  regular block artificial uses 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;;  eh block artificial uses 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;;  entry block defs 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 36 [r8] 37 [r9]
+;;  exit block uses 	 6 [bp] 7 [sp] 19 [frame] 20 [xmm0] 21 [xmm1]
+;;  regs ever live 	 7 [sp] 17 [flags] 20 [xmm0] 21 [xmm1]
+;;  ref usage 	r0={3d} r1={3d} r2={3d} r4={3d} r5={3d} r6={1d,2u} r7={1d,4u} r8={2d} r9={2d} r10={2d} r11={2d} r12={2d} r13={2d} r14={2d} r15={2d} r16={1d,1u} r17={4d} r18={2d} r19={1d,26u} r20={6d,7u} r21={6d,7u} r22={3d} r23={3d} r24={3d} r25={3d} r26={3d} r27={3d} r28={2d} r29={2d} r30={2d} r31={2d} r32={2d} r33={2d} r34={2d} r35={2d} r36={3d} r37={3d} r38={2d} r39={2d} r44={2d} r45={2d} r46={2d} r47={2d} r48={2d} r49={2d} r50={2d} r51={2d} r52={2d} r53={2d} r54={2d} r55={2d} r56={2d} r57={2d} r58={2d} r59={2d} r60={2d} r61={2d} r62={2d} r63={2d} r64={2d} r65={2d} r66={2d} r67={2d} r68={2d} r69={2d} r70={2d} r71={2d} r72={2d} r73={2d} r74={2d} r75={2d} r82={1d,1u,1e} r83={1d,1u} r84={1d,1u} r85={1d,1u} r86={1d,1u,1e} r87={1d,1u} r88={1d,1u} r89={1d,1u} r90={1d,1u} r91={1d,1u} r92={1d,1u} r93={1d,1u} r94={1d,1u} r95={1d,1u} r96={1d,2u} r97={1d,1u} r98={1d,1u} r99={3d,3u} r100={1d,1u} r101={1d,1u} r102={1d,1u} r103={1d,1u} r104={1d,1u} r105={1d,1u} r106={1d,1u} r107={1d,1u} r108={1d,1u} r109={1d,1u} r110={1d,1u} r111={1d,1u} r112={1d,1u} r113={1d,1u} r115={1d,1u} r116={1d,1u} 
+;;    total ref usage 283{197d,84u,2e} in 57{55 regular + 2 call} insns.
+(note 1 0 9 NOTE_INSN_DELETED)
+;; basic block 2, loop depth 0, maybe hot
+;;  prev block 0, next block 1, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       ENTRY (FALLTHRU)
+;; bb 2 artificial_defs: { }
+;; bb 2 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 9 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 9 3 2 (set (reg:DF 100)
+        (reg:DF 20 xmm0 [ z ])) "cmodules/fbgc_math.c":31:47 111 {*movdf_internal}
+     (nil))
+(insn 3 2 4 2 (set (reg:DF 101)
+        (reg:DF 21 xmm1 [ z+8 ])) "cmodules/fbgc_math.c":31:47 111 {*movdf_internal}
+     (nil))
+(insn 4 3 5 2 (set (reg:TI 99)
+        (const_int 0 [0])) "cmodules/fbgc_math.c":31:47 65 {*movti_internal}
+     (nil))
+(insn 5 4 6 2 (set (subreg:DF (reg:TI 99) 0)
+        (reg:DF 100)) "cmodules/fbgc_math.c":31:47 111 {*movdf_internal}
+     (nil))
+(insn 6 5 7 2 (set (subreg:DF (reg:TI 99) 8)
+        (reg:DF 101)) "cmodules/fbgc_math.c":31:47 111 {*movdf_internal}
+     (nil))
+(insn 7 6 8 2 (set (mem/c:TI (plus:DI (reg/f:DI 19 frame)
+                (const_int -48 [0xffffffffffffffd0])) [8 z+0 S16 A128])
+        (reg:TI 99)) "cmodules/fbgc_math.c":31:47 65 {*movti_internal}
+     (nil))
+(note 8 7 11 2 NOTE_INSN_FUNCTION_BEG)
+(insn 11 8 12 2 (set (reg:DF 82 [ _1 ])
+        (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -40 [0xffffffffffffffd8])) [9 z.imag+0 S8 A64])) "cmodules/fbgc_math.c":35:14 111 {*movdf_internal}
+     (nil))
+(insn 12 11 13 2 (set (reg:V2DF 102)
+        (mem/u/c:V2DF (symbol_ref/u:DI ("*.LC0") [flags 0x2]) [0  S16 A128])) "cmodules/fbgc_math.c":35:12 1220 {movv2df_internal}
+     (expr_list:REG_EQUAL (const_vector:V2DF [
+                (const_double:DF -0.0 [-0x0.0p+0])
+                (const_double:DF 0.0 [0x0.0p+0])
+            ])
+        (nil)))
+(insn 13 12 14 2 (parallel [
+            (set (reg:DF 83 [ _2 ])
+                (neg:DF (reg:DF 82 [ _1 ])))
+            (use (reg:V2DF 102))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":35:12 477 {*absnegdf2}
+     (expr_list:REG_EQUAL (neg:DF (reg:DF 82 [ _1 ]))
+        (nil)))
+(insn 14 13 15 2 (set (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -32 [0xffffffffffffffe0])) [9 u1.real+0 S8 A64])
+        (reg:DF 83 [ _2 ])) "cmodules/fbgc_math.c":35:10 111 {*movdf_internal}
+     (nil))
+(insn 15 14 16 2 (set (reg:DF 84 [ _3 ])
+        (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -48 [0xffffffffffffffd0])) [9 z.real+0 S8 A128])) "cmodules/fbgc_math.c":36:13 111 {*movdf_internal}
+     (nil))
+(insn 16 15 17 2 (set (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -24 [0xffffffffffffffe8])) [9 u1.imag+0 S8 A64])
+        (reg:DF 84 [ _3 ])) "cmodules/fbgc_math.c":36:10 111 {*movdf_internal}
+     (nil))
+(insn 17 16 18 2 (set (reg:DF 85 [ _4 ])
+        (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -40 [0xffffffffffffffd8])) [9 z.imag+0 S8 A64])) "cmodules/fbgc_math.c":38:13 111 {*movdf_internal}
+     (nil))
+(insn 18 17 19 2 (set (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -16 [0xfffffffffffffff0])) [9 u2.real+0 S8 A64])
+        (reg:DF 85 [ _4 ])) "cmodules/fbgc_math.c":38:10 111 {*movdf_internal}
+     (nil))
+(insn 19 18 20 2 (set (reg:DF 86 [ _5 ])
+        (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -48 [0xffffffffffffffd0])) [9 z.real+0 S8 A128])) "cmodules/fbgc_math.c":39:14 111 {*movdf_internal}
+     (nil))
+(insn 20 19 21 2 (set (reg:V2DF 103)
+        (mem/u/c:V2DF (symbol_ref/u:DI ("*.LC0") [flags 0x2]) [0  S16 A128])) "cmodules/fbgc_math.c":39:12 1220 {movv2df_internal}
+     (expr_list:REG_EQUAL (const_vector:V2DF [
+                (const_double:DF -0.0 [-0x0.0p+0])
+                (const_double:DF 0.0 [0x0.0p+0])
+            ])
+        (nil)))
+(insn 21 20 22 2 (parallel [
+            (set (reg:DF 87 [ _6 ])
+                (neg:DF (reg:DF 86 [ _5 ])))
+            (use (reg:V2DF 103))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":39:12 477 {*absnegdf2}
+     (expr_list:REG_EQUAL (neg:DF (reg:DF 86 [ _5 ]))
+        (nil)))
+(insn 22 21 23 2 (set (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -8 [0xfffffffffffffff8])) [9 u2.imag+0 S8 A64])
+        (reg:DF 87 [ _6 ])) "cmodules/fbgc_math.c":39:10 111 {*movdf_internal}
+     (nil))
+(insn 23 22 24 2 (set (reg:DF 104)
+        (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -32 [0xffffffffffffffe0])) [8 u1+0 S8 A64])) "cmodules/fbgc_math.c":41:7 111 {*movdf_internal}
+     (nil))
+(insn 24 23 25 2 (set (reg:DF 105)
+        (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -24 [0xffffffffffffffe8])) [8 u1+8 S8 A64])) "cmodules/fbgc_math.c":41:7 111 {*movdf_internal}
+     (nil))
+(insn 25 24 26 2 (set (reg:DF 20 xmm0)
+        (reg:DF 104)) "cmodules/fbgc_math.c":41:7 111 {*movdf_internal}
+     (nil))
+(insn 26 25 27 2 (set (reg:DF 21 xmm1)
+        (reg:DF 105)) "cmodules/fbgc_math.c":41:7 111 {*movdf_internal}
+     (nil))
+(call_insn 27 26 28 2 (set (parallel:TI [
+                (expr_list:REG_DEP_TRUE (reg:DF 20 xmm0)
+                    (const_int 0 [0]))
+                (expr_list:REG_DEP_TRUE (reg:DF 21 xmm1)
+                    (const_int 8 [0x8]))
+            ])
+        (call (mem:QI (symbol_ref:DI ("c_exp") [flags 0x3]  <function_decl 0x7fe77b1e2400 c_exp>) [0 c_exp S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":41:7 677 {*call_value}
+     (nil)
+    (expr_list (use (reg:DF 21 xmm1))
+        (expr_list (use (reg:DF 20 xmm0))
+            (nil))))
+(insn 28 27 29 2 (set (reg:DF 106)
+        (reg:DF 20 xmm0)) "cmodules/fbgc_math.c":41:7 111 {*movdf_internal}
+     (nil))
+(insn 29 28 30 2 (set (reg:DF 107)
+        (reg:DF 21 xmm1)) "cmodules/fbgc_math.c":41:7 111 {*movdf_internal}
+     (nil))
+(insn 30 29 31 2 (set (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -32 [0xffffffffffffffe0])) [8 u1+0 S8 A64])
+        (reg:DF 106)) "cmodules/fbgc_math.c":41:7 111 {*movdf_internal}
+     (nil))
+(insn 31 30 32 2 (set (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -24 [0xffffffffffffffe8])) [8 u1+8 S8 A64])
+        (reg:DF 107)) "cmodules/fbgc_math.c":41:7 111 {*movdf_internal}
+     (nil))
+(insn 32 31 33 2 (set (reg:DF 108)
+        (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -16 [0xfffffffffffffff0])) [8 u2+0 S8 A64])) "cmodules/fbgc_math.c":42:7 111 {*movdf_internal}
+     (nil))
+(insn 33 32 34 2 (set (reg:DF 109)
+        (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -8 [0xfffffffffffffff8])) [8 u2+8 S8 A64])) "cmodules/fbgc_math.c":42:7 111 {*movdf_internal}
+     (nil))
+(insn 34 33 35 2 (set (reg:DF 20 xmm0)
+        (reg:DF 108)) "cmodules/fbgc_math.c":42:7 111 {*movdf_internal}
+     (nil))
+(insn 35 34 36 2 (set (reg:DF 21 xmm1)
+        (reg:DF 109)) "cmodules/fbgc_math.c":42:7 111 {*movdf_internal}
+     (nil))
+(call_insn 36 35 37 2 (set (parallel:TI [
+                (expr_list:REG_DEP_TRUE (reg:DF 20 xmm0)
+                    (const_int 0 [0]))
+                (expr_list:REG_DEP_TRUE (reg:DF 21 xmm1)
+                    (const_int 8 [0x8]))
+            ])
+        (call (mem:QI (symbol_ref:DI ("c_exp") [flags 0x3]  <function_decl 0x7fe77b1e2400 c_exp>) [0 c_exp S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":42:7 677 {*call_value}
+     (nil)
+    (expr_list (use (reg:DF 21 xmm1))
+        (expr_list (use (reg:DF 20 xmm0))
+            (nil))))
+(insn 37 36 38 2 (set (reg:DF 110)
+        (reg:DF 20 xmm0)) "cmodules/fbgc_math.c":42:7 111 {*movdf_internal}
+     (nil))
+(insn 38 37 39 2 (set (reg:DF 111)
+        (reg:DF 21 xmm1)) "cmodules/fbgc_math.c":42:7 111 {*movdf_internal}
+     (nil))
+(insn 39 38 40 2 (set (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -16 [0xfffffffffffffff0])) [8 u2+0 S8 A64])
+        (reg:DF 110)) "cmodules/fbgc_math.c":42:7 111 {*movdf_internal}
+     (nil))
+(insn 40 39 41 2 (set (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -8 [0xfffffffffffffff8])) [8 u2+8 S8 A64])
+        (reg:DF 111)) "cmodules/fbgc_math.c":42:7 111 {*movdf_internal}
+     (nil))
+(insn 41 40 42 2 (set (reg:DF 88 [ _7 ])
+        (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -32 [0xffffffffffffffe0])) [9 u1.real+0 S8 A64])) "cmodules/fbgc_math.c":44:15 111 {*movdf_internal}
+     (nil))
+(insn 42 41 43 2 (set (reg:DF 89 [ _8 ])
+        (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -16 [0xfffffffffffffff0])) [9 u2.real+0 S8 A64])) "cmodules/fbgc_math.c":44:23 111 {*movdf_internal}
+     (nil))
+(insn 43 42 44 2 (set (reg:DF 90 [ _9 ])
+        (plus:DF (reg:DF 88 [ _7 ])
+            (reg:DF 89 [ _8 ]))) "cmodules/fbgc_math.c":44:20 818 {*fop_df_comm}
+     (nil))
+(insn 44 43 45 2 (set (reg:DF 112)
+        (mem/u/c:DF (symbol_ref/u:DI ("*.LC1") [flags 0x2]) [0  S8 A64])) "cmodules/fbgc_math.c":44:29 111 {*movdf_internal}
+     (expr_list:REG_EQUAL (const_double:DF 2.0e+0 [0x0.8p+2])
+        (nil)))
+(insn 45 44 46 2 (set (reg:DF 91 [ _10 ])
+        (div:DF (reg:DF 90 [ _9 ])
+            (reg:DF 112))) "cmodules/fbgc_math.c":44:29 822 {*fop_df_1}
+     (nil))
+(insn 46 45 47 2 (set (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -32 [0xffffffffffffffe0])) [9 u1.real+0 S8 A64])
+        (reg:DF 91 [ _10 ])) "cmodules/fbgc_math.c":44:10 111 {*movdf_internal}
+     (nil))
+(insn 47 46 48 2 (set (reg:DF 92 [ _11 ])
+        (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -24 [0xffffffffffffffe8])) [9 u1.imag+0 S8 A64])) "cmodules/fbgc_math.c":45:15 111 {*movdf_internal}
+     (nil))
+(insn 48 47 49 2 (set (reg:DF 93 [ _12 ])
+        (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -8 [0xfffffffffffffff8])) [9 u2.imag+0 S8 A64])) "cmodules/fbgc_math.c":45:23 111 {*movdf_internal}
+     (nil))
+(insn 49 48 50 2 (set (reg:DF 94 [ _13 ])
+        (plus:DF (reg:DF 92 [ _11 ])
+            (reg:DF 93 [ _12 ]))) "cmodules/fbgc_math.c":45:20 818 {*fop_df_comm}
+     (nil))
+(insn 50 49 51 2 (set (reg:DF 113)
+        (mem/u/c:DF (symbol_ref/u:DI ("*.LC1") [flags 0x2]) [0  S8 A64])) "cmodules/fbgc_math.c":45:29 111 {*movdf_internal}
+     (expr_list:REG_EQUAL (const_double:DF 2.0e+0 [0x0.8p+2])
+        (nil)))
+(insn 51 50 52 2 (set (reg:DF 95 [ _14 ])
+        (div:DF (reg:DF 94 [ _13 ])
+            (reg:DF 113))) "cmodules/fbgc_math.c":45:29 822 {*fop_df_1}
+     (nil))
+(insn 52 51 53 2 (set (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -24 [0xffffffffffffffe8])) [9 u1.imag+0 S8 A64])
+        (reg:DF 95 [ _14 ])) "cmodules/fbgc_math.c":45:10 111 {*movdf_internal}
+     (nil))
+(insn 53 52 56 2 (set (reg:TI 96 [ D.5445 ])
+        (mem/c:TI (plus:DI (reg/f:DI 19 frame)
+                (const_int -32 [0xffffffffffffffe0])) [8 u1+0 S16 A64])) "cmodules/fbgc_math.c":47:9 65 {*movti_internal}
+     (nil))
+(insn 56 53 57 2 (set (reg:TI 115)
+        (reg:TI 96 [ D.5445 ])) "cmodules/fbgc_math.c":47:9 65 {*movti_internal}
+     (nil))
+(insn 57 56 58 2 (set (reg:TI 116)
+        (reg:TI 96 [ D.5445 ])) "cmodules/fbgc_math.c":47:9 65 {*movti_internal}
+     (nil))
+(insn 58 57 59 2 (set (reg:DF 97 [ <retval> ])
+        (subreg:DF (reg:TI 115) 0)) "cmodules/fbgc_math.c":47:9 111 {*movdf_internal}
+     (nil))
+(insn 59 58 63 2 (set (reg:DF 98 [ <retval>+8 ])
+        (subreg:DF (reg:TI 116) 8)) "cmodules/fbgc_math.c":47:9 111 {*movdf_internal}
+     (nil))
+(insn 63 59 64 2 (set (reg:DF 20 xmm0)
+        (reg:DF 97 [ <retval> ])) "cmodules/fbgc_math.c":48:1 111 {*movdf_internal}
+     (nil))
+(insn 64 63 65 2 (set (reg:DF 21 xmm1)
+        (reg:DF 98 [ <retval>+8 ])) "cmodules/fbgc_math.c":48:1 111 {*movdf_internal}
+     (nil))
+(insn 65 64 66 2 (use (reg:DF 20 xmm0)) "cmodules/fbgc_math.c":48:1 -1
+     (nil))
+(insn 66 65 0 2 (use (reg:DF 21 xmm1)) "cmodules/fbgc_math.c":48:1 -1
+     (nil))
+;;  succ:       EXIT [always]  (FALLTHRU)
+
+
+;; Function one_arg_math (one_arg_math, funcdef_no=8, decl_uid=5342, cgraph_uid=9, symbol_order=10)
+
+verify found no changes in insn with uid = 53.
+verify found no changes in insn with uid = 59.
+verify found no changes in insn with uid = 62.
+verify found no changes in insn with uid = 71.
+verify found no changes in insn with uid = 81.
+verify found no changes in insn with uid = 90.
+verify found no changes in insn with uid = 102.
+verify found no changes in insn with uid = 127.
+verify found no changes in insn with uid = 137.
+verify found no changes in insn with uid = 147.
+verify found no changes in insn with uid = 175.
+verify found no changes in insn with uid = 235.
+verify found no changes in insn with uid = 269.
+
+
+one_arg_math
+
+Dataflow summary:
+;;  invalidated by call 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 8 [st] 9 [st(1)] 10 [st(2)] 11 [st(3)] 12 [st(4)] 13 [st(5)] 14 [st(6)] 15 [st(7)] 17 [flags] 18 [fpsr] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 28 [mm0] 29 [mm1] 30 [mm2] 31 [mm3] 32 [mm4] 33 [mm5] 34 [mm6] 35 [mm7] 36 [r8] 37 [r9] 38 [r10] 39 [r11] 44 [xmm8] 45 [xmm9] 46 [xmm10] 47 [xmm11] 48 [xmm12] 49 [xmm13] 50 [xmm14] 51 [xmm15] 52 [] 53 [] 54 [] 55 [] 56 [] 57 [] 58 [] 59 [] 60 [] 61 [] 62 [] 63 [] 64 [] 65 [] 66 [] 67 [] 68 [] 69 [] 70 [] 71 [] 72 [] 73 [] 74 [] 75 []
+;;  hardware regs used 	
+;;  regular block artificial uses 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;;  eh block artificial uses 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;;  entry block defs 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 36 [r8] 37 [r9]
+;;  exit block uses 	 0 [ax] 6 [bp] 7 [sp] 19 [frame]
+;;  regs ever live 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 7 [sp] 17 [flags] 20 [xmm0] 21 [xmm1]
+;;  ref usage 	r0={15d,7u} r1={18d,5u} r2={17d,4u} r4={18d,5u} r5={21d,8u} r6={1d,30u} r7={1d,43u} r8={13d} r9={13d} r10={13d} r11={13d} r12={13d} r13={13d} r14={13d} r15={13d} r16={1d,29u} r17={56d,12u} r18={13d} r19={1d,121u,9e} r20={20d,12u} r21={17d,6u} r22={14d} r23={14d} r24={14d} r25={14d} r26={14d} r27={14d} r28={13d} r29={13d} r30={13d} r31={13d} r32={13d} r33={13d} r34={13d} r35={13d} r36={14d} r37={14d} r38={13d} r39={13d} r44={13d} r45={13d} r46={13d} r47={13d} r48={13d} r49={13d} r50={13d} r51={13d} r52={13d} r53={13d} r54={13d} r55={13d} r56={13d} r57={13d} r58={13d} r59={13d} r60={13d} r61={13d} r62={13d} r63={13d} r64={13d} r65={13d} r66={13d} r67={13d} r68={13d} r69={13d} r70={13d} r71={13d} r72={13d} r73={13d} r74={13d} r75={13d} r82={1d,1u} r83={1d,1u} r84={1d,7u} r85={1d,1u} r86={1d,1u} r87={1d,1u} r88={1d,1u} r89={1d,1u} r90={1d,1u} r91={1d,1u} r92={1d,1u} r93={1d,1u} r94={1d,1u,1e} r95={1d,1u} r96={1d,1u} r97={1d,1u} r98={1d,1u} r99={1d,1u} r100={1d,1u} r101={1d,1u} r102={1d,1u} r103={1d,1u} r104={1d,1u,1e} r105={1d,1u} r106={1d,1u} r107={1d,1u} r108={1d,1u} r109={1d,1u} r110={1d,1u} r111={1d,1u} r112={1d,1u} r113={1d,1u} r114={1d,1u} r115={1d,1u} r116={1d,1u} r117={1d,1u} r118={1d,1u} r119={1d,1u} r120={1d,1u} r121={1d,1u} r122={1d,1u} r123={1d,1u} r124={1d,1u} r125={1d,1u} r126={1d,1u} r127={1d,1u} r128={1d,1u} r129={1d,1u} r130={1d,1u} r131={1d,1u} r132={1d,1u} r133={1d,1u} r134={1d,1u} r135={1d,1u} r136={1d,1u} r137={1d,1u} r138={1d,1u} r139={5d,1u} r140={1d,1u} r141={1d,1u} r142={1d,1u} r143={1d,1u} r144={1d,1u} r145={1d,1u} r146={1d,1u} r147={1d,1u} r148={1d,1u} r149={1d,1u} r150={1d,1u} r151={1d,1u} r152={1d,1u} r153={1d,1u} r154={1d,1u} r155={1d,1u} r156={1d,1u} r157={1d,1u} r158={1d,1u} r159={1d,1u} r160={1d,1u} r161={1d,1u} r162={1d,1u} r163={1d,1u} r164={1d,1u} r165={1d,1u} r166={1d,1u} r167={1d,1u} r168={1d,1u} r169={1d,1u} r170={1d,1u} r171={1d,1u} r172={1d,1u} r173={1d,1u} r174={1d,1u} r175={1d,1u} r176={1d,1u} r177={1d,1u} r178={1d,1u} r181={1d,1u} r182={1d,1u} r186={1d,1u} r187={1d,1u} r188={1d,1u} r189={1d,1u} r190={1d,1u} r191={1d,1u} r192={1d,1u} r193={1d,1u} r194={1d,1u} r195={1d,1u} r196={1d,1u} r197={1d,1u} r198={1d,1u} r199={1d,1u} r200={1d,1u} r201={1d,1u} r202={1d,1u} 
+;;    total ref usage 1496{1081d,404u,11e} in 228{215 regular + 13 call} insns.
+(note 1 0 7 NOTE_INSN_DELETED)
+;; basic block 2, loop depth 0, maybe hot
+;;  prev block 0, next block 3, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       ENTRY (FALLTHRU)
+;; bb 2 artificial_defs: { }
+;; bb 2 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 7 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 7 3 2 (set (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -120 [0xffffffffffffff88])) [11 arg+0 S8 A64])
+        (reg:DI 5 di [ arg ])) "cmodules/fbgc_math.c":52:1 66 {*movdi_internal}
+     (nil))
+(insn 3 2 4 2 (set (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -124 [0xffffffffffffff84])) [3 argc+0 S4 A32])
+        (reg:SI 4 si [ argc ])) "cmodules/fbgc_math.c":52:1 67 {*movsi_internal}
+     (nil))
+(insn 4 3 5 2 (set (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -136 [0xffffffffffffff78])) [12 fun+0 S8 A64])
+        (reg:DI 1 dx [ fun ])) "cmodules/fbgc_math.c":52:1 66 {*movdi_internal}
+     (nil))
+(insn 5 4 6 2 (set (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -144 [0xffffffffffffff70])) [13 zfun+0 S8 A64])
+        (reg:DI 2 cx [ zfun ])) "cmodules/fbgc_math.c":52:1 66 {*movdi_internal}
+     (nil))
+(note 6 5 9 2 NOTE_INSN_FUNCTION_BEG)
+(insn 9 6 10 2 (set (reg/f:DI 141)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -120 [0xffffffffffffff88])) [11 arg+0 S8 A64])) "cmodules/fbgc_math.c":53:12 66 {*movdi_internal}
+     (nil))
+(insn 10 9 11 2 (set (reg/f:DI 82 [ _1 ])
+        (mem/f:DI (reg/f:DI 141) [6 *arg_68(D)+0 S8 A64])) "cmodules/fbgc_math.c":53:12 66 {*movdi_internal}
+     (nil))
+(insn 11 10 12 2 (set (reg:QI 83 [ _2 ])
+        (mem:QI (reg/f:DI 82 [ _1 ]) [0 _1->type+0 S1 A8])) "cmodules/fbgc_math.c":53:15 69 {*movqi_internal}
+     (nil))
+(insn 12 11 13 2 (set (reg:SI 84 [ _3 ])
+        (zero_extend:SI (reg:QI 83 [ _2 ]))) "cmodules/fbgc_math.c":53:15 119 {*zero_extendqisi2}
+     (nil))
+(insn 13 12 14 2 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg:SI 84 [ _3 ])
+            (const_int 8 [0x8]))) "cmodules/fbgc_math.c":53:2 11 {*cmpsi_1}
+     (nil))
+(jump_insn 14 13 15 2 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 94)
+            (pc))) "cmodules/fbgc_math.c":53:2 659 {*jcc}
+     (nil)
+ -> 94)
+;;  succ:       3 (FALLTHRU)
+;;              13
+
+;; basic block 3, loop depth 0, maybe hot
+;;  prev block 2, next block 4, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       2 (FALLTHRU)
+;; bb 3 artificial_defs: { }
+;; bb 3 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 15 14 18 3 [bb 3] NOTE_INSN_BASIC_BLOCK)
+(insn 18 15 19 3 (set (reg:CCGC 17 flags)
+        (compare:CCGC (reg:SI 84 [ _3 ])
+            (const_int 8 [0x8]))) "cmodules/fbgc_math.c":53:2 11 {*cmpsi_1}
+     (nil))
+(jump_insn 19 18 20 3 (set (pc)
+        (if_then_else (gt (reg:CCGC 17 flags)
+                (const_int 0 [0]))
+            (label_ref 295)
+            (pc))) "cmodules/fbgc_math.c":53:2 659 {*jcc}
+     (nil)
+ -> 295)
+;;  succ:       4 (FALLTHRU)
+;;              29
+
+;; basic block 4, loop depth 0, maybe hot
+;;  prev block 3, next block 5, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       3 (FALLTHRU)
+;; bb 4 artificial_defs: { }
+;; bb 4 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 20 19 21 4 [bb 4] NOTE_INSN_BASIC_BLOCK)
+(insn 21 20 22 4 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg:SI 84 [ _3 ])
+            (const_int 7 [0x7]))) "cmodules/fbgc_math.c":53:2 11 {*cmpsi_1}
+     (nil))
+(jump_insn 22 21 23 4 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 159)
+            (pc))) "cmodules/fbgc_math.c":53:2 659 {*jcc}
+     (nil)
+ -> 159)
+;;  succ:       5 (FALLTHRU)
+;;              19
+
+;; basic block 5, loop depth 0, maybe hot
+;;  prev block 4, next block 6, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       4 (FALLTHRU)
+;; bb 5 artificial_defs: { }
+;; bb 5 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 23 22 26 5 [bb 5] NOTE_INSN_BASIC_BLOCK)
+(insn 26 23 27 5 (set (reg:CCGC 17 flags)
+        (compare:CCGC (reg:SI 84 [ _3 ])
+            (const_int 7 [0x7]))) "cmodules/fbgc_math.c":53:2 11 {*cmpsi_1}
+     (nil))
+(jump_insn 27 26 28 5 (set (pc)
+        (if_then_else (gt (reg:CCGC 17 flags)
+                (const_int 0 [0]))
+            (label_ref 295)
+            (pc))) "cmodules/fbgc_math.c":53:2 659 {*jcc}
+     (nil)
+ -> 295)
+;;  succ:       6 (FALLTHRU)
+;;              29
+
+;; basic block 6, loop depth 0, maybe hot
+;;  prev block 5, next block 7, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       5 (FALLTHRU)
+;; bb 6 artificial_defs: { }
+;; bb 6 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 28 27 31 6 [bb 6] NOTE_INSN_BASIC_BLOCK)
+(insn 31 28 32 6 (set (reg:CCGC 17 flags)
+        (compare:CCGC (reg:SI 84 [ _3 ])
+            (const_int 4 [0x4]))) "cmodules/fbgc_math.c":53:2 11 {*cmpsi_1}
+     (nil))
+(jump_insn 32 31 33 6 (set (pc)
+        (if_then_else (gt (reg:CCGC 17 flags)
+                (const_int 0 [0]))
+            (label_ref 41)
+            (pc))) "cmodules/fbgc_math.c":53:2 659 {*jcc}
+     (nil)
+ -> 41)
+;;  succ:       7 (FALLTHRU)
+;;              9
+
+;; basic block 7, loop depth 0, maybe hot
+;;  prev block 6, next block 8, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       6 (FALLTHRU)
+;; bb 7 artificial_defs: { }
+;; bb 7 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 33 32 36 7 [bb 7] NOTE_INSN_BASIC_BLOCK)
+(insn 36 33 37 7 (set (reg:CCGC 17 flags)
+        (compare:CCGC (reg:SI 84 [ _3 ])
+            (const_int 3 [0x3]))) "cmodules/fbgc_math.c":53:2 11 {*cmpsi_1}
+     (nil))
+(jump_insn 37 36 307 7 (set (pc)
+        (if_then_else (ge (reg:CCGC 17 flags)
+                (const_int 0 [0]))
+            (label_ref 48)
+            (pc))) "cmodules/fbgc_math.c":53:2 659 {*jcc}
+     (nil)
+ -> 48)
+;;  succ:       8 (FALLTHRU)
+;;              11
+
+;; basic block 8, loop depth 0, maybe hot
+;;  prev block 7, next block 9, flags: (NEW, RTL, MODIFIED)
+;;  pred:       7 (FALLTHRU)
+;; bb 8 artificial_defs: { }
+;; bb 8 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 307 37 308 8 [bb 8] NOTE_INSN_BASIC_BLOCK)
+(jump_insn 308 307 309 8 (set (pc)
+        (label_ref 295)) "cmodules/fbgc_math.c":53:2 -1
+     (nil)
+ -> 295)
+;;  succ:       29 [always] 
+
+(barrier 309 308 41)
+;; basic block 9, loop depth 0, maybe hot
+;;  prev block 8, next block 10, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       6
+;; bb 9 artificial_defs: { }
+;; bb 9 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 41 309 42 9 9 (nil) [1 uses])
+(note 42 41 43 9 [bb 9] NOTE_INSN_BASIC_BLOCK)
+(insn 43 42 44 9 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg:SI 84 [ _3 ])
+            (const_int 5 [0x5]))) "cmodules/fbgc_math.c":53:2 11 {*cmpsi_1}
+     (nil))
+(jump_insn 44 43 310 9 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 66)
+            (pc))) "cmodules/fbgc_math.c":53:2 659 {*jcc}
+     (nil)
+ -> 66)
+;;  succ:       10 (FALLTHRU)
+;;              12
+
+;; basic block 10, loop depth 0, maybe hot
+;;  prev block 9, next block 11, flags: (NEW, RTL, MODIFIED)
+;;  pred:       9 (FALLTHRU)
+;; bb 10 artificial_defs: { }
+;; bb 10 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 310 44 311 10 [bb 10] NOTE_INSN_BASIC_BLOCK)
+(jump_insn 311 310 312 10 (set (pc)
+        (label_ref 295)) "cmodules/fbgc_math.c":53:2 -1
+     (nil)
+ -> 295)
+;;  succ:       29 [always] 
+
+(barrier 312 311 48)
+;; basic block 11, loop depth 0, maybe hot
+;;  prev block 10, next block 12, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       7
+;; bb 11 artificial_defs: { }
+;; bb 11 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 48 312 49 11 10 (nil) [1 uses])
+(note 49 48 50 11 [bb 11] NOTE_INSN_BASIC_BLOCK)
+(insn 50 49 51 11 (set (reg/f:DI 142)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -120 [0xffffffffffffff88])) [11 arg+0 S8 A64])) "cmodules/fbgc_math.c":58:19 66 {*movdi_internal}
+     (nil))
+(insn 51 50 52 11 (set (reg/f:DI 85 [ _4 ])
+        (mem/f:DI (reg/f:DI 142) [6 *arg_68(D)+0 S8 A64])) "cmodules/fbgc_math.c":58:19 66 {*movdi_internal}
+     (nil))
+(insn 52 51 53 11 (set (reg:DI 5 di)
+        (reg/f:DI 85 [ _4 ])) "cmodules/fbgc_math.c":58:19 66 {*movdi_internal}
+     (nil))
+(call_insn 53 52 54 11 (set (reg:DF 20 xmm0)
+        (call (mem:QI (symbol_ref:DI ("convert_fbgc_object_to_double") [flags 0x41]  <function_decl 0x7fe77b18cf00 convert_fbgc_object_to_double>) [0 convert_fbgc_object_to_double S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":58:19 677 {*call_value}
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(insn 54 53 55 11 (set (reg:DF 143)
+        (reg:DF 20 xmm0)) "cmodules/fbgc_math.c":58:19 111 {*movdf_internal}
+     (nil))
+(insn 55 54 56 11 (set (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -40 [0xffffffffffffffd8])) [9 dbarg+0 S8 A64])
+        (reg:DF 143)) "cmodules/fbgc_math.c":58:19 111 {*movdf_internal}
+     (nil))
+(insn 56 55 57 11 (set (reg:DF 144)
+        (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -40 [0xffffffffffffffd8])) [9 dbarg+0 S8 A64])) "cmodules/fbgc_math.c":59:11 111 {*movdf_internal}
+     (nil))
+(insn 57 56 58 11 (set (reg/f:DI 145)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -136 [0xffffffffffffff78])) [12 fun+0 S8 A64])) "cmodules/fbgc_math.c":59:11 66 {*movdi_internal}
+     (nil))
+(insn 58 57 59 11 (set (reg:DF 20 xmm0)
+        (reg:DF 144)) "cmodules/fbgc_math.c":59:11 111 {*movdf_internal}
+     (nil))
+(call_insn 59 58 60 11 (set (reg:DF 20 xmm0)
+        (call (mem:QI (reg/f:DI 145) [0 *fun_76(D) S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":59:11 677 {*call_value}
+     (nil)
+    (expr_list:DF (use (reg:DF 20 xmm0))
+        (nil)))
+(insn 60 59 61 11 (set (reg:DF 86 [ _5 ])
+        (reg:DF 20 xmm0)) "cmodules/fbgc_math.c":59:11 111 {*movdf_internal}
+     (nil))
+(insn 61 60 62 11 (set (reg:DF 20 xmm0)
+        (reg:DF 86 [ _5 ])) "cmodules/fbgc_math.c":59:11 111 {*movdf_internal}
+     (nil))
+(call_insn 62 61 63 11 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("new_fbgc_double_object") [flags 0x41]  <function_decl 0x7fe77b19d500 new_fbgc_double_object>) [0 new_fbgc_double_object S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":59:11 677 {*call_value}
+     (nil)
+    (expr_list:DF (use (reg:DF 20 xmm0))
+        (nil)))
+(insn 63 62 313 11 (set (reg/f:DI 139 [ _61 ])
+        (reg:DI 0 ax)) "cmodules/fbgc_math.c":59:11 66 {*movdi_internal}
+     (nil))
+(jump_insn 313 63 314 11 (set (pc)
+        (label_ref 298)) "cmodules/fbgc_math.c":59:11 -1
+     (nil)
+ -> 298)
+;;  succ:       30 [always] 
+
+(barrier 314 313 66)
+;; basic block 12, loop depth 0, maybe hot
+;;  prev block 11, next block 13, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       9
+;; bb 12 artificial_defs: { }
+;; bb 12 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 66 314 67 12 11 (nil) [1 uses])
+(note 67 66 68 12 [bb 12] NOTE_INSN_BASIC_BLOCK)
+(insn 68 67 69 12 (set (reg/f:DI 146)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -120 [0xffffffffffffff88])) [11 arg+0 S8 A64])) "cmodules/fbgc_math.c":63:27 66 {*movdi_internal}
+     (nil))
+(insn 69 68 70 12 (set (reg/f:DI 87 [ _6 ])
+        (mem/f:DI (reg/f:DI 146) [6 *arg_68(D)+0 S8 A64])) "cmodules/fbgc_math.c":63:27 66 {*movdi_internal}
+     (nil))
+(insn 70 69 71 12 (set (reg:DI 5 di)
+        (reg/f:DI 87 [ _6 ])) "cmodules/fbgc_math.c":63:27 66 {*movdi_internal}
+     (nil))
+(call_insn 71 70 72 12 (set (parallel:TI [
+                (expr_list:REG_DEP_TRUE (reg:DF 20 xmm0)
+                    (const_int 0 [0]))
+                (expr_list:REG_DEP_TRUE (reg:DF 21 xmm1)
+                    (const_int 8 [0x8]))
+            ])
+        (call (mem:QI (symbol_ref:DI ("convert_fbgc_object_to_complex") [flags 0x41]  <function_decl 0x7fe77b191000 convert_fbgc_object_to_complex>) [0 convert_fbgc_object_to_complex S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":63:27 677 {*call_value}
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(insn 72 71 73 12 (set (reg:DF 147)
+        (reg:DF 20 xmm0)) "cmodules/fbgc_math.c":63:27 111 {*movdf_internal}
+     (nil))
+(insn 73 72 74 12 (set (reg:DF 148)
+        (reg:DF 21 xmm1)) "cmodules/fbgc_math.c":63:27 111 {*movdf_internal}
+     (nil))
+(insn 74 73 75 12 (set (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -16 [0xfffffffffffffff0])) [8 z+0 S8 A64])
+        (reg:DF 147)) "cmodules/fbgc_math.c":63:27 111 {*movdf_internal}
+     (nil))
+(insn 75 74 76 12 (set (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -8 [0xfffffffffffffff8])) [8 z+8 S8 A64])
+        (reg:DF 148)) "cmodules/fbgc_math.c":63:27 111 {*movdf_internal}
+     (nil))
+(insn 76 75 77 12 (set (reg:DF 149)
+        (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -16 [0xfffffffffffffff0])) [8 z+0 S8 A64])) "cmodules/fbgc_math.c":64:9 111 {*movdf_internal}
+     (nil))
+(insn 77 76 78 12 (set (reg:DF 150)
+        (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -8 [0xfffffffffffffff8])) [8 z+8 S8 A64])) "cmodules/fbgc_math.c":64:9 111 {*movdf_internal}
+     (nil))
+(insn 78 77 79 12 (set (reg/f:DI 151)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -144 [0xffffffffffffff70])) [13 zfun+0 S8 A64])) "cmodules/fbgc_math.c":64:9 66 {*movdi_internal}
+     (nil))
+(insn 79 78 80 12 (set (reg:DF 20 xmm0)
+        (reg:DF 149)) "cmodules/fbgc_math.c":64:9 111 {*movdf_internal}
+     (nil))
+(insn 80 79 81 12 (set (reg:DF 21 xmm1)
+        (reg:DF 150)) "cmodules/fbgc_math.c":64:9 111 {*movdf_internal}
+     (nil))
+(call_insn 81 80 82 12 (set (parallel:TI [
+                (expr_list:REG_DEP_TRUE (reg:DF 20 xmm0)
+                    (const_int 0 [0]))
+                (expr_list:REG_DEP_TRUE (reg:DF 21 xmm1)
+                    (const_int 8 [0x8]))
+            ])
+        (call (mem:QI (reg/f:DI 151) [0 *zfun_77(D) S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":64:9 677 {*call_value}
+     (nil)
+    (expr_list (use (reg:DF 21 xmm1))
+        (expr_list (use (reg:DF 20 xmm0))
+            (nil))))
+(insn 82 81 83 12 (set (reg:DF 152)
+        (reg:DF 20 xmm0)) "cmodules/fbgc_math.c":64:9 111 {*movdf_internal}
+     (nil))
+(insn 83 82 84 12 (set (reg:DF 153)
+        (reg:DF 21 xmm1)) "cmodules/fbgc_math.c":64:9 111 {*movdf_internal}
+     (nil))
+(insn 84 83 85 12 (set (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -16 [0xfffffffffffffff0])) [8 z+0 S8 A64])
+        (reg:DF 152)) "cmodules/fbgc_math.c":64:9 111 {*movdf_internal}
+     (nil))
+(insn 85 84 86 12 (set (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -8 [0xfffffffffffffff8])) [8 z+8 S8 A64])
+        (reg:DF 153)) "cmodules/fbgc_math.c":64:9 111 {*movdf_internal}
+     (nil))
+(insn 86 85 87 12 (set (reg:DF 88 [ _7 ])
+        (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -8 [0xfffffffffffffff8])) [9 z.imag+0 S8 A64])) "cmodules/fbgc_math.c":65:11 111 {*movdf_internal}
+     (nil))
+(insn 87 86 88 12 (set (reg:DF 89 [ _8 ])
+        (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -16 [0xfffffffffffffff0])) [9 z.real+0 S8 A64])) "cmodules/fbgc_math.c":65:11 111 {*movdf_internal}
+     (nil))
+(insn 88 87 89 12 (set (reg:DF 21 xmm1)
+        (reg:DF 88 [ _7 ])) "cmodules/fbgc_math.c":65:11 111 {*movdf_internal}
+     (nil))
+(insn 89 88 90 12 (set (reg:DF 20 xmm0)
+        (reg:DF 89 [ _8 ])) "cmodules/fbgc_math.c":65:11 111 {*movdf_internal}
+     (nil))
+(call_insn 90 89 91 12 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("new_fbgc_complex_object") [flags 0x41]  <function_decl 0x7fe77b1a2b00 new_fbgc_complex_object>) [0 new_fbgc_complex_object S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":65:11 677 {*call_value}
+     (nil)
+    (expr_list:DF (use (reg:DF 20 xmm0))
+        (expr_list:DF (use (reg:DF 21 xmm1))
+            (nil))))
+(insn 91 90 315 12 (set (reg/f:DI 139 [ _61 ])
+        (reg:DI 0 ax)) "cmodules/fbgc_math.c":65:11 66 {*movdi_internal}
+     (nil))
+(jump_insn 315 91 316 12 (set (pc)
+        (label_ref 298)) -1
+     (nil)
+ -> 298)
+;;  succ:       30 [always] 
+
+(barrier 316 315 94)
+;; basic block 13, loop depth 0, maybe hot
+;;  prev block 12, next block 14, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       2
+;; bb 13 artificial_defs: { }
+;; bb 13 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 94 316 95 13 6 (nil) [1 uses])
+(note 95 94 96 13 [bb 13] NOTE_INSN_BASIC_BLOCK)
+(insn 96 95 97 13 (set (reg/f:DI 154)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -120 [0xffffffffffffff88])) [11 arg+0 S8 A64])) "cmodules/fbgc_math.c":69:16 66 {*movdi_internal}
+     (nil))
+(insn 97 96 98 13 (set (reg/f:DI 90 [ _9 ])
+        (mem/f:DI (reg/f:DI 154) [6 *arg_68(D)+0 S8 A64])) "cmodules/fbgc_math.c":69:16 66 {*movdi_internal}
+     (nil))
+(insn 98 97 99 13 (set (reg:SI 155)
+        (mem:SI (plus:DI (reg/f:DI 90 [ _9 ])
+                (const_int 13 [0xd])) [3 MEM[(struct fbgc_tuple_object *)_9].size+0 S4 A8])) "cmodules/fbgc_math.c":69:11 67 {*movsi_internal}
+     (nil))
+(insn 99 98 100 13 (set (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -96 [0xffffffffffffffa0])) [3 sz+0 S4 A32])
+        (reg:SI 155)) "cmodules/fbgc_math.c":69:11 67 {*movsi_internal}
+     (nil))
+(insn 100 99 101 13 (set (reg:SI 156)
+        (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -96 [0xffffffffffffffa0])) [3 sz+0 S4 A32])) "cmodules/fbgc_math.c":70:34 67 {*movsi_internal}
+     (nil))
+(insn 101 100 102 13 (set (reg:SI 5 di)
+        (reg:SI 156)) "cmodules/fbgc_math.c":70:34 67 {*movsi_internal}
+     (nil))
+(call_insn 102 101 103 13 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("new_fbgc_tuple_object") [flags 0x41]  <function_decl 0x7fe77b1b2400 new_fbgc_tuple_object>) [0 new_fbgc_tuple_object S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":70:34 677 {*call_value}
+     (nil)
+    (expr_list:SI (use (reg:SI 5 di))
+        (nil)))
+(insn 103 102 104 13 (set (reg:DI 157)
+        (reg:DI 0 ax)) "cmodules/fbgc_math.c":70:34 66 {*movdi_internal}
+     (nil))
+(insn 104 103 105 13 (set (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -80 [0xffffffffffffffb0])) [6 res_tp+0 S8 A64])
+        (reg:DI 157)) "cmodules/fbgc_math.c":70:34 66 {*movdi_internal}
+     (nil))
+(insn 105 104 106 13 (set (reg/f:DI 158)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -80 [0xffffffffffffffb0])) [6 res_tp+0 S8 A64])) "cmodules/fbgc_math.c":71:35 66 {*movdi_internal}
+     (nil))
+(insn 106 105 107 13 (set (reg:SI 159)
+        (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -96 [0xffffffffffffffa0])) [3 sz+0 S4 A32])) "cmodules/fbgc_math.c":71:35 67 {*movsi_internal}
+     (nil))
+(insn 107 106 108 13 (set (mem:SI (plus:DI (reg/f:DI 158)
+                (const_int 13 [0xd])) [3 MEM[(struct fbgc_tuple_object *)res_tp_71].size+0 S4 A8])
+        (reg:SI 159)) "cmodules/fbgc_math.c":71:35 67 {*movsi_internal}
+     (nil))
+(insn 108 107 109 13 (set (reg/f:DI 160)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -120 [0xffffffffffffff88])) [11 arg+0 S8 A64])) "cmodules/fbgc_math.c":72:39 66 {*movdi_internal}
+     (nil))
+(insn 109 108 110 13 (set (reg/f:DI 91 [ _10 ])
+        (mem/f:DI (reg/f:DI 160) [6 *arg_68(D)+0 S8 A64])) "cmodules/fbgc_math.c":72:39 66 {*movdi_internal}
+     (nil))
+(insn 110 109 111 13 (parallel [
+            (set (reg/f:DI 92 [ _11 ])
+                (plus:DI (reg/f:DI 91 [ _10 ])
+                    (const_int 13 [0xd])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":72:39 191 {*adddi_1}
+     (nil))
+(insn 111 110 112 13 (parallel [
+            (set (reg:DI 161)
+                (plus:DI (reg/f:DI 92 [ _11 ])
+                    (const_int 4 [0x4])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":72:26 191 {*adddi_1}
+     (nil))
+(insn 112 111 113 13 (set (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -72 [0xffffffffffffffb8])) [11 tp_content+0 S8 A64])
+        (reg:DI 161)) "cmodules/fbgc_math.c":72:26 66 {*movdi_internal}
+     (nil))
+(insn 113 112 317 13 (set (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -108 [0xffffffffffffff94])) [3 i+0 S4 A32])
+        (const_int 0 [0])) "cmodules/fbgc_math.c":74:15 67 {*movsi_internal}
+     (nil))
+(jump_insn 317 113 318 13 (set (pc)
+        (label_ref 149)) "cmodules/fbgc_math.c":74:4 -1
+     (nil)
+ -> 149)
+;;  succ:       17 [always] 
+
+(barrier 318 317 151)
+;; basic block 14, loop depth 0, maybe hot
+;;  prev block 13, next block 15, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       17
+;; bb 14 artificial_defs: { }
+;; bb 14 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 151 318 116 14 15 (nil) [1 uses])
+(note 116 151 117 14 [bb 14] NOTE_INSN_BASIC_BLOCK)
+(insn 117 116 118 14 (set (reg:DI 93 [ _12 ])
+        (zero_extend:DI (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -108 [0xffffffffffffff94])) [3 i+0 S4 A32]))) "cmodules/fbgc_math.c":76:58 114 {*zero_extendsidi2}
+     (nil))
+(insn 118 117 119 14 (parallel [
+            (set (reg:DI 94 [ _13 ])
+                (ashift:DI (reg:DI 93 [ _12 ])
+                    (const_int 3 [0x3])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":76:58 520 {*ashldi3_1}
+     (nil))
+(insn 119 118 120 14 (set (reg/f:DI 162)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -72 [0xffffffffffffffb8])) [11 tp_content+0 S8 A64])) "cmodules/fbgc_math.c":76:35 66 {*movdi_internal}
+     (nil))
+(insn 120 119 121 14 (parallel [
+            (set (reg/f:DI 95 [ _14 ])
+                (plus:DI (reg:DI 94 [ _13 ])
+                    (reg/f:DI 162)))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":76:35 191 {*adddi_1}
+     (expr_list:REG_EQUAL (plus:DI (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -72 [0xffffffffffffffb8])) [11 tp_content+0 S8 A64])
+            (reg:DI 94 [ _13 ]))
+        (nil)))
+(insn 121 120 122 14 (set (reg:DI 163)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -144 [0xffffffffffffff70])) [13 zfun+0 S8 A64])) "cmodules/fbgc_math.c":76:35 66 {*movdi_internal}
+     (nil))
+(insn 122 121 123 14 (set (reg:DI 164)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -136 [0xffffffffffffff78])) [12 fun+0 S8 A64])) "cmodules/fbgc_math.c":76:35 66 {*movdi_internal}
+     (nil))
+(insn 123 122 124 14 (set (reg:DI 2 cx)
+        (reg:DI 163)) "cmodules/fbgc_math.c":76:35 66 {*movdi_internal}
+     (nil))
+(insn 124 123 125 14 (set (reg:DI 1 dx)
+        (reg:DI 164)) "cmodules/fbgc_math.c":76:35 66 {*movdi_internal}
+     (nil))
+(insn 125 124 126 14 (set (reg:SI 4 si)
+        (const_int 1 [0x1])) "cmodules/fbgc_math.c":76:35 67 {*movsi_internal}
+     (nil))
+(insn 126 125 127 14 (set (reg:DI 5 di)
+        (reg/f:DI 95 [ _14 ])) "cmodules/fbgc_math.c":76:35 66 {*movdi_internal}
+     (nil))
+(call_insn 127 126 128 14 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("one_arg_math") [flags 0x3]  <function_decl 0x7fe77b1e2800 one_arg_math>) [0 one_arg_math S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":76:35 677 {*call_value}
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:SI (use (reg:SI 4 si))
+            (expr_list:DI (use (reg:DI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+(insn 128 127 129 14 (set (reg:DI 165)
+        (reg:DI 0 ax)) "cmodules/fbgc_math.c":76:35 66 {*movdi_internal}
+     (nil))
+(insn 129 128 130 14 (set (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -64 [0xffffffffffffffc0])) [6 result+0 S8 A64])
+        (reg:DI 165)) "cmodules/fbgc_math.c":76:35 66 {*movdi_internal}
+     (nil))
+(insn 130 129 131 14 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -64 [0xffffffffffffffc0])) [6 result+0 S8 A64])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":77:5 8 {*cmpdi_ccno_1}
+     (nil))
+(jump_insn 131 130 132 14 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 139)
+            (pc))) "cmodules/fbgc_math.c":77:5 659 {*jcc}
+     (nil)
+ -> 139)
+;;  succ:       16
+;;              15 (FALLTHRU)
+
+;; basic block 15, loop depth 0, maybe hot
+;;  prev block 14, next block 16, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       14 (FALLTHRU)
+;; bb 15 artificial_defs: { }
+;; bb 15 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 132 131 133 15 [bb 15] NOTE_INSN_BASIC_BLOCK)
+(insn 133 132 134 15 (set (reg:DI 2 cx)
+        (symbol_ref:DI ("__PRETTY_FUNCTION__.5355") [flags 0x2]  <var_decl 0x7fe77b1e5360 __PRETTY_FUNCTION__>)) "cmodules/fbgc_math.c":77:5 66 {*movdi_internal}
+     (nil))
+(insn 134 133 135 15 (set (reg:SI 1 dx)
+        (const_int 77 [0x4d])) "cmodules/fbgc_math.c":77:5 67 {*movsi_internal}
+     (nil))
+(insn 135 134 136 15 (set (reg:DI 4 si)
+        (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0x7fe77b22eab0 *.LC2>)) "cmodules/fbgc_math.c":77:5 66 {*movdi_internal}
+     (nil))
+(insn 136 135 137 15 (set (reg:DI 5 di)
+        (symbol_ref/f:DI ("*.LC3") [flags 0x2]  <var_decl 0x7fe77b22eb40 *.LC3>)) "cmodules/fbgc_math.c":77:5 66 {*movdi_internal}
+     (nil))
+(call_insn 137 136 138 15 (call (mem:QI (symbol_ref:DI ("__assert_fail") [flags 0x41]  <function_decl 0x7fe77b05d400 __assert_fail>) [0 __assert_fail S1 A8])
+        (const_int 0 [0])) "cmodules/fbgc_math.c":77:5 666 {*call}
+     (expr_list:REG_ARGS_SIZE (const_int 0 [0])
+        (expr_list:REG_NORETURN (const_int 0 [0])
+            (expr_list:REG_EH_REGION (const_int 0 [0])
+                (nil))))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:SI (use (reg:SI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+;;  succ:      
+
+(barrier 138 137 139)
+;; basic block 16, loop depth 0, maybe hot
+;;  prev block 15, next block 17, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       14
+;; bb 16 artificial_defs: { }
+;; bb 16 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 139 138 140 16 14 (nil) [1 uses])
+(note 140 139 141 16 [bb 16] NOTE_INSN_BASIC_BLOCK)
+(insn 141 140 142 16 (set (reg:SI 96 [ i.0_15 ])
+        (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -108 [0xffffffffffffff94])) [3 i+0 S4 A32])) "cmodules/fbgc_math.c":78:5 67 {*movsi_internal}
+     (nil))
+(insn 142 141 143 16 (set (reg:DI 166)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -64 [0xffffffffffffffc0])) [6 result+0 S8 A64])) "cmodules/fbgc_math.c":78:5 66 {*movdi_internal}
+     (nil))
+(insn 143 142 144 16 (set (reg:DI 167)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -80 [0xffffffffffffffb0])) [6 res_tp+0 S8 A64])) "cmodules/fbgc_math.c":78:5 66 {*movdi_internal}
+     (nil))
+(insn 144 143 145 16 (set (reg:SI 1 dx)
+        (reg:SI 96 [ i.0_15 ])) "cmodules/fbgc_math.c":78:5 67 {*movsi_internal}
+     (nil))
+(insn 145 144 146 16 (set (reg:DI 4 si)
+        (reg:DI 166)) "cmodules/fbgc_math.c":78:5 66 {*movdi_internal}
+     (nil))
+(insn 146 145 147 16 (set (reg:DI 5 di)
+        (reg:DI 167)) "cmodules/fbgc_math.c":78:5 66 {*movdi_internal}
+     (nil))
+(call_insn 147 146 148 16 (call (mem:QI (symbol_ref:DI ("set_object_in_fbgc_tuple_object") [flags 0x41]  <function_decl 0x7fe77b1b2600 set_object_in_fbgc_tuple_object>) [0 set_object_in_fbgc_tuple_object S1 A8])
+        (const_int 0 [0])) "cmodules/fbgc_math.c":78:5 666 {*call}
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:SI (use (reg:SI 1 dx))
+                (nil)))))
+(insn 148 147 149 16 (parallel [
+            (set (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                        (const_int -108 [0xffffffffffffff94])) [3 i+0 S4 A32])
+                (plus:SI (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                            (const_int -108 [0xffffffffffffff94])) [3 i+0 S4 A32])
+                    (const_int 1 [0x1])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":74:31 190 {*addsi_1}
+     (nil))
+;;  succ:       17 (FALLTHRU,DFS_BACK)
+
+;; basic block 17, loop depth 0, maybe hot
+;;  prev block 16, next block 18, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       16 (FALLTHRU,DFS_BACK)
+;;              13 [always] 
+;; bb 17 artificial_defs: { }
+;; bb 17 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 149 148 150 17 13 (nil) [1 uses])
+(note 150 149 152 17 [bb 17] NOTE_INSN_BASIC_BLOCK)
+(insn 152 150 153 17 (set (reg:SI 168)
+        (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -108 [0xffffffffffffff94])) [3 i+0 S4 A32])) "cmodules/fbgc_math.c":74:4 67 {*movsi_internal}
+     (nil))
+(insn 153 152 154 17 (set (reg:CC 17 flags)
+        (compare:CC (reg:SI 168)
+            (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -96 [0xffffffffffffffa0])) [3 sz+0 S4 A32]))) "cmodules/fbgc_math.c":74:4 11 {*cmpsi_1}
+     (nil))
+(jump_insn 154 153 155 17 (set (pc)
+        (if_then_else (ltu (reg:CC 17 flags)
+                (const_int 0 [0]))
+            (label_ref 151)
+            (pc))) "cmodules/fbgc_math.c":74:4 659 {*jcc}
+     (nil)
+ -> 151)
+;;  succ:       14
+;;              18 (FALLTHRU)
+
+;; basic block 18, loop depth 0, maybe hot
+;;  prev block 17, next block 19, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       17 (FALLTHRU)
+;; bb 18 artificial_defs: { }
+;; bb 18 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 155 154 156 18 [bb 18] NOTE_INSN_BASIC_BLOCK)
+(insn 156 155 319 18 (set (reg/f:DI 139 [ _61 ])
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -80 [0xffffffffffffffb0])) [6 res_tp+0 S8 A64])) "cmodules/fbgc_math.c":80:11 66 {*movdi_internal}
+     (nil))
+(jump_insn 319 156 320 18 (set (pc)
+        (label_ref 298)) "cmodules/fbgc_math.c":80:11 -1
+     (nil)
+ -> 298)
+;;  succ:       30 [always] 
+
+(barrier 320 319 159)
+;; basic block 19, loop depth 0, maybe hot
+;;  prev block 18, next block 20, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       4
+;; bb 19 artificial_defs: { }
+;; bb 19 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 159 320 160 19 8 (nil) [1 uses])
+(note 160 159 161 19 [bb 19] NOTE_INSN_BASIC_BLOCK)
+(insn 161 160 162 19 (set (reg/f:DI 169)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -120 [0xffffffffffffff88])) [11 arg+0 S8 A64])) "cmodules/fbgc_math.c":84:32 66 {*movdi_internal}
+     (nil))
+(insn 162 161 163 19 (set (reg/f:DI 170)
+        (mem/f:DI (reg/f:DI 169) [6 *arg_68(D)+0 S8 A64])) "cmodules/fbgc_math.c":84:32 66 {*movdi_internal}
+     (nil))
+(insn 163 162 164 19 (set (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -56 [0xffffffffffffffc8])) [10 m+0 S8 A64])
+        (reg/f:DI 170)) "cmodules/fbgc_math.c":84:32 66 {*movdi_internal}
+     (nil))
+(insn 164 163 165 19 (set (reg/f:DI 171)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -56 [0xffffffffffffffc8])) [10 m+0 S8 A64])) "cmodules/fbgc_math.c":85:33 66 {*movdi_internal}
+     (nil))
+(insn 165 164 166 19 (set (reg:SI 97 [ _16 ])
+        (mem:SI (plus:DI (reg/f:DI 171)
+                (const_int 14 [0xe])) [3 m_83->column+0 S4 A8])) "cmodules/fbgc_math.c":85:33 67 {*movsi_internal}
+     (nil))
+(insn 166 165 167 19 (set (reg/f:DI 172)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -56 [0xffffffffffffffc8])) [10 m+0 S8 A64])) "cmodules/fbgc_math.c":85:33 66 {*movdi_internal}
+     (nil))
+(insn 167 166 168 19 (set (reg:SI 98 [ _17 ])
+        (mem:SI (plus:DI (reg/f:DI 172)
+                (const_int 10 [0xa])) [3 m_83->row+0 S4 A8])) "cmodules/fbgc_math.c":85:33 67 {*movsi_internal}
+     (nil))
+(insn 168 167 169 19 (set (reg/f:DI 173)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -56 [0xffffffffffffffc8])) [10 m+0 S8 A64])) "cmodules/fbgc_math.c":85:57 66 {*movdi_internal}
+     (nil))
+(insn 169 168 170 19 (set (reg:QI 99 [ _18 ])
+        (mem:QI (plus:DI (reg/f:DI 173)
+                (const_int 9 [0x9])) [0 m_83->sub_type+0 S1 A8])) "cmodules/fbgc_math.c":85:57 69 {*movqi_internal}
+     (nil))
+(insn 170 169 171 19 (set (reg:SI 100 [ _19 ])
+        (zero_extend:SI (reg:QI 99 [ _18 ]))) "cmodules/fbgc_math.c":85:33 119 {*zero_extendqisi2}
+     (nil))
+(insn 171 170 172 19 (set (reg:SI 2 cx)
+        (const_int 10 [0xa])) "cmodules/fbgc_math.c":85:33 67 {*movsi_internal}
+     (nil))
+(insn 172 171 173 19 (set (reg:SI 1 dx)
+        (reg:SI 97 [ _16 ])) "cmodules/fbgc_math.c":85:33 67 {*movsi_internal}
+     (nil))
+(insn 173 172 174 19 (set (reg:SI 4 si)
+        (reg:SI 98 [ _17 ])) "cmodules/fbgc_math.c":85:33 67 {*movsi_internal}
+     (nil))
+(insn 174 173 175 19 (set (reg:SI 5 di)
+        (reg:SI 100 [ _19 ])) "cmodules/fbgc_math.c":85:33 67 {*movsi_internal}
+     (nil))
+(call_insn 175 174 176 19 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("new_fbgc_matrix_object") [flags 0x41]  <function_decl 0x7fe77b1ac900 new_fbgc_matrix_object>) [0 new_fbgc_matrix_object S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":85:33 677 {*call_value}
+     (nil)
+    (expr_list:SI (use (reg:SI 5 di))
+        (expr_list:SI (use (reg:SI 4 si))
+            (expr_list:SI (use (reg:SI 1 dx))
+                (expr_list:SI (use (reg:SI 2 cx))
+                    (nil))))))
+(insn 176 175 177 19 (set (reg:DI 174)
+        (reg:DI 0 ax)) "cmodules/fbgc_math.c":85:33 66 {*movdi_internal}
+     (nil))
+(insn 177 176 178 19 (set (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -48 [0xffffffffffffffd0])) [6 res_m+0 S8 A64])
+        (reg:DI 174)) "cmodules/fbgc_math.c":85:33 66 {*movdi_internal}
+     (nil))
+(insn 178 177 179 19 (set (reg/f:DI 175)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -56 [0xffffffffffffffc8])) [10 m+0 S8 A64])) "cmodules/fbgc_math.c":87:17 66 {*movdi_internal}
+     (nil))
+(insn 179 178 180 19 (set (reg:SI 101 [ _20 ])
+        (mem:SI (plus:DI (reg/f:DI 175)
+                (const_int 10 [0xa])) [3 m_83->row+0 S4 A8])) "cmodules/fbgc_math.c":87:17 67 {*movsi_internal}
+     (nil))
+(insn 180 179 181 19 (set (reg/f:DI 176)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -56 [0xffffffffffffffc8])) [10 m+0 S8 A64])) "cmodules/fbgc_math.c":87:24 66 {*movdi_internal}
+     (nil))
+(insn 181 180 182 19 (set (reg:SI 102 [ _21 ])
+        (mem:SI (plus:DI (reg/f:DI 176)
+                (const_int 14 [0xe])) [3 m_83->column+0 S4 A8])) "cmodules/fbgc_math.c":87:24 67 {*movsi_internal}
+     (nil))
+(insn 182 181 183 19 (parallel [
+            (set (reg:SI 177)
+                (mult:SI (reg:SI 101 [ _20 ])
+                    (reg:SI 102 [ _21 ])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":87:11 317 {*mulsi3_1}
+     (nil))
+(insn 183 182 184 19 (set (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -92 [0xffffffffffffffa4])) [3 rc+0 S4 A32])
+        (reg:SI 177)) "cmodules/fbgc_math.c":87:11 67 {*movsi_internal}
+     (nil))
+(insn 184 183 321 19 (set (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -104 [0xffffffffffffff98])) [3 i+0 S4 A32])
+        (const_int 0 [0])) "cmodules/fbgc_math.c":91:15 67 {*movsi_internal}
+     (nil))
+(jump_insn 321 184 322 19 (set (pc)
+        (label_ref 284)) "cmodules/fbgc_math.c":91:4 -1
+     (nil)
+ -> 284)
+;;  succ:       27 [always] 
+
+(barrier 322 321 288)
+;; basic block 20, loop depth 0, maybe hot
+;;  prev block 19, next block 21, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       27
+;; bb 20 artificial_defs: { }
+;; bb 20 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 288 322 187 20 21 (nil) [1 uses])
+(note 187 288 188 20 [bb 20] NOTE_INSN_BASIC_BLOCK)
+(insn 188 187 323 20 (set (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -100 [0xffffffffffffff9c])) [3 j+0 S4 A32])
+        (const_int 0 [0])) "cmodules/fbgc_math.c":92:16 67 {*movsi_internal}
+     (nil))
+(jump_insn 323 188 324 20 (set (pc)
+        (label_ref 275)) "cmodules/fbgc_math.c":92:5 -1
+     (nil)
+ -> 275)
+;;  succ:       25 [always] 
+
+(barrier 324 323 279)
+;; basic block 21, loop depth 0, maybe hot
+;;  prev block 20, next block 22, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       25
+;; bb 21 artificial_defs: { }
+;; bb 21 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 279 324 191 21 20 (nil) [1 uses])
+(note 191 279 192 21 [bb 21] NOTE_INSN_BASIC_BLOCK)
+(insn 192 191 193 21 (set (reg/f:DI 178)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -56 [0xffffffffffffffc8])) [10 m+0 S8 A64])) "cmodules/fbgc_math.c":93:26 66 {*movdi_internal}
+     (nil))
+(insn 193 192 194 21 (set (reg:SI 103 [ _22 ])
+        (mem:SI (plus:DI (reg/f:DI 178)
+                (const_int 14 [0xe])) [3 m_83->column+0 S4 A8])) "cmodules/fbgc_math.c":93:26 67 {*movsi_internal}
+     (nil))
+(insn 194 193 198 21 (parallel [
+            (set (reg:SI 104 [ _23 ])
+                (mult:SI (reg:SI 103 [ _22 ])
+                    (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                            (const_int -104 [0xffffffffffffff98])) [3 i+0 S4 A32])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":93:23 317 {*mulsi3_1}
+     (nil))
+(insn 198 194 199 21 (set (reg:SI 182)
+        (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -100 [0xffffffffffffff9c])) [3 j+0 S4 A32])) "cmodules/fbgc_math.c":93:13 67 {*movsi_internal}
+     (nil))
+(insn 199 198 200 21 (parallel [
+            (set (reg:SI 181)
+                (plus:SI (reg:SI 104 [ _23 ])
+                    (reg:SI 182)))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":93:13 190 {*addsi_1}
+     (expr_list:REG_EQUAL (plus:SI (reg:SI 104 [ _23 ])
+            (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -100 [0xffffffffffffff9c])) [3 j+0 S4 A32]))
+        (nil)))
+(insn 200 199 205 21 (set (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -88 [0xffffffffffffffa8])) [3 index+0 S4 A32])
+        (reg:SI 181)) "cmodules/fbgc_math.c":93:13 67 {*movsi_internal}
+     (nil))
+(insn 205 200 206 21 (set (reg:SI 187)
+        (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -92 [0xffffffffffffffa4])) [3 rc+0 S4 A32])) "cmodules/fbgc_math.c":94:13 67 {*movsi_internal}
+     (nil))
+(insn 206 205 207 21 (set (reg:SI 188)
+        (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -88 [0xffffffffffffffa8])) [3 index+0 S4 A32])) "cmodules/fbgc_math.c":94:13 67 {*movsi_internal}
+     (nil))
+(insn 207 206 208 21 (parallel [
+            (set (reg:SI 186)
+                (plus:SI (reg:SI 187)
+                    (reg:SI 188)))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":94:13 190 {*addsi_1}
+     (expr_list:REG_EQUAL (plus:SI (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -92 [0xffffffffffffffa4])) [3 rc+0 S4 A32])
+            (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -88 [0xffffffffffffffa8])) [3 index+0 S4 A32]))
+        (nil)))
+(insn 208 207 209 21 (set (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -84 [0xffffffffffffffac])) [3 c_index+0 S4 A32])
+        (reg:SI 186)) "cmodules/fbgc_math.c":94:13 67 {*movsi_internal}
+     (nil))
+(insn 209 208 210 21 (set (reg/f:DI 189)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -56 [0xffffffffffffffc8])) [10 m+0 S8 A64])) "cmodules/fbgc_math.c":96:17 66 {*movdi_internal}
+     (nil))
+(insn 210 209 211 21 (parallel [
+            (set (reg/f:DI 105 [ _24 ])
+                (plus:DI (reg/f:DI 189)
+                    (const_int 14 [0xe])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":96:17 191 {*adddi_1}
+     (expr_list:REG_EQUAL (plus:DI (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -56 [0xffffffffffffffc8])) [10 m+0 S8 A64])
+            (const_int 14 [0xe]))
+        (nil)))
+(insn 211 210 212 21 (set (reg:DI 106 [ _25 ])
+        (zero_extend:DI (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -88 [0xffffffffffffffa8])) [3 index+0 S4 A32]))) "cmodules/fbgc_math.c":96:46 114 {*zero_extendsidi2}
+     (nil))
+(insn 212 211 213 21 (parallel [
+            (set (reg:DI 107 [ _26 ])
+                (ashift:DI (reg:DI 106 [ _25 ])
+                    (const_int 3 [0x3])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":96:46 520 {*ashldi3_1}
+     (nil))
+(insn 213 212 214 21 (parallel [
+            (set (reg:DI 108 [ _27 ])
+                (plus:DI (reg:DI 107 [ _26 ])
+                    (const_int 4 [0x4])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":96:46 191 {*adddi_1}
+     (nil))
+(insn 214 213 215 21 (parallel [
+            (set (reg/f:DI 109 [ _28 ])
+                (plus:DI (reg/f:DI 105 [ _24 ])
+                    (reg:DI 108 [ _27 ])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":96:46 191 {*adddi_1}
+     (nil))
+(insn 215 214 216 21 (set (reg:DF 110 [ _29 ])
+        (mem:DF (reg/f:DI 109 [ _28 ]) [9 *_28+0 S8 A64])) "cmodules/fbgc_math.c":96:15 111 {*movdf_internal}
+     (nil))
+(insn 216 215 217 21 (set (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -32 [0xffffffffffffffe0])) [9 z.real+0 S8 A64])
+        (reg:DF 110 [ _29 ])) "cmodules/fbgc_math.c":96:13 111 {*movdf_internal}
+     (nil))
+(insn 217 216 218 21 (set (reg/f:DI 190)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -56 [0xffffffffffffffc8])) [10 m+0 S8 A64])) "cmodules/fbgc_math.c":97:10 66 {*movdi_internal}
+     (nil))
+(insn 218 217 219 21 (set (reg:QI 111 [ _30 ])
+        (mem:QI (plus:DI (reg/f:DI 190)
+                (const_int 9 [0x9])) [0 m_83->sub_type+0 S1 A8])) "cmodules/fbgc_math.c":97:10 69 {*movqi_internal}
+     (nil))
+(insn 219 218 220 21 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg:QI 111 [ _30 ])
+            (const_int 5 [0x5]))) "cmodules/fbgc_math.c":97:8 9 {*cmpqi_1}
+     (nil))
+(jump_insn 220 219 221 21 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 258)
+            (pc))) "cmodules/fbgc_math.c":97:8 659 {*jcc}
+     (nil)
+ -> 258)
+;;  succ:       22 (FALLTHRU)
+;;              23
+
+;; basic block 22, loop depth 0, maybe hot
+;;  prev block 21, next block 23, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       21 (FALLTHRU)
+;; bb 22 artificial_defs: { }
+;; bb 22 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 221 220 222 22 [bb 22] NOTE_INSN_BASIC_BLOCK)
+(insn 222 221 223 22 (set (reg/f:DI 191)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -56 [0xffffffffffffffc8])) [10 m+0 S8 A64])) "cmodules/fbgc_math.c":98:18 66 {*movdi_internal}
+     (nil))
+(insn 223 222 224 22 (parallel [
+            (set (reg/f:DI 112 [ _31 ])
+                (plus:DI (reg/f:DI 191)
+                    (const_int 14 [0xe])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":98:18 191 {*adddi_1}
+     (expr_list:REG_EQUAL (plus:DI (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -56 [0xffffffffffffffc8])) [10 m+0 S8 A64])
+            (const_int 14 [0xe]))
+        (nil)))
+(insn 224 223 225 22 (set (reg:DI 113 [ _32 ])
+        (zero_extend:DI (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -84 [0xffffffffffffffac])) [3 c_index+0 S4 A32]))) "cmodules/fbgc_math.c":98:47 114 {*zero_extendsidi2}
+     (nil))
+(insn 225 224 226 22 (parallel [
+            (set (reg:DI 114 [ _33 ])
+                (ashift:DI (reg:DI 113 [ _32 ])
+                    (const_int 3 [0x3])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":98:47 520 {*ashldi3_1}
+     (nil))
+(insn 226 225 227 22 (parallel [
+            (set (reg:DI 115 [ _34 ])
+                (plus:DI (reg:DI 114 [ _33 ])
+                    (const_int 4 [0x4])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":98:47 191 {*adddi_1}
+     (nil))
+(insn 227 226 228 22 (parallel [
+            (set (reg/f:DI 116 [ _35 ])
+                (plus:DI (reg/f:DI 112 [ _31 ])
+                    (reg:DI 115 [ _34 ])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":98:47 191 {*adddi_1}
+     (nil))
+(insn 228 227 229 22 (set (reg:DF 117 [ _36 ])
+        (mem:DF (reg/f:DI 116 [ _35 ]) [9 *_35+0 S8 A64])) "cmodules/fbgc_math.c":98:16 111 {*movdf_internal}
+     (nil))
+(insn 229 228 230 22 (set (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -24 [0xffffffffffffffe8])) [9 z.imag+0 S8 A64])
+        (reg:DF 117 [ _36 ])) "cmodules/fbgc_math.c":98:14 111 {*movdf_internal}
+     (nil))
+(insn 230 229 231 22 (set (reg:DF 192)
+        (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -32 [0xffffffffffffffe0])) [8 z+0 S8 A64])) "cmodules/fbgc_math.c":99:36 111 {*movdf_internal}
+     (nil))
+(insn 231 230 232 22 (set (reg:DF 193)
+        (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -24 [0xffffffffffffffe8])) [8 z+8 S8 A64])) "cmodules/fbgc_math.c":99:36 111 {*movdf_internal}
+     (nil))
+(insn 232 231 233 22 (set (reg/f:DI 194)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -144 [0xffffffffffffff70])) [13 zfun+0 S8 A64])) "cmodules/fbgc_math.c":99:36 66 {*movdi_internal}
+     (nil))
+(insn 233 232 234 22 (set (reg:DF 20 xmm0)
+        (reg:DF 192)) "cmodules/fbgc_math.c":99:36 111 {*movdf_internal}
+     (nil))
+(insn 234 233 235 22 (set (reg:DF 21 xmm1)
+        (reg:DF 193)) "cmodules/fbgc_math.c":99:36 111 {*movdf_internal}
+     (nil))
+(call_insn 235 234 236 22 (set (parallel:TI [
+                (expr_list:REG_DEP_TRUE (reg:DF 20 xmm0)
+                    (const_int 0 [0]))
+                (expr_list:REG_DEP_TRUE (reg:DF 21 xmm1)
+                    (const_int 8 [0x8]))
+            ])
+        (call (mem:QI (reg/f:DI 194) [0 *zfun_77(D) S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":99:36 677 {*call_value}
+     (nil)
+    (expr_list (use (reg:DF 21 xmm1))
+        (expr_list (use (reg:DF 20 xmm0))
+            (nil))))
+(insn 236 235 237 22 (set (reg:DF 195)
+        (reg:DF 20 xmm0)) "cmodules/fbgc_math.c":99:36 111 {*movdf_internal}
+     (nil))
+(insn 237 236 238 22 (set (reg:DF 196)
+        (reg:DF 21 xmm1)) "cmodules/fbgc_math.c":99:36 111 {*movdf_internal}
+     (nil))
+(insn 238 237 239 22 (set (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -16 [0xfffffffffffffff0])) [8 result+0 S8 A64])
+        (reg:DF 195)) "cmodules/fbgc_math.c":99:36 111 {*movdf_internal}
+     (nil))
+(insn 239 238 240 22 (set (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -8 [0xfffffffffffffff8])) [8 result+8 S8 A64])
+        (reg:DF 196)) "cmodules/fbgc_math.c":99:36 111 {*movdf_internal}
+     (nil))
+(insn 240 239 241 22 (set (reg/f:DI 197)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -48 [0xffffffffffffffd0])) [6 res_m+0 S8 A64])) "cmodules/fbgc_math.c":100:9 66 {*movdi_internal}
+     (nil))
+(insn 241 240 242 22 (parallel [
+            (set (reg/f:DI 118 [ _37 ])
+                (plus:DI (reg/f:DI 197)
+                    (const_int 14 [0xe])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":100:9 191 {*adddi_1}
+     (expr_list:REG_EQUAL (plus:DI (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -48 [0xffffffffffffffd0])) [6 res_m+0 S8 A64])
+            (const_int 14 [0xe]))
+        (nil)))
+(insn 242 241 243 22 (set (reg:DI 119 [ _38 ])
+        (zero_extend:DI (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -88 [0xffffffffffffffa8])) [3 index+0 S4 A32]))) "cmodules/fbgc_math.c":100:42 114 {*zero_extendsidi2}
+     (nil))
+(insn 243 242 244 22 (parallel [
+            (set (reg:DI 120 [ _39 ])
+                (ashift:DI (reg:DI 119 [ _38 ])
+                    (const_int 3 [0x3])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":100:42 520 {*ashldi3_1}
+     (nil))
+(insn 244 243 245 22 (parallel [
+            (set (reg:DI 121 [ _40 ])
+                (plus:DI (reg:DI 120 [ _39 ])
+                    (const_int 4 [0x4])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":100:42 191 {*adddi_1}
+     (nil))
+(insn 245 244 246 22 (parallel [
+            (set (reg/f:DI 122 [ _41 ])
+                (plus:DI (reg/f:DI 118 [ _37 ])
+                    (reg:DI 121 [ _40 ])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":100:42 191 {*adddi_1}
+     (nil))
+(insn 246 245 247 22 (set (reg:DF 123 [ _42 ])
+        (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -16 [0xfffffffffffffff0])) [9 result.real+0 S8 A64])) "cmodules/fbgc_math.c":100:58 111 {*movdf_internal}
+     (nil))
+(insn 247 246 248 22 (set (mem:DF (reg/f:DI 122 [ _41 ]) [9 *_41+0 S8 A64])
+        (reg:DF 123 [ _42 ])) "cmodules/fbgc_math.c":100:50 111 {*movdf_internal}
+     (nil))
+(insn 248 247 249 22 (set (reg/f:DI 198)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -48 [0xffffffffffffffd0])) [6 res_m+0 S8 A64])) "cmodules/fbgc_math.c":101:9 66 {*movdi_internal}
+     (nil))
+(insn 249 248 250 22 (parallel [
+            (set (reg/f:DI 124 [ _43 ])
+                (plus:DI (reg/f:DI 198)
+                    (const_int 14 [0xe])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":101:9 191 {*adddi_1}
+     (expr_list:REG_EQUAL (plus:DI (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -48 [0xffffffffffffffd0])) [6 res_m+0 S8 A64])
+            (const_int 14 [0xe]))
+        (nil)))
+(insn 250 249 251 22 (set (reg:DI 125 [ _44 ])
+        (zero_extend:DI (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -84 [0xffffffffffffffac])) [3 c_index+0 S4 A32]))) "cmodules/fbgc_math.c":101:42 114 {*zero_extendsidi2}
+     (nil))
+(insn 251 250 252 22 (parallel [
+            (set (reg:DI 126 [ _45 ])
+                (ashift:DI (reg:DI 125 [ _44 ])
+                    (const_int 3 [0x3])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":101:42 520 {*ashldi3_1}
+     (nil))
+(insn 252 251 253 22 (parallel [
+            (set (reg:DI 127 [ _46 ])
+                (plus:DI (reg:DI 126 [ _45 ])
+                    (const_int 4 [0x4])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":101:42 191 {*adddi_1}
+     (nil))
+(insn 253 252 254 22 (parallel [
+            (set (reg/f:DI 128 [ _47 ])
+                (plus:DI (reg/f:DI 124 [ _43 ])
+                    (reg:DI 127 [ _46 ])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":101:42 191 {*adddi_1}
+     (nil))
+(insn 254 253 255 22 (set (reg:DF 129 [ _48 ])
+        (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -8 [0xfffffffffffffff8])) [9 result.imag+0 S8 A64])) "cmodules/fbgc_math.c":101:60 111 {*movdf_internal}
+     (nil))
+(insn 255 254 325 22 (set (mem:DF (reg/f:DI 128 [ _47 ]) [9 *_47+0 S8 A64])
+        (reg:DF 129 [ _48 ])) "cmodules/fbgc_math.c":101:52 111 {*movdf_internal}
+     (nil))
+(jump_insn 325 255 326 22 (set (pc)
+        (label_ref 272)) -1
+     (nil)
+ -> 272)
+;;  succ:       24 [always] 
+
+(barrier 326 325 258)
+;; basic block 23, loop depth 0, maybe hot
+;;  prev block 22, next block 24, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       21
+;; bb 23 artificial_defs: { }
+;; bb 23 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 258 326 259 23 18 (nil) [1 uses])
+(note 259 258 260 23 [bb 23] NOTE_INSN_BASIC_BLOCK)
+(insn 260 259 261 23 (set (reg:DF 130 [ _49 ])
+        (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -32 [0xffffffffffffffe0])) [9 z.real+0 S8 A64])) "cmodules/fbgc_math.c":103:57 111 {*movdf_internal}
+     (nil))
+(insn 261 260 262 23 (set (reg/f:DI 199)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -48 [0xffffffffffffffd0])) [6 res_m+0 S8 A64])) "cmodules/fbgc_math.c":103:13 66 {*movdi_internal}
+     (nil))
+(insn 262 261 263 23 (parallel [
+            (set (reg/f:DI 131 [ _50 ])
+                (plus:DI (reg/f:DI 199)
+                    (const_int 14 [0xe])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":103:13 191 {*adddi_1}
+     (expr_list:REG_EQUAL (plus:DI (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -48 [0xffffffffffffffd0])) [6 res_m+0 S8 A64])
+            (const_int 14 [0xe]))
+        (nil)))
+(insn 263 262 264 23 (set (reg:DI 132 [ _51 ])
+        (zero_extend:DI (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -88 [0xffffffffffffffa8])) [3 index+0 S4 A32]))) "cmodules/fbgc_math.c":103:46 114 {*zero_extendsidi2}
+     (nil))
+(insn 264 263 265 23 (parallel [
+            (set (reg:DI 133 [ _52 ])
+                (ashift:DI (reg:DI 132 [ _51 ])
+                    (const_int 3 [0x3])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":103:46 520 {*ashldi3_1}
+     (nil))
+(insn 265 264 266 23 (parallel [
+            (set (reg:DI 134 [ _53 ])
+                (plus:DI (reg:DI 133 [ _52 ])
+                    (const_int 4 [0x4])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":103:46 191 {*adddi_1}
+     (nil))
+(insn 266 265 267 23 (parallel [
+            (set (reg/f:DI 135 [ _54 ])
+                (plus:DI (reg/f:DI 131 [ _50 ])
+                    (reg:DI 134 [ _53 ])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":103:46 191 {*adddi_1}
+     (nil))
+(insn 267 266 268 23 (set (reg/f:DI 200)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -136 [0xffffffffffffff78])) [12 fun+0 S8 A64])) "cmodules/fbgc_math.c":103:57 66 {*movdi_internal}
+     (nil))
+(insn 268 267 269 23 (set (reg:DF 20 xmm0)
+        (reg:DF 130 [ _49 ])) "cmodules/fbgc_math.c":103:57 111 {*movdf_internal}
+     (nil))
+(call_insn 269 268 270 23 (set (reg:DF 20 xmm0)
+        (call (mem:QI (reg/f:DI 200) [0 *fun_76(D) S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":103:57 677 {*call_value}
+     (nil)
+    (expr_list:DF (use (reg:DF 20 xmm0))
+        (nil)))
+(insn 270 269 271 23 (set (reg:DF 136 [ _55 ])
+        (reg:DF 20 xmm0)) "cmodules/fbgc_math.c":103:57 111 {*movdf_internal}
+     (nil))
+(insn 271 270 272 23 (set (mem:DF (reg/f:DI 135 [ _54 ]) [9 *_54+0 S8 A64])
+        (reg:DF 136 [ _55 ])) "cmodules/fbgc_math.c":103:54 111 {*movdf_internal}
+     (nil))
+;;  succ:       24 (FALLTHRU)
+
+;; basic block 24, loop depth 0, maybe hot
+;;  prev block 23, next block 25, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       23 (FALLTHRU)
+;;              22 [always] 
+;; bb 24 artificial_defs: { }
+;; bb 24 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 272 271 273 24 19 (nil) [1 uses])
+(note 273 272 274 24 [bb 24] NOTE_INSN_BASIC_BLOCK)
+(insn 274 273 275 24 (parallel [
+            (set (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                        (const_int -100 [0xffffffffffffff9c])) [3 j+0 S4 A32])
+                (plus:SI (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                            (const_int -100 [0xffffffffffffff9c])) [3 j+0 S4 A32])
+                    (const_int 1 [0x1])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":92:36 190 {*addsi_1}
+     (nil))
+;;  succ:       25 (FALLTHRU,DFS_BACK)
+
+;; basic block 25, loop depth 0, maybe hot
+;;  prev block 24, next block 26, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       24 (FALLTHRU,DFS_BACK)
+;;              20 [always] 
+;; bb 25 artificial_defs: { }
+;; bb 25 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 275 274 276 25 17 (nil) [1 uses])
+(note 276 275 277 25 [bb 25] NOTE_INSN_BASIC_BLOCK)
+(insn 277 276 278 25 (set (reg/f:DI 201)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -56 [0xffffffffffffffc8])) [10 m+0 S8 A64])) "cmodules/fbgc_math.c":92:26 66 {*movdi_internal}
+     (nil))
+(insn 278 277 280 25 (set (reg:SI 137 [ _56 ])
+        (mem:SI (plus:DI (reg/f:DI 201)
+                (const_int 14 [0xe])) [3 m_83->column+0 S4 A8])) "cmodules/fbgc_math.c":92:26 67 {*movsi_internal}
+     (nil))
+(insn 280 278 281 25 (set (reg:CC 17 flags)
+        (compare:CC (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -100 [0xffffffffffffff9c])) [3 j+0 S4 A32])
+            (reg:SI 137 [ _56 ]))) "cmodules/fbgc_math.c":92:5 11 {*cmpsi_1}
+     (nil))
+(jump_insn 281 280 282 25 (set (pc)
+        (if_then_else (ltu (reg:CC 17 flags)
+                (const_int 0 [0]))
+            (label_ref 279)
+            (pc))) "cmodules/fbgc_math.c":92:5 659 {*jcc}
+     (nil)
+ -> 279)
+;;  succ:       21
+;;              26 (FALLTHRU)
+
+;; basic block 26, loop depth 0, maybe hot
+;;  prev block 25, next block 27, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       25 (FALLTHRU)
+;; bb 26 artificial_defs: { }
+;; bb 26 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 282 281 283 26 [bb 26] NOTE_INSN_BASIC_BLOCK)
+(insn 283 282 284 26 (parallel [
+            (set (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                        (const_int -104 [0xffffffffffffff98])) [3 i+0 S4 A32])
+                (plus:SI (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                            (const_int -104 [0xffffffffffffff98])) [3 i+0 S4 A32])
+                    (const_int 1 [0x1])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":91:32 190 {*addsi_1}
+     (nil))
+;;  succ:       27 (FALLTHRU,DFS_BACK)
+
+;; basic block 27, loop depth 0, maybe hot
+;;  prev block 26, next block 28, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       26 (FALLTHRU,DFS_BACK)
+;;              19 [always] 
+;; bb 27 artificial_defs: { }
+;; bb 27 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 284 283 285 27 16 (nil) [1 uses])
+(note 285 284 286 27 [bb 27] NOTE_INSN_BASIC_BLOCK)
+(insn 286 285 287 27 (set (reg/f:DI 202)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -56 [0xffffffffffffffc8])) [10 m+0 S8 A64])) "cmodules/fbgc_math.c":91:25 66 {*movdi_internal}
+     (nil))
+(insn 287 286 289 27 (set (reg:SI 138 [ _57 ])
+        (mem:SI (plus:DI (reg/f:DI 202)
+                (const_int 10 [0xa])) [3 m_83->row+0 S4 A8])) "cmodules/fbgc_math.c":91:25 67 {*movsi_internal}
+     (nil))
+(insn 289 287 290 27 (set (reg:CC 17 flags)
+        (compare:CC (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -104 [0xffffffffffffff98])) [3 i+0 S4 A32])
+            (reg:SI 138 [ _57 ]))) "cmodules/fbgc_math.c":91:4 11 {*cmpsi_1}
+     (nil))
+(jump_insn 290 289 291 27 (set (pc)
+        (if_then_else (ltu (reg:CC 17 flags)
+                (const_int 0 [0]))
+            (label_ref 288)
+            (pc))) "cmodules/fbgc_math.c":91:4 659 {*jcc}
+     (nil)
+ -> 288)
+;;  succ:       20
+;;              28 (FALLTHRU)
+
+;; basic block 28, loop depth 0, maybe hot
+;;  prev block 27, next block 29, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       27 (FALLTHRU)
+;; bb 28 artificial_defs: { }
+;; bb 28 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 291 290 292 28 [bb 28] NOTE_INSN_BASIC_BLOCK)
+(insn 292 291 327 28 (set (reg/f:DI 139 [ _61 ])
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -48 [0xffffffffffffffd0])) [6 res_m+0 S8 A64])) "cmodules/fbgc_math.c":106:11 66 {*movdi_internal}
+     (nil))
+(jump_insn 327 292 328 28 (set (pc)
+        (label_ref 298)) -1
+     (nil)
+ -> 298)
+;;  succ:       30 [always] 
+
+(barrier 328 327 295)
+;; basic block 29, loop depth 0, maybe hot
+;;  prev block 28, next block 30, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       8 [always] 
+;;              3
+;;              5
+;;              10 [always] 
+;; bb 29 artificial_defs: { }
+;; bb 29 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 295 328 296 29 7 (nil) [4 uses])
+(note 296 295 297 29 [bb 29] NOTE_INSN_BASIC_BLOCK)
+(insn 297 296 298 29 (set (reg/f:DI 139 [ _61 ])
+        (const_int 0 [0])) "cmodules/fbgc_math.c":109:11 66 {*movdi_internal}
+     (nil))
+;;  succ:       30 (FALLTHRU)
+
+;; basic block 30, loop depth 0, maybe hot
+;;  prev block 29, next block 1, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       29 (FALLTHRU)
+;;              11 [always] 
+;;              12 [always] 
+;;              18 [always] 
+;;              28 [always] 
+;; bb 30 artificial_defs: { }
+;; bb 30 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 298 297 299 30 12 (nil) [4 uses])
+(note 299 298 300 30 [bb 30] NOTE_INSN_BASIC_BLOCK)
+(insn 300 299 304 30 (set (reg/f:DI 140 [ <retval> ])
+        (reg/f:DI 139 [ _61 ])) 66 {*movdi_internal}
+     (nil))
+(insn 304 300 305 30 (set (reg/i:DI 0 ax)
+        (reg/f:DI 140 [ <retval> ])) "cmodules/fbgc_math.c":111:1 66 {*movdi_internal}
+     (nil))
+(insn 305 304 0 30 (use (reg/i:DI 0 ax)) "cmodules/fbgc_math.c":111:1 -1
+     (nil))
+;;  succ:       EXIT [always]  (FALLTHRU)
+
+
+;; Function fbgc_sin (fbgc_sin, funcdef_no=9, decl_uid=5268, cgraph_uid=10, symbol_order=12)
+
+verify found no changes in insn with uid = 17.
+
+
+fbgc_sin
+
+Dataflow summary:
+;;  invalidated by call 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 8 [st] 9 [st(1)] 10 [st(2)] 11 [st(3)] 12 [st(4)] 13 [st(5)] 14 [st(6)] 15 [st(7)] 17 [flags] 18 [fpsr] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 28 [mm0] 29 [mm1] 30 [mm2] 31 [mm3] 32 [mm4] 33 [mm5] 34 [mm6] 35 [mm7] 36 [r8] 37 [r9] 38 [r10] 39 [r11] 44 [xmm8] 45 [xmm9] 46 [xmm10] 47 [xmm11] 48 [xmm12] 49 [xmm13] 50 [xmm14] 51 [xmm15] 52 [] 53 [] 54 [] 55 [] 56 [] 57 [] 58 [] 59 [] 60 [] 61 [] 62 [] 63 [] 64 [] 65 [] 66 [] 67 [] 68 [] 69 [] 70 [] 71 [] 72 [] 73 [] 74 [] 75 []
+;;  hardware regs used 	
+;;  regular block artificial uses 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;;  eh block artificial uses 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;;  entry block defs 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 36 [r8] 37 [r9]
+;;  exit block uses 	 0 [ax] 6 [bp] 7 [sp] 19 [frame]
+;;  regs ever live 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 7 [sp] 17 [flags]
+;;  ref usage 	r0={3d,3u} r1={3d,1u} r2={3d,1u} r4={3d,2u} r5={3d,2u} r6={1d,5u} r7={1d,6u} r8={1d} r9={1d} r10={1d} r11={1d} r12={1d} r13={1d} r14={1d} r15={1d} r16={1d,4u} r17={2d,1u} r18={1d} r19={1d,10u} r20={2d} r21={2d} r22={2d} r23={2d} r24={2d} r25={2d} r26={2d} r27={2d} r28={1d} r29={1d} r30={1d} r31={1d} r32={1d} r33={1d} r34={1d} r35={1d} r36={2d} r37={2d} r38={1d} r39={1d} r44={1d} r45={1d} r46={1d} r47={1d} r48={1d} r49={1d} r50={1d} r51={1d} r52={1d} r53={1d} r54={1d} r55={1d} r56={1d} r57={1d} r58={1d} r59={1d} r60={1d} r61={1d} r62={1d} r63={1d} r64={1d} r65={1d} r66={1d} r67={1d} r68={1d} r69={1d} r70={1d} r71={1d} r72={1d} r73={1d} r74={1d} r75={1d} r82={2d,1u} r83={1d,1u} r84={1d,1u} r85={1d,1u} r86={1d,1u} 
+;;    total ref usage 138{98d,40u,0e} in 18{17 regular + 1 call} insns.
+(note 1 0 5 NOTE_INSN_DELETED)
+;; basic block 2, loop depth 0, maybe hot
+;;  prev block 0, next block 3, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       ENTRY (FALLTHRU)
+;; bb 2 artificial_defs: { }
+;; bb 2 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 5 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 5 3 2 (set (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -8 [0xfffffffffffffff8])) [11 arg+0 S8 A64])
+        (reg:DI 5 di [ arg ])) "cmodules/fbgc_math.c":120:1 66 {*movdi_internal}
+     (nil))
+(insn 3 2 4 2 (set (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -12 [0xfffffffffffffff4])) [3 argc+0 S4 A32])
+        (reg:SI 4 si [ argc ])) "cmodules/fbgc_math.c":120:1 67 {*movsi_internal}
+     (nil))
+(note 4 3 7 2 NOTE_INSN_FUNCTION_BEG)
+(insn 7 4 8 2 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -12 [0xfffffffffffffff4])) [3 argc+0 S4 A32])
+            (const_int 1 [0x1]))) "cmodules/fbgc_math.c":120:1 11 {*cmpsi_1}
+     (nil))
+(jump_insn 8 7 9 2 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 21)
+            (pc))) "cmodules/fbgc_math.c":120:1 659 {*jcc}
+     (nil)
+ -> 21)
+;;  succ:       3 (FALLTHRU)
+;;              4
+
+;; basic block 3, loop depth 0, maybe hot
+;;  prev block 2, next block 4, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       2 (FALLTHRU)
+;; bb 3 artificial_defs: { }
+;; bb 3 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 9 8 10 3 [bb 3] NOTE_INSN_BASIC_BLOCK)
+(insn 10 9 11 3 (set (reg:SI 84)
+        (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -12 [0xfffffffffffffff4])) [3 argc+0 S4 A32])) "cmodules/fbgc_math.c":120:1 67 {*movsi_internal}
+     (nil))
+(insn 11 10 12 3 (set (reg:DI 85)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -8 [0xfffffffffffffff8])) [11 arg+0 S8 A64])) "cmodules/fbgc_math.c":120:1 66 {*movdi_internal}
+     (nil))
+(insn 12 11 13 3 (set (reg:DI 2 cx)
+        (const_int 0 [0])) "cmodules/fbgc_math.c":120:1 66 {*movdi_internal}
+     (nil))
+(insn 13 12 14 3 (set (reg:DI 86)
+        (mem/u/c:DI (const:DI (unspec:DI [
+                        (symbol_ref:DI ("sin") [flags 0x41]  <function_decl 0x7fe77b2c1300 sin>)
+                    ] UNSPEC_GOTPCREL)) [19  S8 A8])) "cmodules/fbgc_math.c":120:1 66 {*movdi_internal}
+     (nil))
+(insn 14 13 15 3 (set (reg:DI 1 dx)
+        (reg:DI 86)) "cmodules/fbgc_math.c":120:1 66 {*movdi_internal}
+     (expr_list:REG_EQUAL (symbol_ref:DI ("sin") [flags 0x41]  <function_decl 0x7fe77b2c1300 sin>)
+        (nil)))
+(insn 15 14 16 3 (set (reg:SI 4 si)
+        (reg:SI 84)) "cmodules/fbgc_math.c":120:1 67 {*movsi_internal}
+     (nil))
+(insn 16 15 17 3 (set (reg:DI 5 di)
+        (reg:DI 85)) "cmodules/fbgc_math.c":120:1 66 {*movdi_internal}
+     (nil))
+(call_insn 17 16 18 3 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("one_arg_math") [flags 0x3]  <function_decl 0x7fe77b1e2800 one_arg_math>) [0 one_arg_math S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":120:1 677 {*call_value}
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:SI (use (reg:SI 4 si))
+            (expr_list:DI (use (reg:DI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+(insn 18 17 35 3 (set (reg/f:DI 82 [ iftmp.1_1 ])
+        (reg:DI 0 ax)) "cmodules/fbgc_math.c":120:1 66 {*movdi_internal}
+     (nil))
+(jump_insn 35 18 36 3 (set (pc)
+        (label_ref 26)) "cmodules/fbgc_math.c":120:1 -1
+     (nil)
+ -> 26)
+;;  succ:       5 [always] 
+
+(barrier 36 35 21)
+;; basic block 4, loop depth 0, maybe hot
+;;  prev block 3, next block 5, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       2
+;; bb 4 artificial_defs: { }
+;; bb 4 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 21 36 22 4 23 (nil) [1 uses])
+(note 22 21 23 4 [bb 4] NOTE_INSN_BASIC_BLOCK)
+(insn 23 22 26 4 (set (reg/f:DI 82 [ iftmp.1_1 ])
+        (const_int 0 [0])) "cmodules/fbgc_math.c":120:1 66 {*movdi_internal}
+     (nil))
+;;  succ:       5 (FALLTHRU)
+
+;; basic block 5, loop depth 0, maybe hot
+;;  prev block 4, next block 1, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       4 (FALLTHRU)
+;;              3 [always] 
+;; bb 5 artificial_defs: { }
+;; bb 5 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 26 23 27 5 25 (nil) [1 uses])
+(note 27 26 28 5 [bb 5] NOTE_INSN_BASIC_BLOCK)
+(insn 28 27 32 5 (set (reg/f:DI 83 [ <retval> ])
+        (reg/f:DI 82 [ iftmp.1_1 ])) "cmodules/fbgc_math.c":120:1 66 {*movdi_internal}
+     (nil))
+(insn 32 28 33 5 (set (reg/i:DI 0 ax)
+        (reg/f:DI 83 [ <retval> ])) "cmodules/fbgc_math.c":120:1 66 {*movdi_internal}
+     (nil))
+(insn 33 32 0 5 (use (reg/i:DI 0 ax)) "cmodules/fbgc_math.c":120:1 -1
+     (nil))
+;;  succ:       EXIT [always]  (FALLTHRU)
+
+
+;; Function fbgc_cos (fbgc_cos, funcdef_no=10, decl_uid=5272, cgraph_uid=11, symbol_order=14)
+
+verify found no changes in insn with uid = 17.
+
+
+fbgc_cos
+
+Dataflow summary:
+;;  invalidated by call 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 8 [st] 9 [st(1)] 10 [st(2)] 11 [st(3)] 12 [st(4)] 13 [st(5)] 14 [st(6)] 15 [st(7)] 17 [flags] 18 [fpsr] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 28 [mm0] 29 [mm1] 30 [mm2] 31 [mm3] 32 [mm4] 33 [mm5] 34 [mm6] 35 [mm7] 36 [r8] 37 [r9] 38 [r10] 39 [r11] 44 [xmm8] 45 [xmm9] 46 [xmm10] 47 [xmm11] 48 [xmm12] 49 [xmm13] 50 [xmm14] 51 [xmm15] 52 [] 53 [] 54 [] 55 [] 56 [] 57 [] 58 [] 59 [] 60 [] 61 [] 62 [] 63 [] 64 [] 65 [] 66 [] 67 [] 68 [] 69 [] 70 [] 71 [] 72 [] 73 [] 74 [] 75 []
+;;  hardware regs used 	
+;;  regular block artificial uses 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;;  eh block artificial uses 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;;  entry block defs 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 36 [r8] 37 [r9]
+;;  exit block uses 	 0 [ax] 6 [bp] 7 [sp] 19 [frame]
+;;  regs ever live 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 7 [sp] 17 [flags]
+;;  ref usage 	r0={3d,3u} r1={3d,1u} r2={3d,1u} r4={3d,2u} r5={3d,2u} r6={1d,5u} r7={1d,6u} r8={1d} r9={1d} r10={1d} r11={1d} r12={1d} r13={1d} r14={1d} r15={1d} r16={1d,4u} r17={2d,1u} r18={1d} r19={1d,10u} r20={2d} r21={2d} r22={2d} r23={2d} r24={2d} r25={2d} r26={2d} r27={2d} r28={1d} r29={1d} r30={1d} r31={1d} r32={1d} r33={1d} r34={1d} r35={1d} r36={2d} r37={2d} r38={1d} r39={1d} r44={1d} r45={1d} r46={1d} r47={1d} r48={1d} r49={1d} r50={1d} r51={1d} r52={1d} r53={1d} r54={1d} r55={1d} r56={1d} r57={1d} r58={1d} r59={1d} r60={1d} r61={1d} r62={1d} r63={1d} r64={1d} r65={1d} r66={1d} r67={1d} r68={1d} r69={1d} r70={1d} r71={1d} r72={1d} r73={1d} r74={1d} r75={1d} r82={2d,1u} r83={1d,1u} r84={1d,1u} r85={1d,1u} r86={1d,1u} 
+;;    total ref usage 138{98d,40u,0e} in 18{17 regular + 1 call} insns.
+(note 1 0 5 NOTE_INSN_DELETED)
+;; basic block 2, loop depth 0, maybe hot
+;;  prev block 0, next block 3, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       ENTRY (FALLTHRU)
+;; bb 2 artificial_defs: { }
+;; bb 2 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 5 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 5 3 2 (set (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -8 [0xfffffffffffffff8])) [11 arg+0 S8 A64])
+        (reg:DI 5 di [ arg ])) "cmodules/fbgc_math.c":121:1 66 {*movdi_internal}
+     (nil))
+(insn 3 2 4 2 (set (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -12 [0xfffffffffffffff4])) [3 argc+0 S4 A32])
+        (reg:SI 4 si [ argc ])) "cmodules/fbgc_math.c":121:1 67 {*movsi_internal}
+     (nil))
+(note 4 3 7 2 NOTE_INSN_FUNCTION_BEG)
+(insn 7 4 8 2 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -12 [0xfffffffffffffff4])) [3 argc+0 S4 A32])
+            (const_int 1 [0x1]))) "cmodules/fbgc_math.c":121:1 11 {*cmpsi_1}
+     (nil))
+(jump_insn 8 7 9 2 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 21)
+            (pc))) "cmodules/fbgc_math.c":121:1 659 {*jcc}
+     (nil)
+ -> 21)
+;;  succ:       3 (FALLTHRU)
+;;              4
+
+;; basic block 3, loop depth 0, maybe hot
+;;  prev block 2, next block 4, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       2 (FALLTHRU)
+;; bb 3 artificial_defs: { }
+;; bb 3 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 9 8 10 3 [bb 3] NOTE_INSN_BASIC_BLOCK)
+(insn 10 9 11 3 (set (reg:SI 84)
+        (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -12 [0xfffffffffffffff4])) [3 argc+0 S4 A32])) "cmodules/fbgc_math.c":121:1 67 {*movsi_internal}
+     (nil))
+(insn 11 10 12 3 (set (reg:DI 85)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -8 [0xfffffffffffffff8])) [11 arg+0 S8 A64])) "cmodules/fbgc_math.c":121:1 66 {*movdi_internal}
+     (nil))
+(insn 12 11 13 3 (set (reg:DI 2 cx)
+        (symbol_ref:DI ("c_cos") [flags 0x3]  <function_decl 0x7fe77b1e2600 c_cos>)) "cmodules/fbgc_math.c":121:1 66 {*movdi_internal}
+     (nil))
+(insn 13 12 14 3 (set (reg:DI 86)
+        (mem/u/c:DI (const:DI (unspec:DI [
+                        (symbol_ref:DI ("cos") [flags 0x41]  <function_decl 0x7fe77b284900 cos>)
+                    ] UNSPEC_GOTPCREL)) [19  S8 A8])) "cmodules/fbgc_math.c":121:1 66 {*movdi_internal}
+     (nil))
+(insn 14 13 15 3 (set (reg:DI 1 dx)
+        (reg:DI 86)) "cmodules/fbgc_math.c":121:1 66 {*movdi_internal}
+     (expr_list:REG_EQUAL (symbol_ref:DI ("cos") [flags 0x41]  <function_decl 0x7fe77b284900 cos>)
+        (nil)))
+(insn 15 14 16 3 (set (reg:SI 4 si)
+        (reg:SI 84)) "cmodules/fbgc_math.c":121:1 67 {*movsi_internal}
+     (nil))
+(insn 16 15 17 3 (set (reg:DI 5 di)
+        (reg:DI 85)) "cmodules/fbgc_math.c":121:1 66 {*movdi_internal}
+     (nil))
+(call_insn 17 16 18 3 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("one_arg_math") [flags 0x3]  <function_decl 0x7fe77b1e2800 one_arg_math>) [0 one_arg_math S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":121:1 677 {*call_value}
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:SI (use (reg:SI 4 si))
+            (expr_list:DI (use (reg:DI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+(insn 18 17 35 3 (set (reg/f:DI 82 [ iftmp.2_1 ])
+        (reg:DI 0 ax)) "cmodules/fbgc_math.c":121:1 66 {*movdi_internal}
+     (nil))
+(jump_insn 35 18 36 3 (set (pc)
+        (label_ref 26)) "cmodules/fbgc_math.c":121:1 -1
+     (nil)
+ -> 26)
+;;  succ:       5 [always] 
+
+(barrier 36 35 21)
+;; basic block 4, loop depth 0, maybe hot
+;;  prev block 3, next block 5, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       2
+;; bb 4 artificial_defs: { }
+;; bb 4 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 21 36 22 4 27 (nil) [1 uses])
+(note 22 21 23 4 [bb 4] NOTE_INSN_BASIC_BLOCK)
+(insn 23 22 26 4 (set (reg/f:DI 82 [ iftmp.2_1 ])
+        (const_int 0 [0])) "cmodules/fbgc_math.c":121:1 66 {*movdi_internal}
+     (nil))
+;;  succ:       5 (FALLTHRU)
+
+;; basic block 5, loop depth 0, maybe hot
+;;  prev block 4, next block 1, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       4 (FALLTHRU)
+;;              3 [always] 
+;; bb 5 artificial_defs: { }
+;; bb 5 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 26 23 27 5 29 (nil) [1 uses])
+(note 27 26 28 5 [bb 5] NOTE_INSN_BASIC_BLOCK)
+(insn 28 27 32 5 (set (reg/f:DI 83 [ <retval> ])
+        (reg/f:DI 82 [ iftmp.2_1 ])) "cmodules/fbgc_math.c":121:1 66 {*movdi_internal}
+     (nil))
+(insn 32 28 33 5 (set (reg/i:DI 0 ax)
+        (reg/f:DI 83 [ <retval> ])) "cmodules/fbgc_math.c":121:1 66 {*movdi_internal}
+     (nil))
+(insn 33 32 0 5 (use (reg/i:DI 0 ax)) "cmodules/fbgc_math.c":121:1 -1
+     (nil))
+;;  succ:       EXIT [always]  (FALLTHRU)
+
+
+;; Function fbgc_tan (fbgc_tan, funcdef_no=11, decl_uid=5276, cgraph_uid=12, symbol_order=16)
+
+verify found no changes in insn with uid = 17.
+
+
+fbgc_tan
+
+Dataflow summary:
+;;  invalidated by call 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 8 [st] 9 [st(1)] 10 [st(2)] 11 [st(3)] 12 [st(4)] 13 [st(5)] 14 [st(6)] 15 [st(7)] 17 [flags] 18 [fpsr] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 28 [mm0] 29 [mm1] 30 [mm2] 31 [mm3] 32 [mm4] 33 [mm5] 34 [mm6] 35 [mm7] 36 [r8] 37 [r9] 38 [r10] 39 [r11] 44 [xmm8] 45 [xmm9] 46 [xmm10] 47 [xmm11] 48 [xmm12] 49 [xmm13] 50 [xmm14] 51 [xmm15] 52 [] 53 [] 54 [] 55 [] 56 [] 57 [] 58 [] 59 [] 60 [] 61 [] 62 [] 63 [] 64 [] 65 [] 66 [] 67 [] 68 [] 69 [] 70 [] 71 [] 72 [] 73 [] 74 [] 75 []
+;;  hardware regs used 	
+;;  regular block artificial uses 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;;  eh block artificial uses 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;;  entry block defs 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 36 [r8] 37 [r9]
+;;  exit block uses 	 0 [ax] 6 [bp] 7 [sp] 19 [frame]
+;;  regs ever live 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 7 [sp] 17 [flags]
+;;  ref usage 	r0={3d,3u} r1={3d,1u} r2={3d,1u} r4={3d,2u} r5={3d,2u} r6={1d,5u} r7={1d,6u} r8={1d} r9={1d} r10={1d} r11={1d} r12={1d} r13={1d} r14={1d} r15={1d} r16={1d,4u} r17={2d,1u} r18={1d} r19={1d,10u} r20={2d} r21={2d} r22={2d} r23={2d} r24={2d} r25={2d} r26={2d} r27={2d} r28={1d} r29={1d} r30={1d} r31={1d} r32={1d} r33={1d} r34={1d} r35={1d} r36={2d} r37={2d} r38={1d} r39={1d} r44={1d} r45={1d} r46={1d} r47={1d} r48={1d} r49={1d} r50={1d} r51={1d} r52={1d} r53={1d} r54={1d} r55={1d} r56={1d} r57={1d} r58={1d} r59={1d} r60={1d} r61={1d} r62={1d} r63={1d} r64={1d} r65={1d} r66={1d} r67={1d} r68={1d} r69={1d} r70={1d} r71={1d} r72={1d} r73={1d} r74={1d} r75={1d} r82={2d,1u} r83={1d,1u} r84={1d,1u} r85={1d,1u} r86={1d,1u} 
+;;    total ref usage 138{98d,40u,0e} in 18{17 regular + 1 call} insns.
+(note 1 0 5 NOTE_INSN_DELETED)
+;; basic block 2, loop depth 0, maybe hot
+;;  prev block 0, next block 3, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       ENTRY (FALLTHRU)
+;; bb 2 artificial_defs: { }
+;; bb 2 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 5 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 5 3 2 (set (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -8 [0xfffffffffffffff8])) [11 arg+0 S8 A64])
+        (reg:DI 5 di [ arg ])) "cmodules/fbgc_math.c":122:1 66 {*movdi_internal}
+     (nil))
+(insn 3 2 4 2 (set (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -12 [0xfffffffffffffff4])) [3 argc+0 S4 A32])
+        (reg:SI 4 si [ argc ])) "cmodules/fbgc_math.c":122:1 67 {*movsi_internal}
+     (nil))
+(note 4 3 7 2 NOTE_INSN_FUNCTION_BEG)
+(insn 7 4 8 2 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -12 [0xfffffffffffffff4])) [3 argc+0 S4 A32])
+            (const_int 1 [0x1]))) "cmodules/fbgc_math.c":122:1 11 {*cmpsi_1}
+     (nil))
+(jump_insn 8 7 9 2 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 21)
+            (pc))) "cmodules/fbgc_math.c":122:1 659 {*jcc}
+     (nil)
+ -> 21)
+;;  succ:       3 (FALLTHRU)
+;;              4
+
+;; basic block 3, loop depth 0, maybe hot
+;;  prev block 2, next block 4, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       2 (FALLTHRU)
+;; bb 3 artificial_defs: { }
+;; bb 3 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 9 8 10 3 [bb 3] NOTE_INSN_BASIC_BLOCK)
+(insn 10 9 11 3 (set (reg:SI 84)
+        (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -12 [0xfffffffffffffff4])) [3 argc+0 S4 A32])) "cmodules/fbgc_math.c":122:1 67 {*movsi_internal}
+     (nil))
+(insn 11 10 12 3 (set (reg:DI 85)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -8 [0xfffffffffffffff8])) [11 arg+0 S8 A64])) "cmodules/fbgc_math.c":122:1 66 {*movdi_internal}
+     (nil))
+(insn 12 11 13 3 (set (reg:DI 2 cx)
+        (const_int 0 [0])) "cmodules/fbgc_math.c":122:1 66 {*movdi_internal}
+     (nil))
+(insn 13 12 14 3 (set (reg:DI 86)
+        (mem/u/c:DI (const:DI (unspec:DI [
+                        (symbol_ref:DI ("tan") [flags 0x41]  <function_decl 0x7fe77b2c4500 tan>)
+                    ] UNSPEC_GOTPCREL)) [19  S8 A8])) "cmodules/fbgc_math.c":122:1 66 {*movdi_internal}
+     (nil))
+(insn 14 13 15 3 (set (reg:DI 1 dx)
+        (reg:DI 86)) "cmodules/fbgc_math.c":122:1 66 {*movdi_internal}
+     (expr_list:REG_EQUAL (symbol_ref:DI ("tan") [flags 0x41]  <function_decl 0x7fe77b2c4500 tan>)
+        (nil)))
+(insn 15 14 16 3 (set (reg:SI 4 si)
+        (reg:SI 84)) "cmodules/fbgc_math.c":122:1 67 {*movsi_internal}
+     (nil))
+(insn 16 15 17 3 (set (reg:DI 5 di)
+        (reg:DI 85)) "cmodules/fbgc_math.c":122:1 66 {*movdi_internal}
+     (nil))
+(call_insn 17 16 18 3 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("one_arg_math") [flags 0x3]  <function_decl 0x7fe77b1e2800 one_arg_math>) [0 one_arg_math S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":122:1 677 {*call_value}
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:SI (use (reg:SI 4 si))
+            (expr_list:DI (use (reg:DI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+(insn 18 17 35 3 (set (reg/f:DI 82 [ iftmp.3_1 ])
+        (reg:DI 0 ax)) "cmodules/fbgc_math.c":122:1 66 {*movdi_internal}
+     (nil))
+(jump_insn 35 18 36 3 (set (pc)
+        (label_ref 26)) "cmodules/fbgc_math.c":122:1 -1
+     (nil)
+ -> 26)
+;;  succ:       5 [always] 
+
+(barrier 36 35 21)
+;; basic block 4, loop depth 0, maybe hot
+;;  prev block 3, next block 5, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       2
+;; bb 4 artificial_defs: { }
+;; bb 4 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 21 36 22 4 31 (nil) [1 uses])
+(note 22 21 23 4 [bb 4] NOTE_INSN_BASIC_BLOCK)
+(insn 23 22 26 4 (set (reg/f:DI 82 [ iftmp.3_1 ])
+        (const_int 0 [0])) "cmodules/fbgc_math.c":122:1 66 {*movdi_internal}
+     (nil))
+;;  succ:       5 (FALLTHRU)
+
+;; basic block 5, loop depth 0, maybe hot
+;;  prev block 4, next block 1, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       4 (FALLTHRU)
+;;              3 [always] 
+;; bb 5 artificial_defs: { }
+;; bb 5 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 26 23 27 5 33 (nil) [1 uses])
+(note 27 26 28 5 [bb 5] NOTE_INSN_BASIC_BLOCK)
+(insn 28 27 32 5 (set (reg/f:DI 83 [ <retval> ])
+        (reg/f:DI 82 [ iftmp.3_1 ])) "cmodules/fbgc_math.c":122:1 66 {*movdi_internal}
+     (nil))
+(insn 32 28 33 5 (set (reg/i:DI 0 ax)
+        (reg/f:DI 83 [ <retval> ])) "cmodules/fbgc_math.c":122:1 66 {*movdi_internal}
+     (nil))
+(insn 33 32 0 5 (use (reg/i:DI 0 ax)) "cmodules/fbgc_math.c":122:1 -1
+     (nil))
+;;  succ:       EXIT [always]  (FALLTHRU)
+
+
+;; Function fbgc_exp (fbgc_exp, funcdef_no=12, decl_uid=5312, cgraph_uid=13, symbol_order=18)
+
+verify found no changes in insn with uid = 17.
+
+
+fbgc_exp
+
+Dataflow summary:
+;;  invalidated by call 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 8 [st] 9 [st(1)] 10 [st(2)] 11 [st(3)] 12 [st(4)] 13 [st(5)] 14 [st(6)] 15 [st(7)] 17 [flags] 18 [fpsr] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 28 [mm0] 29 [mm1] 30 [mm2] 31 [mm3] 32 [mm4] 33 [mm5] 34 [mm6] 35 [mm7] 36 [r8] 37 [r9] 38 [r10] 39 [r11] 44 [xmm8] 45 [xmm9] 46 [xmm10] 47 [xmm11] 48 [xmm12] 49 [xmm13] 50 [xmm14] 51 [xmm15] 52 [] 53 [] 54 [] 55 [] 56 [] 57 [] 58 [] 59 [] 60 [] 61 [] 62 [] 63 [] 64 [] 65 [] 66 [] 67 [] 68 [] 69 [] 70 [] 71 [] 72 [] 73 [] 74 [] 75 []
+;;  hardware regs used 	
+;;  regular block artificial uses 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;;  eh block artificial uses 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;;  entry block defs 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 36 [r8] 37 [r9]
+;;  exit block uses 	 0 [ax] 6 [bp] 7 [sp] 19 [frame]
+;;  regs ever live 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 7 [sp] 17 [flags]
+;;  ref usage 	r0={3d,3u} r1={3d,1u} r2={3d,1u} r4={3d,2u} r5={3d,2u} r6={1d,5u} r7={1d,6u} r8={1d} r9={1d} r10={1d} r11={1d} r12={1d} r13={1d} r14={1d} r15={1d} r16={1d,4u} r17={2d,1u} r18={1d} r19={1d,10u} r20={2d} r21={2d} r22={2d} r23={2d} r24={2d} r25={2d} r26={2d} r27={2d} r28={1d} r29={1d} r30={1d} r31={1d} r32={1d} r33={1d} r34={1d} r35={1d} r36={2d} r37={2d} r38={1d} r39={1d} r44={1d} r45={1d} r46={1d} r47={1d} r48={1d} r49={1d} r50={1d} r51={1d} r52={1d} r53={1d} r54={1d} r55={1d} r56={1d} r57={1d} r58={1d} r59={1d} r60={1d} r61={1d} r62={1d} r63={1d} r64={1d} r65={1d} r66={1d} r67={1d} r68={1d} r69={1d} r70={1d} r71={1d} r72={1d} r73={1d} r74={1d} r75={1d} r82={2d,1u} r83={1d,1u} r84={1d,1u} r85={1d,1u} r86={1d,1u} 
+;;    total ref usage 138{98d,40u,0e} in 18{17 regular + 1 call} insns.
+(note 1 0 5 NOTE_INSN_DELETED)
+;; basic block 2, loop depth 0, maybe hot
+;;  prev block 0, next block 3, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       ENTRY (FALLTHRU)
+;; bb 2 artificial_defs: { }
+;; bb 2 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 5 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 5 3 2 (set (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -8 [0xfffffffffffffff8])) [11 arg+0 S8 A64])
+        (reg:DI 5 di [ arg ])) "cmodules/fbgc_math.c":123:1 66 {*movdi_internal}
+     (nil))
+(insn 3 2 4 2 (set (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -12 [0xfffffffffffffff4])) [3 argc+0 S4 A32])
+        (reg:SI 4 si [ argc ])) "cmodules/fbgc_math.c":123:1 67 {*movsi_internal}
+     (nil))
+(note 4 3 7 2 NOTE_INSN_FUNCTION_BEG)
+(insn 7 4 8 2 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -12 [0xfffffffffffffff4])) [3 argc+0 S4 A32])
+            (const_int 1 [0x1]))) "cmodules/fbgc_math.c":123:1 11 {*cmpsi_1}
+     (nil))
+(jump_insn 8 7 9 2 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 21)
+            (pc))) "cmodules/fbgc_math.c":123:1 659 {*jcc}
+     (nil)
+ -> 21)
+;;  succ:       3 (FALLTHRU)
+;;              4
+
+;; basic block 3, loop depth 0, maybe hot
+;;  prev block 2, next block 4, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       2 (FALLTHRU)
+;; bb 3 artificial_defs: { }
+;; bb 3 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 9 8 10 3 [bb 3] NOTE_INSN_BASIC_BLOCK)
+(insn 10 9 11 3 (set (reg:SI 84)
+        (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -12 [0xfffffffffffffff4])) [3 argc+0 S4 A32])) "cmodules/fbgc_math.c":123:1 67 {*movsi_internal}
+     (nil))
+(insn 11 10 12 3 (set (reg:DI 85)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -8 [0xfffffffffffffff8])) [11 arg+0 S8 A64])) "cmodules/fbgc_math.c":123:1 66 {*movdi_internal}
+     (nil))
+(insn 12 11 13 3 (set (reg:DI 2 cx)
+        (symbol_ref:DI ("c_exp") [flags 0x3]  <function_decl 0x7fe77b1e2400 c_exp>)) "cmodules/fbgc_math.c":123:1 66 {*movdi_internal}
+     (nil))
+(insn 13 12 14 3 (set (reg:DI 86)
+        (mem/u/c:DI (const:DI (unspec:DI [
+                        (symbol_ref:DI ("exp") [flags 0x41]  <function_decl 0x7fe77b289700 exp>)
+                    ] UNSPEC_GOTPCREL)) [19  S8 A8])) "cmodules/fbgc_math.c":123:1 66 {*movdi_internal}
+     (nil))
+(insn 14 13 15 3 (set (reg:DI 1 dx)
+        (reg:DI 86)) "cmodules/fbgc_math.c":123:1 66 {*movdi_internal}
+     (expr_list:REG_EQUAL (symbol_ref:DI ("exp") [flags 0x41]  <function_decl 0x7fe77b289700 exp>)
+        (nil)))
+(insn 15 14 16 3 (set (reg:SI 4 si)
+        (reg:SI 84)) "cmodules/fbgc_math.c":123:1 67 {*movsi_internal}
+     (nil))
+(insn 16 15 17 3 (set (reg:DI 5 di)
+        (reg:DI 85)) "cmodules/fbgc_math.c":123:1 66 {*movdi_internal}
+     (nil))
+(call_insn 17 16 18 3 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("one_arg_math") [flags 0x3]  <function_decl 0x7fe77b1e2800 one_arg_math>) [0 one_arg_math S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":123:1 677 {*call_value}
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:SI (use (reg:SI 4 si))
+            (expr_list:DI (use (reg:DI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+(insn 18 17 35 3 (set (reg/f:DI 82 [ iftmp.4_1 ])
+        (reg:DI 0 ax)) "cmodules/fbgc_math.c":123:1 66 {*movdi_internal}
+     (nil))
+(jump_insn 35 18 36 3 (set (pc)
+        (label_ref 26)) "cmodules/fbgc_math.c":123:1 -1
+     (nil)
+ -> 26)
+;;  succ:       5 [always] 
+
+(barrier 36 35 21)
+;; basic block 4, loop depth 0, maybe hot
+;;  prev block 3, next block 5, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       2
+;; bb 4 artificial_defs: { }
+;; bb 4 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 21 36 22 4 35 (nil) [1 uses])
+(note 22 21 23 4 [bb 4] NOTE_INSN_BASIC_BLOCK)
+(insn 23 22 26 4 (set (reg/f:DI 82 [ iftmp.4_1 ])
+        (const_int 0 [0])) "cmodules/fbgc_math.c":123:1 66 {*movdi_internal}
+     (nil))
+;;  succ:       5 (FALLTHRU)
+
+;; basic block 5, loop depth 0, maybe hot
+;;  prev block 4, next block 1, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       4 (FALLTHRU)
+;;              3 [always] 
+;; bb 5 artificial_defs: { }
+;; bb 5 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 26 23 27 5 37 (nil) [1 uses])
+(note 27 26 28 5 [bb 5] NOTE_INSN_BASIC_BLOCK)
+(insn 28 27 32 5 (set (reg/f:DI 83 [ <retval> ])
+        (reg/f:DI 82 [ iftmp.4_1 ])) "cmodules/fbgc_math.c":123:1 66 {*movdi_internal}
+     (nil))
+(insn 32 28 33 5 (set (reg/i:DI 0 ax)
+        (reg/f:DI 83 [ <retval> ])) "cmodules/fbgc_math.c":123:1 66 {*movdi_internal}
+     (nil))
+(insn 33 32 0 5 (use (reg/i:DI 0 ax)) "cmodules/fbgc_math.c":123:1 -1
+     (nil))
+;;  succ:       EXIT [always]  (FALLTHRU)
+
+
+;; Function fbgc_sqrt (fbgc_sqrt, funcdef_no=13, decl_uid=5308, cgraph_uid=14, symbol_order=20)
+
+verify found no changes in insn with uid = 17.
+
+
+fbgc_sqrt
+
+Dataflow summary:
+;;  invalidated by call 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 8 [st] 9 [st(1)] 10 [st(2)] 11 [st(3)] 12 [st(4)] 13 [st(5)] 14 [st(6)] 15 [st(7)] 17 [flags] 18 [fpsr] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 28 [mm0] 29 [mm1] 30 [mm2] 31 [mm3] 32 [mm4] 33 [mm5] 34 [mm6] 35 [mm7] 36 [r8] 37 [r9] 38 [r10] 39 [r11] 44 [xmm8] 45 [xmm9] 46 [xmm10] 47 [xmm11] 48 [xmm12] 49 [xmm13] 50 [xmm14] 51 [xmm15] 52 [] 53 [] 54 [] 55 [] 56 [] 57 [] 58 [] 59 [] 60 [] 61 [] 62 [] 63 [] 64 [] 65 [] 66 [] 67 [] 68 [] 69 [] 70 [] 71 [] 72 [] 73 [] 74 [] 75 []
+;;  hardware regs used 	
+;;  regular block artificial uses 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;;  eh block artificial uses 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;;  entry block defs 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 36 [r8] 37 [r9]
+;;  exit block uses 	 0 [ax] 6 [bp] 7 [sp] 19 [frame]
+;;  regs ever live 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 7 [sp] 17 [flags]
+;;  ref usage 	r0={3d,3u} r1={3d,1u} r2={3d,1u} r4={3d,2u} r5={3d,2u} r6={1d,5u} r7={1d,6u} r8={1d} r9={1d} r10={1d} r11={1d} r12={1d} r13={1d} r14={1d} r15={1d} r16={1d,4u} r17={2d,1u} r18={1d} r19={1d,10u} r20={2d} r21={2d} r22={2d} r23={2d} r24={2d} r25={2d} r26={2d} r27={2d} r28={1d} r29={1d} r30={1d} r31={1d} r32={1d} r33={1d} r34={1d} r35={1d} r36={2d} r37={2d} r38={1d} r39={1d} r44={1d} r45={1d} r46={1d} r47={1d} r48={1d} r49={1d} r50={1d} r51={1d} r52={1d} r53={1d} r54={1d} r55={1d} r56={1d} r57={1d} r58={1d} r59={1d} r60={1d} r61={1d} r62={1d} r63={1d} r64={1d} r65={1d} r66={1d} r67={1d} r68={1d} r69={1d} r70={1d} r71={1d} r72={1d} r73={1d} r74={1d} r75={1d} r82={2d,1u} r83={1d,1u} r84={1d,1u} r85={1d,1u} r86={1d,1u} 
+;;    total ref usage 138{98d,40u,0e} in 18{17 regular + 1 call} insns.
+(note 1 0 5 NOTE_INSN_DELETED)
+;; basic block 2, loop depth 0, maybe hot
+;;  prev block 0, next block 3, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       ENTRY (FALLTHRU)
+;; bb 2 artificial_defs: { }
+;; bb 2 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 5 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 5 3 2 (set (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -8 [0xfffffffffffffff8])) [11 arg+0 S8 A64])
+        (reg:DI 5 di [ arg ])) "cmodules/fbgc_math.c":124:1 66 {*movdi_internal}
+     (nil))
+(insn 3 2 4 2 (set (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -12 [0xfffffffffffffff4])) [3 argc+0 S4 A32])
+        (reg:SI 4 si [ argc ])) "cmodules/fbgc_math.c":124:1 67 {*movsi_internal}
+     (nil))
+(note 4 3 7 2 NOTE_INSN_FUNCTION_BEG)
+(insn 7 4 8 2 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -12 [0xfffffffffffffff4])) [3 argc+0 S4 A32])
+            (const_int 1 [0x1]))) "cmodules/fbgc_math.c":124:1 11 {*cmpsi_1}
+     (nil))
+(jump_insn 8 7 9 2 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 21)
+            (pc))) "cmodules/fbgc_math.c":124:1 659 {*jcc}
+     (nil)
+ -> 21)
+;;  succ:       3 (FALLTHRU)
+;;              4
+
+;; basic block 3, loop depth 0, maybe hot
+;;  prev block 2, next block 4, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       2 (FALLTHRU)
+;; bb 3 artificial_defs: { }
+;; bb 3 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 9 8 10 3 [bb 3] NOTE_INSN_BASIC_BLOCK)
+(insn 10 9 11 3 (set (reg:SI 84)
+        (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -12 [0xfffffffffffffff4])) [3 argc+0 S4 A32])) "cmodules/fbgc_math.c":124:1 67 {*movsi_internal}
+     (nil))
+(insn 11 10 12 3 (set (reg:DI 85)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -8 [0xfffffffffffffff8])) [11 arg+0 S8 A64])) "cmodules/fbgc_math.c":124:1 66 {*movdi_internal}
+     (nil))
+(insn 12 11 13 3 (set (reg:DI 2 cx)
+        (const_int 0 [0])) "cmodules/fbgc_math.c":124:1 66 {*movdi_internal}
+     (nil))
+(insn 13 12 14 3 (set (reg:DI 86)
+        (mem/u/c:DI (const:DI (unspec:DI [
+                        (symbol_ref:DI ("sqrt") [flags 0x41]  <function_decl 0x7fe77b2c3500 sqrt>)
+                    ] UNSPEC_GOTPCREL)) [19  S8 A8])) "cmodules/fbgc_math.c":124:1 66 {*movdi_internal}
+     (nil))
+(insn 14 13 15 3 (set (reg:DI 1 dx)
+        (reg:DI 86)) "cmodules/fbgc_math.c":124:1 66 {*movdi_internal}
+     (expr_list:REG_EQUAL (symbol_ref:DI ("sqrt") [flags 0x41]  <function_decl 0x7fe77b2c3500 sqrt>)
+        (nil)))
+(insn 15 14 16 3 (set (reg:SI 4 si)
+        (reg:SI 84)) "cmodules/fbgc_math.c":124:1 67 {*movsi_internal}
+     (nil))
+(insn 16 15 17 3 (set (reg:DI 5 di)
+        (reg:DI 85)) "cmodules/fbgc_math.c":124:1 66 {*movdi_internal}
+     (nil))
+(call_insn 17 16 18 3 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("one_arg_math") [flags 0x3]  <function_decl 0x7fe77b1e2800 one_arg_math>) [0 one_arg_math S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":124:1 677 {*call_value}
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:SI (use (reg:SI 4 si))
+            (expr_list:DI (use (reg:DI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+(insn 18 17 35 3 (set (reg/f:DI 82 [ iftmp.5_1 ])
+        (reg:DI 0 ax)) "cmodules/fbgc_math.c":124:1 66 {*movdi_internal}
+     (nil))
+(jump_insn 35 18 36 3 (set (pc)
+        (label_ref 26)) "cmodules/fbgc_math.c":124:1 -1
+     (nil)
+ -> 26)
+;;  succ:       5 [always] 
+
+(barrier 36 35 21)
+;; basic block 4, loop depth 0, maybe hot
+;;  prev block 3, next block 5, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       2
+;; bb 4 artificial_defs: { }
+;; bb 4 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 21 36 22 4 39 (nil) [1 uses])
+(note 22 21 23 4 [bb 4] NOTE_INSN_BASIC_BLOCK)
+(insn 23 22 26 4 (set (reg/f:DI 82 [ iftmp.5_1 ])
+        (const_int 0 [0])) "cmodules/fbgc_math.c":124:1 66 {*movdi_internal}
+     (nil))
+;;  succ:       5 (FALLTHRU)
+
+;; basic block 5, loop depth 0, maybe hot
+;;  prev block 4, next block 1, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       4 (FALLTHRU)
+;;              3 [always] 
+;; bb 5 artificial_defs: { }
+;; bb 5 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 26 23 27 5 41 (nil) [1 uses])
+(note 27 26 28 5 [bb 5] NOTE_INSN_BASIC_BLOCK)
+(insn 28 27 32 5 (set (reg/f:DI 83 [ <retval> ])
+        (reg/f:DI 82 [ iftmp.5_1 ])) "cmodules/fbgc_math.c":124:1 66 {*movdi_internal}
+     (nil))
+(insn 32 28 33 5 (set (reg/i:DI 0 ax)
+        (reg/f:DI 83 [ <retval> ])) "cmodules/fbgc_math.c":124:1 66 {*movdi_internal}
+     (nil))
+(insn 33 32 0 5 (use (reg/i:DI 0 ax)) "cmodules/fbgc_math.c":124:1 -1
+     (nil))
+;;  succ:       EXIT [always]  (FALLTHRU)
+
+
+;; Function fbgc_math_initializer (fbgc_math_initializer, funcdef_no=14, decl_uid=5264, cgraph_uid=15, symbol_order=22)
+
+verify found no changes in insn with uid = 9.
+verify found no changes in insn with uid = 16.
+verify found no changes in insn with uid = 19.
+verify found no changes in insn with uid = 26.
+
+
+fbgc_math_initializer
+
+Dataflow summary:
+;;  invalidated by call 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 8 [st] 9 [st(1)] 10 [st(2)] 11 [st(3)] 12 [st(4)] 13 [st(5)] 14 [st(6)] 15 [st(7)] 17 [flags] 18 [fpsr] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 28 [mm0] 29 [mm1] 30 [mm2] 31 [mm3] 32 [mm4] 33 [mm5] 34 [mm6] 35 [mm7] 36 [r8] 37 [r9] 38 [r10] 39 [r11] 44 [xmm8] 45 [xmm9] 46 [xmm10] 47 [xmm11] 48 [xmm12] 49 [xmm13] 50 [xmm14] 51 [xmm15] 52 [] 53 [] 54 [] 55 [] 56 [] 57 [] 58 [] 59 [] 60 [] 61 [] 62 [] 63 [] 64 [] 65 [] 66 [] 67 [] 68 [] 69 [] 70 [] 71 [] 72 [] 73 [] 74 [] 75 []
+;;  hardware regs used 	
+;;  regular block artificial uses 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;;  eh block artificial uses 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;;  entry block defs 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 36 [r8] 37 [r9]
+;;  exit block uses 	 0 [ax] 6 [bp] 7 [sp] 19 [frame]
+;;  regs ever live 	 0 [ax] 1 [dx] 4 [si] 5 [di] 7 [sp] 20 [xmm0]
+;;  ref usage 	r0={6d,4u} r1={7d,2u} r2={5d} r4={7d,3u} r5={7d,3u} r6={1d,2u} r7={1d,6u} r8={4d} r9={4d} r10={4d} r11={4d} r12={4d} r13={4d} r14={4d} r15={4d} r16={1d,1u} r17={4d} r18={4d} r19={1d,6u} r20={7d,2u} r21={5d} r22={5d} r23={5d} r24={5d} r25={5d} r26={5d} r27={5d} r28={4d} r29={4d} r30={4d} r31={4d} r32={4d} r33={4d} r34={4d} r35={4d} r36={5d} r37={5d} r38={4d} r39={4d} r44={4d} r45={4d} r46={4d} r47={4d} r48={4d} r49={4d} r50={4d} r51={4d} r52={4d} r53={4d} r54={4d} r55={4d} r56={4d} r57={4d} r58={4d} r59={4d} r60={4d} r61={4d} r62={4d} r63={4d} r64={4d} r65={4d} r66={4d} r67={4d} r68={4d} r69={4d} r70={4d} r71={4d} r72={4d} r73={4d} r74={4d} r75={4d} r82={1d,1u} r83={1d,1u} r84={1d,1u} r85={1d,1u} r86={1d,1u} r87={1d,1u} r88={1d,1u} r89={1d,1u} r90={1d,1u} r91={1d,1u} 
+;;    total ref usage 345{306d,39u,0e} in 26{22 regular + 4 call} insns.
+(note 1 0 5 NOTE_INSN_DELETED)
+;; basic block 2, loop depth 0, maybe hot
+;;  prev block 0, next block 1, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       ENTRY (FALLTHRU)
+;; bb 2 artificial_defs: { }
+;; bb 2 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 5 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 5 3 2 (set (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -8 [0xfffffffffffffff8])) [11 arg+0 S8 A64])
+        (reg:DI 5 di [ arg ])) "cmodules/fbgc_math.c":137:1 66 {*movdi_internal}
+     (nil))
+(insn 3 2 4 2 (set (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -12 [0xfffffffffffffff4])) [3 argc+0 S4 A32])
+        (reg:SI 4 si [ argc ])) "cmodules/fbgc_math.c":137:1 67 {*movsi_internal}
+     (nil))
+(note 4 3 7 2 NOTE_INSN_FUNCTION_BEG)
+(insn 7 4 8 2 (set (reg:DF 88)
+        (mem/u/c:DF (symbol_ref/u:DI ("*.LC10") [flags 0x2]) [0  S8 A64])) "cmodules/fbgc_math.c":139:2 111 {*movdf_internal}
+     (expr_list:REG_EQUAL (const_double:DF 3.141592653589793115997963468544185161590576171875e+0 [0x0.c90fdaa22168cp+2])
+        (nil)))
+(insn 8 7 9 2 (set (reg:DF 20 xmm0)
+        (reg:DF 88)) "cmodules/fbgc_math.c":139:2 111 {*movdf_internal}
+     (nil))
+(call_insn 9 8 10 2 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("new_fbgc_double_object") [flags 0x41]  <function_decl 0x7fe77b19d500 new_fbgc_double_object>) [0 new_fbgc_double_object S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":139:2 677 {*call_value}
+     (nil)
+    (expr_list:DF (use (reg:DF 20 xmm0))
+        (nil)))
+(insn 10 9 11 2 (set (reg/f:DI 82 [ _1 ])
+        (reg:DI 0 ax)) "cmodules/fbgc_math.c":139:2 66 {*movdi_internal}
+     (nil))
+(insn 11 10 12 2 (set (reg/f:DI 89)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -8 [0xfffffffffffffff8])) [11 arg+0 S8 A64])) "cmodules/fbgc_math.c":139:2 66 {*movdi_internal}
+     (nil))
+(insn 12 11 13 2 (set (reg/f:DI 83 [ _2 ])
+        (mem/f:DI (reg/f:DI 89) [6 *arg_7(D)+0 S8 A64])) "cmodules/fbgc_math.c":139:2 66 {*movdi_internal}
+     (nil))
+(insn 13 12 14 2 (set (reg:DI 1 dx)
+        (reg/f:DI 82 [ _1 ])) "cmodules/fbgc_math.c":139:2 66 {*movdi_internal}
+     (nil))
+(insn 14 13 15 2 (set (reg:DI 4 si)
+        (symbol_ref/f:DI ("*.LC11") [flags 0x2]  <var_decl 0x7fe77adf9e10 *.LC11>)) "cmodules/fbgc_math.c":139:2 66 {*movdi_internal}
+     (nil))
+(insn 15 14 16 2 (set (reg:DI 5 di)
+        (reg/f:DI 83 [ _2 ])) "cmodules/fbgc_math.c":139:2 66 {*movdi_internal}
+     (nil))
+(call_insn 16 15 17 2 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("add_variable_in_field_object") [flags 0x41]  <function_decl 0x7fe77b1c3f00 add_variable_in_field_object>) [0 add_variable_in_field_object S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":139:2 677 {*call_value}
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:DI (use (reg:DI 1 dx))
+                (nil)))))
+(insn 17 16 18 2 (set (reg:DF 90)
+        (mem/u/c:DF (symbol_ref/u:DI ("*.LC12") [flags 0x2]) [0  S8 A64])) "cmodules/fbgc_math.c":140:2 111 {*movdf_internal}
+     (expr_list:REG_EQUAL (const_double:DF 2.718281828459045090795598298427648842334747314453125e+0 [0x0.adf85458a2bb48p+2])
+        (nil)))
+(insn 18 17 19 2 (set (reg:DF 20 xmm0)
+        (reg:DF 90)) "cmodules/fbgc_math.c":140:2 111 {*movdf_internal}
+     (nil))
+(call_insn 19 18 20 2 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("new_fbgc_double_object") [flags 0x41]  <function_decl 0x7fe77b19d500 new_fbgc_double_object>) [0 new_fbgc_double_object S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":140:2 677 {*call_value}
+     (nil)
+    (expr_list:DF (use (reg:DF 20 xmm0))
+        (nil)))
+(insn 20 19 21 2 (set (reg/f:DI 84 [ _3 ])
+        (reg:DI 0 ax)) "cmodules/fbgc_math.c":140:2 66 {*movdi_internal}
+     (nil))
+(insn 21 20 22 2 (set (reg/f:DI 91)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -8 [0xfffffffffffffff8])) [11 arg+0 S8 A64])) "cmodules/fbgc_math.c":140:2 66 {*movdi_internal}
+     (nil))
+(insn 22 21 23 2 (set (reg/f:DI 85 [ _4 ])
+        (mem/f:DI (reg/f:DI 91) [6 *arg_7(D)+0 S8 A64])) "cmodules/fbgc_math.c":140:2 66 {*movdi_internal}
+     (nil))
+(insn 23 22 24 2 (set (reg:DI 1 dx)
+        (reg/f:DI 84 [ _3 ])) "cmodules/fbgc_math.c":140:2 66 {*movdi_internal}
+     (nil))
+(insn 24 23 25 2 (set (reg:DI 4 si)
+        (symbol_ref/f:DI ("*.LC13") [flags 0x2]  <var_decl 0x7fe77adf9ea0 *.LC13>)) "cmodules/fbgc_math.c":140:2 66 {*movdi_internal}
+     (nil))
+(insn 25 24 26 2 (set (reg:DI 5 di)
+        (reg/f:DI 85 [ _4 ])) "cmodules/fbgc_math.c":140:2 66 {*movdi_internal}
+     (nil))
+(call_insn 26 25 27 2 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("add_variable_in_field_object") [flags 0x41]  <function_decl 0x7fe77b1c3f00 add_variable_in_field_object>) [0 add_variable_in_field_object S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":140:2 677 {*call_value}
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:DI (use (reg:DI 1 dx))
+                (nil)))))
+(insn 27 26 30 2 (set (reg/f:DI 86 [ _11 ])
+        (const_int 0 [0])) "cmodules/fbgc_math.c":142:9 66 {*movdi_internal}
+     (nil))
+(insn 30 27 34 2 (set (reg/f:DI 87 [ <retval> ])
+        (reg/f:DI 86 [ _11 ])) "cmodules/fbgc_math.c":142:9 66 {*movdi_internal}
+     (nil))
+(insn 34 30 35 2 (set (reg/i:DI 0 ax)
+        (reg/f:DI 87 [ <retval> ])) "cmodules/fbgc_math.c":143:1 66 {*movdi_internal}
+     (nil))
+(insn 35 34 0 2 (use (reg/i:DI 0 ax)) "cmodules/fbgc_math.c":143:1 -1
+     (nil))
+;;  succ:       EXIT [always]  (FALLTHRU)
+
+
+;; Function fbgc_randint (fbgc_randint, funcdef_no=15, decl_uid=5320, cgraph_uid=16, symbol_order=24)
+
+verify found no changes in insn with uid = 7.
+verify found no changes in insn with uid = 11.
+verify found no changes in insn with uid = 20.
+verify found no changes in insn with uid = 33.
+verify found no changes in insn with uid = 40.
+verify found no changes in insn with uid = 50.
+verify found no changes in insn with uid = 56.
+verify found no changes in insn with uid = 63.
+
+
+fbgc_randint
+
+Dataflow summary:
+;;  invalidated by call 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 8 [st] 9 [st(1)] 10 [st(2)] 11 [st(3)] 12 [st(4)] 13 [st(5)] 14 [st(6)] 15 [st(7)] 17 [flags] 18 [fpsr] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 28 [mm0] 29 [mm1] 30 [mm2] 31 [mm3] 32 [mm4] 33 [mm5] 34 [mm6] 35 [mm7] 36 [r8] 37 [r9] 38 [r10] 39 [r11] 44 [xmm8] 45 [xmm9] 46 [xmm10] 47 [xmm11] 48 [xmm12] 49 [xmm13] 50 [xmm14] 51 [xmm15] 52 [] 53 [] 54 [] 55 [] 56 [] 57 [] 58 [] 59 [] 60 [] 61 [] 62 [] 63 [] 64 [] 65 [] 66 [] 67 [] 68 [] 69 [] 70 [] 71 [] 72 [] 73 [] 74 [] 75 []
+;;  hardware regs used 	
+;;  regular block artificial uses 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;;  eh block artificial uses 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;;  entry block defs 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 36 [r8] 37 [r9]
+;;  exit block uses 	 0 [ax] 6 [bp] 7 [sp] 19 [frame]
+;;  regs ever live 	 0 [ax] 4 [si] 5 [di] 7 [sp] 17 [flags]
+;;  ref usage 	r0={11d,9u} r1={9d} r2={9d} r4={10d,2u} r5={15d,7u} r6={1d,8u} r7={1d,16u} r8={8d} r9={8d} r10={8d} r11={8d} r12={8d} r13={8d} r14={8d} r15={8d} r16={1d,7u} r17={13d,2u} r18={8d} r19={1d,23u,2e} r20={9d} r21={9d} r22={9d} r23={9d} r24={9d} r25={9d} r26={9d} r27={9d} r28={8d} r29={8d} r30={8d} r31={8d} r32={8d} r33={8d} r34={8d} r35={8d} r36={9d} r37={9d} r38={8d} r39={8d} r44={8d} r45={8d} r46={8d} r47={8d} r48={8d} r49={8d} r50={8d} r51={8d} r52={8d} r53={8d} r54={8d} r55={8d} r56={8d} r57={8d} r58={8d} r59={8d} r60={8d} r61={8d} r62={8d} r63={8d} r64={8d} r65={8d} r66={8d} r67={8d} r68={8d} r69={8d} r70={8d} r71={8d} r72={8d} r73={8d} r74={8d} r75={8d} r82={1d,1u} r83={1d,1u} r84={1d,1u} r85={1d,1u} r86={1d,1u} r87={1d,1u} r88={1d,2u} r89={1d,1u,1e} r90={1d,1u} r91={2d,1u} r92={1d,1u} r93={1d,1u} r94={1d,1u} r95={1d,1u} r96={1d,1u} r97={1d,1u} r98={1d,1u} r99={1d,1u} r100={1d} r101={1d,1u} 
+;;    total ref usage 687{590d,94u,3e} in 52{44 regular + 8 call} insns.
+(note 1 0 5 NOTE_INSN_DELETED)
+;; basic block 2, loop depth 0, maybe hot
+;;  prev block 0, next block 3, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       ENTRY (FALLTHRU)
+;; bb 2 artificial_defs: { }
+;; bb 2 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 5 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 5 3 2 (set (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -24 [0xffffffffffffffe8])) [11 arg+0 S8 A64])
+        (reg:DI 5 di [ arg ])) "cmodules/fbgc_math.c":147:1 66 {*movdi_internal}
+     (nil))
+(insn 3 2 4 2 (set (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -28 [0xffffffffffffffe4])) [3 argc+0 S4 A32])
+        (reg:SI 4 si [ argc ])) "cmodules/fbgc_math.c":147:1 67 {*movsi_internal}
+     (nil))
+(note 4 3 7 2 NOTE_INSN_FUNCTION_BEG)
+(call_insn 7 4 8 2 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("clock") [flags 0x41]  <function_decl 0x7fe77b127200 clock>) [0 clock S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":149:14 677 {*call_value}
+     (expr_list:REG_EH_REGION (const_int 0 [0])
+        (nil))
+    (nil))
+(insn 8 7 9 2 (set (reg:DI 82 [ _1 ])
+        (reg:DI 0 ax)) "cmodules/fbgc_math.c":149:14 66 {*movdi_internal}
+     (nil))
+(insn 9 8 10 2 (set (reg:SI 83 [ _2 ])
+        (subreg:SI (reg:DI 82 [ _1 ]) 0)) "cmodules/fbgc_math.c":149:2 67 {*movsi_internal}
+     (nil))
+(insn 10 9 11 2 (set (reg:SI 5 di)
+        (reg:SI 83 [ _2 ])) "cmodules/fbgc_math.c":149:2 67 {*movsi_internal}
+     (nil))
+(call_insn 11 10 12 2 (call (mem:QI (symbol_ref:DI ("srand") [flags 0x41]  <function_decl 0x7fe77b3ec200 srand>) [0 srand S1 A8])
+        (const_int 0 [0])) "cmodules/fbgc_math.c":149:2 666 {*call}
+     (expr_list:REG_EH_REGION (const_int 0 [0])
+        (nil))
+    (expr_list:SI (use (reg:SI 5 di))
+        (nil)))
+(insn 12 11 13 2 (set (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -8 [0xfffffffffffffff8])) [3 min+0 S4 A32])
+        (const_int 0 [0])) "cmodules/fbgc_math.c":151:6 67 {*movsi_internal}
+     (nil))
+(insn 13 12 14 2 (set (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -4 [0xfffffffffffffffc])) [3 max+0 S4 A32])
+        (const_int 0 [0])) "cmodules/fbgc_math.c":152:6 67 {*movsi_internal}
+     (nil))
+(insn 14 13 15 2 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -28 [0xffffffffffffffe4])) [3 argc+0 S4 A32])
+            (const_int 1 [0x1]))) "cmodules/fbgc_math.c":154:4 11 {*cmpsi_1}
+     (nil))
+(jump_insn 15 14 16 2 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 25)
+            (pc))) "cmodules/fbgc_math.c":154:4 659 {*jcc}
+     (nil)
+ -> 25)
+;;  succ:       3 (FALLTHRU)
+;;              4
+
+;; basic block 3, loop depth 0, maybe hot
+;;  prev block 2, next block 4, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       2 (FALLTHRU)
+;; bb 3 artificial_defs: { }
+;; bb 3 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 16 15 17 3 [bb 3] NOTE_INSN_BASIC_BLOCK)
+(insn 17 16 18 3 (set (reg/f:DI 93)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -24 [0xffffffffffffffe8])) [11 arg+0 S8 A64])) "cmodules/fbgc_math.c":155:9 66 {*movdi_internal}
+     (nil))
+(insn 18 17 19 3 (set (reg/f:DI 84 [ _3 ])
+        (mem/f:DI (reg/f:DI 93) [6 *arg_23(D)+0 S8 A64])) "cmodules/fbgc_math.c":155:9 66 {*movdi_internal}
+     (nil))
+(insn 19 18 20 3 (set (reg:DI 5 di)
+        (reg/f:DI 84 [ _3 ])) "cmodules/fbgc_math.c":155:9 66 {*movdi_internal}
+     (nil))
+(call_insn 20 19 21 3 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("convert_fbgc_object_to_int") [flags 0x41]  <function_decl 0x7fe77b18ce00 convert_fbgc_object_to_int>) [0 convert_fbgc_object_to_int S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":155:9 677 {*call_value}
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(insn 21 20 22 3 (set (reg:SI 94)
+        (reg:SI 0 ax)) "cmodules/fbgc_math.c":155:9 67 {*movsi_internal}
+     (nil))
+(insn 22 21 74 3 (set (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -4 [0xfffffffffffffffc])) [3 max+0 S4 A32])
+        (reg:SI 94)) "cmodules/fbgc_math.c":155:9 67 {*movsi_internal}
+     (nil))
+(jump_insn 74 22 75 3 (set (pc)
+        (label_ref 54)) -1
+     (nil)
+ -> 54)
+;;  succ:       7 [always] 
+
+(barrier 75 74 25)
+;; basic block 4, loop depth 0, maybe hot
+;;  prev block 3, next block 5, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       2
+;; bb 4 artificial_defs: { }
+;; bb 4 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 25 75 26 4 45 (nil) [1 uses])
+(note 26 25 27 4 [bb 4] NOTE_INSN_BASIC_BLOCK)
+(insn 27 26 28 4 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -28 [0xffffffffffffffe4])) [3 argc+0 S4 A32])
+            (const_int 2 [0x2]))) "cmodules/fbgc_math.c":157:9 11 {*cmpsi_1}
+     (nil))
+(jump_insn 28 27 29 4 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 45)
+            (pc))) "cmodules/fbgc_math.c":157:9 659 {*jcc}
+     (nil)
+ -> 45)
+;;  succ:       5 (FALLTHRU)
+;;              6
+
+;; basic block 5, loop depth 0, maybe hot
+;;  prev block 4, next block 6, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       4 (FALLTHRU)
+;; bb 5 artificial_defs: { }
+;; bb 5 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 29 28 30 5 [bb 5] NOTE_INSN_BASIC_BLOCK)
+(insn 30 29 31 5 (set (reg/f:DI 95)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -24 [0xffffffffffffffe8])) [11 arg+0 S8 A64])) "cmodules/fbgc_math.c":158:9 66 {*movdi_internal}
+     (nil))
+(insn 31 30 32 5 (set (reg/f:DI 85 [ _4 ])
+        (mem/f:DI (reg/f:DI 95) [6 *arg_23(D)+0 S8 A64])) "cmodules/fbgc_math.c":158:9 66 {*movdi_internal}
+     (nil))
+(insn 32 31 33 5 (set (reg:DI 5 di)
+        (reg/f:DI 85 [ _4 ])) "cmodules/fbgc_math.c":158:9 66 {*movdi_internal}
+     (nil))
+(call_insn 33 32 34 5 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("convert_fbgc_object_to_int") [flags 0x41]  <function_decl 0x7fe77b18ce00 convert_fbgc_object_to_int>) [0 convert_fbgc_object_to_int S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":158:9 677 {*call_value}
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(insn 34 33 35 5 (set (reg:SI 96)
+        (reg:SI 0 ax)) "cmodules/fbgc_math.c":158:9 67 {*movsi_internal}
+     (nil))
+(insn 35 34 36 5 (set (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -8 [0xfffffffffffffff8])) [3 min+0 S4 A32])
+        (reg:SI 96)) "cmodules/fbgc_math.c":158:9 67 {*movsi_internal}
+     (nil))
+(insn 36 35 37 5 (set (reg/f:DI 97)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -24 [0xffffffffffffffe8])) [11 arg+0 S8 A64])) "cmodules/fbgc_math.c":159:39 66 {*movdi_internal}
+     (nil))
+(insn 37 36 38 5 (parallel [
+            (set (reg/f:DI 86 [ _5 ])
+                (plus:DI (reg/f:DI 97)
+                    (const_int 8 [0x8])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":159:39 191 {*adddi_1}
+     (expr_list:REG_EQUAL (plus:DI (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -24 [0xffffffffffffffe8])) [11 arg+0 S8 A64])
+            (const_int 8 [0x8]))
+        (nil)))
+(insn 38 37 39 5 (set (reg/f:DI 87 [ _6 ])
+        (mem/f:DI (reg/f:DI 86 [ _5 ]) [6 *_5+0 S8 A64])) "cmodules/fbgc_math.c":159:9 66 {*movdi_internal}
+     (nil))
+(insn 39 38 40 5 (set (reg:DI 5 di)
+        (reg/f:DI 87 [ _6 ])) "cmodules/fbgc_math.c":159:9 66 {*movdi_internal}
+     (nil))
+(call_insn 40 39 41 5 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("convert_fbgc_object_to_int") [flags 0x41]  <function_decl 0x7fe77b18ce00 convert_fbgc_object_to_int>) [0 convert_fbgc_object_to_int S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":159:9 677 {*call_value}
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(insn 41 40 42 5 (set (reg:SI 98)
+        (reg:SI 0 ax)) "cmodules/fbgc_math.c":159:9 67 {*movsi_internal}
+     (nil))
+(insn 42 41 76 5 (set (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -4 [0xfffffffffffffffc])) [3 max+0 S4 A32])
+        (reg:SI 98)) "cmodules/fbgc_math.c":159:9 67 {*movsi_internal}
+     (nil))
+(jump_insn 76 42 77 5 (set (pc)
+        (label_ref 54)) -1
+     (nil)
+ -> 54)
+;;  succ:       7 [always] 
+
+(barrier 77 76 45)
+;; basic block 6, loop depth 0, maybe hot
+;;  prev block 5, next block 7, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       4
+;; bb 6 artificial_defs: { }
+;; bb 6 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 45 77 46 6 47 (nil) [1 uses])
+(note 46 45 47 6 [bb 6] NOTE_INSN_BASIC_BLOCK)
+(insn 47 46 48 6 (set (reg:DI 4 si)
+        (symbol_ref/f:DI ("*.LC15") [flags 0x2]  <var_decl 0x7fe77ae02360 *.LC15>)) "cmodules/fbgc_math.c":162:3 66 {*movdi_internal}
+     (nil))
+(insn 48 47 49 6 (set (reg:SI 5 di)
+        (const_int 100 [0x64])) "cmodules/fbgc_math.c":162:3 67 {*movsi_internal}
+     (nil))
+(insn 49 48 50 6 (set (reg:QI 0 ax)
+        (const_int 0 [0])) "cmodules/fbgc_math.c":162:3 69 {*movqi_internal}
+     (nil))
+(call_insn 50 49 51 6 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("cprintf") [flags 0x41]  <function_decl 0x7fe77b18c500 cprintf>) [0 cprintf S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":162:3 677 {*call_value}
+     (nil)
+    (expr_list (use (reg:QI 0 ax))
+        (expr_list:SI (use (reg:SI 5 di))
+            (expr_list:DI (use (reg:DI 4 si))
+                (nil)))))
+(insn 51 50 78 6 (set (reg/f:DI 91 [ _12 ])
+        (const_int 0 [0])) "cmodules/fbgc_math.c":163:10 66 {*movdi_internal}
+     (nil))
+(jump_insn 78 51 79 6 (set (pc)
+        (label_ref 65)) "cmodules/fbgc_math.c":163:10 -1
+     (nil)
+ -> 65)
+;;  succ:       8 [always] 
+
+(barrier 79 78 54)
+;; basic block 7, loop depth 0, maybe hot
+;;  prev block 6, next block 8, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       3 [always] 
+;;              5 [always] 
+;; bb 7 artificial_defs: { }
+;; bb 7 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 54 79 55 7 46 (nil) [2 uses])
+(note 55 54 56 7 [bb 7] NOTE_INSN_BASIC_BLOCK)
+(call_insn 56 55 57 7 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("rand") [flags 0x41]  <function_decl 0x7fe77b3ec100 rand>) [0 rand S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":166:29 677 {*call_value}
+     (expr_list:REG_EH_REGION (const_int 0 [0])
+        (nil))
+    (nil))
+(insn 57 56 58 7 (set (reg:SI 88 [ _7 ])
+        (reg:SI 0 ax)) "cmodules/fbgc_math.c":166:29 67 {*movsi_internal}
+     (nil))
+(insn 58 57 59 7 (parallel [
+            (set (reg:SI 100)
+                (div:SI (reg:SI 88 [ _7 ])
+                    (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                            (const_int -4 [0xfffffffffffffffc])) [3 max+0 S4 A32])))
+            (set (reg:SI 99)
+                (mod:SI (reg:SI 88 [ _7 ])
+                    (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                            (const_int -4 [0xfffffffffffffffc])) [3 max+0 S4 A32])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":166:36 351 {*divmodsi4}
+     (nil))
+(insn 59 58 60 7 (set (reg:SI 89 [ _8 ])
+        (reg:SI 99)) "cmodules/fbgc_math.c":166:36 67 {*movsi_internal}
+     (nil))
+(insn 60 59 61 7 (set (reg:SI 101)
+        (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -8 [0xfffffffffffffff8])) [3 min+0 S4 A32])) "cmodules/fbgc_math.c":166:9 67 {*movsi_internal}
+     (nil))
+(insn 61 60 62 7 (parallel [
+            (set (reg:SI 90 [ _9 ])
+                (plus:SI (reg:SI 89 [ _8 ])
+                    (reg:SI 101)))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":166:9 190 {*addsi_1}
+     (expr_list:REG_EQUAL (plus:SI (reg:SI 89 [ _8 ])
+            (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -8 [0xfffffffffffffff8])) [3 min+0 S4 A32]))
+        (nil)))
+(insn 62 61 63 7 (set (reg:SI 5 di)
+        (reg:SI 90 [ _9 ])) "cmodules/fbgc_math.c":166:9 67 {*movsi_internal}
+     (nil))
+(call_insn 63 62 64 7 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("new_fbgc_int_object") [flags 0x41]  <function_decl 0x7fe77b19dd00 new_fbgc_int_object>) [0 new_fbgc_int_object S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":166:9 677 {*call_value}
+     (nil)
+    (expr_list:SI (use (reg:SI 5 di))
+        (nil)))
+(insn 64 63 65 7 (set (reg/f:DI 91 [ _12 ])
+        (reg:DI 0 ax)) "cmodules/fbgc_math.c":166:9 66 {*movdi_internal}
+     (nil))
+;;  succ:       8 (FALLTHRU)
+
+;; basic block 8, loop depth 0, maybe hot
+;;  prev block 7, next block 1, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       7 (FALLTHRU)
+;;              6 [always] 
+;; bb 8 artificial_defs: { }
+;; bb 8 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 65 64 66 8 48 (nil) [1 uses])
+(note 66 65 67 8 [bb 8] NOTE_INSN_BASIC_BLOCK)
+(insn 67 66 71 8 (set (reg/f:DI 92 [ <retval> ])
+        (reg/f:DI 91 [ _12 ])) 66 {*movdi_internal}
+     (nil))
+(insn 71 67 72 8 (set (reg/i:DI 0 ax)
+        (reg/f:DI 92 [ <retval> ])) "cmodules/fbgc_math.c":167:1 66 {*movdi_internal}
+     (nil))
+(insn 72 71 0 8 (use (reg/i:DI 0 ax)) "cmodules/fbgc_math.c":167:1 -1
+     (nil))
+;;  succ:       EXIT [always]  (FALLTHRU)
+
+
+;; Function fbgc_random (fbgc_random, funcdef_no=16, decl_uid=5316, cgraph_uid=17, symbol_order=26)
+
+verify found no changes in insn with uid = 7.
+verify found no changes in insn with uid = 11.
+verify found no changes in insn with uid = 22.
+verify found no changes in insn with uid = 35.
+verify found no changes in insn with uid = 42.
+verify found no changes in insn with uid = 65.
+verify found no changes in insn with uid = 71.
+
+
+fbgc_random
+
+Dataflow summary:
+;;  invalidated by call 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 8 [st] 9 [st(1)] 10 [st(2)] 11 [st(3)] 12 [st(4)] 13 [st(5)] 14 [st(6)] 15 [st(7)] 17 [flags] 18 [fpsr] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 28 [mm0] 29 [mm1] 30 [mm2] 31 [mm3] 32 [mm4] 33 [mm5] 34 [mm6] 35 [mm7] 36 [r8] 37 [r9] 38 [r10] 39 [r11] 44 [xmm8] 45 [xmm9] 46 [xmm10] 47 [xmm11] 48 [xmm12] 49 [xmm13] 50 [xmm14] 51 [xmm15] 52 [] 53 [] 54 [] 55 [] 56 [] 57 [] 58 [] 59 [] 60 [] 61 [] 62 [] 63 [] 64 [] 65 [] 66 [] 67 [] 68 [] 69 [] 70 [] 71 [] 72 [] 73 [] 74 [] 75 []
+;;  hardware regs used 	
+;;  regular block artificial uses 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;;  eh block artificial uses 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;;  entry block defs 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 36 [r8] 37 [r9]
+;;  exit block uses 	 0 [ax] 6 [bp] 7 [sp] 19 [frame]
+;;  regs ever live 	 0 [ax] 4 [si] 5 [di] 7 [sp] 17 [flags] 20 [xmm0]
+;;  ref usage 	r0={9d,5u} r1={8d} r2={8d} r4={8d,1u} r5={12d,5u} r6={1d,9u} r7={1d,16u} r8={7d} r9={7d} r10={7d} r11={7d} r12={7d} r13={7d} r14={7d} r15={7d} r16={1d,8u} r17={11d,3u} r18={7d} r19={1d,29u,1e} r20={9d,4u} r21={8d} r22={8d} r23={8d} r24={8d} r25={8d} r26={8d} r27={8d} r28={7d} r29={7d} r30={7d} r31={7d} r32={7d} r33={7d} r34={7d} r35={7d} r36={8d} r37={8d} r38={7d} r39={7d} r44={7d} r45={7d} r46={7d} r47={7d} r48={7d} r49={7d} r50={7d} r51={7d} r52={7d} r53={7d} r54={7d} r55={7d} r56={7d} r57={7d} r58={7d} r59={7d} r60={7d} r61={7d} r62={7d} r63={7d} r64={7d} r65={7d} r66={7d} r67={7d} r68={7d} r69={7d} r70={7d} r71={7d} r72={7d} r73={7d} r74={7d} r75={7d} r82={1d,1u} r83={1d,1u} r84={1d,1u} r85={1d,1u} r86={1d,1u} r87={1d,1u} r88={1d,1u} r89={1d,1u} r90={1d,1u} r91={1d,1u} r92={2d,1u} r93={1d,1u} r94={1d,1u} r95={1d,1u} r96={1d,1u} r97={1d,1u} r98={1d,1u} r99={1d,1u} r100={1d,1u} r101={1d,1u} r102={1d,1u} r103={1d,1u} r104={1d,1u} r105={1d,1u} 
+;;    total ref usage 628{523d,104u,1e} in 57{50 regular + 7 call} insns.
+(note 1 0 5 NOTE_INSN_DELETED)
+;; basic block 2, loop depth 0, maybe hot
+;;  prev block 0, next block 3, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       ENTRY (FALLTHRU)
+;; bb 2 artificial_defs: { }
+;; bb 2 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 5 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 5 3 2 (set (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -40 [0xffffffffffffffd8])) [11 arg+0 S8 A64])
+        (reg:DI 5 di [ arg ])) "cmodules/fbgc_math.c":170:1 66 {*movdi_internal}
+     (nil))
+(insn 3 2 4 2 (set (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -44 [0xffffffffffffffd4])) [3 argc+0 S4 A32])
+        (reg:SI 4 si [ argc ])) "cmodules/fbgc_math.c":170:1 67 {*movsi_internal}
+     (nil))
+(note 4 3 7 2 NOTE_INSN_FUNCTION_BEG)
+(call_insn 7 4 8 2 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("clock") [flags 0x41]  <function_decl 0x7fe77b127200 clock>) [0 clock S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":171:14 677 {*call_value}
+     (expr_list:REG_EH_REGION (const_int 0 [0])
+        (nil))
+    (nil))
+(insn 8 7 9 2 (set (reg:DI 82 [ _1 ])
+        (reg:DI 0 ax)) "cmodules/fbgc_math.c":171:14 66 {*movdi_internal}
+     (nil))
+(insn 9 8 10 2 (set (reg:SI 83 [ _2 ])
+        (subreg:SI (reg:DI 82 [ _1 ]) 0)) "cmodules/fbgc_math.c":171:2 67 {*movsi_internal}
+     (nil))
+(insn 10 9 11 2 (set (reg:SI 5 di)
+        (reg:SI 83 [ _2 ])) "cmodules/fbgc_math.c":171:2 67 {*movsi_internal}
+     (nil))
+(call_insn 11 10 12 2 (call (mem:QI (symbol_ref:DI ("srand") [flags 0x41]  <function_decl 0x7fe77b3ec200 srand>) [0 srand S1 A8])
+        (const_int 0 [0])) "cmodules/fbgc_math.c":171:2 666 {*call}
+     (expr_list:REG_EH_REGION (const_int 0 [0])
+        (nil))
+    (expr_list:SI (use (reg:SI 5 di))
+        (nil)))
+(insn 12 11 13 2 (set (reg:DF 94)
+        (mem/u/c:DF (symbol_ref/u:DI ("*.LC17") [flags 0x2]) [0  S8 A64])) "cmodules/fbgc_math.c":173:9 111 {*movdf_internal}
+     (nil))
+(insn 13 12 14 2 (set (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -32 [0xffffffffffffffe0])) [9 min+0 S8 A64])
+        (reg:DF 94)) "cmodules/fbgc_math.c":173:9 111 {*movdf_internal}
+     (nil))
+(insn 14 13 15 2 (set (reg:DF 95)
+        (mem/u/c:DF (symbol_ref/u:DI ("*.LC18") [flags 0x2]) [0  S8 A64])) "cmodules/fbgc_math.c":174:9 111 {*movdf_internal}
+     (nil))
+(insn 15 14 16 2 (set (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -24 [0xffffffffffffffe8])) [9 max+0 S8 A64])
+        (reg:DF 95)) "cmodules/fbgc_math.c":174:9 111 {*movdf_internal}
+     (nil))
+(insn 16 15 17 2 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -44 [0xffffffffffffffd4])) [3 argc+0 S4 A32])
+            (const_int 1 [0x1]))) "cmodules/fbgc_math.c":176:4 11 {*cmpsi_1}
+     (nil))
+(jump_insn 17 16 18 2 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 27)
+            (pc))) "cmodules/fbgc_math.c":176:4 659 {*jcc}
+     (nil)
+ -> 27)
+;;  succ:       3 (FALLTHRU)
+;;              4
+
+;; basic block 3, loop depth 0, maybe hot
+;;  prev block 2, next block 4, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       2 (FALLTHRU)
+;; bb 3 artificial_defs: { }
+;; bb 3 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 18 17 19 3 [bb 3] NOTE_INSN_BASIC_BLOCK)
+(insn 19 18 20 3 (set (reg/f:DI 96)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -40 [0xffffffffffffffd8])) [11 arg+0 S8 A64])) "cmodules/fbgc_math.c":177:9 66 {*movdi_internal}
+     (nil))
+(insn 20 19 21 3 (set (reg/f:DI 84 [ _3 ])
+        (mem/f:DI (reg/f:DI 96) [6 *arg_23(D)+0 S8 A64])) "cmodules/fbgc_math.c":177:9 66 {*movdi_internal}
+     (nil))
+(insn 21 20 22 3 (set (reg:DI 5 di)
+        (reg/f:DI 84 [ _3 ])) "cmodules/fbgc_math.c":177:9 66 {*movdi_internal}
+     (nil))
+(call_insn 22 21 23 3 (set (reg:DF 20 xmm0)
+        (call (mem:QI (symbol_ref:DI ("convert_fbgc_object_to_double") [flags 0x41]  <function_decl 0x7fe77b18cf00 convert_fbgc_object_to_double>) [0 convert_fbgc_object_to_double S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":177:9 677 {*call_value}
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(insn 23 22 24 3 (set (reg:DF 97)
+        (reg:DF 20 xmm0)) "cmodules/fbgc_math.c":177:9 111 {*movdf_internal}
+     (nil))
+(insn 24 23 82 3 (set (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -24 [0xffffffffffffffe8])) [9 max+0 S8 A64])
+        (reg:DF 97)) "cmodules/fbgc_math.c":177:9 111 {*movdf_internal}
+     (nil))
+(jump_insn 82 24 83 3 (set (pc)
+        (label_ref 57)) -1
+     (nil)
+ -> 57)
+;;  succ:       8 [always] 
+
+(barrier 83 82 27)
+;; basic block 4, loop depth 0, maybe hot
+;;  prev block 3, next block 5, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       2
+;; bb 4 artificial_defs: { }
+;; bb 4 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 27 83 28 4 50 (nil) [1 uses])
+(note 28 27 29 4 [bb 4] NOTE_INSN_BASIC_BLOCK)
+(insn 29 28 30 4 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -44 [0xffffffffffffffd4])) [3 argc+0 S4 A32])
+            (const_int 2 [0x2]))) "cmodules/fbgc_math.c":179:9 11 {*cmpsi_1}
+     (nil))
+(jump_insn 30 29 31 4 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 47)
+            (pc))) "cmodules/fbgc_math.c":179:9 659 {*jcc}
+     (nil)
+ -> 47)
+;;  succ:       5 (FALLTHRU)
+;;              6
+
+;; basic block 5, loop depth 0, maybe hot
+;;  prev block 4, next block 6, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       4 (FALLTHRU)
+;; bb 5 artificial_defs: { }
+;; bb 5 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 31 30 32 5 [bb 5] NOTE_INSN_BASIC_BLOCK)
+(insn 32 31 33 5 (set (reg/f:DI 98)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -40 [0xffffffffffffffd8])) [11 arg+0 S8 A64])) "cmodules/fbgc_math.c":180:9 66 {*movdi_internal}
+     (nil))
+(insn 33 32 34 5 (set (reg/f:DI 85 [ _4 ])
+        (mem/f:DI (reg/f:DI 98) [6 *arg_23(D)+0 S8 A64])) "cmodules/fbgc_math.c":180:9 66 {*movdi_internal}
+     (nil))
+(insn 34 33 35 5 (set (reg:DI 5 di)
+        (reg/f:DI 85 [ _4 ])) "cmodules/fbgc_math.c":180:9 66 {*movdi_internal}
+     (nil))
+(call_insn 35 34 36 5 (set (reg:DF 20 xmm0)
+        (call (mem:QI (symbol_ref:DI ("convert_fbgc_object_to_double") [flags 0x41]  <function_decl 0x7fe77b18cf00 convert_fbgc_object_to_double>) [0 convert_fbgc_object_to_double S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":180:9 677 {*call_value}
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(insn 36 35 37 5 (set (reg:DF 99)
+        (reg:DF 20 xmm0)) "cmodules/fbgc_math.c":180:9 111 {*movdf_internal}
+     (nil))
+(insn 37 36 38 5 (set (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -32 [0xffffffffffffffe0])) [9 min+0 S8 A64])
+        (reg:DF 99)) "cmodules/fbgc_math.c":180:9 111 {*movdf_internal}
+     (nil))
+(insn 38 37 39 5 (set (reg/f:DI 100)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -40 [0xffffffffffffffd8])) [11 arg+0 S8 A64])) "cmodules/fbgc_math.c":181:42 66 {*movdi_internal}
+     (nil))
+(insn 39 38 40 5 (parallel [
+            (set (reg/f:DI 86 [ _5 ])
+                (plus:DI (reg/f:DI 100)
+                    (const_int 8 [0x8])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":181:42 191 {*adddi_1}
+     (expr_list:REG_EQUAL (plus:DI (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -40 [0xffffffffffffffd8])) [11 arg+0 S8 A64])
+            (const_int 8 [0x8]))
+        (nil)))
+(insn 40 39 41 5 (set (reg/f:DI 87 [ _6 ])
+        (mem/f:DI (reg/f:DI 86 [ _5 ]) [6 *_5+0 S8 A64])) "cmodules/fbgc_math.c":181:9 66 {*movdi_internal}
+     (nil))
+(insn 41 40 42 5 (set (reg:DI 5 di)
+        (reg/f:DI 87 [ _6 ])) "cmodules/fbgc_math.c":181:9 66 {*movdi_internal}
+     (nil))
+(call_insn 42 41 43 5 (set (reg:DF 20 xmm0)
+        (call (mem:QI (symbol_ref:DI ("convert_fbgc_object_to_double") [flags 0x41]  <function_decl 0x7fe77b18cf00 convert_fbgc_object_to_double>) [0 convert_fbgc_object_to_double S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":181:9 677 {*call_value}
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(insn 43 42 44 5 (set (reg:DF 101)
+        (reg:DF 20 xmm0)) "cmodules/fbgc_math.c":181:9 111 {*movdf_internal}
+     (nil))
+(insn 44 43 84 5 (set (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -24 [0xffffffffffffffe8])) [9 max+0 S8 A64])
+        (reg:DF 101)) "cmodules/fbgc_math.c":181:9 111 {*movdf_internal}
+     (nil))
+(jump_insn 84 44 85 5 (set (pc)
+        (label_ref 57)) -1
+     (nil)
+ -> 57)
+;;  succ:       8 [always] 
+
+(barrier 85 84 47)
+;; basic block 6, loop depth 0, maybe hot
+;;  prev block 5, next block 7, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       4
+;; bb 6 artificial_defs: { }
+;; bb 6 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 47 85 48 6 52 (nil) [1 uses])
+(note 48 47 51 6 [bb 6] NOTE_INSN_BASIC_BLOCK)
+(insn 51 48 52 6 (set (reg:CCGC 17 flags)
+        (compare:CCGC (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -44 [0xffffffffffffffd4])) [3 argc+0 S4 A32])
+            (const_int 2 [0x2]))) "cmodules/fbgc_math.c":183:9 11 {*cmpsi_1}
+     (nil))
+(jump_insn 52 51 53 6 (set (pc)
+        (if_then_else (le (reg:CCGC 17 flags)
+                (const_int 0 [0]))
+            (label_ref 57)
+            (pc))) "cmodules/fbgc_math.c":183:9 659 {*jcc}
+     (nil)
+ -> 57)
+;;  succ:       7 (FALLTHRU)
+;;              8
+
+;; basic block 7, loop depth 0, maybe hot
+;;  prev block 6, next block 8, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       6 (FALLTHRU)
+;; bb 7 artificial_defs: { }
+;; bb 7 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 53 52 54 7 [bb 7] NOTE_INSN_BASIC_BLOCK)
+(insn 54 53 86 7 (set (reg/f:DI 92 [ _13 ])
+        (const_int 0 [0])) "cmodules/fbgc_math.c":183:27 66 {*movdi_internal}
+     (nil))
+(jump_insn 86 54 87 7 (set (pc)
+        (label_ref 73)) "cmodules/fbgc_math.c":183:27 -1
+     (nil)
+ -> 73)
+;;  succ:       9 [always] 
+
+(barrier 87 86 57)
+;; basic block 8, loop depth 0, maybe hot
+;;  prev block 7, next block 9, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       6
+;;              3 [always] 
+;;              5 [always] 
+;; bb 8 artificial_defs: { }
+;; bb 8 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 57 87 58 8 51 (nil) [3 uses])
+(note 58 57 59 8 [bb 8] NOTE_INSN_BASIC_BLOCK)
+(insn 59 58 60 8 (set (reg:DF 103)
+        (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -24 [0xffffffffffffffe8])) [9 max+0 S8 A64])) "cmodules/fbgc_math.c":185:9 111 {*movdf_internal}
+     (nil))
+(insn 60 59 61 8 (set (reg:DF 102)
+        (minus:DF (reg:DF 103)
+            (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                    (const_int -32 [0xffffffffffffffe0])) [9 min+0 S8 A64]))) "cmodules/fbgc_math.c":185:9 822 {*fop_df_1}
+     (nil))
+(insn 61 60 62 8 (set (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -16 [0xfffffffffffffff0])) [9 range+0 S8 A64])
+        (reg:DF 102)) "cmodules/fbgc_math.c":185:9 111 {*movdf_internal}
+     (nil))
+(insn 62 61 63 8 (set (reg:DF 105)
+        (mem/u/c:DF (symbol_ref/u:DI ("*.LC19") [flags 0x2]) [0  S8 A64])) "cmodules/fbgc_math.c":186:12 111 {*movdf_internal}
+     (expr_list:REG_EQUAL (const_double:DF 2.147483647e+9 [0x0.fffffffep+31])
+        (nil)))
+(insn 63 62 64 8 (set (reg:DF 104)
+        (div:DF (reg:DF 105)
+            (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                    (const_int -16 [0xfffffffffffffff0])) [9 range+0 S8 A64]))) "cmodules/fbgc_math.c":186:12 822 {*fop_df_1}
+     (nil))
+(insn 64 63 65 8 (set (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                (const_int -8 [0xfffffffffffffff8])) [9 div+0 S8 A64])
+        (reg:DF 104)) "cmodules/fbgc_math.c":186:12 111 {*movdf_internal}
+     (nil))
+(call_insn 65 64 66 8 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("rand") [flags 0x41]  <function_decl 0x7fe77b3ec100 rand>) [0 rand S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":188:39 677 {*call_value}
+     (expr_list:REG_EH_REGION (const_int 0 [0])
+        (nil))
+    (nil))
+(insn 66 65 67 8 (set (reg:SI 88 [ _7 ])
+        (reg:SI 0 ax)) "cmodules/fbgc_math.c":188:39 67 {*movsi_internal}
+     (nil))
+(insn 67 66 68 8 (set (reg:DF 89 [ _8 ])
+        (float:DF (reg:SI 88 [ _7 ]))) "cmodules/fbgc_math.c":188:46 172 {*floatsidf2}
+     (nil))
+(insn 68 67 69 8 (set (reg:DF 90 [ _9 ])
+        (div:DF (reg:DF 89 [ _8 ])
+            (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                    (const_int -8 [0xfffffffffffffff8])) [9 div+0 S8 A64]))) "cmodules/fbgc_math.c":188:46 822 {*fop_df_1}
+     (nil))
+(insn 69 68 70 8 (set (reg:DF 91 [ _10 ])
+        (plus:DF (reg:DF 90 [ _9 ])
+            (mem/c:DF (plus:DI (reg/f:DI 19 frame)
+                    (const_int -32 [0xffffffffffffffe0])) [9 min+0 S8 A64]))) "cmodules/fbgc_math.c":188:9 818 {*fop_df_comm}
+     (nil))
+(insn 70 69 71 8 (set (reg:DF 20 xmm0)
+        (reg:DF 91 [ _10 ])) "cmodules/fbgc_math.c":188:9 111 {*movdf_internal}
+     (nil))
+(call_insn 71 70 72 8 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("new_fbgc_double_object") [flags 0x41]  <function_decl 0x7fe77b19d500 new_fbgc_double_object>) [0 new_fbgc_double_object S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":188:9 677 {*call_value}
+     (nil)
+    (expr_list:DF (use (reg:DF 20 xmm0))
+        (nil)))
+(insn 72 71 73 8 (set (reg/f:DI 92 [ _13 ])
+        (reg:DI 0 ax)) "cmodules/fbgc_math.c":188:9 66 {*movdi_internal}
+     (nil))
+;;  succ:       9 (FALLTHRU)
+
+;; basic block 9, loop depth 0, maybe hot
+;;  prev block 8, next block 1, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       8 (FALLTHRU)
+;;              7 [always] 
+;; bb 9 artificial_defs: { }
+;; bb 9 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 73 72 74 9 53 (nil) [1 uses])
+(note 74 73 75 9 [bb 9] NOTE_INSN_BASIC_BLOCK)
+(insn 75 74 79 9 (set (reg/f:DI 93 [ <retval> ])
+        (reg/f:DI 92 [ _13 ])) 66 {*movdi_internal}
+     (nil))
+(insn 79 75 80 9 (set (reg/i:DI 0 ax)
+        (reg/f:DI 93 [ <retval> ])) "cmodules/fbgc_math.c":189:1 66 {*movdi_internal}
+     (nil))
+(insn 80 79 0 9 (use (reg/i:DI 0 ax)) "cmodules/fbgc_math.c":189:1 -1
+     (nil))
+;;  succ:       EXIT [always]  (FALLTHRU)
+
+
+;; Function fbgc_rand (fbgc_rand, funcdef_no=17, decl_uid=5324, cgraph_uid=18, symbol_order=28)
+
+verify found no changes in insn with uid = 7.
+verify found no changes in insn with uid = 11.
+verify found no changes in insn with uid = 18.
+verify found no changes in insn with uid = 33.
+verify found no changes in insn with uid = 40.
+verify found no changes in insn with uid = 58.
+verify found no changes in insn with uid = 73.
+
+
+fbgc_rand
+
+Dataflow summary:
+;;  invalidated by call 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 8 [st] 9 [st(1)] 10 [st(2)] 11 [st(3)] 12 [st(4)] 13 [st(5)] 14 [st(6)] 15 [st(7)] 17 [flags] 18 [fpsr] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 28 [mm0] 29 [mm1] 30 [mm2] 31 [mm3] 32 [mm4] 33 [mm5] 34 [mm6] 35 [mm7] 36 [r8] 37 [r9] 38 [r10] 39 [r11] 44 [xmm8] 45 [xmm9] 46 [xmm10] 47 [xmm11] 48 [xmm12] 49 [xmm13] 50 [xmm14] 51 [xmm15] 52 [] 53 [] 54 [] 55 [] 56 [] 57 [] 58 [] 59 [] 60 [] 61 [] 62 [] 63 [] 64 [] 65 [] 66 [] 67 [] 68 [] 69 [] 70 [] 71 [] 72 [] 73 [] 74 [] 75 []
+;;  hardware regs used 	
+;;  regular block artificial uses 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;;  eh block artificial uses 	 6 [bp] 7 [sp] 16 [argp] 19 [frame]
+;;  entry block defs 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 6 [bp] 7 [sp] 16 [argp] 19 [frame] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 36 [r8] 37 [r9]
+;;  exit block uses 	 0 [ax] 6 [bp] 7 [sp] 19 [frame]
+;;  regs ever live 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 7 [sp] 17 [flags]
+;;  ref usage 	r0={9d,8u} r1={9d,1u} r2={9d,1u} r4={9d,2u} r5={13d,6u} r6={1d,14u} r7={1d,21u} r8={7d} r9={7d} r10={7d} r11={7d} r12={7d} r13={7d} r14={7d} r15={7d} r16={1d,13u} r17={20d,4u} r18={7d} r19={1d,46u,4e} r20={8d} r21={8d} r22={8d} r23={8d} r24={8d} r25={8d} r26={8d} r27={8d} r28={7d} r29={7d} r30={7d} r31={7d} r32={7d} r33={7d} r34={7d} r35={7d} r36={8d} r37={8d} r38={7d} r39={7d} r44={7d} r45={7d} r46={7d} r47={7d} r48={7d} r49={7d} r50={7d} r51={7d} r52={7d} r53={7d} r54={7d} r55={7d} r56={7d} r57={7d} r58={7d} r59={7d} r60={7d} r61={7d} r62={7d} r63={7d} r64={7d} r65={7d} r66={7d} r67={7d} r68={7d} r69={7d} r70={7d} r71={7d} r72={7d} r73={7d} r74={7d} r75={7d} r82={1d,1u} r83={1d,1u} r84={1d,1u} r85={1d,1u} r86={1d,1u} r87={1d,1u} r88={1d,1u} r89={1d,1u} r90={1d,1u} r91={1d,1u} r92={1d,1u} r93={1d,1u} r94={1d,1u,1e} r95={1d,1u} r96={1d,1u} r97={1d,1u,1e} r98={1d,1u} r99={1d,1u} r100={2d,1u} r101={1d,1u} r102={1d,1u} r103={1d,1u} r104={1d,1u} r105={1d,1u} r106={1d,1u} r107={1d,1u} r108={1d,1u} r109={1d,1u} r110={1d,1u} r111={1d,1u} r112={1d,1u} r113={1d,1u} r114={1d,1u} r115={1d,1u} r116={1d,1u} 
+;;    total ref usage 703{546d,151u,6e} in 79{72 regular + 7 call} insns.
+(note 1 0 5 NOTE_INSN_DELETED)
+;; basic block 2, loop depth 0, maybe hot
+;;  prev block 0, next block 3, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       ENTRY (FALLTHRU)
+;; bb 2 artificial_defs: { }
+;; bb 2 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 5 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 5 3 2 (set (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -40 [0xffffffffffffffd8])) [11 arg+0 S8 A64])
+        (reg:DI 5 di [ arg ])) "cmodules/fbgc_math.c":192:1 66 {*movdi_internal}
+     (nil))
+(insn 3 2 4 2 (set (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -44 [0xffffffffffffffd4])) [3 argc+0 S4 A32])
+        (reg:SI 4 si [ argc ])) "cmodules/fbgc_math.c":192:1 67 {*movsi_internal}
+     (nil))
+(note 4 3 7 2 NOTE_INSN_FUNCTION_BEG)
+(call_insn 7 4 8 2 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("clock") [flags 0x41]  <function_decl 0x7fe77b127200 clock>) [0 clock S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":193:14 677 {*call_value}
+     (expr_list:REG_EH_REGION (const_int 0 [0])
+        (nil))
+    (nil))
+(insn 8 7 9 2 (set (reg:DI 82 [ _1 ])
+        (reg:DI 0 ax)) "cmodules/fbgc_math.c":193:14 66 {*movdi_internal}
+     (nil))
+(insn 9 8 10 2 (set (reg:SI 83 [ _2 ])
+        (subreg:SI (reg:DI 82 [ _1 ]) 0)) "cmodules/fbgc_math.c":193:2 67 {*movsi_internal}
+     (nil))
+(insn 10 9 11 2 (set (reg:SI 5 di)
+        (reg:SI 83 [ _2 ])) "cmodules/fbgc_math.c":193:2 67 {*movsi_internal}
+     (nil))
+(call_insn 11 10 12 2 (call (mem:QI (symbol_ref:DI ("srand") [flags 0x41]  <function_decl 0x7fe77b3ec200 srand>) [0 srand S1 A8])
+        (const_int 0 [0])) "cmodules/fbgc_math.c":193:2 666 {*call}
+     (expr_list:REG_EH_REGION (const_int 0 [0])
+        (nil))
+    (expr_list:SI (use (reg:SI 5 di))
+        (nil)))
+(insn 12 11 13 2 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -44 [0xffffffffffffffd4])) [3 argc+0 S4 A32])
+            (const_int 1 [0x1]))) "cmodules/fbgc_math.c":195:4 11 {*cmpsi_1}
+     (nil))
+(jump_insn 13 12 14 2 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 25)
+            (pc))) "cmodules/fbgc_math.c":195:4 659 {*jcc}
+     (nil)
+ -> 25)
+;;  succ:       3 (FALLTHRU)
+;;              4
+
+;; basic block 3, loop depth 0, maybe hot
+;;  prev block 2, next block 4, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       2 (FALLTHRU)
+;; bb 3 artificial_defs: { }
+;; bb 3 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 14 13 15 3 [bb 3] NOTE_INSN_BASIC_BLOCK)
+(insn 15 14 16 3 (set (reg/f:DI 102)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -40 [0xffffffffffffffd8])) [11 arg+0 S8 A64])) "cmodules/fbgc_math.c":196:15 66 {*movdi_internal}
+     (nil))
+(insn 16 15 17 3 (set (reg/f:DI 84 [ _3 ])
+        (mem/f:DI (reg/f:DI 102) [6 *arg_33(D)+0 S8 A64])) "cmodules/fbgc_math.c":196:15 66 {*movdi_internal}
+     (nil))
+(insn 17 16 18 3 (set (reg:DI 5 di)
+        (reg/f:DI 84 [ _3 ])) "cmodules/fbgc_math.c":196:15 66 {*movdi_internal}
+     (nil))
+(call_insn 18 17 19 3 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("convert_fbgc_object_to_int") [flags 0x41]  <function_decl 0x7fe77b18ce00 convert_fbgc_object_to_int>) [0 convert_fbgc_object_to_int S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":196:15 677 {*call_value}
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(insn 19 18 20 3 (set (reg:SI 85 [ _4 ])
+        (reg:SI 0 ax)) "cmodules/fbgc_math.c":196:15 67 {*movsi_internal}
+     (nil))
+(insn 20 19 21 3 (set (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -28 [0xffffffffffffffe4])) [3 col+0 S4 A32])
+        (reg:SI 85 [ _4 ])) "cmodules/fbgc_math.c":196:13 67 {*movsi_internal}
+     (nil))
+(insn 21 20 22 3 (set (reg:SI 103)
+        (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -28 [0xffffffffffffffe4])) [3 col+0 S4 A32])) "cmodules/fbgc_math.c":196:7 67 {*movsi_internal}
+     (nil))
+(insn 22 21 113 3 (set (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -32 [0xffffffffffffffe0])) [3 row+0 S4 A32])
+        (reg:SI 103)) "cmodules/fbgc_math.c":196:7 67 {*movsi_internal}
+     (nil))
+(jump_insn 113 22 114 3 (set (pc)
+        (label_ref 50)) -1
+     (nil)
+ -> 50)
+;;  succ:       7 [always] 
+
+(barrier 114 113 25)
+;; basic block 4, loop depth 0, maybe hot
+;;  prev block 3, next block 5, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       2
+;; bb 4 artificial_defs: { }
+;; bb 4 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 25 114 26 4 55 (nil) [1 uses])
+(note 26 25 27 4 [bb 4] NOTE_INSN_BASIC_BLOCK)
+(insn 27 26 28 4 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -44 [0xffffffffffffffd4])) [3 argc+0 S4 A32])
+            (const_int 2 [0x2]))) "cmodules/fbgc_math.c":198:9 11 {*cmpsi_1}
+     (nil))
+(jump_insn 28 27 29 4 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 45)
+            (pc))) "cmodules/fbgc_math.c":198:9 659 {*jcc}
+     (nil)
+ -> 45)
+;;  succ:       5 (FALLTHRU)
+;;              6
+
+;; basic block 5, loop depth 0, maybe hot
+;;  prev block 4, next block 6, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       4 (FALLTHRU)
+;; bb 5 artificial_defs: { }
+;; bb 5 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 29 28 30 5 [bb 5] NOTE_INSN_BASIC_BLOCK)
+(insn 30 29 31 5 (set (reg/f:DI 104)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -40 [0xffffffffffffffd8])) [11 arg+0 S8 A64])) "cmodules/fbgc_math.c":199:9 66 {*movdi_internal}
+     (nil))
+(insn 31 30 32 5 (set (reg/f:DI 86 [ _5 ])
+        (mem/f:DI (reg/f:DI 104) [6 *arg_33(D)+0 S8 A64])) "cmodules/fbgc_math.c":199:9 66 {*movdi_internal}
+     (nil))
+(insn 32 31 33 5 (set (reg:DI 5 di)
+        (reg/f:DI 86 [ _5 ])) "cmodules/fbgc_math.c":199:9 66 {*movdi_internal}
+     (nil))
+(call_insn 33 32 34 5 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("convert_fbgc_object_to_int") [flags 0x41]  <function_decl 0x7fe77b18ce00 convert_fbgc_object_to_int>) [0 convert_fbgc_object_to_int S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":199:9 677 {*call_value}
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(insn 34 33 35 5 (set (reg:SI 87 [ _6 ])
+        (reg:SI 0 ax)) "cmodules/fbgc_math.c":199:9 67 {*movsi_internal}
+     (nil))
+(insn 35 34 36 5 (set (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -32 [0xffffffffffffffe0])) [3 row+0 S4 A32])
+        (reg:SI 87 [ _6 ])) "cmodules/fbgc_math.c":199:7 67 {*movsi_internal}
+     (nil))
+(insn 36 35 37 5 (set (reg/f:DI 105)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -40 [0xffffffffffffffd8])) [11 arg+0 S8 A64])) "cmodules/fbgc_math.c":200:39 66 {*movdi_internal}
+     (nil))
+(insn 37 36 38 5 (parallel [
+            (set (reg/f:DI 88 [ _7 ])
+                (plus:DI (reg/f:DI 105)
+                    (const_int 8 [0x8])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":200:39 191 {*adddi_1}
+     (expr_list:REG_EQUAL (plus:DI (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -40 [0xffffffffffffffd8])) [11 arg+0 S8 A64])
+            (const_int 8 [0x8]))
+        (nil)))
+(insn 38 37 39 5 (set (reg/f:DI 89 [ _8 ])
+        (mem/f:DI (reg/f:DI 88 [ _7 ]) [6 *_7+0 S8 A64])) "cmodules/fbgc_math.c":200:9 66 {*movdi_internal}
+     (nil))
+(insn 39 38 40 5 (set (reg:DI 5 di)
+        (reg/f:DI 89 [ _8 ])) "cmodules/fbgc_math.c":200:9 66 {*movdi_internal}
+     (nil))
+(call_insn 40 39 41 5 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("convert_fbgc_object_to_int") [flags 0x41]  <function_decl 0x7fe77b18ce00 convert_fbgc_object_to_int>) [0 convert_fbgc_object_to_int S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":200:9 677 {*call_value}
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(insn 41 40 42 5 (set (reg:SI 90 [ _9 ])
+        (reg:SI 0 ax)) "cmodules/fbgc_math.c":200:9 67 {*movsi_internal}
+     (nil))
+(insn 42 41 115 5 (set (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -28 [0xffffffffffffffe4])) [3 col+0 S4 A32])
+        (reg:SI 90 [ _9 ])) "cmodules/fbgc_math.c":200:7 67 {*movsi_internal}
+     (nil))
+(jump_insn 115 42 116 5 (set (pc)
+        (label_ref 50)) -1
+     (nil)
+ -> 50)
+;;  succ:       7 [always] 
+
+(barrier 116 115 45)
+;; basic block 6, loop depth 0, maybe hot
+;;  prev block 5, next block 7, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       4
+;; bb 6 artificial_defs: { }
+;; bb 6 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 45 116 46 6 57 (nil) [1 uses])
+(note 46 45 47 6 [bb 6] NOTE_INSN_BASIC_BLOCK)
+(insn 47 46 117 6 (set (reg/f:DI 100 [ _23 ])
+        (const_int 0 [0])) "cmodules/fbgc_math.c":202:14 66 {*movdi_internal}
+     (nil))
+(jump_insn 117 47 118 6 (set (pc)
+        (label_ref 104)) "cmodules/fbgc_math.c":202:14 -1
+     (nil)
+ -> 104)
+;;  succ:       14 [always] 
+
+(barrier 118 117 50)
+;; basic block 7, loop depth 0, maybe hot
+;;  prev block 6, next block 8, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       3 [always] 
+;;              5 [always] 
+;; bb 7 artificial_defs: { }
+;; bb 7 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 50 118 51 7 56 (nil) [2 uses])
+(note 51 50 52 7 [bb 7] NOTE_INSN_BASIC_BLOCK)
+(insn 52 51 53 7 (set (reg:SI 106)
+        (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -28 [0xffffffffffffffe4])) [3 col+0 S4 A32])) "cmodules/fbgc_math.c":204:27 67 {*movsi_internal}
+     (nil))
+(insn 53 52 54 7 (set (reg:SI 107)
+        (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -32 [0xffffffffffffffe0])) [3 row+0 S4 A32])) "cmodules/fbgc_math.c":204:27 67 {*movsi_internal}
+     (nil))
+(insn 54 53 55 7 (set (reg:SI 2 cx)
+        (const_int 10 [0xa])) "cmodules/fbgc_math.c":204:27 67 {*movsi_internal}
+     (nil))
+(insn 55 54 56 7 (set (reg:SI 1 dx)
+        (reg:SI 106)) "cmodules/fbgc_math.c":204:27 67 {*movsi_internal}
+     (nil))
+(insn 56 55 57 7 (set (reg:SI 4 si)
+        (reg:SI 107)) "cmodules/fbgc_math.c":204:27 67 {*movsi_internal}
+     (nil))
+(insn 57 56 58 7 (set (reg:SI 5 di)
+        (const_int 4 [0x4])) "cmodules/fbgc_math.c":204:27 67 {*movsi_internal}
+     (nil))
+(call_insn 58 57 59 7 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("new_fbgc_matrix_object") [flags 0x41]  <function_decl 0x7fe77b1ac900 new_fbgc_matrix_object>) [0 new_fbgc_matrix_object S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":204:27 677 {*call_value}
+     (nil)
+    (expr_list:SI (use (reg:SI 5 di))
+        (expr_list:SI (use (reg:SI 4 si))
+            (expr_list:SI (use (reg:SI 1 dx))
+                (expr_list:SI (use (reg:SI 2 cx))
+                    (nil))))))
+(insn 59 58 60 7 (set (reg:DI 108)
+        (reg:DI 0 ax)) "cmodules/fbgc_math.c":204:27 66 {*movdi_internal}
+     (nil))
+(insn 60 59 61 7 (set (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -16 [0xfffffffffffffff0])) [6 m+0 S8 A64])
+        (reg:DI 108)) "cmodules/fbgc_math.c":204:27 66 {*movdi_internal}
+     (nil))
+(insn 61 60 62 7 (set (reg/f:DI 109)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -16 [0xfffffffffffffff0])) [6 m+0 S8 A64])) "cmodules/fbgc_math.c":205:16 66 {*movdi_internal}
+     (nil))
+(insn 62 61 63 7 (parallel [
+            (set (reg/f:DI 91 [ _10 ])
+                (plus:DI (reg/f:DI 109)
+                    (const_int 14 [0xe])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":205:16 191 {*adddi_1}
+     (expr_list:REG_EQUAL (plus:DI (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -16 [0xfffffffffffffff0])) [6 m+0 S8 A64])
+            (const_int 14 [0xe]))
+        (nil)))
+(insn 63 62 64 7 (parallel [
+            (set (reg:DI 110)
+                (plus:DI (reg/f:DI 91 [ _10 ])
+                    (const_int 4 [0x4])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":205:11 191 {*adddi_1}
+     (nil))
+(insn 64 63 65 7 (set (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -8 [0xfffffffffffffff8])) [20 mc+0 S8 A64])
+        (reg:DI 110)) "cmodules/fbgc_math.c":205:11 66 {*movdi_internal}
+     (nil))
+(insn 65 64 119 7 (set (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -24 [0xffffffffffffffe8])) [3 i+0 S4 A32])
+        (const_int 0 [0])) "cmodules/fbgc_math.c":206:13 67 {*movsi_internal}
+     (nil))
+(jump_insn 119 65 120 7 (set (pc)
+        (label_ref 96)) "cmodules/fbgc_math.c":206:2 -1
+     (nil)
+ -> 96)
+;;  succ:       12 [always] 
+
+(barrier 120 119 98)
+;; basic block 8, loop depth 0, maybe hot
+;;  prev block 7, next block 9, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       12
+;; bb 8 artificial_defs: { }
+;; bb 8 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 98 120 68 8 62 (nil) [1 uses])
+(note 68 98 69 8 [bb 8] NOTE_INSN_BASIC_BLOCK)
+(insn 69 68 121 8 (set (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -20 [0xffffffffffffffec])) [3 j+0 S4 A32])
+        (const_int 0 [0])) "cmodules/fbgc_math.c":207:14 67 {*movsi_internal}
+     (nil))
+(jump_insn 121 69 122 8 (set (pc)
+        (label_ref 88)) "cmodules/fbgc_math.c":207:3 -1
+     (nil)
+ -> 88)
+;;  succ:       10 [always] 
+
+(barrier 122 121 90)
+;; basic block 9, loop depth 0, maybe hot
+;;  prev block 8, next block 10, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       10
+;; bb 9 artificial_defs: { }
+;; bb 9 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 90 122 72 9 61 (nil) [1 uses])
+(note 72 90 73 9 [bb 9] NOTE_INSN_BASIC_BLOCK)
+(call_insn 73 72 74 9 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("rand") [flags 0x41]  <function_decl 0x7fe77b3ec100 rand>) [0 rand S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_math.c":208:18 677 {*call_value}
+     (expr_list:REG_EH_REGION (const_int 0 [0])
+        (nil))
+    (nil))
+(insn 74 73 75 9 (set (reg:SI 92 [ _11 ])
+        (reg:SI 0 ax)) "cmodules/fbgc_math.c":208:18 67 {*movsi_internal}
+     (nil))
+(insn 75 74 76 9 (set (reg:DF 93 [ _12 ])
+        (float:DF (reg:SI 92 [ _11 ]))) "cmodules/fbgc_math.c":208:25 172 {*floatsidf2}
+     (nil))
+(insn 76 75 77 9 (set (reg:SI 111)
+        (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -24 [0xffffffffffffffe8])) [3 i+0 S4 A32])) "cmodules/fbgc_math.c":208:8 67 {*movsi_internal}
+     (nil))
+(insn 77 76 78 9 (parallel [
+            (set (reg:SI 94 [ _13 ])
+                (mult:SI (reg:SI 111)
+                    (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                            (const_int -28 [0xffffffffffffffe4])) [3 col+0 S4 A32])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":208:8 317 {*mulsi3_1}
+     (nil))
+(insn 78 77 79 9 (set (reg:SI 112)
+        (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -20 [0xffffffffffffffec])) [3 j+0 S4 A32])) "cmodules/fbgc_math.c":208:12 67 {*movsi_internal}
+     (nil))
+(insn 79 78 80 9 (parallel [
+            (set (reg:SI 95 [ _14 ])
+                (plus:SI (reg:SI 94 [ _13 ])
+                    (reg:SI 112)))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":208:12 190 {*addsi_1}
+     (expr_list:REG_EQUAL (plus:SI (reg:SI 94 [ _13 ])
+            (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -20 [0xffffffffffffffec])) [3 j+0 S4 A32]))
+        (nil)))
+(insn 80 79 81 9 (set (reg:DI 96 [ _15 ])
+        (zero_extend:DI (reg:SI 95 [ _14 ]))) "cmodules/fbgc_math.c":208:12 114 {*zero_extendsidi2}
+     (nil))
+(insn 81 80 82 9 (parallel [
+            (set (reg:DI 97 [ _16 ])
+                (ashift:DI (reg:DI 96 [ _15 ])
+                    (const_int 3 [0x3])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":208:6 520 {*ashldi3_1}
+     (nil))
+(insn 82 81 83 9 (set (reg/f:DI 113)
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -8 [0xfffffffffffffff8])) [20 mc+0 S8 A64])) "cmodules/fbgc_math.c":208:6 66 {*movdi_internal}
+     (nil))
+(insn 83 82 84 9 (parallel [
+            (set (reg/f:DI 98 [ _17 ])
+                (plus:DI (reg:DI 97 [ _16 ])
+                    (reg/f:DI 113)))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":208:6 191 {*adddi_1}
+     (expr_list:REG_EQUAL (plus:DI (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -8 [0xfffffffffffffff8])) [20 mc+0 S8 A64])
+            (reg:DI 97 [ _16 ]))
+        (nil)))
+(insn 84 83 85 9 (set (reg:DF 114)
+        (mem/u/c:DF (symbol_ref/u:DI ("*.LC19") [flags 0x2]) [0  S8 A64])) "cmodules/fbgc_math.c":208:25 111 {*movdf_internal}
+     (expr_list:REG_EQUAL (const_double:DF 2.147483647e+9 [0x0.fffffffep+31])
+        (nil)))
+(insn 85 84 86 9 (set (reg:DF 99 [ _18 ])
+        (div:DF (reg:DF 93 [ _12 ])
+            (reg:DF 114))) "cmodules/fbgc_math.c":208:25 822 {*fop_df_1}
+     (nil))
+(insn 86 85 87 9 (set (mem:DF (reg/f:DI 98 [ _17 ]) [9 *_17+0 S8 A64])
+        (reg:DF 99 [ _18 ])) "cmodules/fbgc_math.c":208:16 111 {*movdf_internal}
+     (nil))
+(insn 87 86 88 9 (parallel [
+            (set (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                        (const_int -20 [0xffffffffffffffec])) [3 j+0 S4 A32])
+                (plus:SI (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                            (const_int -20 [0xffffffffffffffec])) [3 j+0 S4 A32])
+                    (const_int 1 [0x1])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":207:28 190 {*addsi_1}
+     (nil))
+;;  succ:       10 (FALLTHRU,DFS_BACK)
+
+;; basic block 10, loop depth 0, maybe hot
+;;  prev block 9, next block 11, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       9 (FALLTHRU,DFS_BACK)
+;;              8 [always] 
+;; bb 10 artificial_defs: { }
+;; bb 10 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 88 87 89 10 60 (nil) [1 uses])
+(note 89 88 91 10 [bb 10] NOTE_INSN_BASIC_BLOCK)
+(insn 91 89 92 10 (set (reg:SI 115)
+        (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -20 [0xffffffffffffffec])) [3 j+0 S4 A32])) "cmodules/fbgc_math.c":207:3 67 {*movsi_internal}
+     (nil))
+(insn 92 91 93 10 (set (reg:CC 17 flags)
+        (compare:CC (reg:SI 115)
+            (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -28 [0xffffffffffffffe4])) [3 col+0 S4 A32]))) "cmodules/fbgc_math.c":207:3 11 {*cmpsi_1}
+     (nil))
+(jump_insn 93 92 94 10 (set (pc)
+        (if_then_else (ltu (reg:CC 17 flags)
+                (const_int 0 [0]))
+            (label_ref 90)
+            (pc))) "cmodules/fbgc_math.c":207:3 659 {*jcc}
+     (nil)
+ -> 90)
+;;  succ:       9
+;;              11 (FALLTHRU)
+
+;; basic block 11, loop depth 0, maybe hot
+;;  prev block 10, next block 12, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       10 (FALLTHRU)
+;; bb 11 artificial_defs: { }
+;; bb 11 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 94 93 95 11 [bb 11] NOTE_INSN_BASIC_BLOCK)
+(insn 95 94 96 11 (parallel [
+            (set (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                        (const_int -24 [0xffffffffffffffe8])) [3 i+0 S4 A32])
+                (plus:SI (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                            (const_int -24 [0xffffffffffffffe8])) [3 i+0 S4 A32])
+                    (const_int 1 [0x1])))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_math.c":206:27 190 {*addsi_1}
+     (nil))
+;;  succ:       12 (FALLTHRU,DFS_BACK)
+
+;; basic block 12, loop depth 0, maybe hot
+;;  prev block 11, next block 13, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       11 (FALLTHRU,DFS_BACK)
+;;              7 [always] 
+;; bb 12 artificial_defs: { }
+;; bb 12 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 96 95 97 12 59 (nil) [1 uses])
+(note 97 96 99 12 [bb 12] NOTE_INSN_BASIC_BLOCK)
+(insn 99 97 100 12 (set (reg:SI 116)
+        (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                (const_int -24 [0xffffffffffffffe8])) [3 i+0 S4 A32])) "cmodules/fbgc_math.c":206:2 67 {*movsi_internal}
+     (nil))
+(insn 100 99 101 12 (set (reg:CC 17 flags)
+        (compare:CC (reg:SI 116)
+            (mem/c:SI (plus:DI (reg/f:DI 19 frame)
+                    (const_int -32 [0xffffffffffffffe0])) [3 row+0 S4 A32]))) "cmodules/fbgc_math.c":206:2 11 {*cmpsi_1}
+     (nil))
+(jump_insn 101 100 102 12 (set (pc)
+        (if_then_else (ltu (reg:CC 17 flags)
+                (const_int 0 [0]))
+            (label_ref 98)
+            (pc))) "cmodules/fbgc_math.c":206:2 659 {*jcc}
+     (nil)
+ -> 98)
+;;  succ:       8
+;;              13 (FALLTHRU)
+
+;; basic block 13, loop depth 0, maybe hot
+;;  prev block 12, next block 14, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       12 (FALLTHRU)
+;; bb 13 artificial_defs: { }
+;; bb 13 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(note 102 101 103 13 [bb 13] NOTE_INSN_BASIC_BLOCK)
+(insn 103 102 104 13 (set (reg/f:DI 100 [ _23 ])
+        (mem/f/c:DI (plus:DI (reg/f:DI 19 frame)
+                (const_int -16 [0xfffffffffffffff0])) [6 m+0 S8 A64])) "cmodules/fbgc_math.c":211:9 66 {*movdi_internal}
+     (nil))
+;;  succ:       14 (FALLTHRU)
+
+;; basic block 14, loop depth 0, maybe hot
+;;  prev block 13, next block 1, flags: (NEW, REACHABLE, RTL, MODIFIED)
+;;  pred:       13 (FALLTHRU)
+;;              6 [always] 
+;; bb 14 artificial_defs: { }
+;; bb 14 artificial_uses: { u-1(6){ }u-1(7){ }u-1(16){ }u-1(19){ }}
+(code_label 104 103 105 14 58 (nil) [1 uses])
+(note 105 104 106 14 [bb 14] NOTE_INSN_BASIC_BLOCK)
+(insn 106 105 110 14 (set (reg/f:DI 101 [ <retval> ])
+        (reg/f:DI 100 [ _23 ])) 66 {*movdi_internal}
+     (nil))
+(insn 110 106 111 14 (set (reg/i:DI 0 ax)
+        (reg/f:DI 101 [ <retval> ])) "cmodules/fbgc_math.c":212:1 66 {*movdi_internal}
+     (nil))
+(insn 111 110 0 14 (use (reg/i:DI 0 ax)) "cmodules/fbgc_math.c":212:1 -1
+     (nil))
+;;  succ:       EXIT [always]  (FALLTHRU)
+

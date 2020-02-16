@@ -46,7 +46,7 @@ new_fbgc_cfunction(fbgc_read,"read"){
 
 const struct fbgc_cfunction fbgc_io_initializer_struct = {"io",fbgc_io_initializer};
 extern struct fbgc_object * fbgc_io_initializer (struct fbgc_object ** arg, int argc){
-	return arg;
+	return NULL;
 }
 
 

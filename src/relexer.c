@@ -167,7 +167,7 @@ struct fbgc_object * tokenize_substr(const char *str1, const char*str2, lexer_to
 		{	//Set1
 
 			//">>=|<<=|**=|//=|+=|-=|*=|/=|^=|%=|>>|<<|**|//|+|-|*|/|^|%"
-			//possible assigment operator and assignment operator
+			//possible assigment operators and assignment operator
 			//check the last character, shift the token 
 			if(*(str2-1) == '=') where += (ASSIGN+1) ;
 			else where += R_SHIFT;

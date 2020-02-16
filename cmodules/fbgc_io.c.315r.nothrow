@@ -1,0 +1,586 @@
+
+;; Function fbgc_io_initializer (fbgc_io_initializer, funcdef_no=58, decl_uid=5685, cgraph_uid=59, symbol_order=63)
+
+
+
+fbgc_io_initializer
+
+Dataflow summary:
+;;  invalidated by call 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 8 [st] 9 [st(1)] 10 [st(2)] 11 [st(3)] 12 [st(4)] 13 [st(5)] 14 [st(6)] 15 [st(7)] 17 [flags] 18 [fpsr] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 28 [mm0] 29 [mm1] 30 [mm2] 31 [mm3] 32 [mm4] 33 [mm5] 34 [mm6] 35 [mm7] 36 [r8] 37 [r9] 38 [r10] 39 [r11] 44 [xmm8] 45 [xmm9] 46 [xmm10] 47 [xmm11] 48 [xmm12] 49 [xmm13] 50 [xmm14] 51 [xmm15] 52 [] 53 [] 54 [] 55 [] 56 [] 57 [] 58 [] 59 [] 60 [] 61 [] 62 [] 63 [] 64 [] 65 [] 66 [] 67 [] 68 [] 69 [] 70 [] 71 [] 72 [] 73 [] 74 [] 75 []
+;;  hardware regs used 	 7 [sp]
+;;  regular block artificial uses 	 7 [sp]
+;;  eh block artificial uses 	 7 [sp] 16 [argp]
+;;  entry block defs 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 7 [sp] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 36 [r8] 37 [r9]
+;;  exit block uses 	 0 [ax] 7 [sp]
+;;  regs ever live 	 0 [ax] 17 [flags]
+;;  ref usage 	r0={2d,2u} r1={1d} r2={1d} r4={1d} r5={1d} r7={1d,2u} r17={1d} r20={1d} r21={1d} r22={1d} r23={1d} r24={1d} r25={1d} r26={1d} r27={1d} r36={1d} r37={1d} 
+;;    total ref usage 22{18d,4u,0e} in 3{3 regular + 0 call} insns.
+(note 1 0 25 NOTE_INSN_DELETED)
+(note 25 1 26 (var_location argc (reg:SI 4 si [ argc ])) NOTE_INSN_VAR_LOCATION)
+(note 26 25 27 (var_location arg (reg:DI 5 di [ arg ])) NOTE_INSN_VAR_LOCATION)
+(insn 27 26 5 2 (unspec_volatile [
+            (const_int 0 [0])
+        ] UNSPECV_NOP_ENDBR) 1058 {nop_endbr}
+     (nil))
+(note 5 27 16 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(note 16 5 4 2 NOTE_INSN_PROLOGUE_END)
+(note 4 16 24 2 NOTE_INSN_FUNCTION_BEG)
+(note 24 4 22 2 cmodules/fbgc_io.c:49 NOTE_INSN_BEGIN_STMT)
+(insn:TI 22 24 13 2 (parallel [
+            (set (reg/i:DI 0 ax)
+                (const_int 0 [0]))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_io.c":50:1 60 {*movdi_xor}
+     (expr_list:REG_UNUSED (reg:CC 17 flags)
+        (nil)))
+(insn 13 22 23 2 (use (reg/i:DI 0 ax)) "cmodules/fbgc_io.c":50:1 -1
+     (nil))
+(note 23 13 18 2 NOTE_INSN_EPILOGUE_BEG)
+(jump_insn:TI 18 23 19 2 (simple_return) "cmodules/fbgc_io.c":50:1 690 {simple_return_internal}
+     (nil)
+ -> simple_return)
+(barrier 19 18 15)
+(note 15 19 0 NOTE_INSN_DELETED)
+
+;; Function fbgc_print (fbgc_print, funcdef_no=56, decl_uid=5689, cgraph_uid=57, symbol_order=59)
+
+
+
+fbgc_print
+
+Dataflow summary:
+;;  invalidated by call 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 8 [st] 9 [st(1)] 10 [st(2)] 11 [st(3)] 12 [st(4)] 13 [st(5)] 14 [st(6)] 15 [st(7)] 17 [flags] 18 [fpsr] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 28 [mm0] 29 [mm1] 30 [mm2] 31 [mm3] 32 [mm4] 33 [mm5] 34 [mm6] 35 [mm7] 36 [r8] 37 [r9] 38 [r10] 39 [r11] 44 [xmm8] 45 [xmm9] 46 [xmm10] 47 [xmm11] 48 [xmm12] 49 [xmm13] 50 [xmm14] 51 [xmm15] 52 [] 53 [] 54 [] 55 [] 56 [] 57 [] 58 [] 59 [] 60 [] 61 [] 62 [] 63 [] 64 [] 65 [] 66 [] 67 [] 68 [] 69 [] 70 [] 71 [] 72 [] 73 [] 74 [] 75 []
+;;  hardware regs used 	 7 [sp]
+;;  regular block artificial uses 	 7 [sp]
+;;  eh block artificial uses 	 7 [sp] 16 [argp]
+;;  entry block defs 	 0 [ax] 1 [dx] 2 [cx] 3 [bx] 4 [si] 5 [di] 6 [bp] 7 [sp] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 36 [r8] 37 [r9]
+;;  exit block uses 	 0 [ax] 3 [bx] 6 [bp] 7 [sp]
+;;  regs ever live 	 0 [ax] 3 [bx] 4 [si] 5 [di] 6 [bp] 7 [sp] 17 [flags]
+;;  ref usage 	r0={6d,3u} r1={4d} r2={4d} r3={4d,5u} r4={6d,4u} r5={7d,5u} r6={3d,3u} r7={7d,16u} r8={3d} r9={3d} r10={3d} r11={3d} r12={3d} r13={3d} r14={3d} r15={3d} r17={9d,2u} r18={3d} r20={4d} r21={4d} r22={4d} r23={4d} r24={4d} r25={4d} r26={4d} r27={4d} r28={3d} r29={3d} r30={3d} r31={3d} r32={3d} r33={3d} r34={3d} r35={3d} r36={4d} r37={4d} r38={3d} r39={3d} r44={3d} r45={3d} r46={3d} r47={3d} r48={3d} r49={3d} r50={3d} r51={3d} r52={3d} r53={3d} r54={3d} r55={3d} r56={3d} r57={3d} r58={3d} r59={3d} r60={3d} r61={3d} r62={3d} r63={3d} r64={3d} r65={3d} r66={3d} r67={3d} r68={3d} r69={3d} r70={3d} r71={3d} r72={3d} r73={3d} r74={3d} r75={3d} 
+;;    total ref usage 281{243d,38u,0e} in 25{22 regular + 3 call} insns.
+(note 1 0 104 NOTE_INSN_DELETED)
+(note 104 1 105 (var_location arg (reg:DI 5 di [ arg ])) NOTE_INSN_VAR_LOCATION)
+(note 105 104 120 (var_location argc (reg:SI 4 si [ argc ])) NOTE_INSN_VAR_LOCATION)
+(insn 120 105 5 2 (unspec_volatile [
+            (const_int 0 [0])
+        ] UNSPECV_NOP_ENDBR) 1058 {nop_endbr}
+     (nil))
+(note 5 120 4 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(note 4 5 91 2 NOTE_INSN_FUNCTION_BEG)
+(note 91 4 92 2 cmodules/fbgc_io.c:19 NOTE_INSN_BEGIN_STMT)
+(note 92 91 106 2 cmodules/fbgc_io.c:19 NOTE_INSN_BEGIN_STMT)
+(note 106 92 93 2 (var_location i (const_int 0 [0])) NOTE_INSN_VAR_LOCATION)
+(note 93 106 77 2 cmodules/fbgc_io.c:19 NOTE_INSN_BEGIN_STMT)
+(insn/f:TI 77 93 78 2 (set (mem:DI (pre_dec:DI (reg/f:DI 7 sp)) [0  S8 A8])
+        (reg:DI 6 bp)) "cmodules/fbgc_io.c":17:1 42 {*pushdi2_rex64}
+     (expr_list:REG_DEAD (reg:DI 6 bp)
+        (nil)))
+(insn/f:TI 78 77 79 2 (set (mem:DI (pre_dec:DI (reg/f:DI 7 sp)) [0  S8 A8])
+        (reg:DI 3 bx)) "cmodules/fbgc_io.c":17:1 42 {*pushdi2_rex64}
+     (expr_list:REG_DEAD (reg:DI 3 bx)
+        (nil)))
+(insn/f:TI 79 78 80 2 (parallel [
+            (set (reg/f:DI 7 sp)
+                (plus:DI (reg/f:DI 7 sp)
+                    (const_int -8 [0xfffffffffffffff8])))
+            (clobber (reg:CC 17 flags))
+            (clobber (mem:BLK (scratch) [0  A8]))
+        ]) "cmodules/fbgc_io.c":17:1 959 {pro_epilogue_adjust_stack_di_add}
+     (expr_list:REG_UNUSED (reg:CC 17 flags)
+        (expr_list:REG_CFA_ADJUST_CFA (set (reg/f:DI 7 sp)
+                (plus:DI (reg/f:DI 7 sp)
+                    (const_int -8 [0xfffffffffffffff8])))
+            (nil))))
+(note 80 79 12 2 NOTE_INSN_PROLOGUE_END)
+(insn 12 80 13 2 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg/v:SI 4 si [orig:95 argc ] [95])
+            (const_int 0 [0]))) "cmodules/fbgc_io.c":19:2 7 {*cmpsi_ccno_1}
+     (nil))
+(jump_insn 13 12 14 2 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref:DI 44)
+            (pc))) "cmodules/fbgc_io.c":19:2 659 {*jcc}
+     (expr_list:REG_DEAD (reg:CCZ 17 flags)
+        (int_list:REG_BR_PROB 118111604 (nil)))
+ -> 44)
+(note 14 13 16 3 [bb 3] NOTE_INSN_BASIC_BLOCK)
+(note 16 14 18 3 NOTE_INSN_DELETED)
+(note 18 16 19 3 NOTE_INSN_DELETED)
+(note 19 18 17 3 NOTE_INSN_DELETED)
+(insn:TI 17 19 15 3 (set (reg:DI 0 ax [97])
+        (zero_extend:DI (plus:SI (reg/v:SI 4 si [orig:95 argc ] [95])
+                (const_int -1 [0xffffffffffffffff])))) 187 {*leadi}
+     (expr_list:REG_DEAD (reg/v:SI 4 si [orig:95 argc ] [95])
+        (nil)))
+(insn 15 17 20 3 (set (reg:DI 3 bx [orig:90 ivtmp.17 ] [90])
+        (reg/v/f:DI 5 di [orig:94 arg ] [94])) 66 {*movdi_internal}
+     (nil))
+(insn:TI 20 15 107 3 (set (reg:DI 6 bp [orig:92 _28 ] [92])
+        (plus:DI (plus:DI (ashift:DI (reg:DI 0 ax [97])
+                    (const_int 3 [0x3]))
+                (reg:DI 5 di [orig:90 ivtmp.17 ] [90]))
+            (const_int 8 [0x8]))) 187 {*leadi}
+     (expr_list:REG_DEAD (reg:DI 5 di [orig:90 ivtmp.17 ] [90])
+        (expr_list:REG_DEAD (reg:DI 0 ax [97])
+            (nil))))
+(note 107 20 108 (var_location argc (entry_value:SI (reg:SI 4 si [ argc ]))) NOTE_INSN_VAR_LOCATION)
+(note 108 107 109 (var_location i (nil)) NOTE_INSN_VAR_LOCATION)
+(note 109 108 41 (var_location arg (entry_value:DI (reg:DI 5 di [ arg ]))) NOTE_INSN_VAR_LOCATION)
+(code_label 41 109 21 4 5 (nil) [1 uses])
+(note 21 41 94 4 [bb 4] NOTE_INSN_BASIC_BLOCK)
+(note 94 21 24 4 cmodules/fbgc_io.c:20 NOTE_INSN_BEGIN_STMT)
+(insn:TI 24 94 40 4 (set (reg:DI 5 di)
+        (mem/f:DI (reg:DI 3 bx [orig:90 ivtmp.17 ] [90]) [1 MEM[base: _8, offset: 0B]+0 S8 A64])) "cmodules/fbgc_io.c":20:3 66 {*movdi_internal}
+     (nil))
+(insn 40 24 25 4 (parallel [
+            (set (reg:DI 3 bx [orig:90 ivtmp.17 ] [90])
+                (plus:DI (reg:DI 3 bx [orig:90 ivtmp.17 ] [90])
+                    (const_int 8 [0x8])))
+            (clobber (reg:CC 17 flags))
+        ]) 191 {*adddi_1}
+     (expr_list:REG_UNUSED (reg:CC 17 flags)
+        (nil)))
+(call_insn:TI 25 40 95 4 (call (mem:QI (symbol_ref:DI ("printf_fbgc_object") [flags 0x41]  <function_decl 0x7f4442ae4d00 printf_fbgc_object>) [0 printf_fbgc_object S1 A8])
+        (const_int 0 [0])) "cmodules/fbgc_io.c":20:3 666 {*call}
+     (expr_list:REG_CALL_ARG_LOCATION (nil)
+        (expr_list:REG_DEAD (reg:DI 5 di)
+            (expr_list:REG_CALL_DECL (symbol_ref:DI ("printf_fbgc_object") [flags 0x41]  <function_decl 0x7f4442ae4d00 printf_fbgc_object>)
+                (nil))))
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(note 95 25 110 4 cmodules/fbgc_io.c:21 NOTE_INSN_BEGIN_STMT)
+(note 110 95 111 4 (var_location __stream (mem/f/c:DI (symbol_ref:DI ("stdout") [flags 0x40]  <var_decl 0x7f4442d1d240 stdout>) [2 stdout+0 S8 A64])) NOTE_INSN_VAR_LOCATION)
+(note 111 110 96 4 (var_location __fmt (const_string:DI (" "))) NOTE_INSN_VAR_LOCATION)
+(note 96 111 97 4 /usr/include/x86_64-linux-gnu/bits/stdio2.h:98 NOTE_INSN_INLINE_ENTRY)
+(note 97 96 32 4 /usr/include/x86_64-linux-gnu/bits/stdio2.h:100 NOTE_INSN_BEGIN_STMT)
+(insn 32 97 33 4 (set (reg:DI 4 si)
+        (mem/f/c:DI (symbol_ref:DI ("stdout") [flags 0x40]  <var_decl 0x7f4442d1d240 stdout>) [2 stdout+0 S8 A64])) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":100:10 66 {*movdi_internal}
+     (nil))
+(insn 33 32 34 4 (set (reg:SI 5 di)
+        (const_int 32 [0x20])) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":100:10 67 {*movsi_internal}
+     (nil))
+(call_insn:TI 34 33 112 4 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("fputc") [flags 0x41]  <function_decl 0x7f4442be8b00 __builtin_fputc>) [0 __builtin_fputc S1 A8])
+            (const_int 0 [0]))) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":100:10 677 {*call_value}
+     (expr_list:REG_CALL_ARG_LOCATION (expr_list:REG_DEP_TRUE (concat:SI (reg:SI 5 di)
+                (const_int 32 [0x20]))
+            (nil))
+        (expr_list:REG_DEAD (reg:SI 5 di)
+            (expr_list:REG_DEAD (reg:DI 4 si)
+                (expr_list:REG_UNUSED (reg:SI 0 ax)
+                    (expr_list:REG_CALL_DECL (symbol_ref:DI ("fputc") [flags 0x41]  <function_decl 0x7f4442be8b00 __builtin_fputc>)
+                        (nil))))))
+    (expr_list:SI (use (reg:SI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+(note/c 112 34 113 4 (var_location __stream (nil)) NOTE_INSN_VAR_LOCATION)
+(note 113 112 114 4 (var_location __stream (nil)) NOTE_INSN_VAR_LOCATION)
+(note 114 113 98 4 (var_location __fmt (nil)) NOTE_INSN_VAR_LOCATION)
+(note 98 114 99 4 cmodules/fbgc_io.c:19 NOTE_INSN_BEGIN_STMT)
+(note 99 98 42 4 cmodules/fbgc_io.c:19 NOTE_INSN_BEGIN_STMT)
+(insn 42 99 43 4 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg:DI 3 bx [orig:90 ivtmp.17 ] [90])
+            (reg:DI 6 bp [orig:92 _28 ] [92]))) "cmodules/fbgc_io.c":19:2 12 {*cmpdi_1}
+     (nil))
+(jump_insn 43 42 44 4 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref:DI 41)
+            (pc))) "cmodules/fbgc_io.c":19:2 659 {*jcc}
+     (expr_list:REG_DEAD (reg:CCZ 17 flags)
+        (int_list:REG_BR_PROB 955630228 (nil)))
+ -> 41)
+(code_label 44 43 45 5 4 (nil) [1 uses])
+(note 45 44 100 5 [bb 5] NOTE_INSN_BASIC_BLOCK)
+(note 100 45 115 5 cmodules/fbgc_io.c:23 NOTE_INSN_BEGIN_STMT)
+(note 115 100 116 5 (var_location __stream (mem/f/c:DI (symbol_ref:DI ("stdout") [flags 0x40]  <var_decl 0x7f4442d1d240 stdout>) [2 stdout+0 S8 A64])) NOTE_INSN_VAR_LOCATION)
+(note 116 115 101 5 (var_location __fmt (const_string:DI ("
+"))) NOTE_INSN_VAR_LOCATION)
+(note 101 116 102 5 /usr/include/x86_64-linux-gnu/bits/stdio2.h:98 NOTE_INSN_INLINE_ENTRY)
+(note 102 101 52 5 /usr/include/x86_64-linux-gnu/bits/stdio2.h:100 NOTE_INSN_BEGIN_STMT)
+(insn:TI 52 102 53 5 (set (reg:DI 4 si)
+        (mem/f/c:DI (symbol_ref:DI ("stdout") [flags 0x40]  <var_decl 0x7f4442d1d240 stdout>) [2 stdout+0 S8 A64])) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":100:10 66 {*movdi_internal}
+     (nil))
+(insn 53 52 54 5 (set (reg:SI 5 di)
+        (const_int 10 [0xa])) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":100:10 67 {*movsi_internal}
+     (nil))
+(call_insn:TI 54 53 117 5 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("fputc") [flags 0x41]  <function_decl 0x7f4442be8b00 __builtin_fputc>) [0 __builtin_fputc S1 A8])
+            (const_int 0 [0]))) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":100:10 677 {*call_value}
+     (expr_list:REG_CALL_ARG_LOCATION (expr_list:REG_DEP_TRUE (concat:SI (reg:SI 5 di)
+                (const_int 10 [0xa]))
+            (nil))
+        (expr_list:REG_DEAD (reg:SI 5 di)
+            (expr_list:REG_DEAD (reg:DI 4 si)
+                (expr_list:REG_UNUSED (reg:SI 0 ax)
+                    (expr_list:REG_CALL_DECL (symbol_ref:DI ("fputc") [flags 0x41]  <function_decl 0x7f4442be8b00 __builtin_fputc>)
+                        (nil))))))
+    (expr_list:SI (use (reg:SI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+(note/c 117 54 118 5 (var_location __stream (nil)) NOTE_INSN_VAR_LOCATION)
+(note 118 117 119 5 (var_location __stream (nil)) NOTE_INSN_VAR_LOCATION)
+(note 119 118 103 5 (var_location __fmt (nil)) NOTE_INSN_VAR_LOCATION)
+(note 103 119 90 5 cmodules/fbgc_io.c:25 NOTE_INSN_BEGIN_STMT)
+(note 90 103 82 5 NOTE_INSN_EPILOGUE_BEG)
+(insn/f 82 90 89 5 (parallel [
+            (set (reg/f:DI 7 sp)
+                (plus:DI (reg/f:DI 7 sp)
+                    (const_int 8 [0x8])))
+            (clobber (reg:CC 17 flags))
+            (clobber (mem:BLK (scratch) [0  A8]))
+        ]) "cmodules/fbgc_io.c":26:1 959 {pro_epilogue_adjust_stack_di_add}
+     (expr_list:REG_UNUSED (reg:CC 17 flags)
+        (expr_list:REG_CFA_ADJUST_CFA (set (reg/f:DI 7 sp)
+                (plus:DI (reg/f:DI 7 sp)
+                    (const_int 8 [0x8])))
+            (nil))))
+(insn 89 82 63 5 (parallel [
+            (set (reg/i:DI 0 ax)
+                (const_int 0 [0]))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_io.c":26:1 60 {*movdi_xor}
+     (expr_list:REG_UNUSED (reg:CC 17 flags)
+        (nil)))
+(insn 63 89 83 5 (use (reg/i:DI 0 ax)) "cmodules/fbgc_io.c":26:1 -1
+     (nil))
+(insn/f:TI 83 63 84 5 (set (reg:DI 3 bx)
+        (mem:DI (post_inc:DI (reg/f:DI 7 sp)) [0  S8 A8])) "cmodules/fbgc_io.c":26:1 52 {*popdi1}
+     (expr_list:REG_CFA_ADJUST_CFA (set (reg/f:DI 7 sp)
+            (plus:DI (reg/f:DI 7 sp)
+                (const_int 8 [0x8])))
+        (nil)))
+(insn/f 84 83 85 5 (set (reg:DI 6 bp)
+        (mem:DI (post_inc:DI (reg/f:DI 7 sp)) [0  S8 A8])) "cmodules/fbgc_io.c":26:1 52 {*popdi1}
+     (expr_list:REG_CFA_ADJUST_CFA (set (reg/f:DI 7 sp)
+            (plus:DI (reg/f:DI 7 sp)
+                (const_int 8 [0x8])))
+        (nil)))
+(jump_insn:TI 85 84 88 5 (simple_return) "cmodules/fbgc_io.c":26:1 690 {simple_return_internal}
+     (nil)
+ -> simple_return)
+(barrier 88 85 76)
+(note 76 88 0 NOTE_INSN_DELETED)
+
+;; Function fbgc_read (fbgc_read, funcdef_no=57, decl_uid=5693, cgraph_uid=58, symbol_order=61)
+
+
+
+fbgc_read
+
+Dataflow summary:
+;;  invalidated by call 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 8 [st] 9 [st(1)] 10 [st(2)] 11 [st(3)] 12 [st(4)] 13 [st(5)] 14 [st(6)] 15 [st(7)] 17 [flags] 18 [fpsr] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 28 [mm0] 29 [mm1] 30 [mm2] 31 [mm3] 32 [mm4] 33 [mm5] 34 [mm6] 35 [mm7] 36 [r8] 37 [r9] 38 [r10] 39 [r11] 44 [xmm8] 45 [xmm9] 46 [xmm10] 47 [xmm11] 48 [xmm12] 49 [xmm13] 50 [xmm14] 51 [xmm15] 52 [] 53 [] 54 [] 55 [] 56 [] 57 [] 58 [] 59 [] 60 [] 61 [] 62 [] 63 [] 64 [] 65 [] 66 [] 67 [] 68 [] 69 [] 70 [] 71 [] 72 [] 73 [] 74 [] 75 []
+;;  hardware regs used 	 7 [sp]
+;;  regular block artificial uses 	 7 [sp]
+;;  eh block artificial uses 	 7 [sp] 16 [argp]
+;;  entry block defs 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 7 [sp] 20 [xmm0] 21 [xmm1] 22 [xmm2] 23 [xmm3] 24 [xmm4] 25 [xmm5] 26 [xmm6] 27 [xmm7] 36 [r8] 37 [r9] 40 [r12]
+;;  exit block uses 	 0 [ax] 7 [sp] 40 [r12]
+;;  regs ever live 	 0 [ax] 1 [dx] 2 [cx] 4 [si] 5 [di] 7 [sp] 17 [flags] 40 [r12]
+;;  ref usage 	r0={12d,5u} r1={10d,2u} r2={10d,2u} r4={11d,4u} r5={14d,7u} r7={5d,26u} r8={7d} r9={7d} r10={7d} r11={7d} r12={7d} r13={7d} r14={7d} r15={7d} r17={14d,3u} r18={7d} r19={1e} r20={8d} r21={8d} r22={8d} r23={8d} r24={8d} r25={8d} r26={8d} r27={8d} r28={7d} r29={7d} r30={7d} r31={7d} r32={7d} r33={7d} r34={7d} r35={7d} r36={8d} r37={8d} r38={7d} r39={7d} r40={3d,3u} r44={7d} r45={7d} r46={7d} r47={7d} r48={7d} r49={7d} r50={7d} r51={7d} r52={7d} r53={7d} r54={7d} r55={7d} r56={7d} r57={7d} r58={7d} r59={7d} r60={7d} r61={7d} r62={7d} r63={7d} r64={7d} r65={7d} r66={7d} r67={7d} r68={7d} r69={7d} r70={7d} r71={7d} r72={7d} r73={7d} r74={7d} r75={7d} 
+;;    total ref usage 569{516d,52u,1e} in 36{29 regular + 7 call} insns.
+(note 1 0 111 NOTE_INSN_DELETED)
+(note 111 1 112 (var_location arg (reg:DI 5 di [ arg ])) NOTE_INSN_VAR_LOCATION)
+(note 112 111 127 (var_location argc (reg:SI 4 si [ argc ])) NOTE_INSN_VAR_LOCATION)
+(insn 127 112 7 2 (unspec_volatile [
+            (const_int 0 [0])
+        ] UNSPECV_NOP_ENDBR) 1058 {nop_endbr}
+     (nil))
+(note 7 127 3 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(note 3 7 4 2 NOTE_INSN_DELETED)
+(note 4 3 86 2 NOTE_INSN_FUNCTION_BEG)
+(insn/f:TI 86 4 87 2 (set (mem:DI (pre_dec:DI (reg/f:DI 7 sp)) [0  S8 A8])
+        (reg:DI 40 r12)) "cmodules/fbgc_io.c":28:37 42 {*pushdi2_rex64}
+     (expr_list:REG_DEAD (reg:DI 40 r12)
+        (nil)))
+(insn/f:TI 87 86 88 2 (parallel [
+            (set (reg/f:DI 7 sp)
+                (plus:DI (reg/f:DI 7 sp)
+                    (const_int -16 [0xfffffffffffffff0])))
+            (clobber (reg:CC 17 flags))
+            (clobber (mem:BLK (scratch) [0  A8]))
+        ]) "cmodules/fbgc_io.c":28:37 959 {pro_epilogue_adjust_stack_di_add}
+     (expr_list:REG_UNUSED (reg:CC 17 flags)
+        (expr_list:REG_CFA_ADJUST_CFA (set (reg/f:DI 7 sp)
+                (plus:DI (reg/f:DI 7 sp)
+                    (const_int -16 [0xfffffffffffffff0])))
+            (nil))))
+(note 88 87 6 2 NOTE_INSN_PROLOGUE_END)
+(insn:TI 6 88 101 2 (parallel [
+            (set (mem/v/f/c:DI (plus:DI (reg/f:DI 7 sp)
+                        (const_int 8 [0x8])) [4 D.5774+0 S8 A64])
+                (unspec:DI [
+                        (mem/v/f:DI (const_int 40 [0x28]) [5 MEM[(<address-space-1> long unsigned int *)40B]+0 S8 A64 AS1])
+                    ] UNSPEC_SP_SET))
+            (set (reg:DI 0 ax [99])
+                (const_int 0 [0]))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_io.c":28:37 976 {stack_protect_set_di}
+     (expr_list:REG_UNUSED (reg:CC 17 flags)
+        (expr_list:REG_UNUSED (reg:DI 0 ax [99])
+            (nil))))
+(note 101 6 12 2 cmodules/fbgc_io.c:30 NOTE_INSN_BEGIN_STMT)
+(insn 12 101 13 2 (set (reg:CCNO 17 flags)
+        (compare:CCNO (reg:SI 4 si [96])
+            (const_int 0 [0]))) "cmodules/fbgc_io.c":30:2 7 {*cmpsi_ccno_1}
+     (expr_list:REG_DEAD (reg:SI 4 si [96])
+        (nil)))
+(jump_insn 13 12 23 2 (set (pc)
+        (if_then_else (le (reg:CCNO 17 flags)
+                (const_int 0 [0]))
+            (label_ref:DI 97)
+            (pc))) "cmodules/fbgc_io.c":30:2 659 {*jcc}
+     (expr_list:REG_DEAD (reg:CCNO 17 flags)
+        (int_list:REG_BR_PROB 429500 (nil)))
+ -> 97)
+(note 23 13 34 3 [bb 3] NOTE_INSN_BASIC_BLOCK)
+(note 34 23 102 3 NOTE_INSN_DELETED)
+(note 102 34 25 3 cmodules/fbgc_io.c:32 NOTE_INSN_BEGIN_STMT)
+(insn:TI 25 102 113 3 (set (reg:DI 5 di)
+        (mem/f:DI (reg/v/f:DI 5 di [orig:87 arg ] [87]) [1 *arg_8(D)+0 S8 A64])) "cmodules/fbgc_io.c":32:2 66 {*movdi_internal}
+     (nil))
+(note 113 25 26 3 (var_location arg (entry_value:DI (reg:DI 5 di [ arg ]))) NOTE_INSN_VAR_LOCATION)
+(call_insn:TI 26 113 114 3 (call (mem:QI (symbol_ref:DI ("printf_fbgc_object") [flags 0x41]  <function_decl 0x7f4442ae4d00 printf_fbgc_object>) [0 printf_fbgc_object S1 A8])
+        (const_int 0 [0])) "cmodules/fbgc_io.c":32:2 666 {*call}
+     (expr_list:REG_CALL_ARG_LOCATION (nil)
+        (expr_list:REG_DEAD (reg:DI 5 di)
+            (expr_list:REG_CALL_DECL (symbol_ref:DI ("printf_fbgc_object") [flags 0x41]  <function_decl 0x7f4442ae4d00 printf_fbgc_object>)
+                (nil))))
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(note/c 114 26 103 3 (var_location argc (entry_value:SI (reg:SI 4 si [ argc ]))) NOTE_INSN_VAR_LOCATION)
+(note 103 114 104 3 cmodules/fbgc_io.c:33 NOTE_INSN_BEGIN_STMT)
+(note 104 103 96 3 cmodules/fbgc_io.c:34 NOTE_INSN_BEGIN_STMT)
+(insn 96 104 29 3 (parallel [
+            (set (reg:DI 0 ax)
+                (const_int 0 [0]))
+            (clobber (reg:CC 17 flags))
+        ]) "cmodules/fbgc_io.c":34:2 60 {*movdi_xor}
+     (expr_list:REG_UNUSED (reg:CC 17 flags)
+        (nil)))
+(insn 29 96 31 3 (set (reg/f:DI 4 si [90])
+        (reg/f:DI 7 sp)) "cmodules/fbgc_io.c":34:2 66 {*movdi_internal}
+     (expr_list:REG_EQUIV (plus:DI (reg/f:DI 19 frame)
+            (const_int -16 [0xfffffffffffffff0]))
+        (nil)))
+(insn 31 29 33 3 (set (reg:DI 5 di)
+        (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0x7f44426df5a0 *.LC2>)) "cmodules/fbgc_io.c":34:2 66 {*movdi_internal}
+     (nil))
+(call_insn:TI 33 31 35 3 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("*__isoc99_scanf") [flags 0x41]  <function_decl 0x7f4442bec600 scanf>) [0 __builtin_scanf S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_io.c":34:2 677 {*call_value}
+     (expr_list:REG_CALL_ARG_LOCATION (expr_list:REG_DEP_TRUE (concat:DI (reg:DI 5 di)
+                (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0x7f44426df5a0 *.LC2>))
+            (expr_list:REG_DEP_TRUE (concat:DI (reg:DI 4 si)
+                    (reg/f:DI 7 sp))
+                (nil)))
+        (expr_list:REG_DEAD (reg:DI 5 di)
+            (expr_list:REG_DEAD (reg:DI 4 si)
+                (expr_list:REG_CALL_DECL (symbol_ref:DI ("*__isoc99_scanf") [flags 0x41]  <function_decl 0x7f4442bec600 scanf>)
+                    (nil)))))
+    (expr_list (use (reg:QI 0 ax))
+        (expr_list:DI (use (reg:DI 5 di))
+            (expr_list:DI (use (reg:DI 4 si))
+                (nil)))))
+(insn:TI 35 33 36 3 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg:SI 0 ax [97])
+            (const_int 1 [0x1]))) "cmodules/fbgc_io.c":34:2 11 {*cmpsi_1}
+     (expr_list:REG_DEAD (reg:SI 0 ax [97])
+        (nil)))
+(jump_insn 36 35 53 3 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref:DI 98)
+            (pc))) "cmodules/fbgc_io.c":34:2 659 {*jcc}
+     (expr_list:REG_DEAD (reg:CCZ 17 flags)
+        (int_list:REG_BR_PROB 429500 (nil)))
+ -> 98)
+(note 53 36 105 4 [bb 4] NOTE_INSN_BASIC_BLOCK)
+(note 105 53 56 4 cmodules/fbgc_io.c:36 NOTE_INSN_BEGIN_STMT)
+(insn:TI 56 105 57 4 (set (reg:DI 5 di)
+        (mem/f/c:DI (reg/f:DI 7 sp) [3 str_content+0 S8 A64])) "cmodules/fbgc_io.c":36:29 66 {*movdi_internal}
+     (nil))
+(call_insn:TI 57 56 62 4 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("new_fbgc_str_object") [flags 0x41]  <function_decl 0x7f4442b02000 new_fbgc_str_object>) [0 new_fbgc_str_object S1 A8])
+            (const_int 0 [0]))) "cmodules/fbgc_io.c":36:29 677 {*call_value}
+     (expr_list:REG_CALL_ARG_LOCATION (nil)
+        (expr_list:REG_DEAD (reg:DI 5 di)
+            (expr_list:REG_CALL_DECL (symbol_ref:DI ("new_fbgc_str_object") [flags 0x41]  <function_decl 0x7f4442b02000 new_fbgc_str_object>)
+                (nil))))
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(insn 62 57 58 4 (set (reg:DI 5 di)
+        (mem/f/c:DI (reg/f:DI 7 sp) [3 str_content+0 S8 A64])) "cmodules/fbgc_io.c":37:2 66 {*movdi_internal}
+     (nil))
+(insn:TI 58 62 115 4 (set (reg/v/f:DI 40 r12 [orig:86 <retval> ] [86])
+        (reg:DI 0 ax [98])) "cmodules/fbgc_io.c":36:29 66 {*movdi_internal}
+     (expr_list:REG_DEAD (reg:DI 0 ax [98])
+        (nil)))
+(note 115 58 106 4 (var_location res (reg:DI 0 ax [98])) NOTE_INSN_VAR_LOCATION)
+(note 106 115 63 4 cmodules/fbgc_io.c:37 NOTE_INSN_BEGIN_STMT)
+(call_insn:TI 63 106 116 4 (call (mem:QI (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7f4442c04400 free>) [0 __builtin_free S1 A8])
+        (const_int 0 [0])) "cmodules/fbgc_io.c":37:2 666 {*call}
+     (expr_list:REG_CALL_ARG_LOCATION (nil)
+        (expr_list:REG_DEAD (reg:DI 5 di)
+            (expr_list:REG_CALL_DECL (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7f4442c04400 free>)
+                (expr_list:REG_EH_REGION (const_int 0 [0])
+                    (nil)))))
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(note/c 116 63 107 4 (var_location res (reg/v/f:DI 40 r12 [orig:86 <retval> ] [86])) NOTE_INSN_VAR_LOCATION)
+(note 107 116 69 4 cmodules/fbgc_io.c:38 NOTE_INSN_BEGIN_STMT)
+(insn:TI 69 107 70 4 (parallel [
+            (set (reg:CCZ 17 flags)
+                (unspec:CCZ [
+                        (mem/v/f/c:DI (plus:DI (reg/f:DI 7 sp)
+                                (const_int 8 [0x8])) [4 D.5774+0 S8 A64])
+                        (mem/v/f:DI (const_int 40 [0x28]) [5 MEM[(<address-space-1> long unsigned int *)40B]+0 S8 A64 AS1])
+                    ] UNSPEC_SP_TEST))
+            (clobber (reg:DI 0 ax [100]))
+        ]) "cmodules/fbgc_io.c":39:1 978 {stack_protect_test_di}
+     (expr_list:REG_UNUSED (reg:DI 0 ax [100])
+        (nil)))
+(jump_insn:TI 70 69 78 4 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref:DI 99)
+            (pc))) "cmodules/fbgc_io.c":39:1 659 {*jcc}
+     (expr_list:REG_DEAD (reg:CCZ 17 flags)
+        (int_list:REG_BR_PROB 429500 (nil)))
+ -> 99)
+(note 78 70 100 5 [bb 5] NOTE_INSN_BASIC_BLOCK)
+(note 100 78 90 5 NOTE_INSN_EPILOGUE_BEG)
+(insn/f:TI 90 100 74 5 (parallel [
+            (set (reg/f:DI 7 sp)
+                (plus:DI (reg/f:DI 7 sp)
+                    (const_int 16 [0x10])))
+            (clobber (reg:CC 17 flags))
+            (clobber (mem:BLK (scratch) [0  A8]))
+        ]) "cmodules/fbgc_io.c":39:1 959 {pro_epilogue_adjust_stack_di_add}
+     (expr_list:REG_UNUSED (reg:CC 17 flags)
+        (expr_list:REG_CFA_ADJUST_CFA (set (reg/f:DI 7 sp)
+                (plus:DI (reg/f:DI 7 sp)
+                    (const_int 16 [0x10])))
+            (nil))))
+(insn 74 90 75 5 (set (reg/i:DI 0 ax)
+        (reg/v/f:DI 40 r12 [orig:86 <retval> ] [86])) "cmodules/fbgc_io.c":39:1 66 {*movdi_internal}
+     (expr_list:REG_DEAD (reg/v/f:DI 40 r12 [orig:86 <retval> ] [86])
+        (nil)))
+(insn 75 74 91 5 (use (reg/i:DI 0 ax)) "cmodules/fbgc_io.c":39:1 -1
+     (nil))
+(insn/f:TI 91 75 117 5 (set (reg:DI 40 r12)
+        (mem:DI (post_inc:DI (reg/f:DI 7 sp)) [0  S8 A8])) "cmodules/fbgc_io.c":39:1 52 {*popdi1}
+     (expr_list:REG_CFA_ADJUST_CFA (set (reg/f:DI 7 sp)
+            (plus:DI (reg/f:DI 7 sp)
+                (const_int 8 [0x8])))
+        (nil)))
+(note 117 91 92 5 (var_location res (reg/i:DI 0 ax)) NOTE_INSN_VAR_LOCATION)
+(jump_insn:TI 92 117 95 5 (simple_return) "cmodules/fbgc_io.c":39:1 690 {simple_return_internal}
+     (nil)
+ -> simple_return)
+(barrier 95 92 118)
+(note 118 95 119 (var_location res (nil)) NOTE_INSN_VAR_LOCATION)
+(note 119 118 120 (var_location arg (reg:DI 5 di [ arg ])) NOTE_INSN_VAR_LOCATION)
+(note 120 119 97 (var_location argc (reg:SI 4 si [ argc ])) NOTE_INSN_VAR_LOCATION)
+(code_label 97 120 14 6 16 (nil) [1 uses])
+(note 14 97 108 6 [bb 6] NOTE_INSN_BASIC_BLOCK)
+(note 108 14 16 6 cmodules/fbgc_io.c:30 NOTE_INSN_BEGIN_STMT)
+(insn:TI 16 108 17 6 (set (reg:DI 2 cx)
+        (symbol_ref:DI ("__PRETTY_FUNCTION__.5709") [flags 0x2]  <var_decl 0x7f4442aead80 __PRETTY_FUNCTION__>)) "cmodules/fbgc_io.c":30:2 66 {*movdi_internal}
+     (nil))
+(insn 17 16 18 6 (set (reg:SI 1 dx)
+        (const_int 30 [0x1e])) "cmodules/fbgc_io.c":30:2 67 {*movsi_internal}
+     (nil))
+(insn 18 17 121 6 (set (reg:DI 4 si)
+        (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7f44426df480 *.LC0>)) "cmodules/fbgc_io.c":30:2 66 {*movdi_internal}
+     (nil))
+(note 121 18 19 6 (var_location argc (entry_value:SI (reg:SI 4 si [ argc ]))) NOTE_INSN_VAR_LOCATION)
+(insn:TI 19 121 122 6 (set (reg:DI 5 di)
+        (symbol_ref/f:DI ("*.LC1") [flags 0x2]  <var_decl 0x7f44426df510 *.LC1>)) "cmodules/fbgc_io.c":30:2 66 {*movdi_internal}
+     (nil))
+(note 122 19 20 6 (var_location arg (entry_value:DI (reg:DI 5 di [ arg ]))) NOTE_INSN_VAR_LOCATION)
+(call_insn:TI 20 122 21 6 (call (mem:QI (symbol_ref:DI ("__assert_fail") [flags 0x41]  <function_decl 0x7f44429aac00 __assert_fail>) [0 __assert_fail S1 A8])
+        (const_int 0 [0])) "cmodules/fbgc_io.c":30:2 666 {*call}
+     (expr_list:REG_CALL_ARG_LOCATION (expr_list:REG_DEP_TRUE (concat:DI (reg:DI 5 di)
+                (symbol_ref/f:DI ("*.LC1") [flags 0x2]  <var_decl 0x7f44426df510 *.LC1>))
+            (expr_list:REG_DEP_TRUE (concat:DI (reg:DI 4 si)
+                    (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7f44426df480 *.LC0>))
+                (expr_list:REG_DEP_TRUE (concat:SI (reg:SI 1 dx)
+                        (const_int 30 [0x1e]))
+                    (expr_list:REG_DEP_TRUE (concat:DI (reg:DI 2 cx)
+                            (symbol_ref:DI ("__PRETTY_FUNCTION__.5709") [flags 0x2]  <var_decl 0x7f4442aead80 __PRETTY_FUNCTION__>))
+                        (nil)))))
+        (expr_list:REG_DEAD (reg:DI 5 di)
+            (expr_list:REG_DEAD (reg:DI 4 si)
+                (expr_list:REG_DEAD (reg:DI 2 cx)
+                    (expr_list:REG_DEAD (reg:SI 1 dx)
+                        (expr_list:REG_CALL_DECL (symbol_ref:DI ("__assert_fail") [flags 0x41]  <function_decl 0x7f44429aac00 __assert_fail>)
+                            (expr_list:REG_ARGS_SIZE (const_int 0 [0])
+                                (expr_list:REG_NORETURN (const_int 0 [0])
+                                    (expr_list:REG_EH_REGION (const_int 0 [0])
+                                        (nil))))))))))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:SI (use (reg:SI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+(barrier 21 20 123)
+(note 123 21 99 (var_location res (reg/v/f:DI 40 r12 [orig:86 <retval> ] [86])) NOTE_INSN_VAR_LOCATION)
+(code_label 99 123 77 7 18 (nil) [1 uses])
+(note 77 99 71 7 [bb 7] NOTE_INSN_BASIC_BLOCK)
+(call_insn:TI 71 77 72 7 (call (mem:QI (symbol_ref:DI ("__stack_chk_fail") [flags 0x41]  <function_decl 0x7f44426cfa00 __stack_chk_fail>) [0 __stack_chk_fail S1 A8])
+        (const_int 0 [0])) "cmodules/fbgc_io.c":39:1 666 {*call}
+     (expr_list:REG_CALL_ARG_LOCATION (nil)
+        (expr_list:REG_CALL_DECL (symbol_ref:DI ("__stack_chk_fail") [flags 0x41]  <function_decl 0x7f44426cfa00 __stack_chk_fail>)
+            (expr_list:REG_ARGS_SIZE (const_int 0 [0])
+                (expr_list:REG_NORETURN (const_int 0 [0])
+                    (expr_list:REG_EH_REGION (const_int 0 [0])
+                        (nil))))))
+    (nil))
+(barrier 72 71 124)
+(note 124 72 98 (var_location res (nil)) NOTE_INSN_VAR_LOCATION)
+(code_label 98 124 37 8 17 (nil) [1 uses])
+(note 37 98 109 8 [bb 8] NOTE_INSN_BASIC_BLOCK)
+(note 109 37 125 8 cmodules/fbgc_io.c:28 NOTE_INSN_INLINE_ENTRY)
+(note 125 109 126 8 (var_location arg (entry_value:DI (reg:DI 5 di [ arg ]))) NOTE_INSN_VAR_LOCATION)
+(note 126 125 110 8 (var_location argc (entry_value:SI (reg:SI 4 si [ argc ]))) NOTE_INSN_VAR_LOCATION)
+(note 110 126 46 8 cmodules/fbgc_io.c:34 NOTE_INSN_BEGIN_STMT)
+(insn:TI 46 110 47 8 (set (reg:DI 2 cx)
+        (symbol_ref:DI ("__PRETTY_FUNCTION__.5709") [flags 0x2]  <var_decl 0x7f4442aead80 __PRETTY_FUNCTION__>)) "cmodules/fbgc_io.c":34:2 66 {*movdi_internal}
+     (nil))
+(insn 47 46 48 8 (set (reg:SI 1 dx)
+        (const_int 34 [0x22])) "cmodules/fbgc_io.c":34:2 67 {*movsi_internal}
+     (nil))
+(insn 48 47 49 8 (set (reg:DI 4 si)
+        (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7f44426df480 *.LC0>)) "cmodules/fbgc_io.c":34:2 66 {*movdi_internal}
+     (nil))
+(insn:TI 49 48 50 8 (set (reg:DI 5 di)
+        (symbol_ref/f:DI ("*.LC3") [flags 0x2]  <var_decl 0x7f44426df630 *.LC3>)) "cmodules/fbgc_io.c":34:2 66 {*movdi_internal}
+     (nil))
+(call_insn:TI 50 49 51 8 (call (mem:QI (symbol_ref:DI ("__assert_fail") [flags 0x41]  <function_decl 0x7f44429aac00 __assert_fail>) [0 __assert_fail S1 A8])
+        (const_int 0 [0])) "cmodules/fbgc_io.c":34:2 666 {*call}
+     (expr_list:REG_CALL_ARG_LOCATION (expr_list:REG_DEP_TRUE (concat:DI (reg:DI 5 di)
+                (symbol_ref/f:DI ("*.LC3") [flags 0x2]  <var_decl 0x7f44426df630 *.LC3>))
+            (expr_list:REG_DEP_TRUE (concat:DI (reg:DI 4 si)
+                    (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7f44426df480 *.LC0>))
+                (expr_list:REG_DEP_TRUE (concat:SI (reg:SI 1 dx)
+                        (const_int 34 [0x22]))
+                    (expr_list:REG_DEP_TRUE (concat:DI (reg:DI 2 cx)
+                            (symbol_ref:DI ("__PRETTY_FUNCTION__.5709") [flags 0x2]  <var_decl 0x7f4442aead80 __PRETTY_FUNCTION__>))
+                        (nil)))))
+        (expr_list:REG_DEAD (reg:DI 5 di)
+            (expr_list:REG_DEAD (reg:DI 4 si)
+                (expr_list:REG_DEAD (reg:DI 2 cx)
+                    (expr_list:REG_DEAD (reg:SI 1 dx)
+                        (expr_list:REG_CALL_DECL (symbol_ref:DI ("__assert_fail") [flags 0x41]  <function_decl 0x7f44429aac00 __assert_fail>)
+                            (expr_list:REG_ARGS_SIZE (const_int 0 [0])
+                                (expr_list:REG_NORETURN (const_int 0 [0])
+                                    (expr_list:REG_EH_REGION (const_int 0 [0])
+                                        (nil))))))))))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:SI (use (reg:SI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+(barrier 51 50 85)
+(note 85 51 0 NOTE_INSN_DELETED)
