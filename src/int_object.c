@@ -108,7 +108,6 @@ struct fbgc_object * operator_fbgc_int_object(struct fbgc_object * a,struct fbgc
     // c = a + b
     // a += b
 
-
 switch(op)
 {
     case R_SHIFT:

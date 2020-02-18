@@ -167,9 +167,9 @@ void print_fbgc_ll_object(struct fbgc_object * head,const char *s1){
           cprintf(011,"}");
         }
         else if(iter->type == FOR_BEGIN){
-        cprintf(011,"{FOR_BEGIN -> ");
-          print_fbgc_object(cast_fbgc_object_as_jumper(iter)->content->next);
-          cprintf(011,"}");
+        cprintf(011,"{FOR_BEGIN}");
+          //print_fbgc_object(cast_fbgc_object_as_jumper(iter)->content->next);
+          //cprintf(011,"}");
         }        
         else if(iter->type == BREAK){
         cprintf(011,"{BREAK -> ");

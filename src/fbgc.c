@@ -8,7 +8,7 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
 #define MAX_INPUT_BUFFER 1000
 	
 	clock_t begin,end;
-	double lexer_time,parser_time,interpreter_time;
+	double parser_time,interpreter_time;
 
 
 	char line[MAX_INPUT_BUFFER] = {0};
@@ -61,11 +61,10 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
 
 
 	#ifdef TIME_DEBUG
-	cprintf(110,"\n\n\n\n\n\n[=======================================================================]\n"); 
-	printf("Execution time [LEXER] :%f\n",lexer_time);    
-	printf("Execution time [PARSER] :%f\n",parser_time);    
+	cprintf(110,"\n\n\n\n\n\n[=======================================================================]\n");   
+	printf("Execution time [PARSER + LEXER] :%f\n",parser_time);    
 	printf("Execution time [INTERPRETER] :%f\n",interpreter_time);  
-	printf("Total ex time %f\n",lexer_time+parser_time+interpreter_time);  
+	printf("Total exc. time %f\n",parser_time+interpreter_time);  
 	#endif
 
 	  
@@ -290,7 +289,9 @@ cprintf(110,"\n\n\n\n\n[========================================================
 	load_module_in_field_object(main_field,&fbgc_stl_module);
 	//load_module_in_field_object(main_field,&fbgc_file_module);
 
-	if(argc > 1)
+	compile_file(main_field, "ex.fbgc");
+
+	/*if(argc > 1)
 	{   
 		if(!strcmp(argv[1],"-s")){
 			compile_one_line(main_field,argv[2]);
@@ -303,7 +304,7 @@ cprintf(110,"\n\n\n\n\n[========================================================
 	}
 	else{
 	   realtime_fbgc(main_field);
-	}
+	}*/
 
 	free_fbgc_memory_block();
 //******************************************************************

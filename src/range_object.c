@@ -1,46 +1,88 @@
 #include "fbgc.h"
 
 struct fbgc_object *  new_fbgc_range_object(struct fbgc_object * s,struct fbgc_object * e){ 
-    struct fbgc_range_object * r =  (struct fbgc_range_object*) fbgc_malloc(sizeof_fbgc_range_object());
-    r->base.type = RANGE;
-    r->start = s;
-    r->end = e;
-    r->step = NULL;
+    struct fbgc_range_object * r;
+    if(s->type != RANGE){
+        r =  (struct fbgc_range_object*) fbgc_malloc(sizeof_fbgc_range_object());
+        r->base.type = RANGE;
+        r->start = s;
+        r->end = e;  
+
+        fbgc_token tok = MAX(get_fbgc_object_type(r->start),get_fbgc_object_type(r->end));    
+     
+        if(tok == INT){
+            int stp = cast_fbgc_object_as_int(s)->content > cast_fbgc_object_as_int(e)->content ? -1 : 1;
+            r->step = new_fbgc_int_object(stp);
+        }else if(tok == DOUBLE){
+            double stp = cast_fbgc_object_as_double(s)->content > cast_fbgc_object_as_double(e)->content ? -1.0 : 1.0;
+            r->step = new_fbgc_double_object(stp);
+        }
+    }
+    else{
+        r = cast_fbgc_object_as_range(s);
+        fbgc_token tok = MAX(get_fbgc_object_type(r->start), get_fbgc_object_type(r->end));
+        tok = MAX(get_fbgc_object_type(e),tok);
+
+        //if tok is int we are absolutely sure that each element of range object is integer..
+
+        r->step = r->end;
+        r->end = e;
+
+    }   
+
     return (struct fbgc_object*) r;
 }
 
-
-struct fbgc_object * get_element_in_fbgc_range_object(struct fbgc_object * robj, int index){
+struct fbgc_object * get_element_in_fbgc_range_object(struct fbgc_object * robj, int index, struct fbgc_object * result){
 
     #define r cast_fbgc_object_as_range(robj)
+    int no = cast_fbgc_object_as_int(r->start)->content + (cast_fbgc_object_as_int(r->step)->content*index);
+    //cprintf(100,"index = %d, no = %d\n",index,no);
 
-    fbgc_token tok = MAX(get_fbgc_object_type(r->start),get_fbgc_object_type(r->end));
-    if(r->step != NULL) tok = MAX(get_fbgc_object_type(r->step),tok);
+    //cprintf(100,"result content %d,\n",cast_fbgc_object_as_int(result)->content);
+    cast_fbgc_object_as_int(result)->content = no;
 
-    if(tok == INT){
-        //if tok is int we are absolutely sure that each element of range object is integer..
-        int step = (r->step == NULL) ? 1 : cast_fbgc_object_as_int(r->step)->content; 
-        if(r->step == NULL && cast_fbgc_object_as_int(r->start)->content > cast_fbgc_object_as_int(r->end)->content) step = -1;
-        int no = cast_fbgc_object_as_int(r->start)->content + (step*index);
+    //if(cast_fbgc_object_as_int(r->step)->content > 0)
+       return  (no < cast_fbgc_object_as_int(r->end)->content ) ? result : NULL;
+    //else
+    //   return  (no > cast_fbgc_object_as_int(r->end)->content ) ? result : NULL;
 
-        if(step>0)
-            return  (no >= cast_fbgc_object_as_int(r->end)->content ) ? NULL :
-            new_fbgc_int_object(no);
-        else
-            return  (no > cast_fbgc_object_as_int(r->end)->content ) ?  new_fbgc_int_object(no) : NULL ;
-    }
-    else if(tok == DOUBLE){
-        double step = (r->step == NULL) ? 1.0 : convert_fbgc_object_to_double(r->step); 
-        double no = convert_fbgc_object_to_double(r->start) + (step*index);
-
-        if(step>0)
-            return  (no >= convert_fbgc_object_to_double(r->end) ) ? NULL:
-            new_fbgc_double_object(no);
-        else
-            return  (no > convert_fbgc_object_to_double(r->end)  ) ?  new_fbgc_double_object(no) : NULL ;        
-    }
     #undef r
 } 
+
+
+// struct fbgc_object * get_element_in_fbgc_range_object(struct fbgc_object * robj, int index){
+
+//     #define r cast_fbgc_object_as_range(robj)
+//     //fbgc_token tok = MAX(get_fbgc_object_type(r->start),get_fbgc_object_type(r->end));
+//     //if(r->step != NULL) tok = MAX(get_fbgc_object_type(r->step),tok);
+
+//     //if(tok == INT){
+//         //int step = (r->step == NULL) ? 1 : cast_fbgc_object_as_int(r->step)->content; 
+//         //if(r->step == NULL && cast_fbgc_object_as_int(r->start)->content > cast_fbgc_object_as_int(r->end)->content) step = -1;
+        
+//         int no = cast_fbgc_object_as_int(r->start)->content + (cast_fbgc_object_as_int(r->step)->content*index);
+//         cprintf(100,"index = %d, no = %d\n",index,no);
+//         //return  (no >= cast_fbgc_object_as_int(r->end)->content ) ? NULL : new_fbgc_int_object(no);
+
+//         if(cast_fbgc_object_as_int(r->step)->content > 0)
+//            return  (no < cast_fbgc_object_as_int(r->end)->content ) ? new_fbgc_int_object(no) : NULL;
+//         else
+//            return  (no > cast_fbgc_object_as_int(r->end)->content ) ? new_fbgc_int_object(no) : NULL;
+//     //}*/
+
+//     /*else if(tok == DOUBLE){
+//         double step = (r->step == NULL) ? 1.0 : convert_fbgc_object_to_double(r->step); 
+//         double no = convert_fbgc_object_to_double(r->start) + (step*index);
+
+//         if(step>0)
+//             return  (no >= convert_fbgc_object_to_double(r->end) ) ? NULL:
+//             new_fbgc_double_object(no);
+//         else
+//             return  (no > convert_fbgc_object_to_double(r->end)  ) ?  new_fbgc_double_object(no) : NULL ;        
+//     }*/
+//     #undef r
+// } 
 
 /*
 struct fbgc_object * get_element_in_fbgc_range_object(struct fbgc_object * obj, int index){

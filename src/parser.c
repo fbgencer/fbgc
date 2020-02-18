@@ -306,10 +306,14 @@ struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,st
 		while(d->next != iter_prev)
 			d = d->next;
 
-		struct fbgc_object * i =  new_fbgc_int_object(-1);
+		
+		//struct fbgc_object * i = new_fbgc_int_object(-1);
+		struct fbgc_object * i = new_fbgc_object(FOR_BEGIN);
+		//
 		i->next = d->next;
 		d->next = i;
 		cast_fbgc_object_as_jumper(TOP_LL(op))->content = i;
+
 	}	
 	else{
 
@@ -1122,11 +1126,15 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 					#ifdef PARSER_DEBUG
 					cprintf(111,"Newline will handle FOR !\n");
 					#endif
-
-					if(cast_fbgc_object_as_jumper(TOP_LL(op))->content->type != INT ||
-					 cast_fbgc_object_as_int(cast_fbgc_object_as_jumper(TOP_LL(op))->content)->content != -1){
+					
+					if(cast_fbgc_object_as_jumper(TOP_LL(op))->content->type != FOR_BEGIN){
 						handle_before_paranthesis(iter_prev,op,&gm,1);
 					}
+					
+					/*if(cast_fbgc_object_as_jumper(TOP_LL(op))->content->type != INT ||
+					 cast_fbgc_object_as_int(cast_fbgc_object_as_jumper(TOP_LL(op))->content)->content != -1){
+						handle_before_paranthesis(iter_prev,op,&gm,1);
+					}*/
 				}
 				else if(TOP_LL(op)->type == IF || TOP_LL(op)->type == ELIF || TOP_LL(op)->type == WHILE){
 					#ifdef PARSER_DEBUG 
@@ -1196,8 +1204,9 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			}
 			
 			//fbgc_assert(TOP_LL(op)->type == IDENTIFIER ,"Assignment to a non-identifier object, object type:%s\n",object_name_array[TOP_LL(op)->type]);
-
-			if(TOP_LL(op)->next != NULL && TOP_LL(op)->next->type == ASSIGN) {
+			//cprintf(111,"top->next = %s\n",object_name_array[TOP_LL(op)->next->type]);
+			if(TOP_LL(op)->next != NULL && 
+				(TOP_LL(op)->next->type == ASSIGN || TOP_LL(op)->next->type == LPARA || TOP_LL(op)->next->type == COMMA) ) {
 				cprintf(100,"Opening flag push itsel\n");
 				set_id_flag_PUSH_ITSELF(TOP_LL(op));
 			}

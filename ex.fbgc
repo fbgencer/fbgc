@@ -1,16 +1,12 @@
-load('time','*') # loads the whole math module
-load('math','sin')
+#load('time','*') # loads the whole math module
 
-big_number = 30000000
 
-y = 0
-i = 0
+big_number = 3
 
-t = tic()
-while i < big_number
-	y = i
-	i += 1
+#t = tic()
+for i = 0:big_number
+	;
 end
-dif = toc(t)
 
-print("While :%f sec"%dif)
+#dif = toc(t)
+#print("For :%f sec"%dif)

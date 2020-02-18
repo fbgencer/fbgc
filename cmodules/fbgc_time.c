@@ -10,9 +10,7 @@ new_fbgc_cfunction(fbgc_tic,"tic")
 
 	struct fbgc_cstruct_object * so = (struct fbgc_cstruct_object *)new_fbgc_cstruct_object(sizeof(struct time_struct), &fbgc_time_module);
 	struct time_struct * ts = (struct time_struct *) so->cstruct; 	
-
 	ts->clk = clock();
-
 	return (struct fbgc_object *) so;
 }
 
@@ -25,10 +23,7 @@ new_fbgc_cfunction(fbgc_toc,"toc")
 
 	struct time_struct * ts = (struct time_struct *) so->cstruct; 	
 
-	clock_t begin = ts->clk;
-	clock_t end = clock();
-
-	double tm = (double)(end - begin) / CLOCKS_PER_SEC; 	
+	double tm = (double)(clock()-ts->clk) / CLOCKS_PER_SEC; 	
 
 	return (struct fbgc_object *) new_fbgc_double_object(tm);
 }

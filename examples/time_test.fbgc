@@ -1,4 +1,4 @@
-load('time','*') # loads the whole math module
+load('time','*') # loads the whole time module
 
 
 big_number = 30000000

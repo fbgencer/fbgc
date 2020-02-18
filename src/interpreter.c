@@ -46,7 +46,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 #define RECURSION_LIMIT 1000
 
-	for(int i = 0;  (pc != head->tail) ; i++){
+	for(int i = 0;  (pc != head->tail); i++){
 
 
 		if(recursion_ctr>RECURSION_LIMIT){
@@ -216,24 +216,9 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			}			
 			case COLON:
 			{
-				struct fbgc_object * x;
-
-				if(SECOND()->type == RANGE){
-					x = SECOND();
-					cast_fbgc_object_as_range(x)->step = cast_fbgc_object_as_range(x)->end;
-					cast_fbgc_object_as_range(x)->end = POP();
-					//range_obj_set_step(SECOND(),POP());
-				}
-				else {
-					x = new_fbgc_range_object(SECOND(),TOP());
-					STACK_GOTO(-1);
-					SET_TOP(x);
-
-					//Old version that works well with GCC compiler
-					//PUSH(new_fbgc_range_object(POP(),POP()));
-					//SET_TOP( new_fbgc_range_object(TOP(),POP()) );
-				}
-
+				struct fbgc_object * x = new_fbgc_range_object(SECOND(),TOP());
+				STACK_GOTO(-1);
+				SET_TOP(x);
 				break;
 			}
 			case R_SHIFT:
@@ -260,10 +245,11 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 				fbgc_token main_tok = MAX(get_fbgc_object_type(TOP()),get_fbgc_object_type(SECOND()));
 
-				if(is_fbgc_binary_op_null(main_tok)){
+				/*if(is_fbgc_binary_op_null(main_tok)){
 					cprintf(111,"This type does not support operation.\n");
 					return 0;
-				}
+				}*/ //Why do we need to check this?
+
 				struct fbgc_object * res =  call_fbgc_operator(main_tok,SECOND(),TOP(),type);
 				STACK_GOTO(-1);
 				//struct fbgc_object * res =  safe_call_fbgc_binary_op(POP(),POP(),main_tok,type);
@@ -285,7 +271,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				SET_TOP(res);
 				break;
 			}
-			case ASSIGN:	
+			case ASSIGN:
 			case  R_SHIFT_ASSIGN:
 			case  L_SHIFT_ASSIGN:
 			case  STARSTAR_ASSIGN:
@@ -336,6 +322,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					lhs = &(GET_AT_FP(cast_fbgc_object_as_id_opcode(pc)->loc));
 				}
 
+				
 
 				if(is_id_flag_SUBSCRIPT(pc)){
 					//first pop the number of indexes
@@ -428,9 +415,9 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 				
 				// for x = y= 5
-				// if(is_id_flag_PUSH_ITSELF(pc)){
-				// 	PUSH(rhs);
-				// }	
+				if(is_id_flag_PUSH_ITSELF(pc)){
+					PUSH(rhs);
+				}	
 				
 				break;
 			}
@@ -454,33 +441,48 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				_POP();
 				break;
 			}
+			case FOR_BEGIN:
+			{
+				//check the top is it sequential obj ?
+				
+			}
 			case FOR:
 			{	
 
-				if(TOP()->type != INT){
+				/*if(TOP()->type != INT){
 					cprintf(100,"For cannot start , type %s\n",object_name_array[TOP()->type]);
 					assert(0);
-				}
+				}*/
 
 				int i = cast_fbgc_object_as_int(TOP())->content;
-				struct fbgc_object * seq_ob = SECOND();
+				struct fbgc_object * seq_ob;
 
-				if(i == -1){
-					//New construcion of the for loop
-					//change the top and put the new iterator
-					SET_TOP(new_fbgc_int_object(i = 0));
+				if(i != -1){
+					seq_ob = THIRD();
+					//this is iterator and we will increase it inplace
+					i = ++(cast_fbgc_object_as_int(TOP())->content);			
 				}
 				else {
-					//this is iterator and we will increase it inplace
-					i = ++(cast_fbgc_object_as_int(TOP())->content);
+					seq_ob= SECOND();
+					//New construction of the for loop
+					//change the top and put the new iterator
+					//if(seq_ob->type == RANGE){
+						//ask for the type of range object, int or double
+						//range object will change the value of this thing instead of creating new variable each time
+						SET_TOP(new_fbgc_int_object(505));						
+					//}
+					/*else if(seq_ob->type == STRING){
+						SET_TOP(new_fbgc_str_object('f'));	
+					}*/					
+					PUSH(new_fbgc_int_object(i = 0)); // both assign i=0 and create new object
 				}
 
-
-				if(seq_ob->type == RANGE){
+				//if(seq_ob->type == RANGE){
 					//this function is very slow!
 					//## change this function..
-					seq_ob = get_element_in_fbgc_range_object(seq_ob,i);					
-				}
+					struct fbgc_object * holder = SECOND();
+					seq_ob = get_element_in_fbgc_range_object(seq_ob,i,holder);					
+				/*}
 				else if(seq_ob->type == STRING){
 					seq_ob = get_object_in_fbgc_str_object(seq_ob,i,i+1);
 				}
@@ -490,16 +492,16 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				else {
 					cprintf(100,"%s is not sequential object!\n",object_name_array[seq_ob->type]);
 					assert(0);
-				}
+				}*/
 
 
 				if(seq_ob != NULL){
 					PUSH(seq_ob);
 				}
 				else{
-					//finish the for loop
+					//finish the for loop, everything worked normally
 					//pop iterator and sequence object
-					STACK_GOTO(-2);
+					STACK_GOTO(-3);
 					pc = cast_fbgc_object_as_jumper(pc)->content;
 				}
 

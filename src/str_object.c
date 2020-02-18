@@ -220,7 +220,15 @@ switch(op)
 return NULL;
 }
 
+/* for the given res object we should get one char
+struct fbgc_object * set_object_from_fbgc_str_object(struct fbgc_object * so,struct fbgc_object * res,int i1, int i2){
+    //return new str object, it could be sequence inside the object or just one char
 
+    if(i1<length_fbgc_str_object(so) && i2<=length_fbgc_str_object(so) && i2>i1 ){
+        return set_object_from_fbgc_str_object(so,i1,i2,res);
+    }
+    return NULL;
+}*/
 
 struct fbgc_object * get_object_in_fbgc_str_object(struct fbgc_object * so,int i1, int i2){
     //return new str object, it could be sequence inside the object or just one char
