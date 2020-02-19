@@ -1,12 +1,5 @@
-#load('time','*') # loads the whole math module
+#load('time','*') # loads the whole time module
 
-
-big_number = 3
-
-#t = tic()
-for i = 0:big_number
-	;
+for i = 0:5:12
+	print(i)
 end
-
-#dif = toc(t)
-#print("For :%f sec"%dif)

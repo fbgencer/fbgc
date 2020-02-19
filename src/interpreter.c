@@ -1,5 +1,11 @@
 #include "fbgc.h"
 
+
+
+struct iter_function_ptr_struct{
+	struct fbgc_object * (* function)(struct fbgc_object *, int,struct fbgc_object *);
+};
+
 uint8_t interpreter(struct fbgc_object ** field_obj){
 
 	#ifdef INTERPRETER_DEBUG
@@ -443,56 +449,65 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			}
 			case FOR_BEGIN:
 			{
-				//check the top is it sequential obj ?
+
+
+				struct fbgc_object * seq_ob = TOP();
+
+				struct fbgc_cstruct_object * so = (struct fbgc_cstruct_object *) 
+				new_fbgc_cstruct_object(sizeof(struct iter_function_ptr_struct), NULL);
+				struct iter_function_ptr_struct * ifps = (struct iter_function_ptr_struct *) so->cstruct;
 				
+				PUSH((struct fbgc_object *) so);
+				
+				if(seq_ob->type == RANGE){
+
+					fbgc_token range_type = get_fbgc_range_object_iter_type(seq_ob);
+
+					if(range_type == INT){
+						ifps->function = get_int_element_in_fbgc_range_object;
+						PUSH(new_fbgc_int_object(888));  	
+					}
+					else if(range_type == DOUBLE){
+						ifps->function = get_double_element_in_fbgc_range_object;
+						PUSH(new_fbgc_double_object(8.8));
+					}
+					//=====================================================
+					//check the top is it sequential obj ?
+					// this depends on seq obj type, if it's a tuple we do not need it
+					//if range-int then it is int, range-double: double
+					// string : string etc..
+							
+				}
+				else if(seq_ob->type == STRING){
+					ifps->function = get_char_from_fbgc_str_object;
+					PUSH(new_fbgc_str_object("*"));
+				}
+				else if(seq_ob->type == TUPLE){
+					ifps->function = __get_object_in_fbgc_tuple_object;
+					//holder of tuple will never be used, we are sure of it but it is not a good idea to push null object
+					PUSH(NULL);
+				
+				}
+
+				//this is always the same!
+				PUSH(new_fbgc_int_object(0)); //iterator starter
+				break;
 			}
 			case FOR:
 			{	
+				//Assume that FOR_BEGIN checked everything so no need to check in this case
+				//if we check something, it may introduce latency
 
-				/*if(TOP()->type != INT){
-					cprintf(100,"For cannot start , type %s\n",object_name_array[TOP()->type]);
-					assert(0);
-				}*/
-
-				int i = cast_fbgc_object_as_int(TOP())->content;
-				struct fbgc_object * seq_ob;
-
-				if(i != -1){
-					seq_ob = THIRD();
-					//this is iterator and we will increase it inplace
-					i = ++(cast_fbgc_object_as_int(TOP())->content);			
-				}
-				else {
-					seq_ob= SECOND();
-					//New construction of the for loop
-					//change the top and put the new iterator
-					//if(seq_ob->type == RANGE){
-						//ask for the type of range object, int or double
-						//range object will change the value of this thing instead of creating new variable each time
-						SET_TOP(new_fbgc_int_object(505));						
-					//}
-					/*else if(seq_ob->type == STRING){
-						SET_TOP(new_fbgc_str_object('f'));	
-					}*/					
-					PUSH(new_fbgc_int_object(i = 0)); // both assign i=0 and create new object
-				}
-
-				//if(seq_ob->type == RANGE){
-					//this function is very slow!
-					//## change this function..
-					struct fbgc_object * holder = SECOND();
-					seq_ob = get_element_in_fbgc_range_object(seq_ob,i,holder);					
-				/*}
-				else if(seq_ob->type == STRING){
-					seq_ob = get_object_in_fbgc_str_object(seq_ob,i,i+1);
-				}
-				else if(seq_ob->type == TUPLE){
-					seq_ob = get_object_in_fbgc_tuple_object(seq_ob,i);
-				}
-				else {
-					cprintf(100,"%s is not sequential object!\n",object_name_array[seq_ob->type]);
-					assert(0);
-				}*/
+				struct fbgc_object * seq_ob = TOPN(4);
+				//this is out index iterator and we will increase it inplace
+				int i = (cast_fbgc_object_as_int(TOP())->content)++;			
+				struct fbgc_object * holder = SECOND();
+				
+				struct fbgc_cstruct_object * so = cast_fbgc_object_as_cstruct(TOPN(3));
+				struct iter_function_ptr_struct * fs = (struct iter_function_ptr_struct *) so->cstruct; 
+				
+				//call the pre-determined function				
+				seq_ob = fs->function(seq_ob,i,holder);
 
 
 				if(seq_ob != NULL){
@@ -500,13 +515,11 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				}
 				else{
 					//finish the for loop, everything worked normally
-					//pop iterator and sequence object
-					STACK_GOTO(-3);
+					//pop iterator,holder,sequence object and function struct
+					STACK_GOTO(-4);
 					pc = cast_fbgc_object_as_jumper(pc)->content;
 				}
 
-
-				//return 0;
 				break;
 			}
 			case FUN_CALL:

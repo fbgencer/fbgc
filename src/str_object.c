@@ -220,15 +220,16 @@ switch(op)
 return NULL;
 }
 
-/* for the given res object we should get one char
-struct fbgc_object * set_object_from_fbgc_str_object(struct fbgc_object * so,struct fbgc_object * res,int i1, int i2){
-    //return new str object, it could be sequence inside the object or just one char
-
-    if(i1<length_fbgc_str_object(so) && i2<=length_fbgc_str_object(so) && i2>i1 ){
-        return set_object_from_fbgc_str_object(so,i1,i2,res);
+//for the given res object, we will change its content by looking so object
+struct fbgc_object * get_char_from_fbgc_str_object(struct fbgc_object * so,int i1,struct fbgc_object * res){
+    //change the content of given res object
+    if( i1 < length_fbgc_str_object(so) ){
+        char * c = content_fbgc_str_object(res);
+        *c = *(content_fbgc_str_object(so)+i1);
+        return res;
     }
     return NULL;
-}*/
+}
 
 struct fbgc_object * get_object_in_fbgc_str_object(struct fbgc_object * so,int i1, int i2){
     //return new str object, it could be sequence inside the object or just one char

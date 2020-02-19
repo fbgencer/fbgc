@@ -79,6 +79,15 @@ struct fbgc_object *  get_object_in_fbgc_tuple_object(struct fbgc_object * self,
 	struct fbgc_object ** contents = tuple_object_content(self);
 	return (struct fbgc_object *) contents[index]; 	
 }
+
+//It seems bizarre to have this function but it should have the same function type as other sequential objects
+//This function will only be called by the for loop to iterate inside the object
+
+struct fbgc_object *  __get_object_in_fbgc_tuple_object(struct fbgc_object * self,int index,struct fbgc_object * res){
+
+	return get_object_in_fbgc_tuple_object(self,index);
+}
+
 struct fbgc_object **  get_object_address_in_fbgc_tuple_object(struct fbgc_object * self,int index){
 
 	index = (index < 0) * size_fbgc_tuple_object(self) +  index;
