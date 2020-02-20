@@ -262,6 +262,49 @@ void module_load_all(struct fbgc_object * field_obj,struct fbgc_object * module_
 		
 }*/
 
+#define ITER 5e3
+void fun1(){
+
+	clock_t begin = clock();
+	struct fbgc_oject * a = new_fbgc_int_object(1);
+	struct fbgc_oject * b = new_fbgc_int_object(1);
+
+	 for(int a1 = 1; a1<=ITER; a1++){
+		for(int b1 = 1; b1<=ITER; b1++){
+			cast_fbgc_object_as_int(a)->content = a1;
+			cast_fbgc_object_as_int(b)->content = b1;
+			for(int i = 45; i<=66; i++){
+				struct fbgc_object * c = operator_fbgc_int_object(a,b,i);
+			}
+		}
+
+	 }
+	 clock_t end = clock();
+	 double tm = (double)(end - begin) / CLOCKS_PER_SEC; 
+	 cprintf(100,"Switch Execution time %f\n",tm);	
+}
+
+void fun2(){
+	clock_t begin = clock();
+	struct fbgc_oject * a = new_fbgc_int_object(1);
+	struct fbgc_oject * b = new_fbgc_int_object(1);
+	 for(int a1 = 1; a1<=ITER; a1++){
+		for(int b1 = 1; b1<=ITER; b1++){
+			cast_fbgc_object_as_int(a)->content = a1;
+			cast_fbgc_object_as_int(b)->content = b1;
+			
+			for(int i = 0; i<=21; i++){
+				struct fbgc_object * c = fbgc_INT_operators[i](a,b,INT);
+				//operator_fbgc_int_object(a,b,i);
+			}
+		}
+
+	 }
+	 clock_t end = clock();
+	 double tm = (double)(end - begin) / CLOCKS_PER_SEC; 
+	 cprintf(100,"Fun table Execution time %f\n",tm);
+}
+
 int main(int argc, char **argv){
 
 #ifdef INTERPRETER_DEBUG    
@@ -281,15 +324,25 @@ cprintf(110,"\n\n\n\n\n[========================================================
 
 
 //******************************************************************
-	initialize_fbgc_memory_block();
-	initialize_fbgc_symbol_table();
-	 main_field = new_fbgc_field_object();
-	//load_module_in_field_object(main_field,&fbgc_math_module);
-	load_module_in_field_object(main_field,&fbgc_io_module);
-	load_module_in_field_object(main_field,&fbgc_stl_module);
+	 initialize_fbgc_memory_block();
+	// initialize_fbgc_symbol_table();
+	//  main_field = new_fbgc_field_object();
+	// //load_module_in_field_object(main_field,&fbgc_math_module);
+	// load_module_in_field_object(main_field,&fbgc_io_module);
+	// load_module_in_field_object(main_field,&fbgc_stl_module);
 	//load_module_in_field_object(main_field,&fbgc_file_module);
+	 fun2();
+	free_fbgc_memory_block();
+	initialize_fbgc_memory_block();
+	 fun1();
 
-	compile_file(main_field, "ex.fbgc");
+
+
+		//cprintf(111,"[%s]: c = ",object_name_array[i]);
+		//print_fbgc_object(c);
+		//cprintf(111,"\n");
+
+	//compile_file(main_field, "ex.fbgc");
 
 	/*if(argc > 1)
 	{   

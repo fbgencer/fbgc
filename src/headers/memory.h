@@ -9,7 +9,7 @@ extern "C" {
 
 
 #define INITIAL_INTERNAL_BUFFER_SIZE 1 //[byte]
-#define PAGE_SIZE  20 * 2048 * KILOBYTE //[byte]
+#define PAGE_SIZE  200 * 2048 * KILOBYTE //[byte]
 
 struct fbgc_memory_pool{
 	void * data;

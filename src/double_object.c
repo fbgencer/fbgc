@@ -156,13 +156,19 @@ double operator_method_double(double a1, double b1, fbgc_token op, struct fbgc_o
 	{
 		case R_SHIFT:
 		{
-			assert(0);
+			*result = NULL;
+			break;
+			//return NULL;
+			//assert(0);
 			//c = a1>>b1;
 			//break;
 		}
 		case L_SHIFT:
 		{
-			assert(0);
+			*result = NULL;
+			break;
+			//return NULL;
+			//assert(0);
 			//c = a1<<b1;
 			//break;
 		}        
@@ -203,8 +209,10 @@ double operator_method_double(double a1, double b1, fbgc_token op, struct fbgc_o
 		}
 		case PERCENT:
 		{
+			*result = NULL;
+			break;
 			//c = a1%b1;
-			assert(0);
+			//assert(0);
 			//break;
 		}                                      
 		case LO_EQ:

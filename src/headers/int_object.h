@@ -27,6 +27,65 @@ void print_fbgc_int_object(struct fbgc_object *);
 void free_fbgc_int_object(struct fbgc_object * );
 
 
+
+
+//
+// struct fbgc_object * inline operator_R_SHIFT_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+// struct fbgc_object * inline operator_L_SHIFT_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+// struct fbgc_object * inline operator_STARSTAR_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+// struct fbgc_object * inline operator_SLASHSLASH_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+// struct fbgc_object * inline operator_PLUS_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+// struct fbgc_object * inline operator_MINUS_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+// struct fbgc_object * inline operator_STAR_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+// struct fbgc_object * inline operator_SLASH_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+// struct fbgc_object * inline operator_CARET_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+// struct fbgc_object * inline operator_PERCENT_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+// struct fbgc_object * inline operator_LO_EQ_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+// struct fbgc_object * inline operator_GR_EQ_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+// struct fbgc_object * inline operator_EQ_EQ_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+// struct fbgc_object * inline operator_NOT_EQ_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+// struct fbgc_object * inline operator_LOWER_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+// struct fbgc_object * inline operator_GREATER_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+// struct fbgc_object * inline operator_PIPE_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+// struct fbgc_object * inline operator_AMPERSAND_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+// struct fbgc_object * inline operator_EXCLAMATION_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+// struct fbgc_object * inline operator_TILDE_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+// struct fbgc_object * inline operator_UPLUS_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+// struct fbgc_object * inline operator_UMINUS_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+// //
+
+
+struct fbgc_object * operator_R_SHIFT_fbgc_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+struct fbgc_object * operator_L_SHIFT_fbgc_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+struct fbgc_object * operator_STARSTAR_fbgc_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+struct fbgc_object * operator_SLASHSLASH_fbgc_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+struct fbgc_object * operator_PLUS_fbgc_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+struct fbgc_object * operator_MINUS_fbgc_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+struct fbgc_object * operator_STAR_fbgc_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+struct fbgc_object * operator_SLASH_fbgc_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+struct fbgc_object * operator_CARET_fbgc_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+struct fbgc_object * operator_PERCENT_fbgc_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+struct fbgc_object * operator_LO_EQ_fbgc_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+struct fbgc_object * operator_GR_EQ_fbgc_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+struct fbgc_object * operator_EQ_EQ_fbgc_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+struct fbgc_object * operator_NOT_EQ_fbgc_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+struct fbgc_object * operator_LOWER_fbgc_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+struct fbgc_object * operator_GREATER_fbgc_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+struct fbgc_object * operator_PIPE_fbgc_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+struct fbgc_object * operator_AMPERSAND_fbgc_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+struct fbgc_object * operator_EXCLAMATION_fbgc_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+struct fbgc_object * operator_TILDE_fbgc_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+struct fbgc_object * operator_UPLUS_fbgc_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+struct fbgc_object * operator_UMINUS_fbgc_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
+//
+
+
+extern struct fbgc_object * (*fbgc_INT_operators[22]) (struct fbgc_object *, struct fbgc_object *, fbgc_token);
+
+
+
+
+
 #ifdef  __cplusplus
 }
 #endif

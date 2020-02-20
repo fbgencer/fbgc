@@ -1,0 +1,1989 @@
+
+int_object.o:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000000000 <operator_R_SHIFT_fbgc_object>:
+	return new_fbgc_int_object(-a1);  
+}
+//
+
+/////////////
+struct fbgc_object * operator_R_SHIFT_fbgc_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token type){
+       0:	f3 0f 1e fa          	endbr64 
+
+	switch(type){
+       4:	80 fa 03             	cmp    dl,0x3
+       7:	74 0f                	je     18 <operator_R_SHIFT_fbgc_object+0x18>
+       9:	83 ea 04             	sub    edx,0x4
+       c:	80 fa 04             	cmp    dl,0x4
+       f:	77 3f                	ja     50 <operator_R_SHIFT_fbgc_object+0x50>
+      11:	31 c0                	xor    eax,eax
+      13:	c3                   	ret    
+      14:	0f 1f 40 00          	nop    DWORD PTR [rax+0x0]
+struct fbgc_object * operator_R_SHIFT_fbgc_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token type){
+      18:	55                   	push   rbp
+      19:	48 89 f5             	mov    rbp,rsi
+      1c:	53                   	push   rbx
+      1d:	48 83 ec 08          	sub    rsp,0x8
+	int a1 = convert_fbgc_object_to_int(a);
+      21:	e8 00 00 00 00       	call   26 <operator_R_SHIFT_fbgc_object+0x26>	22: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	int b1 = convert_fbgc_object_to_int(b);
+      26:	48 89 ef             	mov    rdi,rbp
+	int a1 = convert_fbgc_object_to_int(a);
+      29:	89 c3                	mov    ebx,eax
+	int b1 = convert_fbgc_object_to_int(b);
+      2b:	e8 00 00 00 00       	call   30 <operator_R_SHIFT_fbgc_object+0x30>	2c: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+      30:	bf 0d 00 00 00       	mov    edi,0xd
+	return new_fbgc_int_object(a1>>b1);   
+      35:	89 c1                	mov    ecx,eax
+      37:	d3 fb                	sar    ebx,cl
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+      39:	e8 00 00 00 00       	call   3e <operator_R_SHIFT_fbgc_object+0x3e>	3a: R_X86_64_PLT32	fbgc_malloc-0x4
+	into->base.type = INT;
+      3e:	c6 00 03             	mov    BYTE PTR [rax],0x3
+	into->content = int_content; 
+      41:	89 58 09             	mov    DWORD PTR [rax+0x9],ebx
+		case STRING: return NULL;
+		case MATRIX: return NULL;
+		case TUPLE: return NULL;
+	}
+
+}
+      44:	48 83 c4 08          	add    rsp,0x8
+      48:	5b                   	pop    rbx
+      49:	5d                   	pop    rbp
+      4a:	c3                   	ret    
+      4b:	0f 1f 44 00 00       	nop    DWORD PTR [rax+rax*1+0x0]
+      50:	c3                   	ret    
+      51:	66 66 2e 0f 1f 84 00 00 00 00 00 	data16 nop WORD PTR cs:[rax+rax*1+0x0]
+      5c:	0f 1f 40 00          	nop    DWORD PTR [rax+0x0]
+
+0000000000000060 <operator_L_SHIFT_fbgc_object>:
+
+/////////////
+struct fbgc_object * operator_L_SHIFT_fbgc_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token type){
+      60:	f3 0f 1e fa          	endbr64 
+	
+	switch(type){
+      64:	80 fa 03             	cmp    dl,0x3
+      67:	74 0f                	je     78 <operator_L_SHIFT_fbgc_object+0x18>
+      69:	83 ea 04             	sub    edx,0x4
+      6c:	80 fa 04             	cmp    dl,0x4
+      6f:	77 3f                	ja     b0 <operator_L_SHIFT_fbgc_object+0x50>
+      71:	31 c0                	xor    eax,eax
+      73:	c3                   	ret    
+      74:	0f 1f 40 00          	nop    DWORD PTR [rax+0x0]
+struct fbgc_object * operator_L_SHIFT_fbgc_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token type){
+      78:	55                   	push   rbp
+      79:	48 89 f5             	mov    rbp,rsi
+      7c:	53                   	push   rbx
+      7d:	48 83 ec 08          	sub    rsp,0x8
+	int a1 = convert_fbgc_object_to_int(a);
+      81:	e8 00 00 00 00       	call   86 <operator_L_SHIFT_fbgc_object+0x26>	82: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	int b1 = convert_fbgc_object_to_int(b);
+      86:	48 89 ef             	mov    rdi,rbp
+	int a1 = convert_fbgc_object_to_int(a);
+      89:	89 c3                	mov    ebx,eax
+	int b1 = convert_fbgc_object_to_int(b);
+      8b:	e8 00 00 00 00       	call   90 <operator_L_SHIFT_fbgc_object+0x30>	8c: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+      90:	bf 0d 00 00 00       	mov    edi,0xd
+	return new_fbgc_int_object(a1<<b1); 
+      95:	89 c1                	mov    ecx,eax
+      97:	d3 e3                	shl    ebx,cl
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+      99:	e8 00 00 00 00       	call   9e <operator_L_SHIFT_fbgc_object+0x3e>	9a: R_X86_64_PLT32	fbgc_malloc-0x4
+	into->base.type = INT;
+      9e:	c6 00 03             	mov    BYTE PTR [rax],0x3
+	into->content = int_content; 
+      a1:	89 58 09             	mov    DWORD PTR [rax+0x9],ebx
+		case COMPLEX: return NULL;
+		case STRING: return NULL;
+		case MATRIX: return NULL;
+		case TUPLE: return NULL;
+	}
+}
+      a4:	48 83 c4 08          	add    rsp,0x8
+      a8:	5b                   	pop    rbx
+      a9:	5d                   	pop    rbp
+      aa:	c3                   	ret    
+      ab:	0f 1f 44 00 00       	nop    DWORD PTR [rax+rax*1+0x0]
+      b0:	c3                   	ret    
+      b1:	66 66 2e 0f 1f 84 00 00 00 00 00 	data16 nop WORD PTR cs:[rax+rax*1+0x0]
+      bc:	0f 1f 40 00          	nop    DWORD PTR [rax+0x0]
+
+00000000000000c0 <operator_PERCENT_fbgc_object>:
+		case TUPLE: return NULL;
+	}
+}
+
+/////////////
+struct fbgc_object * operator_PERCENT_fbgc_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token type){
+      c0:	f3 0f 1e fa          	endbr64 
+	
+	switch(type){
+      c4:	80 fa 03             	cmp    dl,0x3
+      c7:	74 0f                	je     d8 <operator_PERCENT_fbgc_object+0x18>
+      c9:	83 ea 04             	sub    edx,0x4
+      cc:	80 fa 04             	cmp    dl,0x4
+      cf:	77 47                	ja     118 <operator_PERCENT_fbgc_object+0x58>
+      d1:	31 c0                	xor    eax,eax
+      d3:	c3                   	ret    
+      d4:	0f 1f 40 00          	nop    DWORD PTR [rax+0x0]
+struct fbgc_object * operator_PERCENT_fbgc_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token type){
+      d8:	55                   	push   rbp
+      d9:	48 89 f5             	mov    rbp,rsi
+      dc:	53                   	push   rbx
+      dd:	48 83 ec 08          	sub    rsp,0x8
+	int a1 = convert_fbgc_object_to_int(a);
+      e1:	e8 00 00 00 00       	call   e6 <operator_PERCENT_fbgc_object+0x26>	e2: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	int b1 = convert_fbgc_object_to_int(b);
+      e6:	48 89 ef             	mov    rdi,rbp
+	int a1 = convert_fbgc_object_to_int(a);
+      e9:	89 c3                	mov    ebx,eax
+	int b1 = convert_fbgc_object_to_int(b);
+      eb:	e8 00 00 00 00       	call   f0 <operator_PERCENT_fbgc_object+0x30>	ec: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+      f0:	bf 0d 00 00 00       	mov    edi,0xd
+	int b1 = convert_fbgc_object_to_int(b);
+      f5:	41 89 c0             	mov    r8d,eax
+	return new_fbgc_int_object(a1%b1);      
+      f8:	89 d8                	mov    eax,ebx
+      fa:	99                   	cdq    
+      fb:	41 f7 f8             	idiv   r8d
+      fe:	89 d3                	mov    ebx,edx
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     100:	e8 00 00 00 00       	call   105 <operator_PERCENT_fbgc_object+0x45>	101: R_X86_64_PLT32	fbgc_malloc-0x4
+	into->base.type = INT;
+     105:	c6 00 03             	mov    BYTE PTR [rax],0x3
+	into->content = int_content; 
+     108:	89 58 09             	mov    DWORD PTR [rax+0x9],ebx
+		case COMPLEX: return NULL;
+		case STRING: return NULL;
+		case MATRIX: return NULL;
+		case TUPLE: return NULL;
+	}
+}
+     10b:	48 83 c4 08          	add    rsp,0x8
+     10f:	5b                   	pop    rbx
+     110:	5d                   	pop    rbp
+     111:	c3                   	ret    
+     112:	66 0f 1f 44 00 00    	nop    WORD PTR [rax+rax*1+0x0]
+     118:	c3                   	ret    
+     119:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+
+0000000000000120 <operator_SLASHSLASH_fbgc_object>:
+struct fbgc_object * operator_SLASHSLASH_fbgc_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type){
+     120:	f3 0f 1e fa          	endbr64 
+     124:	55                   	push   rbp
+     125:	48 89 f5             	mov    rbp,rsi
+     128:	53                   	push   rbx
+     129:	48 83 ec 18          	sub    rsp,0x18
+	switch(type){
+     12d:	80 fa 04             	cmp    dl,0x4
+     130:	74 5e                	je     190 <operator_SLASHSLASH_fbgc_object+0x70>
+     132:	77 4c                	ja     180 <operator_SLASHSLASH_fbgc_object+0x60>
+     134:	80 fa 03             	cmp    dl,0x3
+     137:	75 49                	jne    182 <operator_SLASHSLASH_fbgc_object+0x62>
+	int a1 = convert_fbgc_object_to_int(a);
+     139:	e8 00 00 00 00       	call   13e <operator_SLASHSLASH_fbgc_object+0x1e>	13a: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	int b1 = convert_fbgc_object_to_int(b);
+     13e:	48 89 ef             	mov    rdi,rbp
+	int a1 = convert_fbgc_object_to_int(a);
+     141:	89 c3                	mov    ebx,eax
+	int b1 = convert_fbgc_object_to_int(b);
+     143:	e8 00 00 00 00       	call   148 <operator_SLASHSLASH_fbgc_object+0x28>	144: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	return new_fbgc_double_object(a1*b1/(a1+b1+0.0));  
+     148:	89 da                	mov    edx,ebx
+     14a:	66 0f ef c0          	pxor   xmm0,xmm0
+     14e:	66 0f ef c9          	pxor   xmm1,xmm1
+     152:	0f af d0             	imul   edx,eax
+     155:	01 c3                	add    ebx,eax
+     157:	f2 0f 2a cb          	cvtsi2sd xmm1,ebx
+     15b:	f2 0f 58 0d 00 00 00 00 	addsd  xmm1,QWORD PTR [rip+0x0]        # 163 <operator_SLASHSLASH_fbgc_object+0x43>	15f: R_X86_64_PC32	.LC0-0x4
+}
+     163:	48 83 c4 18          	add    rsp,0x18
+     167:	5b                   	pop    rbx
+     168:	5d                   	pop    rbp
+	return new_fbgc_double_object(a1*b1/(a1+b1+0.0));  
+     169:	f2 0f 2a c2          	cvtsi2sd xmm0,edx
+     16d:	f2 0f 5e c1          	divsd  xmm0,xmm1
+     171:	e9 00 00 00 00       	jmp    176 <operator_SLASHSLASH_fbgc_object+0x56>	172: R_X86_64_PLT32	new_fbgc_double_object-0x4
+     176:	66 2e 0f 1f 84 00 00 00 00 00 	nop    WORD PTR cs:[rax+rax*1+0x0]
+	switch(type){
+     180:	31 c0                	xor    eax,eax
+}
+     182:	48 83 c4 18          	add    rsp,0x18
+     186:	5b                   	pop    rbx
+     187:	5d                   	pop    rbp
+     188:	c3                   	ret    
+     189:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+			double a1 = convert_fbgc_object_to_double(a);
+     190:	e8 00 00 00 00       	call   195 <operator_SLASHSLASH_fbgc_object+0x75>	191: R_X86_64_PLT32	convert_fbgc_object_to_double-0x4
+			double b1 = convert_fbgc_object_to_double(b);
+     195:	48 89 ef             	mov    rdi,rbp
+			double a1 = convert_fbgc_object_to_double(a);
+     198:	f2 0f 11 44 24 08    	movsd  QWORD PTR [rsp+0x8],xmm0
+			double b1 = convert_fbgc_object_to_double(b);
+     19e:	e8 00 00 00 00       	call   1a3 <operator_SLASHSLASH_fbgc_object+0x83>	19f: R_X86_64_PLT32	convert_fbgc_object_to_double-0x4
+			return new_fbgc_double_object(a1*b1/(a1+b1));
+     1a3:	f2 0f 10 4c 24 08    	movsd  xmm1,QWORD PTR [rsp+0x8]
+}
+     1a9:	48 83 c4 18          	add    rsp,0x18
+     1ad:	5b                   	pop    rbx
+     1ae:	5d                   	pop    rbp
+			return new_fbgc_double_object(a1*b1/(a1+b1));
+     1af:	66 0f 28 d1          	movapd xmm2,xmm1
+     1b3:	f2 0f 58 c8          	addsd  xmm1,xmm0
+     1b7:	f2 0f 59 d0          	mulsd  xmm2,xmm0
+     1bb:	f2 0f 5e d1          	divsd  xmm2,xmm1
+     1bf:	66 0f 28 c2          	movapd xmm0,xmm2
+     1c3:	e9 00 00 00 00       	jmp    1c8 <operator_SLASHSLASH_fbgc_object+0xa8>	1c4: R_X86_64_PLT32	new_fbgc_double_object-0x4
+     1c8:	0f 1f 84 00 00 00 00 00 	nop    DWORD PTR [rax+rax*1+0x0]
+
+00000000000001d0 <operator_SLASH_fbgc_object>:
+struct fbgc_object * operator_SLASH_fbgc_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token type){
+     1d0:	f3 0f 1e fa          	endbr64 
+     1d4:	55                   	push   rbp
+     1d5:	48 89 f5             	mov    rbp,rsi
+     1d8:	53                   	push   rbx
+     1d9:	48 83 ec 18          	sub    rsp,0x18
+	switch(type){
+     1dd:	80 fa 04             	cmp    dl,0x4
+     1e0:	74 4e                	je     230 <operator_SLASH_fbgc_object+0x60>
+     1e2:	77 3c                	ja     220 <operator_SLASH_fbgc_object+0x50>
+     1e4:	80 fa 03             	cmp    dl,0x3
+     1e7:	75 39                	jne    222 <operator_SLASH_fbgc_object+0x52>
+	int a1 = convert_fbgc_object_to_int(a);
+     1e9:	e8 00 00 00 00       	call   1ee <operator_SLASH_fbgc_object+0x1e>	1ea: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	int b1 = convert_fbgc_object_to_int(b);
+     1ee:	48 89 ef             	mov    rdi,rbp
+	int a1 = convert_fbgc_object_to_int(a);
+     1f1:	89 c3                	mov    ebx,eax
+	int b1 = convert_fbgc_object_to_int(b);
+     1f3:	e8 00 00 00 00       	call   1f8 <operator_SLASH_fbgc_object+0x28>	1f4: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	return new_fbgc_double_object((double)a1/b1);      
+     1f8:	66 0f ef c0          	pxor   xmm0,xmm0
+     1fc:	66 0f ef c9          	pxor   xmm1,xmm1
+}
+     200:	48 83 c4 18          	add    rsp,0x18
+	return new_fbgc_double_object((double)a1/b1);      
+     204:	f2 0f 2a c3          	cvtsi2sd xmm0,ebx
+}
+     208:	5b                   	pop    rbx
+     209:	5d                   	pop    rbp
+	return new_fbgc_double_object((double)a1/b1);      
+     20a:	f2 0f 2a c8          	cvtsi2sd xmm1,eax
+     20e:	f2 0f 5e c1          	divsd  xmm0,xmm1
+     212:	e9 00 00 00 00       	jmp    217 <operator_SLASH_fbgc_object+0x47>	213: R_X86_64_PLT32	new_fbgc_double_object-0x4
+     217:	66 0f 1f 84 00 00 00 00 00 	nop    WORD PTR [rax+rax*1+0x0]
+	switch(type){
+     220:	31 c0                	xor    eax,eax
+}
+     222:	48 83 c4 18          	add    rsp,0x18
+     226:	5b                   	pop    rbx
+     227:	5d                   	pop    rbp
+     228:	c3                   	ret    
+     229:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+			double a1 = convert_fbgc_object_to_double(a);
+     230:	e8 00 00 00 00       	call   235 <operator_SLASH_fbgc_object+0x65>	231: R_X86_64_PLT32	convert_fbgc_object_to_double-0x4
+			double b1 = convert_fbgc_object_to_double(b);
+     235:	48 89 ef             	mov    rdi,rbp
+			double a1 = convert_fbgc_object_to_double(a);
+     238:	f2 0f 11 44 24 08    	movsd  QWORD PTR [rsp+0x8],xmm0
+			double b1 = convert_fbgc_object_to_double(b);
+     23e:	e8 00 00 00 00       	call   243 <operator_SLASH_fbgc_object+0x73>	23f: R_X86_64_PLT32	convert_fbgc_object_to_double-0x4
+			return new_fbgc_double_object(a1/b1);
+     243:	f2 0f 10 4c 24 08    	movsd  xmm1,QWORD PTR [rsp+0x8]
+}
+     249:	48 83 c4 18          	add    rsp,0x18
+     24d:	5b                   	pop    rbx
+     24e:	5d                   	pop    rbp
+			return new_fbgc_double_object(a1/b1);
+     24f:	f2 0f 5e c8          	divsd  xmm1,xmm0
+     253:	66 0f 28 c1          	movapd xmm0,xmm1
+     257:	e9 00 00 00 00       	jmp    25c <operator_SLASH_fbgc_object+0x8c>	258: R_X86_64_PLT32	new_fbgc_double_object-0x4
+     25c:	0f 1f 40 00          	nop    DWORD PTR [rax+0x0]
+
+0000000000000260 <operator_STARSTAR_fbgc_object>:
+struct fbgc_object * operator_STARSTAR_fbgc_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type){
+     260:	f3 0f 1e fa          	endbr64 
+     264:	55                   	push   rbp
+     265:	48 89 f5             	mov    rbp,rsi
+     268:	53                   	push   rbx
+     269:	48 83 ec 18          	sub    rsp,0x18
+	switch(type){
+     26d:	80 fa 04             	cmp    dl,0x4
+     270:	74 66                	je     2d8 <operator_STARSTAR_fbgc_object+0x78>
+     272:	77 54                	ja     2c8 <operator_STARSTAR_fbgc_object+0x68>
+     274:	80 fa 03             	cmp    dl,0x3
+     277:	75 44                	jne    2bd <operator_STARSTAR_fbgc_object+0x5d>
+	int a1 = convert_fbgc_object_to_int(a);
+     279:	e8 00 00 00 00       	call   27e <operator_STARSTAR_fbgc_object+0x1e>	27a: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	int b1 = convert_fbgc_object_to_int(b);
+     27e:	48 89 ef             	mov    rdi,rbp
+	int a1 = convert_fbgc_object_to_int(a);
+     281:	89 c3                	mov    ebx,eax
+	int b1 = convert_fbgc_object_to_int(b);
+     283:	e8 00 00 00 00       	call   288 <operator_STARSTAR_fbgc_object+0x28>	284: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	return new_fbgc_int_object(pow(a1,b1));  
+     288:	66 0f ef c0          	pxor   xmm0,xmm0
+     28c:	66 0f ef c9          	pxor   xmm1,xmm1
+     290:	f2 0f 2a c8          	cvtsi2sd xmm1,eax
+     294:	f2 0f 2a c3          	cvtsi2sd xmm0,ebx
+     298:	e8 00 00 00 00       	call   29d <operator_STARSTAR_fbgc_object+0x3d>	299: R_X86_64_PLT32	pow-0x4
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     29d:	bf 0d 00 00 00       	mov    edi,0xd
+	return new_fbgc_int_object(pow(a1,b1));  
+     2a2:	f2 0f 11 44 24 08    	movsd  QWORD PTR [rsp+0x8],xmm0
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     2a8:	e8 00 00 00 00       	call   2ad <operator_STARSTAR_fbgc_object+0x4d>	2a9: R_X86_64_PLT32	fbgc_malloc-0x4
+	return new_fbgc_int_object(pow(a1,b1));  
+     2ad:	f2 0f 10 44 24 08    	movsd  xmm0,QWORD PTR [rsp+0x8]
+	into->base.type = INT;
+     2b3:	c6 00 03             	mov    BYTE PTR [rax],0x3
+	return new_fbgc_int_object(pow(a1,b1));  
+     2b6:	f2 0f 2c d0          	cvttsd2si edx,xmm0
+     2ba:	89 50 09             	mov    DWORD PTR [rax+0x9],edx
+}
+     2bd:	48 83 c4 18          	add    rsp,0x18
+     2c1:	5b                   	pop    rbx
+     2c2:	5d                   	pop    rbp
+     2c3:	c3                   	ret    
+     2c4:	0f 1f 40 00          	nop    DWORD PTR [rax+0x0]
+     2c8:	48 83 c4 18          	add    rsp,0x18
+	switch(type){
+     2cc:	31 c0                	xor    eax,eax
+}
+     2ce:	5b                   	pop    rbx
+     2cf:	5d                   	pop    rbp
+     2d0:	c3                   	ret    
+     2d1:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+			double a1 = convert_fbgc_object_to_double(a);
+     2d8:	e8 00 00 00 00       	call   2dd <operator_STARSTAR_fbgc_object+0x7d>	2d9: R_X86_64_PLT32	convert_fbgc_object_to_double-0x4
+			double b1 = convert_fbgc_object_to_double(b);
+     2dd:	48 89 ef             	mov    rdi,rbp
+			double a1 = convert_fbgc_object_to_double(a);
+     2e0:	f2 0f 11 44 24 08    	movsd  QWORD PTR [rsp+0x8],xmm0
+			double b1 = convert_fbgc_object_to_double(b);
+     2e6:	e8 00 00 00 00       	call   2eb <operator_STARSTAR_fbgc_object+0x8b>	2e7: R_X86_64_PLT32	convert_fbgc_object_to_double-0x4
+			return new_fbgc_double_object(pow(a1,b1));
+     2eb:	f2 0f 10 54 24 08    	movsd  xmm2,QWORD PTR [rsp+0x8]
+			double b1 = convert_fbgc_object_to_double(b);
+     2f1:	66 0f 28 c8          	movapd xmm1,xmm0
+			return new_fbgc_double_object(pow(a1,b1));
+     2f5:	66 0f 28 c2          	movapd xmm0,xmm2
+     2f9:	e8 00 00 00 00       	call   2fe <operator_STARSTAR_fbgc_object+0x9e>	2fa: R_X86_64_PLT32	pow-0x4
+}
+     2fe:	48 83 c4 18          	add    rsp,0x18
+     302:	5b                   	pop    rbx
+     303:	5d                   	pop    rbp
+			return new_fbgc_double_object(pow(a1,b1));
+     304:	e9 00 00 00 00       	jmp    309 <operator_STARSTAR_fbgc_object+0xa9>	305: R_X86_64_PLT32	new_fbgc_double_object-0x4
+     309:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+
+0000000000000310 <operator_PLUS_fbgc_object>:
+struct fbgc_object * operator_PLUS_fbgc_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token type){
+     310:	f3 0f 1e fa          	endbr64 
+     314:	55                   	push   rbp
+     315:	48 89 f5             	mov    rbp,rsi
+     318:	53                   	push   rbx
+     319:	48 83 ec 18          	sub    rsp,0x18
+	switch(type){
+     31d:	80 fa 04             	cmp    dl,0x4
+     320:	74 46                	je     368 <operator_PLUS_fbgc_object+0x58>
+     322:	77 34                	ja     358 <operator_PLUS_fbgc_object+0x48>
+     324:	80 fa 03             	cmp    dl,0x3
+     327:	75 21                	jne    34a <operator_PLUS_fbgc_object+0x3a>
+	int a1 = convert_fbgc_object_to_int(a);
+     329:	e8 00 00 00 00       	call   32e <operator_PLUS_fbgc_object+0x1e>	32a: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	int b1 = convert_fbgc_object_to_int(b);
+     32e:	48 89 ef             	mov    rdi,rbp
+	int a1 = convert_fbgc_object_to_int(a);
+     331:	89 c3                	mov    ebx,eax
+	int b1 = convert_fbgc_object_to_int(b);
+     333:	e8 00 00 00 00       	call   338 <operator_PLUS_fbgc_object+0x28>	334: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     338:	bf 0d 00 00 00       	mov    edi,0xd
+	return new_fbgc_int_object(a1+b1);   
+     33d:	01 c3                	add    ebx,eax
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     33f:	e8 00 00 00 00       	call   344 <operator_PLUS_fbgc_object+0x34>	340: R_X86_64_PLT32	fbgc_malloc-0x4
+	into->base.type = INT;
+     344:	c6 00 03             	mov    BYTE PTR [rax],0x3
+	into->content = int_content; 
+     347:	89 58 09             	mov    DWORD PTR [rax+0x9],ebx
+}
+     34a:	48 83 c4 18          	add    rsp,0x18
+     34e:	5b                   	pop    rbx
+     34f:	5d                   	pop    rbp
+     350:	c3                   	ret    
+     351:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+     358:	48 83 c4 18          	add    rsp,0x18
+	switch(type){
+     35c:	31 c0                	xor    eax,eax
+}
+     35e:	5b                   	pop    rbx
+     35f:	5d                   	pop    rbp
+     360:	c3                   	ret    
+     361:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+			double a1 = convert_fbgc_object_to_double(a);
+     368:	e8 00 00 00 00       	call   36d <operator_PLUS_fbgc_object+0x5d>	369: R_X86_64_PLT32	convert_fbgc_object_to_double-0x4
+			double b1 = convert_fbgc_object_to_double(b);
+     36d:	48 89 ef             	mov    rdi,rbp
+			double a1 = convert_fbgc_object_to_double(a);
+     370:	f2 0f 11 44 24 08    	movsd  QWORD PTR [rsp+0x8],xmm0
+			double b1 = convert_fbgc_object_to_double(b);
+     376:	e8 00 00 00 00       	call   37b <operator_PLUS_fbgc_object+0x6b>	377: R_X86_64_PLT32	convert_fbgc_object_to_double-0x4
+			return new_fbgc_double_object(a1+b1);
+     37b:	f2 0f 58 44 24 08    	addsd  xmm0,QWORD PTR [rsp+0x8]
+}
+     381:	48 83 c4 18          	add    rsp,0x18
+     385:	5b                   	pop    rbx
+     386:	5d                   	pop    rbp
+			return new_fbgc_double_object(a1+b1);
+     387:	e9 00 00 00 00       	jmp    38c <operator_PLUS_fbgc_object+0x7c>	388: R_X86_64_PLT32	new_fbgc_double_object-0x4
+     38c:	0f 1f 40 00          	nop    DWORD PTR [rax+0x0]
+
+0000000000000390 <operator_MINUS_fbgc_object>:
+struct fbgc_object * operator_MINUS_fbgc_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token type){
+     390:	f3 0f 1e fa          	endbr64 
+     394:	55                   	push   rbp
+     395:	48 89 f5             	mov    rbp,rsi
+     398:	53                   	push   rbx
+     399:	48 83 ec 18          	sub    rsp,0x18
+	switch(type){
+     39d:	80 fa 04             	cmp    dl,0x4
+     3a0:	74 46                	je     3e8 <operator_MINUS_fbgc_object+0x58>
+     3a2:	77 34                	ja     3d8 <operator_MINUS_fbgc_object+0x48>
+     3a4:	80 fa 03             	cmp    dl,0x3
+     3a7:	75 21                	jne    3ca <operator_MINUS_fbgc_object+0x3a>
+	int a1 = convert_fbgc_object_to_int(a);
+     3a9:	e8 00 00 00 00       	call   3ae <operator_MINUS_fbgc_object+0x1e>	3aa: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	int b1 = convert_fbgc_object_to_int(b);
+     3ae:	48 89 ef             	mov    rdi,rbp
+	int a1 = convert_fbgc_object_to_int(a);
+     3b1:	89 c3                	mov    ebx,eax
+	int b1 = convert_fbgc_object_to_int(b);
+     3b3:	e8 00 00 00 00       	call   3b8 <operator_MINUS_fbgc_object+0x28>	3b4: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     3b8:	bf 0d 00 00 00       	mov    edi,0xd
+	return new_fbgc_int_object(a1-b1);       
+     3bd:	29 c3                	sub    ebx,eax
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     3bf:	e8 00 00 00 00       	call   3c4 <operator_MINUS_fbgc_object+0x34>	3c0: R_X86_64_PLT32	fbgc_malloc-0x4
+	into->base.type = INT;
+     3c4:	c6 00 03             	mov    BYTE PTR [rax],0x3
+	into->content = int_content; 
+     3c7:	89 58 09             	mov    DWORD PTR [rax+0x9],ebx
+}
+     3ca:	48 83 c4 18          	add    rsp,0x18
+     3ce:	5b                   	pop    rbx
+     3cf:	5d                   	pop    rbp
+     3d0:	c3                   	ret    
+     3d1:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+     3d8:	48 83 c4 18          	add    rsp,0x18
+	switch(type){
+     3dc:	31 c0                	xor    eax,eax
+}
+     3de:	5b                   	pop    rbx
+     3df:	5d                   	pop    rbp
+     3e0:	c3                   	ret    
+     3e1:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+			double a1 = convert_fbgc_object_to_double(a);
+     3e8:	e8 00 00 00 00       	call   3ed <operator_MINUS_fbgc_object+0x5d>	3e9: R_X86_64_PLT32	convert_fbgc_object_to_double-0x4
+			double b1 = convert_fbgc_object_to_double(b);
+     3ed:	48 89 ef             	mov    rdi,rbp
+			double a1 = convert_fbgc_object_to_double(a);
+     3f0:	f2 0f 11 44 24 08    	movsd  QWORD PTR [rsp+0x8],xmm0
+			double b1 = convert_fbgc_object_to_double(b);
+     3f6:	e8 00 00 00 00       	call   3fb <operator_MINUS_fbgc_object+0x6b>	3f7: R_X86_64_PLT32	convert_fbgc_object_to_double-0x4
+			return new_fbgc_double_object(a1-b1);
+     3fb:	f2 0f 10 4c 24 08    	movsd  xmm1,QWORD PTR [rsp+0x8]
+}
+     401:	48 83 c4 18          	add    rsp,0x18
+     405:	5b                   	pop    rbx
+     406:	5d                   	pop    rbp
+			return new_fbgc_double_object(a1-b1);
+     407:	f2 0f 5c c8          	subsd  xmm1,xmm0
+     40b:	66 0f 28 c1          	movapd xmm0,xmm1
+     40f:	e9 00 00 00 00       	jmp    414 <operator_MINUS_fbgc_object+0x84>	410: R_X86_64_PLT32	new_fbgc_double_object-0x4
+     414:	66 66 2e 0f 1f 84 00 00 00 00 00 	data16 nop WORD PTR cs:[rax+rax*1+0x0]
+     41f:	90                   	nop
+
+0000000000000420 <operator_STAR_fbgc_object>:
+struct fbgc_object * operator_STAR_fbgc_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type){
+     420:	f3 0f 1e fa          	endbr64 
+     424:	55                   	push   rbp
+     425:	48 89 f5             	mov    rbp,rsi
+     428:	53                   	push   rbx
+     429:	48 83 ec 18          	sub    rsp,0x18
+	switch(type){
+     42d:	80 fa 04             	cmp    dl,0x4
+     430:	74 46                	je     478 <operator_STAR_fbgc_object+0x58>
+     432:	77 34                	ja     468 <operator_STAR_fbgc_object+0x48>
+     434:	80 fa 03             	cmp    dl,0x3
+     437:	75 22                	jne    45b <operator_STAR_fbgc_object+0x3b>
+	int a1 = convert_fbgc_object_to_int(a);
+     439:	e8 00 00 00 00       	call   43e <operator_STAR_fbgc_object+0x1e>	43a: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	int b1 = convert_fbgc_object_to_int(b);
+     43e:	48 89 ef             	mov    rdi,rbp
+	int a1 = convert_fbgc_object_to_int(a);
+     441:	89 c3                	mov    ebx,eax
+	int b1 = convert_fbgc_object_to_int(b);
+     443:	e8 00 00 00 00       	call   448 <operator_STAR_fbgc_object+0x28>	444: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     448:	bf 0d 00 00 00       	mov    edi,0xd
+	return new_fbgc_int_object(a1*b1);       
+     44d:	0f af d8             	imul   ebx,eax
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     450:	e8 00 00 00 00       	call   455 <operator_STAR_fbgc_object+0x35>	451: R_X86_64_PLT32	fbgc_malloc-0x4
+	into->base.type = INT;
+     455:	c6 00 03             	mov    BYTE PTR [rax],0x3
+	into->content = int_content; 
+     458:	89 58 09             	mov    DWORD PTR [rax+0x9],ebx
+}
+     45b:	48 83 c4 18          	add    rsp,0x18
+     45f:	5b                   	pop    rbx
+     460:	5d                   	pop    rbp
+     461:	c3                   	ret    
+     462:	66 0f 1f 44 00 00    	nop    WORD PTR [rax+rax*1+0x0]
+     468:	48 83 c4 18          	add    rsp,0x18
+	switch(type){
+     46c:	31 c0                	xor    eax,eax
+}
+     46e:	5b                   	pop    rbx
+     46f:	5d                   	pop    rbp
+     470:	c3                   	ret    
+     471:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+			double a1 = convert_fbgc_object_to_double(a);
+     478:	e8 00 00 00 00       	call   47d <operator_STAR_fbgc_object+0x5d>	479: R_X86_64_PLT32	convert_fbgc_object_to_double-0x4
+			double b1 = convert_fbgc_object_to_double(b);
+     47d:	48 89 ef             	mov    rdi,rbp
+			double a1 = convert_fbgc_object_to_double(a);
+     480:	f2 0f 11 44 24 08    	movsd  QWORD PTR [rsp+0x8],xmm0
+			double b1 = convert_fbgc_object_to_double(b);
+     486:	e8 00 00 00 00       	call   48b <operator_STAR_fbgc_object+0x6b>	487: R_X86_64_PLT32	convert_fbgc_object_to_double-0x4
+			return new_fbgc_double_object(a1*b1);
+     48b:	f2 0f 59 44 24 08    	mulsd  xmm0,QWORD PTR [rsp+0x8]
+}
+     491:	48 83 c4 18          	add    rsp,0x18
+     495:	5b                   	pop    rbx
+     496:	5d                   	pop    rbp
+			return new_fbgc_double_object(a1*b1);
+     497:	e9 00 00 00 00       	jmp    49c <operator_STAR_fbgc_object+0x7c>	498: R_X86_64_PLT32	new_fbgc_double_object-0x4
+     49c:	0f 1f 40 00          	nop    DWORD PTR [rax+0x0]
+
+00000000000004a0 <operator_LO_EQ_fbgc_object>:
+
+/////////////
+struct fbgc_object * operator_LO_EQ_fbgc_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token type){
+     4a0:	f3 0f 1e fa          	endbr64 
+     4a4:	55                   	push   rbp
+     4a5:	48 89 f5             	mov    rbp,rsi
+     4a8:	53                   	push   rbx
+     4a9:	48 83 ec 18          	sub    rsp,0x18
+	
+	switch(type){
+     4ad:	80 fa 04             	cmp    dl,0x4
+     4b0:	74 4e                	je     500 <operator_LO_EQ_fbgc_object+0x60>
+     4b2:	77 3c                	ja     4f0 <operator_LO_EQ_fbgc_object+0x50>
+     4b4:	80 fa 03             	cmp    dl,0x3
+     4b7:	75 28                	jne    4e1 <operator_LO_EQ_fbgc_object+0x41>
+	int a1 = convert_fbgc_object_to_int(a);
+     4b9:	e8 00 00 00 00       	call   4be <operator_LO_EQ_fbgc_object+0x1e>	4ba: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	int b1 = convert_fbgc_object_to_int(b);
+     4be:	48 89 ef             	mov    rdi,rbp
+	int a1 = convert_fbgc_object_to_int(a);
+     4c1:	89 c3                	mov    ebx,eax
+	int b1 = convert_fbgc_object_to_int(b);
+     4c3:	e8 00 00 00 00       	call   4c8 <operator_LO_EQ_fbgc_object+0x28>	4c4: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     4c8:	bf 0d 00 00 00       	mov    edi,0xd
+	int b1 = convert_fbgc_object_to_int(b);
+     4cd:	89 c5                	mov    ebp,eax
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     4cf:	e8 00 00 00 00       	call   4d4 <operator_LO_EQ_fbgc_object+0x34>	4d0: R_X86_64_PLT32	fbgc_malloc-0x4
+	return new_fbgc_int_object(a1<=b1);      
+     4d4:	31 d2                	xor    edx,edx
+     4d6:	39 eb                	cmp    ebx,ebp
+     4d8:	0f 9e c2             	setle  dl
+	into->base.type = INT;
+     4db:	c6 00 03             	mov    BYTE PTR [rax],0x3
+	into->content = int_content; 
+     4de:	89 50 09             	mov    DWORD PTR [rax+0x9],edx
+		case COMPLEX: return NULL;
+		case STRING: return NULL;
+		case MATRIX: return NULL;
+		case TUPLE: return NULL;
+	}
+}
+     4e1:	48 83 c4 18          	add    rsp,0x18
+     4e5:	5b                   	pop    rbx
+     4e6:	5d                   	pop    rbp
+     4e7:	c3                   	ret    
+     4e8:	0f 1f 84 00 00 00 00 00 	nop    DWORD PTR [rax+rax*1+0x0]
+     4f0:	48 83 c4 18          	add    rsp,0x18
+	switch(type){
+     4f4:	31 c0                	xor    eax,eax
+}
+     4f6:	5b                   	pop    rbx
+     4f7:	5d                   	pop    rbp
+     4f8:	c3                   	ret    
+     4f9:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+			double a1 = convert_fbgc_object_to_double(a);
+     500:	e8 00 00 00 00       	call   505 <operator_LO_EQ_fbgc_object+0x65>	501: R_X86_64_PLT32	convert_fbgc_object_to_double-0x4
+			double b1 = convert_fbgc_object_to_double(b);
+     505:	48 89 ef             	mov    rdi,rbp
+			double a1 = convert_fbgc_object_to_double(a);
+     508:	f2 0f 11 04 24       	movsd  QWORD PTR [rsp],xmm0
+			double b1 = convert_fbgc_object_to_double(b);
+     50d:	e8 00 00 00 00       	call   512 <operator_LO_EQ_fbgc_object+0x72>	50e: R_X86_64_PLT32	convert_fbgc_object_to_double-0x4
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     512:	bf 0d 00 00 00       	mov    edi,0xd
+			double b1 = convert_fbgc_object_to_double(b);
+     517:	f2 0f 11 44 24 08    	movsd  QWORD PTR [rsp+0x8],xmm0
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     51d:	e8 00 00 00 00       	call   522 <operator_LO_EQ_fbgc_object+0x82>	51e: R_X86_64_PLT32	fbgc_malloc-0x4
+			return new_fbgc_int_object(a1<=b1);
+     522:	f2 0f 10 44 24 08    	movsd  xmm0,QWORD PTR [rsp+0x8]
+     528:	31 d2                	xor    edx,edx
+     52a:	66 0f 2f 04 24       	comisd xmm0,QWORD PTR [rsp]
+	into->base.type = INT;
+     52f:	c6 00 03             	mov    BYTE PTR [rax],0x3
+			return new_fbgc_int_object(a1<=b1);
+     532:	0f 93 c2             	setae  dl
+	into->content = int_content; 
+     535:	89 50 09             	mov    DWORD PTR [rax+0x9],edx
+			return new_fbgc_int_object(a1<=b1);
+     538:	eb a7                	jmp    4e1 <operator_LO_EQ_fbgc_object+0x41>
+     53a:	66 0f 1f 44 00 00    	nop    WORD PTR [rax+rax*1+0x0]
+
+0000000000000540 <operator_GR_EQ_fbgc_object>:
+
+/////////////
+struct fbgc_object * operator_GR_EQ_fbgc_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token type){
+     540:	f3 0f 1e fa          	endbr64 
+     544:	55                   	push   rbp
+     545:	48 89 f5             	mov    rbp,rsi
+     548:	53                   	push   rbx
+     549:	48 83 ec 18          	sub    rsp,0x18
+	
+	switch(type){
+     54d:	80 fa 04             	cmp    dl,0x4
+     550:	74 4e                	je     5a0 <operator_GR_EQ_fbgc_object+0x60>
+     552:	77 3c                	ja     590 <operator_GR_EQ_fbgc_object+0x50>
+     554:	80 fa 03             	cmp    dl,0x3
+     557:	75 28                	jne    581 <operator_GR_EQ_fbgc_object+0x41>
+	int a1 = convert_fbgc_object_to_int(a);
+     559:	e8 00 00 00 00       	call   55e <operator_GR_EQ_fbgc_object+0x1e>	55a: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	int b1 = convert_fbgc_object_to_int(b);
+     55e:	48 89 ef             	mov    rdi,rbp
+	int a1 = convert_fbgc_object_to_int(a);
+     561:	89 c3                	mov    ebx,eax
+	int b1 = convert_fbgc_object_to_int(b);
+     563:	e8 00 00 00 00       	call   568 <operator_GR_EQ_fbgc_object+0x28>	564: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     568:	bf 0d 00 00 00       	mov    edi,0xd
+	int b1 = convert_fbgc_object_to_int(b);
+     56d:	89 c5                	mov    ebp,eax
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     56f:	e8 00 00 00 00       	call   574 <operator_GR_EQ_fbgc_object+0x34>	570: R_X86_64_PLT32	fbgc_malloc-0x4
+	return new_fbgc_int_object(a1>=b1);  
+     574:	31 d2                	xor    edx,edx
+     576:	39 eb                	cmp    ebx,ebp
+     578:	0f 9d c2             	setge  dl
+	into->base.type = INT;
+     57b:	c6 00 03             	mov    BYTE PTR [rax],0x3
+	into->content = int_content; 
+     57e:	89 50 09             	mov    DWORD PTR [rax+0x9],edx
+		case COMPLEX: return NULL;
+		case STRING: return NULL;
+		case MATRIX: return NULL;
+		case TUPLE: return NULL;
+	}
+}
+     581:	48 83 c4 18          	add    rsp,0x18
+     585:	5b                   	pop    rbx
+     586:	5d                   	pop    rbp
+     587:	c3                   	ret    
+     588:	0f 1f 84 00 00 00 00 00 	nop    DWORD PTR [rax+rax*1+0x0]
+     590:	48 83 c4 18          	add    rsp,0x18
+	switch(type){
+     594:	31 c0                	xor    eax,eax
+}
+     596:	5b                   	pop    rbx
+     597:	5d                   	pop    rbp
+     598:	c3                   	ret    
+     599:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+			double a1 = convert_fbgc_object_to_double(a);
+     5a0:	e8 00 00 00 00       	call   5a5 <operator_GR_EQ_fbgc_object+0x65>	5a1: R_X86_64_PLT32	convert_fbgc_object_to_double-0x4
+			double b1 = convert_fbgc_object_to_double(b);
+     5a5:	48 89 ef             	mov    rdi,rbp
+			double a1 = convert_fbgc_object_to_double(a);
+     5a8:	f2 0f 11 44 24 08    	movsd  QWORD PTR [rsp+0x8],xmm0
+			double b1 = convert_fbgc_object_to_double(b);
+     5ae:	e8 00 00 00 00       	call   5b3 <operator_GR_EQ_fbgc_object+0x73>	5af: R_X86_64_PLT32	convert_fbgc_object_to_double-0x4
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     5b3:	bf 0d 00 00 00       	mov    edi,0xd
+			double b1 = convert_fbgc_object_to_double(b);
+     5b8:	f2 0f 11 04 24       	movsd  QWORD PTR [rsp],xmm0
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     5bd:	e8 00 00 00 00       	call   5c2 <operator_GR_EQ_fbgc_object+0x82>	5be: R_X86_64_PLT32	fbgc_malloc-0x4
+			return new_fbgc_int_object(a1>=b1);
+     5c2:	f2 0f 10 4c 24 08    	movsd  xmm1,QWORD PTR [rsp+0x8]
+     5c8:	31 d2                	xor    edx,edx
+     5ca:	66 0f 2f 0c 24       	comisd xmm1,QWORD PTR [rsp]
+	into->base.type = INT;
+     5cf:	c6 00 03             	mov    BYTE PTR [rax],0x3
+			return new_fbgc_int_object(a1>=b1);
+     5d2:	0f 93 c2             	setae  dl
+	into->content = int_content; 
+     5d5:	89 50 09             	mov    DWORD PTR [rax+0x9],edx
+			return new_fbgc_int_object(a1>=b1);
+     5d8:	eb a7                	jmp    581 <operator_GR_EQ_fbgc_object+0x41>
+     5da:	66 0f 1f 44 00 00    	nop    WORD PTR [rax+rax*1+0x0]
+
+00000000000005e0 <operator_EQ_EQ_fbgc_object>:
+/////////////
+struct fbgc_object * operator_EQ_EQ_fbgc_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token type){
+     5e0:	f3 0f 1e fa          	endbr64 
+     5e4:	55                   	push   rbp
+     5e5:	48 89 f5             	mov    rbp,rsi
+     5e8:	53                   	push   rbx
+     5e9:	48 83 ec 18          	sub    rsp,0x18
+	
+
+	switch(type){
+     5ed:	80 fa 04             	cmp    dl,0x4
+     5f0:	74 4e                	je     640 <operator_EQ_EQ_fbgc_object+0x60>
+     5f2:	77 3c                	ja     630 <operator_EQ_EQ_fbgc_object+0x50>
+     5f4:	80 fa 03             	cmp    dl,0x3
+     5f7:	75 28                	jne    621 <operator_EQ_EQ_fbgc_object+0x41>
+	int a1 = convert_fbgc_object_to_int(a);
+     5f9:	e8 00 00 00 00       	call   5fe <operator_EQ_EQ_fbgc_object+0x1e>	5fa: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	int b1 = convert_fbgc_object_to_int(b);
+     5fe:	48 89 ef             	mov    rdi,rbp
+	int a1 = convert_fbgc_object_to_int(a);
+     601:	89 c3                	mov    ebx,eax
+	int b1 = convert_fbgc_object_to_int(b);
+     603:	e8 00 00 00 00       	call   608 <operator_EQ_EQ_fbgc_object+0x28>	604: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     608:	bf 0d 00 00 00       	mov    edi,0xd
+	int b1 = convert_fbgc_object_to_int(b);
+     60d:	89 c5                	mov    ebp,eax
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     60f:	e8 00 00 00 00       	call   614 <operator_EQ_EQ_fbgc_object+0x34>	610: R_X86_64_PLT32	fbgc_malloc-0x4
+	return new_fbgc_int_object(a1==b1);  
+     614:	31 d2                	xor    edx,edx
+     616:	39 eb                	cmp    ebx,ebp
+     618:	0f 94 c2             	sete   dl
+	into->base.type = INT;
+     61b:	c6 00 03             	mov    BYTE PTR [rax],0x3
+	into->content = int_content; 
+     61e:	89 50 09             	mov    DWORD PTR [rax+0x9],edx
+		case COMPLEX: return NULL;
+		case STRING: return NULL;
+		case MATRIX: return NULL;
+		case TUPLE: return NULL;
+	}  
+}
+     621:	48 83 c4 18          	add    rsp,0x18
+     625:	5b                   	pop    rbx
+     626:	5d                   	pop    rbp
+     627:	c3                   	ret    
+     628:	0f 1f 84 00 00 00 00 00 	nop    DWORD PTR [rax+rax*1+0x0]
+     630:	48 83 c4 18          	add    rsp,0x18
+	switch(type){
+     634:	31 c0                	xor    eax,eax
+}
+     636:	5b                   	pop    rbx
+     637:	5d                   	pop    rbp
+     638:	c3                   	ret    
+     639:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+			double a1 = convert_fbgc_object_to_double(a);
+     640:	e8 00 00 00 00       	call   645 <operator_EQ_EQ_fbgc_object+0x65>	641: R_X86_64_PLT32	convert_fbgc_object_to_double-0x4
+			double b1 = convert_fbgc_object_to_double(b);
+     645:	48 89 ef             	mov    rdi,rbp
+			double a1 = convert_fbgc_object_to_double(a);
+     648:	f2 0f 11 44 24 08    	movsd  QWORD PTR [rsp+0x8],xmm0
+			double b1 = convert_fbgc_object_to_double(b);
+     64e:	e8 00 00 00 00       	call   653 <operator_EQ_EQ_fbgc_object+0x73>	64f: R_X86_64_PLT32	convert_fbgc_object_to_double-0x4
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     653:	bf 0d 00 00 00       	mov    edi,0xd
+			double b1 = convert_fbgc_object_to_double(b);
+     658:	f2 0f 11 04 24       	movsd  QWORD PTR [rsp],xmm0
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     65d:	e8 00 00 00 00       	call   662 <operator_EQ_EQ_fbgc_object+0x82>	65e: R_X86_64_PLT32	fbgc_malloc-0x4
+			return new_fbgc_int_object(a1==b1);
+     662:	f2 0f 10 04 24       	movsd  xmm0,QWORD PTR [rsp]
+     667:	f2 0f 10 4c 24 08    	movsd  xmm1,QWORD PTR [rsp+0x8]
+     66d:	31 d2                	xor    edx,edx
+     66f:	b9 00 00 00 00       	mov    ecx,0x0
+	into->base.type = INT;
+     674:	c6 00 03             	mov    BYTE PTR [rax],0x3
+			return new_fbgc_int_object(a1==b1);
+     677:	66 0f 2e c8          	ucomisd xmm1,xmm0
+     67b:	0f 9b c2             	setnp  dl
+     67e:	0f 45 d1             	cmovne edx,ecx
+	into->content = int_content; 
+     681:	89 50 09             	mov    DWORD PTR [rax+0x9],edx
+			return new_fbgc_int_object(a1==b1);
+     684:	eb 9b                	jmp    621 <operator_EQ_EQ_fbgc_object+0x41>
+     686:	66 2e 0f 1f 84 00 00 00 00 00 	nop    WORD PTR cs:[rax+rax*1+0x0]
+
+0000000000000690 <operator_NOT_EQ_fbgc_object>:
+/////////////
+struct fbgc_object * operator_NOT_EQ_fbgc_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token type){
+     690:	f3 0f 1e fa          	endbr64 
+     694:	55                   	push   rbp
+     695:	48 89 f5             	mov    rbp,rsi
+     698:	53                   	push   rbx
+     699:	48 83 ec 18          	sub    rsp,0x18
+	
+	switch(type){
+     69d:	80 fa 04             	cmp    dl,0x4
+     6a0:	74 4e                	je     6f0 <operator_NOT_EQ_fbgc_object+0x60>
+     6a2:	77 3c                	ja     6e0 <operator_NOT_EQ_fbgc_object+0x50>
+     6a4:	80 fa 03             	cmp    dl,0x3
+     6a7:	75 28                	jne    6d1 <operator_NOT_EQ_fbgc_object+0x41>
+	int a1 = convert_fbgc_object_to_int(a);
+     6a9:	e8 00 00 00 00       	call   6ae <operator_NOT_EQ_fbgc_object+0x1e>	6aa: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	int b1 = convert_fbgc_object_to_int(b);
+     6ae:	48 89 ef             	mov    rdi,rbp
+	int a1 = convert_fbgc_object_to_int(a);
+     6b1:	89 c3                	mov    ebx,eax
+	int b1 = convert_fbgc_object_to_int(b);
+     6b3:	e8 00 00 00 00       	call   6b8 <operator_NOT_EQ_fbgc_object+0x28>	6b4: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     6b8:	bf 0d 00 00 00       	mov    edi,0xd
+	int b1 = convert_fbgc_object_to_int(b);
+     6bd:	89 c5                	mov    ebp,eax
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     6bf:	e8 00 00 00 00       	call   6c4 <operator_NOT_EQ_fbgc_object+0x34>	6c0: R_X86_64_PLT32	fbgc_malloc-0x4
+	return new_fbgc_int_object(a1!=b1);  
+     6c4:	31 d2                	xor    edx,edx
+     6c6:	39 eb                	cmp    ebx,ebp
+     6c8:	0f 95 c2             	setne  dl
+	into->base.type = INT;
+     6cb:	c6 00 03             	mov    BYTE PTR [rax],0x3
+	into->content = int_content; 
+     6ce:	89 50 09             	mov    DWORD PTR [rax+0x9],edx
+		case COMPLEX: return NULL;
+		case STRING: return NULL;
+		case MATRIX: return NULL;
+		case TUPLE: return NULL;
+	}
+}
+     6d1:	48 83 c4 18          	add    rsp,0x18
+     6d5:	5b                   	pop    rbx
+     6d6:	5d                   	pop    rbp
+     6d7:	c3                   	ret    
+     6d8:	0f 1f 84 00 00 00 00 00 	nop    DWORD PTR [rax+rax*1+0x0]
+     6e0:	48 83 c4 18          	add    rsp,0x18
+	switch(type){
+     6e4:	31 c0                	xor    eax,eax
+}
+     6e6:	5b                   	pop    rbx
+     6e7:	5d                   	pop    rbp
+     6e8:	c3                   	ret    
+     6e9:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+			double a1 = convert_fbgc_object_to_double(a);
+     6f0:	e8 00 00 00 00       	call   6f5 <operator_NOT_EQ_fbgc_object+0x65>	6f1: R_X86_64_PLT32	convert_fbgc_object_to_double-0x4
+			double b1 = convert_fbgc_object_to_double(b);
+     6f5:	48 89 ef             	mov    rdi,rbp
+			double a1 = convert_fbgc_object_to_double(a);
+     6f8:	f2 0f 11 44 24 08    	movsd  QWORD PTR [rsp+0x8],xmm0
+			double b1 = convert_fbgc_object_to_double(b);
+     6fe:	e8 00 00 00 00       	call   703 <operator_NOT_EQ_fbgc_object+0x73>	6ff: R_X86_64_PLT32	convert_fbgc_object_to_double-0x4
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     703:	bf 0d 00 00 00       	mov    edi,0xd
+			double b1 = convert_fbgc_object_to_double(b);
+     708:	f2 0f 11 04 24       	movsd  QWORD PTR [rsp],xmm0
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     70d:	e8 00 00 00 00       	call   712 <operator_NOT_EQ_fbgc_object+0x82>	70e: R_X86_64_PLT32	fbgc_malloc-0x4
+			return new_fbgc_int_object(a1!=b1);
+     712:	f2 0f 10 04 24       	movsd  xmm0,QWORD PTR [rsp]
+     717:	f2 0f 10 4c 24 08    	movsd  xmm1,QWORD PTR [rsp+0x8]
+     71d:	31 d2                	xor    edx,edx
+     71f:	b9 01 00 00 00       	mov    ecx,0x1
+	into->base.type = INT;
+     724:	c6 00 03             	mov    BYTE PTR [rax],0x3
+			return new_fbgc_int_object(a1!=b1);
+     727:	66 0f 2e c8          	ucomisd xmm1,xmm0
+     72b:	0f 9a c2             	setp   dl
+     72e:	0f 45 d1             	cmovne edx,ecx
+	into->content = int_content; 
+     731:	89 50 09             	mov    DWORD PTR [rax+0x9],edx
+			return new_fbgc_int_object(a1!=b1);
+     734:	eb 9b                	jmp    6d1 <operator_NOT_EQ_fbgc_object+0x41>
+     736:	66 2e 0f 1f 84 00 00 00 00 00 	nop    WORD PTR cs:[rax+rax*1+0x0]
+
+0000000000000740 <operator_LOWER_fbgc_object>:
+/////////////
+struct fbgc_object * operator_LOWER_fbgc_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token type){
+     740:	f3 0f 1e fa          	endbr64 
+     744:	55                   	push   rbp
+     745:	48 89 f5             	mov    rbp,rsi
+     748:	53                   	push   rbx
+     749:	48 83 ec 18          	sub    rsp,0x18
+	switch(type){
+     74d:	80 fa 04             	cmp    dl,0x4
+     750:	74 4e                	je     7a0 <operator_LOWER_fbgc_object+0x60>
+     752:	77 3c                	ja     790 <operator_LOWER_fbgc_object+0x50>
+     754:	80 fa 03             	cmp    dl,0x3
+     757:	75 28                	jne    781 <operator_LOWER_fbgc_object+0x41>
+	int a1 = convert_fbgc_object_to_int(a);
+     759:	e8 00 00 00 00       	call   75e <operator_LOWER_fbgc_object+0x1e>	75a: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	int b1 = convert_fbgc_object_to_int(b);
+     75e:	48 89 ef             	mov    rdi,rbp
+	int a1 = convert_fbgc_object_to_int(a);
+     761:	89 c3                	mov    ebx,eax
+	int b1 = convert_fbgc_object_to_int(b);
+     763:	e8 00 00 00 00       	call   768 <operator_LOWER_fbgc_object+0x28>	764: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     768:	bf 0d 00 00 00       	mov    edi,0xd
+	int b1 = convert_fbgc_object_to_int(b);
+     76d:	89 c5                	mov    ebp,eax
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     76f:	e8 00 00 00 00       	call   774 <operator_LOWER_fbgc_object+0x34>	770: R_X86_64_PLT32	fbgc_malloc-0x4
+	return new_fbgc_int_object(a1<b1);  
+     774:	31 d2                	xor    edx,edx
+     776:	39 eb                	cmp    ebx,ebp
+     778:	0f 9c c2             	setl   dl
+	into->base.type = INT;
+     77b:	c6 00 03             	mov    BYTE PTR [rax],0x3
+	into->content = int_content; 
+     77e:	89 50 09             	mov    DWORD PTR [rax+0x9],edx
+		case COMPLEX: return NULL;
+		case STRING: return NULL;
+		case MATRIX: return NULL;
+		case TUPLE: return NULL;
+	}
+}
+     781:	48 83 c4 18          	add    rsp,0x18
+     785:	5b                   	pop    rbx
+     786:	5d                   	pop    rbp
+     787:	c3                   	ret    
+     788:	0f 1f 84 00 00 00 00 00 	nop    DWORD PTR [rax+rax*1+0x0]
+     790:	48 83 c4 18          	add    rsp,0x18
+	switch(type){
+     794:	31 c0                	xor    eax,eax
+}
+     796:	5b                   	pop    rbx
+     797:	5d                   	pop    rbp
+     798:	c3                   	ret    
+     799:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+			double a1 = convert_fbgc_object_to_double(a);
+     7a0:	e8 00 00 00 00       	call   7a5 <operator_LOWER_fbgc_object+0x65>	7a1: R_X86_64_PLT32	convert_fbgc_object_to_double-0x4
+			double b1 = convert_fbgc_object_to_double(b);
+     7a5:	48 89 ef             	mov    rdi,rbp
+			double a1 = convert_fbgc_object_to_double(a);
+     7a8:	f2 0f 11 04 24       	movsd  QWORD PTR [rsp],xmm0
+			double b1 = convert_fbgc_object_to_double(b);
+     7ad:	e8 00 00 00 00       	call   7b2 <operator_LOWER_fbgc_object+0x72>	7ae: R_X86_64_PLT32	convert_fbgc_object_to_double-0x4
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     7b2:	bf 0d 00 00 00       	mov    edi,0xd
+			double b1 = convert_fbgc_object_to_double(b);
+     7b7:	f2 0f 11 44 24 08    	movsd  QWORD PTR [rsp+0x8],xmm0
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     7bd:	e8 00 00 00 00       	call   7c2 <operator_LOWER_fbgc_object+0x82>	7be: R_X86_64_PLT32	fbgc_malloc-0x4
+			return new_fbgc_int_object(a1<b1);
+     7c2:	f2 0f 10 44 24 08    	movsd  xmm0,QWORD PTR [rsp+0x8]
+     7c8:	31 d2                	xor    edx,edx
+     7ca:	66 0f 2f 04 24       	comisd xmm0,QWORD PTR [rsp]
+	into->base.type = INT;
+     7cf:	c6 00 03             	mov    BYTE PTR [rax],0x3
+			return new_fbgc_int_object(a1<b1);
+     7d2:	0f 97 c2             	seta   dl
+	into->content = int_content; 
+     7d5:	89 50 09             	mov    DWORD PTR [rax+0x9],edx
+			return new_fbgc_int_object(a1<b1);
+     7d8:	eb a7                	jmp    781 <operator_LOWER_fbgc_object+0x41>
+     7da:	66 0f 1f 44 00 00    	nop    WORD PTR [rax+rax*1+0x0]
+
+00000000000007e0 <operator_GREATER_fbgc_object>:
+/////////////
+struct fbgc_object * operator_GREATER_fbgc_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token type){
+     7e0:	f3 0f 1e fa          	endbr64 
+     7e4:	55                   	push   rbp
+     7e5:	48 89 f5             	mov    rbp,rsi
+     7e8:	53                   	push   rbx
+     7e9:	48 83 ec 18          	sub    rsp,0x18
+
+	switch(type){
+     7ed:	80 fa 04             	cmp    dl,0x4
+     7f0:	74 4e                	je     840 <operator_GREATER_fbgc_object+0x60>
+     7f2:	77 3c                	ja     830 <operator_GREATER_fbgc_object+0x50>
+     7f4:	80 fa 03             	cmp    dl,0x3
+     7f7:	75 28                	jne    821 <operator_GREATER_fbgc_object+0x41>
+	int a1 = convert_fbgc_object_to_int(a);
+     7f9:	e8 00 00 00 00       	call   7fe <operator_GREATER_fbgc_object+0x1e>	7fa: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	int b1 = convert_fbgc_object_to_int(b);
+     7fe:	48 89 ef             	mov    rdi,rbp
+	int a1 = convert_fbgc_object_to_int(a);
+     801:	89 c3                	mov    ebx,eax
+	int b1 = convert_fbgc_object_to_int(b);
+     803:	e8 00 00 00 00       	call   808 <operator_GREATER_fbgc_object+0x28>	804: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     808:	bf 0d 00 00 00       	mov    edi,0xd
+	int b1 = convert_fbgc_object_to_int(b);
+     80d:	89 c5                	mov    ebp,eax
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     80f:	e8 00 00 00 00       	call   814 <operator_GREATER_fbgc_object+0x34>	810: R_X86_64_PLT32	fbgc_malloc-0x4
+	return new_fbgc_int_object(a1>b1);  
+     814:	31 d2                	xor    edx,edx
+     816:	39 eb                	cmp    ebx,ebp
+     818:	0f 9f c2             	setg   dl
+	into->base.type = INT;
+     81b:	c6 00 03             	mov    BYTE PTR [rax],0x3
+	into->content = int_content; 
+     81e:	89 50 09             	mov    DWORD PTR [rax+0x9],edx
+		case COMPLEX: return NULL;
+		case STRING: return NULL;
+		case MATRIX: return NULL;
+		case TUPLE: return NULL;
+	}
+}
+     821:	48 83 c4 18          	add    rsp,0x18
+     825:	5b                   	pop    rbx
+     826:	5d                   	pop    rbp
+     827:	c3                   	ret    
+     828:	0f 1f 84 00 00 00 00 00 	nop    DWORD PTR [rax+rax*1+0x0]
+     830:	48 83 c4 18          	add    rsp,0x18
+	switch(type){
+     834:	31 c0                	xor    eax,eax
+}
+     836:	5b                   	pop    rbx
+     837:	5d                   	pop    rbp
+     838:	c3                   	ret    
+     839:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+			double a1 = convert_fbgc_object_to_double(a);
+     840:	e8 00 00 00 00       	call   845 <operator_GREATER_fbgc_object+0x65>	841: R_X86_64_PLT32	convert_fbgc_object_to_double-0x4
+			double b1 = convert_fbgc_object_to_double(b);
+     845:	48 89 ef             	mov    rdi,rbp
+			double a1 = convert_fbgc_object_to_double(a);
+     848:	f2 0f 11 44 24 08    	movsd  QWORD PTR [rsp+0x8],xmm0
+			double b1 = convert_fbgc_object_to_double(b);
+     84e:	e8 00 00 00 00       	call   853 <operator_GREATER_fbgc_object+0x73>	84f: R_X86_64_PLT32	convert_fbgc_object_to_double-0x4
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     853:	bf 0d 00 00 00       	mov    edi,0xd
+			double b1 = convert_fbgc_object_to_double(b);
+     858:	f2 0f 11 04 24       	movsd  QWORD PTR [rsp],xmm0
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     85d:	e8 00 00 00 00       	call   862 <operator_GREATER_fbgc_object+0x82>	85e: R_X86_64_PLT32	fbgc_malloc-0x4
+			return new_fbgc_int_object(a1>b1);
+     862:	f2 0f 10 4c 24 08    	movsd  xmm1,QWORD PTR [rsp+0x8]
+     868:	31 d2                	xor    edx,edx
+     86a:	66 0f 2f 0c 24       	comisd xmm1,QWORD PTR [rsp]
+	into->base.type = INT;
+     86f:	c6 00 03             	mov    BYTE PTR [rax],0x3
+			return new_fbgc_int_object(a1>b1);
+     872:	0f 97 c2             	seta   dl
+	into->content = int_content; 
+     875:	89 50 09             	mov    DWORD PTR [rax+0x9],edx
+			return new_fbgc_int_object(a1>b1);
+     878:	eb a7                	jmp    821 <operator_GREATER_fbgc_object+0x41>
+     87a:	66 0f 1f 44 00 00    	nop    WORD PTR [rax+rax*1+0x0]
+
+0000000000000880 <operator_PIPE_fbgc_object>:
+/////////////
+struct fbgc_object * operator_PIPE_fbgc_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token type){
+     880:	f3 0f 1e fa          	endbr64 
+     884:	55                   	push   rbp
+     885:	48 89 f5             	mov    rbp,rsi
+     888:	53                   	push   rbx
+     889:	48 83 ec 18          	sub    rsp,0x18
+	
+	switch(type){
+     88d:	80 fa 04             	cmp    dl,0x4
+     890:	74 4e                	je     8e0 <operator_PIPE_fbgc_object+0x60>
+     892:	77 3c                	ja     8d0 <operator_PIPE_fbgc_object+0x50>
+     894:	80 fa 03             	cmp    dl,0x3
+     897:	75 28                	jne    8c1 <operator_PIPE_fbgc_object+0x41>
+	int a1 = convert_fbgc_object_to_int(a);
+     899:	e8 00 00 00 00       	call   89e <operator_PIPE_fbgc_object+0x1e>	89a: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	int b1 = convert_fbgc_object_to_int(b);
+     89e:	48 89 ef             	mov    rdi,rbp
+	int a1 = convert_fbgc_object_to_int(a);
+     8a1:	89 c3                	mov    ebx,eax
+	int b1 = convert_fbgc_object_to_int(b);
+     8a3:	e8 00 00 00 00       	call   8a8 <operator_PIPE_fbgc_object+0x28>	8a4: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     8a8:	bf 0d 00 00 00       	mov    edi,0xd
+	int b1 = convert_fbgc_object_to_int(b);
+     8ad:	89 c5                	mov    ebp,eax
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     8af:	e8 00 00 00 00       	call   8b4 <operator_PIPE_fbgc_object+0x34>	8b0: R_X86_64_PLT32	fbgc_malloc-0x4
+	return new_fbgc_int_object(a1||b1);  
+     8b4:	31 d2                	xor    edx,edx
+     8b6:	09 eb                	or     ebx,ebp
+     8b8:	0f 95 c2             	setne  dl
+	into->base.type = INT;
+     8bb:	c6 00 03             	mov    BYTE PTR [rax],0x3
+	into->content = int_content; 
+     8be:	89 50 09             	mov    DWORD PTR [rax+0x9],edx
+		case COMPLEX: return NULL;
+		case STRING: return NULL;
+		case MATRIX: return NULL;
+		case TUPLE: return NULL;
+	}
+}
+     8c1:	48 83 c4 18          	add    rsp,0x18
+     8c5:	5b                   	pop    rbx
+     8c6:	5d                   	pop    rbp
+     8c7:	c3                   	ret    
+     8c8:	0f 1f 84 00 00 00 00 00 	nop    DWORD PTR [rax+rax*1+0x0]
+     8d0:	48 83 c4 18          	add    rsp,0x18
+	switch(type){
+     8d4:	31 c0                	xor    eax,eax
+}
+     8d6:	5b                   	pop    rbx
+     8d7:	5d                   	pop    rbp
+     8d8:	c3                   	ret    
+     8d9:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+			double a1 = convert_fbgc_object_to_double(a);
+     8e0:	e8 00 00 00 00       	call   8e5 <operator_PIPE_fbgc_object+0x65>	8e1: R_X86_64_PLT32	convert_fbgc_object_to_double-0x4
+			double b1 = convert_fbgc_object_to_double(b);
+     8e5:	48 89 ef             	mov    rdi,rbp
+			double a1 = convert_fbgc_object_to_double(a);
+     8e8:	f2 0f 11 44 24 08    	movsd  QWORD PTR [rsp+0x8],xmm0
+			double b1 = convert_fbgc_object_to_double(b);
+     8ee:	e8 00 00 00 00       	call   8f3 <operator_PIPE_fbgc_object+0x73>	8ef: R_X86_64_PLT32	convert_fbgc_object_to_double-0x4
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     8f3:	bf 0d 00 00 00       	mov    edi,0xd
+			double b1 = convert_fbgc_object_to_double(b);
+     8f8:	f2 0f 11 04 24       	movsd  QWORD PTR [rsp],xmm0
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     8fd:	e8 00 00 00 00       	call   902 <operator_PIPE_fbgc_object+0x82>	8fe: R_X86_64_PLT32	fbgc_malloc-0x4
+		   return new_fbgc_int_object(a1||b1);
+     902:	f2 0f 10 54 24 08    	movsd  xmm2,QWORD PTR [rsp+0x8]
+     908:	66 0f ef c9          	pxor   xmm1,xmm1
+     90c:	f2 0f 10 04 24       	movsd  xmm0,QWORD PTR [rsp]
+     911:	be 01 00 00 00       	mov    esi,0x1
+	into->base.type = INT;
+     916:	c6 00 03             	mov    BYTE PTR [rax],0x3
+		   return new_fbgc_int_object(a1||b1);
+     919:	66 0f 2e d1          	ucomisd xmm2,xmm1
+     91d:	0f 9a c2             	setp   dl
+     920:	0f 45 d6             	cmovne edx,esi
+     923:	66 0f 2e c1          	ucomisd xmm0,xmm1
+     927:	0f 9a c1             	setp   cl
+     92a:	0f 45 ce             	cmovne ecx,esi
+     92d:	09 ca                	or     edx,ecx
+     92f:	0f b6 d2             	movzx  edx,dl
+     932:	89 50 09             	mov    DWORD PTR [rax+0x9],edx
+     935:	eb 8a                	jmp    8c1 <operator_PIPE_fbgc_object+0x41>
+     937:	66 0f 1f 84 00 00 00 00 00 	nop    WORD PTR [rax+rax*1+0x0]
+
+0000000000000940 <operator_AMPERSAND_fbgc_object>:
+/////////////
+struct fbgc_object * operator_AMPERSAND_fbgc_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token type){
+     940:	f3 0f 1e fa          	endbr64 
+     944:	55                   	push   rbp
+     945:	48 89 f5             	mov    rbp,rsi
+     948:	53                   	push   rbx
+     949:	48 83 ec 18          	sub    rsp,0x18
+	switch(type){
+     94d:	80 fa 04             	cmp    dl,0x4
+     950:	74 4e                	je     9a0 <operator_AMPERSAND_fbgc_object+0x60>
+     952:	77 3c                	ja     990 <operator_AMPERSAND_fbgc_object+0x50>
+     954:	80 fa 03             	cmp    dl,0x3
+     957:	75 2f                	jne    988 <operator_AMPERSAND_fbgc_object+0x48>
+	int a1 = convert_fbgc_object_to_int(a);
+     959:	e8 00 00 00 00       	call   95e <operator_AMPERSAND_fbgc_object+0x1e>	95a: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	int b1 = convert_fbgc_object_to_int(b);
+     95e:	48 89 ef             	mov    rdi,rbp
+	int a1 = convert_fbgc_object_to_int(a);
+     961:	89 c3                	mov    ebx,eax
+	int b1 = convert_fbgc_object_to_int(b);
+     963:	e8 00 00 00 00       	call   968 <operator_AMPERSAND_fbgc_object+0x28>	964: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     968:	bf 0d 00 00 00       	mov    edi,0xd
+	int b1 = convert_fbgc_object_to_int(b);
+     96d:	89 c5                	mov    ebp,eax
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     96f:	e8 00 00 00 00       	call   974 <operator_AMPERSAND_fbgc_object+0x34>	970: R_X86_64_PLT32	fbgc_malloc-0x4
+	return new_fbgc_int_object(a1&&b1);  
+     974:	85 db                	test   ebx,ebx
+     976:	0f 95 c1             	setne  cl
+     979:	31 d2                	xor    edx,edx
+     97b:	85 ed                	test   ebp,ebp
+	into->base.type = INT;
+     97d:	c6 00 03             	mov    BYTE PTR [rax],0x3
+	return new_fbgc_int_object(a1&&b1);  
+     980:	0f 95 c2             	setne  dl
+     983:	21 ca                	and    edx,ecx
+     985:	89 50 09             	mov    DWORD PTR [rax+0x9],edx
+		case COMPLEX: return NULL;
+		case STRING: return NULL;
+		case MATRIX: return NULL;
+		case TUPLE: return NULL;
+	}
+}
+     988:	48 83 c4 18          	add    rsp,0x18
+     98c:	5b                   	pop    rbx
+     98d:	5d                   	pop    rbp
+     98e:	c3                   	ret    
+     98f:	90                   	nop
+     990:	48 83 c4 18          	add    rsp,0x18
+	switch(type){
+     994:	31 c0                	xor    eax,eax
+}
+     996:	5b                   	pop    rbx
+     997:	5d                   	pop    rbp
+     998:	c3                   	ret    
+     999:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+			double a1 = convert_fbgc_object_to_double(a);
+     9a0:	e8 00 00 00 00       	call   9a5 <operator_AMPERSAND_fbgc_object+0x65>	9a1: R_X86_64_PLT32	convert_fbgc_object_to_double-0x4
+			double b1 = convert_fbgc_object_to_double(b);
+     9a5:	48 89 ef             	mov    rdi,rbp
+			double a1 = convert_fbgc_object_to_double(a);
+     9a8:	f2 0f 11 44 24 08    	movsd  QWORD PTR [rsp+0x8],xmm0
+			double b1 = convert_fbgc_object_to_double(b);
+     9ae:	e8 00 00 00 00       	call   9b3 <operator_AMPERSAND_fbgc_object+0x73>	9af: R_X86_64_PLT32	convert_fbgc_object_to_double-0x4
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     9b3:	bf 0d 00 00 00       	mov    edi,0xd
+			double b1 = convert_fbgc_object_to_double(b);
+     9b8:	f2 0f 11 04 24       	movsd  QWORD PTR [rsp],xmm0
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     9bd:	e8 00 00 00 00       	call   9c2 <operator_AMPERSAND_fbgc_object+0x82>	9be: R_X86_64_PLT32	fbgc_malloc-0x4
+			return new_fbgc_int_object(a1&&b1);
+     9c2:	f2 0f 10 54 24 08    	movsd  xmm2,QWORD PTR [rsp+0x8]
+     9c8:	66 0f ef c9          	pxor   xmm1,xmm1
+     9cc:	f2 0f 10 04 24       	movsd  xmm0,QWORD PTR [rsp]
+     9d1:	be 01 00 00 00       	mov    esi,0x1
+	into->base.type = INT;
+     9d6:	c6 00 03             	mov    BYTE PTR [rax],0x3
+			return new_fbgc_int_object(a1&&b1);
+     9d9:	66 0f 2e d1          	ucomisd xmm2,xmm1
+     9dd:	0f 9a c2             	setp   dl
+     9e0:	0f 45 d6             	cmovne edx,esi
+     9e3:	66 0f 2e c1          	ucomisd xmm0,xmm1
+     9e7:	0f 9a c1             	setp   cl
+     9ea:	0f 45 ce             	cmovne ecx,esi
+     9ed:	21 ca                	and    edx,ecx
+     9ef:	0f b6 d2             	movzx  edx,dl
+     9f2:	89 50 09             	mov    DWORD PTR [rax+0x9],edx
+     9f5:	eb 91                	jmp    988 <operator_AMPERSAND_fbgc_object+0x48>
+     9f7:	66 0f 1f 84 00 00 00 00 00 	nop    WORD PTR [rax+rax*1+0x0]
+
+0000000000000a00 <operator_EXCLAMATION_fbgc_object>:
+
+/////////////
+struct fbgc_object * operator_EXCLAMATION_fbgc_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token type){
+     a00:	f3 0f 1e fa          	endbr64 
+     a04:	53                   	push   rbx
+     a05:	48 83 ec 10          	sub    rsp,0x10
+
+	switch(type){
+     a09:	80 fa 04             	cmp    dl,0x4
+     a0c:	74 42                	je     a50 <operator_EXCLAMATION_fbgc_object+0x50>
+     a0e:	77 30                	ja     a40 <operator_EXCLAMATION_fbgc_object+0x40>
+     a10:	80 fa 03             	cmp    dl,0x3
+     a13:	75 1e                	jne    a33 <operator_EXCLAMATION_fbgc_object+0x33>
+	int a1 = convert_fbgc_object_to_int(a);
+     a15:	e8 00 00 00 00       	call   a1a <operator_EXCLAMATION_fbgc_object+0x1a>	a16: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     a1a:	bf 0d 00 00 00       	mov    edi,0xd
+	int a1 = convert_fbgc_object_to_int(a);
+     a1f:	89 c3                	mov    ebx,eax
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     a21:	e8 00 00 00 00       	call   a26 <operator_EXCLAMATION_fbgc_object+0x26>	a22: R_X86_64_PLT32	fbgc_malloc-0x4
+	return new_fbgc_int_object(!a1);  
+     a26:	31 d2                	xor    edx,edx
+     a28:	85 db                	test   ebx,ebx
+     a2a:	0f 94 c2             	sete   dl
+	into->base.type = INT;
+     a2d:	c6 00 03             	mov    BYTE PTR [rax],0x3
+	into->content = int_content; 
+     a30:	89 50 09             	mov    DWORD PTR [rax+0x9],edx
+		case COMPLEX: return NULL;
+		case STRING: return NULL;
+		case MATRIX: return NULL;
+		case TUPLE: return NULL;
+	}
+}
+     a33:	48 83 c4 10          	add    rsp,0x10
+     a37:	5b                   	pop    rbx
+     a38:	c3                   	ret    
+     a39:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+     a40:	48 83 c4 10          	add    rsp,0x10
+	switch(type){
+     a44:	31 c0                	xor    eax,eax
+}
+     a46:	5b                   	pop    rbx
+     a47:	c3                   	ret    
+     a48:	0f 1f 84 00 00 00 00 00 	nop    DWORD PTR [rax+rax*1+0x0]
+			double a1 = convert_fbgc_object_to_double(a);
+     a50:	e8 00 00 00 00       	call   a55 <operator_EXCLAMATION_fbgc_object+0x55>	a51: R_X86_64_PLT32	convert_fbgc_object_to_double-0x4
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     a55:	bf 0d 00 00 00       	mov    edi,0xd
+			double a1 = convert_fbgc_object_to_double(a);
+     a5a:	f2 0f 11 44 24 08    	movsd  QWORD PTR [rsp+0x8],xmm0
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     a60:	e8 00 00 00 00       	call   a65 <operator_EXCLAMATION_fbgc_object+0x65>	a61: R_X86_64_PLT32	fbgc_malloc-0x4
+			return new_fbgc_int_object(!a1);
+     a65:	66 0f ef c9          	pxor   xmm1,xmm1
+     a69:	31 d2                	xor    edx,edx
+     a6b:	b9 00 00 00 00       	mov    ecx,0x0
+     a70:	f2 0f 10 44 24 08    	movsd  xmm0,QWORD PTR [rsp+0x8]
+	into->base.type = INT;
+     a76:	c6 00 03             	mov    BYTE PTR [rax],0x3
+			return new_fbgc_int_object(!a1);
+     a79:	66 0f 2e c1          	ucomisd xmm0,xmm1
+     a7d:	0f 9b c2             	setnp  dl
+     a80:	0f 45 d1             	cmovne edx,ecx
+	into->content = int_content; 
+     a83:	89 50 09             	mov    DWORD PTR [rax+0x9],edx
+			return new_fbgc_int_object(!a1);
+     a86:	eb ab                	jmp    a33 <operator_EXCLAMATION_fbgc_object+0x33>
+     a88:	0f 1f 84 00 00 00 00 00 	nop    DWORD PTR [rax+rax*1+0x0]
+
+0000000000000a90 <operator_TILDE_fbgc_object>:
+
+/////////////
+struct fbgc_object * operator_TILDE_fbgc_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type){
+     a90:	f3 0f 1e fa          	endbr64 
+     a94:	53                   	push   rbx
+	
+	switch(type){
+     a95:	80 fa 04             	cmp    dl,0x4
+     a98:	74 2e                	je     ac8 <operator_TILDE_fbgc_object+0x38>
+     a9a:	77 24                	ja     ac0 <operator_TILDE_fbgc_object+0x30>
+     a9c:	80 fa 03             	cmp    dl,0x3
+     a9f:	75 19                	jne    aba <operator_TILDE_fbgc_object+0x2a>
+	int a1 = convert_fbgc_object_to_int(a);
+     aa1:	e8 00 00 00 00       	call   aa6 <operator_TILDE_fbgc_object+0x16>	aa2: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     aa6:	bf 0d 00 00 00       	mov    edi,0xd
+	int a1 = convert_fbgc_object_to_int(a);
+     aab:	89 c3                	mov    ebx,eax
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     aad:	e8 00 00 00 00       	call   ab2 <operator_TILDE_fbgc_object+0x22>	aae: R_X86_64_PLT32	fbgc_malloc-0x4
+	return new_fbgc_int_object(~a1);  
+     ab2:	f7 d3                	not    ebx
+	into->base.type = INT;
+     ab4:	c6 00 03             	mov    BYTE PTR [rax],0x3
+	return new_fbgc_int_object(~a1);  
+     ab7:	89 58 09             	mov    DWORD PTR [rax+0x9],ebx
+		case COMPLEX: return NULL;
+		case STRING: return NULL;
+		case MATRIX: return NULL;
+		case TUPLE: return NULL;
+	}
+}
+     aba:	5b                   	pop    rbx
+     abb:	c3                   	ret    
+     abc:	0f 1f 40 00          	nop    DWORD PTR [rax+0x0]
+	switch(type){
+     ac0:	31 c0                	xor    eax,eax
+}
+     ac2:	5b                   	pop    rbx
+     ac3:	c3                   	ret    
+     ac4:	0f 1f 40 00          	nop    DWORD PTR [rax+0x0]
+			double a1 = convert_fbgc_object_to_double(a);
+     ac8:	e8 00 00 00 00       	call   acd <operator_TILDE_fbgc_object+0x3d>	ac9: R_X86_64_PLT32	convert_fbgc_object_to_double-0x4
+			return new_fbgc_double_object(-a1);
+     acd:	66 0f 57 05 00 00 00 00 	xorpd  xmm0,XMMWORD PTR [rip+0x0]        # ad5 <operator_TILDE_fbgc_object+0x45>	ad1: R_X86_64_PC32	.LC1-0x4
+}
+     ad5:	5b                   	pop    rbx
+			return new_fbgc_double_object(-a1);
+     ad6:	e9 00 00 00 00       	jmp    adb <operator_TILDE_fbgc_object+0x4b>	ad7: R_X86_64_PLT32	new_fbgc_double_object-0x4
+     adb:	0f 1f 44 00 00       	nop    DWORD PTR [rax+rax*1+0x0]
+
+0000000000000ae0 <operator_UPLUS_fbgc_object>:
+
+
+/////////////
+struct fbgc_object * operator_UPLUS_fbgc_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type){
+     ae0:	f3 0f 1e fa          	endbr64 
+     ae4:	53                   	push   rbx
+	
+
+	switch(type){
+     ae5:	80 fa 04             	cmp    dl,0x4
+     ae8:	74 2e                	je     b18 <operator_UPLUS_fbgc_object+0x38>
+     aea:	77 24                	ja     b10 <operator_UPLUS_fbgc_object+0x30>
+     aec:	80 fa 03             	cmp    dl,0x3
+     aef:	75 17                	jne    b08 <operator_UPLUS_fbgc_object+0x28>
+	int a1 = convert_fbgc_object_to_int(a);
+     af1:	e8 00 00 00 00       	call   af6 <operator_UPLUS_fbgc_object+0x16>	af2: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     af6:	bf 0d 00 00 00       	mov    edi,0xd
+	int a1 = convert_fbgc_object_to_int(a);
+     afb:	89 c3                	mov    ebx,eax
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     afd:	e8 00 00 00 00       	call   b02 <operator_UPLUS_fbgc_object+0x22>	afe: R_X86_64_PLT32	fbgc_malloc-0x4
+	into->base.type = INT;
+     b02:	c6 00 03             	mov    BYTE PTR [rax],0x3
+	into->content = int_content; 
+     b05:	89 58 09             	mov    DWORD PTR [rax+0x9],ebx
+		case COMPLEX: return NULL;
+		case STRING: return NULL;
+		case MATRIX: return NULL;
+		case TUPLE: return NULL;
+	}
+}
+     b08:	5b                   	pop    rbx
+     b09:	c3                   	ret    
+     b0a:	66 0f 1f 44 00 00    	nop    WORD PTR [rax+rax*1+0x0]
+	switch(type){
+     b10:	31 c0                	xor    eax,eax
+}
+     b12:	5b                   	pop    rbx
+     b13:	c3                   	ret    
+     b14:	0f 1f 40 00          	nop    DWORD PTR [rax+0x0]
+			double a1 = convert_fbgc_object_to_double(a);
+     b18:	e8 00 00 00 00       	call   b1d <operator_UPLUS_fbgc_object+0x3d>	b19: R_X86_64_PLT32	convert_fbgc_object_to_double-0x4
+}
+     b1d:	5b                   	pop    rbx
+			return new_fbgc_double_object(a1);
+     b1e:	e9 00 00 00 00       	jmp    b23 <operator_UPLUS_fbgc_object+0x43>	b1f: R_X86_64_PLT32	new_fbgc_double_object-0x4
+     b23:	66 66 2e 0f 1f 84 00 00 00 00 00 	data16 nop WORD PTR cs:[rax+rax*1+0x0]
+     b2e:	66 90                	xchg   ax,ax
+
+0000000000000b30 <operator_UMINUS_fbgc_object>:
+
+
+/////////////
+struct fbgc_object * operator_UMINUS_fbgc_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type){
+     b30:	f3 0f 1e fa          	endbr64 
+     b34:	53                   	push   rbx
+	
+	switch(type){
+     b35:	80 fa 04             	cmp    dl,0x4
+     b38:	74 2e                	je     b68 <operator_UMINUS_fbgc_object+0x38>
+     b3a:	77 24                	ja     b60 <operator_UMINUS_fbgc_object+0x30>
+     b3c:	80 fa 03             	cmp    dl,0x3
+     b3f:	75 19                	jne    b5a <operator_UMINUS_fbgc_object+0x2a>
+	int a1 = convert_fbgc_object_to_int(a);
+     b41:	e8 00 00 00 00       	call   b46 <operator_UMINUS_fbgc_object+0x16>	b42: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     b46:	bf 0d 00 00 00       	mov    edi,0xd
+	int a1 = convert_fbgc_object_to_int(a);
+     b4b:	89 c3                	mov    ebx,eax
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     b4d:	e8 00 00 00 00       	call   b52 <operator_UMINUS_fbgc_object+0x22>	b4e: R_X86_64_PLT32	fbgc_malloc-0x4
+	return new_fbgc_int_object(-a1);  
+     b52:	f7 db                	neg    ebx
+	into->base.type = INT;
+     b54:	c6 00 03             	mov    BYTE PTR [rax],0x3
+	return new_fbgc_int_object(-a1);  
+     b57:	89 58 09             	mov    DWORD PTR [rax+0x9],ebx
+		case COMPLEX: return NULL;
+		case STRING: return NULL;
+		case MATRIX: return NULL;
+		case TUPLE: return NULL;
+	}
+}
+     b5a:	5b                   	pop    rbx
+     b5b:	c3                   	ret    
+     b5c:	0f 1f 40 00          	nop    DWORD PTR [rax+0x0]
+	switch(type){
+     b60:	31 c0                	xor    eax,eax
+}
+     b62:	5b                   	pop    rbx
+     b63:	c3                   	ret    
+     b64:	0f 1f 40 00          	nop    DWORD PTR [rax+0x0]
+			double a1 = convert_fbgc_object_to_double(a);
+     b68:	e8 00 00 00 00       	call   b6d <operator_UMINUS_fbgc_object+0x3d>	b69: R_X86_64_PLT32	convert_fbgc_object_to_double-0x4
+			return new_fbgc_double_object(-a1);
+     b6d:	66 0f 57 05 00 00 00 00 	xorpd  xmm0,XMMWORD PTR [rip+0x0]        # b75 <operator_UMINUS_fbgc_object+0x45>	b71: R_X86_64_PC32	.LC1-0x4
+}
+     b75:	5b                   	pop    rbx
+			return new_fbgc_double_object(-a1);
+     b76:	e9 00 00 00 00       	jmp    b7b <operator_UMINUS_fbgc_object+0x4b>	b77: R_X86_64_PLT32	new_fbgc_double_object-0x4
+     b7b:	0f 1f 44 00 00       	nop    DWORD PTR [rax+rax*1+0x0]
+
+0000000000000b80 <operator_CARET_fbgc_object>:
+     b80:	f3 0f 1e fa          	endbr64 
+     b84:	55                   	push   rbp
+     b85:	48 89 f5             	mov    rbp,rsi
+     b88:	53                   	push   rbx
+     b89:	48 83 ec 18          	sub    rsp,0x18
+     b8d:	80 fa 04             	cmp    dl,0x4
+     b90:	74 5e                	je     bf0 <operator_CARET_fbgc_object+0x70>
+     b92:	b8 00 00 00 00       	mov    eax,0x0
+     b97:	76 07                	jbe    ba0 <operator_CARET_fbgc_object+0x20>
+     b99:	48 83 c4 18          	add    rsp,0x18
+     b9d:	5b                   	pop    rbx
+     b9e:	5d                   	pop    rbp
+     b9f:	c3                   	ret    
+     ba0:	80 fa 03             	cmp    dl,0x3
+     ba3:	75 f4                	jne    b99 <operator_CARET_fbgc_object+0x19>
+     ba5:	e8 00 00 00 00       	call   baa <operator_CARET_fbgc_object+0x2a>	ba6: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+     baa:	48 89 ef             	mov    rdi,rbp
+     bad:	89 c3                	mov    ebx,eax
+     baf:	e8 00 00 00 00       	call   bb4 <operator_CARET_fbgc_object+0x34>	bb0: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+     bb4:	66 0f ef c0          	pxor   xmm0,xmm0
+     bb8:	66 0f ef c9          	pxor   xmm1,xmm1
+     bbc:	f2 0f 2a c3          	cvtsi2sd xmm0,ebx
+     bc0:	f2 0f 2a c8          	cvtsi2sd xmm1,eax
+     bc4:	e8 00 00 00 00       	call   bc9 <operator_CARET_fbgc_object+0x49>	bc5: R_X86_64_PLT32	pow-0x4
+     bc9:	bf 0d 00 00 00       	mov    edi,0xd
+     bce:	f2 0f 11 44 24 08    	movsd  QWORD PTR [rsp+0x8],xmm0
+     bd4:	e8 00 00 00 00       	call   bd9 <operator_CARET_fbgc_object+0x59>	bd5: R_X86_64_PLT32	fbgc_malloc-0x4
+     bd9:	f2 0f 10 44 24 08    	movsd  xmm0,QWORD PTR [rsp+0x8]
+     bdf:	c6 00 03             	mov    BYTE PTR [rax],0x3
+     be2:	f2 0f 2c d0          	cvttsd2si edx,xmm0
+     be6:	89 50 09             	mov    DWORD PTR [rax+0x9],edx
+     be9:	48 83 c4 18          	add    rsp,0x18
+     bed:	5b                   	pop    rbx
+     bee:	5d                   	pop    rbp
+     bef:	c3                   	ret    
+     bf0:	e8 00 00 00 00       	call   bf5 <operator_CARET_fbgc_object+0x75>	bf1: R_X86_64_PLT32	convert_fbgc_object_to_double-0x4
+     bf5:	48 89 ef             	mov    rdi,rbp
+     bf8:	f2 0f 11 44 24 08    	movsd  QWORD PTR [rsp+0x8],xmm0
+     bfe:	e8 00 00 00 00       	call   c03 <operator_CARET_fbgc_object+0x83>	bff: R_X86_64_PLT32	convert_fbgc_object_to_double-0x4
+     c03:	f2 0f 10 54 24 08    	movsd  xmm2,QWORD PTR [rsp+0x8]
+     c09:	66 0f 28 c8          	movapd xmm1,xmm0
+     c0d:	66 0f 28 c2          	movapd xmm0,xmm2
+     c11:	e8 00 00 00 00       	call   c16 <operator_CARET_fbgc_object+0x96>	c12: R_X86_64_PLT32	pow-0x4
+     c16:	48 83 c4 18          	add    rsp,0x18
+     c1a:	5b                   	pop    rbx
+     c1b:	5d                   	pop    rbp
+     c1c:	e9 00 00 00 00       	jmp    c21 <operator_CARET_fbgc_object+0xa1>	c1d: R_X86_64_PLT32	new_fbgc_double_object-0x4
+     c21:	66 66 2e 0f 1f 84 00 00 00 00 00 	data16 nop WORD PTR cs:[rax+rax*1+0x0]
+     c2c:	0f 1f 40 00          	nop    DWORD PTR [rax+0x0]
+
+0000000000000c30 <new_fbgc_int_object>:
+fbgc_object * new_fbgc_int_object(int int_content){
+     c30:	f3 0f 1e fa          	endbr64 
+     c34:	53                   	push   rbx
+     c35:	89 fb                	mov    ebx,edi
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     c37:	bf 0d 00 00 00       	mov    edi,0xd
+     c3c:	e8 00 00 00 00       	call   c41 <new_fbgc_int_object+0x11>	c3d: R_X86_64_PLT32	fbgc_malloc-0x4
+	into->base.type = INT;
+     c41:	c6 00 03             	mov    BYTE PTR [rax],0x3
+	into->content = int_content; 
+     c44:	89 58 09             	mov    DWORD PTR [rax+0x9],ebx
+}
+     c47:	5b                   	pop    rbx
+     c48:	c3                   	ret    
+     c49:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+
+0000000000000c50 <derive_from_new_int_object>:
+fbgc_object * derive_from_new_int_object(fbgc_token type, int int_content){
+     c50:	f3 0f 1e fa          	endbr64 
+     c54:	55                   	push   rbp
+     c55:	89 fd                	mov    ebp,edi
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     c57:	bf 0d 00 00 00       	mov    edi,0xd
+fbgc_object * derive_from_new_int_object(fbgc_token type, int int_content){
+     c5c:	53                   	push   rbx
+     c5d:	89 f3                	mov    ebx,esi
+     c5f:	48 83 ec 08          	sub    rsp,0x8
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     c63:	e8 00 00 00 00       	call   c68 <derive_from_new_int_object+0x18>	c64: R_X86_64_PLT32	fbgc_malloc-0x4
+	into->base.type = type;
+     c68:	40 88 28             	mov    BYTE PTR [rax],bpl
+	into->content = int_content; 
+     c6b:	89 58 09             	mov    DWORD PTR [rax+0x9],ebx
+}
+     c6e:	48 83 c4 08          	add    rsp,0x8
+     c72:	5b                   	pop    rbx
+     c73:	5d                   	pop    rbp
+     c74:	c3                   	ret    
+     c75:	66 66 2e 0f 1f 84 00 00 00 00 00 	data16 nop WORD PTR cs:[rax+rax*1+0x0]
+
+0000000000000c80 <new_fbgc_int_object_from_str>:
+fbgc_object * new_fbgc_int_object_from_str(const char * int_str){
+     c80:	f3 0f 1e fa          	endbr64 
+     c84:	53                   	push   rbx
+	return new_fbgc_int_object(strtol(int_str,NULL,10));
+     c85:	ba 0a 00 00 00       	mov    edx,0xa
+     c8a:	31 f6                	xor    esi,esi
+     c8c:	e8 00 00 00 00       	call   c91 <new_fbgc_int_object_from_str+0x11>	c8d: R_X86_64_PLT32	strtol-0x4
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     c91:	bf 0d 00 00 00       	mov    edi,0xd
+	return new_fbgc_int_object(strtol(int_str,NULL,10));
+     c96:	48 89 c3             	mov    rbx,rax
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     c99:	e8 00 00 00 00       	call   c9e <new_fbgc_int_object_from_str+0x1e>	c9a: R_X86_64_PLT32	fbgc_malloc-0x4
+	into->base.type = INT;
+     c9e:	c6 00 03             	mov    BYTE PTR [rax],0x3
+	return new_fbgc_int_object(strtol(int_str,NULL,10));
+     ca1:	89 58 09             	mov    DWORD PTR [rax+0x9],ebx
+}
+     ca4:	5b                   	pop    rbx
+     ca5:	c3                   	ret    
+     ca6:	66 2e 0f 1f 84 00 00 00 00 00 	nop    WORD PTR cs:[rax+rax*1+0x0]
+
+0000000000000cb0 <new_fbgc_int_object_from_substr>:
+struct fbgc_object * new_fbgc_int_object_from_substr(const char * int_str_begin,const char * int_str_end,uint8_t base){
+     cb0:	f3 0f 1e fa          	endbr64 
+     cb4:	53                   	push   rbx
+	return new_fbgc_int_object(strtol(int_str_begin, NULL,base));
+     cb5:	0f b6 d2             	movzx  edx,dl
+     cb8:	31 f6                	xor    esi,esi
+     cba:	e8 00 00 00 00       	call   cbf <new_fbgc_int_object_from_substr+0xf>	cbb: R_X86_64_PLT32	strtol-0x4
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     cbf:	bf 0d 00 00 00       	mov    edi,0xd
+	return new_fbgc_int_object(strtol(int_str_begin, NULL,base));
+     cc4:	48 89 c3             	mov    rbx,rax
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     cc7:	e8 00 00 00 00       	call   ccc <new_fbgc_int_object_from_substr+0x1c>	cc8: R_X86_64_PLT32	fbgc_malloc-0x4
+	into->base.type = INT;
+     ccc:	c6 00 03             	mov    BYTE PTR [rax],0x3
+	return new_fbgc_int_object(strtol(int_str_begin, NULL,base));
+     ccf:	89 58 09             	mov    DWORD PTR [rax+0x9],ebx
+}
+     cd2:	5b                   	pop    rbx
+     cd3:	c3                   	ret    
+     cd4:	66 66 2e 0f 1f 84 00 00 00 00 00 	data16 nop WORD PTR cs:[rax+rax*1+0x0]
+     cdf:	90                   	nop
+
+0000000000000ce0 <operator_fbgc_int_object2>:
+struct fbgc_object * operator_fbgc_int_object2(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op){
+     ce0:	f3 0f 1e fa          	endbr64 
+     ce4:	41 54                	push   r12
+     ce6:	49 89 fc             	mov    r12,rdi
+     ce9:	48 89 f7             	mov    rdi,rsi
+     cec:	53                   	push   rbx
+     ced:	89 d3                	mov    ebx,edx
+     cef:	48 83 ec 08          	sub    rsp,0x8
+	int b1 = convert_fbgc_object_to_int(b);
+     cf3:	e8 00 00 00 00       	call   cf8 <operator_fbgc_int_object2+0x18>	cf4: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+switch(op)
+     cf8:	8d 53 d3             	lea    edx,[rbx-0x2d]
+     cfb:	80 fa 09             	cmp    dl,0x9
+     cfe:	77 2d                	ja     d2d <operator_fbgc_int_object2+0x4d>
+     d00:	48 8d 35 00 00 00 00 	lea    rsi,[rip+0x0]        # d07 <operator_fbgc_int_object2+0x27>	d03: R_X86_64_PC32	.rodata-0x4
+     d07:	0f b6 d2             	movzx  edx,dl
+     d0a:	89 c1                	mov    ecx,eax
+     d0c:	48 63 04 96          	movsxd rax,DWORD PTR [rsi+rdx*4]
+     d10:	48 01 f0             	add    rax,rsi
+     d13:	3e ff e0             	notrack jmp rax
+     d16:	66 2e 0f 1f 84 00 00 00 00 00 	nop    WORD PTR cs:[rax+rax*1+0x0]
+		*c %= b1;
+     d20:	41 8b 44 24 09       	mov    eax,DWORD PTR [r12+0x9]
+     d25:	99                   	cdq    
+     d26:	f7 f9                	idiv   ecx
+     d28:	41 89 54 24 09       	mov    DWORD PTR [r12+0x9],edx
+}
+     d2d:	48 83 c4 08          	add    rsp,0x8
+     d31:	4c 89 e0             	mov    rax,r12
+     d34:	5b                   	pop    rbx
+     d35:	41 5c                	pop    r12
+     d37:	c3                   	ret    
+     d38:	0f 1f 84 00 00 00 00 00 	nop    DWORD PTR [rax+rax*1+0x0]
+		*c = pow(*c,b1);
+     d40:	66 0f ef c0          	pxor   xmm0,xmm0
+     d44:	66 0f ef c9          	pxor   xmm1,xmm1
+     d48:	f2 41 0f 2a 44 24 09 	cvtsi2sd xmm0,DWORD PTR [r12+0x9]
+     d4f:	f2 0f 2a c9          	cvtsi2sd xmm1,ecx
+     d53:	e8 00 00 00 00       	call   d58 <operator_fbgc_int_object2+0x78>	d54: R_X86_64_PLT32	pow-0x4
+     d58:	f2 0f 2c c0          	cvttsd2si eax,xmm0
+     d5c:	41 89 44 24 09       	mov    DWORD PTR [r12+0x9],eax
+}
+     d61:	48 83 c4 08          	add    rsp,0x8
+     d65:	4c 89 e0             	mov    rax,r12
+     d68:	5b                   	pop    rbx
+     d69:	41 5c                	pop    r12
+     d6b:	c3                   	ret    
+     d6c:	0f 1f 40 00          	nop    DWORD PTR [rax+0x0]
+		return new_fbgc_double_object(*c*b1/(*c+b1+0.0)); 
+     d70:	41 8b 44 24 09       	mov    eax,DWORD PTR [r12+0x9]
+     d75:	66 0f ef c0          	pxor   xmm0,xmm0
+     d79:	66 0f ef c9          	pxor   xmm1,xmm1
+     d7d:	89 c2                	mov    edx,eax
+     d7f:	0f af d1             	imul   edx,ecx
+     d82:	01 c1                	add    ecx,eax
+     d84:	f2 0f 2a c9          	cvtsi2sd xmm1,ecx
+     d88:	f2 0f 58 0d 00 00 00 00 	addsd  xmm1,QWORD PTR [rip+0x0]        # d90 <operator_fbgc_int_object2+0xb0>	d8c: R_X86_64_PC32	.LC0-0x4
+     d90:	f2 0f 2a c2          	cvtsi2sd xmm0,edx
+		return new_fbgc_double_object(((double)*c)/b1);
+     d94:	f2 0f 5e c1          	divsd  xmm0,xmm1
+}
+     d98:	48 83 c4 08          	add    rsp,0x8
+     d9c:	5b                   	pop    rbx
+     d9d:	41 5c                	pop    r12
+		return new_fbgc_double_object(((double)*c)/b1);
+     d9f:	e9 00 00 00 00       	jmp    da4 <operator_fbgc_int_object2+0xc4>	da0: R_X86_64_PLT32	new_fbgc_double_object-0x4
+     da4:	0f 1f 40 00          	nop    DWORD PTR [rax+0x0]
+		*c += b1;
+     da8:	41 01 4c 24 09       	add    DWORD PTR [r12+0x9],ecx
+		break;
+     dad:	e9 7b ff ff ff       	jmp    d2d <operator_fbgc_int_object2+0x4d>
+     db2:	66 0f 1f 44 00 00    	nop    WORD PTR [rax+rax*1+0x0]
+		*c -= b1;
+     db8:	41 29 4c 24 09       	sub    DWORD PTR [r12+0x9],ecx
+		break;
+     dbd:	e9 6b ff ff ff       	jmp    d2d <operator_fbgc_int_object2+0x4d>
+     dc2:	66 0f 1f 44 00 00    	nop    WORD PTR [rax+rax*1+0x0]
+		*c *= b1;
+     dc8:	41 0f af 4c 24 09    	imul   ecx,DWORD PTR [r12+0x9]
+     dce:	41 89 4c 24 09       	mov    DWORD PTR [r12+0x9],ecx
+		break;
+     dd3:	e9 55 ff ff ff       	jmp    d2d <operator_fbgc_int_object2+0x4d>
+     dd8:	0f 1f 84 00 00 00 00 00 	nop    DWORD PTR [rax+rax*1+0x0]
+		return new_fbgc_double_object(((double)*c)/b1);
+     de0:	66 0f ef c0          	pxor   xmm0,xmm0
+     de4:	66 0f ef c9          	pxor   xmm1,xmm1
+     de8:	f2 41 0f 2a 44 24 09 	cvtsi2sd xmm0,DWORD PTR [r12+0x9]
+     def:	f2 0f 2a c9          	cvtsi2sd xmm1,ecx
+     df3:	eb 9f                	jmp    d94 <operator_fbgc_int_object2+0xb4>
+     df5:	0f 1f 00             	nop    DWORD PTR [rax]
+		*c >>= b1;
+     df8:	41 d3 7c 24 09       	sar    DWORD PTR [r12+0x9],cl
+		break;
+     dfd:	e9 2b ff ff ff       	jmp    d2d <operator_fbgc_int_object2+0x4d>
+     e02:	66 0f 1f 44 00 00    	nop    WORD PTR [rax+rax*1+0x0]
+		*c <<= b1;
+     e08:	41 d3 64 24 09       	shl    DWORD PTR [r12+0x9],cl
+		break;
+     e0d:	e9 1b ff ff ff       	jmp    d2d <operator_fbgc_int_object2+0x4d>
+     e12:	66 66 2e 0f 1f 84 00 00 00 00 00 	data16 nop WORD PTR cs:[rax+rax*1+0x0]
+     e1d:	0f 1f 00             	nop    DWORD PTR [rax]
+
+0000000000000e20 <operator_fbgc_int_object>:
+struct fbgc_object * operator_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op){
+     e20:	f3 0f 1e fa          	endbr64 
+     e24:	41 55                	push   r13
+     e26:	41 54                	push   r12
+     e28:	49 89 f4             	mov    r12,rsi
+     e2b:	55                   	push   rbp
+     e2c:	53                   	push   rbx
+     e2d:	89 d3                	mov    ebx,edx
+     e2f:	48 83 ec 08          	sub    rsp,0x8
+	int a1 = convert_fbgc_object_to_int(a);
+     e33:	e8 00 00 00 00       	call   e38 <operator_fbgc_int_object+0x18>	e34: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	int b1 = convert_fbgc_object_to_int(b);
+     e38:	4c 89 e7             	mov    rdi,r12
+	int a1 = convert_fbgc_object_to_int(a);
+     e3b:	89 c5                	mov    ebp,eax
+	int b1 = convert_fbgc_object_to_int(b);
+     e3d:	e8 00 00 00 00       	call   e42 <operator_fbgc_int_object+0x22>	e3e: R_X86_64_PLT32	convert_fbgc_object_to_int-0x4
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     e42:	bf 0d 00 00 00       	mov    edi,0xd
+	int b1 = convert_fbgc_object_to_int(b);
+     e47:	41 89 c5             	mov    r13d,eax
+	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc(sizeof_fbgc_int_object());
+     e4a:	e8 00 00 00 00       	call   e4f <operator_fbgc_int_object+0x2f>	e4b: R_X86_64_PLT32	fbgc_malloc-0x4
+	into->base.type = INT;
+     e4f:	8d 53 d3             	lea    edx,[rbx-0x2d]
+     e52:	c6 00 03             	mov    BYTE PTR [rax],0x3
+	into->content = int_content; 
+     e55:	c7 40 09 00 00 00 00 	mov    DWORD PTR [rax+0x9],0x0
+switch(op)
+     e5c:	80 fa 15             	cmp    dl,0x15
+     e5f:	0f 87 00 00 00 00    	ja     e65 <operator_fbgc_int_object+0x45>	e61: R_X86_64_PC32	.text.unlikely-0x4
+     e65:	48 8d 0d 00 00 00 00 	lea    rcx,[rip+0x0]        # e6c <operator_fbgc_int_object+0x4c>	e68: R_X86_64_PC32	.rodata+0x24
+     e6c:	0f b6 d2             	movzx  edx,dl
+     e6f:	49 89 c4             	mov    r12,rax
+     e72:	48 63 04 91          	movsxd rax,DWORD PTR [rcx+rdx*4]
+     e76:	48 01 c8             	add    rax,rcx
+     e79:	3e ff e0             	notrack jmp rax
+     e7c:	0f 1f 40 00          	nop    DWORD PTR [rax+0x0]
+		*c = pow(a1,b1);
+     e80:	66 0f ef c0          	pxor   xmm0,xmm0
+     e84:	66 0f ef c9          	pxor   xmm1,xmm1
+     e88:	f2 0f 2a c5          	cvtsi2sd xmm0,ebp
+     e8c:	f2 41 0f 2a cd       	cvtsi2sd xmm1,r13d
+     e91:	e8 00 00 00 00       	call   e96 <operator_fbgc_int_object+0x76>	e92: R_X86_64_PLT32	pow-0x4
+     e96:	f2 0f 2c c0          	cvttsd2si eax,xmm0
+     e9a:	41 89 44 24 09       	mov    DWORD PTR [r12+0x9],eax
+}
+     e9f:	48 83 c4 08          	add    rsp,0x8
+     ea3:	4c 89 e0             	mov    rax,r12
+     ea6:	5b                   	pop    rbx
+     ea7:	5d                   	pop    rbp
+     ea8:	41 5c                	pop    r12
+     eaa:	41 5d                	pop    r13
+     eac:	c3                   	ret    
+     ead:	0f 1f 00             	nop    DWORD PTR [rax]
+		return new_fbgc_double_object(a1*b1/(a1+b1+0.0)); 
+     eb0:	89 e8                	mov    eax,ebp
+     eb2:	66 0f ef c0          	pxor   xmm0,xmm0
+     eb6:	66 0f ef c9          	pxor   xmm1,xmm1
+     eba:	44 01 ed             	add    ebp,r13d
+     ebd:	41 0f af c5          	imul   eax,r13d
+     ec1:	f2 0f 2a cd          	cvtsi2sd xmm1,ebp
+     ec5:	f2 0f 58 0d 00 00 00 00 	addsd  xmm1,QWORD PTR [rip+0x0]        # ecd <operator_fbgc_int_object+0xad>	ec9: R_X86_64_PC32	.LC0-0x4
+     ecd:	f2 0f 2a c0          	cvtsi2sd xmm0,eax
+		return new_fbgc_double_object(((double)a1)/b1);
+     ed1:	f2 0f 5e c1          	divsd  xmm0,xmm1
+}
+     ed5:	48 83 c4 08          	add    rsp,0x8
+     ed9:	5b                   	pop    rbx
+     eda:	5d                   	pop    rbp
+     edb:	41 5c                	pop    r12
+     edd:	41 5d                	pop    r13
+		return new_fbgc_double_object(((double)a1)/b1);
+     edf:	e9 00 00 00 00       	jmp    ee4 <operator_fbgc_int_object+0xc4>	ee0: R_X86_64_PLT32	new_fbgc_double_object-0x4
+     ee4:	0f 1f 40 00          	nop    DWORD PTR [rax+0x0]
+		*c = a1<<b1;
+     ee8:	44 89 e9             	mov    ecx,r13d
+     eeb:	d3 e5                	shl    ebp,cl
+     eed:	41 89 6c 24 09       	mov    DWORD PTR [r12+0x9],ebp
+		return cs;
+     ef2:	eb ab                	jmp    e9f <operator_fbgc_int_object+0x7f>
+     ef4:	0f 1f 40 00          	nop    DWORD PTR [rax+0x0]
+		*c = a1>>b1;
+     ef8:	44 89 e9             	mov    ecx,r13d
+     efb:	d3 fd                	sar    ebp,cl
+     efd:	41 89 6c 24 09       	mov    DWORD PTR [r12+0x9],ebp
+		return cs;
+     f02:	eb 9b                	jmp    e9f <operator_fbgc_int_object+0x7f>
+     f04:	0f 1f 40 00          	nop    DWORD PTR [rax+0x0]
+		*c = -a1;
+     f08:	f7 dd                	neg    ebp
+     f0a:	41 89 6c 24 09       	mov    DWORD PTR [r12+0x9],ebp
+		return cs;
+     f0f:	eb 8e                	jmp    e9f <operator_fbgc_int_object+0x7f>
+     f11:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+		*c = +a1;
+     f18:	41 89 6c 24 09       	mov    DWORD PTR [r12+0x9],ebp
+		return cs;
+     f1d:	eb 80                	jmp    e9f <operator_fbgc_int_object+0x7f>
+     f1f:	90                   	nop
+		*c = ~a1;
+     f20:	f7 d5                	not    ebp
+     f22:	41 89 6c 24 09       	mov    DWORD PTR [r12+0x9],ebp
+		return cs;
+     f27:	e9 73 ff ff ff       	jmp    e9f <operator_fbgc_int_object+0x7f>
+     f2c:	0f 1f 40 00          	nop    DWORD PTR [rax+0x0]
+		*c = (!a1);
+     f30:	31 c0                	xor    eax,eax
+     f32:	85 ed                	test   ebp,ebp
+     f34:	0f 94 c0             	sete   al
+     f37:	41 89 44 24 09       	mov    DWORD PTR [r12+0x9],eax
+		return cs;   
+     f3c:	e9 5e ff ff ff       	jmp    e9f <operator_fbgc_int_object+0x7f>
+     f41:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+		*c = (a1 && b1);
+     f48:	85 ed                	test   ebp,ebp
+     f4a:	0f 95 c2             	setne  dl
+     f4d:	31 c0                	xor    eax,eax
+     f4f:	45 85 ed             	test   r13d,r13d
+     f52:	0f 95 c0             	setne  al
+     f55:	21 d0                	and    eax,edx
+     f57:	41 89 44 24 09       	mov    DWORD PTR [r12+0x9],eax
+		return cs;
+     f5c:	e9 3e ff ff ff       	jmp    e9f <operator_fbgc_int_object+0x7f>
+     f61:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+		*c = (a1 || b1);
+     f68:	31 c0                	xor    eax,eax
+     f6a:	44 09 ed             	or     ebp,r13d
+     f6d:	0f 95 c0             	setne  al
+     f70:	41 89 44 24 09       	mov    DWORD PTR [r12+0x9],eax
+		return cs;
+     f75:	e9 25 ff ff ff       	jmp    e9f <operator_fbgc_int_object+0x7f>
+     f7a:	66 0f 1f 44 00 00    	nop    WORD PTR [rax+rax*1+0x0]
+		*c = (a1>b1);
+     f80:	31 c0                	xor    eax,eax
+     f82:	44 39 ed             	cmp    ebp,r13d
+     f85:	0f 9f c0             	setg   al
+     f88:	41 89 44 24 09       	mov    DWORD PTR [r12+0x9],eax
+		return cs;
+     f8d:	e9 0d ff ff ff       	jmp    e9f <operator_fbgc_int_object+0x7f>
+     f92:	66 0f 1f 44 00 00    	nop    WORD PTR [rax+rax*1+0x0]
+		*c = (a1<b1);
+     f98:	31 c0                	xor    eax,eax
+     f9a:	44 39 ed             	cmp    ebp,r13d
+     f9d:	0f 9c c0             	setl   al
+     fa0:	41 89 44 24 09       	mov    DWORD PTR [r12+0x9],eax
+		return cs;
+     fa5:	e9 f5 fe ff ff       	jmp    e9f <operator_fbgc_int_object+0x7f>
+     faa:	66 0f 1f 44 00 00    	nop    WORD PTR [rax+rax*1+0x0]
+		*c = (a1 != b1);
+     fb0:	31 c0                	xor    eax,eax
+     fb2:	44 39 ed             	cmp    ebp,r13d
+     fb5:	0f 95 c0             	setne  al
+     fb8:	41 89 44 24 09       	mov    DWORD PTR [r12+0x9],eax
+		return cs;
+     fbd:	e9 dd fe ff ff       	jmp    e9f <operator_fbgc_int_object+0x7f>
+     fc2:	66 0f 1f 44 00 00    	nop    WORD PTR [rax+rax*1+0x0]
+		*c = (a1 == b1);
+     fc8:	31 c0                	xor    eax,eax
+     fca:	44 39 ed             	cmp    ebp,r13d
+     fcd:	0f 94 c0             	sete   al
+     fd0:	41 89 44 24 09       	mov    DWORD PTR [r12+0x9],eax
+		return cs;
+     fd5:	e9 c5 fe ff ff       	jmp    e9f <operator_fbgc_int_object+0x7f>
+     fda:	66 0f 1f 44 00 00    	nop    WORD PTR [rax+rax*1+0x0]
+		*c = (a1 >= b1);
+     fe0:	31 c0                	xor    eax,eax
+     fe2:	44 39 ed             	cmp    ebp,r13d
+     fe5:	0f 9d c0             	setge  al
+     fe8:	41 89 44 24 09       	mov    DWORD PTR [r12+0x9],eax
+		return cs;
+     fed:	e9 ad fe ff ff       	jmp    e9f <operator_fbgc_int_object+0x7f>
+     ff2:	66 0f 1f 44 00 00    	nop    WORD PTR [rax+rax*1+0x0]
+		*c = (a1<=b1);
+     ff8:	31 c0                	xor    eax,eax
+     ffa:	44 39 ed             	cmp    ebp,r13d
+     ffd:	0f 9e c0             	setle  al
+    1000:	41 89 44 24 09       	mov    DWORD PTR [r12+0x9],eax
+		return cs;
+    1005:	e9 95 fe ff ff       	jmp    e9f <operator_fbgc_int_object+0x7f>
+    100a:	66 0f 1f 44 00 00    	nop    WORD PTR [rax+rax*1+0x0]
+		*c = a1%b1;
+    1010:	89 e8                	mov    eax,ebp
+    1012:	99                   	cdq    
+    1013:	41 f7 fd             	idiv   r13d
+    1016:	41 89 54 24 09       	mov    DWORD PTR [r12+0x9],edx
+		return cs;
+    101b:	e9 7f fe ff ff       	jmp    e9f <operator_fbgc_int_object+0x7f>
+		return new_fbgc_double_object(((double)a1)/b1);
+    1020:	66 0f ef c0          	pxor   xmm0,xmm0
+    1024:	66 0f ef c9          	pxor   xmm1,xmm1
+    1028:	f2 0f 2a c5          	cvtsi2sd xmm0,ebp
+    102c:	f2 41 0f 2a cd       	cvtsi2sd xmm1,r13d
+    1031:	e9 9b fe ff ff       	jmp    ed1 <operator_fbgc_int_object+0xb1>
+    1036:	66 2e 0f 1f 84 00 00 00 00 00 	nop    WORD PTR cs:[rax+rax*1+0x0]
+		*c = a1*b1;
+    1040:	41 0f af ed          	imul   ebp,r13d
+    1044:	41 89 6c 24 09       	mov    DWORD PTR [r12+0x9],ebp
+		return cs;
+    1049:	e9 51 fe ff ff       	jmp    e9f <operator_fbgc_int_object+0x7f>
+    104e:	66 90                	xchg   ax,ax
+		*c = a1-b1;
+    1050:	44 29 ed             	sub    ebp,r13d
+    1053:	41 89 6c 24 09       	mov    DWORD PTR [r12+0x9],ebp
+		return cs;
+    1058:	e9 42 fe ff ff       	jmp    e9f <operator_fbgc_int_object+0x7f>
+    105d:	0f 1f 00             	nop    DWORD PTR [rax]
+		*c = a1+b1;
+    1060:	44 01 ed             	add    ebp,r13d
+    1063:	41 89 6c 24 09       	mov    DWORD PTR [r12+0x9],ebp
+		return cs;
+    1068:	e9 32 fe ff ff       	jmp    e9f <operator_fbgc_int_object+0x7f>
+    106d:	0f 1f 00             	nop    DWORD PTR [rax]
+
+0000000000001070 <print_fbgc_int_object>:
+	operator_UMINUS_fbgc_object,
+};
+
+
+
+void print_fbgc_int_object(struct fbgc_object * obj){
+    1070:	f3 0f 1e fa          	endbr64 
+	cprintf(011,"%d",cast_fbgc_object_as_int(obj)->content);  
+    1074:	8b 57 09             	mov    edx,DWORD PTR [rdi+0x9]
+    1077:	48 8d 35 00 00 00 00 	lea    rsi,[rip+0x0]        # 107e <print_fbgc_int_object+0xe>	107a: R_X86_64_PC32	.LC3-0x4
+    107e:	bf 09 00 00 00       	mov    edi,0x9
+    1083:	31 c0                	xor    eax,eax
+    1085:	e9 00 00 00 00       	jmp    108a <print_fbgc_int_object+0x1a>	1086: R_X86_64_PLT32	cprintf-0x4
+    108a:	66 0f 1f 44 00 00    	nop    WORD PTR [rax+rax*1+0x0]
+
+0000000000001090 <free_fbgc_int_object>:
+}
+
+void free_fbgc_int_object(struct fbgc_object * obj){
+    1090:	f3 0f 1e fa          	endbr64 
+	//   free(obj);
+}
+    1094:	c3                   	ret    
+
+Disassembly of section .text.unlikely:
+
+0000000000000000 <operator_fbgc_int_object.cold>:
+	into->content = int_content; 
+   0:	45 31 e4             	xor    r12d,r12d
+   3:	e9 00 00 00 00       	jmp    8 <operator_fbgc_int_object.cold+0x8>	4: R_X86_64_PC32	.text+0xe9b

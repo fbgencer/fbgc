@@ -1,5 +1,2 @@
 #load('time','*') # loads the whole time module
-
-for i = 0:5:12
-	print(i)
-end
+x = 3+6
