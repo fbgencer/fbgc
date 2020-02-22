@@ -34,8 +34,15 @@ new_fbgc_cfunction(fbgc_load,"load")
 	struct fbgc_object * res = NULL;
 
 	if(argc == 1){
-		if(arg[0]->type == STRING)
-			return fbgc_load_module(content_fbgc_str_object(arg[0]),NULL,0);	
+		//else error!
+		if(arg[0]->type == STRING){
+			res = fbgc_load_module(content_fbgc_str_object(arg[0]),NULL,0);
+			if(res == NULL){
+				//seek in files
+				res = fbgc_load_file(content_fbgc_str_object(arg[0]));
+			}
+		}
+
 	}
 	else if(argc > 1){
 		for(uint8_t i = 0; i<argc; ++i){
@@ -44,6 +51,7 @@ new_fbgc_cfunction(fbgc_load,"load")
 
 		if(!my_strcmp(content_fbgc_str_object(arg[1]),"*")){
 			res = fbgc_load_module(content_fbgc_str_object(arg[0]),NULL,1);
+			
 		}
 		else{
 			//fbgc_load_module_specific(const char * module_name, const char * fun_name){
@@ -161,6 +169,17 @@ new_fbgc_cfunction(fbgc_mem,"mem"){
 }
 
 
+new_fbgc_cfunction(fbgc_locals,"locals"){
+	if(argc == 0){
+		print_field_object_locals(current_field);
+	}
+	else cprintf(100,"<locals> takes only 0 argument, %d given !\n",argc);
+	return NULL;
+}
+
+
+
+
 const struct fbgc_cfunction fbgc_stl_initializer_struct = {"stl",fbgc_stl_initializer};
 extern struct fbgc_object * fbgc_stl_initializer (struct fbgc_object ** arg,int argc){
 	return NULL;
@@ -183,6 +202,7 @@ const struct fbgc_cmodule fbgc_stl_module =
 		&fbgc_matrix_struct,			
 		&fbgc_type_struct,
 		&fbgc_mem_struct,
+		&fbgc_locals_struct,
 		NULL
 	}
 };

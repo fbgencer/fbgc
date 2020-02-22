@@ -1,2 +1,8 @@
-#load('time','*') # loads the whole time module
-x = 3+6
+load("lol.fbgc")
+print("Bu dosya :ex.fbgc")
+
+s = "I <> life <> now worthy at all <> when we <>"
+q = format(s,(3,4,'xXxXx',1+2j))
+print(q)
+
+locals()

@@ -5,7 +5,7 @@ OBJ = ${SRC:.c=.o}
 
 #put -g in order to see good assembly output
 CC=gcc
-CFLAGS=-c -lm -O3 -g -w 
+CFLAGS=-c -Os
 LDFLAGS += -lm 
 OPTIMIZATION_FLAGS = -foptimize-strlen 
 
@@ -16,7 +16,7 @@ CFLAGS += $(OPTIMIZATION_FLAGS)
 #CFLAGS += -DLEXER_DETAILED_DEBUG
 #CFLAGS += -DLEXER_DEBUG
 #CFLAGS += -DGRAMMAR_DEBUG
-CFLAGS += -DPARSER_DEBUG
+#CFLAGS += -DPARSER_DEBUG
 #CFLAGS += -DINTERPRETER_DEBUG
 #CFLAGS += -DFREE_DEBUG
 #CFLAGS += -DMEM_DEBUG

@@ -57,10 +57,9 @@ extern "C" {
 #include "headers/relexer.h"
 #include "headers/grammar.h"
 #include "headers/parser.h"
-#include "headers/interpreter.h"
 
 
-
+extern struct fbgc_object * current_field;
 struct fbgc_object * fbgc_load_module(const char * module_name,const char * fun_name, uint8_t load_key);
 
 #ifdef  __cplusplus

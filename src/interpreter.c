@@ -8,6 +8,8 @@ struct iter_function_ptr_struct{
 
 uint8_t interpreter(struct fbgc_object ** field_obj){
 
+	current_field = *field_obj;
+
 	#ifdef INTERPRETER_DEBUG
 	cprintf(111,"==========[INTERPRETER]==========\n");
 	#endif
@@ -90,7 +92,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			}
 			case IDENTIFIER:
 			{	
-				if(is_id_flag_GLOBAL(pc)){
+				if(is_id_flag_SUBSCRIPT(pc) == 0 && is_id_flag_GLOBAL(pc)){
 
 					struct fbgc_identifier * tmp = (struct fbgc_identifier *) get_address_in_fbgc_array_object(globals,cast_fbgc_object_as_id_opcode(pc)->loc);
 
@@ -104,10 +106,10 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					}
 						
 					PUSH(tmp->content);
-					break;
+		
 					//PUSH(globals[cast_fbgc_object_as_id_opcode(pc)->loc]);	
 				} 
-				else if(is_id_flag_LOCAL(pc))  PUSH(GET_AT_FP(cast_fbgc_object_as_id_opcode(pc)->loc));
+				else if(is_id_flag_SUBSCRIPT(pc) == 0 && is_id_flag_LOCAL(pc) )  PUSH(GET_AT_FP(cast_fbgc_object_as_id_opcode(pc)->loc));
 
 				if(is_id_flag_MEMBER(pc)){
 					//if(TOP()->type == CSTRING)

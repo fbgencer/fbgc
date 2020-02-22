@@ -38,5 +38,3 @@ format = fun(s,tp)
 	return res
 end
 
-s = "I <> life <> now worthy at all <> when we <>"
-print(format(s,(3,4,'xXxXx',1+2j)))

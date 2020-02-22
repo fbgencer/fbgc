@@ -2,29 +2,14 @@
 
 #include "../cmodules/cmodules.h"
 
+struct fbgc_object * current_field = NULL;
 
 
 static void compile_file(struct fbgc_object * main_field,const char *file_name){
-#define MAX_INPUT_BUFFER 1000
-	
+
 	clock_t begin,end;
 	double parser_time,interpreter_time;
 
-
-	char line[MAX_INPUT_BUFFER] = {0};
-/*	FILE *input_file = fopen(file_name,"r");
-	 
-	begin = clock();
-	while (fbgc_getline_from_file(line, sizeof(line), input_file)){
-		cprintf(111,"line[%s]\n",line);
-		//if(line[0] == '#') continue; //past the comment fast
-		//if(line[0] != '\0') regex_lexer(&main_field,line);
-	}
-	end = clock();
-	fclose(input_file); 
-	lexer_time = (double)(end - begin) / CLOCKS_PER_SEC; 
-
-*/
 	#ifdef LEXER_DEBUG
 		cprintf(111,"Lexer output array\n");
 		print_fbgc_ll_object(cast_fbgc_object_as_field(main_field)->head,"Main"); 
@@ -70,18 +55,7 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
 	  
 }
 
-static void compile_one_line(struct fbgc_object * main_field,char *line){
-	
-	//regex_lexer(&main_field,line);      
-	//parser(&main_field);
-	//interpreter(&main_field);     
-}
 
-
-void realtime_fbgc(struct fbgc_object * main_field){
-}
-
-struct fbgc_object * main_field;
 
 
 struct fbgc_object * fbgc_load_module(const char * module_name,const char * fun_name, uint8_t load_key){
@@ -90,11 +64,9 @@ struct fbgc_object * fbgc_load_module(const char * module_name,const char * fun_
 	//load_key == 1, load all and return 
 	//load_key == 2, load specific and return
 
-
+	assert(current_field != NULL);
 
 	const struct fbgc_cmodule * cm = NULL; 
-
-
 	for(uint8_t i = 0; i<sizeof(__cmodules)/sizeof(__cmodules[0]); ++i){
 		if(strcmp(module_name,__cmodules[i]->initializer->name) == 0){
 			cm = __cmodules[i];
@@ -102,13 +74,11 @@ struct fbgc_object * fbgc_load_module(const char * module_name,const char * fun_
 	}
 
 	if(cm == NULL){
-		cprintf(100,"Undefined module!\n");
 		return NULL;
 	}
-
 	if(load_key != 0){
 		//call function initializer
-		cm->initializer->function(&main_field, 1);
+		cm->initializer->function(&current_field, 1); //need to send the address of current field
 
 	 	const struct fbgc_cfunction * cc = cm->functions[0];
 	 	for(int i = 1; cc!= NULL; i++){
@@ -118,195 +88,74 @@ struct fbgc_object * fbgc_load_module(const char * module_name,const char * fun_
 				cc = cm->functions[i];
 				continue;
 			}
-			add_variable_in_field_object(main_field,cc->name,new_fbgc_cfun_object(cc->function));
+			add_variable_in_field_object(current_field,cc->name,new_fbgc_cfun_object(cc->function));
 			if(load_key == 2) break;
 
 			cc = cm->functions[i];
 		}
 	}
 
-
 	return new_fbgc_cmodule_object(cm);
+
 }
 
+struct fbgc_object * fbgc_load_file(char * file_name){
 
-
-
-
-// struct fbgc_object * fbgc_load_module_specific(const char * module_name, const char * fun_name){
-		
-
-// 	struct fbgc_cmodule * cm = NULL; 
-// 	int load_key = 1;
-
-// 	for(uint8_t i = 0; i<sizeof(__cmodules)/sizeof(__cmodules[0]); ++i){
-// 		if(strcmp(module_name,__cmodules[i]->initializer->name) == 0){
-// 			cm = __cmodules[i];
-// 		}
-// 	}
-
-// 	if(cm == NULL){
-// 		cprintf(100,"Undefined module!\n");
-// 		return NULL;
-// 	}
-
-
-// 	if(load_key == 1){
-// 		const struct fbgc_cfunction * cc = cm->functions[0];
-// 	 	for(int i = 1; cc!= NULL; i++){
-// 			struct fbgc_object *rhs = new_fbgc_cfun_object(cc->function);
-
-
-
-// 			const char * str1 = cc->name;
-// 			struct fbgc_object * iter = new_fbgc_symbol_from_substr(str1,str1 + strlen(str1));
-// 				//this location is from symbols, we need to find location in fields
-// 			struct fbgc_object * cstr_obj = get_object_in_fbgc_tuple_object(fbgc_symbols,cast_fbgc_object_as_id_opcode(iter)->loc);
-
-
-// 			struct fbgc_object * local_array = cast_fbgc_object_as_field(main_field)->locals;
-// 			struct fbgc_identifier * temp_id; 
-// 			int where = -1;
-
-// 			for(int i = 0; i<size_fbgc_array_object(local_array); i++){
-// 				temp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(local_array,i);
-// 				if(temp_id->name == cstr_obj) {
-// 					where = i;
-// 					break;
-// 				} 
-// 			}
-
-// 			if(where == -1){
-
-// 				struct fbgc_identifier id;		
-// 				id.name = cstr_obj; id.content = rhs;
-// 				local_array = push_back_fbgc_array_object(local_array,&id);
-// 				where = size_fbgc_array_object(local_array)-1;
-// 				cast_fbgc_object_as_field(main_field)->locals = local_array;
-// 			}else{
-
-// 				cast_fbgc_object_as_id_opcode(temp_id)->loc = where;
-// 				temp_id->content = rhs;
-// 			}
-// 			set_id_flag_GLOBAL(iter);
-
-// 			cc = cm->functions[i];
-// 		}
-// 	}
-
-// 	if(cm != NULL){
-// 		return new_fbgc_cmodule_object(cm);
-// 	}
-// 	return NULL;
-// }
-
-
-
-/*
-struct fbgc_object * module_deneme(const char * x){
-
-
-	
-
-
-				struct fbgc_cmodule_object * cm = cast_fbgc_object_as_cmodule(o);
-			const struct fbgc_cfunction * cc = cm->module->functions[0];
-			//cprintf(111,"Functions:\n");
-			for (int i = 1; cc!=NULL; ++i){
-				//optimize strlen part
-				if(!my_strcmp(str,cc->name) ){
-					#ifdef PARSER_DEBUG
-					cprintf(010,"\n**Function [%s] matched with str [%s]\n",cc->name,str);
-					#endif
-					return new_fbgc_cfun_object(cc->function);
-				} 
-				//cprintf(101,"{%s}\n",cc->name);
-				cc = cm->module->functions[i];
-			}
-
-*/
-
-	/*if(strcmp(x,fbgc_math_initializer_struct.name) == 0){
-		cm = &fbgc_math_module;
-	}
-	else {
-		cprintf(100,"Module could not be found!\n");
+	FILE * input_file = fopen(file_name,"r");
+	if(input_file == NULL){
+		return NULL; 
 	}
 
-	if(cm != NULL){
-		struct fbgc_cmodule_object * cmo = (struct fbgc_cmodule_object *) fbgc_malloc(sizeof(struct fbgc_cmodule_object ));
-		cmo->module = cm;
-		cmo->base.type = CMODULE;//CHANGE THIS
+	struct fbgc_object * prev_field = current_field;	
 
-		//load_module_in_field_object(main_field,cm);
-		return cmo;
-	}
+	struct fbgc_object * file_field = new_fbgc_field_object();
+	parser(&file_field,input_file);
+	interpreter(&file_field);
+	current_field = file_field;
 
 
-}*/
+	//now merge two field objects, new field and prev field
+	//prev_field_local_array_object
+	struct fbgc_object * prev_ao = cast_fbgc_object_as_field(prev_field)->locals;
+	//current field local array object
+	struct fbgc_object * current_ao = cast_fbgc_object_as_field(current_field)->locals;
 
-/*
+	printf("\n");
 
-void module_load_all(struct fbgc_object * field_obj,struct fbgc_object * module_obj){
-	struct fbgc_field_object * ll = cast_fbgc_object_as_field(field_obj);
-	struct fbgc_cmodule_object * cm = module_obj;
+	int last_j = 0;
 
-	for (uint8_t i = 0; cc!=NULL; ++i){
-		const struct fbgc_cfunction * cc = cm->module->functions[i];
-		new_fbgc_cfun_object(cc->function);
-	}
-	cm = (struct fbgc_cmodule_object * )cm->base.next;
+	for(int i = 0;  i<size_fbgc_array_object(current_ao); i++){	
+		struct fbgc_identifier * ctemp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(current_ao,i);
+		struct fbgc_identifier * ptemp_id;
+		char found = 0;
 
-
-	new_fbgc_id_opcode(size_fbgc_tuple_object(fbgc_symbols)-1);
-		
-}*/
-#define ITER 1e4
-void fun1(){
-
-	clock_t begin = clock();
-	struct fbgc_oject * a = new_fbgc_int_object(1);
-	struct fbgc_oject * b = new_fbgc_int_object(1);
-	struct fbgc_oject * c = new_fbgc_int_object(505);
-
-
-	 for(int a1 = 1; a1<=ITER; a1++){
-		for(int b1 = 1; b1<=ITER; b1++){
-			cast_fbgc_object_as_int(a)->content = a1;
-			cast_fbgc_object_as_int(b)->content = b1;
-			for(int i = PLUS; i<SLASH; i++){
-				c = operator_fbgc_int_object_address(a,b,i,NULL);
-			}
-		}
-
-	 }
-	 clock_t end = clock();
-	 double tm = (double)(end - begin) / CLOCKS_PER_SEC; 
-	 cprintf(100,"Switch Execution time %f\n",tm);	
-}
-
-void fun2(){
-	clock_t begin = clock();
-	struct fbgc_oject * a = new_fbgc_int_object(1);
-	struct fbgc_oject * b = new_fbgc_int_object(1);
-	struct fbgc_oject * c = new_fbgc_int_object(1);
-	 for(int a1 = 1; a1<=ITER; a1++){
-		for(int b1 = 1; b1<=ITER; b1++){
-			cast_fbgc_object_as_int(a)->content = a1;
-			cast_fbgc_object_as_int(b)->content = b1;
+		for(int j = last_j; j<size_fbgc_array_object(prev_ao); j++){
+			ptemp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(prev_ao,j);
+			//cprintf(111,"ptemp_id name :"); print_fbgc_object(ptemp_id->name);
+			//cprintf(111," | ctemp_id name :"); print_fbgc_object(ctemp_id->name);
 			
-			for(int i = PLUS-R_SHIFT; i<SLASH-R_SHIFT; i++){
-				c = operator_any_fbgc_object(a,b,i,NULL);
-				//struct fbgc_object * c = fbgc_INT_operators[i](a,b,INT);
-				//operator_fbgc_int_object(a,b,i);
+			if(!my_strcmp(content_fbgc_cstr_object(ptemp_id->name),content_fbgc_cstr_object(ctemp_id->name))){
+				//change the content of ptemp_id object with the second one
+				found = 1;
+				last_j = ++j;
+				//cprintf(100," (Equal)\n");
+				break;
 			}
 		}
 
-	 }
-	 clock_t end = clock();
-	 double tm = (double)(end - begin) / CLOCKS_PER_SEC; 
-	 cprintf(100,"Fun table Execution time %f\n",tm);
+		if(found){
+			//cprintf(101,"Found!\n");
+			ptemp_id->content = ctemp_id->content;
+		}else{			
+			//cprintf(101,"creating new local\n");
+			prev_ao = push_back_fbgc_array_object(prev_ao,ctemp_id);	
+		}
+	}
+	cast_fbgc_object_as_field(prev_field)->locals = prev_ao;
+	current_field = prev_field;	 	
 }
+
+
 
 int main(int argc, char **argv){
 
@@ -314,38 +163,22 @@ int main(int argc, char **argv){
 cprintf(110,"\n\n\n\n\n[=======================================================================]\n"); 
 #endif
 
-	// clock_t begin = clock();
-	// long y = 0;
-	// for(long i = 0; i<30000000000; ++i){
-	// 	y = i;
-	// }
-	// printf("y = %ld\n",y);
-	// clock_t end = clock();
-	// double dif = (double)(end - begin) / CLOCKS_PER_SEC; 
-
-	// printf("Time difference :%f sec\n",dif);
-
-
 //******************************************************************
-	 initialize_fbgc_memory_block();
-	// initialize_fbgc_symbol_table();
-	//  main_field = new_fbgc_field_object();
-	// //load_module_in_field_object(main_field,&fbgc_math_module);
-	// load_module_in_field_object(main_field,&fbgc_io_module);
-	// load_module_in_field_object(main_field,&fbgc_stl_module);
-	//load_module_in_field_object(main_field,&fbgc_file_module);
-	 fun1();
-	free_fbgc_memory_block();
 	initialize_fbgc_memory_block();
-	 fun2();
+	initialize_fbgc_symbol_table();
+	struct fbgc_object * main_field = new_fbgc_field_object();
+	current_field = main_field;
+	 //load_module_in_field_object(main_field,&fbgc_math_module);
 
+	//load_module_in_field_object(main_field,&fbgc_file_module);
+	 
 
 
 		//cprintf(111,"[%s]: c = ",object_name_array[i]);
 		//print_fbgc_object(c);
 		//cprintf(111,"\n");
 
-	//compile_file(main_field, "ex.fbgc");
+	compile_file(main_field, "ex.fbgc");
 
 	/*if(argc > 1)
 	{   

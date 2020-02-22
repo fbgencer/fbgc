@@ -20,6 +20,7 @@ declare_new_fbgc_cfunction(fbgc_double);
 declare_new_fbgc_cfunction(fbgc_matrix);
 declare_new_fbgc_cfunction(fbgc_type);
 declare_new_fbgc_cfunction(fbgc_mem);
+declare_new_fbgc_cfunction(fbgc_locals);
 
 
 

@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-//stl and io are already loaded
+//stl and io should be loaded
 #include "../cmodules/fbgc_io.h"
 #include "../cmodules/fbgc_stl.h"
 

@@ -1,4 +1,6 @@
 #include "fbgc.h"
+#include "../cmodules/fbgc_io.h"
+#include "../cmodules/fbgc_stl.h"
 
 struct fbgc_object * new_fbgc_field_object(void){
 
@@ -8,6 +10,9 @@ struct fbgc_object * new_fbgc_field_object(void){
 	field->head = new_fbgc_ll_object();
 	field->modules = new_fbgc_ll_object();
 	field->locals = new_fbgc_array_object(1,sizeof(struct fbgc_identifier));
+	
+	load_module_in_field_object((struct fbgc_object *)field,&fbgc_io_module);
+	load_module_in_field_object((struct fbgc_object *)field,&fbgc_stl_module);
 	return (struct fbgc_object *) field;
 };
 

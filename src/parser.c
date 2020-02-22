@@ -618,8 +618,9 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 				cast_fbgc_object_as_jumper(if_obj)->content->next = if_obj;
 				cast_fbgc_object_as_jumper(if_obj)->content = iter_prev; //now assign where to jump
 
-
-				print_fbgc_ll_object(head_obj,"M");	
+				#ifdef PARSER_DEBUG
+				print_fbgc_ll_object(head_obj,"IF_main");
+				#endif	
 			}
 			else if(TOP_LL(op)->type == ELIF){
 				//now insert if in its place,
@@ -1203,14 +1204,21 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 				goto PARSER_ERROR_LABEL;
 			}
 			
+			//XXX remove this push itself thing
 			//fbgc_assert(TOP_LL(op)->type == IDENTIFIER ,"Assignment to a non-identifier object, object type:%s\n",object_name_array[TOP_LL(op)->type]);
 			//cprintf(111,"top->next = %s\n",object_name_array[TOP_LL(op)->next->type]);
 			if(TOP_LL(op)->next != NULL && 
 				(TOP_LL(op)->next->type == ASSIGN || TOP_LL(op)->next->type == LPARA || TOP_LL(op)->next->type == COMMA) ) {
-				cprintf(100,"Opening flag push itsel\n");
-				set_id_flag_PUSH_ITSELF(TOP_LL(op));
+				#ifdef PARSER_DEBUG
+				cprintf(100,"Opening flag push itself\n");
+				#endif
+
+				if(TOP_LL(op)->next->next == NULL || TOP_LL(op)->next->next->type != FOR)
+					set_id_flag_PUSH_ITSELF(TOP_LL(op));
+
+				//this creates error when we use "for(i=smth)... end", it pushes iter object
 			}
-			#ifdef PARSER_DEBUG
+			#ifdef PARSER_DEBUG 
 			struct fbgc_object * pc = TOP_LL(op);
             if(is_id_flag_GLOBAL(pc) ) cprintf(011,"%s{G<%d>}","GlobalID",cast_fbgc_object_as_id_opcode(pc)->loc);
             else if(is_id_flag_LOCAL(pc) ) cprintf(011,"%s{L<%d>}","LocalID",cast_fbgc_object_as_id_opcode(pc)->loc);
@@ -1251,10 +1259,14 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 
 	#ifdef PARSER_DEBUG
 	cprintf(111,"Parser finished job normally.\n");
-	cprintf(111,"Locals:");
+	cprintf(111,"Symbols :");
 	//:>print_fbgc_object(cast_fbgc_object_as_field(*field_obj)->symbols);
 	print_fbgc_object(fbgc_symbols);
-	cprintf(111,"^^^^^^^^^^^^^^^^^^^^\n");
+	cprintf(111,"\n");
+	cprintf(111,"Field Locals :");
+	print_field_object_locals(*field_obj);
+	cprintf(111,"\n");
+
 	cprintf(111,"\n\n\n\n");
 	#endif
 
