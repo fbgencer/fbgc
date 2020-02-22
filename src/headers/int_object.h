@@ -19,13 +19,20 @@ struct fbgc_object * derive_from_new_int_object(fbgc_token type, int int_content
 struct fbgc_object * new_fbgc_int_object_from_str(const char *);
 struct fbgc_object * new_fbgc_int_object_from_substr(const char *,const char *,fbgc_token );
 
-struct fbgc_object * operator_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op);
+struct fbgc_object * operator_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op,struct fbgc_object *);
+struct fbgc_object * operator_method_int(int a1, int b1,fbgc_token op, struct fbgc_object * result);
+
+
+struct fbgc_object * operator_fbgc_int_object_address(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op,struct fbgc_object * result);
 
 struct fbgc_object * operator_fbgc_int_object2(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op);
 
 void print_fbgc_int_object(struct fbgc_object *);
 void free_fbgc_int_object(struct fbgc_object * );
 
+struct fbgc_object * return_fbgc_object_operator_helper_int(int c,struct fbgc_object * result);
+struct fbgc_object * return_fbgc_object_operator_helper_double(double c,struct fbgc_object * result);
+struct fbgc_object * return_fbgc_object_operator_helper_logic(char c,struct fbgc_object * result);
 
 
 
@@ -55,6 +62,8 @@ void free_fbgc_int_object(struct fbgc_object * );
 // //
 
 
+struct fbgc_object * operator_any_fbgc_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token type,struct fbgc_object * result);
+
 struct fbgc_object * operator_R_SHIFT_fbgc_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
 struct fbgc_object * operator_L_SHIFT_fbgc_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
 struct fbgc_object * operator_STARSTAR_fbgc_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token type);
@@ -80,7 +89,7 @@ struct fbgc_object * operator_UMINUS_fbgc_object(struct fbgc_object * a,struct f
 //
 
 
-extern struct fbgc_object * (*fbgc_INT_operators[22]) (struct fbgc_object *, struct fbgc_object *, fbgc_token);
+extern struct fbgc_object * (*fbgc_INT_operators[22]) (struct fbgc_object *, struct fbgc_object *,struct fbgc_object *);
 
 
 

@@ -139,8 +139,10 @@ struct fbgc_object * operator_fbgc_double_object(struct fbgc_object * a,struct f
 
 struct fbgc_object * operator_fbgc_double_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op){
 	//you have to check before calling this function, a and b must be int type 
-	double a1 = convert_fbgc_object_to_double(a);
-	double b1 = (b!= NULL) ? convert_fbgc_object_to_double(b) : 0;
+	double a1 = (a->type != INT) ? cast_fbgc_object_as_double(a)->content : (int)(cast_fbgc_object_as_int(a)->content);	
+	double b1 = (b->type != INT) ? cast_fbgc_object_as_double(b)->content : (int)(cast_fbgc_object_as_int(b)->content);	
+	//double a1 = convert_fbgc_object_to_double(a);	
+	//double b1 = (b!= NULL) ? convert_fbgc_object_to_double(b) : 0;
 	struct fbgc_object * cdb = NULL;
 
 	//we are not gonna use a1 but make compiler happy..
@@ -149,6 +151,7 @@ struct fbgc_object * operator_fbgc_double_object(struct fbgc_object * a,struct f
 }
 
 double operator_method_double(double a1, double b1, fbgc_token op, struct fbgc_object ** result){
+	//different functions may call this function, they can get the answer from the returned value or they can provide result object
 	double c = 0;
 	fbgc_token result_type = (op>=LO_EQ && op<=EXCLAMATION) ? LOGIC : DOUBLE;
 
@@ -158,19 +161,11 @@ double operator_method_double(double a1, double b1, fbgc_token op, struct fbgc_o
 		{
 			*result = NULL;
 			break;
-			//return NULL;
-			//assert(0);
-			//c = a1>>b1;
-			//break;
 		}
 		case L_SHIFT:
 		{
 			*result = NULL;
 			break;
-			//return NULL;
-			//assert(0);
-			//c = a1<<b1;
-			//break;
 		}        
 		case STARSTAR:
 		{
@@ -211,9 +206,6 @@ double operator_method_double(double a1, double b1, fbgc_token op, struct fbgc_o
 		{
 			*result = NULL;
 			break;
-			//c = a1%b1;
-			//assert(0);
-			//break;
 		}                                      
 		case LO_EQ:
 		{

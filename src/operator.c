@@ -27,6 +27,7 @@ struct fbgc_object * (*fbgc_operator2[1]) (struct fbgc_object *, struct fbgc_obj
 	operator_fbgc_int_object2,
 };
 
+/*
 struct fbgc_object * safe_call_fbgc_operator(struct fbgc_object * a, struct fbgc_object * b, fbgc_token main, fbgc_token op){
 	switch(main){
 		case LOGIC: return operator_fbgc_logic_object(a,b,op);
@@ -39,7 +40,7 @@ struct fbgc_object * safe_call_fbgc_operator(struct fbgc_object * a, struct fbgc
 	}
 	return NULL;
 }
-
+*/
 
 struct fbgc_object * fbgc_binary_plus(struct fbgc_object * a, struct fbgc_object * b, fbgc_token tok_ab){
 

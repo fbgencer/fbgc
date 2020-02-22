@@ -261,20 +261,21 @@ void module_load_all(struct fbgc_object * field_obj,struct fbgc_object * module_
 	new_fbgc_id_opcode(size_fbgc_tuple_object(fbgc_symbols)-1);
 		
 }*/
-
-#define ITER 5e3
+#define ITER 1e4
 void fun1(){
 
 	clock_t begin = clock();
 	struct fbgc_oject * a = new_fbgc_int_object(1);
 	struct fbgc_oject * b = new_fbgc_int_object(1);
+	struct fbgc_oject * c = new_fbgc_int_object(505);
+
 
 	 for(int a1 = 1; a1<=ITER; a1++){
 		for(int b1 = 1; b1<=ITER; b1++){
 			cast_fbgc_object_as_int(a)->content = a1;
 			cast_fbgc_object_as_int(b)->content = b1;
-			for(int i = 45; i<=66; i++){
-				struct fbgc_object * c = operator_fbgc_int_object(a,b,i);
+			for(int i = PLUS; i<SLASH; i++){
+				c = operator_fbgc_int_object_address(a,b,i,NULL);
 			}
 		}
 
@@ -288,13 +289,15 @@ void fun2(){
 	clock_t begin = clock();
 	struct fbgc_oject * a = new_fbgc_int_object(1);
 	struct fbgc_oject * b = new_fbgc_int_object(1);
+	struct fbgc_oject * c = new_fbgc_int_object(1);
 	 for(int a1 = 1; a1<=ITER; a1++){
 		for(int b1 = 1; b1<=ITER; b1++){
 			cast_fbgc_object_as_int(a)->content = a1;
 			cast_fbgc_object_as_int(b)->content = b1;
 			
-			for(int i = 0; i<=21; i++){
-				struct fbgc_object * c = fbgc_INT_operators[i](a,b,INT);
+			for(int i = PLUS-R_SHIFT; i<SLASH-R_SHIFT; i++){
+				c = operator_any_fbgc_object(a,b,i,NULL);
+				//struct fbgc_object * c = fbgc_INT_operators[i](a,b,INT);
 				//operator_fbgc_int_object(a,b,i);
 			}
 		}
@@ -331,10 +334,10 @@ cprintf(110,"\n\n\n\n\n[========================================================
 	// load_module_in_field_object(main_field,&fbgc_io_module);
 	// load_module_in_field_object(main_field,&fbgc_stl_module);
 	//load_module_in_field_object(main_field,&fbgc_file_module);
-	 fun2();
+	 fun1();
 	free_fbgc_memory_block();
 	initialize_fbgc_memory_block();
-	 fun1();
+	 fun2();
 
 
 
