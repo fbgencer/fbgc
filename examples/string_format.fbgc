@@ -9,7 +9,7 @@ format = fun(s,tp)
 	
 	splitted_str = s / "<>"
 
-	if(splitted_str[0] == s)
+	if(|splitted_str| == 1)
 		return s
 	end
 
@@ -29,14 +29,15 @@ format = fun(s,tp)
 		else
 			return s
 		end
-		res =  res + splitted_str[index] + fmtstr
+		res += splitted_str[index] + fmtstr
 		index += 1
 	end
-	
-	res = res + splitted_str[index]
+	res += splitted_str[index]
 
 	return res
 end
 
-s = "I <> life <> now worthy at all <> when we <>"
-print(format(s,(3,4,'xXxXx',1+2j)))
+
+doo = fun()
+	return 3
+end

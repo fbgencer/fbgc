@@ -224,7 +224,7 @@ double operator_method_double(double a1, double b1, fbgc_token op, struct fbgc_o
 		}
 		case NOT_EQ:
 		{
-			a1 != b1;
+			c = a1 != b1;
 			break;
 		}
 		case LOWER:

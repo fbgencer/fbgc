@@ -207,7 +207,10 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 	int8_t new_left = left_matrix[get_fbgc_object_type(obj)][gm_left-1];
 	
 	if(new_left < 0){
+		#ifdef GRAMMAR_DEBUG
 		cprintf(100,"Special function call new_left :%s\n",gm_name_array[-new_left]);
+		#endif
+		
 		switch(get_fbgc_object_type(obj)){
 			case PLUS:
 			{

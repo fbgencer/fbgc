@@ -203,7 +203,15 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 				struct fbgc_object * ret = POP();
 				while(POP() != globals);
+				
 				int old_fctr = fctr;
+				if(TOP() == globals){
+					POP();
+					--old_fctr;
+					//XXBUG
+					//pop the method name, this is a bug we need to fix it in parser
+					//In order to call methods as typical functions, method call pushes another global to stack 
+				}
 				fctr = cast_fbgc_object_as_int(TOP())->content;
 				stack->next = SECOND();
 				sctr = old_fctr;
@@ -406,11 +414,20 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				//Call other assignment types
 				if(type != ASSIGN)
 				{
+
+
 					fbgc_token op_type = R_SHIFT + type - R_SHIFT_ASSIGN;
+					assert(lhs != NULL && *lhs != NULL);
+
+					fbgc_token main_tok = MAX(get_fbgc_object_type( (*lhs) ),get_fbgc_object_type(rhs));
+					rhs = call_fbgc_operator(main_tok,*lhs,rhs,op_type);
+					assert(rhs != NULL);	
+
+					//fbgc_token op_type = R_SHIFT + type - R_SHIFT_ASSIGN;
 					//assert(lhs != NULL && *lhs != NULL);
 
 					//fbgc_token main_tok = MAX(get_fbgc_object_type( (*lhs) ),get_fbgc_object_type(rhs));
-					rhs = call_fbgc_operator2(0,*lhs,rhs,op_type);
+					//rhs = call_fbgc_operator(0,*lhs,rhs,op_type);
 					//assert(rhs != NULL);					
 				}
 
@@ -535,8 +552,14 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					STACK_GOTO(-arg_no);
 					struct fbgc_object * res = cfun_object_call(funo, sp+sctr, arg_no);
 					
-					if(res != NULL) PUSH(res);
-					
+					if(res == NULL){
+						//const struct fbgc_cfunction * cc = cast_fbgc_object_as_cfun(funo);
+						//cprintf(100,"Error in function %s\n",cc->name);
+						goto INTERPRETER_ERROR_LABEL;
+					} 
+						
+
+					PUSH(res);
 					break;
 
 					// In order to increase speed, DELETE new tuple creation it causes 2sec for 100,000 print('ffdfds') code
@@ -586,7 +609,6 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				struct fbgc_object * name = cast_fbgc_object_as_id_opcode(pc)->member_name; // holds name after dot: x.name
 
 				struct fbgc_object * method = get_set_fbgc_object_member(TOPN(arg_no+1),&cast_fbgc_object_as_cstr(name)->content , NULL);
-				
 				assert(method != NULL);
 
 				if(method->type == CFUN){
@@ -598,6 +620,44 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 						PUSH(res);
 
 					//
+				}
+				else if(method->type == FUN){
+					//read case fun_call:
+					struct fbgc_fun_object * funo = cast_fbgc_object_as_fun(method);
+					if(last_called_function == (struct fbgc_object * ) funo) recursion_ctr++;
+					else {
+						last_called_function = (struct fbgc_object *) funo;
+						recursion_ctr = 0;
+					}
+
+					if(funo->no_arg != arg_no ){
+						cprintf(100,"Argument match error! funo->arg %d, arg_no %d\n",funo->no_arg,arg_no);
+						return 0;
+					}
+
+					STACK_GOTO(funo->no_locals - arg_no);
+					//save our first next operation after this function call
+					//After returning the value we will take this space and run the main code
+					PUSH(pc->next);
+					//hold old frame pointer location
+					PUSH(new_fbgc_int_object(fctr));
+					//hold old position of sp with fp, assume that args already pushed into stack
+					fctr = sctr-funo->no_locals-2;
+					//execute function
+					//--------------------------------
+					//This next push added after first version of the fun call operations
+					//when we have a for loop, it changes stack and return simply makes three basic pop operations
+					//but for loops leave additional objects in the stack so we need to push something as an indicator that 
+					//return will pop everything till see this object.
+					//Nothing from the user side can push globals so we will push global key-value array
+					PUSH(globals);
+					PUSH(globals);
+					//--------------------------------
+
+					//##Solve this pc->next problem!!!!!!!!
+					stack->next = cast_fbgc_object_as_fun(funo)->code;
+					pc = stack;
+
 				}
 				else assert(0);
 
@@ -732,6 +792,9 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 	}
 
+
+
+
 	#ifdef INTERPRETER_DEBUG
 	cprintf(111,"\n==============Stack==========================\n");
 	print_fbgc_object(stack);
@@ -742,6 +805,14 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 	#endif
 	#ifdef INTERPRETER_DEBUG
 	cprintf(111,"^^^^^^^^^^^^^^^^^^^^\n");
+	print_fbgc_ll_object(head,"M");
 	#endif
+	
 	return 1;
+
+
+	INTERPRETER_ERROR_LABEL:
+		cprintf(100,"Execution stopped!\n");
+		return 0;
+
 }

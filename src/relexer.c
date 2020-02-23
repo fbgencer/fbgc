@@ -409,7 +409,7 @@ static uint8_t check_char(rule_flag_struct *rfs,char ** buffer_ptr){
 			( (rfs->pattern_flag & LEXER_PATTERN_O_MASK) && (ispunct(*(*buffer_ptr))) && (*(*buffer_ptr)) != '\'' && (* (*buffer_ptr)) != '"' && (* (*buffer_ptr)) != '_' ) || 
 			( (rfs->pattern_flag & LEXER_PATTERN_X_MASK) && isxdigit(*(*buffer_ptr)))||
 			( (rfs->pattern_flag & LEXER_PATTERN_S_MASK) && isspace(*(*buffer_ptr))) ||
-			( (rfs->pattern_flag & LEXER_PATTERN_B_MASK) && ( !isalpha(*(*buffer_ptr)) && *buffer_ptr-- ) ) ||
+			( (rfs->pattern_flag & LEXER_PATTERN_B_MASK) && ( !isalpha(*(*buffer_ptr)) && (*buffer_ptr)-- ) ) ||
 			( (rfs->pattern_flag & LEXER_PATTERN_SPACE_MASK) && *(*buffer_ptr) == ' ' ) ); 
 	
 	*buffer_ptr += check;

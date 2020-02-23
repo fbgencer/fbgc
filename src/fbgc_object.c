@@ -414,7 +414,7 @@ struct fbgc_object * get_set_fbgc_object_member(struct fbgc_object * o, const ch
 			const struct fbgc_cfunction * cc = cm->module->functions[0];
 			//cprintf(111,"Functions:\n");
 			for (int i = 1; cc!=NULL; ++i){
-				//optimize strlen part
+				//XXX optimize strlen part
 				if(!my_strcmp(str,cc->name) ){
 					#ifdef INTERPRETER_DEBUG
 					cprintf(010,"\n**Function [%s] matched with str [%s]\n",cc->name,str);
@@ -430,6 +430,21 @@ struct fbgc_object * get_set_fbgc_object_member(struct fbgc_object * o, const ch
 			#endif				
 			return NULL;
 		}
+		case FIELD:{
+
+			struct fbgc_object * ao = cast_fbgc_object_as_field(o)->locals;
+			for(unsigned int i = 0;  i<size_fbgc_array_object(ao); ++i){	
+				struct fbgc_identifier * temp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(ao,i);
+				if(!my_strcmp(content_fbgc_cstr_object(temp_id->name),str)){
+					return temp_id->content;
+				}
+			}
+
+			//should not come here, if cannot return put an error
+			cprintf(100,"Name[%s] cannot found in field object\n");
+			assert(0);
+		}
+
 		default:
 			assert(1 && !cprintf(100,"[%s] cannot accessible\n",object_name_array[o->type]) );
 		return NULL;

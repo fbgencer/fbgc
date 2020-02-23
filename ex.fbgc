@@ -1,8 +1,3 @@
-load("lol.fbgc")
-print("Bu dosya :ex.fbgc")
+sf = load('./examples/string_format.fbgc')
+load("file",'*')
 
-s = "I <> life <> now worthy at all <> when we <>"
-q = format(s,(3,4,'xXxXx',1+2j))
-print(q)
-
-locals()

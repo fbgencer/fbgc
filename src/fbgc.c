@@ -3,6 +3,8 @@
 #include "../cmodules/cmodules.h"
 
 struct fbgc_object * current_field = NULL;
+const struct fbgc_object __nil__ = {.type = NIL, .next=NULL};
+const struct fbgc_object * const __fbgc_nil = &__nil__;
 
 
 static void compile_file(struct fbgc_object * main_field,const char *file_name){
@@ -99,7 +101,7 @@ struct fbgc_object * fbgc_load_module(const char * module_name,const char * fun_
 
 }
 
-struct fbgc_object * fbgc_load_file(char * file_name){
+struct fbgc_object * fbgc_load_file(char * file_name,const char * fun_name, uint8_t load_key){
 
 	FILE * input_file = fopen(file_name,"r");
 	if(input_file == NULL){
@@ -113,46 +115,69 @@ struct fbgc_object * fbgc_load_file(char * file_name){
 	interpreter(&file_field);
 	current_field = file_field;
 
+	if(load_key != 0){
+		//now merge two field objects, new field and prev field
+		//prev_field_local_array_object
+		struct fbgc_object * prev_ao = cast_fbgc_object_as_field(prev_field)->locals;
+		//current field local array object
+		struct fbgc_object * current_ao = cast_fbgc_object_as_field(current_field)->locals;
 
-	//now merge two field objects, new field and prev field
-	//prev_field_local_array_object
-	struct fbgc_object * prev_ao = cast_fbgc_object_as_field(prev_field)->locals;
-	//current field local array object
-	struct fbgc_object * current_ao = cast_fbgc_object_as_field(current_field)->locals;
+		printf("\n");
 
-	printf("\n");
+		unsigned int last_j = 0;
 
-	int last_j = 0;
+		char atleast_matched = 0;
+		
 
-	for(int i = 0;  i<size_fbgc_array_object(current_ao); i++){	
-		struct fbgc_identifier * ctemp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(current_ao,i);
-		struct fbgc_identifier * ptemp_id;
-		char found = 0;
+		for(unsigned int i = 0;  i<size_fbgc_array_object(current_ao); ++i){	
+			struct fbgc_identifier * ctemp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(current_ao,i);
+			struct fbgc_identifier * ptemp_id;
+			char found = 0;
 
-		for(int j = last_j; j<size_fbgc_array_object(prev_ao); j++){
-			ptemp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(prev_ao,j);
-			//cprintf(111,"ptemp_id name :"); print_fbgc_object(ptemp_id->name);
-			//cprintf(111," | ctemp_id name :"); print_fbgc_object(ctemp_id->name);
-			
-			if(!my_strcmp(content_fbgc_cstr_object(ptemp_id->name),content_fbgc_cstr_object(ctemp_id->name))){
-				//change the content of ptemp_id object with the second one
-				found = 1;
-				last_j = ++j;
-				//cprintf(100," (Equal)\n");
-				break;
+			//cprintf(111,"ctemp_id name:[%s]fun:[%s]\n",content_fbgc_cstr_object(ctemp_id->name),fun_name);
+			//cprintf(100,"result %d\n",my_strcmp(fun_name,content_fbgc_cstr_object(ctemp_id->name)));
+			if(load_key == 2 && my_strcmp(fun_name,content_fbgc_cstr_object(ctemp_id->name)) ){
+				//if no match
+				continue;
 			}
-		}
 
-		if(found){
-			//cprintf(101,"Found!\n");
-			ptemp_id->content = ctemp_id->content;
-		}else{			
-			//cprintf(101,"creating new local\n");
-			prev_ao = push_back_fbgc_array_object(prev_ao,ctemp_id);	
+			//so matched with the given function name
+			atleast_matched = 1;
+
+			for(unsigned int j = last_j; j<size_fbgc_array_object(prev_ao); ++j){
+				ptemp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(prev_ao,j);
+				//cprintf(111,"ptemp_id name :"); print_fbgc_object(ptemp_id->name);
+				//cprintf(111," | ctemp_id name :"); print_fbgc_object(ctemp_id->name);
+				
+				if(!my_strcmp(content_fbgc_cstr_object(ptemp_id->name),content_fbgc_cstr_object(ctemp_id->name))){
+					//change the content of ptemp_id object with the second one
+					found = 1;
+					last_j = ++j;
+					//cprintf(100," (Equal)\n");
+					break;
+				}
+			}
+
+			if(found){
+				//cprintf(101,"Found!\n");
+				ptemp_id->content = ctemp_id->content;
+			}else{			
+				//cprintf(101,"creating new local\n");
+				prev_ao = push_back_fbgc_array_object(prev_ao,ctemp_id);	
+			}
+			if(load_key == 2) break;
 		}
+		cast_fbgc_object_as_field(prev_field)->locals = prev_ao;
+		
+
+		if(!atleast_matched){
+			cprintf(100,"Error '%s' could not be found in '%s'\n",fun_name,file_name);
+		}
+		assert(atleast_matched);
 	}
-	cast_fbgc_object_as_field(prev_field)->locals = prev_ao;
-	current_field = prev_field;	 	
+
+	current_field = prev_field;
+	return file_field;
 }
 
 
@@ -171,12 +196,7 @@ cprintf(110,"\n\n\n\n\n[========================================================
 	 //load_module_in_field_object(main_field,&fbgc_math_module);
 
 	//load_module_in_field_object(main_field,&fbgc_file_module);
-	 
-
-
-		//cprintf(111,"[%s]: c = ",object_name_array[i]);
-		//print_fbgc_object(c);
-		//cprintf(111,"\n");
+	
 
 	compile_file(main_field, "ex.fbgc");
 

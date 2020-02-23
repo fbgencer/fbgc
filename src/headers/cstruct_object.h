@@ -17,6 +17,12 @@ struct fbgc_cstruct_object{
 };
 
 
+struct fbgc_struct_object{
+    struct fbgc_object base;
+    
+};
+
+
 #define cast_fbgc_object_as_cstruct(x)( (struct fbgc_cstruct_object *) x)
 
 #define block_size_fbgc_cstruct_object(x)(cast_fbgc_object_as_cstruct(x)->block_size)

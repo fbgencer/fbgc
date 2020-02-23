@@ -119,24 +119,9 @@ uint8_t compare_operators(fbgc_token stack_top, fbgc_token obj_type){
 	cprintf(010,"Object type comparison StackTop:[%s]>=Obj[%s] ",object_name_array[stack_top],object_name_array[obj_type]);
 	#endif
 
-	/*if(stack_top == obj_type){
-		switch(stack_top){
-			case LPARA:
-			case LBRACK:
-			case ASSIGN:
-			case COMMA:
-			case STARSTAR:
-			case CARET:
-				result = 0;
-				break;
-			default:
-				result = 1;
-			break;
-		}
-	}
-	else */
 	if(obj_type == NEWLINE && stack_top == COMMA) result = 0;
 	else if(obj_type == LPARA || obj_type == LBRACK) result =  0;
+	//else if(obj_type == DOT && stack_top == IDENTIFIER) result = 0;
 	else if(stack_top == IDENTIFIER) result = 1;
 
 	else if(obj_type >= IF && obj_type <= LEN && stack_top >= IF && stack_top <= LEN ){
@@ -216,9 +201,13 @@ struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,st
 		iter_prev->next = TOP_LL(op);
 		POP_LL(op);
 		
-		int put_pop_top = 0;
+		char put_pop_top = 0;
 
 		if(iter_prev->next->type != CFUN && is_id_flag_MEMBER(iter_prev->next) ){
+			//get the top object 
+
+
+
 			//method call
 			iter_prev->next->type = METHOD_CALL;
 			iter_prev = iter_prev->next;
@@ -231,11 +220,10 @@ struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,st
 			iter_prev = iter_prev->next;
 		}
 
-		if(is_empty_fbgc_ll_object(op) && TOP_LL(op)->type != ASSIGN && top_type != CFUN)
+		if(is_empty_fbgc_ll_object(op) || TOP_LL(op)->type != ASSIGN )
 			put_pop_top = 1;
 
 
-		put_pop_top = 0;
 
 		if(put_pop_top){
 			iter_prev->next = new_fbgc_object(POP_TOP);
@@ -484,7 +472,9 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 
 			if(!is_empty_fbgc_ll_object(op) && TOP_LL(op)->type == DOT){
 				//so this is just a member selection
-				POP_LL(op);
+				POP_LL(op); //pop the dot object
+				//now get the name of instance
+
 
 				/*struct fbgc_object * cstr = new_fbgc_cstr_object(&cast_fbgc_object_as_cstr(cstr_obj)->content); 
 				cstr->next = iter->next;
@@ -904,16 +894,16 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			element_number = (gm.top != GM_LPARA && gm.top != GM_LBRACK) + (get_fbgc_object_type(TOP_LL(op)) == COMMA);
 			
 			#ifdef PARSER_DEBUG
-			cprintf(111,"element_number %d\n",element_number);
+			cprintf(111,"PARA)Element_number %d\n",element_number);
 			#endif
 			iter_prev->next = iter->next;
 
 			while(get_fbgc_object_type(TOP_LL(op)) != which_para){
 
+				
 				if( (error_code = gm_seek_right(&gm,TOP_LL(op))) != _FBGC_NO_ERROR  ){
 					goto PARSER_ERROR_LABEL;
 				}
-					
 				//Insert top op to the list  
 				iter_prev->next = TOP_LL(op);
 				//Pop top from stack
@@ -923,6 +913,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 				
 				//make the iter_prev proper
 				iter_prev = iter_prev->next;
+
 
 				if(is_empty_fbgc_ll_object(op)){
 					cprintf(100,"Para match error\n");
@@ -945,6 +936,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 				iter_prev = handle_before_brackets(iter_prev,op,&gm,element_number);
 			}			
 			break;
+
 		}
 		/*case LOAD:{
 			if( (error_code = gm_seek_left(&gm,iter)) != _FBGC_NO_ERROR  ){
@@ -1024,7 +1016,9 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 				}
 				else{
 
-					cprintf(010,"Cannot push in main list\n");
+					#ifdef PARSER_DEBUG
+						cprintf(010,"Cannot push in main list\n");
+					#endif
 
 					if(iter->type == SEMICOLON && get_fbgc_object_type(TOP_LL(op)) == LBRACK){
 						#ifdef PARSER_DEBUG

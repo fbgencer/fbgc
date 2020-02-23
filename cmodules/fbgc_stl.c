@@ -25,11 +25,11 @@ new_fbgc_cfunction(fbgc_len,"len")
 
 new_fbgc_cfunction(fbgc_load,"load")
 {	
-	// load('module_name') : just returns module 
-	// load('module_name','*') : loads all in the field object,
-	// load('module_name','fun1','fun2','funN') : loads desired functions
-	// 
-
+	//There are 3 states
+	// load('module_name') : just returns module : state 0
+	// load('module_name','*') : loads all in the field object, state : 1
+	// load('module_name','fun1','fun2','funN') : loads desired functions : state : 2
+	//XX last one cannot add desired variables, we need to fix it
 
 	struct fbgc_object * res = NULL;
 
@@ -39,7 +39,8 @@ new_fbgc_cfunction(fbgc_load,"load")
 			res = fbgc_load_module(content_fbgc_str_object(arg[0]),NULL,0);
 			if(res == NULL){
 				//seek in files
-				res = fbgc_load_file(content_fbgc_str_object(arg[0]));
+				res = fbgc_load_file(content_fbgc_str_object(arg[0]),NULL,0);
+				assert(res != NULL);
 			}
 		}
 
@@ -51,15 +52,21 @@ new_fbgc_cfunction(fbgc_load,"load")
 
 		if(!my_strcmp(content_fbgc_str_object(arg[1]),"*")){
 			res = fbgc_load_module(content_fbgc_str_object(arg[0]),NULL,1);
+			if(res == NULL){
+				res = fbgc_load_file(content_fbgc_str_object(arg[0]),NULL,1);
+			}
 			
 		}
 		else{
 			//fbgc_load_module_specific(const char * module_name, const char * fun_name){
-			for(uint8_t i = 1; i<argc; ++i)
-				res = fbgc_load_module(content_fbgc_str_object(arg[0]),content_fbgc_str_object(arg[i]),2);	
-		}
-	
+			for(uint8_t i = 1; i<argc; ++i){
+				res = fbgc_load_module(content_fbgc_str_object(arg[0]),content_fbgc_str_object(arg[i]),2);
+				if(res == NULL){
+					res = fbgc_load_file(content_fbgc_str_object(arg[0]),content_fbgc_str_object(arg[i]),2);
+				}	
+			}
 
+		}
 	}
 	
 	return res;
@@ -71,8 +78,10 @@ new_fbgc_cfunction(fbgc_load,"load")
 new_fbgc_cfunction(fbgc_id,"id"){
 	if(argc == 1){
 		fprintf(stdout,"%p\n",arg[0]);
+		return __fbgc_nil;
 	}
-	else cprintf(100,"<id> takes only 1 argument, %d given !\n",argc);
+	
+	cprintf(100,"<id> takes only 1 argument, %d given !\n",argc);
 	return NULL;
 }
 
@@ -81,7 +90,8 @@ new_fbgc_cfunction(fbgc_type,"type"){
 	if(argc == 1){
 		return new_fbgc_int_object(arg[0]->type);
 	}
-	else cprintf(100,"<id> takes only 1 argument, %d given !\n",argc);
+	
+	cprintf(100,"<type> takes only 1 argument, %d given !\n",argc);
 	return NULL;
 }
 
@@ -90,7 +100,8 @@ new_fbgc_cfunction(fbgc_int,"int"){
 		int d = convert_fbgc_object_to_int(arg[0]);
 		return new_fbgc_int_object(d);
 	}
-	else cprintf(100,"<int> takes only 1 argument, %d given !\n",argc);
+	
+	cprintf(100,"<int> takes only 1 argument, %d given !\n",argc);
 	return NULL;
 }
 
@@ -99,7 +110,8 @@ new_fbgc_cfunction(fbgc_double,"double"){
 		double d = convert_fbgc_object_to_double(arg[0]);
 		return new_fbgc_double_object(d);
 	}
-	else cprintf(100,"<int> takes only 1 argument, %d given !\n",argc);
+	
+	cprintf(100,"<double> takes only 1 argument, %d given !\n",argc);
 	return NULL;
 }
 
@@ -155,7 +167,7 @@ new_fbgc_cfunction(fbgc_matrix,"matrix"){
 		size_t c = convert_fbgc_object_to_int(arg[1]);
 		return new_fbgc_matrix_object(DOUBLE,r,c,convert_fbgc_object_to_int(arg[2]));
 	}
-	else cprintf(100,"<int> takes only 3 argument, %d given !\n",argc);
+	else cprintf(100,"<matrix> takes only 3 argument, %d given !\n",argc);
 	return NULL;
 }
 
@@ -163,6 +175,7 @@ new_fbgc_cfunction(fbgc_matrix,"matrix"){
 new_fbgc_cfunction(fbgc_mem,"mem"){
 	if(argc == 0){
 		print_fbgc_memory_block();
+		return __fbgc_nil;
 	}
 	else cprintf(100,"<mem> takes only 0 argument, %d given !\n",argc);
 	return NULL;
@@ -172,6 +185,7 @@ new_fbgc_cfunction(fbgc_mem,"mem"){
 new_fbgc_cfunction(fbgc_locals,"locals"){
 	if(argc == 0){
 		print_field_object_locals(current_field);
+		return __fbgc_nil;
 	}
 	else cprintf(100,"<locals> takes only 0 argument, %d given !\n",argc);
 	return NULL;
@@ -182,7 +196,7 @@ new_fbgc_cfunction(fbgc_locals,"locals"){
 
 const struct fbgc_cfunction fbgc_stl_initializer_struct = {"stl",fbgc_stl_initializer};
 extern struct fbgc_object * fbgc_stl_initializer (struct fbgc_object ** arg,int argc){
-	return NULL;
+	return __fbgc_nil;
 }
 
 
