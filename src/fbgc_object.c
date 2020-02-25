@@ -58,30 +58,24 @@ void printf_fbgc_object(struct fbgc_object * self){
 
 			    double * contents = content_fbgc_matrix_object(self);
 
-			    int width = 10;
+			    int width = 8;
 			    int slash_widht = m->column*width+1;
 				if(m->sub_type == COMPLEX)
-					slash_widht += 6;
+					slash_widht += 5;
 
 			    //fprintf(stdout,"%2s%*s\n%1s","/",slash_widht,"\\","|");
-				int j_inc = 1+(m->sub_type == COMPLEX);
-				int col = m->column*j_inc;
-
+				char iscomplex = (m->sub_type == COMPLEX);
+			
 			    for(int i = 0; i<m->row; ++i){
-			        for(int j = 0; j<col; j += j_inc ){
+			        for(int j = 0; j<m->column; ++j){
 
-			        	size_t index = i* col + j;
+			        	size_t index = (i * m->column + j)<<iscomplex;
 
-			        	//cprintf(100,"index: %d",index);
-        			    
 			    		fprintf(stdout,"%*g",width,contents[index]);
-
-        			    if(m->sub_type == COMPLEX){
+        			    
+        			    if(iscomplex){
 			    			fprintf(stdout,"%+gj%*s",contents[index+1],width," " );
 			    		}
-			    		//else
-			            //	fprintf(stdout,"%*g",width,contents[index]);
-
 			        }
 			        if(i!=m->row-1) 
 			        	fprintf(stdout,"\n");

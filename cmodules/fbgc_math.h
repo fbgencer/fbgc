@@ -30,6 +30,7 @@ declare_new_fbgc_cfunction(fbgc_gsl);
 declare_new_fbgc_cfunction(fbgc_random);
 declare_new_fbgc_cfunction(fbgc_randint);
 declare_new_fbgc_cfunction(fbgc_rand);
+declare_new_fbgc_cfunction(fbgc_randj);
 
 
 #define FBGC_MATH_PI 3.14159265358979323846264

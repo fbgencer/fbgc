@@ -36,7 +36,10 @@ struct fbgc_object * get_object_in_fbgc_matrix_object(struct fbgc_object * mat, 
 struct fbgc_object * set_object_in_fbgc_matrix_object(struct fbgc_object * mat, size_t r, size_t c,struct fbgc_object * obj);
 
 
+struct fbgc_object * transpose_fbgc_matrix_object(struct fbgc_object * mat1);
+
 struct fbgc_object * multiply_fbgc_matrix_object(struct fbgc_object * mat1, struct fbgc_object * mat2);
+struct fbgc_object * fast_multiply_fbgc_matrix_object(struct fbgc_object * mat1, struct fbgc_object * mat2);
 
 struct fbgc_object * operator_fbgc_matrix_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op);
 

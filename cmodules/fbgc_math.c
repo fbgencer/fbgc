@@ -1,9 +1,12 @@
 #include "../src/fbgc.h"
 #include "fbgc_math.h"
 #include <math.h>
-#include <gsl/gsl_matrix.h>
-#include <gsl/gsl_blas.h>
-#include <gsl/gsl_complex_math.h>
+//#include <gsl/gsl_matrix.h>
+//#include <gsl/gsl_blas.h>
+//#include <gsl/gsl_complex_math.h>
+
+#include <cblas.h>
+
 /*
 #define new_fbgc_cfunction(fun_name,str_fun_name)\
 const struct fbgc_cfunction fun_name##_struct  = {str_fun_name,fun_name};\
@@ -146,7 +149,59 @@ new_fbgc_cfunction(fbgc_math_initializer,"math")
 
 new_fbgc_cfunction(fbgc_gsl,"gsl")
 {
-	if(argc == 2 && arg[0]->type == MATRIX && arg[1]->type == MATRIX){
+
+  	/*	int i=0;
+  	double A[6] = {1.0,2.0,
+  					 1.0,-3.0,
+  					 4.0,-1.0};//3x2  
+  	double B[6] = { 1.0,2.0,1.0,
+  					 -3.0,4.0,-1.0};//2x3
+  	double C[9] = {0};//3x3
+ 	size_t m = 3;
+ 	size_t k = 2;
+ 	size_t n = 3; 
+  	cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans,m,n,k,1,A, k, B, n,0,C,n);
+
+  	for(i=0; i<9; i++)
+    	printf("%lf ", C[i]);
+  	printf("\n");
+
+  	return NULL;*/
+
+	struct fbgc_matrix_object * m1 = (struct fbgc_matrix_object *) arg[0];
+	struct fbgc_matrix_object * m2 = (struct fbgc_matrix_object *) arg[1];
+	if(m1->column != m2->row) return NULL;
+	fbgc_token sub_type = MAX(m1->sub_type,m2->sub_type);
+	struct fbgc_matrix_object * res = (struct fbgc_matrix_object *) new_fbgc_matrix_object(sub_type, m1->row, m2->column, UNINITIALIZED_MATRIX);
+		
+ 	//cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans,m, n, k, alpha, A, k, B, n, beta, C, n); 
+  	//A : mxk, B : kxn, C : mxn
+  	//alpha : used to scale the product of matrices A and B, beta : used to scale matrix C
+ 	size_t m = m1->row;
+ 	size_t k = m1->column;
+ 	size_t n = m2->column;
+
+	double * A = content_fbgc_matrix_object(m1);
+	double * B = content_fbgc_matrix_object(m2);
+	double * C = content_fbgc_matrix_object(res);
+
+	//both of them are double no need to make extra work
+	if(sub_type == DOUBLE){
+ 		cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans,m,n,k,1 ,A,k,B,n,0,C,n);
+	}
+	//one of the matrices could be double so we need check and convert to complex before using zgemm
+ 	else if(sub_type == COMPLEX){
+ 		double alpha[] = {1,0};
+ 		double beta [] = {0,0};
+ 		cblas_zgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans,m,n,k,alpha,A,k,B,n,beta,C,n);
+ 	}
+
+ 	return (struct fbgc_object *) res;
+
+
+
+
+	/*if(argc == 2 && arg[0]->type == MATRIX && arg[1]->type == MATRIX){
 
 
 		struct fbgc_matrix_object * m1 = (struct fbgc_matrix_object *) arg[0];
@@ -181,7 +236,7 @@ new_fbgc_cfunction(fbgc_gsl,"gsl")
 
 		return (struct fbgc_object *) res;
 
-	}
+	}*/
 		
 /*
 	//x = [1+2j 3+4j; 2.2+3j 5.5-8.8j];
@@ -263,6 +318,7 @@ new_fbgc_cfunction(fbgc_rand,"rand")
 {
 	srand((int) clock() );
 	size_t row,col;
+
 	if(argc == 1){	
 		row = col = convert_fbgc_object_to_int(arg[0]);
 	}
@@ -274,11 +330,33 @@ new_fbgc_cfunction(fbgc_rand,"rand")
 
 	struct fbgc_object * m = new_fbgc_matrix_object(DOUBLE,row,col,UNINITIALIZED_MATRIX);
 	double * mc = content_fbgc_matrix_object(m);
-	for(size_t i = 0; i<row; ++i){
-		for(size_t j = 0; j<col; ++j){
-			mc[i*col+j] = rand() /( (double)RAND_MAX );
-		}
-	}	
+	size_t rc = row*col;
+	while(rc)
+		mc[--rc] = rand()/( (double)RAND_MAX );
+		
+	
+	return m;
+}
+
+new_fbgc_cfunction(fbgc_randj,"randj")
+{
+	srand((int) clock() );
+	size_t row,col;
+	if(argc == 1){	
+		row = col = convert_fbgc_object_to_int(arg[0]);
+	}
+	else if(argc == 2){
+		row = convert_fbgc_object_to_int(arg[0]);
+		col = convert_fbgc_object_to_int(arg[1]);
+	}
+	else return NULL;
+
+	struct fbgc_object * m = new_fbgc_matrix_object(COMPLEX,row,col,UNINITIALIZED_MATRIX);
+	double * mc = content_fbgc_matrix_object(m);
+	size_t rc = 2*row*col;
+	while(rc)
+		mc[--rc] = rand()/( (double)RAND_MAX );
+
 	return m;
 }
 
@@ -298,7 +376,8 @@ const struct fbgc_cmodule fbgc_math_module =
 		&fbgc_gsl_struct,
 		&fbgc_random_struct,
 		&fbgc_randint_struct,
-		&fbgc_rand_struct,		
+		&fbgc_rand_struct,
+		&fbgc_randj_struct,		
 		NULL
 	}
 };

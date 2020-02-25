@@ -9,11 +9,18 @@ CC=gcc
 CFLAGS=-w -c
 LDFLAGS += -lm
 
-GSL_CFLAG = -I /home/fbgencer/gsl/include
-GSL_LDFLAG = -L /home/fbgencer/gsl/lib -lgsl -lgslcblas
+#GSL_CFLAG = -I /home/fbgencer/gsl/include
+#GSL_LDFLAG = -L /home/fbgencer/gsl/lib -lgsl -lgslcblas
 
-CFLAGS += $(GSL_CFLAG)
-LDFLAGS += $(GSL_LDFLAG)
+OPENBLAS_CFLAG = -I /home/fbgencer/openblas/include
+OPENBLAS_LDFLAG = -L /home/fbgencer/openblas/lib -lopenblas -lpthread -lgfortran
+
+LIB_CFLAGS += $(OPENBLAS_CFLAG)
+LIB_LDFLAGS += $(OPENBLAS_LDFLAG)
+
+CFLAGS += $(LIB_CFLAGS)
+LDFLAGS += $(LIB_LDFLAGS)
+
 
 #LDFLAGS += -lm 
 #OPTIMIZATION_FLAGS = -foptimize-strlen 

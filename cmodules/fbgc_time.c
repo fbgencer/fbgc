@@ -6,7 +6,11 @@
 
 new_fbgc_cfunction(fbgc_tic,"tic")
 {	
-	if(argc != 0) return NULL;
+	
+	if(argc != 0){
+		cprintf(100,"<tic> requires no argument!\n");
+		return NULL;
+	}
 
 	struct fbgc_cstruct_object * so = (struct fbgc_cstruct_object *)new_fbgc_cstruct_object(sizeof(struct time_struct), &fbgc_time_module);
 	struct time_struct * ts = (struct time_struct *) so->cstruct; 	
@@ -16,7 +20,10 @@ new_fbgc_cfunction(fbgc_tic,"tic")
 
 new_fbgc_cfunction(fbgc_toc,"toc")
 {	
-	if(argc != 1) return NULL;
+	if(argc != 1){
+		cprintf(100,"<toc> requires 1 argument!\n");
+		return NULL;
+	}
 
 	struct fbgc_cstruct_object * so = cast_fbgc_object_as_cstruct(arg[0]);
 	assert(so->parent == &fbgc_time_module);
