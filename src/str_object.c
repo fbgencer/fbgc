@@ -164,11 +164,15 @@ switch(op)
             char buf[100];
             size_t len = 0;
 
+
             if(b->type == INT){
                 len += sprintf(buf,content_fbgc_str_object(a),cast_fbgc_object_as_int(b)->content);
             }
             else if(b->type == DOUBLE){
                 len += sprintf(buf,content_fbgc_str_object(a),cast_fbgc_object_as_double(b)->content);
+            }
+            else if(b->type == STRING){
+                len += sprintf(buf,content_fbgc_str_object(a),content_fbgc_str_object(b));   
             }
             struct fbgc_object * o = new_fbgc_str_object_empty(len);
             memcpy(content_fbgc_str_object(o),buf,len);

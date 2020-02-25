@@ -220,9 +220,10 @@ struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,st
 			iter_prev = iter_prev->next;
 		}
 
-		if(is_empty_fbgc_ll_object(op) || TOP_LL(op)->type != ASSIGN )
+		if(!is_empty_fbgc_ll_object(op) )
 			put_pop_top = 1;
 
+		put_pop_top = 0;
 
 
 		if(put_pop_top){

@@ -13,10 +13,8 @@ new_fbgc_cfunction(fbgc_fopen,"fopen")
 
 		return (struct fbgc_object *)so;
 	}
-	else {
-		cprintf(100,"fopen takes exactly two arguments!\n");
-	}
-
+	
+	cprintf(100,"fopen takes exactly two arguments!\n");
 	return NULL;	
 }
 new_fbgc_cfunction(fbgc_fprint,"fprint")
@@ -27,9 +25,10 @@ new_fbgc_cfunction(fbgc_fprint,"fprint")
 		if(so->parent == &fbgc_file_module){
 			struct file_struct * fs = (struct file_struct *) so->cstruct; 
 			fprintf(fs->fp,"%s", content_fbgc_str_object(arg[1]));
-		}		
+		}
+		return __fbgc_nil;
 	}
-
+	cprintf(100,"fprint takes exactly two arguments!\n");
 	return NULL;
 }
 
@@ -56,10 +55,8 @@ new_fbgc_cfunction(fbgc_fread,"fread")
 			return str;
 		}		
 	}
-	else {
-		cprintf(100,"fread takes exactly one arguments!\n");
-	}
 
+	cprintf(100,"fread takes exactly one arguments!\n");
 	return NULL;
 }
 
@@ -107,10 +104,8 @@ new_fbgc_cfunction(fbgc_freadline,"freadline")
 			return str;
 		}		
 	}
-	else {
-		cprintf(100,"fread takes exactly two arguments!\n");
-	}
-
+	
+	cprintf(100,"fread takes exactly two arguments!\n");
 	return NULL;
 }
 
@@ -118,12 +113,17 @@ new_fbgc_cfunction(fbgc_freadline,"freadline")
 new_fbgc_cfunction(fbgc_fclose,"fclose")
 {
 
-	struct fbgc_cstruct_object * so = cast_fbgc_object_as_cstruct(arg[0]);
-	if(so->parent == &fbgc_file_module){
-		struct file_struct * fs = (struct file_struct *) so->cstruct; 
-		fclose(fs->fp);
+	if(argc == 1){
+		struct fbgc_cstruct_object * so = cast_fbgc_object_as_cstruct(arg[0]);
+		if(so->parent == &fbgc_file_module){
+			struct file_struct * fs = (struct file_struct *) so->cstruct; 
+			fclose(fs->fp);
+		}
+		return __fbgc_nil;
 	}
 
+
+	cprintf(100,"fclose takes no arguments!\n");
 	return NULL;
 }
 

@@ -64,18 +64,27 @@ void printf_fbgc_object(struct fbgc_object * self){
 					slash_widht += 6;
 
 			    //fprintf(stdout,"%2s%*s\n%1s","/",slash_widht,"\\","|");
-			    for(int i = 0; i<m->row; i++){
-			        
-			        for(int j = 0; j<m->column; j++){
+				int j_inc = 1+(m->sub_type == COMPLEX);
+				int col = m->column*j_inc;
+
+			    for(int i = 0; i<m->row; ++i){
+			        for(int j = 0; j<col; j += j_inc ){
+
+			        	size_t index = i* col + j;
+
+			        	//cprintf(100,"index: %d",index);
+        			    
+			    		fprintf(stdout,"%*g",width,contents[index]);
+
         			    if(m->sub_type == COMPLEX){
-			    			fprintf(stdout,"%g",contents[i * m->column + j]);
-			    			fprintf(stdout,"%+gj%*s",contents[i * m->column + j+(m->row*m->column)],width," " );
+			    			fprintf(stdout,"%+gj%*s",contents[index+1],width," " );
 			    		}
-			    		else
-			            	fprintf(stdout,"%*g",width,contents[i * m->column + j]);
+			    		//else
+			            //	fprintf(stdout,"%*g",width,contents[index]);
 
 			        }
-			        if(i!=m->row-1) fprintf(stdout,"\n");
+			        if(i!=m->row-1) 
+			        	fprintf(stdout,"\n");
 			        //if(i!= m->row-1) fprintf(stdout,"%3s\n%1s","|","|");
 			    }
 			    //fprintf(stdout,"%3s\n%2s%*s","|","\\",slash_widht,"/");

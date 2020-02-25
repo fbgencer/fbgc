@@ -1,0 +1,16 @@
+load("file",'*')
+sf = load('./examples/string_format.fbgc')
+
+f = fopen('deneme.txt','w+')
+
+
+f.fprint('Table construction:\n')
+
+#sf.format("<> * <> = <>\n",(i,j,i*j))
+for i = -1000:1000
+for j = -500:500
+	f.fprint( ("%d"%i)+"*"+("%d"%j)+" = "+("%d"%(i*j))+"\n" )
+end
+end
+
+f.fclose()

@@ -1,3 +1,24 @@
-sf = load('./examples/string_format.fbgc')
-load("file",'*')
+load('math','*')
+
+x = [1,2+3j,5;3,4,55]
+y = [10,20.1-4j;30,40;5.2,3.3]
+
+print("fbgc = \n",x*y,"\n")
+print("gsl = \n",gsl(x,y),"\n")
+
+
+
+
+x = [1+2j,3+4j; 2.2+3j,5.5-8.8j];
+y = [1+2.3j,30+4.2j; 0.22+1j,5-8j];
+
+print("fbgc = \n",x*y,"\n")
+print("gsl = \n",gsl(x,y),"\n")
+
+
+x = [1,2,3;4,5,6;7,8,9];
+y = [5,10;2.3,44;100,-1];
+
+print("fbgc = \n",x*y,"\n")
+print("gsl = \n",gsl(x,y),"\n")
 

@@ -20,7 +20,7 @@ extern "C" {
 #include <time.h>
 #include <signal.h>
 
-#define size_t unsigned int	
+//#define size_t unsigned int	
 
 #include "headers/tokens.h"
 #include "headers/error.h"

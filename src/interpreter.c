@@ -558,8 +558,9 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 						goto INTERPRETER_ERROR_LABEL;
 					} 
 						
-
-					PUSH(res);
+					//XXX solve this issue
+					if(res != __fbgc_nil)
+						PUSH(res);
 					break;
 
 					// In order to increase speed, DELETE new tuple creation it causes 2sec for 100,000 print('ffdfds') code
@@ -609,14 +610,21 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				struct fbgc_object * name = cast_fbgc_object_as_id_opcode(pc)->member_name; // holds name after dot: x.name
 
 				struct fbgc_object * method = get_set_fbgc_object_member(TOPN(arg_no+1),&cast_fbgc_object_as_cstr(name)->content , NULL);
-				assert(method != NULL);
+				if(method == NULL){
+					cprintf(100,"Method name is undefined :\n"); print_fbgc_object(name); printf("\n");
+					goto INTERPRETER_ERROR_LABEL;
+				} 
 
 				if(method->type == CFUN){
 					STACK_GOTO(-arg_no);
 					//assert(0);
-					struct fbgc_object * res = cfun_object_call(method, sp+sctr, arg_no);
+					struct fbgc_object * res = cfun_object_call(method, sp+sctr-1, arg_no+1);
 					STACK_GOTO(-1);
-					if(res!= NULL)
+					if(res == NULL){
+						cprintf(100,"cfun error\n");
+						goto INTERPRETER_ERROR_LABEL;
+					}	 
+					if(res != __fbgc_nil)
 						PUSH(res);
 
 					//
@@ -807,7 +815,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 	cprintf(111,"^^^^^^^^^^^^^^^^^^^^\n");
 	print_fbgc_ll_object(head,"M");
 	#endif
-	
+
 	return 1;
 
 

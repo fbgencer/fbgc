@@ -1,17 +1,6 @@
 format = fun(s,tp)
-	if(type(s) != type(""))
-		return ""
-	end
-
-	if(type(tp) != type( () ) )
-		tp = () << tp
-	end
 	
 	splitted_str = s / "<>"
-
-	if(|splitted_str| == 1)
-		return s
-	end
 
 	res = ""
 	index = 0

@@ -231,6 +231,10 @@ void print_fbgc_complex_object(struct fbgc_object * obj){
    cprintf(011,"%g%+gj",cast_fbgc_object_as_complex(obj)->z.real,cast_fbgc_object_as_complex(obj)->z.imag);  
 }
 
+void print_raw_complex(struct raw_complex z){
+   cprintf(011,"%g%+gj",z.real,z.imag);  
+}
+
 void free_fbgc_complex_object(struct fbgc_object * obj){
     //   free(obj);
 }

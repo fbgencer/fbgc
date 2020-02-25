@@ -4,13 +4,19 @@ SRC = $(shell find src/*.c cmodules/*.c)
 OBJ = ${SRC:.c=.o}
 
 #put -g in order to see good assembly output
+
 CC=gcc
-CFLAGS=-c -Os
-LDFLAGS += -lm 
+CFLAGS=-w -c
+LDFLAGS += -lm
+
+GSL_CFLAG = -I /home/fbgencer/gsl/include
+GSL_LDFLAG = -L /home/fbgencer/gsl/lib -lgsl -lgslcblas
+
+CFLAGS += $(GSL_CFLAG)
+LDFLAGS += $(GSL_LDFLAG)
+
+#LDFLAGS += -lm 
 #OPTIMIZATION_FLAGS = -foptimize-strlen 
-
-
-#CFLAGS += $(OPTIMIZATION_FLAGS)
 
 #CFLAGS += -DCLOSE_CPRINTF
 #CFLAGS += -DLEXER_DETAILED_DEBUG
@@ -35,22 +41,25 @@ TEST_OBJ = ${TEST_SRC:.c=.o}
 OUT = fbgc
 all: fbgc
 
+
+%.o:%.c
+	@$(CC) $(CFLAGS) $< -o $@
+
 $(OUT): $(OBJ)
-	$(CC) $^ $(LDFLAGS) -o $@
+	@$(CC) -o $@ $^ $(LDFLAGS) 
+
+$(info "Succesfully compiled:")
 
 #$(OUT): $(TEST_OBJ)
 #	$(CC) $^ $(LDFLAGS) -o $@
 
 
-%.o: %.c
-	@$(CC) $(CFLAGS) $< -o $@ 
-	$(info "Succesfully compiled:" $<)
 
 
 valgrind:
 	make clean && make && valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./fbgc
 clean:
-	rm -f $(OBJ)
+	@rm -f $(OBJ)
 
 # blas and lapack libraries
 #libs = -L/usr/lib/ -llapack -lblas

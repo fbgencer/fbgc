@@ -188,6 +188,8 @@ int main(int argc, char **argv){
 cprintf(110,"\n\n\n\n\n[=======================================================================]\n"); 
 #endif
 
+
+
 //******************************************************************
 	initialize_fbgc_memory_block();
 	initialize_fbgc_symbol_table();
