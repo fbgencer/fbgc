@@ -10,7 +10,7 @@ zg = gsl(x,y)
 print("fbgc = \n",zf,"\n")
 print("gsl = \n",zg,"\n")
 
-m_size = 2000
+m_size = 3000
 
 x = randj(m_size,m_size)
 y = randj(m_size,m_size)
@@ -31,3 +31,48 @@ dif_fbgc = toc(t)
 #print(zg)
 #print(zf==zg)
 print("fbgc %g"%dif_fbgc)
+
+
+
+
+x = [1+2j,3+4j; 2.2+3j,5.5-8.8j];
+y = [1+2.3j,30+4.2j; 0.22+1j,5-8j];
+
+print("fbgc = \n",x*y,"\n")
+print("gsl = \n",gsl(x,y),"\n")
+
+
+x = [1,2,3;4,5,6;7,8,9];
+y = [5,10;2.3,44;100,-1];
+
+print("fbgc = \n",x*y,"\n")
+print("gsl = \n",gsl(x,y),"\n")
+
+
+
+d=load('time','*') # loads the whole time module
+
+
+
+m_size = 1000
+
+t = tic()
+x = randj(m_size,m_size)
+y = randj(m_size,m_size)
+dif_rn = toc(t)
+
+print(dif_rn)
+
+t = tic()
+zf = x*y
+dif_fbgc = toc(t)
+
+t = tic()
+zg = gsl(x,y)
+dif_gsl = toc(t)
+
+#print(zf)
+#print(zg)
+#print(zf==zg)
+print(zg[1,1])
+print("gsl %g"%dif_gsl,"fbgc %g"%dif_fbgc)

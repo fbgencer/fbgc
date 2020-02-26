@@ -214,8 +214,7 @@ struct fbgc_object * set_object_in_fbgc_matrix_object(struct fbgc_object * mat, 
 
 struct fbgc_object * multiply_fbgc_matrix_object(struct fbgc_object * mat1, struct fbgc_object * mat2){
 	
-	return fast_multiply_fbgc_matrix_object(mat1,mat2);
-
+	
 	#define m1 cast_fbgc_object_as_matrix(mat1)
 	#define m2 cast_fbgc_object_as_matrix(mat2)
 
@@ -223,6 +222,8 @@ struct fbgc_object * multiply_fbgc_matrix_object(struct fbgc_object * mat1, stru
 		cprintf(111,"Error at matrix multiplication, dimension problem\n");
 		return NULL;
 	}
+
+	if(m1->row >= 50 && m2->column >=50) return fast_multiply_fbgc_matrix_object(mat1,mat2);
 
 	fbgc_token sub_type = MAX(m1->sub_type,m2->sub_type);
 
@@ -323,31 +324,24 @@ for(int i = 0; i < m1->row; i++)
 	double * dtm2 = content_fbgc_matrix_object(tm2);
 	double * dm = content_fbgc_matrix_object(m);
 
-	print_fbgc_matrix_object(tm2);
-
 	double * ap, * bp;
-	cprintf(100,"buraya kadar hizli..\n");
+
+	/*
+		Bad cache performance, needs to be improved but does the job..
+	*/
 
 	for(size_t i = 0; i<m1->row; ++i){
 		for(size_t j = 0; j<tm2->row; ++j){
 
 			struct raw_complex z = {0,0};
+			size_t asz = i * m1->column;
+			size_t bsz = j * tm2->column;
 
 			for(size_t k = 0; k< m1->column; ++k){
 
-				ap = dm1  + ((i * m1->column + k)<<1);
-				bp = dtm2 + ((j * tm2->column + k)<<1);
+				ap = dm1  + ((asz + k)<<1);
+				bp = dtm2 + ((bsz + k)<<1);
 				
-				//a.real = *(dm1 + m1_index);
-				//if(ism1_complex) 
-				//7a.imag = *(dm1 + 1 + m1_index);
-				
-				//b.real = *(dtm2 + tm2_index);
-				//if(ism2_complex)
-				//b.imag = *(dtm2 + 1 + tm2_index);
-
-				//z.real +=(a.real * b.real - a.imag * b.imag);
-				//z.imag +=(a.real * b.imag + a.imag * b.real);
 				z.real += (ap[0] * bp[0]);
 				if(ism1_complex && ism2_complex)
 					 z.real -= ap[1] * bp[1];
@@ -356,10 +350,6 @@ for(int i = 0; i < m1->row; i++)
 					z.imag += ap[0] * bp[1];
 				if(ism2_complex)
 					z.imag += ap[1] * bp[0];
-
-
-				//z.real += (ap[0] * bp[0] - ap[1] * bp[1] );
-				//if(ism_complex) z.imag += (ap[0] * ap[1] + ap[1] * bp[0]);
 					
 			}
 			
