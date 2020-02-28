@@ -7,8 +7,7 @@ struct iter_function_ptr_struct{
 };
 
 uint8_t interpreter(struct fbgc_object ** field_obj){
-	
-
+	return 0;
 	current_field = *field_obj;
 
 	#ifdef INTERPRETER_DEBUG
@@ -93,32 +92,33 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			}
 			case IDENTIFIER:
 			{	
-				if(is_id_flag_SUBSCRIPT(pc) == 0 && is_id_flag_GLOBAL(pc)){
 
-					struct fbgc_identifier * tmp = (struct fbgc_identifier *) get_address_in_fbgc_array_object(globals,cast_fbgc_object_as_id_opcode(pc)->loc);
+				if(is_id_flag_GLOBAL(pc)){
+
+					struct fbgc_identifier * tmp = (struct fbgc_identifier *) 
+						get_address_in_fbgc_array_object(globals,cast_fbgc_object_as_id_opcode(pc)->loc);
 
 					//Check undefined variable
 					if(tmp->content == NULL){
-						
 						struct fbgc_object * name = tmp->name;
 						cprintf(100,"Undefined variable %s\n",&cast_fbgc_object_as_cstr(name)->content);
 						//fbgc_error(_FBGC_UNDEFINED_IDENTIFIER_ERROR,-1);
 						return 0;
 					}
-						
+					
 					PUSH(tmp->content);
-		
-					//PUSH(globals[cast_fbgc_object_as_id_opcode(pc)->loc]);	
-				} 
-				else if(is_id_flag_SUBSCRIPT(pc) == 0 && is_id_flag_LOCAL(pc) )  PUSH(GET_AT_FP(cast_fbgc_object_as_id_opcode(pc)->loc));
 
-				if(is_id_flag_MEMBER(pc)){
+				//PUSH(globals[cast_fbgc_object_as_id_opcode(pc)->loc]);	
+				} 
+				else if(is_id_flag_LOCAL(pc))  PUSH(GET_AT_FP(cast_fbgc_object_as_id_opcode(pc)->loc));
+				else if(is_id_flag_MEMBER(pc)){
 					//if(TOP()->type == CSTRING)
-					struct fbgc_object * name = cast_fbgc_object_as_id_opcode(pc)->member_name;
-					SET_TOP( get_set_fbgc_object_member(TOP(),&cast_fbgc_object_as_cstr(name)->content , NULL) );
+					struct fbgc_object * member = POP();
+					SET_TOP( get_set_fbgc_object_member(TOP(),content_fbgc_cstr_object(member), NULL) );
 					break;
 				}
 
+				/*
 				if(is_id_flag_SUBSCRIPT(pc)){
 					//first pop the number of indexes
 					int index_no = cast_fbgc_object_as_int(POP())->content;
@@ -179,7 +179,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					STACK_GOTO(-index_no);
 					PUSH(temp);
 					break;
-				}
+				}*/
 
 				break;
 			}
@@ -204,15 +204,15 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 				struct fbgc_object * ret = POP();
 				while(POP() != globals);
-				
+				//_POP();
 				int old_fctr = fctr;
-				if(TOP() == globals){
+				/*if(TOP() == globals){
 					POP();
 					--old_fctr;
 					//XXBUG
 					//pop the method name, this is a bug we need to fix it in parser
 					//In order to call methods as typical functions, method call pushes another global to stack 
-				}
+				}*/
 				fctr = cast_fbgc_object_as_int(TOP())->content;
 				stack->next = SECOND();
 				sctr = old_fctr;
@@ -220,7 +220,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				
 				//##Solve this pc->next problem!!!!!!!!
 				pc = stack;
-
+				_POP();
 				PUSH(ret);
 
 				//if(ret->type == NIL && pc->next->type != ASSIGN) 
@@ -321,96 +321,26 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					lhs = &tmp->content;
 				}
 				else if(is_id_flag_MEMBER(pc)){
-					struct fbgc_object * name = cast_fbgc_object_as_id_opcode(pc)->member_name;
-					struct fbgc_object * ok = get_set_fbgc_object_member(TOP(),&cast_fbgc_object_as_cstr(name)->content , rhs);
+					struct fbgc_object * member = POP();
+					struct fbgc_object * object = get_set_fbgc_object_member(TOP(),content_fbgc_cstr_object(member) , rhs);
 
-					if(ok == NULL){
-						cprintf(100,"[%s] does not support [%s] member assignment\n",object_name_array[TOP()->type],&cast_fbgc_object_as_cstr(name)->content);
-						return 0;
+					if(object == NULL){
+						cprintf(100,"[%s] does not support [%s] member assignment\n",object_name_array[TOP()->type],content_fbgc_cstr_object(member));
+						goto INTERPRETER_ERROR_LABEL;
 					}
 
 					_POP();
-
-					//why do we have break here?
 					break;
+
+					//why do we have break here? this type of operation only supports assign, not the other types.
+					//TODO make it general
+					
 					
 				}
 				else if(is_id_flag_LOCAL(pc)){
 					lhs = &(GET_AT_FP(cast_fbgc_object_as_id_opcode(pc)->loc));
 				}
 
-				
-
-				if(is_id_flag_SUBSCRIPT(pc)){
-					//first pop the number of indexes
-					int index_no = cast_fbgc_object_as_int(POP())->content;
-					//take index values one by one and finally left last index 
-					struct fbgc_object * temp = *lhs;
-					lhs = &temp;
-					int index = 0;
-					int stck_goto = index_no;
-					while(index_no > 0){
-						if(temp->type == TUPLE){
-							index = cast_fbgc_object_as_int(TOPN(index_no))->content;
-							if(index_no > 1){
-								temp = get_object_in_fbgc_tuple_object(temp,index);
-								index_no--;
-							}
-							else
-							{
-								index = cast_fbgc_object_as_int(TOPN(index_no))->content;
-								cprintf(110,"Here index %d\n",index);
-								lhs = get_object_address_in_fbgc_tuple_object(temp,index);
-								break;
-							}
-						}
-						else if(temp->type == STRING){
-							index = cast_fbgc_object_as_int(TOPN(index_no))->content;
-							*lhs =  set_object_in_fbgc_str_object(temp,index,index+1,rhs);
-							rhs = *lhs;
-							break;
-						}
-						else if(temp->type == MATRIX){
-							assert(index_no > 1);
-							index = cast_fbgc_object_as_int(TOPN(index_no))->content;
-							int index_no2 = cast_fbgc_object_as_int(TOPN(--index_no))->content;
-							*lhs = set_object_in_fbgc_matrix_object(temp,index,index_no2,rhs);
-							rhs = *lhs;
-							assert(*lhs != NULL);
-							break;
-						}
-						else {
-							cprintf(111,"Not index accessable!\n");
-							return 0;
-						}
-					}
-
-					
-					/*if( (*lhs)->type == TUPLE ){
-						//Since this is the top index we can just use top
-						index = cast_fbgc_object_as_int(TOP())->content;
-						lhs = get_object_address_in_fbgc_tuple_object(temp,index);
-					}*/
-
-					//temp solution but it looks very bad..
-					/*if(type != ASSIGN){
-						fbgc_token op_type = R_SHIFT + type - R_SHIFT_ASSIGN;
-						assert(lhs != NULL && *lhs != NULL);
-
-						fbgc_token main_tok = MAX(get_fbgc_object_type( (*lhs) ),get_fbgc_object_type(rhs));
-						rhs = call_fbgc_binary_op(main_tok,*lhs,rhs,op_type);
-						assert(rhs != NULL);					
-					}
-
-					
-					if(temp->type == TUPLE) 
-						set_object_in_fbgc_tuple_object(temp,rhs,index);
-					else 
-						assert(0);*/
-
-					STACK_GOTO(-stck_goto);
-					//break;
-				}
 
 				//Call other assignment types
 				if(type != ASSIGN)
@@ -447,6 +377,55 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				
 				break;
 			}
+			case ASSIGN_SUBSCRIPT:
+			{
+				struct fbgc_object * rhs = POP();
+				int index_no = cast_fbgc_object_as_int(POP())->content;
+				struct fbgc_object ** lhs = NULL;
+				
+				struct fbgc_object * temp = TOPN(index_no+1);
+				int index = 0;
+				int stck_goto = index_no;
+				while(index_no > 0){
+					if(temp->type == TUPLE){
+						index = cast_fbgc_object_as_int(TOPN(index_no))->content;
+						if(index_no > 1){
+							temp = get_object_in_fbgc_tuple_object(temp,index);
+							index_no--;
+						}
+						else
+						{
+							index = cast_fbgc_object_as_int(TOPN(index_no))->content;
+							cprintf(110,"Here index %d\n",index);
+							lhs = get_object_address_in_fbgc_tuple_object(temp,index);
+							break;
+						}
+					}
+					else if(temp->type == STRING){
+						index = cast_fbgc_object_as_int(TOPN(index_no))->content;
+						lhs =  set_object_in_fbgc_str_object(temp,index,index+1,rhs);
+						rhs = lhs;
+						break;
+					}
+					else if(temp->type == MATRIX){
+						assert(index_no > 1);
+						index = cast_fbgc_object_as_int(TOPN(index_no))->content;
+						int index_no2 = cast_fbgc_object_as_int(TOPN(--index_no))->content;
+						lhs = set_object_in_fbgc_matrix_object(temp,index,index_no2,rhs);
+						rhs = lhs;
+						assert(lhs != NULL);
+						break;
+					}
+					else {
+						cprintf(111,"Not index accessable!\n");
+						return 0;
+					}
+				}
+				*lhs=rhs;
+				break;
+
+			}
+
 			case LEN:
 			{
 				SET_TOP( get_length_fbgc_object(TOP()) );
@@ -545,14 +524,19 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			case FUN_CALL:
 			{
 				//XX Check is it function ..	
-				struct fbgc_fun_object * funo = cast_fbgc_object_as_fun(POP());
+				//
 				int arg_no = cast_fbgc_object_as_int(POP())->content;
+				//cprintf(111,"%s",object_name_array[->type]);
+				//return 0;
 				//assert(funo->base.type == FUN || funo->base.type == CFUN);
 
-				if(funo->base.type == CFUN){
+				struct fbgc_object * funo = TOPN(arg_no+1);
+
+				if(funo->type == CFUN){
 					STACK_GOTO(-arg_no);
 					struct fbgc_object * res = cfun_object_call(funo, sp+sctr, arg_no);
-					
+					_POP(); // pop cfun object 
+
 					if(res == NULL){
 						//const struct fbgc_cfunction * cc = cast_fbgc_object_as_cfun(funo);
 						//cprintf(100,"Error in function %s\n",cc->name);
@@ -568,26 +552,26 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					
 					//return 0;
 				}
+				
+				if(cast_fbgc_object_as_fun(funo)->no_arg != arg_no ){
+					cprintf(100,"Argument match error! funo->arg %d, arg_no %d\n",cast_fbgc_object_as_fun(funo)->no_arg,arg_no);
+					goto INTERPRETER_ERROR_LABEL;
+				}
 
-				if(last_called_function == (struct fbgc_object * ) funo) recursion_ctr++;
+				if(last_called_function == funo) recursion_ctr++;
 				else {
-					last_called_function = (struct fbgc_object *) funo;
+					last_called_function = funo;
 					recursion_ctr = 0;
 				}
 
-				if(funo->no_arg != arg_no ){
-					cprintf(100,"Argument match error! funo->arg %d, arg_no %d\n",funo->no_arg,arg_no);
-					return 0;
-				}
-
-				STACK_GOTO(funo->no_locals - arg_no);
+				STACK_GOTO(cast_fbgc_object_as_fun(funo)->no_locals - arg_no);
 				//save our first next operation after this function call
 				//After returning the value we will take this space and run the main code
 				PUSH(pc->next);
 				//hold old frame pointer location
 				PUSH(new_fbgc_int_object(fctr));
 				//hold old position of sp with fp, assume that args already pushed into stack
-				fctr = sctr-funo->no_locals-2;
+				fctr = sctr-cast_fbgc_object_as_fun(funo)->no_locals-2;
 				//execute function
 				//--------------------------------
 				//This next push added after first version of the fun call operations
@@ -603,6 +587,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				pc = stack;
 				break;
 			}
+			/*
 			case METHOD_CALL:
 			{
 				//increase arg_no so we can count object as well
@@ -673,7 +658,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				//
 
 				break;
-			}
+			}*/
 			case BUILD_TUPLE:
 			{	
 
@@ -778,6 +763,48 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			case POP_TOP:
 			{
 				_POP();
+				break;
+			}
+			case LOAD_SUBSCRIPT:
+			{
+				int index_no = cast_fbgc_object_as_int(POP())->content;
+				//take index values one by one and finally left last index 
+				struct fbgc_object * temp = TOPN(index_no+1);
+				int index = 0;
+				for(int i = 0; i<index_no; i++){
+					index = cast_fbgc_object_as_int(TOPN(index_no-i))->content;
+					if(temp->type == TUPLE){
+						//cprintf(111,"Current index %d\n",index);
+						temp = get_object_in_fbgc_tuple_object(temp,index);
+						//print_fbgc_object(dummy); cprintf(111,"<<<\n");
+					}
+					else if(temp->type == COMPLEX){
+						temp = subscript_fbgc_complex_object(temp,index);
+					}
+					else if(temp->type == STRING){
+						temp = get_object_in_fbgc_str_object(temp,index,index+1);
+					}
+					else if(temp->type == MATRIX){
+						if(index_no == 2){
+							int index_no2 = cast_fbgc_object_as_int(TOPN(index_no-1))->content;
+							temp = get_object_in_fbgc_matrix_object(temp,index,index_no2);
+							assert(temp != NULL);
+							break;
+						}
+
+					}
+					else {
+						cprintf(111,"Not index accessible!\n");
+						print_fbgc_object(temp); printf("\n");
+						return 0;
+					}
+					
+					assert(temp != NULL);
+
+				}
+
+				STACK_GOTO(-index_no-1);
+				PUSH(temp);
 				break;
 			}
 			

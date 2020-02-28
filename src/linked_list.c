@@ -141,7 +141,7 @@ void print_fbgc_ll_object(struct fbgc_object * head,const char *s1){
                 cprintf(111,"Undefined ID!\n"); 
             }           
         }
-        else if(is_fbgc_ASSIGNMENT_OPERATOR(iter->type)){
+        else if(iter->type != ASSIGN_SUBSCRIPT && is_fbgc_ASSIGNMENT_OPERATOR(iter->type)){
             cprintf(011,"{(%s)",get_token_as_str(iter->type));
             if(is_id_flag_GLOBAL(iter) ) cprintf(011,"G<%d>}",cast_fbgc_object_as_id_opcode(iter)->loc);
             else if(is_id_flag_LOCAL(iter) ) cprintf(011,"L<%d>}",cast_fbgc_object_as_id_opcode(iter)->loc);
@@ -156,13 +156,13 @@ void print_fbgc_ll_object(struct fbgc_object * head,const char *s1){
           print_fbgc_tuple_object(iter);
           cprintf(011,"}");
         }
-        else if(iter->type == IF_BEGIN){
-        cprintf(011,"{IF_BEGIN -> ");
+        else if(iter->type == IF){
+        cprintf(011,"{IF");
           print_fbgc_object(cast_fbgc_object_as_jumper(iter)->content->next);
           cprintf(011,"}");
         }
-        else if(iter->type == ELIF_BEGIN){
-        cprintf(011,"{ELIF_BEGIN -> ");
+        else if(iter->type == ELIF){
+        cprintf(011,"{ELIF");
           print_fbgc_object(cast_fbgc_object_as_jumper(iter)->content->next);
           cprintf(011,"}");
         }    
@@ -171,8 +171,8 @@ void print_fbgc_ll_object(struct fbgc_object * head,const char *s1){
           print_fbgc_object(cast_fbgc_object_as_jumper(iter)->content->next);
           cprintf(011,"}");
         }
-        else if(iter->type == WHILE_BEGIN){
-        cprintf(011,"{WHILE_BEGIN -> ");
+        else if(iter->type == WHILE){
+        cprintf(011,"{WHILE");
           print_fbgc_object(cast_fbgc_object_as_jumper(iter)->content->next);
           cprintf(011,"}");
         }

@@ -44,6 +44,8 @@
 
 - precedence table her durum için optimize edilmeli, özellikle els edurumunda assert at ve hangileri buna takılıyor gör
 
+- assign_subscript'i bir assignment operatörü gibi tokens.h içinde yerleştir
+
 - Gramer tablosu küçültülmeli
 
 - Linked list yapısı ve objelerde bulunun next pointerları kaldırılmalı.

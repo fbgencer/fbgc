@@ -1,12 +1,16 @@
-x = fun(a); return a; end
-y = x(5,10)
-#x[1,2,3]=5.5
-#x[0](1,2)
+x = 1+c+2
+#x.imag += 3
+#y = (fun(a); y = 10; print(y); return 10*a; end,3,4)
+#
+#x(10)
+#x = (1,2,3)
+#x[1]
+#y[0](5)
 #x('a','b')
 #x.f('33')
-#x.fbg.abc.def = 3
 #x = 6+1
 #x[10,20,30] = 'FLOL' 
-#x.y(1,2); x('a')
+#x.y.z.e.f.g[3]; x('a')
 #y = x[0]
-
+#x.y[20]=3
+#x.y = 3

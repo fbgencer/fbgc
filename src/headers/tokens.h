@@ -93,32 +93,16 @@ typedef struct {
 #define SLASH_ASSIGN 75 // /=
 #define CARET_ASSIGN 76 // ^=
 #define PERCENT_ASSIGN 77 // %=
-#define LEN 78 //
-#define JUMP 79 //
-#define IF_BEGIN 80 //
-#define ELIF_BEGIN 81 //
-#define WHILE_BEGIN 82 //
-#define FOR_BEGIN 83 //
-#define FUN_CALL 84 //
-#define METHOD_CALL 85 //
-#define BUILD_TUPLE 86 //
-#define BUILD_MATRIX 87 //
-#define POP_TOP 88 //
-#define ROW 89 //
-#define AND 90 //
-#define OR 91 //
-#define NOT 92 //
-#define START 93 //
-#define EXPRESSION 94 //
-#define ASSIGNMENT 95 //
-#define STATEMENT 96 //
-#define ASSIGNMENT_EXPRESSION 97 //
-#define UNARY_EXPRESSION 98 //
-#define BINARY_EXPRESSION 99 //
-#define BALANCED_EXPRESSION_LIST 100 //
-#define UNBALANCED_EXPRESSION_LIST 101 //
-#define ASSIGN_SUBSCRIPT 102 //
-#define LOAD_SUBSCRIPT 103 //
+#define ASSIGN_SUBSCRIPT 78 //
+#define LEN 79 //
+#define JUMP 80 //
+#define FOR_BEGIN 81 //
+#define FUN_CALL 82 //
+#define BUILD_TUPLE 83 //
+#define BUILD_MATRIX 84 //
+#define POP_TOP 85 //
+#define ROW 86 //
+#define LOAD_SUBSCRIPT 87 //
 #define TOKEN_LIST_AS_STRINGS()\
 "UNKNOWN",\
 "NIL",\
@@ -198,31 +182,15 @@ typedef struct {
 "SLASH_ASSIGN",\
 "CARET_ASSIGN",\
 "PERCENT_ASSIGN",\
+"ASSIGN_SUBSCRIPT",\
 "LEN",\
 "JUMP",\
-"IF_BEGIN",\
-"ELIF_BEGIN",\
-"WHILE_BEGIN",\
 "FOR_BEGIN",\
 "FUN_CALL",\
-"METHOD_CALL",\
 "BUILD_TUPLE",\
 "BUILD_MATRIX",\
 "POP_TOP",\
 "ROW",\
-"AND",\
-"OR",\
-"NOT",\
-"START",\
-"EXPRESSION",\
-"ASSIGNMENT",\
-"STATEMENT",\
-"ASSIGNMENT_EXPRESSION",\
-"UNARY_EXPRESSION",\
-"BINARY_EXPRESSION",\
-"BALANCED_EXPRESSION_LIST",\
-"UNBALANCED_EXPRESSION_LIST",\
-"ASSIGN_SUBSCRIPT",\
 "LOAD_SUBSCRIPT",\
 //TOKENS_END
 
@@ -277,19 +245,16 @@ fbgc_token get_reserved_word_code_from_substr(const char *str1,const char *str2)
 const char * get_token_as_str(fbgc_token tok);
 
 
-#define is_fbgc_OPERATOR(T)(T>=COLON && T< LEN )
+#define is_fbgc_OPERATOR(T)(T>=COLON && T< ASSIGN_SUBSCRIPT )
 #define is_fbgc_IDENTIFIER(T)(T == IDENTIFIER)
 #define is_fbgc_ATOM(T)(T>= LOGIC && T<=STRING)
 
 #define is_fbgc_PARA(T)(T>=LPARA && T<= RBRACK)
 #define is_fbgc_UNARY_OPERATOR(T)( T >= EXCLAMATION && T<= UMINUS)
-#define is_fbgc_ASSIGNMENT_OPERATOR(T)( T >= ASSIGN && T< LEN)
+#define is_fbgc_ASSIGNMENT_OPERATOR(T)( T >= ASSIGN && T< ASSIGN_SUBSCRIPT)
 //solve this colon issue..
 #define is_fbgc_BINARY_OPERATOR(T)( T>=COLON && T<= AMPERSAND)
 
-
-#define is_fbgc_MATRIX(x)(x == MATRIX || x == BUILD_MATRIX)
-#define is_fbgc_TUPLE(x)(x == NUPLE || x == MONUPLE ||x == BUILD_TUPLE || x == TUPLE)
 
 #define is_fbgc_FUNCTIONABLE(x)(x == IF || x == ELIF || x == ELSE || x == WHILE || x == FUN || x == LOAD)
 

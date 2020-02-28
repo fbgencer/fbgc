@@ -232,26 +232,11 @@ switch(type){
 	case DOT :
 	case UMINUS :
 	case UPLUS :
-	case START :
 	case JUMP :
-	case AND :
-	case OR :
-	case NOT : sz = sizeof_fbgc_object(); break; 
-	case ROW : sz = sizeof_fbgc_int_object(); break; 
-	case EXPRESSION :
-	case ASSIGNMENT :
-	case STATEMENT :
-	case ASSIGNMENT_EXPRESSION :
-	case UNARY_EXPRESSION :
-	case BINARY_EXPRESSION :
-	case BALANCED_EXPRESSION_LIST :
-	case UNBALANCED_EXPRESSION_LIST : sz = sizeof_fbgc_object(); break; 
+	case ROW : sz = sizeof_fbgc_int_object(); break;
 	case ASSIGN_SUBSCRIPT :
 	case LOAD_SUBSCRIPT : break;
 	case LEN : sz = sizeof_fbgc_object();
-	case IF_BEGIN : 
-	case ELIF_BEGIN :
-	case WHILE_BEGIN : 
 	case FOR_BEGIN : sz = sizeof_fbgc_jumper_object(); break;
 	case FUN_CALL : sz = sizeof_fbgc_object(); break;
 	case BUILD_TUPLE :
