@@ -7,6 +7,7 @@ struct iter_function_ptr_struct{
 };
 
 uint8_t interpreter(struct fbgc_object ** field_obj){
+	
 
 	current_field = *field_obj;
 
@@ -543,7 +544,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			}
 			case FUN_CALL:
 			{
-				
+				//XX Check is it function ..	
 				struct fbgc_fun_object * funo = cast_fbgc_object_as_fun(POP());
 				int arg_no = cast_fbgc_object_as_int(POP())->content;
 				//assert(funo->base.type == FUN || funo->base.type == CFUN);

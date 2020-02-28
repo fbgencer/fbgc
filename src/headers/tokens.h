@@ -242,6 +242,7 @@ typedef struct {
 #define GM_LBRACK 13
 #define GM_PIPE 14
 #define GM_FUNCTIONAL 15
+#define GM_MATRIX 16
 #define GRAMMAR_TOKENS_AS_STRINGS()\
 "GM_ERROR",\
 "GM_NEWLINE",\
@@ -258,7 +259,8 @@ typedef struct {
 "GM_LPARA",\
 "GM_LBRACK",\
 "GM_PIPE",\
-"GM_FUNCTIONAL"
+"GM_FUNCTIONAL",\
+"GM_MATRIX"
 
 
 extern const char * gm_name_array[];

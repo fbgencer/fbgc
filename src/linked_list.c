@@ -141,6 +141,16 @@ void print_fbgc_ll_object(struct fbgc_object * head,const char *s1){
                 cprintf(111,"Undefined ID!\n"); 
             }           
         }
+        else if(is_fbgc_ASSIGNMENT_OPERATOR(iter->type)){
+            cprintf(011,"{(%s)",get_token_as_str(iter->type));
+            if(is_id_flag_GLOBAL(iter) ) cprintf(011,"G<%d>}",cast_fbgc_object_as_id_opcode(iter)->loc);
+            else if(is_id_flag_LOCAL(iter) ) cprintf(011,"L<%d>}",cast_fbgc_object_as_id_opcode(iter)->loc);
+            else if(is_id_flag_MEMBER(iter) ) cprintf(011,"M<%d>}",cast_fbgc_object_as_id_opcode(iter)->loc);
+            else if(is_id_flag_SUBSCRIPT(iter) ) cprintf(011,"S<%d>}",cast_fbgc_object_as_id_opcode(iter)->loc);
+            else{
+                cprintf(111,"Undefined ID!\n"); 
+            }           
+        }        
         else if(iter->type == TUPLE) {
           cprintf(011,"{TUPLE}:{");
           print_fbgc_tuple_object(iter);

@@ -13,48 +13,6 @@
 
 
 
-/*
-uint8_t operator_precedence(fbgc_token T){
-	
-	switch(T){
-
-		case IDENTIFIER: return 50;
-		case PLUSPLUS: case MINUSMINUS: case UMINUS: case UPLUS: return 48;
-		case SLASH: case STAR: case PERCENT: case CARET: case STARSTAR:
-		case SLASHSLASH: return 46;
-		
-		case PLUS: case MINUS: case EXCLAMATION: case TILDE: return 44;
-		case L_SHIFT: case R_SHIFT: return 42;
-		case LOWER: case GREATER: case LO_EQ: case  GR_EQ: return 40;
-		case EQ_EQ: case NOT_EQ: return 38;
-		case AMPERSAND: return 36;
-		case PIPE: case LEN: return 34;
-		case COLON: return 32;
-
-		case  ASSIGN:
-		case  R_SHIFT_ASSIGN:
-		case  L_SHIFT_ASSIGN:
-		case  STARSTAR_ASSIGN:
-		case  SLASHSLASH_ASSIGN:
-		case  PLUS_ASSIGN:
-		case  MINUS_ASSIGN:
-		case  STAR_ASSIGN:
-		case  SLASH_ASSIGN:
-		case  CARET_ASSIGN:
-		case  PERCENT_ASSIGN:
-		return 30;
-
-		case COMMA: return 20;
-
-		case LPARA: case LBRACE: case LBRACK: return 10;
-		case CFUN: return 7;		
-		case RPARA: case RBRACE: case RBRACK: return 6;	
-		case RETURN: return 3;
-		case NEWLINE: return 2;
-		case SEMICOLON: return 1;
-		default: return 0;	
-	}
-}*/
 
 #define RIGHT_ASSOC 0b10000000
 #define LEFT_ASSOC 0	
@@ -63,11 +21,11 @@ const fbgc_token const precedence_table[] =
 	RIGHT_ASSOC | 0,//IF
 	4,//RETURN
 	2,//NEWLINE
-	RIGHT_ASSOC | 10,//LPARA
+	RIGHT_ASSOC | 16,//LPARA
 	6,//RPARA
-	RIGHT_ASSOC | 10,//LBRACK
+	RIGHT_ASSOC | 16,//LBRACK
 	6,//RBRACK
-	RIGHT_ASSOC | 10,//LBRACE
+	RIGHT_ASSOC | 16,//LBRACE
 	6,//RBRACE
 	RIGHT_ASSOC | 31,//COMMA // it was 20 now we changed to make bigger than equal sign for x = 1,2,3 cases
 	52,//DOT
@@ -95,17 +53,17 @@ const fbgc_token const precedence_table[] =
 	RIGHT_ASSOC | 46,//TILDE	
 	RIGHT_ASSOC | 48,//UPLUS
 	RIGHT_ASSOC | 48,//UMINUS
-	RIGHT_ASSOC | 30,//ASSIGN
-	RIGHT_ASSOC | 30,//R_SHIFT_ASSIGN
-	RIGHT_ASSOC | 30,//L_SHIFT_ASSIGN
-	RIGHT_ASSOC | 30,//STARSTAR_ASSIGN
-	RIGHT_ASSOC | 30,//SLASHSLASH_ASSIGN
-	RIGHT_ASSOC | 30,//PLUS_ASSIGN
-	RIGHT_ASSOC | 30,//MINUS_ASSIGN
-	RIGHT_ASSOC | 30,//STAR_ASSIGN
-	RIGHT_ASSOC | 30,//SLASH_ASSIGN
-	RIGHT_ASSOC | 30,//CARET_ASSIGN
-	RIGHT_ASSOC | 30,//PERCENT_ASSIGN
+	RIGHT_ASSOC | 14,//ASSIGN
+	RIGHT_ASSOC | 14,//R_SHIFT_ASSIGN
+	RIGHT_ASSOC | 14,//L_SHIFT_ASSIGN
+	RIGHT_ASSOC | 14,//STARSTAR_ASSIGN
+	RIGHT_ASSOC | 14,//SLASHSLASH_ASSIGN
+	RIGHT_ASSOC | 14,//PLUS_ASSIGN
+	RIGHT_ASSOC | 14,//MINUS_ASSIGN
+	RIGHT_ASSOC | 14,//STAR_ASSIGN
+	RIGHT_ASSOC | 14,//SLASH_ASSIGN
+	RIGHT_ASSOC | 14,//CARET_ASSIGN
+	RIGHT_ASSOC | 14,//PERCENT_ASSIGN
 	47,//LEN
 };
 
@@ -120,9 +78,10 @@ uint8_t compare_operators(fbgc_token stack_top, fbgc_token obj_type){
 	#endif
 
 	if(obj_type == NEWLINE && stack_top == COMMA) result = 0;
-	else if(obj_type == LPARA || obj_type == LBRACK) result =  0;
-	//else if(obj_type == DOT && stack_top == IDENTIFIER) result = 0;
-	else if(stack_top == IDENTIFIER) result = 1;
+	else if(obj_type == LBRACK) result =  0;
+	else if((obj_type == LPARA || obj_type == NEWLINE || obj_type == RETURN || obj_type == SEMICOLON || obj_type == DOT) 
+		&& stack_top == IDENTIFIER) 
+		result = 1;
 
 	else if(obj_type >= IF && obj_type <= LEN && stack_top >= IF && stack_top <= LEN ){
 		//precedence of the operators have to change according to their positions
@@ -134,6 +93,7 @@ uint8_t compare_operators(fbgc_token stack_top, fbgc_token obj_type){
 			result = !(0x80 & obj_type); 
 		}
 	}
+	//else assert(0);
 
 	#ifdef PARSER_DEBUG
 	cprintf(101,": %d\n",result && 1);
@@ -178,9 +138,10 @@ struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,st
 	//know that iter_prev is iter_prev_prev!!
 
  
-	if(top_type == IDENTIFIER || top_type == CFUN){
+	if(top_type == IDENTIFIER || top_type == CFUN || top_type == FUN_CALL){
+	
 		#ifdef PARSER_DEBUG
-		cprintf(110,"Operator stack top ID or CFUN, this is a function call template!\n");
+		cprintf(110,"Function call template!\n");
 		print_fbgc_object(iter_prev);
 		
 		#endif
@@ -195,15 +156,16 @@ struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,st
 			iter_prev = ito;
 		}
 
-		gm_seek_right(gm,TOP_LL(op));
+		//gm_seek_right(gm,TOP_LL(op));
 		struct fbgc_object * iter = iter_prev->next;
 		//Insert top op to the list  
 		iter_prev->next = TOP_LL(op);
 		POP_LL(op);
+		iter_prev = iter_prev->next;
 		
 		char put_pop_top = 0;
 
-		if(iter_prev->next->type != CFUN && is_id_flag_MEMBER(iter_prev->next) ){
+		/*if(iter_prev->next->type != CFUN && is_id_flag_MEMBER(iter_prev->next) ){
 			//get the top object 
 
 
@@ -213,12 +175,15 @@ struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,st
 			iter_prev = iter_prev->next;
 			put_pop_top = 1;
 		}else{
+
 			//function call
 
 			iter_prev = iter_prev->next;
-			iter_prev->next = new_fbgc_object(FUN_CALL);
+			iter_prev->next = TOP_LL(op);
+			POP_LL(op);			
+			//iter_prev->next = new_fbgc_object(FUN_CALL);
 			iter_prev = iter_prev->next;
-		}
+		}*/
 
 		if(!is_empty_fbgc_ll_object(op) )
 			put_pop_top = 1;
@@ -365,13 +330,23 @@ struct fbgc_object * handle_before_brackets(struct fbgc_object * iter_prev,struc
 		cprintf(110,"###############$$$$################\n");		
 	}
 	#endif
+	cprintf(111,"iter_prev %s and next %s",object_name_array[iter_prev->type],object_name_array[iter_prev->next->type]);
+	
+	if(TOP_LL(op)->type == IDENTIFIER || TOP_LL(op)->type == LOAD_SUBSCRIPT)
+	{	
 
-	if(TOP_LL(op) != NULL &&  get_fbgc_object_type(TOP_LL(op)) == IDENTIFIER)
-	{
+
+		/*if(is_fbgc_ASSIGNMENT_OPERATOR(iter_prev->next->type)) return iter_prev;
+
 		#ifdef PARSER_DEBUG
 		cprintf(100,"Operator stack top load_local or global, this is a subscript call template!\n");
 		#endif
-
+		struct fbgc_object * iter = iter_prev->next;
+		//Insert top op to the list  
+		iter_prev->next = TOP_LL(op);
+		POP_LL(op);
+		iter_prev = iter_prev->next;
+		iter_prev->next = iter;*/
 		gm_seek_right(gm,TOP_LL(op));
 		struct fbgc_object * iter = iter_prev->next;
 		//Insert top op to the list  
@@ -405,8 +380,6 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 	char line[1000] = {0};
 
 	
-	
-	
 	struct fbgc_object * iter = head->base.next;
 	struct fbgc_object * iter_prev = (struct fbgc_object *)head; //note that iter_prev->next is iter, always this is the case!
 	
@@ -425,7 +398,10 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 				cprintf(111,"---Line:[%d]:{%s}\n",line_no,line);
 				#endif
 
-				if(line[0] == '#' || line[0] == '\0' || line[0] == '\n') continue; //fast passing the comment
+				if(line[0] == '#' || line[0] == '\0' || line[0] == '\n') {
+				--i;
+				continue; //fast passing the comment
+				}
 				
 				head->tail->next = iter_prev;
 				regex_lexer(field_obj,line);
@@ -665,10 +641,14 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			}
 			else if(TOP_LL(op)->type == FUN_MAKE){
 
-				assert(iter_prev->type != FUN); 
+				assert(iter_prev->type != FUN);  // why do we have this?
+				assert(TOP_LL(op)->type == FUN_MAKE);
+
 				struct fbgc_object * fun_obj = cast_fbgc_object_as_jumper(TOP_LL(op))->content;
 				
+
 				#ifdef PARSER_DEBUG
+				cprintf(111,"top :%s \n",object_name_array[TOP_LL(op)->type]);
 				cprintf(111,"iter_prev:%s\n",object_name_array[iter_prev->type]);
 				cprintf(111,"iter_prev->next:%s\n",object_name_array[iter_prev->next->type]);
 				cprintf(111,"iter:%s\n",object_name_array[iter->type]);
@@ -1085,7 +1065,43 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			//	object_name_array[iter_prev->type],object_name_array[iter_prev->next->type],
 			//	object_name_array[iter->type],object_name_array[iter->next->type]);
 
-			if(iter->type == RPARA || iter->type == RBRACK|| iter->type == SEMICOLON ||  iter->type == ROW ){
+			if(iter->type == LPARA){
+
+				cprintf(111,"iter_prev type %s\n",object_name_array[iter_prev->type]);
+
+				if(iter_prev->type == IDENTIFIER || iter_prev->type == LOAD_SUBSCRIPT){
+					//struct fbgc_object * hold_id = TOP_LL(op);
+					//POP_LL(op);
+					//if(is_id_flag_GLOBAL(iter_prev) || is_id_flag_LOCAL(iter_prev) || is_id_flag_MEMBER(iter_prev))
+					push_front_fbgc_ll_object(op,new_fbgc_object(FUN_CALL));
+					//else if()
+					//	push_front_fbgc_ll_object(op,new_fbgc_object(METHOD_CALL));
+					//push_front_fbgc_ll_object(op,hold_id);
+					//iter_prev->next = new_fbgc_object(FUN_CALL);
+					
+				}
+				//goto PARSER_ERROR_LABEL;
+			}
+
+			/*if(iter->type == LBRACK){
+
+				cprintf(111,"iter_prev type %s\n",object_name_array[iter_prev->type]);
+
+				if(iter_prev->type == IDENTIFIER){
+					//struct fbgc_object * hold_id = TOP_LL(op);
+					//POP_LL(op);
+					//if(is_id_flag_GLOBAL(iter_prev) || is_id_flag_LOCAL(iter_prev) || is_id_flag_MEMBER(iter_prev))
+					push_front_fbgc_ll_object(op,new_fbgc_object(LOAD_SUBSCRIPT));
+					//else if()
+					//	push_front_fbgc_ll_object(op,new_fbgc_object(METHOD_CALL));
+					//push_front_fbgc_ll_object(op,hold_id);
+					//iter_prev->next = new_fbgc_object(FUN_CALL);
+					
+				}
+				//goto PARSER_ERROR_LABEL;
+			}*/
+
+			if(iter->type == RPARA || iter->type == RBRACK ||  iter->type == ROW ){
 				;
 				//PASS EMPTY, BUT IT lookS BAD
 			}
@@ -1108,7 +1124,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 					push_front_fbgc_ll_object(op,derive_from_new_int_object(COMMA,2));
 				}
 			}
-			else if(iter->type == NEWLINE){
+			else if(iter->type == NEWLINE || iter->type == SEMICOLON){
 				#ifdef PARSER_DEBUG
 					cprintf(010,"Newline OUT\n");
 				#endif
@@ -1193,9 +1209,12 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			if( (error_code = gm_seek_left(&gm,iter)) != _FBGC_NO_ERROR  ){
 					goto PARSER_ERROR_LABEL;
 			}
-				
-			if(TOP_LL(op)->type != IDENTIFIER){
+			
+			//cprintf(100,"iter_prev type %s\n",object_name_array[iter_prev->type]);
+
+			if(TOP_LL(op)->type != IDENTIFIER && TOP_LL(op)->type != LOAD_SUBSCRIPT){
 				error_code = _FBGC_SYNTAX_ERROR;
+				cprintf(100,"Assignment operator requires identifier before itself\n");
 				goto PARSER_ERROR_LABEL;
 			}
 			
@@ -1213,20 +1232,39 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 
 				//this creates error when we use "for(i=smth)... end", it pushes iter object
 			}
+
 			#ifdef PARSER_DEBUG 
 			struct fbgc_object * pc = TOP_LL(op);
+			if(pc->type == IDENTIFIER){
             if(is_id_flag_GLOBAL(pc) ) cprintf(011,"%s{G<%d>}","GlobalID",cast_fbgc_object_as_id_opcode(pc)->loc);
             else if(is_id_flag_LOCAL(pc) ) cprintf(011,"%s{L<%d>}","LocalID",cast_fbgc_object_as_id_opcode(pc)->loc);
             else if(is_id_flag_MEMBER(pc) ) cprintf(011,"%s{M<%d>}","MemberID",cast_fbgc_object_as_id_opcode(pc)->loc);
             else if(is_id_flag_SUBSCRIPT(pc) ) cprintf(011,"%s{S<%d>}","[]ID",cast_fbgc_object_as_id_opcode(pc)->loc);
             else{
                 cprintf(111,"Undefined ID!\n"); 
+                assert(0);
             }
             cprintf(111,"\n");     				
+        	}
 			#endif
 
-			TOP_LL(op)->type = iter->type;
-			iter_prev->next = iter->next;
+        	iter_prev->next = iter->next;
+
+            if(TOP_LL(op)->type == IDENTIFIER){
+				TOP_LL(op)->type = iter->type;
+				
+            }
+			else if(TOP_LL(op)->type == LOAD_SUBSCRIPT){
+				POP_LL(op);
+				
+				set_id_flag_SUBSCRIPT(iter);
+				push_front_fbgc_ll_object(op,iter);
+				//print_fbgc_ll_object(op,"O");
+				//cprintf(100,"iter_prev type %s\n",object_name_array[iter_prev->type]);
+				//print_fbgc_object(iter_prev->next);
+				
+			}
+			
 			break;
 		}
 

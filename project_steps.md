@@ -15,7 +15,7 @@
 
 # TODO
 
-- [ ] x = 1,2,3 şeklinde girdileri doğrudan tuple olarak anlamalıyız
+- [x] x = 1,2,3 şeklinde girdileri doğrudan tuple olarak anlamalıyız
 
   Bu durumda gramer tablosu düzeltilince yapılması gereken testler var
 
@@ -36,9 +36,57 @@
 
 
 
+## Eksikler
+
+- Interpreter hata ile karşılaştığında hangi satırda hata olduğunu söylemiyor. Hangi satırda bunun bilgisi yok. Bir line obje yapılarak bu daha kullanıcı dostu hâle getirilebilir.
+
+- Parser fonksiyonu optimize edilmeli
+
+- precedence table her durum için optimize edilmeli, özellikle els edurumunda assert at ve hangileri buna takılıyor gör
+
+- Gramer tablosu küçültülmeli
+
+- Linked list yapısı ve objelerde bulunun next pointerları kaldırılmalı.
+
+- Token generator ve gramer tablosu aynı fonksiyonda halledilmeli
+
+- Gereksiz tokenlar silinmeli
+
+- Hata basılırken dosya adı çıkmalı
+
+- Modüle'den ya da Cstruct objesinden member çağırılma koşulları test edilmeli. Cstruct'tan fonksiyon çağırabiliyoruz ama variable çağırılması mümkün mü ? Bu durumda math modülündeki pi ve e'nin her koşulda çalışması sağlanabilir.
+
+- Matrislerde elementwise işlem yapan operatorler yok
+
+- Semicolon olursa debug modu gibi yazmalıyız yani line hakkında bilgimiz olmalı
+
+- Dökümantasyon eksikliği kodlar içine yazılacak yorum satırlarını okuyacak bir program ile giderilmeli.
+
+- Identifier objelerinin kullanılmaları muhtemelen hata barındırıyor ve interpreter içinde çok fazla if koşuluna maruz kalıyor.
+
+- Garbage collection modülü yok
+
+- Block comment eklenmeli
+
+- C kütüphanelerindeki her dosyaya ayrıca test dosyası eklenmeli kütüphanelerin kullanımı göstermek için
+
+- `x[0](3,4)` şeklindeki girdiler fonksiyon olarak çağrılamıyor çünkü burada 
+
+  0,1,3,4,2,x,fun_call şeklinde bir tree çıkıyor ancak 3,4,2,0,1,x,fun_call olmalıydı.
+
+- gtk ile user interface kütüphanesi
+
+
+
+
+
+
+
+
+
 ## OPTIMIZATIONS
 
-- While döngüsünde kontrol ettiğimiz değişken while tarafından bir değişkene tutulmalı ve sürekli obje değiştirmek yerine bu değişkene atanmalı böylece her işlemde fazla obje üretmek yerine aynı objenin değerini değiştirmek hızını artıracak.
+- While döngüsünde kontrol ettiğimiz değişken while tarafından bir değişkene tutulmalı ve sürekli obje değiştirmek yerine bu değişkene atanmalı böylece her işlemde fazla obje üretmek yerine aynı objenin değerini değiştirmek hızını artıracak. (bu mümkün değil)
 
   ```matlab
   tm = load('time','*') # loads the whole time module
@@ -61,4 +109,7 @@
 
   
 
-- Range objesi optimize edilmeli, for döngüsü range ile aşırı yavaş çalışıyor 
+- Range objesi optimize edilmeli, for döngüsü range ile aşırı yavaş çalışıyor. For döngüsü optimize edildi. Fazladan koyulan bir iterator ile yeni obje üretmek yerine onun değeri yerinde değiştiriliyor.
+
+
+

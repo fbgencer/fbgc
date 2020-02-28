@@ -11,7 +11,7 @@ struct fbgc_id_opcode{
     struct fbgc_object base;
     int loc;
     uint8_t flag;
-    struct fbgc_object * member_name;
+    struct fbgc_object * member_name; // this is unnecessary for non-member cases. how do we solve it?
 };
 
 #define sizeof_fbgc_id_opcode(x)(sizeof(struct fbgc_id_opcode))

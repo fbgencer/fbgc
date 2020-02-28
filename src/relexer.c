@@ -160,7 +160,7 @@ struct fbgc_object * tokenize_substr(const char *str1, const char*str2, lexer_to
 		}
 		case LEXER_TOK_OP0:
 		{	
-			//":|,|.|;|++|--"
+			//":|,|.|;"
 			return new_fbgc_object(COMMA+where);
 		}
 		case LEXER_TOK_OP1:
@@ -169,14 +169,25 @@ struct fbgc_object * tokenize_substr(const char *str1, const char*str2, lexer_to
 			//">>=|<<=|**=|//=|+=|-=|*=|/=|^=|%=|>>|<<|**|//|+|-|*|/|^|%"
 			//possible assigment operators and assignment operator
 			//check the last character, shift the token 
-			if(*(str2-1) == '=') where += (ASSIGN+1) ;
-			else where += R_SHIFT;
-			return new_fbgc_object(where);
+			if(*(str2-1) == '='){
+				where += (ASSIGN+1);
+				struct fbgc_object * tmp = new_fbgc_id_opcode(0);
+				tmp->type = where;
+				return tmp;
+			}
+			return new_fbgc_object(where += R_SHIFT);
 		}
 		case LEXER_TOK_OP2:
 		{	
 			//"<=|>=|==|!=|<|>|||&|!|~|+|-|="
-			return new_fbgc_object(LO_EQ+where);
+			where+=LO_EQ;
+			if(*(str2-1) == '='){
+
+				struct fbgc_object * tmp = new_fbgc_id_opcode(0);
+				tmp->type = where;
+				return tmp;
+			}
+			return new_fbgc_object(where);
 		}											
 		case LEXER_TOK_PARA:
 		{

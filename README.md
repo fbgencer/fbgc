@@ -15,7 +15,7 @@
 Write your first program:
 
 ```ruby
-	print('Hello World')
+print('Hello World')
 ```
 
 ## Build
@@ -30,12 +30,12 @@ Write your first program:
 
 Basic types:
 ```ruby
-:> This is a line comment
-x = 5 :> integer
-x = 3.14159 :> double
-x = 'Hey this is a string' :> string
-x = (1,2,1.23,('Hey i am tuple!')) :> tuple
-x = [1,2,3 ; 4,5,6] :> 2x3 matrix
+# This is a line comment
+x = 5 # integer
+x = 3.14159 # double
+x = 'Hey this is a string' # string
+x = (1,2,1.23,('Hey i am tuple!')) # tuple
+x = [1,2,3 ; 4,5,6] # 2x3 matrix
 ```
 
 Absolute operator:
@@ -43,14 +43,13 @@ number objects return positive of that number under abs operator
 complex object returns 2-d distance
 string, tuple and matrix objects return their length
 ```ruby
+|'fbgc'| # gives 4
 
-|'fbgc'| :> gives 4
+|('a','fbgc',1,2,3)| # gives 5
 
-|('a','fbgc',1,2,3)| :> gives 5
+|3+4j| # gives 5.0
 
-|3+4j| :> gives 5.0
-
-|-3| :> gives 3
+|-3| # gives 3
 
 ```
 
@@ -80,29 +79,38 @@ i = 0
 while(i<5)
 	print(i)
 end
+
+Paranthesis can be dropped as well. 
+
+if i == 5
+	print('i is five')
+end
+
+if x == 5 ; print("x is 5"); else print('x is not 5') ; end
 ```
 
 In ![fbgc], for loop allows you to write fast code !
 You can create a for loop just giving sequence or range 
 ```ruby
-:>prints 0,1,2,3,4,5,6,7,8,9
 for(i = 0:10)
-	print(i)
+	print(i) #prints 0,1,2,3,4,5,6,7,8,9
 end
 
-:>prints 0,2,4,6,8
+for i = 1:0.1:3.14
+	print(i) #prints 1, 1.1, 1.2, 1.3, 1.4 .... 3.1
+end
+
 for(i = 0:2:10)
-	print(i)
+	print(i) #prints 0,2,4,6,8
 end
 
-:>prints 'f','b','g','c'
 for (i = 'fbgc')
-	print(i)
+	print(i) #prints 'f','b','g','c'
 end
 
-:>|obj| operator gives you the length of the object
+#|obj| operator gives you the length of the object
 x = 'Hello world'
-for (i = 0 : |x| )
+for (i = 0 : |x|)
 	print(x[i])
 end
 ```
