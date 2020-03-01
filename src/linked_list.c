@@ -157,23 +157,23 @@ void print_fbgc_ll_object(struct fbgc_object * head,const char *s1){
           cprintf(011,"}");
         }
         else if(iter->type == IF){
-        cprintf(011,"{IF");
-          print_fbgc_object(cast_fbgc_object_as_jumper(iter)->content->next);
+          cprintf(011,"{IF:");
+          if(cast_fbgc_object_as_jumper(iter)->content != NULL) print_fbgc_object(cast_fbgc_object_as_jumper(iter)->content->next);
           cprintf(011,"}");
         }
         else if(iter->type == ELIF){
-        cprintf(011,"{ELIF");
-          print_fbgc_object(cast_fbgc_object_as_jumper(iter)->content->next);
+        cprintf(011,"{ELIF:");
+          if(cast_fbgc_object_as_jumper(iter)->content != NULL) print_fbgc_object(cast_fbgc_object_as_jumper(iter)->content->next);
           cprintf(011,"}");
         }    
         else if(iter->type == JUMP){
         cprintf(011,"{JUMP -> ");
-          print_fbgc_object(cast_fbgc_object_as_jumper(iter)->content->next);
+          if(cast_fbgc_object_as_jumper(iter)->content != NULL) print_fbgc_object(cast_fbgc_object_as_jumper(iter)->content->next);
           cprintf(011,"}");
         }
         else if(iter->type == WHILE){
-        cprintf(011,"{WHILE");
-          print_fbgc_object(cast_fbgc_object_as_jumper(iter)->content->next);
+        cprintf(011,"{WHILE:");
+        if(cast_fbgc_object_as_jumper(iter)->content != NULL) print_fbgc_object(cast_fbgc_object_as_jumper(iter)->content->next);
           cprintf(011,"}");
         }
         else if(iter->type == FOR_BEGIN){
@@ -183,12 +183,12 @@ void print_fbgc_ll_object(struct fbgc_object * head,const char *s1){
         }        
         else if(iter->type == BREAK){
         cprintf(011,"{BREAK -> ");
-          print_fbgc_object(cast_fbgc_object_as_jumper(iter)->content);
+          if(cast_fbgc_object_as_jumper(iter)->content != NULL) print_fbgc_object(cast_fbgc_object_as_jumper(iter)->content->next);
           cprintf(011,"}");
         } 
         else if(iter->type == CONT){
         cprintf(011,"{CONT -> ");
-          print_fbgc_object(cast_fbgc_object_as_jumper(iter)->content);
+          if(cast_fbgc_object_as_jumper(iter)->content != NULL) print_fbgc_object(cast_fbgc_object_as_jumper(iter)->content->next);
           cprintf(011,"}");
         }                  
         else if(iter->type == FUN){

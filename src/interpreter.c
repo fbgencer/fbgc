@@ -7,6 +7,7 @@ struct iter_function_ptr_struct{
 };
 
 uint8_t interpreter(struct fbgc_object ** field_obj){
+
 	return 0;
 	current_field = *field_obj;
 
@@ -54,7 +55,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 #define RECURSION_LIMIT 1000
 
-	for(int i = 0;  (pc != head->tail); i++){
+	for(int i = 0;  (pc != head->tail) && i< 100; i++){
 
 
 		if(recursion_ctr>RECURSION_LIMIT){
@@ -107,14 +108,20 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					}
 					
 					PUSH(tmp->content);
-
-				//PUSH(globals[cast_fbgc_object_as_id_opcode(pc)->loc]);	
 				} 
 				else if(is_id_flag_LOCAL(pc))  PUSH(GET_AT_FP(cast_fbgc_object_as_id_opcode(pc)->loc));
 				else if(is_id_flag_MEMBER(pc)){
 					//if(TOP()->type == CSTRING)
 					struct fbgc_object * member = POP();
-					SET_TOP( get_set_fbgc_object_member(TOP(),content_fbgc_cstr_object(member), NULL) );
+					struct fbgc_object * object =  get_set_fbgc_object_member(POP(),content_fbgc_cstr_object(member), NULL);
+
+					if(object == NULL){
+						cprintf(100,"Object does not have %s member\n",content_fbgc_cstr_object(member));
+						goto INTERPRETER_ERROR_LABEL;
+					}
+
+					PUSH(object);
+
 					break;
 				}
 
@@ -523,14 +530,13 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			}
 			case FUN_CALL:
 			{
-				//XX Check is it function ..	
-				//
 				int arg_no = cast_fbgc_object_as_int(POP())->content;
-				//cprintf(111,"%s",object_name_array[->type]);
-				//return 0;
-				//assert(funo->base.type == FUN || funo->base.type == CFUN);
-
 				struct fbgc_object * funo = TOPN(arg_no+1);
+				if(funo->type != FUN && funo->type != CFUN){
+					cprintf(100,"Object is not callable\n");
+					goto INTERPRETER_ERROR_LABEL;
+				}
+				
 
 				if(funo->type == CFUN){
 					STACK_GOTO(-arg_no);

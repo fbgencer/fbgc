@@ -218,8 +218,9 @@ struct fbgc_object * tokenize_substr(const char *str1, const char*str2, lexer_to
 				case BREAK:
 				case CONT:
 				case FUN_MAKE:
-				case IF:
+				case IF:{
 					return new_fbgc_jumper_object(kw_tok);
+				}
 
 				default: 
 				{

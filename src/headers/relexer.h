@@ -6,7 +6,6 @@ extern "C" {
 #endif
 
 
-
 #define lexer_token uint8_t
 	
 #define LEXER_TOK_SPACE 0
@@ -22,8 +21,8 @@ extern "C" {
 #define LEXER_TOK_OP1 10
 #define LEXER_TOK_OP2 11	
 #define LEXER_TOK_PARA 12
-#define LEXER_TOK_KEYWORDS 13	
-#define LEXER_TOK_NAME 14		
+#define LEXER_TOK_KEYWORDS 13
+#define LEXER_TOK_NAME 14
 #define LEXER_TOK_AS_STRINGS()\
 "LEXER_TOK_SPACE",\
 "LEXER_TOK_COMMENT",\
@@ -40,7 +39,6 @@ extern "C" {
 "LEXER_TOK_PARA",\
 "LEXER_TOK_KEYWORDS",\
 "LEXER_TOK_NAME"
-
 
 typedef struct{
 	const char * char_match_begin;

@@ -33,6 +33,7 @@ struct fbgc_object * top_fbgc_ll_object(struct fbgc_object * head);
 
 
 #define is_empty_fbgc_ll_object(head)(cast_fbgc_object_as_ll(head)->tail == head->next)
+#define is_not_empty_fbgc_ll_object(head)(cast_fbgc_object_as_ll(head)->tail != head->next)
 
 void print_fbgc_ll_object(struct fbgc_object * head,const char *s1);
 

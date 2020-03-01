@@ -11,7 +11,6 @@ struct fbgc_id_opcode{
     struct fbgc_object base;
     int loc;
     uint8_t flag;
-    struct fbgc_object * member_name; // this is unnecessary for non-member cases. how do we solve it?
 };
 
 #define sizeof_fbgc_id_opcode(x)(sizeof(struct fbgc_id_opcode))
@@ -23,6 +22,10 @@ struct fbgc_id_opcode{
 #define ID_FLAG_PUSH_ITSELF 0x10 // x=y=10 like enterance can be solved with this but it could be a problem..
 
 #define cast_fbgc_object_as_id_opcode(x)((struct fbgc_id_opcode *) x)
+#define get_id_opcode_loc(x)(cast_fbgc_object_as_id_opcode(x)->loc)
+#define set_id_opcode_loc(x,y)(cast_fbgc_object_as_id_opcode(x)->loc = y)
+
+
 
 #define set_id_flag_GLOBAL(x)(cast_fbgc_object_as_id_opcode(x)->flag = ID_FLAG_GLOBAL )
 #define set_id_flag_LOCAL(x)(cast_fbgc_object_as_id_opcode(x)->flag = ID_FLAG_LOCAL )
