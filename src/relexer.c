@@ -161,6 +161,7 @@ struct fbgc_object * tokenize_substr(const char *str1, const char*str2, lexer_to
 		case LEXER_TOK_OP0:
 		{	
 			//":|,|.|;"
+			if(where == 0) return derive_from_new_int_object(COMMA,2);
 			return new_fbgc_object(COMMA+where);
 		}
 		case LEXER_TOK_OP1:

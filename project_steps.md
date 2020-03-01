@@ -115,3 +115,41 @@
 
 
 
+## TEST CODES
+
+`
+
+```matlab
+
+fact = fun(n)
+	if n == 1
+   		return n
+	elif n < 1
+   		return ("NA")
+	else
+   		return n*recur_factorial(n-1)
+	end
+	
+	print (recur_factorial(int(num)))
+end
+
+#x = -3
+#y = (fun(a); y = 10; print(y); return 10*a; end,3,4)
+
+
+#
+#x(10)
+#x = (1,2,3)
+#x[1]
+#y[0](5)
+x('a','b')
+#x.f('33')
+#x = 6+1
+#x[10,20,30] = 'FLOL' 
+#x.y.z.e.f.g[3]; x('a')
+#y = x[0]
+#x.y[20]=3
+#x.y = 3
+
+```
+

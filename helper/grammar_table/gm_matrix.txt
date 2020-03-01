@@ -37,7 +37,7 @@ uint8_t left_matrix[88][16] = {
 {12,0,12,12,12,12,0,0,0,12,0,12,12,12,12,12},
 {0,9,9,0,0,0,0,0,9,0,9,2,0,0,0,0},
 {13,0,13,13,13,13,0,0,0,13,0,13,13,13,0,0},
-{0,16,16,0,0,0,0,0,16,0,16,0,16,0,0,0},
+{0,16,16,0,0,0,0,0,16,0,16,0,2,0,0,0},
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 {0,10,10,0,0,0,0,0,10,0,0,0,0,0,0,0},
@@ -185,7 +185,7 @@ uint8_t right_matrix[88][16] = {
 #define GM_BINOP 4
 #define GM_UNOP 5
 #define GM_ASSIGNOP 6
-#define GM_STATEMENT 7
+#define GM_MATCHED_PARA 7
 #define GM_ASSIGNMENT_EXPRESSION 8
 #define GM_EXPRESSION 9
 #define GM_UNBALANCED_LIST 10
@@ -203,7 +203,7 @@ uint8_t right_matrix[88][16] = {
 "GM_BINOP",\
 "GM_UNOP",\
 "GM_ASSIGNOP",\
-"GM_STATEMENT",\
+"GM_MATCHED_PARA",\
 "GM_ASSIGNMENT_EXPRESSION",\
 "GM_EXPRESSION",\
 "GM_UNBALANCED_LIST",\

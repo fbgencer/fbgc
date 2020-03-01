@@ -8,7 +8,6 @@ struct iter_function_ptr_struct{
 
 uint8_t interpreter(struct fbgc_object ** field_obj){
 
-	return 0;
 	current_field = *field_obj;
 
 	#ifdef INTERPRETER_DEBUG
