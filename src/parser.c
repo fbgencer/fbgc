@@ -918,7 +918,18 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 
 		break;
 	}
-	case  ASSIGN:{
+	case ASSIGN:
+	case RSHIFT_ASSIGN:
+	case LSHIFT_ASSIGN:
+	case STARSTAR_ASSIGN:
+	case SLASHSLASH_ASSIGN:
+	case PLUS_ASSIGN:
+	case MINUS_ASSIGN:
+	case STAR_ASSIGN:
+	case SLASH_ASSIGN:
+	case CARET_ASSIGN:
+	case PERCENT_ASSIGN:
+	{
 
 		if( (error_code = gm_seek_left(&gm,iter)) != _FBGC_NO_ERROR  ){ goto PARSER_ERROR_LABEL; }
 		

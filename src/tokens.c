@@ -13,19 +13,6 @@ const char * gm_name_array[]={
 	GRAMMAR_TOKENS_AS_STRINGS()
 };
 
-/*
-	{R_SHIFT_ASSIGN,">>="},
-	{L_SHIFT_ASSIGN,"<<="},	
-	{PLUS_ASSIGN,"+="},
-	{MINUS_ASSIGN,"-="},
-	{STAR_ASSIGN,"*="},
-	{SLASH_ASSIGN,"/="},
-	{CARET_ASSIGN,"^="},
-	{STARSTAR_ASSIGN,"**="},
-	{SLASHSLASH_ASSIGN,"//="},	
-	{PERCENT_ASSIGN,"%="},	
-*/
-
 const token_struct operator_token_array[]={
 	{LPARA,"("},
 	{RPARA,")"},
@@ -39,6 +26,16 @@ const token_struct operator_token_array[]={
 	{GREQ,">="},
 	{EQEQ,"=="},
 	{NOTEQ,"!="},
+	{RSHIFT_ASSIGN,">>="},
+	{LSHIFT_ASSIGN,"<<="},	
+	{PLUS_ASSIGN,"+="},
+	{MINUS_ASSIGN,"-="},
+	{STAR_ASSIGN,"*="},
+	{SLASH_ASSIGN,"/="},
+	{CARET_ASSIGN,"^="},
+	{STARSTAR_ASSIGN,"**="},
+	{SLASHSLASH_ASSIGN,"//="},	
+	{PERCENT_ASSIGN,"%="},	
 	{RSHIFT,">>"},
 	{LSHIFT,"<<"},
 	{ASSIGN,"="},
@@ -71,7 +68,7 @@ const token_struct reserved_words_token_array[]={
 	{WHILE,"while"},
 	{BREAK,"break"},
 	{CONT,"cont"},
-	{RETURN,"ret"},
+	{RETURN,"ret"}
 };
 
 

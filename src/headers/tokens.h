@@ -79,16 +79,26 @@ typedef struct {
 #define UPLUS 61 // +
 #define UMINUS 62 // -
 #define ASSIGN 63 // = assignment ops start from here
-#define ASSIGN_SUBSCRIPT 64 //
-#define LEN 65 //
-#define JUMP 66 //
-#define FOR_BEGIN 67 //
-#define FUN_CALL 68 //
-#define BUILD_TUPLE 69 //
-#define BUILD_MATRIX 70 //
-#define POP_TOP 71 //
-#define ROW 72 //
-#define LOAD_SUBSCRIPT 73 //
+#define RSHIFT_ASSIGN 64 // >>=
+#define LSHIFT_ASSIGN 65 // <<=
+#define STARSTAR_ASSIGN 66 // **=
+#define SLASHSLASH_ASSIGN 67 // //=
+#define PLUS_ASSIGN 68 // +=
+#define MINUS_ASSIGN 69 // -=
+#define STAR_ASSIGN 70 // *=
+#define SLASH_ASSIGN 71 // /=
+#define CARET_ASSIGN 72 // ^=
+#define PERCENT_ASSIGN 73 // %=
+#define ASSIGN_SUBSCRIPT 74 //
+#define LEN 75 //
+#define JUMP 76 //
+#define FOR_BEGIN 77 //
+#define FUN_CALL 78 //
+#define BUILD_TUPLE 79 //
+#define BUILD_MATRIX 80 //
+#define POP_TOP 81 //
+#define ROW 82 //
+#define LOAD_SUBSCRIPT 83 //
 #define TOKEN_LIST_AS_STRINGS()\
 "UNKNOWN",\
 "NIL",\
@@ -154,6 +164,16 @@ typedef struct {
 "UPLUS",\
 "UMINUS",\
 "ASSIGN",\
+"RSHIFT_ASSIGN",\
+"LSHIFT_ASSIGN",\
+"STARSTAR_ASSIGN",\
+"SLASHSLASH_ASSIGN",\
+"PLUS_ASSIGN",\
+"MINUS_ASSIGN",\
+"STAR_ASSIGN",\
+"SLASH_ASSIGN",\
+"CARET_ASSIGN",\
+"PERCENT_ASSIGN",\
 "ASSIGN_SUBSCRIPT",\
 "LEN",\
 "JUMP",\
@@ -200,7 +220,6 @@ typedef struct {
 "GM_FUNCTIONAL",\
 "GM_MATRIX"
 
-
 extern const char * gm_name_array[];
 extern const char * object_name_array[];
 extern const token_struct operator_token_array[];
@@ -211,9 +230,7 @@ fbgc_token get_operator_code_from_substr(const char *str1,const char *str2);
 fbgc_token get_reserved_word_code(const char *str);
 fbgc_token get_reserved_word_code_from_substr(const char *str1,const char *str2);
 
-
 const char * get_token_as_str(fbgc_token tok);
-
 
 #define is_fbgc_OPERATOR(T)(T>=COLON && T< ASSIGN_SUBSCRIPT )
 #define is_fbgc_IDENTIFIER(T)(T == IDENTIFIER)
@@ -224,7 +241,6 @@ const char * get_token_as_str(fbgc_token tok);
 #define is_fbgc_ASSIGNMENT_OPERATOR(T)( T >= ASSIGN && T< ASSIGN_SUBSCRIPT)
 //solve this colon issue..
 #define is_fbgc_BINARY_OPERATOR(T)( T>=COLON && T<= AMPERSAND)
-
 
 #define is_fbgc_FUNCTIONABLE(x)(x == IF || x == ELIF || x == ELSE || x == WHILE || x == FUN || x == LOAD)
 

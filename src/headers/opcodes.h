@@ -15,25 +15,15 @@ struct fbgc_id_opcode{
 
 #define sizeof_fbgc_id_opcode(x)(sizeof(struct fbgc_id_opcode))
 
-#define ID_FLAG_GLOBAL 1
-#define ID_FLAG_LOCAL 2
-#define ID_FLAG_MEMBER 3 
-#define ID_FLAG_PUSH_ITSELF 4 // x=y=10 like enterance can be solved with this but it could be a problem..
+#define ID_FLAG_GLOBAL 0x01 //0b00000001
+#define ID_FLAG_LOCAL 0x02 //0b00000010
+#define ID_FLAG_MEMBER 0x04 //0b00000100
+#define ID_FLAG_PUSH_ITSELF 0x10 // x=y=10 like enterance can be solved with this but it could be a problem..
 
 //This flags will be used by the assignment operator!, It uses MSB 4-bit of the flag
-//Notice that we use the same numbers as the operators
 
 
-#define ID_RSHIFT_ASSIGN R_SHIFT
-#define ID_LSHIFT_ASSIGN L_SHIFT
-#define ID_STARSTAR_ASSIGN STARSTAR
-#define ID_SLASHSLASH_ASSIGN SLASHSLASH
-#define ID_PLUS_ASSIGN PLUS
-#define ID_MINUS_ASSIGN MINUS
-#define ID_STAR_ASSIGN STAR
-#define ID_SLASH_ASSIGN SLASH
-#define ID_CARET_ASSIGN CARET
-#define ID_PERCENT_ASSIGN PERCENT
+
 
 
 #define cast_fbgc_object_as_id_opcode(x)((struct fbgc_id_opcode *) x)
@@ -46,7 +36,6 @@ struct fbgc_id_opcode{
 #define set_id_flag_LOCAL(x)(cast_fbgc_object_as_id_opcode(x)->flag = ID_FLAG_LOCAL )
 #define set_id_flag_MEMBER(x)(cast_fbgc_object_as_id_opcode(x)->flag = ID_FLAG_MEMBER )
 #define set_id_flag_PUSH_ITSELF(x)(cast_fbgc_object_as_id_opcode(x)->flag |= ID_FLAG_PUSH_ITSELF )
-
 
 #define is_id_flag_GLOBAL(x)(cast_fbgc_object_as_id_opcode(x)->flag & ID_FLAG_GLOBAL )
 #define is_id_flag_LOCAL(x)(cast_fbgc_object_as_id_opcode(x)->flag & ID_FLAG_LOCAL )

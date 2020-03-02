@@ -301,8 +301,17 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				SET_TOP(res);
 				break;
 			}
-			case ASSIGN:			
-			{
+		case ASSIGN:
+		case RSHIFT_ASSIGN:
+		case LSHIFT_ASSIGN:
+		case STARSTAR_ASSIGN:
+		case SLASHSLASH_ASSIGN:
+		case PLUS_ASSIGN:
+		case MINUS_ASSIGN:
+		case STAR_ASSIGN:
+		case SLASH_ASSIGN:
+		case CARET_ASSIGN:
+		case PERCENT_ASSIGN:{
 
 				#ifdef INTERPRETER_DEBUG
 		            if(is_id_flag_GLOBAL(pc) ) cprintf(011,"%s{G<%d>}","ID",cast_fbgc_object_as_id_opcode(pc)->loc);

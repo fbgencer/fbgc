@@ -170,11 +170,12 @@ struct fbgc_object * tokenize_substr(const char *str1, const char*str2, lexer_to
 			//possible assigment operators and assignment operator
 			//check the last character, shift the token 
 			if(*(str2-1) == '='){
-				where = (ASSIGN);
 				struct fbgc_object * tmp = new_fbgc_id_opcode(0);
-				tmp->type = where;
+				tmp->type = ++where+ASSIGN;
 				return tmp;
 			}
+
+
 			return new_fbgc_object(where += RSHIFT);
 		}
 		case LEXER_TOK_OP2:
