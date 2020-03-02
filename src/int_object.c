@@ -39,12 +39,12 @@ struct fbgc_object * operator_fbgc_int_object2(struct fbgc_object * a,struct fbg
 	
 switch(op)
 {
-	case R_SHIFT:
+	case RSHIFT:
 	{
 		*c >>= b1;
 		break;
 	}
-	case L_SHIFT:
+	case LSHIFT:
 	{
 		*c <<= b1;
 		break;
@@ -104,11 +104,11 @@ struct fbgc_object * operator_fbgc_int_object(struct fbgc_object * a,struct fbgc
 	struct fbgc_object * result = NULL;
 switch(op)
 {
-	case R_SHIFT:
+	case RSHIFT:
 	{
 		return return_fbgc_object_operator_helper_int(a1>>b1,result);
 	}
-	case L_SHIFT:
+	case LSHIFT:
 	{
 		return return_fbgc_object_operator_helper_int(a1<<b1,result);
 	}
@@ -144,19 +144,19 @@ switch(op)
 	{
 		return return_fbgc_object_operator_helper_int(a1%b1,result);
 	}                         
-	case LO_EQ:
+	case LOEQ:
 	{
 		return return_fbgc_object_operator_helper_logic(a1<=b1,result);
 	}
-	case GR_EQ:
+	case GREQ:
 	{
 		return return_fbgc_object_operator_helper_logic(a1>=b1,result);
 	}
-	case EQ_EQ:
+	case EQEQ:
 	{
 		return return_fbgc_object_operator_helper_logic(a1==b1,result);
 	}
-	case NOT_EQ:
+	case NOTEQ:
 	{
 		return return_fbgc_object_operator_helper_logic(a1!=b1,result);
 	}

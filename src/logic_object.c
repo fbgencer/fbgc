@@ -23,8 +23,8 @@ struct fbgc_object * operator_fbgc_logic_object(struct fbgc_object * a,struct fb
 switch(op)
 {   
 
-    case R_SHIFT:
-    case L_SHIFT:
+    case RSHIFT:
+    case LSHIFT:
     case STARSTAR:
     case SLASHSLASH:    
     case PLUS:
@@ -36,22 +36,22 @@ switch(op)
     {
         return NULL;
     }
-    case LO_EQ:
+    case LOEQ:
     {
         c = a1 <= b1;
         break;
     }
-    case GR_EQ:
+    case GREQ:
     {
         c = a1 >= b1;
         break;
     }
-    case EQ_EQ:
+    case EQEQ:
     {
         c = a1 == b1;
         break;
     }
-    case NOT_EQ:
+    case NOTEQ:
     {
         c = a1 != b1;
         break;

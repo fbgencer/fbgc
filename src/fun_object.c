@@ -4,8 +4,6 @@ struct fbgc_object *
 new_fbgc_fun_object(){ 
 	struct fbgc_fun_object * funo =  (struct fbgc_fun_object*) fbgc_malloc(sizeof_fbgc_fun_object());
     funo->base.type = FUN;
-    //funo->base.next = NULL;
-    
     funo->code = NULL;
     funo->no_arg = -1;
     funo->no_locals = -1;

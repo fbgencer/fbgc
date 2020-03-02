@@ -36,11 +36,11 @@ const fbgc_token const precedence_table[] =
 	RIGHT_ASSOC | 0,//IF
 	4,//RETURN
 	2,//NEWLINE
-	RIGHT_ASSOC | 2,//LPARA
+	RIGHT_ASSOC | 5,//LPARA
 	16,//RPARA
-	RIGHT_ASSOC | 2,//LBRACK
+	RIGHT_ASSOC | 5,//LBRACK
 	16,//RBRACK
-	RIGHT_ASSOC | 2,//LBRACE
+	RIGHT_ASSOC | 5,//LBRACE
 	16,//RBRACE
 	RIGHT_ASSOC | 18,//COMMA // it was 20 now we changed to make bigger than equal sign for x = 1,2,3 cases
 	52,//DOT
@@ -96,7 +96,8 @@ uint8_t compare_operators(fbgc_token stack_top, fbgc_token obj_type){
 	uint8_t result = 0;
 	if(stack_top == IDENTIFIER) 
 		result = 1;
-	//else if(obj_type == LBRACK || obj_type == LPARA) result =  0;
+	//x=(1,2) requires low precedence!
+	else if(obj_type == LBRACK || obj_type == LPARA) result =  0;
 
 	else if(obj_type >= IF && obj_type <= LEN && stack_top >= IF && stack_top <= LEN ){
 		//precedence of the operators have to change according to their positions
@@ -141,7 +142,7 @@ struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,st
 
 	uint8_t	state = 0;
 	if(iter_prev->type == COMMA) state = 2;
-	else if(gm->top != GM_MATCHED_PARA) state = 1;
+	else if(gm->top != GM_ATOM) state = 1;
 
 	if(top_type == FUN_CALL){
 		
@@ -226,7 +227,7 @@ struct fbgc_object * handle_before_paranthesis(struct fbgc_object * iter_prev,st
 		cast_fbgc_object_as_jumper(TOP_LL(op))->content = iter_prev;
 		_warning("If shows %s\n",_obj2str(iter_prev->next));	
 	}
-	else if(iter_prev->type == COMMA || gm->top == GM_MATCHED_PARA){
+	else if(iter_prev->type == COMMA || gm->top == GM_ATOM){
 		
 		if(state == 2){
 			_debug("State number is 2, changing COMMA to BUILD_TUPLE\n");
@@ -265,7 +266,7 @@ struct fbgc_object * handle_before_brackets(struct fbgc_object * iter_prev,struc
 	uint8_t gm_error = 1;
 	uint8_t	state = 0;
 	if(iter_prev->type == COMMA) state = 2;
-	else if(gm->top != GM_MATCHED_PARA) state = 1;
+	else if(gm->top != GM_ATOM) state = 1;
 
 	if(state == 2) iter_prev->type = INT; 
 	else {
@@ -335,9 +336,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 					--i;
 					continue; //fast passing the comment
 				}
-
 				_debug("Processed line[%d]:{%s}\n",line_no,line);
-
 				
 				head->tail->next = iter_prev;
 				regex_lexer(field_obj,line);
@@ -378,15 +377,9 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			//so this is just a member selection
 			POP_LL(op); //pop the dot object
 			//now get the name of instance
-			/*struct fbgc_object * cstr = new_fbgc_cstr_object(&cast_fbgc_object_as_cstr(cstr_obj)->content); 
-			cstr->next = iter->next;
-			iter_prev->next = cstr;
-			iter_prev=cstr;*/
-			
 			iter_prev->next = cstr_obj;
 			cstr_obj->next = iter->next;
 			iter_prev = cstr_obj;
-			//cast_fbgc_object_as_id_opcode(iter)->member_name = cstr_obj;
 			set_id_flag_MEMBER(iter);
 		}
 		else if((cf = new_cfun_object_from_str(*field_obj,&cast_fbgc_object_as_cstr(cstr_obj)->content)) != NULL){
@@ -705,7 +698,6 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 	case FOR:{
 		gm_error = gm_seek_left(&gm,iter);	
 
-
 		cast_fbgc_object_as_jumper(iter)->content = iter_prev;
 
 		struct fbgc_object * jump_obj = new_fbgc_jumper_object(JUMP);
@@ -715,23 +707,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 		push_front_fbgc_ll_object(op,iter);				
 		break;
 	}			
-	case BREAK:{
-		iter_prev = iter;
-		gm_error = gm_seek_left(&gm,iter);
-
-		struct fbgc_object * op_top = TOP_LL(op);
-
-		for(;;){
-			assert(op_top != NULL);
-			if(op_top->type == WHILE || op_top->type == FOR){
-				cast_fbgc_object_as_jumper(iter)->content = op_top;
-				break;
-			}
-
-			op_top = op_top->next;
-		}
-		break;				
-	}
+	case BREAK:
 	case CONT:{
 		iter_prev = iter;
 		gm_error = gm_seek_left(&gm,iter);
@@ -739,18 +715,22 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 		struct fbgc_object * op_top = TOP_LL(op);
 
 		for(;;){
+			assert(!is_empty_fbgc_ll_object(op));
 
-			assert(op_top != NULL);
 			if(op_top->type == WHILE || op_top->type == FOR){
-				//here we assumed there will be always jump object after while in the stack
-				op_top = op_top->next;
-				
+
+				if(iter->type == CONT){
+					assert(op_top->next->type == JUMP);
+					//here we assumed there will be always jump object after while in the stack
+					op_top = op_top->next;
+				}
+
 				cast_fbgc_object_as_jumper(iter)->content = op_top;
 				break;
 			}
 			op_top = op_top->next;
 		}
-		break;		
+		break;
 	}
 	case IF:
 	case RETURN:
@@ -765,8 +745,8 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 	case DOT:
 	case SEMICOLON:
 	case COLON:
-	case R_SHIFT:
-	case L_SHIFT:
+	case RSHIFT:
+	case LSHIFT:
 	case STARSTAR:
 	case SLASHSLASH:
 	case PLUS:
@@ -775,10 +755,10 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 	case SLASH:
 	case CARET:
 	case PERCENT:
-	case LO_EQ:
-	case GR_EQ:
-	case EQ_EQ:
-	case NOT_EQ:
+	case LOEQ:
+	case GREQ:
+	case EQEQ:
+	case NOTEQ:
 	case LOWER:
 	case GREATER:
 	case PIPE:
@@ -822,15 +802,6 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 					#ifdef PARSER_DEBUG
 					cprintf(110,"\tBRACK AND SEMICOLON\n");
 					#endif
-
-
-					if(iter_prev->type == COMMA) iter_prev->type = ROW; 
-					else if(iter_prev->type != ROW){
-						struct fbgc_object * ito = derive_from_new_int_object(ROW,1);
-						ito->next = iter_prev->next;
-						iter_prev->next = ito;
-						iter_prev = ito;
-					}
 					break;
 				}
 				else if(iter->type == PIPE && get_fbgc_object_type(TOP_LL(op)) == LEN){
@@ -870,28 +841,28 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			if(iter_prev->type == IDENTIFIER || iter_prev->type == CFUN){
 				push_front_fbgc_ll_object(op,new_fbgc_object(FUN_CALL));	
 			}
+			push_front_fbgc_ll_object(op,iter);
 		}
-
-		if(iter->type == LBRACK){
+		else if(iter->type == LBRACK){
 			if(iter_prev->type == IDENTIFIER){
 				push_front_fbgc_ll_object(op,new_fbgc_object(LOAD_SUBSCRIPT));
 			}
+			push_front_fbgc_ll_object(op,iter);
 		}
-
-		if(iter->type == ROW ){
+		else if(iter->type == ROW ){
 			;
 		}
 		else if(iter->type == COMMA){
-
-			
 			if(get_fbgc_object_type(TOP_LL(op)) == COMMA){
 				cast_fbgc_object_as_int(TOP_LL(op))->content++;
 			}
 			else {
-				push_front_fbgc_ll_object(op,iter);
 				//Also insert a lpara object for tuple entries without paranthesis
-				if(get_fbgc_object_type(TOP_LL(op)) != LPARA && get_fbgc_object_type(TOP_LL(op)) != LBRACK)
-				push_front_fbgc_ll_object(op,new_fbgc_object(LPARA));
+				if(get_fbgc_object_type(TOP_LL(op)) != LPARA && get_fbgc_object_type(TOP_LL(op)) != LBRACK){
+					push_front_fbgc_ll_object(op,new_fbgc_object(LPARA));
+				}
+
+				push_front_fbgc_ll_object(op,derive_from_new_int_object(COMMA,2));
 			}
 		}
 		else if( iter->type == RBRACK){
@@ -902,6 +873,15 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			else assert(0);
 			iter_prev = handle_before_brackets(iter_prev,op,&gm);
 					
+		}
+		else if(iter->type == SEMICOLON && get_fbgc_object_type(TOP_LL(op)) == LBRACK){
+			if(iter_prev->type == COMMA) iter_prev->type = ROW; 
+			else if(iter_prev->type != ROW){
+				struct fbgc_object * ito = derive_from_new_int_object(ROW,1);
+				ito->next = iter_prev->next;
+				iter_prev->next = ito;
+				iter_prev = ito;
+			}
 		}
 		else if(iter->type == RPARA || iter->type == NEWLINE || iter->type == SEMICOLON){
 
@@ -921,33 +901,24 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 				error_code = _FBGC_SYNTAX_ERROR; goto PARSER_ERROR_LABEL;
 			}	
 
+			if(iter->type == NEWLINE || iter->type == SEMICOLON) gm.top = GM_NEWLINE;
+
 			if(iter_prev->type == BUILD_TUPLE){
-				if(iter->type == NEWLINE){
+				if(iter->type == NEWLINE && !is_empty_fbgc_ll_object(op)){
 					//Now fool the loop and check newline state again,
 					iter_prev->next = iter;
 					iter = iter_prev;
 				}
 			}
-
-			if(iter->type == NEWLINE || iter->type == SEMICOLON) gm.top = GM_NEWLINE;
-
 		}
 		else {
 			push_front_fbgc_ll_object(op,iter);
 		}
+
+
 		break;
 	}
-	case  ASSIGN: 		
-	case  R_SHIFT_ASSIGN:
-	case  L_SHIFT_ASSIGN:
-	case  STARSTAR_ASSIGN:
-	case  SLASHSLASH_ASSIGN:
-	case  PLUS_ASSIGN:
-	case  MINUS_ASSIGN:
-	case  STAR_ASSIGN:
-	case  SLASH_ASSIGN:
-	case  CARET_ASSIGN:
-	case  PERCENT_ASSIGN:{
+	case  ASSIGN:{
 
 		if( (error_code = gm_seek_left(&gm,iter)) != _FBGC_NO_ERROR  ){ goto PARSER_ERROR_LABEL; }
 		
@@ -975,7 +946,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 		iter_prev->next = iter->next;
 
 		if(TOP_LL(op)->type == IDENTIFIER){
-			_info("Stack top is [%x]ID<%d>",get_id_flag(TOP_LL(op)),get_id_opcode_loc(TOP_LL(op)));
+			_info("Stack top is [%x]ID<%d>\n",get_id_flag(TOP_LL(op)),get_id_opcode_loc(TOP_LL(op)));
 			TOP_LL(op)->type = iter->type;				
 		}
 		else if(TOP_LL(op)->type == LOAD_SUBSCRIPT){

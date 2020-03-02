@@ -80,7 +80,7 @@ struct fbgc_object * operator_fbgc_double_object(struct fbgc_object * a,struct f
 			return NULL;
 			//break;
 		}                                      
-		case LO_EQ:
+		case LOEQ:
 		{
 			return new_fbgc_logic_object(a1<=b1);
 		}
@@ -153,16 +153,16 @@ struct fbgc_object * operator_fbgc_double_object(struct fbgc_object * a,struct f
 double operator_method_double(double a1, double b1, fbgc_token op, struct fbgc_object ** result){
 	//different functions may call this function, they can get the answer from the returned value or they can provide result object
 	double c = 0;
-	fbgc_token result_type = (op>=LO_EQ && op<=EXCLAMATION) ? LOGIC : DOUBLE;
+	fbgc_token result_type = (op>=LOEQ && op<=EXCLAMATION) ? LOGIC : DOUBLE;
 
 	switch(op)
 	{
-		case R_SHIFT:
+		case RSHIFT:
 		{
 			*result = NULL;
 			break;
 		}
-		case L_SHIFT:
+		case LSHIFT:
 		{
 			*result = NULL;
 			break;
@@ -207,22 +207,22 @@ double operator_method_double(double a1, double b1, fbgc_token op, struct fbgc_o
 			*result = NULL;
 			break;
 		}                                      
-		case LO_EQ:
+		case LOEQ:
 		{
 			c = a1<=b1;
 			break;
 		}
-		case GR_EQ:
+		case GREQ:
 		{
 			c = a1 >= b1;
 			break;
 		}
-		case EQ_EQ:
+		case EQEQ:
 		{
 			c = a1 == b1;
 			break;
 		}
-		case NOT_EQ:
+		case NOTEQ:
 		{
 			c = a1 != b1;
 			break;

@@ -1,13 +1,1 @@
-max = fun(a,b)
-	
-	if(a<b)
-		return b
-	else 
-		return a
-	end
-
-end
-
-
-
-print(max(3.99+3,4.3))
+x =  3+2

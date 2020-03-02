@@ -37,7 +37,7 @@ struct fbgc_object * operator_fbgc_str_object(struct fbgc_object * a,struct fbgc
 
 switch(op)
 {
-    case R_SHIFT:
+    case RSHIFT:
     {   
         //a>>b
         //only rhs can be string, otherwise it's meaningless
@@ -62,7 +62,7 @@ switch(op)
         }
         return NULL;
     }
-    case L_SHIFT:
+    case LSHIFT:
     {
         //a<<b
         //only lhs ,a ,  can be string b can be different types
@@ -183,23 +183,23 @@ switch(op)
 
         return NULL;
     }                                
-    case LO_EQ:
+    case LOEQ:
     {
         return NULL;
     }
-    case GR_EQ:
+    case GREQ:
     {
         return NULL;
     }
-    case EQ_EQ:
-    case NOT_EQ:
+    case EQEQ:
+    case NOTEQ:
     {   
         //no need to check whether a or b is string, because one of them must be.
         if(a->type == b->type){
             uint8_t cmp = (length_fbgc_str_object(a) == length_fbgc_str_object(b) && 
                 memcmp(content_fbgc_str_object(a),content_fbgc_str_object(b),length_fbgc_str_object(a)) == 0);
 
-            return new_fbgc_logic_object( op == NOT_EQ ? !cmp : cmp );
+            return new_fbgc_logic_object( op == NOTEQ ? !cmp : cmp );
         }   
         return NULL;        
     }

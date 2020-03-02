@@ -13,9 +13,6 @@ FUN $ builtin fbgc function
 CSTRUCT $ 
 IDENTIFIER $ identifiers
 RANGE $ range obj
-MONATRIX
-NUPLE
-MONUPLE
 ARRAY
 LINKED_LIST
 CMODULE
@@ -29,7 +26,6 @@ WHILE
 FOR
 BREAK
 CONT
-LOAD
 IF
 RETURN
 NEWLINE
@@ -43,8 +39,8 @@ COMMA $ , -- set1 start
 DOT $ .
 SEMICOLON $ ; 
 COLON $ : set1 finish
-R_SHIFT $ >> assignment and binary operators start from here
-L_SHIFT $ <<
+RSHIFT $ >> assignment and binary operators start from here
+LSHIFT $ <<
 STARSTAR $ **
 SLASHSLASH $ //
 PLUS $ +
@@ -53,10 +49,10 @@ STAR $ *
 SLASH $ /
 CARET $ ^
 PERCENT $ % assignment finish
-LO_EQ $ <=
-GR_EQ $ >=
-EQ_EQ $ ==
-NOT_EQ $ !=
+LOEQ $ <=
+GREQ $ >=
+EQEQ $ ==
+NOTEQ $ !=
 LOWER $ <
 GREATER $ >
 PIPE $ |
@@ -66,16 +62,6 @@ TILDE $ ~
 UPLUS $ +
 UMINUS $ -
 ASSIGN $ = assignment ops start from here
-R_SHIFT_ASSIGN $ >>=
-L_SHIFT_ASSIGN $ <<=
-STARSTAR_ASSIGN $ **=
-SLASHSLASH_ASSIGN $ //=
-PLUS_ASSIGN $ +=
-MINUS_ASSIGN $ -=
-STAR_ASSIGN $ *=
-SLASH_ASSIGN $ /=
-CARET_ASSIGN $ ^=
-PERCENT_ASSIGN $ %=
 ASSIGN_SUBSCRIPT
 LEN
 JUMP

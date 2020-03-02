@@ -128,8 +128,6 @@ void print_fbgc_object(struct fbgc_object * self){
 			{
 				if(is_id_flag_GLOBAL(self)) cprintf(011,"%s{G<%d>}","ID",cast_fbgc_object_as_id_opcode(self)->loc);
             	else if(is_id_flag_LOCAL(self)) cprintf(011,"%s{L<%d>}","ID",cast_fbgc_object_as_id_opcode(self)->loc);
-            	else if(is_id_flag_SUBSCRIPT(self)) cprintf(011,"%s{S<%d>}","ID",cast_fbgc_object_as_id_opcode(self)->loc);
-				
 				break;
 			}
 			case TUPLE:
@@ -175,9 +173,6 @@ switch(type){
 	case IDENTIFIER : sz = sizeof_fbgc_id_opcode(); break; 
 	case RANGE : sz = sizeof_fbgc_range_object(); break; 
 	case CSTRING : sz = sizeof_fbgc_cstr_object(obj); break; 
-	case MONATRIX : sz = sizeof_fbgc_object(); break; 
-	case NUPLE : sz = sizeof_fbgc_object(); break; 
-	case MONUPLE : sz = sizeof_fbgc_object(); break; 
 	case ARRAY : sz = sizeof_fbgc_array_object(obj); break; 
 	case LINKED_LIST : sz = sizeof_fbgc_ll_object(); break; 
 	case CMODULE : sz = sizeof_fbgc_cmodule_object(); break; 
@@ -191,7 +186,6 @@ switch(type){
 	case FOR : 
 	case BREAK : 
 	case CONT : sz = sizeof_fbgc_jumper_object(); break; 
-	case LOAD : sz = sizeof_fbgc_object(); break;
 	case IF : sz = sizeof_fbgc_jumper_object(); break; 
 	case RETURN : sz = sizeof_fbgc_object(); break; 
 	case NEWLINE : 
@@ -201,18 +195,14 @@ switch(type){
 	case RBRACK :
 	case LBRACE :
 	case RBRACE :
-	case PLUS_ASSIGN :
-	case MINUS_ASSIGN :
-	case STAR_ASSIGN :
-	case SLASH_ASSIGN :
 	case STARSTAR :
 	case SLASHSLASH :
-	case LO_EQ :
-	case GR_EQ :
-	case EQ_EQ :
-	case NOT_EQ :
-	case R_SHIFT :
-	case L_SHIFT :
+	case LOEQ :
+	case GREQ :
+	case EQEQ :
+	case NOTEQ :
+	case RSHIFT :
+	case LSHIFT :
 	case CARET :
 	case PERCENT :
 	case LOWER :

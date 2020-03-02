@@ -136,7 +136,6 @@ void print_fbgc_ll_object(struct fbgc_object * head,const char *s1){
             if(is_id_flag_GLOBAL(iter) ) cprintf(011,"%s{G<%d>}","ID",cast_fbgc_object_as_id_opcode(iter)->loc);
             else if(is_id_flag_LOCAL(iter) ) cprintf(011,"%s{L<%d>}","ID",cast_fbgc_object_as_id_opcode(iter)->loc);
             else if(is_id_flag_MEMBER(iter) ) cprintf(011,"%s{M<%d>}","ID",cast_fbgc_object_as_id_opcode(iter)->loc);
-            else if(is_id_flag_SUBSCRIPT(iter) ) cprintf(011,"%s{S<%d>}","ID",cast_fbgc_object_as_id_opcode(iter)->loc);
             else{
                 cprintf(111,"Undefined ID!\n"); 
             }           
@@ -146,7 +145,6 @@ void print_fbgc_ll_object(struct fbgc_object * head,const char *s1){
             if(is_id_flag_GLOBAL(iter) ) cprintf(011,"G<%d>}",cast_fbgc_object_as_id_opcode(iter)->loc);
             else if(is_id_flag_LOCAL(iter) ) cprintf(011,"L<%d>}",cast_fbgc_object_as_id_opcode(iter)->loc);
             else if(is_id_flag_MEMBER(iter) ) cprintf(011,"M<%d>}",cast_fbgc_object_as_id_opcode(iter)->loc);
-            else if(is_id_flag_SUBSCRIPT(iter) ) cprintf(011,"S<%d>}",cast_fbgc_object_as_id_opcode(iter)->loc);
             else{
                 cprintf(111,"Undefined ID!\n"); 
             }           

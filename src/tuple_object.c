@@ -196,24 +196,24 @@ switch(op)
     {
         return NULL;
     }
-    case LO_EQ:
+    case LOEQ:
     {
         return NULL;
     }
-    case GR_EQ:
+    case GREQ:
     {
         return NULL;
     }
-    case EQ_EQ:
+    case EQEQ:
     {
         return NULL;
     }
-    case NOT_EQ:
+    case NOTEQ:
     {
         return NULL;
     }
 
-    case R_SHIFT:
+    case RSHIFT:
     {	
     	//a>>b, a can be anything, b must be tuple.
         if(b->type == TUPLE){
@@ -221,7 +221,7 @@ switch(op)
         }
         return NULL;        
     }
-    case L_SHIFT:
+    case LSHIFT:
     {	
     	//a<<b, b can be anything, a must be tuple.
         if(a->type == TUPLE){

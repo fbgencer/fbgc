@@ -65,15 +65,15 @@ struct fbgc_object * operator_fbgc_complex_object(struct fbgc_object * a,struct 
 
 struct raw_complex operator_method_raw_complex(struct raw_complex a1,struct raw_complex b1,fbgc_token op, struct fbgc_object ** result){
 	struct raw_complex c = {0,0};
-	fbgc_token result_type = (op>=LO_EQ && op<=EXCLAMATION) ? LOGIC : COMPLEX;
+	fbgc_token result_type = (op>=LOEQ && op<=EXCLAMATION) ? LOGIC : COMPLEX;
 
 	switch(op)
 	{
-	    case R_SHIFT:
+	    case RSHIFT:
 	    {
 	       	assert(0);
 	    }
-	    case L_SHIFT:
+	    case LSHIFT:
 	    {
 	        assert(0);
 	    }
@@ -129,19 +129,19 @@ struct raw_complex operator_method_raw_complex(struct raw_complex a1,struct raw_
 	    {
 	        assert(0);
 	    }    
-	    case LO_EQ:
+	    case LOEQ:
 	    {
 	        assert(0);
 	    }
-	    case GR_EQ:
+	    case GREQ:
 	    {
 	        assert(0);
 	    }
-	    case EQ_EQ:
-	    case NOT_EQ:
+	    case EQEQ:
+	    case NOTEQ:
 	    {
 	        uint8_t cmp = (a1.real == b1.real && a1.imag == b1.imag );
-	        c.real = (op == NOT_EQ) ? !cmp : cmp ;
+	        c.real = (op == NOTEQ) ? !cmp : cmp ;
 	        break;
 	    }
 	    case LOWER:

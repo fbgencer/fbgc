@@ -30,79 +30,65 @@ typedef struct {
 #define CSTRUCT 12 // 
 #define IDENTIFIER 13 // identifiers
 #define RANGE 14 // range obj
-#define MONATRIX 15 //
-#define NUPLE 16 //
-#define MONUPLE 17 //
-#define ARRAY 18 //
-#define LINKED_LIST 19 //
-#define CMODULE 20 //
-#define GARBAGE 21 //
-#define FIELD 22 //
-#define END 23 // end
-#define FUN_MAKE 24 //
-#define ELIF 25 //
-#define ELSE 26 //
-#define WHILE 27 //
-#define FOR 28 //
-#define BREAK 29 //
-#define CONT 30 //
-#define LOAD 31 //
-#define IF 32 //
-#define RETURN 33 //
-#define NEWLINE 34 //
-#define LPARA 35 // (
-#define RPARA 36 // )
-#define LBRACK 37 // [
-#define RBRACK 38 // ]
-#define LBRACE 39 // {
-#define RBRACE 40 // }
-#define COMMA 41 // , -- set1 start
-#define DOT 42 // .
-#define SEMICOLON 43 // ; 
-#define COLON 44 // : set1 finish
-#define R_SHIFT 45 // >> assignment and binary operators start from here
-#define L_SHIFT 46 // <<
-#define STARSTAR 47 // **
-#define SLASHSLASH 48 // //
-#define PLUS 49 // +
-#define MINUS 50 // -
-#define STAR 51 // *
-#define SLASH 52 // /
-#define CARET 53 // ^
-#define PERCENT 54 // % assignment finish
-#define LO_EQ 55 // <=
-#define GR_EQ 56 // >=
-#define EQ_EQ 57 // ==
-#define NOT_EQ 58 // !=
-#define LOWER 59 // <
-#define GREATER 60 // >
-#define PIPE 61 // |
-#define AMPERSAND 62 // & binary finish
-#define EXCLAMATION 63 // !
-#define TILDE 64 // ~
-#define UPLUS 65 // +
-#define UMINUS 66 // -
-#define ASSIGN 67 // = assignment ops start from here
-#define R_SHIFT_ASSIGN 68 // >>=
-#define L_SHIFT_ASSIGN 69 // <<=
-#define STARSTAR_ASSIGN 70 // **=
-#define SLASHSLASH_ASSIGN 71 // //=
-#define PLUS_ASSIGN 72 // +=
-#define MINUS_ASSIGN 73 // -=
-#define STAR_ASSIGN 74 // *=
-#define SLASH_ASSIGN 75 // /=
-#define CARET_ASSIGN 76 // ^=
-#define PERCENT_ASSIGN 77 // %=
-#define ASSIGN_SUBSCRIPT 78 //
-#define LEN 79 //
-#define JUMP 80 //
-#define FOR_BEGIN 81 //
-#define FUN_CALL 82 //
-#define BUILD_TUPLE 83 //
-#define BUILD_MATRIX 84 //
-#define POP_TOP 85 //
-#define ROW 86 //
-#define LOAD_SUBSCRIPT 87 //
+#define ARRAY 15 //
+#define LINKED_LIST 16 //
+#define CMODULE 17 //
+#define GARBAGE 18 //
+#define FIELD 19 //
+#define END 20 // end
+#define FUN_MAKE 21 //
+#define ELIF 22 //
+#define ELSE 23 //
+#define WHILE 24 //
+#define FOR 25 //
+#define BREAK 26 //
+#define CONT 27 //
+#define IF 28 //
+#define RETURN 29 //
+#define NEWLINE 30 //
+#define LPARA 31 // (
+#define RPARA 32 // )
+#define LBRACK 33 // [
+#define RBRACK 34 // ]
+#define LBRACE 35 // {
+#define RBRACE 36 // }
+#define COMMA 37 // , -- set1 start
+#define DOT 38 // .
+#define SEMICOLON 39 // ; 
+#define COLON 40 // : set1 finish
+#define RSHIFT 41 // >> assignment and binary operators start from here
+#define LSHIFT 42 // <<
+#define STARSTAR 43 // **
+#define SLASHSLASH 44 // //
+#define PLUS 45 // +
+#define MINUS 46 // -
+#define STAR 47 // *
+#define SLASH 48 // /
+#define CARET 49 // ^
+#define PERCENT 50 // % assignment finish
+#define LOEQ 51 // <=
+#define GREQ 52 // >=
+#define EQEQ 53 // ==
+#define NOTEQ 54 // !=
+#define LOWER 55 // <
+#define GREATER 56 // >
+#define PIPE 57 // |
+#define AMPERSAND 58 // & binary finish
+#define EXCLAMATION 59 // !
+#define TILDE 60 // ~
+#define UPLUS 61 // +
+#define UMINUS 62 // -
+#define ASSIGN 63 // = assignment ops start from here
+#define ASSIGN_SUBSCRIPT 64 //
+#define LEN 65 //
+#define JUMP 66 //
+#define FOR_BEGIN 67 //
+#define FUN_CALL 68 //
+#define BUILD_TUPLE 69 //
+#define BUILD_MATRIX 70 //
+#define POP_TOP 71 //
+#define ROW 72 //
+#define LOAD_SUBSCRIPT 73 //
 #define TOKEN_LIST_AS_STRINGS()\
 "UNKNOWN",\
 "NIL",\
@@ -119,9 +105,6 @@ typedef struct {
 "CSTRUCT",\
 "IDENTIFIER",\
 "RANGE",\
-"MONATRIX",\
-"NUPLE",\
-"MONUPLE",\
 "ARRAY",\
 "LINKED_LIST",\
 "CMODULE",\
@@ -135,7 +118,6 @@ typedef struct {
 "FOR",\
 "BREAK",\
 "CONT",\
-"LOAD",\
 "IF",\
 "RETURN",\
 "NEWLINE",\
@@ -149,8 +131,8 @@ typedef struct {
 "DOT",\
 "SEMICOLON",\
 "COLON",\
-"R_SHIFT",\
-"L_SHIFT",\
+"RSHIFT",\
+"LSHIFT",\
 "STARSTAR",\
 "SLASHSLASH",\
 "PLUS",\
@@ -159,10 +141,10 @@ typedef struct {
 "SLASH",\
 "CARET",\
 "PERCENT",\
-"LO_EQ",\
-"GR_EQ",\
-"EQ_EQ",\
-"NOT_EQ",\
+"LOEQ",\
+"GREQ",\
+"EQEQ",\
+"NOTEQ",\
 "LOWER",\
 "GREATER",\
 "PIPE",\
@@ -172,16 +154,6 @@ typedef struct {
 "UPLUS",\
 "UMINUS",\
 "ASSIGN",\
-"R_SHIFT_ASSIGN",\
-"L_SHIFT_ASSIGN",\
-"STARSTAR_ASSIGN",\
-"SLASHSLASH_ASSIGN",\
-"PLUS_ASSIGN",\
-"MINUS_ASSIGN",\
-"STAR_ASSIGN",\
-"SLASH_ASSIGN",\
-"CARET_ASSIGN",\
-"PERCENT_ASSIGN",\
 "ASSIGN_SUBSCRIPT",\
 "LEN",\
 "JUMP",\
@@ -201,16 +173,15 @@ typedef struct {
 #define GM_BINOP 4
 #define GM_UNOP 5
 #define GM_ASSIGNOP 6
-#define GM_MATCHED_PARA 7
-#define GM_ASSIGNMENT_EXPRESSION 8
-#define GM_EXPRESSION 9
-#define GM_UNBALANCED_LIST 10
-#define GM_BALANCED_LIST 11
-#define GM_LPARA 12
-#define GM_LBRACK 13
-#define GM_PIPE 14
-#define GM_FUNCTIONAL 15
-#define GM_MATRIX 16
+#define GM_ASSIGNMENT_EXPRESSION 7
+#define GM_EXPRESSION 8
+#define GM_UNBALANCED_LIST 9
+#define GM_BALANCED_LIST 10
+#define GM_LPARA 11
+#define GM_LBRACK 12
+#define GM_PIPE 13
+#define GM_FUNCTIONAL 14
+#define GM_MATRIX 15
 #define GRAMMAR_TOKENS_AS_STRINGS()\
 "GM_ERROR",\
 "GM_NEWLINE",\
@@ -219,7 +190,6 @@ typedef struct {
 "GM_BINOP",\
 "GM_UNOP",\
 "GM_ASSIGNOP",\
-"GM_MATCHED_PARA",\
 "GM_ASSIGNMENT_EXPRESSION",\
 "GM_EXPRESSION",\
 "GM_UNBALANCED_LIST",\

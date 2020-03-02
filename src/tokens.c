@@ -13,19 +13,7 @@ const char * gm_name_array[]={
 	GRAMMAR_TOKENS_AS_STRINGS()
 };
 
-const token_struct operator_token_array[]={
-	{LPARA,"("},
-	{RPARA,")"},
-	{LBRACE,"{"},
-	{RBRACE,"}"},
-	{LBRACK,"["},
-	{RBRACK,"]"},
-	{STARSTAR,"**"},
-	{SLASHSLASH,"//"},
-	{LO_EQ,"<="},
-	{GR_EQ,">="},
-	{EQ_EQ,"=="},
-	{NOT_EQ,"!="},
+/*
 	{R_SHIFT_ASSIGN,">>="},
 	{L_SHIFT_ASSIGN,"<<="},	
 	{PLUS_ASSIGN,"+="},
@@ -36,8 +24,23 @@ const token_struct operator_token_array[]={
 	{STARSTAR_ASSIGN,"**="},
 	{SLASHSLASH_ASSIGN,"//="},	
 	{PERCENT_ASSIGN,"%="},	
-	{R_SHIFT,">>"},
-	{L_SHIFT,"<<"},
+*/
+
+const token_struct operator_token_array[]={
+	{LPARA,"("},
+	{RPARA,")"},
+	{LBRACE,"{"},
+	{RBRACE,"}"},
+	{LBRACK,"["},
+	{RBRACK,"]"},
+	{STARSTAR,"**"},
+	{SLASHSLASH,"//"},
+	{LOEQ,"<="},
+	{GREQ,">="},
+	{EQEQ,"=="},
+	{NOTEQ,"!="},
+	{RSHIFT,">>"},
+	{LSHIFT,"<<"},
 	{ASSIGN,"="},
 	{SEMICOLON,";"},
 	{COMMA,","},
@@ -69,7 +72,6 @@ const token_struct reserved_words_token_array[]={
 	{BREAK,"break"},
 	{CONT,"cont"},
 	{RETURN,"ret"},
-	{LOAD,"load"},
 };
 
 
