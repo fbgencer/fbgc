@@ -24,7 +24,7 @@ uint8_t left_matrix[84][15] = {
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 {8,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-{14,0,0,0,0,14,0,0,0,0,14,0,0,0,0},
+{14,0,0,0,0,14,0,0,14,0,14,0,0,0,0},
 {14,0,0,0,0,0,0,14,0,0,0,0,0,0,0},
 {14,0,0,0,0,0,0,14,0,0,0,0,0,0,0},
 {14,0,0,0,0,0,0,14,0,0,0,0,0,0,0},
@@ -36,7 +36,7 @@ uint8_t left_matrix[84][15] = {
 {1,8,8,0,0,0,0,8,0,8,0,0,0,0,8},
 {11,0,11,11,11,11,0,0,11,0,11,11,11,11,11},
 {0,8,8,0,0,0,0,8,0,8,2,0,0,0,0},
-{12,0,12,12,12,12,0,0,12,0,12,12,12,0,0},
+{12,0,12,12,12,12,0,12,12,0,12,12,12,0,0},
 {0,15,15,0,0,0,0,15,0,15,0,2,0,0,0},
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -232,7 +232,7 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 	}
 	
 	if(new_left == GM_ERROR){
-		_warning("Unexpected grammar! LEFT:(%s), OBJ:(%s)\n",_gm2str(gm_left),_obj2str(obj));
+		_cprint(100,"Unexpected grammar! LEFT:(%s), OBJ:(%s)\n",_gm2str(gm_left),_obj2str(obj));
 	}
 
 	gm_left = new_left;
@@ -250,7 +250,7 @@ uint8_t gm_seek_right(struct fbgc_grammar * gm, struct fbgc_object * obj){
 	int8_t new_right = right_matrix[get_fbgc_object_type(obj)][gm_right-1];
 
 	if(new_right == GM_ERROR){
-		_warning("Unexpected grammar! Obj:(%s) RIGHT:(%s)\n",_obj2str(obj),_gm2str(gm_right));
+		_cprint(100,"Unexpected grammar! Obj:(%s) RIGHT:(%s)\n",_obj2str(obj),_gm2str(gm_right));
 	}
 	
 	gm_right = new_right;

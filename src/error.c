@@ -97,7 +97,7 @@ int fbgc_error(unsigned char error_code, int line_no){
         }
         case _FBGC_SYNTAX_ERROR:
         {
-            cprintf(100,"Syntax error at line %d\n",line_no);
+            cprintf(100,"Syntax error at line %d:",line_no);
             break;
         }
         case _FBGC_UNDEFINED_IDENTIFIER_ERROR:

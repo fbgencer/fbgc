@@ -1,6 +1,19 @@
 #include "fbgc.h"
 
 
+#ifndef INTERPRETER_DEBUG
+#define _info(s,...)
+#define _info_green(s,...)
+#define _warning(s,...)
+#define _print(s,...)
+#define _cprint(c,s,...)
+#define _debug(s,...)
+#define _print_object(s,obj)
+#define _println_object(s,obj)
+#define _obj2str(obj)
+#define _gm2str(gm)
+#endif
+
 
 struct iter_function_ptr_struct{
 	struct fbgc_object * (* function)(struct fbgc_object *, int,struct fbgc_object *);
@@ -9,11 +22,6 @@ struct iter_function_ptr_struct{
 uint8_t interpreter(struct fbgc_object ** field_obj){
 	return 0;
 	current_field = *field_obj;
-
-	#ifdef INTERPRETER_DEBUG
-	cprintf(111,"==========[INTERPRETER]==========\n");
-	#endif
-
 
 	struct fbgc_ll_object * head = cast_fbgc_object_as_ll( cast_fbgc_object_as_field(*field_obj)->head );
 	struct fbgc_object * pc = head->base.next; //program counter
@@ -46,18 +54,16 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 //FRAME MACROS
 #define GET_AT_FP(n)		(sp[fctr+(n)])
 #define SET_AT_FP(n, x)	(sp[fctr+(n)] = (x))
-
 #define FETCH_NEXT()(pc = pc->next)
-
-//#define MAX(a,b)( a > b ? a : b )
-
-
 #define RECURSION_LIMIT 1000
+
+
+	_info("==========[INTERPRETER]==========\n");
 
 	for(int i = 0;  (pc != head->tail); i++){
 
 		if(i > 1000){
-			cprintf(100,"Too much iteration. Breaking the loop\n");
+			printf("Too much iteration. Breaking the loop\n");
 			goto INTERPRETER_ERROR_LABEL;
 		}
 
@@ -73,10 +79,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 		fbgc_token type = get_fbgc_object_type(pc);
 		
-
-		#ifdef INTERPRETER_DEBUG
-		cprintf(010,"################ [%d] = {%s} ########################\n",i,object_type_as_str(pc));
-		#endif
+		_print("################ [%d] = {%s} ########################\n",i,_obj2str(pc));
 
 		switch(type){
 			case NIL:
@@ -89,13 +92,12 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			case CFUN:
 			case FUN:
 			case CSTRUCT:
-			case ROW:
-			{
+			case ROW:{
+				
 				PUSH(pc);
 				break;
 			}
-			case IDENTIFIER:
-			{	
+			case IDENTIFIER:{	
 
 				if(is_id_flag_GLOBAL(pc)){
 
@@ -105,7 +107,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					//Check undefined variable
 					if(tmp->content == NULL){
 						struct fbgc_object * name = tmp->name;
-						cprintf(100,"Undefined variable %s\n",&cast_fbgc_object_as_cstr(name)->content);
+						printf("Undefined variable %s\n",&cast_fbgc_object_as_cstr(name)->content);
 						//fbgc_error(_FBGC_UNDEFINED_IDENTIFIER_ERROR,-1);
 						return 0;
 					}
@@ -119,82 +121,16 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					struct fbgc_object * object =  get_set_fbgc_object_member(POP(),content_fbgc_cstr_object(member), NULL);
 
 					if(object == NULL){
-						cprintf(100,"Object does not have %s member\n",content_fbgc_cstr_object(member));
+						printf("Object does not have %s member\n",content_fbgc_cstr_object(member));
 						goto INTERPRETER_ERROR_LABEL;
 					}
 
 					PUSH(object);
-
-					break;
 				}
-
-				/*
-				if(is_id_flag_SUBSCRIPT(pc)){
-					//first pop the number of indexes
-					int index_no = cast_fbgc_object_as_int(POP())->content;
-					//take index values one by one and finally left last index 
-					struct fbgc_object * temp = NULL;
-
-					if(is_id_flag_GLOBAL(pc)){
-						//cprintf(111,"Globalde subscript\n");
-						struct fbgc_identifier * tmp = 
-						(struct fbgc_identifier *) get_address_in_fbgc_array_object(globals,cast_fbgc_object_as_id_opcode(pc)->loc);
-						temp = tmp->content;
-						
-					}
-					else if(is_id_flag_LOCAL(pc)){
-						//cprintf(111,"Localde subscript\n");
-						temp = GET_AT_FP(cast_fbgc_object_as_id_opcode(pc)->loc);
-					}	
-
-
-					assert(temp != NULL && TOP()->type == INT);
-
-					int index = 0;
-					for(int i = 0; i<index_no; i++){
-						index = cast_fbgc_object_as_int(TOPN(index_no-i))->content;
-						if(temp->type == TUPLE){
-							//cprintf(111,"Current index %d\n",index);
-							temp = get_object_in_fbgc_tuple_object(temp,index);
-							//print_fbgc_object(dummy); cprintf(111,"<<<\n");
-						}
-						else if(temp->type == COMPLEX){
-							temp = subscript_fbgc_complex_object(temp,index);
-						}
-						else if(temp->type == STRING){
-							temp = get_object_in_fbgc_str_object(temp,index,index+1);
-						}
-						else if(temp->type == MATRIX){
-							if(index_no == 2){
-								int index_no2 = cast_fbgc_object_as_int(TOPN(index_no-1))->content;
-								temp = get_object_in_fbgc_matrix_object(temp,index,index_no2);
-								assert(temp != NULL);
-								break;
-							}
-
-						}
-						else {
-							cprintf(111,"Not index accessible!\n");
-							print_fbgc_object(temp); printf("\n");
-							return 0;
-						}
-						
-						assert(temp != NULL);
-
-					}
-					//Since this is the top index we can just use top
-					//index = cast_fbgc_object_as_int(TOP())->content;
-					//cprintf(111,"Son index %d\n",index);
-
-					STACK_GOTO(-index_no);
-					PUSH(temp);
-					break;
-				}*/
-
 				break;
 			}
-			case BREAK:
-			{
+			case BREAK:{
+
 				struct fbgc_object * loop_obj =  cast_fbgc_object_as_jumper(pc)->content;
 				if(loop_obj->type == FOR) {
 					assert(0);
@@ -203,14 +139,13 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				pc = cast_fbgc_object_as_jumper(loop_obj)->content;
 				break;
 			}
-			case CONT:
-			{
+			case CONT:{
+
 				stack->next = cast_fbgc_object_as_jumper(pc)->content;
 				pc = stack;
 				break;
 			}				
-			case RETURN:
-			{
+			case RETURN:{
 
 				//(LOCALS..., OLD_SCTR,FRAME_CTR,GLOBAL_ARRAY,RETURN_VALUE)
 				//Notice that global array is just an indicator to collect properly
@@ -244,8 +179,8 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 				break;
 			}			
-			case COLON:
-			{
+			case COLON:{
+
 				struct fbgc_object * x = new_fbgc_range_object(SECOND(),TOP());
 				STACK_GOTO(-1);
 				SET_TOP(x);
@@ -293,36 +228,27 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			case EXCLAMATION:
 			case TILDE:		
 			case UPLUS:
-			case UMINUS:
-			{
+			case UMINUS:{
+				
 				assert(TOP() != NULL);
 				struct fbgc_object * res =  call_fbgc_operator(get_fbgc_object_type(TOP()),TOP(),NULL,type);
 				assert(res != NULL);
 				SET_TOP(res);
 				break;
 			}
-		case ASSIGN:
-		case RSHIFT_ASSIGN:
-		case LSHIFT_ASSIGN:
-		case STARSTAR_ASSIGN:
-		case SLASHSLASH_ASSIGN:
-		case PLUS_ASSIGN:
-		case MINUS_ASSIGN:
-		case STAR_ASSIGN:
-		case SLASH_ASSIGN:
-		case CARET_ASSIGN:
-		case PERCENT_ASSIGN:{
+			case ASSIGN:
+			case RSHIFT_ASSIGN:
+			case LSHIFT_ASSIGN:
+			case STARSTAR_ASSIGN:
+			case SLASHSLASH_ASSIGN:
+			case PLUS_ASSIGN:
+			case MINUS_ASSIGN:
+			case STAR_ASSIGN:
+			case SLASH_ASSIGN:
+			case CARET_ASSIGN:
+			case PERCENT_ASSIGN:{
 
-				#ifdef INTERPRETER_DEBUG
-		            if(is_id_flag_GLOBAL(pc) ) cprintf(011,"%s{G<%d>}","ID",cast_fbgc_object_as_id_opcode(pc)->loc);
-		            else if(is_id_flag_LOCAL(pc) ) cprintf(011,"%s{L<%d>}","ID",cast_fbgc_object_as_id_opcode(pc)->loc);
-		            else if(is_id_flag_MEMBER(pc) ) cprintf(011,"%s{M<%d>}","ID",cast_fbgc_object_as_id_opcode(pc)->loc);
-		            else if(is_id_flag_SUBSCRIPT(pc) ) cprintf(011,"%s{S<%d>}","ID",cast_fbgc_object_as_id_opcode(pc)->loc);
-		            else{
-		                cprintf(111,"Undefined ID!\n"); 
-		            }
-		            cprintf(111,"\n");     				
-				#endif
+				_info("Assignment op [%x]ID<%d>\n",get_id_flag(pc),get_id_opcode_loc(pc));
 
 				struct fbgc_object * rhs = POP();
 				struct fbgc_object ** lhs = NULL;
@@ -337,7 +263,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					struct fbgc_object * object = get_set_fbgc_object_member(TOP(),content_fbgc_cstr_object(member) , rhs);
 
 					if(object == NULL){
-						cprintf(100,"[%s] does not support [%s] member assignment\n",object_name_array[TOP()->type],content_fbgc_cstr_object(member));
+						printf("[%s] does not support [%s] member assignment\n",object_name_array[TOP()->type],content_fbgc_cstr_object(member));
 						goto INTERPRETER_ERROR_LABEL;
 					}
 
@@ -345,9 +271,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					break;
 
 					//why do we have break here? this type of operation only supports assign, not the other types.
-					//TODO make it general
-					
-					
+					//TODO make it general					
 				}
 				else if(is_id_flag_LOCAL(pc)){
 					lhs = &(GET_AT_FP(cast_fbgc_object_as_id_opcode(pc)->loc));
@@ -355,15 +279,15 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 
 				//Call other assignment types
-				/*if(type != ASSIGN)
+				if(type != ASSIGN)
 				{
-					fbgc_token op_type = R_SHIFT + type - R_SHIFT_ASSIGN;
+					fbgc_token op_type = RSHIFT + type - RSHIFT_ASSIGN;
 					assert(lhs != NULL && *lhs != NULL);
 
 					fbgc_token main_tok = MAX(get_fbgc_object_type( (*lhs) ),get_fbgc_object_type(rhs));
 					rhs = call_fbgc_operator(main_tok,*lhs,rhs,op_type);
 					assert(rhs != NULL);				
-				}*/
+				}
 
 				*lhs = rhs;
 
@@ -394,7 +318,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 						else
 						{
 							index = cast_fbgc_object_as_int(TOPN(index_no))->content;
-							cprintf(110,"Here index %d\n",index);
+							_cprint(110,"Here index %d\n",index);
 							lhs = get_object_address_in_fbgc_tuple_object(temp,index);
 							break;
 						}
@@ -415,8 +339,8 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 						break;
 					}
 					else {
-						cprintf(111,"Not index accessable!\n");
-						return 0;
+						printf("Not index accessable!\n");
+						goto INTERPRETER_ERROR_LABEL;
 					}
 				}
 				*lhs=rhs;
@@ -524,7 +448,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				int arg_no = cast_fbgc_object_as_int(POP())->content;
 				struct fbgc_object * funo = TOPN(arg_no+1);
 				if(funo->type != FUN && funo->type != CFUN){
-					cprintf(100,"Object is not callable\n");
+					printf("Object is not callable\n");
 					goto INTERPRETER_ERROR_LABEL;
 				}
 				
@@ -551,7 +475,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				}
 				
 				if(cast_fbgc_object_as_fun(funo)->no_arg != arg_no ){
-					cprintf(100,"Argument match error! funo->arg %d, arg_no %d\n",cast_fbgc_object_as_fun(funo)->no_arg,arg_no);
+					printf("Argument match error! funo->arg %d, arg_no %d\n",cast_fbgc_object_as_fun(funo)->no_arg,arg_no);
 					goto INTERPRETER_ERROR_LABEL;
 				}
 
@@ -654,8 +578,8 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 						}
 						default:
 						{
-							cprintf(111,"Type %s in matrix is cannot be located\n",object_name_array[TOPN(i+1)->type]);
-							return 0;
+							printf(111,"Type %s in matrix is cannot be located\n",object_name_array[TOPN(i+1)->type]);
+							goto INTERPRETER_ERROR_LABEL;
 						}
 					}	
 					
@@ -719,7 +643,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 					}
 					else {
-						cprintf(111,"Not index accessible!\n");
+						printf(111,"Not index accessible!\n");
 						print_fbgc_object(temp); printf("\n");
 						return 0;
 					}
@@ -739,38 +663,20 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				return 0;						
 			}
 		}
-		
-		#ifdef INTERPRETER_DEBUG
-		cast_fbgc_object_as_tuple(stack)->size = sctr;//sp - tuple_object_content(stack);
-		cprintf(111,"\n==============Stack==========================\n");
-		print_fbgc_object(stack);
-		cprintf(111,"\n==================globals===================\n");
+
+
+		cast_fbgc_object_as_tuple(stack)->size = sctr; //sp - tuple_object_content(stack);
+		_println_object("~~~~~~Stack~~~~~\n",stack);
+		_info("~~~~~~Field Globals~~~~~\n");
 		print_field_object_locals(*field_obj);
-		cprintf(111,"\n==============================================\n\n");
-		#endif
+		_info("\n==============================================\n\n");
+		
 
 		FETCH_NEXT();
 
 	}
 
-
-
-
-	#ifdef INTERPRETER_DEBUG
-	cprintf(111,"\n==============Stack==========================\n");
-	print_fbgc_object(stack);
-
-	cprintf(111,"\n==================Globals===================\n");
-	print_field_object_locals(*field_obj);
-	cprintf(111,"\n==============================================\n\n");
-	#endif
-	#ifdef INTERPRETER_DEBUG
-	cprintf(111,"^^^^^^^^^^^^^^^^^^^^\n");
-	print_fbgc_ll_object(head,"M");
-	#endif
-
 	return 1;
-
 
 	INTERPRETER_ERROR_LABEL:
 		cprintf(100,"Execution stopped!\n");

@@ -368,8 +368,6 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 		_info("Current Scope for identifier:(%s)\n",_obj2str(current_scope));
 		struct fbgc_object * cstr_obj = get_object_in_fbgc_tuple_object(fbgc_symbols,get_id_opcode_loc(iter));
 		_println_object("Symbol name as a cstring object:",cstr_obj);
-
-
 			
 		struct fbgc_object * cf = NULL;
 
@@ -571,6 +569,11 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			current_scope = *field_obj;
 			iter_prev->next = iter->next;
 			
+		}
+		else{
+			cprintf(100,"Found extra END keyword\n");
+			error_code = _FBGC_SYNTAX_ERROR;
+			goto PARSER_ERROR_LABEL;
 		}
 
 		while(TOP_LL(op) != NULL && TOP_LL(op)->type == JUMP){
@@ -838,13 +841,16 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 		if( (error_code = gm_seek_left(&gm,iter)) != _FBGC_NO_ERROR  ){ goto PARSER_ERROR_LABEL; }
 
 		if(iter->type == LPARA){
-			if(iter_prev->type == IDENTIFIER || iter_prev->type == CFUN){
+			_warning("Iter is LPARA, iter_prev %s\n",_obj2str(iter_prev));
+
+			if(iter_prev->type == IDENTIFIER || iter_prev->type == CFUN || iter_prev->type == LOAD_SUBSCRIPT){
 				push_front_fbgc_ll_object(op,new_fbgc_object(FUN_CALL));	
 			}
 			push_front_fbgc_ll_object(op,iter);
 		}
 		else if(iter->type == LBRACK){
-			if(iter_prev->type == IDENTIFIER){
+			_warning("Iter is LBRACK, iter_prev %s\n",_obj2str(iter_prev));
+			if(iter_prev->type == IDENTIFIER || iter_prev->type == FUN_CALL){
 				push_front_fbgc_ll_object(op,new_fbgc_object(LOAD_SUBSCRIPT));
 			}
 			push_front_fbgc_ll_object(op,iter);
@@ -888,11 +894,6 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			_warning("%s out of while loop\n",_obj2str(iter));
 			_warning("Grammar top %s\n",_gm2str(gm.top));
 
-			/*if(is_empty_fbgc_ll_object(op) ){
-				gm.top = GM_NEWLINE;
-				break;
-			}*/
-
 			if(iter->type == RPARA && TOP_LL(op)->type == LPARA) delete_front_fbgc_ll_object(op);
 			else if(iter->type == NEWLINE && TOP_LL(op)->type == LPARA) delete_front_fbgc_ll_object(op);
 
@@ -908,6 +909,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 					//Now fool the loop and check newline state again,
 					iter_prev->next = iter;
 					iter = iter_prev;
+					gm.top = GM_EXPRESSION;
 				}
 			}
 		}
@@ -928,8 +930,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 	case STAR_ASSIGN:
 	case SLASH_ASSIGN:
 	case CARET_ASSIGN:
-	case PERCENT_ASSIGN:
-	{
+	case PERCENT_ASSIGN:{
 
 		if( (error_code = gm_seek_left(&gm,iter)) != _FBGC_NO_ERROR  ){ goto PARSER_ERROR_LABEL; }
 		
@@ -943,8 +944,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 		//XXX remove this push itself thing
 		//fbgc_assert(TOP_LL(op)->type == IDENTIFIER ,"Assignment to a non-identifier object, object type:%s\n",object_name_array[TOP_LL(op)->type]);
 		//cprintf(111,"top->next = %s\n",object_name_array[TOP_LL(op)->next->type]);
-		if(TOP_LL(op)->next != NULL && 
-			(TOP_LL(op)->next->type == ASSIGN || TOP_LL(op)->next->type == LPARA || TOP_LL(op)->next->type == COMMA) ) {
+		if(TOP_LL(op)->next->type == ASSIGN || TOP_LL(op)->next->type == LPARA || TOP_LL(op)->next->type == COMMA){
 			
 			_info_green("Opening push itself flag\n");
 
@@ -985,6 +985,12 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 	head->tail->next = iter_prev;
 
 	if(!is_empty_fbgc_ll_object(op)){
+		//Check the stack and give proper error
+		if(is_fbgc_FUNCTIONABLE(get_fbgc_object_type(TOP_LL(op)))){
+			cprintf(100,"Missing <END> : <%s>\n",object_type_as_str(TOP_LL(op)));
+			return 0;
+		}
+
 		cprintf(100,"Syntax error in line %d, Non-empty operator stack!\n",line_no);
 		print_fbgc_ll_object(op,"O");
 		return 0;

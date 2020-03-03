@@ -1,0 +1,7 @@
+foo = fun(x)
+	return (x,'fbg','hello','noo')
+end
+
+y = foo(3)[1,2]
+
+print(y)

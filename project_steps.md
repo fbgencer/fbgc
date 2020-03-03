@@ -42,7 +42,7 @@
 
 - Parser fonksiyonu optimize edilmeli
 
-- precedence table her durum için optimize edilmeli, özellikle els edurumunda assert at ve hangileri buna takılıyor gör
+- precedence table her durum için optimize edilmeli, özellikle else edurumunda assert at ve hangileri buna takılıyor gör
 
 - assign_subscript'i bir assignment operatörü gibi tokens.h içinde yerleştir
 
@@ -52,7 +52,7 @@
 
 - Token generator ve gramer tablosu aynı fonksiyonda halledilmeli
 
-- Gereksiz tokenlar silinmeli
+- ~~Gereksiz tokenlar silinmeli~~ Kullanılmayan 2 token var LBRACE ve RBRACE
 
 - Hata basılırken dosya adı çıkmalı
 
@@ -72,9 +72,9 @@
 
 - C kütüphanelerindeki her dosyaya ayrıca test dosyası eklenmeli kütüphanelerin kullanımı göstermek için
 
-- `x[0](3,4)` şeklindeki girdiler fonksiyon olarak çağrılamıyor çünkü burada 
+- ~~`x[0](3,4)` şeklindeki girdiler fonksiyon olarak çağrılamıyor çünkü burada~~ 
 
-  0,1,3,4,2,x,fun_call şeklinde bir tree çıkıyor ancak 3,4,2,0,1,x,fun_call olmalıydı.
+  ~~0,1,3,4,2,x,fun_call şeklinde bir tree çıkıyor ancak 3,4,2,0,1,x,fun_call olmalıydı.~~ Fonksiyon isimleri artık parametrelerden önce listeye atılıyor.
 
 - gtk ile user interface kütüphanesi
 

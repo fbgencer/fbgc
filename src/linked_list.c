@@ -3,9 +3,9 @@
  
 struct
 fbgc_object * new_fbgc_ll_object(){
-    struct fbgc_ll_object *llo =  (struct fbgc_ll_object*) fbgc_malloc(sizeof(struct fbgc_ll_object));
+    struct fbgc_ll_object * llo =  (struct fbgc_ll_object*) fbgc_malloc(sizeof(struct fbgc_ll_object));
     llo->base.type = LINKED_LIST;
-    llo->tail = new_fbgc_object(NIL); // make it new ll object but we can't iterate from back so its just a null object
+    llo->tail = new_fbgc_object(NIL); // make it NIL object so when we ask type of the TOP we won't see NULL(which causes error), we will just see NIL
     llo->tail->next = (struct fbgc_object *) llo;
     llo->base.next = llo->tail;
     return (struct fbgc_object*) llo;

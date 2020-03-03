@@ -242,7 +242,7 @@ const char * get_token_as_str(fbgc_token tok);
 //solve this colon issue..
 #define is_fbgc_BINARY_OPERATOR(T)( T>=COLON && T<= AMPERSAND)
 
-#define is_fbgc_FUNCTIONABLE(x)(x == IF || x == ELIF || x == ELSE || x == WHILE || x == FUN || x == LOAD)
+#define is_fbgc_FUNCTIONABLE(x)(x == IF || x == ELIF || x == ELSE || x == WHILE || x == FUN_MAKE || x == FOR)
 
 #define is_fbgc_EXPRESSION(x)(is_fbgc_ATOM(x) || is_fbgc_IDENTIFIER(x)|| x == EXPRESSION || x == UNARY_EXPRESSION ||x==BINARY_EXPRESSION||\
 is_fbgc_TUPLE(x) || is_fbgc_MATRIX(x) || x == CFUN || x == SEMICOLON || x == LEN)

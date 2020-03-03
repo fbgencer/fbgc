@@ -184,9 +184,6 @@ struct fbgc_object * fbgc_load_file(char * file_name,const char * fun_name, uint
 
 int main(int argc, char **argv){
 
-#ifdef INTERPRETER_DEBUG    
-cprintf(110,"\n\n\n\n\n[=======================================================================]\n"); 
-#endif
 
 
 
@@ -200,7 +197,7 @@ cprintf(110,"\n\n\n\n\n[========================================================
 	//load_module_in_field_object(main_field,&fbgc_file_module);
 	
 
-	compile_file(main_field, "ex.fbgc");
+	//compile_file(main_field, "ex.fbgc");
 
 	/*if(argc > 1)
 	{   
@@ -220,9 +217,6 @@ cprintf(110,"\n\n\n\n\n[========================================================
 	free_fbgc_memory_block();
 //******************************************************************
 
-#ifdef INTERPRETER_DEBUG 
-	cprintf(110,"\n[=======================================================================]\n\n\n\n\n\n"); 
-#endif	
 	return 0;
 }
 
