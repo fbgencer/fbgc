@@ -4,10 +4,11 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+/*! fbgc int object derived from base class and hold one int variable */
 
 struct fbgc_int_object{
-    struct fbgc_object base;
-    int content;
+    struct fbgc_object base; /**< fbgc base structure */
+    int content; /**< fbgc_int object holds integer value in this variable */
 };
 
 #define cast_fbgc_object_as_int(x)(((struct fbgc_int_object*) x))

@@ -1,0 +1,211 @@
+\hypertarget{int__object_8h}{}\section{src/headers/int\+\_\+object.h File Reference}
+\label{int__object_8h}\index{src/headers/int\+\_\+object.\+h@{src/headers/int\+\_\+object.\+h}}
+This graph shows which files directly or indirectly include this file\+:
+% FIG 0
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structfbgc__int__object}{fbgc\+\_\+int\+\_\+object}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{int__object_8h_a73ce55eff5eba70cd96d4f201b21a690}{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+int}(x)~(((struct \hyperlink{structfbgc__int__object}{fbgc\+\_\+int\+\_\+object}$\ast$) x))
+\item 
+\#define \hyperlink{int__object_8h_afb9124a9990f55d886a30826392e7426}{sizeof\+\_\+fbgc\+\_\+int\+\_\+object}(x)~(sizeof(struct \hyperlink{structfbgc__int__object}{fbgc\+\_\+int\+\_\+object}))
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{int__object_8h_ab3d5f595f3b289027ef01cfbef9bd06d}{new\+\_\+fbgc\+\_\+int\+\_\+object} (int)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{int__object_8h_a1d84fd5066bc87f808091d2581b8077e}{derive\+\_\+from\+\_\+new\+\_\+int\+\_\+object} (\hyperlink{tokens_8h_a9d21ebbf42e602eb0cf502c867d20a7e}{fbgc\+\_\+token} type, int int\+\_\+content)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{int__object_8h_ab86148887aa6fb36db8be0ed3ffe609b}{new\+\_\+fbgc\+\_\+int\+\_\+object\+\_\+from\+\_\+str} (const char $\ast$)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{int__object_8h_acdfc69d303c388c0ec4aa5a9257f2826}{new\+\_\+fbgc\+\_\+int\+\_\+object\+\_\+from\+\_\+substr} (const char $\ast$, const char $\ast$, \hyperlink{tokens_8h_a9d21ebbf42e602eb0cf502c867d20a7e}{fbgc\+\_\+token})
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{int__object_8h_a1eaef0ba2306fe6283a5ad8cf39a252f}{operator\+\_\+fbgc\+\_\+int\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$a, struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$b, \hyperlink{tokens_8h_a9d21ebbf42e602eb0cf502c867d20a7e}{fbgc\+\_\+token} op)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{int__object_8h_a96cf7752e14614d08901c014326c785c}{operator\+\_\+fbgc\+\_\+int\+\_\+object2} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$a, struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$b, \hyperlink{tokens_8h_a9d21ebbf42e602eb0cf502c867d20a7e}{fbgc\+\_\+token} op)
+\item 
+void \hyperlink{int__object_8h_ac603b69b6055cbc5b73f525de450df49}{print\+\_\+fbgc\+\_\+int\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$)
+\item 
+void \hyperlink{int__object_8h_aa41a28c7c4e12817b9b387437e84c374}{free\+\_\+fbgc\+\_\+int\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{int__object_8h_a92262fa0b70497f9bfeee584cd00360d}{return\+\_\+fbgc\+\_\+object\+\_\+operator\+\_\+helper\+\_\+int} (int c, struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$result)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{int__object_8h_a277dca705625a0e09cfe779134f29779}{return\+\_\+fbgc\+\_\+object\+\_\+operator\+\_\+helper\+\_\+double} (double c, struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$result)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{int__object_8h_a696f74091df7522f7ba16d2a5ec03b7c}{return\+\_\+fbgc\+\_\+object\+\_\+operator\+\_\+helper\+\_\+logic} (char c, struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$result)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{int__object_8h_a73ce55eff5eba70cd96d4f201b21a690}\label{int__object_8h_a73ce55eff5eba70cd96d4f201b21a690}} 
+\index{int\+\_\+object.\+h@{int\+\_\+object.\+h}!cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+int@{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+int}}
+\index{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+int@{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+int}!int\+\_\+object.\+h@{int\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+int}{cast\_fbgc\_object\_as\_int}}
+{\footnotesize\ttfamily \#define cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+int(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~(((struct \hyperlink{structfbgc__int__object}{fbgc\+\_\+int\+\_\+object}$\ast$) x))}
+
+
+
+Definition at line 14 of file int\+\_\+object.\+h.
+
+\mbox{\Hypertarget{int__object_8h_afb9124a9990f55d886a30826392e7426}\label{int__object_8h_afb9124a9990f55d886a30826392e7426}} 
+\index{int\+\_\+object.\+h@{int\+\_\+object.\+h}!sizeof\+\_\+fbgc\+\_\+int\+\_\+object@{sizeof\+\_\+fbgc\+\_\+int\+\_\+object}}
+\index{sizeof\+\_\+fbgc\+\_\+int\+\_\+object@{sizeof\+\_\+fbgc\+\_\+int\+\_\+object}!int\+\_\+object.\+h@{int\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{sizeof\+\_\+fbgc\+\_\+int\+\_\+object}{sizeof\_fbgc\_int\_object}}
+{\footnotesize\ttfamily \#define sizeof\+\_\+fbgc\+\_\+int\+\_\+object(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~(sizeof(struct \hyperlink{structfbgc__int__object}{fbgc\+\_\+int\+\_\+object}))}
+
+
+
+Definition at line 15 of file int\+\_\+object.\+h.
+
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{int__object_8h_a1d84fd5066bc87f808091d2581b8077e}\label{int__object_8h_a1d84fd5066bc87f808091d2581b8077e}} 
+\index{int\+\_\+object.\+h@{int\+\_\+object.\+h}!derive\+\_\+from\+\_\+new\+\_\+int\+\_\+object@{derive\+\_\+from\+\_\+new\+\_\+int\+\_\+object}}
+\index{derive\+\_\+from\+\_\+new\+\_\+int\+\_\+object@{derive\+\_\+from\+\_\+new\+\_\+int\+\_\+object}!int\+\_\+object.\+h@{int\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{derive\+\_\+from\+\_\+new\+\_\+int\+\_\+object()}{derive\_from\_new\_int\_object()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ derive\+\_\+from\+\_\+new\+\_\+int\+\_\+object (\begin{DoxyParamCaption}\item[{\hyperlink{tokens_8h_a9d21ebbf42e602eb0cf502c867d20a7e}{fbgc\+\_\+token}}]{type,  }\item[{int}]{int\+\_\+content }\end{DoxyParamCaption})}
+
+
+
+Definition at line 14 of file int\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 1
+Here is the caller graph for this function\+:
+% FIG 2
+\mbox{\Hypertarget{int__object_8h_aa41a28c7c4e12817b9b387437e84c374}\label{int__object_8h_aa41a28c7c4e12817b9b387437e84c374}} 
+\index{int\+\_\+object.\+h@{int\+\_\+object.\+h}!free\+\_\+fbgc\+\_\+int\+\_\+object@{free\+\_\+fbgc\+\_\+int\+\_\+object}}
+\index{free\+\_\+fbgc\+\_\+int\+\_\+object@{free\+\_\+fbgc\+\_\+int\+\_\+object}!int\+\_\+object.\+h@{int\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{free\+\_\+fbgc\+\_\+int\+\_\+object()}{free\_fbgc\_int\_object()}}
+{\footnotesize\ttfamily void free\+\_\+fbgc\+\_\+int\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 243 of file int\+\_\+object.\+c.
+
+\mbox{\Hypertarget{int__object_8h_ab3d5f595f3b289027ef01cfbef9bd06d}\label{int__object_8h_ab3d5f595f3b289027ef01cfbef9bd06d}} 
+\index{int\+\_\+object.\+h@{int\+\_\+object.\+h}!new\+\_\+fbgc\+\_\+int\+\_\+object@{new\+\_\+fbgc\+\_\+int\+\_\+object}}
+\index{new\+\_\+fbgc\+\_\+int\+\_\+object@{new\+\_\+fbgc\+\_\+int\+\_\+object}!int\+\_\+object.\+h@{int\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{new\+\_\+fbgc\+\_\+int\+\_\+object()}{new\_fbgc\_int\_object()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ new\+\_\+fbgc\+\_\+int\+\_\+object (\begin{DoxyParamCaption}\item[{int}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 5 of file int\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 3
+Here is the caller graph for this function\+:
+% FIG 4
+\mbox{\Hypertarget{int__object_8h_ab86148887aa6fb36db8be0ed3ffe609b}\label{int__object_8h_ab86148887aa6fb36db8be0ed3ffe609b}} 
+\index{int\+\_\+object.\+h@{int\+\_\+object.\+h}!new\+\_\+fbgc\+\_\+int\+\_\+object\+\_\+from\+\_\+str@{new\+\_\+fbgc\+\_\+int\+\_\+object\+\_\+from\+\_\+str}}
+\index{new\+\_\+fbgc\+\_\+int\+\_\+object\+\_\+from\+\_\+str@{new\+\_\+fbgc\+\_\+int\+\_\+object\+\_\+from\+\_\+str}!int\+\_\+object.\+h@{int\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{new\+\_\+fbgc\+\_\+int\+\_\+object\+\_\+from\+\_\+str()}{new\_fbgc\_int\_object\_from\_str()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ new\+\_\+fbgc\+\_\+int\+\_\+object\+\_\+from\+\_\+str (\begin{DoxyParamCaption}\item[{const char $\ast$}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 23 of file int\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 5
+\mbox{\Hypertarget{int__object_8h_acdfc69d303c388c0ec4aa5a9257f2826}\label{int__object_8h_acdfc69d303c388c0ec4aa5a9257f2826}} 
+\index{int\+\_\+object.\+h@{int\+\_\+object.\+h}!new\+\_\+fbgc\+\_\+int\+\_\+object\+\_\+from\+\_\+substr@{new\+\_\+fbgc\+\_\+int\+\_\+object\+\_\+from\+\_\+substr}}
+\index{new\+\_\+fbgc\+\_\+int\+\_\+object\+\_\+from\+\_\+substr@{new\+\_\+fbgc\+\_\+int\+\_\+object\+\_\+from\+\_\+substr}!int\+\_\+object.\+h@{int\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{new\+\_\+fbgc\+\_\+int\+\_\+object\+\_\+from\+\_\+substr()}{new\_fbgc\_int\_object\_from\_substr()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ new\+\_\+fbgc\+\_\+int\+\_\+object\+\_\+from\+\_\+substr (\begin{DoxyParamCaption}\item[{const char $\ast$}]{,  }\item[{const char $\ast$}]{,  }\item[{\hyperlink{tokens_8h_a9d21ebbf42e602eb0cf502c867d20a7e}{fbgc\+\_\+token}}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 29 of file int\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 6
+Here is the caller graph for this function\+:
+% FIG 7
+\mbox{\Hypertarget{int__object_8h_a1eaef0ba2306fe6283a5ad8cf39a252f}\label{int__object_8h_a1eaef0ba2306fe6283a5ad8cf39a252f}} 
+\index{int\+\_\+object.\+h@{int\+\_\+object.\+h}!operator\+\_\+fbgc\+\_\+int\+\_\+object@{operator\+\_\+fbgc\+\_\+int\+\_\+object}}
+\index{operator\+\_\+fbgc\+\_\+int\+\_\+object@{operator\+\_\+fbgc\+\_\+int\+\_\+object}!int\+\_\+object.\+h@{int\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{operator\+\_\+fbgc\+\_\+int\+\_\+object()}{operator\_fbgc\_int\_object()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ operator\+\_\+fbgc\+\_\+int\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{a,  }\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{b,  }\item[{\hyperlink{tokens_8h_a9d21ebbf42e602eb0cf502c867d20a7e}{fbgc\+\_\+token}}]{op }\end{DoxyParamCaption})}
+
+
+
+Definition at line 97 of file int\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 8
+\mbox{\Hypertarget{int__object_8h_a96cf7752e14614d08901c014326c785c}\label{int__object_8h_a96cf7752e14614d08901c014326c785c}} 
+\index{int\+\_\+object.\+h@{int\+\_\+object.\+h}!operator\+\_\+fbgc\+\_\+int\+\_\+object2@{operator\+\_\+fbgc\+\_\+int\+\_\+object2}}
+\index{operator\+\_\+fbgc\+\_\+int\+\_\+object2@{operator\+\_\+fbgc\+\_\+int\+\_\+object2}!int\+\_\+object.\+h@{int\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{operator\+\_\+fbgc\+\_\+int\+\_\+object2()}{operator\_fbgc\_int\_object2()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ operator\+\_\+fbgc\+\_\+int\+\_\+object2 (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{a,  }\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{b,  }\item[{\hyperlink{tokens_8h_a9d21ebbf42e602eb0cf502c867d20a7e}{fbgc\+\_\+token}}]{op }\end{DoxyParamCaption})}
+
+
+
+Definition at line 34 of file int\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 9
+\mbox{\Hypertarget{int__object_8h_ac603b69b6055cbc5b73f525de450df49}\label{int__object_8h_ac603b69b6055cbc5b73f525de450df49}} 
+\index{int\+\_\+object.\+h@{int\+\_\+object.\+h}!print\+\_\+fbgc\+\_\+int\+\_\+object@{print\+\_\+fbgc\+\_\+int\+\_\+object}}
+\index{print\+\_\+fbgc\+\_\+int\+\_\+object@{print\+\_\+fbgc\+\_\+int\+\_\+object}!int\+\_\+object.\+h@{int\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{print\+\_\+fbgc\+\_\+int\+\_\+object()}{print\_fbgc\_int\_object()}}
+{\footnotesize\ttfamily void print\+\_\+fbgc\+\_\+int\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 239 of file int\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 10
+Here is the caller graph for this function\+:
+% FIG 11
+\mbox{\Hypertarget{int__object_8h_a277dca705625a0e09cfe779134f29779}\label{int__object_8h_a277dca705625a0e09cfe779134f29779}} 
+\index{int\+\_\+object.\+h@{int\+\_\+object.\+h}!return\+\_\+fbgc\+\_\+object\+\_\+operator\+\_\+helper\+\_\+double@{return\+\_\+fbgc\+\_\+object\+\_\+operator\+\_\+helper\+\_\+double}}
+\index{return\+\_\+fbgc\+\_\+object\+\_\+operator\+\_\+helper\+\_\+double@{return\+\_\+fbgc\+\_\+object\+\_\+operator\+\_\+helper\+\_\+double}!int\+\_\+object.\+h@{int\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{return\+\_\+fbgc\+\_\+object\+\_\+operator\+\_\+helper\+\_\+double()}{return\_fbgc\_object\_operator\_helper\_double()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ return\+\_\+fbgc\+\_\+object\+\_\+operator\+\_\+helper\+\_\+double (\begin{DoxyParamCaption}\item[{double}]{c,  }\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{result }\end{DoxyParamCaption})}
+
+
+
+Definition at line 212 of file int\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 12
+Here is the caller graph for this function\+:
+% FIG 13
+\mbox{\Hypertarget{int__object_8h_a92262fa0b70497f9bfeee584cd00360d}\label{int__object_8h_a92262fa0b70497f9bfeee584cd00360d}} 
+\index{int\+\_\+object.\+h@{int\+\_\+object.\+h}!return\+\_\+fbgc\+\_\+object\+\_\+operator\+\_\+helper\+\_\+int@{return\+\_\+fbgc\+\_\+object\+\_\+operator\+\_\+helper\+\_\+int}}
+\index{return\+\_\+fbgc\+\_\+object\+\_\+operator\+\_\+helper\+\_\+int@{return\+\_\+fbgc\+\_\+object\+\_\+operator\+\_\+helper\+\_\+int}!int\+\_\+object.\+h@{int\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{return\+\_\+fbgc\+\_\+object\+\_\+operator\+\_\+helper\+\_\+int()}{return\_fbgc\_object\_operator\_helper\_int()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ return\+\_\+fbgc\+\_\+object\+\_\+operator\+\_\+helper\+\_\+int (\begin{DoxyParamCaption}\item[{int}]{c,  }\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{result }\end{DoxyParamCaption})}
+
+
+
+Definition at line 200 of file int\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 14
+Here is the caller graph for this function\+:
+% FIG 15
+\mbox{\Hypertarget{int__object_8h_a696f74091df7522f7ba16d2a5ec03b7c}\label{int__object_8h_a696f74091df7522f7ba16d2a5ec03b7c}} 
+\index{int\+\_\+object.\+h@{int\+\_\+object.\+h}!return\+\_\+fbgc\+\_\+object\+\_\+operator\+\_\+helper\+\_\+logic@{return\+\_\+fbgc\+\_\+object\+\_\+operator\+\_\+helper\+\_\+logic}}
+\index{return\+\_\+fbgc\+\_\+object\+\_\+operator\+\_\+helper\+\_\+logic@{return\+\_\+fbgc\+\_\+object\+\_\+operator\+\_\+helper\+\_\+logic}!int\+\_\+object.\+h@{int\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{return\+\_\+fbgc\+\_\+object\+\_\+operator\+\_\+helper\+\_\+logic()}{return\_fbgc\_object\_operator\_helper\_logic()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ return\+\_\+fbgc\+\_\+object\+\_\+operator\+\_\+helper\+\_\+logic (\begin{DoxyParamCaption}\item[{char}]{c,  }\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{result }\end{DoxyParamCaption})}
+
+
+
+Definition at line 224 of file int\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 16
+Here is the caller graph for this function\+:
+% FIG 17

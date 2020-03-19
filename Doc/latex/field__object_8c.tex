@@ -1,0 +1,87 @@
+\hypertarget{field__object_8c}{}\section{src/field\+\_\+object.c File Reference}
+\label{field__object_8c}\index{src/field\+\_\+object.\+c@{src/field\+\_\+object.\+c}}
+{\ttfamily \#include \char`\"{}fbgc.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../cmodules/fbgc\+\_\+io.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../cmodules/fbgc\+\_\+stl.\+h\char`\"{}}\newline
+Include dependency graph for field\+\_\+object.\+c\+:
+% FIG 0
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{field__object_8c_a28800156fc2d609a3625834282b1b94e}{new\+\_\+fbgc\+\_\+field\+\_\+object} (void)
+\item 
+void \hyperlink{field__object_8c_a51210a1608ab1b46f9d2bb1b0f2925eb}{load\+\_\+module\+\_\+in\+\_\+field\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$field\+\_\+obj, const struct \hyperlink{structfbgc__cmodule}{fbgc\+\_\+cmodule} $\ast$module)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{field__object_8c_a3b4ac96927adceb7d098f4616c9a1974}{add\+\_\+variable\+\_\+in\+\_\+field\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$field\+\_\+obj, const char $\ast$var\+\_\+name, struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$rhs)
+\item 
+void \hyperlink{field__object_8c_af022b85fb80b3df106abb4ca425d3642}{print\+\_\+field\+\_\+object\+\_\+locals} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$field\+\_\+obj)
+\item 
+void \hyperlink{field__object_8c_aac2703a0fe723b11e1315bb44aeff903}{free\+\_\+fbgc\+\_\+field\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$field\+\_\+obj)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{field__object_8c_a3b4ac96927adceb7d098f4616c9a1974}\label{field__object_8c_a3b4ac96927adceb7d098f4616c9a1974}} 
+\index{field\+\_\+object.\+c@{field\+\_\+object.\+c}!add\+\_\+variable\+\_\+in\+\_\+field\+\_\+object@{add\+\_\+variable\+\_\+in\+\_\+field\+\_\+object}}
+\index{add\+\_\+variable\+\_\+in\+\_\+field\+\_\+object@{add\+\_\+variable\+\_\+in\+\_\+field\+\_\+object}!field\+\_\+object.\+c@{field\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{add\+\_\+variable\+\_\+in\+\_\+field\+\_\+object()}{add\_variable\_in\_field\_object()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ add\+\_\+variable\+\_\+in\+\_\+field\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{field\+\_\+obj,  }\item[{const char $\ast$}]{var\+\_\+name,  }\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{rhs }\end{DoxyParamCaption})}
+
+
+
+Definition at line 34 of file field\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 1
+Here is the caller graph for this function\+:
+% FIG 2
+\mbox{\Hypertarget{field__object_8c_aac2703a0fe723b11e1315bb44aeff903}\label{field__object_8c_aac2703a0fe723b11e1315bb44aeff903}} 
+\index{field\+\_\+object.\+c@{field\+\_\+object.\+c}!free\+\_\+fbgc\+\_\+field\+\_\+object@{free\+\_\+fbgc\+\_\+field\+\_\+object}}
+\index{free\+\_\+fbgc\+\_\+field\+\_\+object@{free\+\_\+fbgc\+\_\+field\+\_\+object}!field\+\_\+object.\+c@{field\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{free\+\_\+fbgc\+\_\+field\+\_\+object()}{free\_fbgc\_field\_object()}}
+{\footnotesize\ttfamily void free\+\_\+fbgc\+\_\+field\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{field\+\_\+obj }\end{DoxyParamCaption})}
+
+
+
+Definition at line 86 of file field\+\_\+object.\+c.
+
+\mbox{\Hypertarget{field__object_8c_a51210a1608ab1b46f9d2bb1b0f2925eb}\label{field__object_8c_a51210a1608ab1b46f9d2bb1b0f2925eb}} 
+\index{field\+\_\+object.\+c@{field\+\_\+object.\+c}!load\+\_\+module\+\_\+in\+\_\+field\+\_\+object@{load\+\_\+module\+\_\+in\+\_\+field\+\_\+object}}
+\index{load\+\_\+module\+\_\+in\+\_\+field\+\_\+object@{load\+\_\+module\+\_\+in\+\_\+field\+\_\+object}!field\+\_\+object.\+c@{field\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{load\+\_\+module\+\_\+in\+\_\+field\+\_\+object()}{load\_module\_in\_field\_object()}}
+{\footnotesize\ttfamily void load\+\_\+module\+\_\+in\+\_\+field\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{field\+\_\+obj,  }\item[{const struct \hyperlink{structfbgc__cmodule}{fbgc\+\_\+cmodule} $\ast$}]{module }\end{DoxyParamCaption})}
+
+
+
+Definition at line 19 of file field\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 3
+Here is the caller graph for this function\+:
+% FIG 4
+\mbox{\Hypertarget{field__object_8c_a28800156fc2d609a3625834282b1b94e}\label{field__object_8c_a28800156fc2d609a3625834282b1b94e}} 
+\index{field\+\_\+object.\+c@{field\+\_\+object.\+c}!new\+\_\+fbgc\+\_\+field\+\_\+object@{new\+\_\+fbgc\+\_\+field\+\_\+object}}
+\index{new\+\_\+fbgc\+\_\+field\+\_\+object@{new\+\_\+fbgc\+\_\+field\+\_\+object}!field\+\_\+object.\+c@{field\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{new\+\_\+fbgc\+\_\+field\+\_\+object()}{new\_fbgc\_field\_object()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ new\+\_\+fbgc\+\_\+field\+\_\+object (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 5 of file field\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 5
+Here is the caller graph for this function\+:
+% FIG 6
+\mbox{\Hypertarget{field__object_8c_af022b85fb80b3df106abb4ca425d3642}\label{field__object_8c_af022b85fb80b3df106abb4ca425d3642}} 
+\index{field\+\_\+object.\+c@{field\+\_\+object.\+c}!print\+\_\+field\+\_\+object\+\_\+locals@{print\+\_\+field\+\_\+object\+\_\+locals}}
+\index{print\+\_\+field\+\_\+object\+\_\+locals@{print\+\_\+field\+\_\+object\+\_\+locals}!field\+\_\+object.\+c@{field\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{print\+\_\+field\+\_\+object\+\_\+locals()}{print\_field\_object\_locals()}}
+{\footnotesize\ttfamily void print\+\_\+field\+\_\+object\+\_\+locals (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{field\+\_\+obj }\end{DoxyParamCaption})}
+
+
+
+Definition at line 73 of file field\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 7

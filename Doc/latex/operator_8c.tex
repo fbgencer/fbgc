@@ -1,0 +1,75 @@
+\hypertarget{operator_8c}{}\section{src/operator.c File Reference}
+\label{operator_8c}\index{src/operator.\+c@{src/operator.\+c}}
+{\ttfamily \#include \char`\"{}fbgc.\+h\char`\"{}}\newline
+Include dependency graph for operator.\+c\+:
+% FIG 0
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{operator_8c_a6bd1f5d0c41fcd41ffd0783a0a7b3bac}{fbgc\+\_\+binary\+\_\+plus} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$a, struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$b, \hyperlink{tokens_8h_a9d21ebbf42e602eb0cf502c867d20a7e}{fbgc\+\_\+token} tok\+\_\+ab)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$($\ast$ \hyperlink{operator_8c_a52457ada3ef211b8c615ef619bf493e3}{fbgc\+\_\+operator} \mbox{[}7\mbox{]})(struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$, struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$, \hyperlink{tokens_8h_a9d21ebbf42e602eb0cf502c867d20a7e}{fbgc\+\_\+token})
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$($\ast$ \hyperlink{operator_8c_a405aaf200ff28395bddcfa205ef81de3}{fbgc\+\_\+operator2} \mbox{[}1\mbox{]})(struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$, struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$, \hyperlink{tokens_8h_a9d21ebbf42e602eb0cf502c867d20a7e}{fbgc\+\_\+token})
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{operator_8c_a6bd1f5d0c41fcd41ffd0783a0a7b3bac}\label{operator_8c_a6bd1f5d0c41fcd41ffd0783a0a7b3bac}} 
+\index{operator.\+c@{operator.\+c}!fbgc\+\_\+binary\+\_\+plus@{fbgc\+\_\+binary\+\_\+plus}}
+\index{fbgc\+\_\+binary\+\_\+plus@{fbgc\+\_\+binary\+\_\+plus}!operator.\+c@{operator.\+c}}
+\subsubsection{\texorpdfstring{fbgc\+\_\+binary\+\_\+plus()}{fbgc\_binary\_plus()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ fbgc\+\_\+binary\+\_\+plus (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{a,  }\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{b,  }\item[{\hyperlink{tokens_8h_a9d21ebbf42e602eb0cf502c867d20a7e}{fbgc\+\_\+token}}]{tok\+\_\+ab }\end{DoxyParamCaption})}
+
+
+
+Definition at line 45 of file operator.\+c.
+
+Here is the call graph for this function\+:
+% FIG 1
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{operator_8c_a52457ada3ef211b8c615ef619bf493e3}\label{operator_8c_a52457ada3ef211b8c615ef619bf493e3}} 
+\index{operator.\+c@{operator.\+c}!fbgc\+\_\+operator@{fbgc\+\_\+operator}}
+\index{fbgc\+\_\+operator@{fbgc\+\_\+operator}!operator.\+c@{operator.\+c}}
+\subsubsection{\texorpdfstring{fbgc\+\_\+operator}{fbgc\_operator}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$($\ast$ fbgc\+\_\+operator\mbox{[}7\mbox{]})(struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$, struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$, \hyperlink{tokens_8h_a9d21ebbf42e602eb0cf502c867d20a7e}{fbgc\+\_\+token})}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+=
+\{   
+    \hyperlink{logic__object_8c_acc81750312fb80c539a6cc7c6530d4ee}{operator\_fbgc\_logic\_object},
+    \hyperlink{int__object_8c_a1eaef0ba2306fe6283a5ad8cf39a252f}{operator\_fbgc\_int\_object},
+    \hyperlink{double__object_8c_aacdf91fc9bcc30dd3fc4213e6cc7f8aa}{operator\_fbgc\_double\_object},
+    \hyperlink{complex__object_8c_a359764fc727e64a334631c7eb23b45ba}{operator\_fbgc\_complex\_object},
+    \hyperlink{str__object_8c_aa52ba68bd74a0ee1167ab4483fec93a3}{operator\_fbgc\_str\_object},
+    \hyperlink{matrix__object_8c_acd9358a8cf3ef246db381503466b8c0e}{operator\_fbgc\_matrix\_object},
+    \hyperlink{tuple__object_8c_a2109ecc7ada3494d38d605cabaaa3424}{operator\_fbgc\_tuple\_object},
+\}
+\end{DoxyCode}
+
+
+Definition at line 13 of file operator.\+c.
+
+\mbox{\Hypertarget{operator_8c_a405aaf200ff28395bddcfa205ef81de3}\label{operator_8c_a405aaf200ff28395bddcfa205ef81de3}} 
+\index{operator.\+c@{operator.\+c}!fbgc\+\_\+operator2@{fbgc\+\_\+operator2}}
+\index{fbgc\+\_\+operator2@{fbgc\+\_\+operator2}!operator.\+c@{operator.\+c}}
+\subsubsection{\texorpdfstring{fbgc\+\_\+operator2}{fbgc\_operator2}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$($\ast$ fbgc\+\_\+operator2\mbox{[}1\mbox{]})(struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$, struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$, \hyperlink{tokens_8h_a9d21ebbf42e602eb0cf502c867d20a7e}{fbgc\+\_\+token})}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+=
+\{   
+    \hyperlink{int__object_8c_a96cf7752e14614d08901c014326c785c}{operator\_fbgc\_int\_object2},
+\}
+\end{DoxyCode}
+
+
+Definition at line 25 of file operator.\+c.
+

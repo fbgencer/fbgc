@@ -1,0 +1,261 @@
+\hypertarget{tuple__object_8h}{}\section{src/headers/tuple\+\_\+object.h File Reference}
+\label{tuple__object_8h}\index{src/headers/tuple\+\_\+object.\+h@{src/headers/tuple\+\_\+object.\+h}}
+This graph shows which files directly or indirectly include this file\+:
+% FIG 0
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structfbgc__tuple__object}{fbgc\+\_\+tuple\+\_\+object}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{tuple__object_8h_ac84b97aed726f351babf2cf44f4abb94}{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+tuple}(x)~(((struct \hyperlink{structfbgc__tuple__object}{fbgc\+\_\+tuple\+\_\+object}$\ast$) x))
+\item 
+\#define \hyperlink{tuple__object_8h_aec323e081ed15f3550426bad56ba1a1b}{size\+\_\+fbgc\+\_\+tuple\+\_\+object}(x)~(\hyperlink{tuple__object_8h_ac84b97aed726f351babf2cf44f4abb94}{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+tuple}(x)-\/$>$size)
+\item 
+\#define \hyperlink{tuple__object_8h_a5d80accd3dd8fe14665850f64a8d15e8}{capacity\+\_\+fbgc\+\_\+tuple\+\_\+object}(x)~(\hyperlink{tuple__object_8h_ac84b97aed726f351babf2cf44f4abb94}{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+tuple}(x)-\/$>$capacity)
+\item 
+\#define \hyperlink{tuple__object_8h_aa26a5a21dcd69b79a4b61d6b53b6019d}{sizeof\+\_\+fbgc\+\_\+tuple\+\_\+object}(x)~(sizeof(struct \hyperlink{structfbgc__tuple__object}{fbgc\+\_\+tuple\+\_\+object}) + sizeof(struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$)$\ast$\hyperlink{tuple__object_8h_a5d80accd3dd8fe14665850f64a8d15e8}{capacity\+\_\+fbgc\+\_\+tuple\+\_\+object}(x))
+\item 
+\#define \hyperlink{tuple__object_8h_ae50d8cf00e3efb702e91b355af2e19b8}{tuple\+\_\+object\+\_\+content}(x)~((struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$$\ast$)((char$\ast$) \&\hyperlink{tuple__object_8h_ac84b97aed726f351babf2cf44f4abb94}{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+tuple}(x)-\/$>$size+sizeof(\hyperlink{tuple__object_8h_ac84b97aed726f351babf2cf44f4abb94}{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+tuple}(x)-\/$>$size)));
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{tuple__object_8h_a36c894d467dae65689e3644a0de712de}{new\+\_\+fbgc\+\_\+tuple\+\_\+object} (size\+\_\+t size)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{tuple__object_8h_a4fc9aa03eb69a34fd16b530fdcf6624f}{new\+\_\+fbgc\+\_\+tuple\+\_\+object\+\_\+from\+\_\+tuple\+\_\+content} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$$\ast$src, int num)
+\item 
+void \hyperlink{tuple__object_8h_a7ed1f5099ffc3fb0aeb688d8a4e4ef7e}{set\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+tuple\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$self, struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$obj, int index)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{tuple__object_8h_a96fd24de0c1307cc509c25394219f0a6}{get\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+tuple\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$self, int index)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$$\ast$ \hyperlink{tuple__object_8h_ae58efc36e5210948a0c9705d21915b69}{get\+\_\+object\+\_\+address\+\_\+in\+\_\+fbgc\+\_\+tuple\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$self, int index)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{tuple__object_8h_ad16cea94e8e40eb498d9f872b6416124}{get\+\_\+top\+\_\+in\+\_\+fbgc\+\_\+tuple\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$self)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{tuple__object_8h_a0b406898ce0f388a06bbf0cdd3b5b8d5}{push\+\_\+back\+\_\+fbgc\+\_\+tuple\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$self, struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$obj)
+\item 
+int \hyperlink{tuple__object_8h_a8892d801f00f72a7360db595ca646727}{index\+\_\+fbgc\+\_\+tuple\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$self, struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$obj)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{tuple__object_8h_a3075d57bd5d3d29e481ae8da843f0de2}{\+\_\+\+\_\+get\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+tuple\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$self, int index, struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$res)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{tuple__object_8h_a2109ecc7ada3494d38d605cabaaa3424}{operator\+\_\+fbgc\+\_\+tuple\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$a, struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$b, \hyperlink{tokens_8h_a9d21ebbf42e602eb0cf502c867d20a7e}{fbgc\+\_\+token} op)
+\item 
+void \hyperlink{tuple__object_8h_a43b357c743a4fa9b9f129eca739ab561}{print\+\_\+fbgc\+\_\+tuple\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$)
+\item 
+void \hyperlink{tuple__object_8h_a17bac7f98b42ba42b7160380d7890200}{free\+\_\+fbgc\+\_\+tuple\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{tuple__object_8h_aa9f3fa07e94195a0b8bddb46d81bfd77}{add\+\_\+fbgc\+\_\+tuple\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$a, struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$b)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{tuple__object_8h_a5d80accd3dd8fe14665850f64a8d15e8}\label{tuple__object_8h_a5d80accd3dd8fe14665850f64a8d15e8}} 
+\index{tuple\+\_\+object.\+h@{tuple\+\_\+object.\+h}!capacity\+\_\+fbgc\+\_\+tuple\+\_\+object@{capacity\+\_\+fbgc\+\_\+tuple\+\_\+object}}
+\index{capacity\+\_\+fbgc\+\_\+tuple\+\_\+object@{capacity\+\_\+fbgc\+\_\+tuple\+\_\+object}!tuple\+\_\+object.\+h@{tuple\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{capacity\+\_\+fbgc\+\_\+tuple\+\_\+object}{capacity\_fbgc\_tuple\_object}}
+{\footnotesize\ttfamily \#define capacity\+\_\+fbgc\+\_\+tuple\+\_\+object(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~(\hyperlink{tuple__object_8h_ac84b97aed726f351babf2cf44f4abb94}{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+tuple}(x)-\/$>$capacity)}
+
+
+
+Definition at line 18 of file tuple\+\_\+object.\+h.
+
+\mbox{\Hypertarget{tuple__object_8h_ac84b97aed726f351babf2cf44f4abb94}\label{tuple__object_8h_ac84b97aed726f351babf2cf44f4abb94}} 
+\index{tuple\+\_\+object.\+h@{tuple\+\_\+object.\+h}!cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+tuple@{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+tuple}}
+\index{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+tuple@{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+tuple}!tuple\+\_\+object.\+h@{tuple\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+tuple}{cast\_fbgc\_object\_as\_tuple}}
+{\footnotesize\ttfamily \#define cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+tuple(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~(((struct \hyperlink{structfbgc__tuple__object}{fbgc\+\_\+tuple\+\_\+object}$\ast$) x))}
+
+
+
+Definition at line 16 of file tuple\+\_\+object.\+h.
+
+\mbox{\Hypertarget{tuple__object_8h_aec323e081ed15f3550426bad56ba1a1b}\label{tuple__object_8h_aec323e081ed15f3550426bad56ba1a1b}} 
+\index{tuple\+\_\+object.\+h@{tuple\+\_\+object.\+h}!size\+\_\+fbgc\+\_\+tuple\+\_\+object@{size\+\_\+fbgc\+\_\+tuple\+\_\+object}}
+\index{size\+\_\+fbgc\+\_\+tuple\+\_\+object@{size\+\_\+fbgc\+\_\+tuple\+\_\+object}!tuple\+\_\+object.\+h@{tuple\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{size\+\_\+fbgc\+\_\+tuple\+\_\+object}{size\_fbgc\_tuple\_object}}
+{\footnotesize\ttfamily \#define size\+\_\+fbgc\+\_\+tuple\+\_\+object(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~(\hyperlink{tuple__object_8h_ac84b97aed726f351babf2cf44f4abb94}{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+tuple}(x)-\/$>$size)}
+
+
+
+Definition at line 17 of file tuple\+\_\+object.\+h.
+
+\mbox{\Hypertarget{tuple__object_8h_aa26a5a21dcd69b79a4b61d6b53b6019d}\label{tuple__object_8h_aa26a5a21dcd69b79a4b61d6b53b6019d}} 
+\index{tuple\+\_\+object.\+h@{tuple\+\_\+object.\+h}!sizeof\+\_\+fbgc\+\_\+tuple\+\_\+object@{sizeof\+\_\+fbgc\+\_\+tuple\+\_\+object}}
+\index{sizeof\+\_\+fbgc\+\_\+tuple\+\_\+object@{sizeof\+\_\+fbgc\+\_\+tuple\+\_\+object}!tuple\+\_\+object.\+h@{tuple\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{sizeof\+\_\+fbgc\+\_\+tuple\+\_\+object}{sizeof\_fbgc\_tuple\_object}}
+{\footnotesize\ttfamily \#define sizeof\+\_\+fbgc\+\_\+tuple\+\_\+object(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~(sizeof(struct \hyperlink{structfbgc__tuple__object}{fbgc\+\_\+tuple\+\_\+object}) + sizeof(struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$)$\ast$\hyperlink{tuple__object_8h_a5d80accd3dd8fe14665850f64a8d15e8}{capacity\+\_\+fbgc\+\_\+tuple\+\_\+object}(x))}
+
+
+
+Definition at line 20 of file tuple\+\_\+object.\+h.
+
+\mbox{\Hypertarget{tuple__object_8h_ae50d8cf00e3efb702e91b355af2e19b8}\label{tuple__object_8h_ae50d8cf00e3efb702e91b355af2e19b8}} 
+\index{tuple\+\_\+object.\+h@{tuple\+\_\+object.\+h}!tuple\+\_\+object\+\_\+content@{tuple\+\_\+object\+\_\+content}}
+\index{tuple\+\_\+object\+\_\+content@{tuple\+\_\+object\+\_\+content}!tuple\+\_\+object.\+h@{tuple\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{tuple\+\_\+object\+\_\+content}{tuple\_object\_content}}
+{\footnotesize\ttfamily \#define tuple\+\_\+object\+\_\+content(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~((struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$$\ast$)((char$\ast$) \&\hyperlink{tuple__object_8h_ac84b97aed726f351babf2cf44f4abb94}{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+tuple}(x)-\/$>$size+sizeof(\hyperlink{tuple__object_8h_ac84b97aed726f351babf2cf44f4abb94}{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+tuple}(x)-\/$>$size)));}
+
+
+
+Definition at line 23 of file tuple\+\_\+object.\+h.
+
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{tuple__object_8h_a3075d57bd5d3d29e481ae8da843f0de2}\label{tuple__object_8h_a3075d57bd5d3d29e481ae8da843f0de2}} 
+\index{tuple\+\_\+object.\+h@{tuple\+\_\+object.\+h}!\+\_\+\+\_\+get\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+tuple\+\_\+object@{\+\_\+\+\_\+get\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+tuple\+\_\+object}}
+\index{\+\_\+\+\_\+get\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+tuple\+\_\+object@{\+\_\+\+\_\+get\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+tuple\+\_\+object}!tuple\+\_\+object.\+h@{tuple\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{\+\_\+\+\_\+get\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+tuple\+\_\+object()}{\_\_get\_object\_in\_fbgc\_tuple\_object()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ \+\_\+\+\_\+get\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+tuple\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{self,  }\item[{int}]{index,  }\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{res }\end{DoxyParamCaption})}
+
+
+
+Definition at line 86 of file tuple\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 1
+Here is the caller graph for this function\+:
+% FIG 2
+\mbox{\Hypertarget{tuple__object_8h_aa9f3fa07e94195a0b8bddb46d81bfd77}\label{tuple__object_8h_aa9f3fa07e94195a0b8bddb46d81bfd77}} 
+\index{tuple\+\_\+object.\+h@{tuple\+\_\+object.\+h}!add\+\_\+fbgc\+\_\+tuple\+\_\+object@{add\+\_\+fbgc\+\_\+tuple\+\_\+object}}
+\index{add\+\_\+fbgc\+\_\+tuple\+\_\+object@{add\+\_\+fbgc\+\_\+tuple\+\_\+object}!tuple\+\_\+object.\+h@{tuple\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{add\+\_\+fbgc\+\_\+tuple\+\_\+object()}{add\_fbgc\_tuple\_object()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ add\+\_\+fbgc\+\_\+tuple\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{a,  }\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{b }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{tuple__object_8h_a17bac7f98b42ba42b7160380d7890200}\label{tuple__object_8h_a17bac7f98b42ba42b7160380d7890200}} 
+\index{tuple\+\_\+object.\+h@{tuple\+\_\+object.\+h}!free\+\_\+fbgc\+\_\+tuple\+\_\+object@{free\+\_\+fbgc\+\_\+tuple\+\_\+object}}
+\index{free\+\_\+fbgc\+\_\+tuple\+\_\+object@{free\+\_\+fbgc\+\_\+tuple\+\_\+object}!tuple\+\_\+object.\+h@{tuple\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{free\+\_\+fbgc\+\_\+tuple\+\_\+object()}{free\_fbgc\_tuple\_object()}}
+{\footnotesize\ttfamily void free\+\_\+fbgc\+\_\+tuple\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 293 of file tuple\+\_\+object.\+c.
+
+\mbox{\Hypertarget{tuple__object_8h_ae58efc36e5210948a0c9705d21915b69}\label{tuple__object_8h_ae58efc36e5210948a0c9705d21915b69}} 
+\index{tuple\+\_\+object.\+h@{tuple\+\_\+object.\+h}!get\+\_\+object\+\_\+address\+\_\+in\+\_\+fbgc\+\_\+tuple\+\_\+object@{get\+\_\+object\+\_\+address\+\_\+in\+\_\+fbgc\+\_\+tuple\+\_\+object}}
+\index{get\+\_\+object\+\_\+address\+\_\+in\+\_\+fbgc\+\_\+tuple\+\_\+object@{get\+\_\+object\+\_\+address\+\_\+in\+\_\+fbgc\+\_\+tuple\+\_\+object}!tuple\+\_\+object.\+h@{tuple\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{get\+\_\+object\+\_\+address\+\_\+in\+\_\+fbgc\+\_\+tuple\+\_\+object()}{get\_object\_address\_in\_fbgc\_tuple\_object()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$$\ast$ get\+\_\+object\+\_\+address\+\_\+in\+\_\+fbgc\+\_\+tuple\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{self,  }\item[{int}]{index }\end{DoxyParamCaption})}
+
+
+
+Definition at line 91 of file tuple\+\_\+object.\+c.
+
+Here is the caller graph for this function\+:
+% FIG 3
+\mbox{\Hypertarget{tuple__object_8h_a96fd24de0c1307cc509c25394219f0a6}\label{tuple__object_8h_a96fd24de0c1307cc509c25394219f0a6}} 
+\index{tuple\+\_\+object.\+h@{tuple\+\_\+object.\+h}!get\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+tuple\+\_\+object@{get\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+tuple\+\_\+object}}
+\index{get\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+tuple\+\_\+object@{get\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+tuple\+\_\+object}!tuple\+\_\+object.\+h@{tuple\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{get\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+tuple\+\_\+object()}{get\_object\_in\_fbgc\_tuple\_object()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ get\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+tuple\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{self,  }\item[{int}]{index }\end{DoxyParamCaption})}
+
+
+
+Definition at line 73 of file tuple\+\_\+object.\+c.
+
+Here is the caller graph for this function\+:
+% FIG 4
+\mbox{\Hypertarget{tuple__object_8h_ad16cea94e8e40eb498d9f872b6416124}\label{tuple__object_8h_ad16cea94e8e40eb498d9f872b6416124}} 
+\index{tuple\+\_\+object.\+h@{tuple\+\_\+object.\+h}!get\+\_\+top\+\_\+in\+\_\+fbgc\+\_\+tuple\+\_\+object@{get\+\_\+top\+\_\+in\+\_\+fbgc\+\_\+tuple\+\_\+object}}
+\index{get\+\_\+top\+\_\+in\+\_\+fbgc\+\_\+tuple\+\_\+object@{get\+\_\+top\+\_\+in\+\_\+fbgc\+\_\+tuple\+\_\+object}!tuple\+\_\+object.\+h@{tuple\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{get\+\_\+top\+\_\+in\+\_\+fbgc\+\_\+tuple\+\_\+object()}{get\_top\_in\_fbgc\_tuple\_object()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ get\+\_\+top\+\_\+in\+\_\+fbgc\+\_\+tuple\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{self }\end{DoxyParamCaption})}
+
+
+
+Definition at line 101 of file tuple\+\_\+object.\+c.
+
+\mbox{\Hypertarget{tuple__object_8h_a8892d801f00f72a7360db595ca646727}\label{tuple__object_8h_a8892d801f00f72a7360db595ca646727}} 
+\index{tuple\+\_\+object.\+h@{tuple\+\_\+object.\+h}!index\+\_\+fbgc\+\_\+tuple\+\_\+object@{index\+\_\+fbgc\+\_\+tuple\+\_\+object}}
+\index{index\+\_\+fbgc\+\_\+tuple\+\_\+object@{index\+\_\+fbgc\+\_\+tuple\+\_\+object}!tuple\+\_\+object.\+h@{tuple\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{index\+\_\+fbgc\+\_\+tuple\+\_\+object()}{index\_fbgc\_tuple\_object()}}
+{\footnotesize\ttfamily int index\+\_\+fbgc\+\_\+tuple\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{self,  }\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{obj }\end{DoxyParamCaption})}
+
+
+
+Definition at line 163 of file tuple\+\_\+object.\+c.
+
+Here is the caller graph for this function\+:
+% FIG 5
+\mbox{\Hypertarget{tuple__object_8h_a36c894d467dae65689e3644a0de712de}\label{tuple__object_8h_a36c894d467dae65689e3644a0de712de}} 
+\index{tuple\+\_\+object.\+h@{tuple\+\_\+object.\+h}!new\+\_\+fbgc\+\_\+tuple\+\_\+object@{new\+\_\+fbgc\+\_\+tuple\+\_\+object}}
+\index{new\+\_\+fbgc\+\_\+tuple\+\_\+object@{new\+\_\+fbgc\+\_\+tuple\+\_\+object}!tuple\+\_\+object.\+h@{tuple\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{new\+\_\+fbgc\+\_\+tuple\+\_\+object()}{new\_fbgc\_tuple\_object()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ new\+\_\+fbgc\+\_\+tuple\+\_\+object (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})}
+
+
+
+Definition at line 31 of file tuple\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 6
+Here is the caller graph for this function\+:
+% FIG 7
+\mbox{\Hypertarget{tuple__object_8h_a4fc9aa03eb69a34fd16b530fdcf6624f}\label{tuple__object_8h_a4fc9aa03eb69a34fd16b530fdcf6624f}} 
+\index{tuple\+\_\+object.\+h@{tuple\+\_\+object.\+h}!new\+\_\+fbgc\+\_\+tuple\+\_\+object\+\_\+from\+\_\+tuple\+\_\+content@{new\+\_\+fbgc\+\_\+tuple\+\_\+object\+\_\+from\+\_\+tuple\+\_\+content}}
+\index{new\+\_\+fbgc\+\_\+tuple\+\_\+object\+\_\+from\+\_\+tuple\+\_\+content@{new\+\_\+fbgc\+\_\+tuple\+\_\+object\+\_\+from\+\_\+tuple\+\_\+content}!tuple\+\_\+object.\+h@{tuple\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{new\+\_\+fbgc\+\_\+tuple\+\_\+object\+\_\+from\+\_\+tuple\+\_\+content()}{new\_fbgc\_tuple\_object\_from\_tuple\_content()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ new\+\_\+fbgc\+\_\+tuple\+\_\+object\+\_\+from\+\_\+tuple\+\_\+content (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$$\ast$}]{src,  }\item[{int}]{num }\end{DoxyParamCaption})}
+
+
+
+Definition at line 46 of file tuple\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 8
+\mbox{\Hypertarget{tuple__object_8h_a2109ecc7ada3494d38d605cabaaa3424}\label{tuple__object_8h_a2109ecc7ada3494d38d605cabaaa3424}} 
+\index{tuple\+\_\+object.\+h@{tuple\+\_\+object.\+h}!operator\+\_\+fbgc\+\_\+tuple\+\_\+object@{operator\+\_\+fbgc\+\_\+tuple\+\_\+object}}
+\index{operator\+\_\+fbgc\+\_\+tuple\+\_\+object@{operator\+\_\+fbgc\+\_\+tuple\+\_\+object}!tuple\+\_\+object.\+h@{tuple\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{operator\+\_\+fbgc\+\_\+tuple\+\_\+object()}{operator\_fbgc\_tuple\_object()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ operator\+\_\+fbgc\+\_\+tuple\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{a,  }\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{b,  }\item[{\hyperlink{tokens_8h_a9d21ebbf42e602eb0cf502c867d20a7e}{fbgc\+\_\+token}}]{op }\end{DoxyParamCaption})}
+
+
+
+Definition at line 185 of file tuple\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 9
+\mbox{\Hypertarget{tuple__object_8h_a43b357c743a4fa9b9f129eca739ab561}\label{tuple__object_8h_a43b357c743a4fa9b9f129eca739ab561}} 
+\index{tuple\+\_\+object.\+h@{tuple\+\_\+object.\+h}!print\+\_\+fbgc\+\_\+tuple\+\_\+object@{print\+\_\+fbgc\+\_\+tuple\+\_\+object}}
+\index{print\+\_\+fbgc\+\_\+tuple\+\_\+object@{print\+\_\+fbgc\+\_\+tuple\+\_\+object}!tuple\+\_\+object.\+h@{tuple\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{print\+\_\+fbgc\+\_\+tuple\+\_\+object()}{print\_fbgc\_tuple\_object()}}
+{\footnotesize\ttfamily void print\+\_\+fbgc\+\_\+tuple\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 279 of file tuple\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 10
+Here is the caller graph for this function\+:
+% FIG 11
+\mbox{\Hypertarget{tuple__object_8h_a0b406898ce0f388a06bbf0cdd3b5b8d5}\label{tuple__object_8h_a0b406898ce0f388a06bbf0cdd3b5b8d5}} 
+\index{tuple\+\_\+object.\+h@{tuple\+\_\+object.\+h}!push\+\_\+back\+\_\+fbgc\+\_\+tuple\+\_\+object@{push\+\_\+back\+\_\+fbgc\+\_\+tuple\+\_\+object}}
+\index{push\+\_\+back\+\_\+fbgc\+\_\+tuple\+\_\+object@{push\+\_\+back\+\_\+fbgc\+\_\+tuple\+\_\+object}!tuple\+\_\+object.\+h@{tuple\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{push\+\_\+back\+\_\+fbgc\+\_\+tuple\+\_\+object()}{push\_back\_fbgc\_tuple\_object()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ push\+\_\+back\+\_\+fbgc\+\_\+tuple\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{self,  }\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{obj }\end{DoxyParamCaption})}
+
+
+
+Definition at line 110 of file tuple\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 12
+Here is the caller graph for this function\+:
+% FIG 13
+\mbox{\Hypertarget{tuple__object_8h_a7ed1f5099ffc3fb0aeb688d8a4e4ef7e}\label{tuple__object_8h_a7ed1f5099ffc3fb0aeb688d8a4e4ef7e}} 
+\index{tuple\+\_\+object.\+h@{tuple\+\_\+object.\+h}!set\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+tuple\+\_\+object@{set\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+tuple\+\_\+object}}
+\index{set\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+tuple\+\_\+object@{set\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+tuple\+\_\+object}!tuple\+\_\+object.\+h@{tuple\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{set\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+tuple\+\_\+object()}{set\_object\_in\_fbgc\_tuple\_object()}}
+{\footnotesize\ttfamily void set\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+tuple\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{self,  }\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{obj,  }\item[{int}]{index }\end{DoxyParamCaption})}
+
+
+
+Definition at line 60 of file tuple\+\_\+object.\+c.
+
+Here is the caller graph for this function\+:
+% FIG 14

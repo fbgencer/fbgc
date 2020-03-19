@@ -1,0 +1,21 @@
+digraph "new_fbgc_str_object_from_substr"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node66 [label="new_fbgc_str_object\l_from_substr",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node66 -> Node67 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node67 [label="tokenize_substr",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$relexer_8h.html#a173504636bdf2201eace271622e131f8"];
+  Node66 -> Node68 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node68 [label="operator_fbgc_str_object",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$str__object_8h.html#aa52ba68bd74a0ee1167ab4483fec93a3"];
+  Node66 -> Node69 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node69 [label="get_object_in_fbgc\l_str_object",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$str__object_8h.html#a93790208631c59891ccfb0555e442f6e"];
+  Node69 -> Node70 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node70 [label="new_fbgc_cfunction",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$fbgc__stl_8c.html#a96ff8b55e7227a3b065fa85744eb40ba"];
+  Node69 -> Node71 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node71 [label="interpreter",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$interpreter_8h.html#acb0454b55a53dfb587644f66848a0646"];
+  Node71 -> Node72 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node72 [label="fbgc_load_file",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$fbgc_8h.html#a2aeeff0403205e54bd0dd187e4337b4a"];
+  Node72 -> Node73 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node73 [label="new_fbgc_cfunction",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c"];
+}

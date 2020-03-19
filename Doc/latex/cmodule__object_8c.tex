@@ -1,0 +1,85 @@
+\hypertarget{cmodule__object_8c}{}\section{src/cmodule\+\_\+object.c File Reference}
+\label{cmodule__object_8c}\index{src/cmodule\+\_\+object.\+c@{src/cmodule\+\_\+object.\+c}}
+{\ttfamily \#include \char`\"{}fbgc.\+h\char`\"{}}\newline
+Include dependency graph for cmodule\+\_\+object.\+c\+:
+% FIG 0
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{cmodule__object_8c_a2772285a9de527a525825b3575453288}{new\+\_\+fbgc\+\_\+cfun\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$($\ast$function\+\_\+obj)(struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$$\ast$, int))
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{cmodule__object_8c_aa628de8f9db7d40012fa5760b8656c8a}{new\+\_\+fbgc\+\_\+cmodule\+\_\+object} (const struct \hyperlink{structfbgc__cmodule}{fbgc\+\_\+cmodule} $\ast$cm)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{cmodule__object_8c_a78b98728bafb17115fa26b483d600ef1}{new\+\_\+cfun\+\_\+object\+\_\+from\+\_\+str} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$field\+\_\+obj, const char $\ast$str)
+\item 
+void \hyperlink{cmodule__object_8c_aa2691b213bfabfafaf3eb59f9e3fb8a3}{print\+\_\+fbgc\+\_\+cmodule} (const struct \hyperlink{structfbgc__cmodule}{fbgc\+\_\+cmodule} $\ast$obj)
+\item 
+void \hyperlink{cmodule__object_8c_ade9cbc7dba745b9d6c5802b5078a623e}{free\+\_\+fbgc\+\_\+cfun\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$obj)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{cmodule__object_8c_ade9cbc7dba745b9d6c5802b5078a623e}\label{cmodule__object_8c_ade9cbc7dba745b9d6c5802b5078a623e}} 
+\index{cmodule\+\_\+object.\+c@{cmodule\+\_\+object.\+c}!free\+\_\+fbgc\+\_\+cfun\+\_\+object@{free\+\_\+fbgc\+\_\+cfun\+\_\+object}}
+\index{free\+\_\+fbgc\+\_\+cfun\+\_\+object@{free\+\_\+fbgc\+\_\+cfun\+\_\+object}!cmodule\+\_\+object.\+c@{cmodule\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{free\+\_\+fbgc\+\_\+cfun\+\_\+object()}{free\_fbgc\_cfun\_object()}}
+{\footnotesize\ttfamily void free\+\_\+fbgc\+\_\+cfun\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{obj }\end{DoxyParamCaption})}
+
+
+
+Definition at line 63 of file cmodule\+\_\+object.\+c.
+
+\mbox{\Hypertarget{cmodule__object_8c_a78b98728bafb17115fa26b483d600ef1}\label{cmodule__object_8c_a78b98728bafb17115fa26b483d600ef1}} 
+\index{cmodule\+\_\+object.\+c@{cmodule\+\_\+object.\+c}!new\+\_\+cfun\+\_\+object\+\_\+from\+\_\+str@{new\+\_\+cfun\+\_\+object\+\_\+from\+\_\+str}}
+\index{new\+\_\+cfun\+\_\+object\+\_\+from\+\_\+str@{new\+\_\+cfun\+\_\+object\+\_\+from\+\_\+str}!cmodule\+\_\+object.\+c@{cmodule\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{new\+\_\+cfun\+\_\+object\+\_\+from\+\_\+str()}{new\_cfun\_object\_from\_str()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ new\+\_\+cfun\+\_\+object\+\_\+from\+\_\+str (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{field\+\_\+obj,  }\item[{const char $\ast$}]{str }\end{DoxyParamCaption})}
+
+
+
+Definition at line 30 of file cmodule\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 1
+Here is the caller graph for this function\+:
+% FIG 2
+\mbox{\Hypertarget{cmodule__object_8c_a2772285a9de527a525825b3575453288}\label{cmodule__object_8c_a2772285a9de527a525825b3575453288}} 
+\index{cmodule\+\_\+object.\+c@{cmodule\+\_\+object.\+c}!new\+\_\+fbgc\+\_\+cfun\+\_\+object@{new\+\_\+fbgc\+\_\+cfun\+\_\+object}}
+\index{new\+\_\+fbgc\+\_\+cfun\+\_\+object@{new\+\_\+fbgc\+\_\+cfun\+\_\+object}!cmodule\+\_\+object.\+c@{cmodule\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{new\+\_\+fbgc\+\_\+cfun\+\_\+object()}{new\_fbgc\_cfun\_object()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ new\+\_\+fbgc\+\_\+cfun\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$($\ast$)(struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$$\ast$, int)}]{function\+\_\+obj }\end{DoxyParamCaption})}
+
+
+
+Definition at line 5 of file cmodule\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 3
+Here is the caller graph for this function\+:
+% FIG 4
+\mbox{\Hypertarget{cmodule__object_8c_aa628de8f9db7d40012fa5760b8656c8a}\label{cmodule__object_8c_aa628de8f9db7d40012fa5760b8656c8a}} 
+\index{cmodule\+\_\+object.\+c@{cmodule\+\_\+object.\+c}!new\+\_\+fbgc\+\_\+cmodule\+\_\+object@{new\+\_\+fbgc\+\_\+cmodule\+\_\+object}}
+\index{new\+\_\+fbgc\+\_\+cmodule\+\_\+object@{new\+\_\+fbgc\+\_\+cmodule\+\_\+object}!cmodule\+\_\+object.\+c@{cmodule\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{new\+\_\+fbgc\+\_\+cmodule\+\_\+object()}{new\_fbgc\_cmodule\_object()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ new\+\_\+fbgc\+\_\+cmodule\+\_\+object (\begin{DoxyParamCaption}\item[{const struct \hyperlink{structfbgc__cmodule}{fbgc\+\_\+cmodule} $\ast$}]{cm }\end{DoxyParamCaption})}
+
+
+
+Definition at line 14 of file cmodule\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 5
+Here is the caller graph for this function\+:
+% FIG 6
+\mbox{\Hypertarget{cmodule__object_8c_aa2691b213bfabfafaf3eb59f9e3fb8a3}\label{cmodule__object_8c_aa2691b213bfabfafaf3eb59f9e3fb8a3}} 
+\index{cmodule\+\_\+object.\+c@{cmodule\+\_\+object.\+c}!print\+\_\+fbgc\+\_\+cmodule@{print\+\_\+fbgc\+\_\+cmodule}}
+\index{print\+\_\+fbgc\+\_\+cmodule@{print\+\_\+fbgc\+\_\+cmodule}!cmodule\+\_\+object.\+c@{cmodule\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{print\+\_\+fbgc\+\_\+cmodule()}{print\_fbgc\_cmodule()}}
+{\footnotesize\ttfamily void print\+\_\+fbgc\+\_\+cmodule (\begin{DoxyParamCaption}\item[{const struct \hyperlink{structfbgc__cmodule}{fbgc\+\_\+cmodule} $\ast$}]{obj }\end{DoxyParamCaption})}
+
+
+
+Definition at line 51 of file cmodule\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 7

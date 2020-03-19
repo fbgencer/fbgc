@@ -1,0 +1,14 @@
+digraph "new_fbgc_cfunction"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node10 [label="new_fbgc_cfunction",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node10 -> Node11 [color="midnightblue",fontsize="10",style="solid"];
+  Node11 [label="new_fbgc_str_object\l_empty",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$str__object_8c.html#a7d2903336f73edf4ed0c60627d47823e"];
+  Node11 -> Node12 [color="midnightblue",fontsize="10",style="solid"];
+  Node12 [label="fbgc_malloc",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$memory_8c.html#a41dd65ee24d51160659bf94bed90e998"];
+  Node12 -> Node13 [color="midnightblue",fontsize="10",style="solid"];
+  Node13 [label="cprintf",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$error_8c.html#a30fee765292b076e015fc846035f2550"];
+  Node10 -> Node13 [color="midnightblue",fontsize="10",style="solid"];
+}

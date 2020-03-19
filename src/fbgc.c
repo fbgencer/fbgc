@@ -199,20 +199,21 @@ int main(int argc, char **argv){
 
 	//compile_file(main_field, "ex.fbgc");
 
-	/*if(argc > 1)
+	if(argc > 1)
 	{   
 		if(!strcmp(argv[1],"-s")){
-			compile_one_line(main_field,argv[2]);
+			//compile_one_line(main_field,argv[2]);
 		}
 		else{
-		   compile_file(main_field, argv[1]);
+		   compile_file(main_field, argv[1]); 
+		   int var; /*!< Detailed description after the member */
 		}
 		//print_fbgc_memory_block();
 		
 	}
 	else{
-	   realtime_fbgc(main_field);
-	}*/
+	   //realtime_fbgc(main_field);
+	}
 
 	free_fbgc_memory_block();
 //******************************************************************

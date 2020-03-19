@@ -1,0 +1,24 @@
+digraph "get_set_fbgc_complex_object_member"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node22 [label="get_set_fbgc_complex\l_object_member",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node22 -> Node23 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node23 [label="new_fbgc_cfun_object",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$cmodule__object_8c.html#a2772285a9de527a525825b3575453288"];
+  Node23 -> Node24 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node24 [label="fbgc_malloc",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$memory_8c.html#a41dd65ee24d51160659bf94bed90e998"];
+  Node24 -> Node25 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node25 [label="cprintf",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$error_8c.html#a30fee765292b076e015fc846035f2550"];
+  Node22 -> Node26 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node26 [label="conjugate_fbgc_complex\l_object",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$complex__object_8c.html#a4d5a67859f36b47644ca19c5eacb7b20"];
+  Node26 -> Node27 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node27 [label="new_fbgc_complex_object",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$complex__object_8c.html#aaa211012c5583b4c23ebcc4824fbc504"];
+  Node27 -> Node24 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node22 -> Node28 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node28 [label="new_fbgc_double_object",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$double__object_8c.html#a08dd93b8f6c56cf7cb6210b63c29dbaf"];
+  Node28 -> Node24 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node22 -> Node29 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node29 [label="convert_fbgc_object\l_to_double",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$fbgc__object_8c.html#a3bb27f7967c007951389378fc9f358e3"];
+  Node29 -> Node25 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

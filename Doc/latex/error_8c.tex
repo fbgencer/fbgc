@@ -1,0 +1,191 @@
+\hypertarget{error_8c}{}\section{src/error.c File Reference}
+\label{error_8c}\index{src/error.\+c@{src/error.\+c}}
+{\ttfamily \#include \char`\"{}fbgc.\+h\char`\"{}}\newline
+Include dependency graph for error.\+c\+:
+% FIG 0
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{error_8c_af5204e182e074b4c840671043c845e53}{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+B\+L\+A\+CK}~\char`\"{}\textbackslash{}033\mbox{[}1;30m\char`\"{}
+\item 
+\#define \hyperlink{error_8c_a34995b955465f6bbb37c359173d50477}{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+R\+ED}~\char`\"{}\textbackslash{}033\mbox{[}1;31m\char`\"{}
+\item 
+\#define \hyperlink{error_8c_a966c72d8d733c7734c6c784753d894c7}{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+G\+R\+E\+EN}~\char`\"{}\textbackslash{}033\mbox{[}1;32m\char`\"{}
+\item 
+\#define \hyperlink{error_8c_a5a123b382640b3aa65dd5db386002fbc}{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+Y\+E\+L\+L\+OW}~\char`\"{}\textbackslash{}033\mbox{[}1;33m\char`\"{}
+\item 
+\#define \hyperlink{error_8c_aca16e6a49eb51333c5fd3eee19487315}{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+B\+L\+UE}~\char`\"{}\textbackslash{}033\mbox{[}1;34m\char`\"{}
+\item 
+\#define \hyperlink{error_8c_acb30614ba1535da5b9d0c490b3c10515}{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+M\+A\+G\+E\+N\+TA}~\char`\"{}\textbackslash{}033\mbox{[}1;35m\char`\"{}
+\item 
+\#define \hyperlink{error_8c_a8d0b0043e152438bb39b918a1f98c65f}{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+C\+Y\+AN}~\char`\"{}\textbackslash{}033\mbox{[}1;36m\char`\"{}
+\item 
+\#define \hyperlink{error_8c_ab126a29a20ee0fe9ada8269c91edb753}{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+W\+H\+I\+TE}~\char`\"{}\textbackslash{}033\mbox{[}1;37m\char`\"{}
+\item 
+\#define \hyperlink{error_8c_a92a364c2b863dde1a024a77eac2a5b3b}{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+R\+E\+S\+ET}~\char`\"{}\textbackslash{}033\mbox{[}0m\char`\"{}
+\item 
+\#define \hyperlink{error_8c_af9e27185cebf46f4996ace875ffdf0ba}{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+R\+E\+D\+\_\+\+U\+N\+D\+E\+R\+L\+I\+NE}~\char`\"{}\textbackslash{}e\mbox{[}4;31m\char`\"{}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{error_8c_a30fee765292b076e015fc846035f2550}{cprintf} (char color, const char $\ast$format,...)
+\item 
+int \hyperlink{error_8c_a20c395dc323d8481ba31d6743368604a}{fbgc\+\_\+assert} (unsigned char cond, const char $\ast$format,...)
+\item 
+int \hyperlink{error_8c_abcffe295b9d0c2b1e3257c410a83441f}{fbgc\+\_\+error} (unsigned char error\+\_\+code, int line\+\_\+no)
+\item 
+int \hyperlink{error_8c_a6d25bf28016e5d084c3046462915c0ea}{fbgc\+\_\+warning} (unsigned char cond, const char $\ast$message)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{error_8c_af5204e182e074b4c840671043c845e53}\label{error_8c_af5204e182e074b4c840671043c845e53}} 
+\index{error.\+c@{error.\+c}!A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+B\+L\+A\+CK@{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+B\+L\+A\+CK}}
+\index{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+B\+L\+A\+CK@{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+B\+L\+A\+CK}!error.\+c@{error.\+c}}
+\subsubsection{\texorpdfstring{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+B\+L\+A\+CK}{ANSI\_COLOR\_BLACK}}
+{\footnotesize\ttfamily \#define A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+B\+L\+A\+CK~\char`\"{}\textbackslash{}033\mbox{[}1;30m\char`\"{}}
+
+
+
+Definition at line 3 of file error.\+c.
+
+\mbox{\Hypertarget{error_8c_aca16e6a49eb51333c5fd3eee19487315}\label{error_8c_aca16e6a49eb51333c5fd3eee19487315}} 
+\index{error.\+c@{error.\+c}!A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+B\+L\+UE@{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+B\+L\+UE}}
+\index{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+B\+L\+UE@{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+B\+L\+UE}!error.\+c@{error.\+c}}
+\subsubsection{\texorpdfstring{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+B\+L\+UE}{ANSI\_COLOR\_BLUE}}
+{\footnotesize\ttfamily \#define A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+B\+L\+UE~\char`\"{}\textbackslash{}033\mbox{[}1;34m\char`\"{}}
+
+
+
+Definition at line 7 of file error.\+c.
+
+\mbox{\Hypertarget{error_8c_a8d0b0043e152438bb39b918a1f98c65f}\label{error_8c_a8d0b0043e152438bb39b918a1f98c65f}} 
+\index{error.\+c@{error.\+c}!A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+C\+Y\+AN@{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+C\+Y\+AN}}
+\index{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+C\+Y\+AN@{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+C\+Y\+AN}!error.\+c@{error.\+c}}
+\subsubsection{\texorpdfstring{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+C\+Y\+AN}{ANSI\_COLOR\_CYAN}}
+{\footnotesize\ttfamily \#define A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+C\+Y\+AN~\char`\"{}\textbackslash{}033\mbox{[}1;36m\char`\"{}}
+
+
+
+Definition at line 9 of file error.\+c.
+
+\mbox{\Hypertarget{error_8c_a966c72d8d733c7734c6c784753d894c7}\label{error_8c_a966c72d8d733c7734c6c784753d894c7}} 
+\index{error.\+c@{error.\+c}!A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+G\+R\+E\+EN@{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+G\+R\+E\+EN}}
+\index{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+G\+R\+E\+EN@{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+G\+R\+E\+EN}!error.\+c@{error.\+c}}
+\subsubsection{\texorpdfstring{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+G\+R\+E\+EN}{ANSI\_COLOR\_GREEN}}
+{\footnotesize\ttfamily \#define A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+G\+R\+E\+EN~\char`\"{}\textbackslash{}033\mbox{[}1;32m\char`\"{}}
+
+
+
+Definition at line 5 of file error.\+c.
+
+\mbox{\Hypertarget{error_8c_acb30614ba1535da5b9d0c490b3c10515}\label{error_8c_acb30614ba1535da5b9d0c490b3c10515}} 
+\index{error.\+c@{error.\+c}!A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+M\+A\+G\+E\+N\+TA@{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+M\+A\+G\+E\+N\+TA}}
+\index{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+M\+A\+G\+E\+N\+TA@{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+M\+A\+G\+E\+N\+TA}!error.\+c@{error.\+c}}
+\subsubsection{\texorpdfstring{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+M\+A\+G\+E\+N\+TA}{ANSI\_COLOR\_MAGENTA}}
+{\footnotesize\ttfamily \#define A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+M\+A\+G\+E\+N\+TA~\char`\"{}\textbackslash{}033\mbox{[}1;35m\char`\"{}}
+
+
+
+Definition at line 8 of file error.\+c.
+
+\mbox{\Hypertarget{error_8c_a34995b955465f6bbb37c359173d50477}\label{error_8c_a34995b955465f6bbb37c359173d50477}} 
+\index{error.\+c@{error.\+c}!A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+R\+ED@{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+R\+ED}}
+\index{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+R\+ED@{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+R\+ED}!error.\+c@{error.\+c}}
+\subsubsection{\texorpdfstring{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+R\+ED}{ANSI\_COLOR\_RED}}
+{\footnotesize\ttfamily \#define A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+R\+ED~\char`\"{}\textbackslash{}033\mbox{[}1;31m\char`\"{}}
+
+
+
+Definition at line 4 of file error.\+c.
+
+\mbox{\Hypertarget{error_8c_af9e27185cebf46f4996ace875ffdf0ba}\label{error_8c_af9e27185cebf46f4996ace875ffdf0ba}} 
+\index{error.\+c@{error.\+c}!A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+R\+E\+D\+\_\+\+U\+N\+D\+E\+R\+L\+I\+NE@{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+R\+E\+D\+\_\+\+U\+N\+D\+E\+R\+L\+I\+NE}}
+\index{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+R\+E\+D\+\_\+\+U\+N\+D\+E\+R\+L\+I\+NE@{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+R\+E\+D\+\_\+\+U\+N\+D\+E\+R\+L\+I\+NE}!error.\+c@{error.\+c}}
+\subsubsection{\texorpdfstring{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+R\+E\+D\+\_\+\+U\+N\+D\+E\+R\+L\+I\+NE}{ANSI\_COLOR\_RED\_UNDERLINE}}
+{\footnotesize\ttfamily \#define A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+R\+E\+D\+\_\+\+U\+N\+D\+E\+R\+L\+I\+NE~\char`\"{}\textbackslash{}e\mbox{[}4;31m\char`\"{}}
+
+
+
+Definition at line 13 of file error.\+c.
+
+\mbox{\Hypertarget{error_8c_a92a364c2b863dde1a024a77eac2a5b3b}\label{error_8c_a92a364c2b863dde1a024a77eac2a5b3b}} 
+\index{error.\+c@{error.\+c}!A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+R\+E\+S\+ET@{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+R\+E\+S\+ET}}
+\index{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+R\+E\+S\+ET@{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+R\+E\+S\+ET}!error.\+c@{error.\+c}}
+\subsubsection{\texorpdfstring{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+R\+E\+S\+ET}{ANSI\_COLOR\_RESET}}
+{\footnotesize\ttfamily \#define A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+R\+E\+S\+ET~\char`\"{}\textbackslash{}033\mbox{[}0m\char`\"{}}
+
+
+
+Definition at line 11 of file error.\+c.
+
+\mbox{\Hypertarget{error_8c_ab126a29a20ee0fe9ada8269c91edb753}\label{error_8c_ab126a29a20ee0fe9ada8269c91edb753}} 
+\index{error.\+c@{error.\+c}!A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+W\+H\+I\+TE@{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+W\+H\+I\+TE}}
+\index{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+W\+H\+I\+TE@{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+W\+H\+I\+TE}!error.\+c@{error.\+c}}
+\subsubsection{\texorpdfstring{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+W\+H\+I\+TE}{ANSI\_COLOR\_WHITE}}
+{\footnotesize\ttfamily \#define A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+W\+H\+I\+TE~\char`\"{}\textbackslash{}033\mbox{[}1;37m\char`\"{}}
+
+
+
+Definition at line 10 of file error.\+c.
+
+\mbox{\Hypertarget{error_8c_a5a123b382640b3aa65dd5db386002fbc}\label{error_8c_a5a123b382640b3aa65dd5db386002fbc}} 
+\index{error.\+c@{error.\+c}!A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+Y\+E\+L\+L\+OW@{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+Y\+E\+L\+L\+OW}}
+\index{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+Y\+E\+L\+L\+OW@{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+Y\+E\+L\+L\+OW}!error.\+c@{error.\+c}}
+\subsubsection{\texorpdfstring{A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+Y\+E\+L\+L\+OW}{ANSI\_COLOR\_YELLOW}}
+{\footnotesize\ttfamily \#define A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R\+\_\+\+Y\+E\+L\+L\+OW~\char`\"{}\textbackslash{}033\mbox{[}1;33m\char`\"{}}
+
+
+
+Definition at line 6 of file error.\+c.
+
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{error_8c_a30fee765292b076e015fc846035f2550}\label{error_8c_a30fee765292b076e015fc846035f2550}} 
+\index{error.\+c@{error.\+c}!cprintf@{cprintf}}
+\index{cprintf@{cprintf}!error.\+c@{error.\+c}}
+\subsubsection{\texorpdfstring{cprintf()}{cprintf()}}
+{\footnotesize\ttfamily int cprintf (\begin{DoxyParamCaption}\item[{char}]{color,  }\item[{const char $\ast$}]{format,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+
+
+Definition at line 15 of file error.\+c.
+
+Here is the caller graph for this function\+:
+% FIG 1
+\mbox{\Hypertarget{error_8c_a20c395dc323d8481ba31d6743368604a}\label{error_8c_a20c395dc323d8481ba31d6743368604a}} 
+\index{error.\+c@{error.\+c}!fbgc\+\_\+assert@{fbgc\+\_\+assert}}
+\index{fbgc\+\_\+assert@{fbgc\+\_\+assert}!error.\+c@{error.\+c}}
+\subsubsection{\texorpdfstring{fbgc\+\_\+assert()}{fbgc\_assert()}}
+{\footnotesize\ttfamily int fbgc\+\_\+assert (\begin{DoxyParamCaption}\item[{unsigned char}]{cond,  }\item[{const char $\ast$}]{format,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+
+
+Definition at line 65 of file error.\+c.
+
+\mbox{\Hypertarget{error_8c_abcffe295b9d0c2b1e3257c410a83441f}\label{error_8c_abcffe295b9d0c2b1e3257c410a83441f}} 
+\index{error.\+c@{error.\+c}!fbgc\+\_\+error@{fbgc\+\_\+error}}
+\index{fbgc\+\_\+error@{fbgc\+\_\+error}!error.\+c@{error.\+c}}
+\subsubsection{\texorpdfstring{fbgc\+\_\+error()}{fbgc\_error()}}
+{\footnotesize\ttfamily int fbgc\+\_\+error (\begin{DoxyParamCaption}\item[{unsigned char}]{error\+\_\+code,  }\item[{int}]{line\+\_\+no }\end{DoxyParamCaption})}
+
+
+
+Definition at line 84 of file error.\+c.
+
+Here is the call graph for this function\+:
+% FIG 2
+Here is the caller graph for this function\+:
+% FIG 3
+\mbox{\Hypertarget{error_8c_a6d25bf28016e5d084c3046462915c0ea}\label{error_8c_a6d25bf28016e5d084c3046462915c0ea}} 
+\index{error.\+c@{error.\+c}!fbgc\+\_\+warning@{fbgc\+\_\+warning}}
+\index{fbgc\+\_\+warning@{fbgc\+\_\+warning}!error.\+c@{error.\+c}}
+\subsubsection{\texorpdfstring{fbgc\+\_\+warning()}{fbgc\_warning()}}
+{\footnotesize\ttfamily int fbgc\+\_\+warning (\begin{DoxyParamCaption}\item[{unsigned char}]{cond,  }\item[{const char $\ast$}]{message }\end{DoxyParamCaption})}
+
+
+
+Definition at line 121 of file error.\+c.
+

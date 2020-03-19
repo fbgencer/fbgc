@@ -1,0 +1,28 @@
+digraph "operator_fbgc_tuple_object"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node77 [label="operator_fbgc_tuple\l_object",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node77 -> Node78 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node78 [label="copy_fbgc_tuple_object",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$tuple__object_8c.html#aa73a33e3ceeba7ec53c8d96483263649"];
+  Node78 -> Node79 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node79 [label="calculate_new_capacity\l_from_size",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$tuple__object_8c.html#af0a95832bdbe0ec168e2a1e8407cc9c9"];
+  Node79 -> Node80 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node80 [label="cprintf",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$error_8c.html#a30fee765292b076e015fc846035f2550"];
+  Node78 -> Node81 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node81 [label="fbgc_malloc",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$memory_8c.html#a41dd65ee24d51160659bf94bed90e998"];
+  Node81 -> Node80 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node77 -> Node82 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node82 [label="push_back_fbgc_tuple\l_object",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$tuple__object_8c.html#a0b406898ce0f388a06bbf0cdd3b5b8d5"];
+  Node82 -> Node80 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node82 -> Node83 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node83 [label="fbgc_realloc",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$memory_8c.html#a46dcfb44df5cac4f04145f1aa208fb9f"];
+  Node83 -> Node81 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node83 -> Node84 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node84 [label="get_fbgc_object_size",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$fbgc__object_8c.html#a1ba6a6b09db0e6c3a6ac6f6cfc0266de"];
+  Node83 -> Node80 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node83 -> Node85 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node85 [label="fbgc_free",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$memory_8c.html#a45d076e11af8d11bd73f6529582edbef"];
+  Node85 -> Node84 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

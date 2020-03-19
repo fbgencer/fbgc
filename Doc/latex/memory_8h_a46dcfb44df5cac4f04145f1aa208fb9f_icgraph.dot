@@ -1,0 +1,35 @@
+digraph "fbgc_realloc"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node109 [label="fbgc_realloc",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node109 -> Node110 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node110 [label="push_back_fbgc_array\l_object",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$array__object_8h.html#a0e7b4247d3ae7bc64634a4ef1848167b"];
+  Node110 -> Node111 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node111 [label="fbgc_load_file",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$fbgc_8h.html#a2aeeff0403205e54bd0dd187e4337b4a"];
+  Node111 -> Node112 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node112 [label="new_fbgc_cfunction",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c"];
+  Node110 -> Node113 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node113 [label="add_variable_in_field\l_object",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$field__object_8h.html#a3b4ac96927adceb7d098f4616c9a1974"];
+  Node113 -> Node114 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node114 [label="new_fbgc_cfunction",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$fbgc__math_8c.html#a9eb1700a5bd425c10311d25a941c3f38"];
+  Node113 -> Node115 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node115 [label="fbgc_load_module",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$fbgc_8h.html#a028d4bd3c990b0410fe7e03543a8ed60"];
+  Node115 -> Node112 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node110 -> Node116 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node116 [label="parser",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$parser_8h.html#a9128876c7bafe4207a35d10f2c7f12a8"];
+  Node116 -> Node111 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node109 -> Node117 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node117 [label="push_back_fbgc_tuple\l_object",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$tuple__object_8h.html#a0b406898ce0f388a06bbf0cdd3b5b8d5"];
+  Node117 -> Node116 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node117 -> Node118 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node118 [label="operator_fbgc_str_object",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$str__object_8h.html#aa52ba68bd74a0ee1167ab4483fec93a3"];
+  Node117 -> Node119 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node119 [label="new_fbgc_symbol_from\l_substr",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$symbol__table_8h.html#a9c5a8de8e4db7133bc2f6718ebcb978c"];
+  Node119 -> Node113 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node119 -> Node120 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node120 [label="tokenize_substr",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$relexer_8h.html#a173504636bdf2201eace271622e131f8"];
+  Node117 -> Node121 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node121 [label="operator_fbgc_tuple\l_object",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$tuple__object_8h.html#a2109ecc7ada3494d38d605cabaaa3424"];
+}

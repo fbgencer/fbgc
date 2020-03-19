@@ -1,0 +1,21 @@
+digraph "operator_fbgc_complex_object"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node59 [label="operator_fbgc_complex\l_object",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node59 -> Node60 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node60 [label="convert_fbgc_object\l_to_complex",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$fbgc__object_8c.html#a5a9cf786785f00ec159d2845dc49f99c"];
+  Node60 -> Node61 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node61 [label="cprintf",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$error_8c.html#a30fee765292b076e015fc846035f2550"];
+  Node59 -> Node62 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node62 [label="operator_method_raw\l_complex",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$complex__object_8c.html#a0944ac45cebf69162b5664a88bd9caef"];
+  Node62 -> Node63 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node63 [label="new_fbgc_logic_object",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$logic__object_8c.html#a11def1f376b697a7229879ad4222afab"];
+  Node63 -> Node64 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node64 [label="fbgc_malloc",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$memory_8c.html#a41dd65ee24d51160659bf94bed90e998"];
+  Node64 -> Node61 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node62 -> Node65 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node65 [label="new_fbgc_complex_object",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$complex__object_8c.html#aaa211012c5583b4c23ebcc4824fbc504"];
+  Node65 -> Node64 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

@@ -1,0 +1,17 @@
+digraph "new_fbgc_symbol_from_substr"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node37 [label="new_fbgc_symbol_from\l_substr",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node37 -> Node38 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node38 [label="add_variable_in_field\l_object",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$field__object_8h.html#a3b4ac96927adceb7d098f4616c9a1974"];
+  Node38 -> Node39 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node39 [label="new_fbgc_cfunction",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$fbgc__math_8c.html#a9eb1700a5bd425c10311d25a941c3f38"];
+  Node38 -> Node40 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node40 [label="fbgc_load_module",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$fbgc_8h.html#a028d4bd3c990b0410fe7e03543a8ed60"];
+  Node40 -> Node41 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node41 [label="new_fbgc_cfunction",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c"];
+  Node37 -> Node42 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node42 [label="tokenize_substr",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$relexer_8h.html#a173504636bdf2201eace271622e131f8"];
+}

@@ -1,0 +1,13 @@
+digraph "conjugate_fbgc_complex_object"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node6 [label="conjugate_fbgc_complex\l_object",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node6 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="new_fbgc_complex_object",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$complex__object_8c.html#aaa211012c5583b4c23ebcc4824fbc504"];
+  Node7 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="fbgc_malloc",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$memory_8c.html#a41dd65ee24d51160659bf94bed90e998"];
+  Node8 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="cprintf",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$error_8c.html#a30fee765292b076e015fc846035f2550"];
+}

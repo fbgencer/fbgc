@@ -1,0 +1,101 @@
+\hypertarget{memory_8c}{}\section{src/memory.c File Reference}
+\label{memory_8c}\index{src/memory.\+c@{src/memory.\+c}}
+{\ttfamily \#include \char`\"{}fbgc.\+h\char`\"{}}\newline
+Include dependency graph for memory.\+c\+:
+% FIG 0
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{memory_8c_a4208947661ce41e5ce8c43f21b6ad631}{initialize\+\_\+fbgc\+\_\+memory\+\_\+block} ()
+\item 
+void $\ast$ \hyperlink{memory_8c_a41dd65ee24d51160659bf94bed90e998}{fbgc\+\_\+malloc} (size\+\_\+t size)
+\item 
+void $\ast$ \hyperlink{memory_8c_a46dcfb44df5cac4f04145f1aa208fb9f}{fbgc\+\_\+realloc} (void $\ast$ptr, size\+\_\+t size)
+\item 
+void \hyperlink{memory_8c_a45d076e11af8d11bd73f6529582edbef}{fbgc\+\_\+free} (void $\ast$ptr)
+\item 
+void \hyperlink{memory_8c_ac7afb05d80ef3b09468f8317180f236c}{print\+\_\+fbgc\+\_\+memory\+\_\+block} ()
+\item 
+void \hyperlink{memory_8c_a1b08de929c185673e3f924e7a98c1da2}{free\+\_\+fbgc\+\_\+memory\+\_\+block} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{memory_8c_a45d076e11af8d11bd73f6529582edbef}\label{memory_8c_a45d076e11af8d11bd73f6529582edbef}} 
+\index{memory.\+c@{memory.\+c}!fbgc\+\_\+free@{fbgc\+\_\+free}}
+\index{fbgc\+\_\+free@{fbgc\+\_\+free}!memory.\+c@{memory.\+c}}
+\subsubsection{\texorpdfstring{fbgc\+\_\+free()}{fbgc\_free()}}
+{\footnotesize\ttfamily void fbgc\+\_\+free (\begin{DoxyParamCaption}\item[{void $\ast$}]{ptr }\end{DoxyParamCaption})}
+
+
+
+Definition at line 354 of file memory.\+c.
+
+Here is the call graph for this function\+:
+% FIG 1
+Here is the caller graph for this function\+:
+% FIG 2
+\mbox{\Hypertarget{memory_8c_a41dd65ee24d51160659bf94bed90e998}\label{memory_8c_a41dd65ee24d51160659bf94bed90e998}} 
+\index{memory.\+c@{memory.\+c}!fbgc\+\_\+malloc@{fbgc\+\_\+malloc}}
+\index{fbgc\+\_\+malloc@{fbgc\+\_\+malloc}!memory.\+c@{memory.\+c}}
+\subsubsection{\texorpdfstring{fbgc\+\_\+malloc()}{fbgc\_malloc()}}
+{\footnotesize\ttfamily void$\ast$ fbgc\+\_\+malloc (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})}
+
+
+
+Definition at line 25 of file memory.\+c.
+
+Here is the call graph for this function\+:
+% FIG 3
+Here is the caller graph for this function\+:
+% FIG 4
+\mbox{\Hypertarget{memory_8c_a46dcfb44df5cac4f04145f1aa208fb9f}\label{memory_8c_a46dcfb44df5cac4f04145f1aa208fb9f}} 
+\index{memory.\+c@{memory.\+c}!fbgc\+\_\+realloc@{fbgc\+\_\+realloc}}
+\index{fbgc\+\_\+realloc@{fbgc\+\_\+realloc}!memory.\+c@{memory.\+c}}
+\subsubsection{\texorpdfstring{fbgc\+\_\+realloc()}{fbgc\_realloc()}}
+{\footnotesize\ttfamily void$\ast$ fbgc\+\_\+realloc (\begin{DoxyParamCaption}\item[{void $\ast$}]{ptr,  }\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})}
+
+
+
+Definition at line 291 of file memory.\+c.
+
+Here is the call graph for this function\+:
+% FIG 5
+Here is the caller graph for this function\+:
+% FIG 6
+\mbox{\Hypertarget{memory_8c_a1b08de929c185673e3f924e7a98c1da2}\label{memory_8c_a1b08de929c185673e3f924e7a98c1da2}} 
+\index{memory.\+c@{memory.\+c}!free\+\_\+fbgc\+\_\+memory\+\_\+block@{free\+\_\+fbgc\+\_\+memory\+\_\+block}}
+\index{free\+\_\+fbgc\+\_\+memory\+\_\+block@{free\+\_\+fbgc\+\_\+memory\+\_\+block}!memory.\+c@{memory.\+c}}
+\subsubsection{\texorpdfstring{free\+\_\+fbgc\+\_\+memory\+\_\+block()}{free\_fbgc\_memory\_block()}}
+{\footnotesize\ttfamily void free\+\_\+fbgc\+\_\+memory\+\_\+block (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 429 of file memory.\+c.
+
+\mbox{\Hypertarget{memory_8c_a4208947661ce41e5ce8c43f21b6ad631}\label{memory_8c_a4208947661ce41e5ce8c43f21b6ad631}} 
+\index{memory.\+c@{memory.\+c}!initialize\+\_\+fbgc\+\_\+memory\+\_\+block@{initialize\+\_\+fbgc\+\_\+memory\+\_\+block}}
+\index{initialize\+\_\+fbgc\+\_\+memory\+\_\+block@{initialize\+\_\+fbgc\+\_\+memory\+\_\+block}!memory.\+c@{memory.\+c}}
+\subsubsection{\texorpdfstring{initialize\+\_\+fbgc\+\_\+memory\+\_\+block()}{initialize\_fbgc\_memory\_block()}}
+{\footnotesize\ttfamily void initialize\+\_\+fbgc\+\_\+memory\+\_\+block (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 5 of file memory.\+c.
+
+Here is the caller graph for this function\+:
+% FIG 7
+\mbox{\Hypertarget{memory_8c_ac7afb05d80ef3b09468f8317180f236c}\label{memory_8c_ac7afb05d80ef3b09468f8317180f236c}} 
+\index{memory.\+c@{memory.\+c}!print\+\_\+fbgc\+\_\+memory\+\_\+block@{print\+\_\+fbgc\+\_\+memory\+\_\+block}}
+\index{print\+\_\+fbgc\+\_\+memory\+\_\+block@{print\+\_\+fbgc\+\_\+memory\+\_\+block}!memory.\+c@{memory.\+c}}
+\subsubsection{\texorpdfstring{print\+\_\+fbgc\+\_\+memory\+\_\+block()}{print\_fbgc\_memory\_block()}}
+{\footnotesize\ttfamily void print\+\_\+fbgc\+\_\+memory\+\_\+block (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 372 of file memory.\+c.
+
+Here is the call graph for this function\+:
+% FIG 8
+Here is the caller graph for this function\+:
+% FIG 9

@@ -1,0 +1,149 @@
+\hypertarget{double__object_8h}{}\section{src/headers/double\+\_\+object.h File Reference}
+\label{double__object_8h}\index{src/headers/double\+\_\+object.\+h@{src/headers/double\+\_\+object.\+h}}
+This graph shows which files directly or indirectly include this file\+:
+% FIG 0
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structfbgc__double__object}{fbgc\+\_\+double\+\_\+object}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{double__object_8h_a004a1a239357353783a5e18a17c2ba5e}{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+double}(x)~(((struct \hyperlink{structfbgc__double__object}{fbgc\+\_\+double\+\_\+object}$\ast$) x))
+\item 
+\#define \hyperlink{double__object_8h_a70d018608bebf2bb7bfe60830c59580f}{sizeof\+\_\+fbgc\+\_\+double\+\_\+object}()~(sizeof(struct \hyperlink{structfbgc__double__object}{fbgc\+\_\+double\+\_\+object}))
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{double__object_8h_a2889f75bba14b0bdb26739c43ba8141e}{new\+\_\+fbgc\+\_\+double\+\_\+object} (double)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{double__object_8h_a0d68517888c5189911c0928b7545f85d}{new\+\_\+fbgc\+\_\+double\+\_\+object\+\_\+from\+\_\+str} (const char $\ast$)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{double__object_8h_a5aea10e1753a8a1fec5a3daafadc6631}{new\+\_\+fbgc\+\_\+double\+\_\+object\+\_\+from\+\_\+substr} (const char $\ast$, const char $\ast$)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{double__object_8h_aacdf91fc9bcc30dd3fc4213e6cc7f8aa}{operator\+\_\+fbgc\+\_\+double\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$a, struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$b, \hyperlink{tokens_8h_a9d21ebbf42e602eb0cf502c867d20a7e}{fbgc\+\_\+token} op)
+\item 
+double \hyperlink{double__object_8h_abd7f87cb107e4d0efeeae23da4a65411}{operator\+\_\+method\+\_\+double} (double a1, double b1, \hyperlink{tokens_8h_a9d21ebbf42e602eb0cf502c867d20a7e}{fbgc\+\_\+token} op, struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$$\ast$)
+\item 
+void \hyperlink{double__object_8h_a676f15871852e163355c00d301efcc13}{print\+\_\+fbgc\+\_\+double\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$)
+\item 
+void \hyperlink{double__object_8h_a1f629784ad44eb7a15bd950f4146465e}{free\+\_\+fbgc\+\_\+double\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{double__object_8h_a004a1a239357353783a5e18a17c2ba5e}\label{double__object_8h_a004a1a239357353783a5e18a17c2ba5e}} 
+\index{double\+\_\+object.\+h@{double\+\_\+object.\+h}!cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+double@{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+double}}
+\index{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+double@{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+double}!double\+\_\+object.\+h@{double\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+double}{cast\_fbgc\_object\_as\_double}}
+{\footnotesize\ttfamily \#define cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+double(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~(((struct \hyperlink{structfbgc__double__object}{fbgc\+\_\+double\+\_\+object}$\ast$) x))}
+
+
+
+Definition at line 12 of file double\+\_\+object.\+h.
+
+\mbox{\Hypertarget{double__object_8h_a70d018608bebf2bb7bfe60830c59580f}\label{double__object_8h_a70d018608bebf2bb7bfe60830c59580f}} 
+\index{double\+\_\+object.\+h@{double\+\_\+object.\+h}!sizeof\+\_\+fbgc\+\_\+double\+\_\+object@{sizeof\+\_\+fbgc\+\_\+double\+\_\+object}}
+\index{sizeof\+\_\+fbgc\+\_\+double\+\_\+object@{sizeof\+\_\+fbgc\+\_\+double\+\_\+object}!double\+\_\+object.\+h@{double\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{sizeof\+\_\+fbgc\+\_\+double\+\_\+object}{sizeof\_fbgc\_double\_object}}
+{\footnotesize\ttfamily \#define sizeof\+\_\+fbgc\+\_\+double\+\_\+object(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})~(sizeof(struct \hyperlink{structfbgc__double__object}{fbgc\+\_\+double\+\_\+object}))}
+
+
+
+Definition at line 13 of file double\+\_\+object.\+h.
+
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{double__object_8h_a1f629784ad44eb7a15bd950f4146465e}\label{double__object_8h_a1f629784ad44eb7a15bd950f4146465e}} 
+\index{double\+\_\+object.\+h@{double\+\_\+object.\+h}!free\+\_\+fbgc\+\_\+double\+\_\+object@{free\+\_\+fbgc\+\_\+double\+\_\+object}}
+\index{free\+\_\+fbgc\+\_\+double\+\_\+object@{free\+\_\+fbgc\+\_\+double\+\_\+object}!double\+\_\+object.\+h@{double\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{free\+\_\+fbgc\+\_\+double\+\_\+object()}{free\_fbgc\_double\_object()}}
+{\footnotesize\ttfamily void free\+\_\+fbgc\+\_\+double\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 294 of file double\+\_\+object.\+c.
+
+\mbox{\Hypertarget{double__object_8h_a2889f75bba14b0bdb26739c43ba8141e}\label{double__object_8h_a2889f75bba14b0bdb26739c43ba8141e}} 
+\index{double\+\_\+object.\+h@{double\+\_\+object.\+h}!new\+\_\+fbgc\+\_\+double\+\_\+object@{new\+\_\+fbgc\+\_\+double\+\_\+object}}
+\index{new\+\_\+fbgc\+\_\+double\+\_\+object@{new\+\_\+fbgc\+\_\+double\+\_\+object}!double\+\_\+object.\+h@{double\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{new\+\_\+fbgc\+\_\+double\+\_\+object()}{new\_fbgc\_double\_object()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ new\+\_\+fbgc\+\_\+double\+\_\+object (\begin{DoxyParamCaption}\item[{double}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 3 of file double\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 1
+Here is the caller graph for this function\+:
+% FIG 2
+\mbox{\Hypertarget{double__object_8h_a0d68517888c5189911c0928b7545f85d}\label{double__object_8h_a0d68517888c5189911c0928b7545f85d}} 
+\index{double\+\_\+object.\+h@{double\+\_\+object.\+h}!new\+\_\+fbgc\+\_\+double\+\_\+object\+\_\+from\+\_\+str@{new\+\_\+fbgc\+\_\+double\+\_\+object\+\_\+from\+\_\+str}}
+\index{new\+\_\+fbgc\+\_\+double\+\_\+object\+\_\+from\+\_\+str@{new\+\_\+fbgc\+\_\+double\+\_\+object\+\_\+from\+\_\+str}!double\+\_\+object.\+h@{double\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{new\+\_\+fbgc\+\_\+double\+\_\+object\+\_\+from\+\_\+str()}{new\_fbgc\_double\_object\_from\_str()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ new\+\_\+fbgc\+\_\+double\+\_\+object\+\_\+from\+\_\+str (\begin{DoxyParamCaption}\item[{const char $\ast$}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 11 of file double\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 3
+\mbox{\Hypertarget{double__object_8h_a5aea10e1753a8a1fec5a3daafadc6631}\label{double__object_8h_a5aea10e1753a8a1fec5a3daafadc6631}} 
+\index{double\+\_\+object.\+h@{double\+\_\+object.\+h}!new\+\_\+fbgc\+\_\+double\+\_\+object\+\_\+from\+\_\+substr@{new\+\_\+fbgc\+\_\+double\+\_\+object\+\_\+from\+\_\+substr}}
+\index{new\+\_\+fbgc\+\_\+double\+\_\+object\+\_\+from\+\_\+substr@{new\+\_\+fbgc\+\_\+double\+\_\+object\+\_\+from\+\_\+substr}!double\+\_\+object.\+h@{double\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{new\+\_\+fbgc\+\_\+double\+\_\+object\+\_\+from\+\_\+substr()}{new\_fbgc\_double\_object\_from\_substr()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ new\+\_\+fbgc\+\_\+double\+\_\+object\+\_\+from\+\_\+substr (\begin{DoxyParamCaption}\item[{const char $\ast$}]{,  }\item[{const char $\ast$}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 15 of file double\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 4
+Here is the caller graph for this function\+:
+% FIG 5
+\mbox{\Hypertarget{double__object_8h_aacdf91fc9bcc30dd3fc4213e6cc7f8aa}\label{double__object_8h_aacdf91fc9bcc30dd3fc4213e6cc7f8aa}} 
+\index{double\+\_\+object.\+h@{double\+\_\+object.\+h}!operator\+\_\+fbgc\+\_\+double\+\_\+object@{operator\+\_\+fbgc\+\_\+double\+\_\+object}}
+\index{operator\+\_\+fbgc\+\_\+double\+\_\+object@{operator\+\_\+fbgc\+\_\+double\+\_\+object}!double\+\_\+object.\+h@{double\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{operator\+\_\+fbgc\+\_\+double\+\_\+object()}{operator\_fbgc\_double\_object()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ operator\+\_\+fbgc\+\_\+double\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{a,  }\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{b,  }\item[{\hyperlink{tokens_8h_a9d21ebbf42e602eb0cf502c867d20a7e}{fbgc\+\_\+token}}]{op }\end{DoxyParamCaption})}
+
+
+
+Definition at line 140 of file double\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 6
+\mbox{\Hypertarget{double__object_8h_abd7f87cb107e4d0efeeae23da4a65411}\label{double__object_8h_abd7f87cb107e4d0efeeae23da4a65411}} 
+\index{double\+\_\+object.\+h@{double\+\_\+object.\+h}!operator\+\_\+method\+\_\+double@{operator\+\_\+method\+\_\+double}}
+\index{operator\+\_\+method\+\_\+double@{operator\+\_\+method\+\_\+double}!double\+\_\+object.\+h@{double\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{operator\+\_\+method\+\_\+double()}{operator\_method\_double()}}
+{\footnotesize\ttfamily double operator\+\_\+method\+\_\+double (\begin{DoxyParamCaption}\item[{double}]{a1,  }\item[{double}]{b1,  }\item[{\hyperlink{tokens_8h_a9d21ebbf42e602eb0cf502c867d20a7e}{fbgc\+\_\+token}}]{op,  }\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$$\ast$}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 153 of file double\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 7
+Here is the caller graph for this function\+:
+% FIG 8
+\mbox{\Hypertarget{double__object_8h_a676f15871852e163355c00d301efcc13}\label{double__object_8h_a676f15871852e163355c00d301efcc13}} 
+\index{double\+\_\+object.\+h@{double\+\_\+object.\+h}!print\+\_\+fbgc\+\_\+double\+\_\+object@{print\+\_\+fbgc\+\_\+double\+\_\+object}}
+\index{print\+\_\+fbgc\+\_\+double\+\_\+object@{print\+\_\+fbgc\+\_\+double\+\_\+object}!double\+\_\+object.\+h@{double\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{print\+\_\+fbgc\+\_\+double\+\_\+object()}{print\_fbgc\_double\_object()}}
+{\footnotesize\ttfamily void print\+\_\+fbgc\+\_\+double\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 290 of file double\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 9
+Here is the caller graph for this function\+:
+% FIG 10

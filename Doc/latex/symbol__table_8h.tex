@@ -1,0 +1,151 @@
+\hypertarget{symbol__table_8h}{}\section{src/headers/symbol\+\_\+table.h File Reference}
+\label{symbol__table_8h}\index{src/headers/symbol\+\_\+table.\+h@{src/headers/symbol\+\_\+table.\+h}}
+This graph shows which files directly or indirectly include this file\+:
+% FIG 0
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structgeneral__symbol__container}{general\+\_\+symbol\+\_\+container}
+\item 
+struct \hyperlink{structfbgc__identifier}{fbgc\+\_\+identifier}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{symbol__table_8h_a1770bc8274a977cc1eb644bd9d264555}{I\+N\+I\+T\+I\+A\+L\+\_\+\+S\+Y\+M\+B\+O\+L\+\_\+\+T\+A\+B\+L\+E\+\_\+\+S\+I\+ZE}~16
+\item 
+\#define \hyperlink{symbol__table_8h_a57a2047b8ad1807196175ef8a0313d2e}{fbgc\+\_\+symbols}~(general\+\_\+symbols.\+sym)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{symbol__table_8h_a7db0b6f538413623a79af312bf42bee7}{initialize\+\_\+fbgc\+\_\+symbol\+\_\+table} ()
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{symbol__table_8h_a07fdc72b78060863df78fc6ec733ea8a}{new\+\_\+fbgc\+\_\+symbol} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$, const char $\ast$, const char $\ast$)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{symbol__table_8h_ae95e0a45e9f6bd9dee32884b113ebeda}{get\+\_\+fbgc\+\_\+symbol} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{symbol__table_8h_a9c5a8de8e4db7133bc2f6718ebcb978c}{new\+\_\+fbgc\+\_\+symbol\+\_\+from\+\_\+substr} (const char $\ast$str1, const char $\ast$str2)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{symbol__table_8h_a0217bd2595dd0c4e86e248129c730e52}{new\+\_\+cfun\+\_\+object\+\_\+from\+\_\+substr} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$table\+\_\+obj, const char $\ast$str1, const char $\ast$str2)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{symbol__table_8h_a71a68044a4ccb0e996c80d54d044448a}{load\+\_\+module\+\_\+in\+\_\+symbol\+\_\+table} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$, struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$)
+\item 
+void \hyperlink{symbol__table_8h_a70ebedb4d04ea9e0ff9c2730826ffb9e}{print\+\_\+fbgc\+\_\+symbol\+\_\+table} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$)
+\item 
+void \hyperlink{symbol__table_8h_a5cb7d98ac54f1cfaf1e6c082c9c15ba4}{free\+\_\+fbgc\+\_\+symbol\+\_\+table} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structgeneral__symbol__container}{general\+\_\+symbol\+\_\+container} \hyperlink{symbol__table_8h_a24ba34b660b17b47218b628e2cd26fbd}{general\+\_\+symbols}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{symbol__table_8h_a57a2047b8ad1807196175ef8a0313d2e}\label{symbol__table_8h_a57a2047b8ad1807196175ef8a0313d2e}} 
+\index{symbol\+\_\+table.\+h@{symbol\+\_\+table.\+h}!fbgc\+\_\+symbols@{fbgc\+\_\+symbols}}
+\index{fbgc\+\_\+symbols@{fbgc\+\_\+symbols}!symbol\+\_\+table.\+h@{symbol\+\_\+table.\+h}}
+\subsubsection{\texorpdfstring{fbgc\+\_\+symbols}{fbgc\_symbols}}
+{\footnotesize\ttfamily \#define fbgc\+\_\+symbols~(general\+\_\+symbols.\+sym)}
+
+
+
+Definition at line 21 of file symbol\+\_\+table.\+h.
+
+\mbox{\Hypertarget{symbol__table_8h_a1770bc8274a977cc1eb644bd9d264555}\label{symbol__table_8h_a1770bc8274a977cc1eb644bd9d264555}} 
+\index{symbol\+\_\+table.\+h@{symbol\+\_\+table.\+h}!I\+N\+I\+T\+I\+A\+L\+\_\+\+S\+Y\+M\+B\+O\+L\+\_\+\+T\+A\+B\+L\+E\+\_\+\+S\+I\+ZE@{I\+N\+I\+T\+I\+A\+L\+\_\+\+S\+Y\+M\+B\+O\+L\+\_\+\+T\+A\+B\+L\+E\+\_\+\+S\+I\+ZE}}
+\index{I\+N\+I\+T\+I\+A\+L\+\_\+\+S\+Y\+M\+B\+O\+L\+\_\+\+T\+A\+B\+L\+E\+\_\+\+S\+I\+ZE@{I\+N\+I\+T\+I\+A\+L\+\_\+\+S\+Y\+M\+B\+O\+L\+\_\+\+T\+A\+B\+L\+E\+\_\+\+S\+I\+ZE}!symbol\+\_\+table.\+h@{symbol\+\_\+table.\+h}}
+\subsubsection{\texorpdfstring{I\+N\+I\+T\+I\+A\+L\+\_\+\+S\+Y\+M\+B\+O\+L\+\_\+\+T\+A\+B\+L\+E\+\_\+\+S\+I\+ZE}{INITIAL\_SYMBOL\_TABLE\_SIZE}}
+{\footnotesize\ttfamily \#define I\+N\+I\+T\+I\+A\+L\+\_\+\+S\+Y\+M\+B\+O\+L\+\_\+\+T\+A\+B\+L\+E\+\_\+\+S\+I\+ZE~16}
+
+
+
+Definition at line 8 of file symbol\+\_\+table.\+h.
+
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{symbol__table_8h_a5cb7d98ac54f1cfaf1e6c082c9c15ba4}\label{symbol__table_8h_a5cb7d98ac54f1cfaf1e6c082c9c15ba4}} 
+\index{symbol\+\_\+table.\+h@{symbol\+\_\+table.\+h}!free\+\_\+fbgc\+\_\+symbol\+\_\+table@{free\+\_\+fbgc\+\_\+symbol\+\_\+table}}
+\index{free\+\_\+fbgc\+\_\+symbol\+\_\+table@{free\+\_\+fbgc\+\_\+symbol\+\_\+table}!symbol\+\_\+table.\+h@{symbol\+\_\+table.\+h}}
+\subsubsection{\texorpdfstring{free\+\_\+fbgc\+\_\+symbol\+\_\+table()}{free\_fbgc\_symbol\_table()}}
+{\footnotesize\ttfamily void free\+\_\+fbgc\+\_\+symbol\+\_\+table (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{symbol__table_8h_ae95e0a45e9f6bd9dee32884b113ebeda}\label{symbol__table_8h_ae95e0a45e9f6bd9dee32884b113ebeda}} 
+\index{symbol\+\_\+table.\+h@{symbol\+\_\+table.\+h}!get\+\_\+fbgc\+\_\+symbol@{get\+\_\+fbgc\+\_\+symbol}}
+\index{get\+\_\+fbgc\+\_\+symbol@{get\+\_\+fbgc\+\_\+symbol}!symbol\+\_\+table.\+h@{symbol\+\_\+table.\+h}}
+\subsubsection{\texorpdfstring{get\+\_\+fbgc\+\_\+symbol()}{get\_fbgc\_symbol()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ get\+\_\+fbgc\+\_\+symbol (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{symbol__table_8h_a7db0b6f538413623a79af312bf42bee7}\label{symbol__table_8h_a7db0b6f538413623a79af312bf42bee7}} 
+\index{symbol\+\_\+table.\+h@{symbol\+\_\+table.\+h}!initialize\+\_\+fbgc\+\_\+symbol\+\_\+table@{initialize\+\_\+fbgc\+\_\+symbol\+\_\+table}}
+\index{initialize\+\_\+fbgc\+\_\+symbol\+\_\+table@{initialize\+\_\+fbgc\+\_\+symbol\+\_\+table}!symbol\+\_\+table.\+h@{symbol\+\_\+table.\+h}}
+\subsubsection{\texorpdfstring{initialize\+\_\+fbgc\+\_\+symbol\+\_\+table()}{initialize\_fbgc\_symbol\_table()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ initialize\+\_\+fbgc\+\_\+symbol\+\_\+table (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 5 of file symbol\+\_\+table.\+c.
+
+Here is the call graph for this function\+:
+% FIG 1
+Here is the caller graph for this function\+:
+% FIG 2
+\mbox{\Hypertarget{symbol__table_8h_a71a68044a4ccb0e996c80d54d044448a}\label{symbol__table_8h_a71a68044a4ccb0e996c80d54d044448a}} 
+\index{symbol\+\_\+table.\+h@{symbol\+\_\+table.\+h}!load\+\_\+module\+\_\+in\+\_\+symbol\+\_\+table@{load\+\_\+module\+\_\+in\+\_\+symbol\+\_\+table}}
+\index{load\+\_\+module\+\_\+in\+\_\+symbol\+\_\+table@{load\+\_\+module\+\_\+in\+\_\+symbol\+\_\+table}!symbol\+\_\+table.\+h@{symbol\+\_\+table.\+h}}
+\subsubsection{\texorpdfstring{load\+\_\+module\+\_\+in\+\_\+symbol\+\_\+table()}{load\_module\_in\_symbol\_table()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ load\+\_\+module\+\_\+in\+\_\+symbol\+\_\+table (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{,  }\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{symbol__table_8h_a0217bd2595dd0c4e86e248129c730e52}\label{symbol__table_8h_a0217bd2595dd0c4e86e248129c730e52}} 
+\index{symbol\+\_\+table.\+h@{symbol\+\_\+table.\+h}!new\+\_\+cfun\+\_\+object\+\_\+from\+\_\+substr@{new\+\_\+cfun\+\_\+object\+\_\+from\+\_\+substr}}
+\index{new\+\_\+cfun\+\_\+object\+\_\+from\+\_\+substr@{new\+\_\+cfun\+\_\+object\+\_\+from\+\_\+substr}!symbol\+\_\+table.\+h@{symbol\+\_\+table.\+h}}
+\subsubsection{\texorpdfstring{new\+\_\+cfun\+\_\+object\+\_\+from\+\_\+substr()}{new\_cfun\_object\_from\_substr()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ new\+\_\+cfun\+\_\+object\+\_\+from\+\_\+substr (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{table\+\_\+obj,  }\item[{const char $\ast$}]{str1,  }\item[{const char $\ast$}]{str2 }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{symbol__table_8h_a07fdc72b78060863df78fc6ec733ea8a}\label{symbol__table_8h_a07fdc72b78060863df78fc6ec733ea8a}} 
+\index{symbol\+\_\+table.\+h@{symbol\+\_\+table.\+h}!new\+\_\+fbgc\+\_\+symbol@{new\+\_\+fbgc\+\_\+symbol}}
+\index{new\+\_\+fbgc\+\_\+symbol@{new\+\_\+fbgc\+\_\+symbol}!symbol\+\_\+table.\+h@{symbol\+\_\+table.\+h}}
+\subsubsection{\texorpdfstring{new\+\_\+fbgc\+\_\+symbol()}{new\_fbgc\_symbol()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ new\+\_\+fbgc\+\_\+symbol (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{,  }\item[{const char $\ast$}]{,  }\item[{const char $\ast$}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{symbol__table_8h_a9c5a8de8e4db7133bc2f6718ebcb978c}\label{symbol__table_8h_a9c5a8de8e4db7133bc2f6718ebcb978c}} 
+\index{symbol\+\_\+table.\+h@{symbol\+\_\+table.\+h}!new\+\_\+fbgc\+\_\+symbol\+\_\+from\+\_\+substr@{new\+\_\+fbgc\+\_\+symbol\+\_\+from\+\_\+substr}}
+\index{new\+\_\+fbgc\+\_\+symbol\+\_\+from\+\_\+substr@{new\+\_\+fbgc\+\_\+symbol\+\_\+from\+\_\+substr}!symbol\+\_\+table.\+h@{symbol\+\_\+table.\+h}}
+\subsubsection{\texorpdfstring{new\+\_\+fbgc\+\_\+symbol\+\_\+from\+\_\+substr()}{new\_fbgc\_symbol\_from\_substr()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ new\+\_\+fbgc\+\_\+symbol\+\_\+from\+\_\+substr (\begin{DoxyParamCaption}\item[{const char $\ast$}]{str1,  }\item[{const char $\ast$}]{str2 }\end{DoxyParamCaption})}
+
+
+
+Definition at line 10 of file symbol\+\_\+table.\+c.
+
+Here is the call graph for this function\+:
+% FIG 3
+Here is the caller graph for this function\+:
+% FIG 4
+\mbox{\Hypertarget{symbol__table_8h_a70ebedb4d04ea9e0ff9c2730826ffb9e}\label{symbol__table_8h_a70ebedb4d04ea9e0ff9c2730826ffb9e}} 
+\index{symbol\+\_\+table.\+h@{symbol\+\_\+table.\+h}!print\+\_\+fbgc\+\_\+symbol\+\_\+table@{print\+\_\+fbgc\+\_\+symbol\+\_\+table}}
+\index{print\+\_\+fbgc\+\_\+symbol\+\_\+table@{print\+\_\+fbgc\+\_\+symbol\+\_\+table}!symbol\+\_\+table.\+h@{symbol\+\_\+table.\+h}}
+\subsubsection{\texorpdfstring{print\+\_\+fbgc\+\_\+symbol\+\_\+table()}{print\_fbgc\_symbol\_table()}}
+{\footnotesize\ttfamily void print\+\_\+fbgc\+\_\+symbol\+\_\+table (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 86 of file symbol\+\_\+table.\+c.
+
+Here is the call graph for this function\+:
+% FIG 5
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{symbol__table_8h_a24ba34b660b17b47218b628e2cd26fbd}\label{symbol__table_8h_a24ba34b660b17b47218b628e2cd26fbd}} 
+\index{symbol\+\_\+table.\+h@{symbol\+\_\+table.\+h}!general\+\_\+symbols@{general\+\_\+symbols}}
+\index{general\+\_\+symbols@{general\+\_\+symbols}!symbol\+\_\+table.\+h@{symbol\+\_\+table.\+h}}
+\subsubsection{\texorpdfstring{general\+\_\+symbols}{general\_symbols}}
+{\footnotesize\ttfamily struct \hyperlink{structgeneral__symbol__container}{general\+\_\+symbol\+\_\+container} general\+\_\+symbols}
+
+
+
+Definition at line 19 of file symbol\+\_\+table.\+h.
+

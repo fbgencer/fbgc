@@ -1,0 +1,42 @@
+digraph "operator_fbgc_matrix_object"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node58 [label="operator_fbgc_matrix\l_object",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node58 -> Node59 [color="midnightblue",fontsize="10",style="solid"];
+  Node59 [label="multiply_fbgc_matrix\l_object",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$matrix__object_8c.html#a03ace62514dbe5863895e476bedf4f52"];
+  Node59 -> Node60 [color="midnightblue",fontsize="10",style="solid"];
+  Node60 [label="cprintf",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$error_8c.html#a30fee765292b076e015fc846035f2550"];
+  Node59 -> Node61 [color="midnightblue",fontsize="10",style="solid"];
+  Node61 [label="fast_multiply_fbgc\l_matrix_object",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$matrix__object_8c.html#a1dd528ec788f99a46eedcbd5523865dc"];
+  Node61 -> Node60 [color="midnightblue",fontsize="10",style="solid"];
+  Node61 -> Node62 [color="midnightblue",fontsize="10",style="solid"];
+  Node62 [label="new_fbgc_matrix_object",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$matrix__object_8c.html#aa855543d4a0b84619248fdce7dc1c763"];
+  Node62 -> Node63 [color="midnightblue",fontsize="10",style="solid"];
+  Node63 [label="fbgc_malloc",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$memory_8c.html#a41dd65ee24d51160659bf94bed90e998"];
+  Node63 -> Node60 [color="midnightblue",fontsize="10",style="solid"];
+  Node61 -> Node64 [color="midnightblue",fontsize="10",style="solid"];
+  Node64 [label="transpose_fbgc_matrix\l_object",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$matrix__object_8c.html#a3b38131de55f1ba36877d8118c0e6e6a"];
+  Node64 -> Node62 [color="midnightblue",fontsize="10",style="solid"];
+  Node59 -> Node62 [color="midnightblue",fontsize="10",style="solid"];
+  Node58 -> Node60 [color="midnightblue",fontsize="10",style="solid"];
+  Node58 -> Node65 [color="midnightblue",fontsize="10",style="solid"];
+  Node65 [label="convert_fbgc_object\l_to_complex",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$fbgc__object_8c.html#a5a9cf786785f00ec159d2845dc49f99c"];
+  Node65 -> Node60 [color="midnightblue",fontsize="10",style="solid"];
+  Node58 -> Node62 [color="midnightblue",fontsize="10",style="solid"];
+  Node58 -> Node66 [color="midnightblue",fontsize="10",style="solid"];
+  Node66 [label="operator_method_raw\l_complex",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$complex__object_8c.html#a0944ac45cebf69162b5664a88bd9caef"];
+  Node66 -> Node67 [color="midnightblue",fontsize="10",style="solid"];
+  Node67 [label="new_fbgc_logic_object",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$logic__object_8c.html#a11def1f376b697a7229879ad4222afab"];
+  Node67 -> Node63 [color="midnightblue",fontsize="10",style="solid"];
+  Node66 -> Node68 [color="midnightblue",fontsize="10",style="solid"];
+  Node68 [label="new_fbgc_complex_object",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$complex__object_8c.html#aaa211012c5583b4c23ebcc4824fbc504"];
+  Node68 -> Node63 [color="midnightblue",fontsize="10",style="solid"];
+  Node58 -> Node69 [color="midnightblue",fontsize="10",style="solid"];
+  Node69 [label="operator_method_double",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$double__object_8c.html#aec4d7f88c46a5852985d0761dbbaecdc"];
+  Node69 -> Node67 [color="midnightblue",fontsize="10",style="solid"];
+  Node69 -> Node70 [color="midnightblue",fontsize="10",style="solid"];
+  Node70 [label="new_fbgc_double_object",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$double__object_8c.html#a08dd93b8f6c56cf7cb6210b63c29dbaf"];
+  Node70 -> Node63 [color="midnightblue",fontsize="10",style="solid"];
+}

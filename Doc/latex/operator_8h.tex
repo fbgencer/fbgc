@@ -1,0 +1,90 @@
+\hypertarget{operator_8h}{}\section{src/headers/operator.h File Reference}
+\label{operator_8h}\index{src/headers/operator.\+h@{src/headers/operator.\+h}}
+This graph shows which files directly or indirectly include this file\+:
+% FIG 0
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{operator_8h_a90c4fd1794a969d1f20d5d1915e3afc0}{is\+\_\+fbgc\+\_\+binary\+\_\+op\+\_\+null}(token)~(\hyperlink{operator_8h_a52457ada3ef211b8c615ef619bf493e3}{fbgc\+\_\+operator}\mbox{[}token -\/ \hyperlink{tokens_8h_a6b06b445b34487c820b51fbd1156f881}{L\+O\+G\+IC}\mbox{]} == N\+U\+LL)
+\item 
+\#define \hyperlink{operator_8h_ad590bebe826c323fccb4325a867bf5cc}{call\+\_\+fbgc\+\_\+operator}(main\+\_\+tok,  a,  b,  op\+\_\+tok)~(\hyperlink{operator_8h_a52457ada3ef211b8c615ef619bf493e3}{fbgc\+\_\+operator}\mbox{[}main\+\_\+tok -\/ \hyperlink{tokens_8h_a6b06b445b34487c820b51fbd1156f881}{L\+O\+G\+IC}\mbox{]}(a,b,op\+\_\+tok))
+\item 
+\#define \hyperlink{operator_8h_ad994d9d42af6d3881fc320c18346526e}{call\+\_\+fbgc\+\_\+operator2}(main\+\_\+tok,  a,  b,  op\+\_\+tok)~(\hyperlink{operator_8h_a405aaf200ff28395bddcfa205ef81de3}{fbgc\+\_\+operator2}\mbox{[}0\mbox{]}(a,b,op\+\_\+tok))
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{operator_8h_a945e3d7e209384ece3da94b28ae9416e}{safe\+\_\+call\+\_\+fbgc\+\_\+operator} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$, struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$, \hyperlink{tokens_8h_a9d21ebbf42e602eb0cf502c867d20a7e}{fbgc\+\_\+token}, \hyperlink{tokens_8h_a9d21ebbf42e602eb0cf502c867d20a7e}{fbgc\+\_\+token})
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$($\ast$ \hyperlink{operator_8h_a52457ada3ef211b8c615ef619bf493e3}{fbgc\+\_\+operator} \mbox{[}7\mbox{]})(struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$, struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$, \hyperlink{tokens_8h_a9d21ebbf42e602eb0cf502c867d20a7e}{fbgc\+\_\+token})
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$($\ast$ \hyperlink{operator_8h_a405aaf200ff28395bddcfa205ef81de3}{fbgc\+\_\+operator2} \mbox{[}1\mbox{]})(struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$, struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$, \hyperlink{tokens_8h_a9d21ebbf42e602eb0cf502c867d20a7e}{fbgc\+\_\+token})
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{operator_8h_ad590bebe826c323fccb4325a867bf5cc}\label{operator_8h_ad590bebe826c323fccb4325a867bf5cc}} 
+\index{operator.\+h@{operator.\+h}!call\+\_\+fbgc\+\_\+operator@{call\+\_\+fbgc\+\_\+operator}}
+\index{call\+\_\+fbgc\+\_\+operator@{call\+\_\+fbgc\+\_\+operator}!operator.\+h@{operator.\+h}}
+\subsubsection{\texorpdfstring{call\+\_\+fbgc\+\_\+operator}{call\_fbgc\_operator}}
+{\footnotesize\ttfamily \#define call\+\_\+fbgc\+\_\+operator(\begin{DoxyParamCaption}\item[{}]{main\+\_\+tok,  }\item[{}]{a,  }\item[{}]{b,  }\item[{}]{op\+\_\+tok }\end{DoxyParamCaption})~(\hyperlink{operator_8h_a52457ada3ef211b8c615ef619bf493e3}{fbgc\+\_\+operator}\mbox{[}main\+\_\+tok -\/ \hyperlink{tokens_8h_a6b06b445b34487c820b51fbd1156f881}{L\+O\+G\+IC}\mbox{]}(a,b,op\+\_\+tok))}
+
+
+
+Definition at line 21 of file operator.\+h.
+
+\mbox{\Hypertarget{operator_8h_ad994d9d42af6d3881fc320c18346526e}\label{operator_8h_ad994d9d42af6d3881fc320c18346526e}} 
+\index{operator.\+h@{operator.\+h}!call\+\_\+fbgc\+\_\+operator2@{call\+\_\+fbgc\+\_\+operator2}}
+\index{call\+\_\+fbgc\+\_\+operator2@{call\+\_\+fbgc\+\_\+operator2}!operator.\+h@{operator.\+h}}
+\subsubsection{\texorpdfstring{call\+\_\+fbgc\+\_\+operator2}{call\_fbgc\_operator2}}
+{\footnotesize\ttfamily \#define call\+\_\+fbgc\+\_\+operator2(\begin{DoxyParamCaption}\item[{}]{main\+\_\+tok,  }\item[{}]{a,  }\item[{}]{b,  }\item[{}]{op\+\_\+tok }\end{DoxyParamCaption})~(\hyperlink{operator_8h_a405aaf200ff28395bddcfa205ef81de3}{fbgc\+\_\+operator2}\mbox{[}0\mbox{]}(a,b,op\+\_\+tok))}
+
+
+
+Definition at line 22 of file operator.\+h.
+
+\mbox{\Hypertarget{operator_8h_a90c4fd1794a969d1f20d5d1915e3afc0}\label{operator_8h_a90c4fd1794a969d1f20d5d1915e3afc0}} 
+\index{operator.\+h@{operator.\+h}!is\+\_\+fbgc\+\_\+binary\+\_\+op\+\_\+null@{is\+\_\+fbgc\+\_\+binary\+\_\+op\+\_\+null}}
+\index{is\+\_\+fbgc\+\_\+binary\+\_\+op\+\_\+null@{is\+\_\+fbgc\+\_\+binary\+\_\+op\+\_\+null}!operator.\+h@{operator.\+h}}
+\subsubsection{\texorpdfstring{is\+\_\+fbgc\+\_\+binary\+\_\+op\+\_\+null}{is\_fbgc\_binary\_op\_null}}
+{\footnotesize\ttfamily \#define is\+\_\+fbgc\+\_\+binary\+\_\+op\+\_\+null(\begin{DoxyParamCaption}\item[{}]{token }\end{DoxyParamCaption})~(\hyperlink{operator_8h_a52457ada3ef211b8c615ef619bf493e3}{fbgc\+\_\+operator}\mbox{[}token -\/ \hyperlink{tokens_8h_a6b06b445b34487c820b51fbd1156f881}{L\+O\+G\+IC}\mbox{]} == N\+U\+LL)}
+
+
+
+Definition at line 19 of file operator.\+h.
+
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{operator_8h_a945e3d7e209384ece3da94b28ae9416e}\label{operator_8h_a945e3d7e209384ece3da94b28ae9416e}} 
+\index{operator.\+h@{operator.\+h}!safe\+\_\+call\+\_\+fbgc\+\_\+operator@{safe\+\_\+call\+\_\+fbgc\+\_\+operator}}
+\index{safe\+\_\+call\+\_\+fbgc\+\_\+operator@{safe\+\_\+call\+\_\+fbgc\+\_\+operator}!operator.\+h@{operator.\+h}}
+\subsubsection{\texorpdfstring{safe\+\_\+call\+\_\+fbgc\+\_\+operator()}{safe\_call\_fbgc\_operator()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ safe\+\_\+call\+\_\+fbgc\+\_\+operator (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{,  }\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{,  }\item[{\hyperlink{tokens_8h_a9d21ebbf42e602eb0cf502c867d20a7e}{fbgc\+\_\+token}}]{,  }\item[{\hyperlink{tokens_8h_a9d21ebbf42e602eb0cf502c867d20a7e}{fbgc\+\_\+token}}]{ }\end{DoxyParamCaption})}
+
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{operator_8h_a52457ada3ef211b8c615ef619bf493e3}\label{operator_8h_a52457ada3ef211b8c615ef619bf493e3}} 
+\index{operator.\+h@{operator.\+h}!fbgc\+\_\+operator@{fbgc\+\_\+operator}}
+\index{fbgc\+\_\+operator@{fbgc\+\_\+operator}!operator.\+h@{operator.\+h}}
+\subsubsection{\texorpdfstring{fbgc\+\_\+operator}{fbgc\_operator}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$($\ast$ fbgc\+\_\+operator\mbox{[}7\mbox{]})(struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$, struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$, \hyperlink{tokens_8h_a9d21ebbf42e602eb0cf502c867d20a7e}{fbgc\+\_\+token})}
+
+
+
+Definition at line 13 of file operator.\+c.
+
+\mbox{\Hypertarget{operator_8h_a405aaf200ff28395bddcfa205ef81de3}\label{operator_8h_a405aaf200ff28395bddcfa205ef81de3}} 
+\index{operator.\+h@{operator.\+h}!fbgc\+\_\+operator2@{fbgc\+\_\+operator2}}
+\index{fbgc\+\_\+operator2@{fbgc\+\_\+operator2}!operator.\+h@{operator.\+h}}
+\subsubsection{\texorpdfstring{fbgc\+\_\+operator2}{fbgc\_operator2}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$($\ast$ fbgc\+\_\+operator2\mbox{[}1\mbox{]})(struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$, struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$, \hyperlink{tokens_8h_a9d21ebbf42e602eb0cf502c867d20a7e}{fbgc\+\_\+token})}
+
+
+
+Definition at line 25 of file operator.\+c.
+

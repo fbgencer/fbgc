@@ -1,0 +1,33 @@
+digraph "one_arg_math"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node73 [label="one_arg_math",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node73 -> Node74 [color="midnightblue",fontsize="10",style="solid"];
+  Node74 [label="convert_fbgc_object\l_to_double",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$fbgc__object_8c.html#a3bb27f7967c007951389378fc9f358e3"];
+  Node74 -> Node75 [color="midnightblue",fontsize="10",style="solid"];
+  Node75 [label="cprintf",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$error_8c.html#a30fee765292b076e015fc846035f2550"];
+  Node73 -> Node76 [color="midnightblue",fontsize="10",style="solid"];
+  Node76 [label="new_fbgc_double_object",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$double__object_8c.html#a08dd93b8f6c56cf7cb6210b63c29dbaf"];
+  Node76 -> Node77 [color="midnightblue",fontsize="10",style="solid"];
+  Node77 [label="fbgc_malloc",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$memory_8c.html#a41dd65ee24d51160659bf94bed90e998"];
+  Node77 -> Node75 [color="midnightblue",fontsize="10",style="solid"];
+  Node73 -> Node78 [color="midnightblue",fontsize="10",style="solid"];
+  Node78 [label="convert_fbgc_object\l_to_complex",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$fbgc__object_8c.html#a5a9cf786785f00ec159d2845dc49f99c"];
+  Node78 -> Node75 [color="midnightblue",fontsize="10",style="solid"];
+  Node73 -> Node79 [color="midnightblue",fontsize="10",style="solid"];
+  Node79 [label="new_fbgc_complex_object",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$complex__object_8c.html#aaa211012c5583b4c23ebcc4824fbc504"];
+  Node79 -> Node77 [color="midnightblue",fontsize="10",style="solid"];
+  Node73 -> Node80 [color="midnightblue",fontsize="10",style="solid"];
+  Node80 [label="new_fbgc_tuple_object",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$tuple__object_8c.html#aea5f2cac3a39a11b2c17445654538710"];
+  Node80 -> Node81 [color="midnightblue",fontsize="10",style="solid"];
+  Node81 [label="calculate_new_capacity\l_from_size",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$tuple__object_8c.html#af0a95832bdbe0ec168e2a1e8407cc9c9"];
+  Node81 -> Node75 [color="midnightblue",fontsize="10",style="solid"];
+  Node80 -> Node77 [color="midnightblue",fontsize="10",style="solid"];
+  Node73 -> Node82 [color="midnightblue",fontsize="10",style="solid"];
+  Node82 [label="set_object_in_fbgc\l_tuple_object",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$tuple__object_8c.html#a7ed1f5099ffc3fb0aeb688d8a4e4ef7e"];
+  Node73 -> Node83 [color="midnightblue",fontsize="10",style="solid"];
+  Node83 [label="new_fbgc_matrix_object",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$matrix__object_8c.html#aa855543d4a0b84619248fdce7dc1c763"];
+  Node83 -> Node77 [color="midnightblue",fontsize="10",style="solid"];
+}

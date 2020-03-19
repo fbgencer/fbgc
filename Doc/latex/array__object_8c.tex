@@ -1,0 +1,125 @@
+\hypertarget{array__object_8c}{}\section{src/array\+\_\+object.c File Reference}
+\label{array__object_8c}\index{src/array\+\_\+object.\+c@{src/array\+\_\+object.\+c}}
+{\ttfamily \#include \char`\"{}fbgc.\+h\char`\"{}}\newline
+Include dependency graph for array\+\_\+object.\+c\+:
+% FIG 0
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+size\+\_\+t \hyperlink{array__object_8c_ac2f010a711e7990a84c4b4bbd446cdc6}{array\+\_\+calculate\+\_\+new\+\_\+capacity\+\_\+from\+\_\+size} (size\+\_\+t size)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{array__object_8c_a4852c82d88a183b756fd211da40d9baf}{new\+\_\+fbgc\+\_\+array\+\_\+object} (size\+\_\+t cap, size\+\_\+t b\+\_\+size)
+\item 
+void \hyperlink{array__object_8c_ab1725f44577f31f34dbd75a5f5579edd}{set\+\_\+in\+\_\+fbgc\+\_\+array\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$self, void $\ast$data, int index)
+\item 
+void $\ast$ \hyperlink{array__object_8c_a3d6a3296d6aa2448970be09069fb2f9d}{get\+\_\+content\+\_\+in\+\_\+fbgc\+\_\+array\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$self, int index)
+\item 
+void $\ast$ \hyperlink{array__object_8c_addab80506fde9c7d5d262322674dc12f}{get\+\_\+address\+\_\+in\+\_\+fbgc\+\_\+array\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$self, int index)
+\item 
+void $\ast$ \hyperlink{array__object_8c_a83c044a36ed6451643f967343d8d4d55}{get\+\_\+top\+\_\+in\+\_\+fbgc\+\_\+array\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$self)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{array__object_8c_a0e7b4247d3ae7bc64634a4ef1848167b}{push\+\_\+back\+\_\+fbgc\+\_\+array\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$self, void $\ast$obj)
+\item 
+int \hyperlink{array__object_8c_a81e76622625c2152aa7acfbd9b73af2e}{index\+\_\+fbgc\+\_\+array\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$self, void $\ast$obj)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{array__object_8c_ac2f010a711e7990a84c4b4bbd446cdc6}\label{array__object_8c_ac2f010a711e7990a84c4b4bbd446cdc6}} 
+\index{array\+\_\+object.\+c@{array\+\_\+object.\+c}!array\+\_\+calculate\+\_\+new\+\_\+capacity\+\_\+from\+\_\+size@{array\+\_\+calculate\+\_\+new\+\_\+capacity\+\_\+from\+\_\+size}}
+\index{array\+\_\+calculate\+\_\+new\+\_\+capacity\+\_\+from\+\_\+size@{array\+\_\+calculate\+\_\+new\+\_\+capacity\+\_\+from\+\_\+size}!array\+\_\+object.\+c@{array\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{array\+\_\+calculate\+\_\+new\+\_\+capacity\+\_\+from\+\_\+size()}{array\_calculate\_new\_capacity\_from\_size()}}
+{\footnotesize\ttfamily size\+\_\+t array\+\_\+calculate\+\_\+new\+\_\+capacity\+\_\+from\+\_\+size (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})}
+
+
+
+Definition at line 3 of file array\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 1
+Here is the caller graph for this function\+:
+% FIG 2
+\mbox{\Hypertarget{array__object_8c_addab80506fde9c7d5d262322674dc12f}\label{array__object_8c_addab80506fde9c7d5d262322674dc12f}} 
+\index{array\+\_\+object.\+c@{array\+\_\+object.\+c}!get\+\_\+address\+\_\+in\+\_\+fbgc\+\_\+array\+\_\+object@{get\+\_\+address\+\_\+in\+\_\+fbgc\+\_\+array\+\_\+object}}
+\index{get\+\_\+address\+\_\+in\+\_\+fbgc\+\_\+array\+\_\+object@{get\+\_\+address\+\_\+in\+\_\+fbgc\+\_\+array\+\_\+object}!array\+\_\+object.\+c@{array\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{get\+\_\+address\+\_\+in\+\_\+fbgc\+\_\+array\+\_\+object()}{get\_address\_in\_fbgc\_array\_object()}}
+{\footnotesize\ttfamily void$\ast$ get\+\_\+address\+\_\+in\+\_\+fbgc\+\_\+array\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{self,  }\item[{int}]{index }\end{DoxyParamCaption})}
+
+
+
+Definition at line 85 of file array\+\_\+object.\+c.
+
+Here is the caller graph for this function\+:
+% FIG 3
+\mbox{\Hypertarget{array__object_8c_a3d6a3296d6aa2448970be09069fb2f9d}\label{array__object_8c_a3d6a3296d6aa2448970be09069fb2f9d}} 
+\index{array\+\_\+object.\+c@{array\+\_\+object.\+c}!get\+\_\+content\+\_\+in\+\_\+fbgc\+\_\+array\+\_\+object@{get\+\_\+content\+\_\+in\+\_\+fbgc\+\_\+array\+\_\+object}}
+\index{get\+\_\+content\+\_\+in\+\_\+fbgc\+\_\+array\+\_\+object@{get\+\_\+content\+\_\+in\+\_\+fbgc\+\_\+array\+\_\+object}!array\+\_\+object.\+c@{array\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{get\+\_\+content\+\_\+in\+\_\+fbgc\+\_\+array\+\_\+object()}{get\_content\_in\_fbgc\_array\_object()}}
+{\footnotesize\ttfamily void$\ast$ get\+\_\+content\+\_\+in\+\_\+fbgc\+\_\+array\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{self,  }\item[{int}]{index }\end{DoxyParamCaption})}
+
+
+
+Definition at line 75 of file array\+\_\+object.\+c.
+
+\mbox{\Hypertarget{array__object_8c_a83c044a36ed6451643f967343d8d4d55}\label{array__object_8c_a83c044a36ed6451643f967343d8d4d55}} 
+\index{array\+\_\+object.\+c@{array\+\_\+object.\+c}!get\+\_\+top\+\_\+in\+\_\+fbgc\+\_\+array\+\_\+object@{get\+\_\+top\+\_\+in\+\_\+fbgc\+\_\+array\+\_\+object}}
+\index{get\+\_\+top\+\_\+in\+\_\+fbgc\+\_\+array\+\_\+object@{get\+\_\+top\+\_\+in\+\_\+fbgc\+\_\+array\+\_\+object}!array\+\_\+object.\+c@{array\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{get\+\_\+top\+\_\+in\+\_\+fbgc\+\_\+array\+\_\+object()}{get\_top\_in\_fbgc\_array\_object()}}
+{\footnotesize\ttfamily void$\ast$ get\+\_\+top\+\_\+in\+\_\+fbgc\+\_\+array\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{self }\end{DoxyParamCaption})}
+
+
+
+Definition at line 94 of file array\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 4
+\mbox{\Hypertarget{array__object_8c_a81e76622625c2152aa7acfbd9b73af2e}\label{array__object_8c_a81e76622625c2152aa7acfbd9b73af2e}} 
+\index{array\+\_\+object.\+c@{array\+\_\+object.\+c}!index\+\_\+fbgc\+\_\+array\+\_\+object@{index\+\_\+fbgc\+\_\+array\+\_\+object}}
+\index{index\+\_\+fbgc\+\_\+array\+\_\+object@{index\+\_\+fbgc\+\_\+array\+\_\+object}!array\+\_\+object.\+c@{array\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{index\+\_\+fbgc\+\_\+array\+\_\+object()}{index\_fbgc\_array\_object()}}
+{\footnotesize\ttfamily int index\+\_\+fbgc\+\_\+array\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{self,  }\item[{void $\ast$}]{obj }\end{DoxyParamCaption})}
+
+
+
+Definition at line 156 of file array\+\_\+object.\+c.
+
+\mbox{\Hypertarget{array__object_8c_a4852c82d88a183b756fd211da40d9baf}\label{array__object_8c_a4852c82d88a183b756fd211da40d9baf}} 
+\index{array\+\_\+object.\+c@{array\+\_\+object.\+c}!new\+\_\+fbgc\+\_\+array\+\_\+object@{new\+\_\+fbgc\+\_\+array\+\_\+object}}
+\index{new\+\_\+fbgc\+\_\+array\+\_\+object@{new\+\_\+fbgc\+\_\+array\+\_\+object}!array\+\_\+object.\+c@{array\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{new\+\_\+fbgc\+\_\+array\+\_\+object()}{new\_fbgc\_array\_object()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ new\+\_\+fbgc\+\_\+array\+\_\+object (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{cap,  }\item[{size\+\_\+t}]{b\+\_\+size }\end{DoxyParamCaption})}
+
+
+
+Definition at line 30 of file array\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 5
+Here is the caller graph for this function\+:
+% FIG 6
+\mbox{\Hypertarget{array__object_8c_a0e7b4247d3ae7bc64634a4ef1848167b}\label{array__object_8c_a0e7b4247d3ae7bc64634a4ef1848167b}} 
+\index{array\+\_\+object.\+c@{array\+\_\+object.\+c}!push\+\_\+back\+\_\+fbgc\+\_\+array\+\_\+object@{push\+\_\+back\+\_\+fbgc\+\_\+array\+\_\+object}}
+\index{push\+\_\+back\+\_\+fbgc\+\_\+array\+\_\+object@{push\+\_\+back\+\_\+fbgc\+\_\+array\+\_\+object}!array\+\_\+object.\+c@{array\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{push\+\_\+back\+\_\+fbgc\+\_\+array\+\_\+object()}{push\_back\_fbgc\_array\_object()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ push\+\_\+back\+\_\+fbgc\+\_\+array\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{self,  }\item[{void $\ast$}]{obj }\end{DoxyParamCaption})}
+
+
+
+Definition at line 99 of file array\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 7
+Here is the caller graph for this function\+:
+% FIG 8
+\mbox{\Hypertarget{array__object_8c_ab1725f44577f31f34dbd75a5f5579edd}\label{array__object_8c_ab1725f44577f31f34dbd75a5f5579edd}} 
+\index{array\+\_\+object.\+c@{array\+\_\+object.\+c}!set\+\_\+in\+\_\+fbgc\+\_\+array\+\_\+object@{set\+\_\+in\+\_\+fbgc\+\_\+array\+\_\+object}}
+\index{set\+\_\+in\+\_\+fbgc\+\_\+array\+\_\+object@{set\+\_\+in\+\_\+fbgc\+\_\+array\+\_\+object}!array\+\_\+object.\+c@{array\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{set\+\_\+in\+\_\+fbgc\+\_\+array\+\_\+object()}{set\_in\_fbgc\_array\_object()}}
+{\footnotesize\ttfamily void set\+\_\+in\+\_\+fbgc\+\_\+array\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{self,  }\item[{void $\ast$}]{data,  }\item[{int}]{index }\end{DoxyParamCaption})}
+
+
+
+Definition at line 51 of file array\+\_\+object.\+c.
+
+Here is the caller graph for this function\+:
+% FIG 9

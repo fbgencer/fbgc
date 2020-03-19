@@ -1,0 +1,231 @@
+\hypertarget{str__object_8c}{}\section{src/str\+\_\+object.c File Reference}
+\label{str__object_8c}\index{src/str\+\_\+object.\+c@{src/str\+\_\+object.\+c}}
+{\ttfamily \#include \char`\"{}fbgc.\+h\char`\"{}}\newline
+Include dependency graph for str\+\_\+object.\+c\+:
+% FIG 0
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{str__object_8c_aa044f9bb1949a87c10a2c17399987412}{new\+\_\+fbgc\+\_\+str\+\_\+object} (const char $\ast$str\+\_\+content)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{str__object_8c_acb52d0d5127ded9fbb7718d6b6d13d28}{new\+\_\+fbgc\+\_\+str\+\_\+object\+\_\+from\+\_\+substr} (const char $\ast$str1, const char $\ast$str2)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{str__object_8c_a7d2903336f73edf4ed0c60627d47823e}{new\+\_\+fbgc\+\_\+str\+\_\+object\+\_\+empty} (int len)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{str__object_8c_aa52ba68bd74a0ee1167ab4483fec93a3}{operator\+\_\+fbgc\+\_\+str\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$a, struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$b, \hyperlink{tokens_8h_a9d21ebbf42e602eb0cf502c867d20a7e}{fbgc\+\_\+token} op)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{str__object_8c_adfa784fb626df781848ec722eea7b875}{get\+\_\+char\+\_\+from\+\_\+fbgc\+\_\+str\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$so, int i1, struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$res)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{str__object_8c_af886cfee3c447e670e742651e20a87e0}{get\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+str\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$so, int i1, int i2)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{str__object_8c_abd9f7526abf0f43d659c7b298b061d4f}{set\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+str\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$so, int i1, int i2, struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$obj)
+\item 
+void \hyperlink{str__object_8c_a66e47da312848322ec0f6c783c8afd84}{print\+\_\+fbgc\+\_\+str\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$obj)
+\item 
+void \hyperlink{str__object_8c_a53d87ba45118ce13bee6dfc8f46dcb32}{free\+\_\+fbgc\+\_\+str\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$obj)
+\item 
+uint8\+\_\+t \hyperlink{str__object_8c_a16ebc36056959ecb94a9d02820f640a4}{my\+\_\+strncmp} (const char $\ast$s1, const char $\ast$s2, register size\+\_\+t n)
+\item 
+uint8\+\_\+t \hyperlink{str__object_8c_a5aaf56c2518080d35d4feaaeeb3fba65}{my\+\_\+strcmp} (const char $\ast$p1, const char $\ast$p2)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{str__object_8c_a3b88fcb79dd11e5140f8cff588e549ce}{new\+\_\+fbgc\+\_\+cstr\+\_\+object} (const char $\ast$str\+\_\+content)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{str__object_8c_ab37046d06d1ced789068bf70e37b7ed1}{new\+\_\+fbgc\+\_\+cstr\+\_\+object\+\_\+from\+\_\+substr} (const char $\ast$str1, const char $\ast$str2)
+\item 
+void \hyperlink{str__object_8c_af6c5743192c678d8081aef62a95b26c0}{print\+\_\+fbgc\+\_\+cstr\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$obj)
+\item 
+void \hyperlink{str__object_8c_a4b791c4c240a9b2884b476353868f63a}{free\+\_\+fbgc\+\_\+cstr\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$obj)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{str__object_8c_a4b791c4c240a9b2884b476353868f63a}\label{str__object_8c_a4b791c4c240a9b2884b476353868f63a}} 
+\index{str\+\_\+object.\+c@{str\+\_\+object.\+c}!free\+\_\+fbgc\+\_\+cstr\+\_\+object@{free\+\_\+fbgc\+\_\+cstr\+\_\+object}}
+\index{free\+\_\+fbgc\+\_\+cstr\+\_\+object@{free\+\_\+fbgc\+\_\+cstr\+\_\+object}!str\+\_\+object.\+c@{str\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{free\+\_\+fbgc\+\_\+cstr\+\_\+object()}{free\_fbgc\_cstr\_object()}}
+{\footnotesize\ttfamily void free\+\_\+fbgc\+\_\+cstr\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{obj }\end{DoxyParamCaption})}
+
+
+
+Definition at line 358 of file str\+\_\+object.\+c.
+
+\mbox{\Hypertarget{str__object_8c_a53d87ba45118ce13bee6dfc8f46dcb32}\label{str__object_8c_a53d87ba45118ce13bee6dfc8f46dcb32}} 
+\index{str\+\_\+object.\+c@{str\+\_\+object.\+c}!free\+\_\+fbgc\+\_\+str\+\_\+object@{free\+\_\+fbgc\+\_\+str\+\_\+object}}
+\index{free\+\_\+fbgc\+\_\+str\+\_\+object@{free\+\_\+fbgc\+\_\+str\+\_\+object}!str\+\_\+object.\+c@{str\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{free\+\_\+fbgc\+\_\+str\+\_\+object()}{free\_fbgc\_str\_object()}}
+{\footnotesize\ttfamily void free\+\_\+fbgc\+\_\+str\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{obj }\end{DoxyParamCaption})}
+
+
+
+Definition at line 270 of file str\+\_\+object.\+c.
+
+\mbox{\Hypertarget{str__object_8c_adfa784fb626df781848ec722eea7b875}\label{str__object_8c_adfa784fb626df781848ec722eea7b875}} 
+\index{str\+\_\+object.\+c@{str\+\_\+object.\+c}!get\+\_\+char\+\_\+from\+\_\+fbgc\+\_\+str\+\_\+object@{get\+\_\+char\+\_\+from\+\_\+fbgc\+\_\+str\+\_\+object}}
+\index{get\+\_\+char\+\_\+from\+\_\+fbgc\+\_\+str\+\_\+object@{get\+\_\+char\+\_\+from\+\_\+fbgc\+\_\+str\+\_\+object}!str\+\_\+object.\+c@{str\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{get\+\_\+char\+\_\+from\+\_\+fbgc\+\_\+str\+\_\+object()}{get\_char\_from\_fbgc\_str\_object()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ get\+\_\+char\+\_\+from\+\_\+fbgc\+\_\+str\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{so,  }\item[{int}]{i1,  }\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{res }\end{DoxyParamCaption})}
+
+
+
+Definition at line 228 of file str\+\_\+object.\+c.
+
+Here is the caller graph for this function\+:
+% FIG 1
+\mbox{\Hypertarget{str__object_8c_af886cfee3c447e670e742651e20a87e0}\label{str__object_8c_af886cfee3c447e670e742651e20a87e0}} 
+\index{str\+\_\+object.\+c@{str\+\_\+object.\+c}!get\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+str\+\_\+object@{get\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+str\+\_\+object}}
+\index{get\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+str\+\_\+object@{get\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+str\+\_\+object}!str\+\_\+object.\+c@{str\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{get\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+str\+\_\+object()}{get\_object\_in\_fbgc\_str\_object()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ get\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+str\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{so,  }\item[{int}]{i1,  }\item[{int}]{i2 }\end{DoxyParamCaption})}
+
+
+
+Definition at line 238 of file str\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 2
+Here is the caller graph for this function\+:
+% FIG 3
+\mbox{\Hypertarget{str__object_8c_a5aaf56c2518080d35d4feaaeeb3fba65}\label{str__object_8c_a5aaf56c2518080d35d4feaaeeb3fba65}} 
+\index{str\+\_\+object.\+c@{str\+\_\+object.\+c}!my\+\_\+strcmp@{my\+\_\+strcmp}}
+\index{my\+\_\+strcmp@{my\+\_\+strcmp}!str\+\_\+object.\+c@{str\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{my\+\_\+strcmp()}{my\_strcmp()}}
+{\footnotesize\ttfamily uint8\+\_\+t my\+\_\+strcmp (\begin{DoxyParamCaption}\item[{const char $\ast$}]{p1,  }\item[{const char $\ast$}]{p2 }\end{DoxyParamCaption})}
+
+
+
+Definition at line 306 of file str\+\_\+object.\+c.
+
+Here is the caller graph for this function\+:
+% FIG 4
+\mbox{\Hypertarget{str__object_8c_a16ebc36056959ecb94a9d02820f640a4}\label{str__object_8c_a16ebc36056959ecb94a9d02820f640a4}} 
+\index{str\+\_\+object.\+c@{str\+\_\+object.\+c}!my\+\_\+strncmp@{my\+\_\+strncmp}}
+\index{my\+\_\+strncmp@{my\+\_\+strncmp}!str\+\_\+object.\+c@{str\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{my\+\_\+strncmp()}{my\_strncmp()}}
+{\footnotesize\ttfamily uint8\+\_\+t my\+\_\+strncmp (\begin{DoxyParamCaption}\item[{const char $\ast$}]{s1,  }\item[{const char $\ast$}]{s2,  }\item[{register size\+\_\+t}]{n }\end{DoxyParamCaption})}
+
+
+
+Definition at line 279 of file str\+\_\+object.\+c.
+
+Here is the caller graph for this function\+:
+% FIG 5
+\mbox{\Hypertarget{str__object_8c_a3b88fcb79dd11e5140f8cff588e549ce}\label{str__object_8c_a3b88fcb79dd11e5140f8cff588e549ce}} 
+\index{str\+\_\+object.\+c@{str\+\_\+object.\+c}!new\+\_\+fbgc\+\_\+cstr\+\_\+object@{new\+\_\+fbgc\+\_\+cstr\+\_\+object}}
+\index{new\+\_\+fbgc\+\_\+cstr\+\_\+object@{new\+\_\+fbgc\+\_\+cstr\+\_\+object}!str\+\_\+object.\+c@{str\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{new\+\_\+fbgc\+\_\+cstr\+\_\+object()}{new\_fbgc\_cstr\_object()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ new\+\_\+fbgc\+\_\+cstr\+\_\+object (\begin{DoxyParamCaption}\item[{const char $\ast$}]{str\+\_\+content }\end{DoxyParamCaption})}
+
+
+
+Definition at line 326 of file str\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 6
+\mbox{\Hypertarget{str__object_8c_ab37046d06d1ced789068bf70e37b7ed1}\label{str__object_8c_ab37046d06d1ced789068bf70e37b7ed1}} 
+\index{str\+\_\+object.\+c@{str\+\_\+object.\+c}!new\+\_\+fbgc\+\_\+cstr\+\_\+object\+\_\+from\+\_\+substr@{new\+\_\+fbgc\+\_\+cstr\+\_\+object\+\_\+from\+\_\+substr}}
+\index{new\+\_\+fbgc\+\_\+cstr\+\_\+object\+\_\+from\+\_\+substr@{new\+\_\+fbgc\+\_\+cstr\+\_\+object\+\_\+from\+\_\+substr}!str\+\_\+object.\+c@{str\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{new\+\_\+fbgc\+\_\+cstr\+\_\+object\+\_\+from\+\_\+substr()}{new\_fbgc\_cstr\_object\_from\_substr()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ new\+\_\+fbgc\+\_\+cstr\+\_\+object\+\_\+from\+\_\+substr (\begin{DoxyParamCaption}\item[{const char $\ast$}]{str1,  }\item[{const char $\ast$}]{str2 }\end{DoxyParamCaption})}
+
+
+
+Definition at line 340 of file str\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 7
+Here is the caller graph for this function\+:
+% FIG 8
+\mbox{\Hypertarget{str__object_8c_aa044f9bb1949a87c10a2c17399987412}\label{str__object_8c_aa044f9bb1949a87c10a2c17399987412}} 
+\index{str\+\_\+object.\+c@{str\+\_\+object.\+c}!new\+\_\+fbgc\+\_\+str\+\_\+object@{new\+\_\+fbgc\+\_\+str\+\_\+object}}
+\index{new\+\_\+fbgc\+\_\+str\+\_\+object@{new\+\_\+fbgc\+\_\+str\+\_\+object}!str\+\_\+object.\+c@{str\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{new\+\_\+fbgc\+\_\+str\+\_\+object()}{new\_fbgc\_str\_object()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ new\+\_\+fbgc\+\_\+str\+\_\+object (\begin{DoxyParamCaption}\item[{const char $\ast$}]{str\+\_\+content }\end{DoxyParamCaption})}
+
+
+
+Definition at line 3 of file str\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 9
+Here is the caller graph for this function\+:
+% FIG 10
+\mbox{\Hypertarget{str__object_8c_a7d2903336f73edf4ed0c60627d47823e}\label{str__object_8c_a7d2903336f73edf4ed0c60627d47823e}} 
+\index{str\+\_\+object.\+c@{str\+\_\+object.\+c}!new\+\_\+fbgc\+\_\+str\+\_\+object\+\_\+empty@{new\+\_\+fbgc\+\_\+str\+\_\+object\+\_\+empty}}
+\index{new\+\_\+fbgc\+\_\+str\+\_\+object\+\_\+empty@{new\+\_\+fbgc\+\_\+str\+\_\+object\+\_\+empty}!str\+\_\+object.\+c@{str\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{new\+\_\+fbgc\+\_\+str\+\_\+object\+\_\+empty()}{new\_fbgc\_str\_object\_empty()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ new\+\_\+fbgc\+\_\+str\+\_\+object\+\_\+empty (\begin{DoxyParamCaption}\item[{int}]{len }\end{DoxyParamCaption})}
+
+
+
+Definition at line 25 of file str\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 11
+Here is the caller graph for this function\+:
+% FIG 12
+\mbox{\Hypertarget{str__object_8c_acb52d0d5127ded9fbb7718d6b6d13d28}\label{str__object_8c_acb52d0d5127ded9fbb7718d6b6d13d28}} 
+\index{str\+\_\+object.\+c@{str\+\_\+object.\+c}!new\+\_\+fbgc\+\_\+str\+\_\+object\+\_\+from\+\_\+substr@{new\+\_\+fbgc\+\_\+str\+\_\+object\+\_\+from\+\_\+substr}}
+\index{new\+\_\+fbgc\+\_\+str\+\_\+object\+\_\+from\+\_\+substr@{new\+\_\+fbgc\+\_\+str\+\_\+object\+\_\+from\+\_\+substr}!str\+\_\+object.\+c@{str\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{new\+\_\+fbgc\+\_\+str\+\_\+object\+\_\+from\+\_\+substr()}{new\_fbgc\_str\_object\_from\_substr()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ new\+\_\+fbgc\+\_\+str\+\_\+object\+\_\+from\+\_\+substr (\begin{DoxyParamCaption}\item[{const char $\ast$}]{str1,  }\item[{const char $\ast$}]{str2 }\end{DoxyParamCaption})}
+
+
+
+Definition at line 14 of file str\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 13
+Here is the caller graph for this function\+:
+% FIG 14
+\mbox{\Hypertarget{str__object_8c_aa52ba68bd74a0ee1167ab4483fec93a3}\label{str__object_8c_aa52ba68bd74a0ee1167ab4483fec93a3}} 
+\index{str\+\_\+object.\+c@{str\+\_\+object.\+c}!operator\+\_\+fbgc\+\_\+str\+\_\+object@{operator\+\_\+fbgc\+\_\+str\+\_\+object}}
+\index{operator\+\_\+fbgc\+\_\+str\+\_\+object@{operator\+\_\+fbgc\+\_\+str\+\_\+object}!str\+\_\+object.\+c@{str\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{operator\+\_\+fbgc\+\_\+str\+\_\+object()}{operator\_fbgc\_str\_object()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ operator\+\_\+fbgc\+\_\+str\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{a,  }\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{b,  }\item[{\hyperlink{tokens_8h_a9d21ebbf42e602eb0cf502c867d20a7e}{fbgc\+\_\+token}}]{op }\end{DoxyParamCaption})}
+
+
+
+Definition at line 34 of file str\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 15
+\mbox{\Hypertarget{str__object_8c_af6c5743192c678d8081aef62a95b26c0}\label{str__object_8c_af6c5743192c678d8081aef62a95b26c0}} 
+\index{str\+\_\+object.\+c@{str\+\_\+object.\+c}!print\+\_\+fbgc\+\_\+cstr\+\_\+object@{print\+\_\+fbgc\+\_\+cstr\+\_\+object}}
+\index{print\+\_\+fbgc\+\_\+cstr\+\_\+object@{print\+\_\+fbgc\+\_\+cstr\+\_\+object}!str\+\_\+object.\+c@{str\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{print\+\_\+fbgc\+\_\+cstr\+\_\+object()}{print\_fbgc\_cstr\_object()}}
+{\footnotesize\ttfamily void print\+\_\+fbgc\+\_\+cstr\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{obj }\end{DoxyParamCaption})}
+
+
+
+Definition at line 353 of file str\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 16
+Here is the caller graph for this function\+:
+% FIG 17
+\mbox{\Hypertarget{str__object_8c_a66e47da312848322ec0f6c783c8afd84}\label{str__object_8c_a66e47da312848322ec0f6c783c8afd84}} 
+\index{str\+\_\+object.\+c@{str\+\_\+object.\+c}!print\+\_\+fbgc\+\_\+str\+\_\+object@{print\+\_\+fbgc\+\_\+str\+\_\+object}}
+\index{print\+\_\+fbgc\+\_\+str\+\_\+object@{print\+\_\+fbgc\+\_\+str\+\_\+object}!str\+\_\+object.\+c@{str\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{print\+\_\+fbgc\+\_\+str\+\_\+object()}{print\_fbgc\_str\_object()}}
+{\footnotesize\ttfamily void print\+\_\+fbgc\+\_\+str\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{obj }\end{DoxyParamCaption})}
+
+
+
+Definition at line 265 of file str\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 18
+Here is the caller graph for this function\+:
+% FIG 19
+\mbox{\Hypertarget{str__object_8c_abd9f7526abf0f43d659c7b298b061d4f}\label{str__object_8c_abd9f7526abf0f43d659c7b298b061d4f}} 
+\index{str\+\_\+object.\+c@{str\+\_\+object.\+c}!set\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+str\+\_\+object@{set\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+str\+\_\+object}}
+\index{set\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+str\+\_\+object@{set\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+str\+\_\+object}!str\+\_\+object.\+c@{str\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{set\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+str\+\_\+object()}{set\_object\_in\_fbgc\_str\_object()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ set\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+str\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{so,  }\item[{int}]{i1,  }\item[{int}]{i2,  }\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{obj }\end{DoxyParamCaption})}
+
+
+
+Definition at line 247 of file str\+\_\+object.\+c.
+
+Here is the caller graph for this function\+:
+% FIG 20

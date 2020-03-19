@@ -1,0 +1,247 @@
+\hypertarget{matrix__object_8c}{}\section{src/matrix\+\_\+object.c File Reference}
+\label{matrix__object_8c}\index{src/matrix\+\_\+object.\+c@{src/matrix\+\_\+object.\+c}}
+{\ttfamily \#include \char`\"{}fbgc.\+h\char`\"{}}\newline
+Include dependency graph for matrix\+\_\+object.\+c\+:
+% FIG 0
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{matrix__object_8c_a62969232668331297e2dca1ae2ddd10d}{r}~\hyperlink{range__object_8h_a3abf067c8e60834f220f60771edd8c06}{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+range}(robj)
+\item 
+\#define \hyperlink{matrix__object_8c_a00626facb4f86efb8618a4c5f5c3c5f8}{m}~\hyperlink{matrix__object_8h_a5af38cecaf85d80cf66d832a00c018fa}{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+matrix}(mat)
+\item 
+\#define \hyperlink{matrix__object_8c_a00626facb4f86efb8618a4c5f5c3c5f8}{m}~\hyperlink{matrix__object_8h_a5af38cecaf85d80cf66d832a00c018fa}{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+matrix}(mat)
+\item 
+\#define \hyperlink{matrix__object_8c_a112fa29c92065d6624349eb69f35f0fb}{m1}~\hyperlink{matrix__object_8h_a5af38cecaf85d80cf66d832a00c018fa}{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+matrix}(mat1)
+\item 
+\#define \hyperlink{matrix__object_8c_a097873c534253aa2dfaf9612d377f499}{m2}~\hyperlink{matrix__object_8h_a5af38cecaf85d80cf66d832a00c018fa}{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+matrix}(mat2)
+\item 
+\#define \hyperlink{matrix__object_8c_a112fa29c92065d6624349eb69f35f0fb}{m1}~\hyperlink{matrix__object_8h_a5af38cecaf85d80cf66d832a00c018fa}{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+matrix}(mat1)
+\item 
+\#define \hyperlink{matrix__object_8c_a097873c534253aa2dfaf9612d377f499}{m2}~\hyperlink{matrix__object_8h_a5af38cecaf85d80cf66d832a00c018fa}{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+matrix}(mat2)
+\item 
+\#define \hyperlink{matrix__object_8c_a112fa29c92065d6624349eb69f35f0fb}{m1}~\hyperlink{matrix__object_8h_a5af38cecaf85d80cf66d832a00c018fa}{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+matrix}(mat1)
+\item 
+\#define \hyperlink{matrix__object_8c_a00626facb4f86efb8618a4c5f5c3c5f8}{m}~\hyperlink{matrix__object_8h_a5af38cecaf85d80cf66d832a00c018fa}{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+matrix}(mat)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{matrix__object_8c_aa855543d4a0b84619248fdce7dc1c763}{new\+\_\+fbgc\+\_\+matrix\+\_\+object} (\hyperlink{tokens_8h_a9d21ebbf42e602eb0cf502c867d20a7e}{fbgc\+\_\+token} sub\+\_\+tp, size\+\_\+t row, size\+\_\+t col, char tp)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{matrix__object_8c_a898bc860356435a55913e279efdfd8c9}{new\+\_\+fbgc\+\_\+matrix\+\_\+object\+\_\+from\+\_\+range} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$robj)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{matrix__object_8c_a0d2319772e0649f96eb59192e4b4d813}{matrix\+\_\+creation\+\_\+from\+\_\+stack} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$$\ast$sp, int ctr, int msize, int row, \hyperlink{tokens_8h_a9d21ebbf42e602eb0cf502c867d20a7e}{fbgc\+\_\+token} sub\+\_\+type)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{matrix__object_8c_a92e7b77821f11133fa4d72341d1d29c7}{get\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+matrix\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$mat, size\+\_\+t \hyperlink{range__object_8c_a62969232668331297e2dca1ae2ddd10d}{r}, size\+\_\+t c)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{matrix__object_8c_af8449277f3a9657627663beec19de337}{set\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+matrix\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$mat, size\+\_\+t \hyperlink{range__object_8c_a62969232668331297e2dca1ae2ddd10d}{r}, size\+\_\+t c, struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$obj)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{matrix__object_8c_a03ace62514dbe5863895e476bedf4f52}{multiply\+\_\+fbgc\+\_\+matrix\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$mat1, struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$mat2)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{matrix__object_8c_a1dd528ec788f99a46eedcbd5523865dc}{fast\+\_\+multiply\+\_\+fbgc\+\_\+matrix\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$mat1, struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$mat2)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{matrix__object_8c_a3b38131de55f1ba36877d8118c0e6e6a}{transpose\+\_\+fbgc\+\_\+matrix\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$mat1)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{matrix__object_8c_acd9358a8cf3ef246db381503466b8c0e}{operator\+\_\+fbgc\+\_\+matrix\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$a, struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$b, \hyperlink{tokens_8h_a9d21ebbf42e602eb0cf502c867d20a7e}{fbgc\+\_\+token} op)
+\item 
+void \hyperlink{matrix__object_8c_a024f1c29208bf2fe7425896d1eb055e0}{print\+\_\+fbgc\+\_\+matrix\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$mat)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{matrix__object_8c_a00626facb4f86efb8618a4c5f5c3c5f8}\label{matrix__object_8c_a00626facb4f86efb8618a4c5f5c3c5f8}} 
+\index{matrix\+\_\+object.\+c@{matrix\+\_\+object.\+c}!m@{m}}
+\index{m@{m}!matrix\+\_\+object.\+c@{matrix\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{m}{m}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily \#define m~\hyperlink{matrix__object_8h_a5af38cecaf85d80cf66d832a00c018fa}{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+matrix}(mat)}
+
+\mbox{\Hypertarget{matrix__object_8c_a00626facb4f86efb8618a4c5f5c3c5f8}\label{matrix__object_8c_a00626facb4f86efb8618a4c5f5c3c5f8}} 
+\index{matrix\+\_\+object.\+c@{matrix\+\_\+object.\+c}!m@{m}}
+\index{m@{m}!matrix\+\_\+object.\+c@{matrix\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{m}{m}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily \#define m~\hyperlink{matrix__object_8h_a5af38cecaf85d80cf66d832a00c018fa}{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+matrix}(mat)}
+
+\mbox{\Hypertarget{matrix__object_8c_a00626facb4f86efb8618a4c5f5c3c5f8}\label{matrix__object_8c_a00626facb4f86efb8618a4c5f5c3c5f8}} 
+\index{matrix\+\_\+object.\+c@{matrix\+\_\+object.\+c}!m@{m}}
+\index{m@{m}!matrix\+\_\+object.\+c@{matrix\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{m}{m}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily \#define m~\hyperlink{matrix__object_8h_a5af38cecaf85d80cf66d832a00c018fa}{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+matrix}(mat)}
+
+\mbox{\Hypertarget{matrix__object_8c_a112fa29c92065d6624349eb69f35f0fb}\label{matrix__object_8c_a112fa29c92065d6624349eb69f35f0fb}} 
+\index{matrix\+\_\+object.\+c@{matrix\+\_\+object.\+c}!m1@{m1}}
+\index{m1@{m1}!matrix\+\_\+object.\+c@{matrix\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{m1}{m1}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily \#define m1~\hyperlink{matrix__object_8h_a5af38cecaf85d80cf66d832a00c018fa}{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+matrix}(mat1)}
+
+\mbox{\Hypertarget{matrix__object_8c_a112fa29c92065d6624349eb69f35f0fb}\label{matrix__object_8c_a112fa29c92065d6624349eb69f35f0fb}} 
+\index{matrix\+\_\+object.\+c@{matrix\+\_\+object.\+c}!m1@{m1}}
+\index{m1@{m1}!matrix\+\_\+object.\+c@{matrix\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{m1}{m1}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily \#define m1~\hyperlink{matrix__object_8h_a5af38cecaf85d80cf66d832a00c018fa}{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+matrix}(mat1)}
+
+\mbox{\Hypertarget{matrix__object_8c_a112fa29c92065d6624349eb69f35f0fb}\label{matrix__object_8c_a112fa29c92065d6624349eb69f35f0fb}} 
+\index{matrix\+\_\+object.\+c@{matrix\+\_\+object.\+c}!m1@{m1}}
+\index{m1@{m1}!matrix\+\_\+object.\+c@{matrix\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{m1}{m1}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily \#define m1~\hyperlink{matrix__object_8h_a5af38cecaf85d80cf66d832a00c018fa}{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+matrix}(mat1)}
+
+\mbox{\Hypertarget{matrix__object_8c_a097873c534253aa2dfaf9612d377f499}\label{matrix__object_8c_a097873c534253aa2dfaf9612d377f499}} 
+\index{matrix\+\_\+object.\+c@{matrix\+\_\+object.\+c}!m2@{m2}}
+\index{m2@{m2}!matrix\+\_\+object.\+c@{matrix\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{m2}{m2}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \#define m2~\hyperlink{matrix__object_8h_a5af38cecaf85d80cf66d832a00c018fa}{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+matrix}(mat2)}
+
+\mbox{\Hypertarget{matrix__object_8c_a097873c534253aa2dfaf9612d377f499}\label{matrix__object_8c_a097873c534253aa2dfaf9612d377f499}} 
+\index{matrix\+\_\+object.\+c@{matrix\+\_\+object.\+c}!m2@{m2}}
+\index{m2@{m2}!matrix\+\_\+object.\+c@{matrix\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{m2}{m2}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \#define m2~\hyperlink{matrix__object_8h_a5af38cecaf85d80cf66d832a00c018fa}{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+matrix}(mat2)}
+
+\mbox{\Hypertarget{matrix__object_8c_a62969232668331297e2dca1ae2ddd10d}\label{matrix__object_8c_a62969232668331297e2dca1ae2ddd10d}} 
+\index{matrix\+\_\+object.\+c@{matrix\+\_\+object.\+c}!r@{r}}
+\index{r@{r}!matrix\+\_\+object.\+c@{matrix\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{r}{r}}
+{\footnotesize\ttfamily \#define r~\hyperlink{range__object_8h_a3abf067c8e60834f220f60771edd8c06}{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+range}(robj)}
+
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{matrix__object_8c_a1dd528ec788f99a46eedcbd5523865dc}\label{matrix__object_8c_a1dd528ec788f99a46eedcbd5523865dc}} 
+\index{matrix\+\_\+object.\+c@{matrix\+\_\+object.\+c}!fast\+\_\+multiply\+\_\+fbgc\+\_\+matrix\+\_\+object@{fast\+\_\+multiply\+\_\+fbgc\+\_\+matrix\+\_\+object}}
+\index{fast\+\_\+multiply\+\_\+fbgc\+\_\+matrix\+\_\+object@{fast\+\_\+multiply\+\_\+fbgc\+\_\+matrix\+\_\+object}!matrix\+\_\+object.\+c@{matrix\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{fast\+\_\+multiply\+\_\+fbgc\+\_\+matrix\+\_\+object()}{fast\_multiply\_fbgc\_matrix\_object()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ fast\+\_\+multiply\+\_\+fbgc\+\_\+matrix\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{mat1,  }\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{mat2 }\end{DoxyParamCaption})}
+
+
+
+Definition at line 282 of file matrix\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 1
+Here is the caller graph for this function\+:
+% FIG 2
+\mbox{\Hypertarget{matrix__object_8c_a92e7b77821f11133fa4d72341d1d29c7}\label{matrix__object_8c_a92e7b77821f11133fa4d72341d1d29c7}} 
+\index{matrix\+\_\+object.\+c@{matrix\+\_\+object.\+c}!get\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+matrix\+\_\+object@{get\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+matrix\+\_\+object}}
+\index{get\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+matrix\+\_\+object@{get\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+matrix\+\_\+object}!matrix\+\_\+object.\+c@{matrix\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{get\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+matrix\+\_\+object()}{get\_object\_in\_fbgc\_matrix\_object()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ get\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+matrix\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{mat,  }\item[{size\+\_\+t}]{r,  }\item[{size\+\_\+t}]{c }\end{DoxyParamCaption})}
+
+
+
+Definition at line 182 of file matrix\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 3
+Here is the caller graph for this function\+:
+% FIG 4
+\mbox{\Hypertarget{matrix__object_8c_a0d2319772e0649f96eb59192e4b4d813}\label{matrix__object_8c_a0d2319772e0649f96eb59192e4b4d813}} 
+\index{matrix\+\_\+object.\+c@{matrix\+\_\+object.\+c}!matrix\+\_\+creation\+\_\+from\+\_\+stack@{matrix\+\_\+creation\+\_\+from\+\_\+stack}}
+\index{matrix\+\_\+creation\+\_\+from\+\_\+stack@{matrix\+\_\+creation\+\_\+from\+\_\+stack}!matrix\+\_\+object.\+c@{matrix\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{matrix\+\_\+creation\+\_\+from\+\_\+stack()}{matrix\_creation\_from\_stack()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ matrix\+\_\+creation\+\_\+from\+\_\+stack (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$$\ast$}]{sp,  }\item[{int}]{ctr,  }\item[{int}]{msize,  }\item[{int}]{row,  }\item[{\hyperlink{tokens_8h_a9d21ebbf42e602eb0cf502c867d20a7e}{fbgc\+\_\+token}}]{sub\+\_\+type }\end{DoxyParamCaption})}
+
+
+
+Definition at line 94 of file matrix\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 5
+Here is the caller graph for this function\+:
+% FIG 6
+\mbox{\Hypertarget{matrix__object_8c_a03ace62514dbe5863895e476bedf4f52}\label{matrix__object_8c_a03ace62514dbe5863895e476bedf4f52}} 
+\index{matrix\+\_\+object.\+c@{matrix\+\_\+object.\+c}!multiply\+\_\+fbgc\+\_\+matrix\+\_\+object@{multiply\+\_\+fbgc\+\_\+matrix\+\_\+object}}
+\index{multiply\+\_\+fbgc\+\_\+matrix\+\_\+object@{multiply\+\_\+fbgc\+\_\+matrix\+\_\+object}!matrix\+\_\+object.\+c@{matrix\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{multiply\+\_\+fbgc\+\_\+matrix\+\_\+object()}{multiply\_fbgc\_matrix\_object()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ multiply\+\_\+fbgc\+\_\+matrix\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{mat1,  }\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{mat2 }\end{DoxyParamCaption})}
+
+
+
+Definition at line 215 of file matrix\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 7
+Here is the caller graph for this function\+:
+% FIG 8
+\mbox{\Hypertarget{matrix__object_8c_aa855543d4a0b84619248fdce7dc1c763}\label{matrix__object_8c_aa855543d4a0b84619248fdce7dc1c763}} 
+\index{matrix\+\_\+object.\+c@{matrix\+\_\+object.\+c}!new\+\_\+fbgc\+\_\+matrix\+\_\+object@{new\+\_\+fbgc\+\_\+matrix\+\_\+object}}
+\index{new\+\_\+fbgc\+\_\+matrix\+\_\+object@{new\+\_\+fbgc\+\_\+matrix\+\_\+object}!matrix\+\_\+object.\+c@{matrix\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{new\+\_\+fbgc\+\_\+matrix\+\_\+object()}{new\_fbgc\_matrix\_object()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ new\+\_\+fbgc\+\_\+matrix\+\_\+object (\begin{DoxyParamCaption}\item[{\hyperlink{tokens_8h_a9d21ebbf42e602eb0cf502c867d20a7e}{fbgc\+\_\+token}}]{sub\+\_\+tp,  }\item[{size\+\_\+t}]{row,  }\item[{size\+\_\+t}]{col,  }\item[{char}]{tp }\end{DoxyParamCaption})}
+
+
+
+Definition at line 5 of file matrix\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 9
+Here is the caller graph for this function\+:
+% FIG 10
+\mbox{\Hypertarget{matrix__object_8c_a898bc860356435a55913e279efdfd8c9}\label{matrix__object_8c_a898bc860356435a55913e279efdfd8c9}} 
+\index{matrix\+\_\+object.\+c@{matrix\+\_\+object.\+c}!new\+\_\+fbgc\+\_\+matrix\+\_\+object\+\_\+from\+\_\+range@{new\+\_\+fbgc\+\_\+matrix\+\_\+object\+\_\+from\+\_\+range}}
+\index{new\+\_\+fbgc\+\_\+matrix\+\_\+object\+\_\+from\+\_\+range@{new\+\_\+fbgc\+\_\+matrix\+\_\+object\+\_\+from\+\_\+range}!matrix\+\_\+object.\+c@{matrix\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{new\+\_\+fbgc\+\_\+matrix\+\_\+object\+\_\+from\+\_\+range()}{new\_fbgc\_matrix\_object\_from\_range()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ new\+\_\+fbgc\+\_\+matrix\+\_\+object\+\_\+from\+\_\+range (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{robj }\end{DoxyParamCaption})}
+
+
+
+Definition at line 57 of file matrix\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 11
+Here is the caller graph for this function\+:
+% FIG 12
+\mbox{\Hypertarget{matrix__object_8c_acd9358a8cf3ef246db381503466b8c0e}\label{matrix__object_8c_acd9358a8cf3ef246db381503466b8c0e}} 
+\index{matrix\+\_\+object.\+c@{matrix\+\_\+object.\+c}!operator\+\_\+fbgc\+\_\+matrix\+\_\+object@{operator\+\_\+fbgc\+\_\+matrix\+\_\+object}}
+\index{operator\+\_\+fbgc\+\_\+matrix\+\_\+object@{operator\+\_\+fbgc\+\_\+matrix\+\_\+object}!matrix\+\_\+object.\+c@{matrix\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{operator\+\_\+fbgc\+\_\+matrix\+\_\+object()}{operator\_fbgc\_matrix\_object()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ operator\+\_\+fbgc\+\_\+matrix\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{a,  }\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{b,  }\item[{\hyperlink{tokens_8h_a9d21ebbf42e602eb0cf502c867d20a7e}{fbgc\+\_\+token}}]{op }\end{DoxyParamCaption})}
+
+
+
+Definition at line 397 of file matrix\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 13
+\mbox{\Hypertarget{matrix__object_8c_a024f1c29208bf2fe7425896d1eb055e0}\label{matrix__object_8c_a024f1c29208bf2fe7425896d1eb055e0}} 
+\index{matrix\+\_\+object.\+c@{matrix\+\_\+object.\+c}!print\+\_\+fbgc\+\_\+matrix\+\_\+object@{print\+\_\+fbgc\+\_\+matrix\+\_\+object}}
+\index{print\+\_\+fbgc\+\_\+matrix\+\_\+object@{print\+\_\+fbgc\+\_\+matrix\+\_\+object}!matrix\+\_\+object.\+c@{matrix\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{print\+\_\+fbgc\+\_\+matrix\+\_\+object()}{print\_fbgc\_matrix\_object()}}
+{\footnotesize\ttfamily void print\+\_\+fbgc\+\_\+matrix\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{mat }\end{DoxyParamCaption})}
+
+
+
+Definition at line 541 of file matrix\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 14
+Here is the caller graph for this function\+:
+% FIG 15
+\mbox{\Hypertarget{matrix__object_8c_af8449277f3a9657627663beec19de337}\label{matrix__object_8c_af8449277f3a9657627663beec19de337}} 
+\index{matrix\+\_\+object.\+c@{matrix\+\_\+object.\+c}!set\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+matrix\+\_\+object@{set\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+matrix\+\_\+object}}
+\index{set\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+matrix\+\_\+object@{set\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+matrix\+\_\+object}!matrix\+\_\+object.\+c@{matrix\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{set\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+matrix\+\_\+object()}{set\_object\_in\_fbgc\_matrix\_object()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ set\+\_\+object\+\_\+in\+\_\+fbgc\+\_\+matrix\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{mat,  }\item[{size\+\_\+t}]{r,  }\item[{size\+\_\+t}]{c,  }\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{obj }\end{DoxyParamCaption})}
+
+
+
+Definition at line 196 of file matrix\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 16
+Here is the caller graph for this function\+:
+% FIG 17
+\mbox{\Hypertarget{matrix__object_8c_a3b38131de55f1ba36877d8118c0e6e6a}\label{matrix__object_8c_a3b38131de55f1ba36877d8118c0e6e6a}} 
+\index{matrix\+\_\+object.\+c@{matrix\+\_\+object.\+c}!transpose\+\_\+fbgc\+\_\+matrix\+\_\+object@{transpose\+\_\+fbgc\+\_\+matrix\+\_\+object}}
+\index{transpose\+\_\+fbgc\+\_\+matrix\+\_\+object@{transpose\+\_\+fbgc\+\_\+matrix\+\_\+object}!matrix\+\_\+object.\+c@{matrix\+\_\+object.\+c}}
+\subsubsection{\texorpdfstring{transpose\+\_\+fbgc\+\_\+matrix\+\_\+object()}{transpose\_fbgc\_matrix\_object()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ transpose\+\_\+fbgc\+\_\+matrix\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{mat1 }\end{DoxyParamCaption})}
+
+
+
+Definition at line 370 of file matrix\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 18
+Here is the caller graph for this function\+:
+% FIG 19

@@ -1,0 +1,91 @@
+\hypertarget{logic__object_8h}{}\section{src/headers/logic\+\_\+object.h File Reference}
+\label{logic__object_8h}\index{src/headers/logic\+\_\+object.\+h@{src/headers/logic\+\_\+object.\+h}}
+This graph shows which files directly or indirectly include this file\+:
+% FIG 0
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structfbgc__logic__object}{fbgc\+\_\+logic\+\_\+object}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{logic__object_8h_a2e0ae28e94b3a32992276c8c1c794b45}{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+logic}(x)~(((struct \hyperlink{structfbgc__logic__object}{fbgc\+\_\+logic\+\_\+object}$\ast$) x))
+\item 
+\#define \hyperlink{logic__object_8h_a3d7e3883617eefda3996cc9b7080c459}{sizeof\+\_\+fbgc\+\_\+logic\+\_\+object}(x)~(sizeof(struct \hyperlink{structfbgc__logic__object}{fbgc\+\_\+logic\+\_\+object}))
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{logic__object_8h_a8cd28a3ac114a01bfd03defff3409eb3}{new\+\_\+fbgc\+\_\+logic\+\_\+object} (int)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{logic__object_8h_acc81750312fb80c539a6cc7c6530d4ee}{operator\+\_\+fbgc\+\_\+logic\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$a, struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$b, \hyperlink{tokens_8h_a9d21ebbf42e602eb0cf502c867d20a7e}{fbgc\+\_\+token} op)
+\item 
+void \hyperlink{logic__object_8h_a075f68910a9563fb45a7d450a60b8d1d}{print\+\_\+fbgc\+\_\+logic\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$)
+\item 
+void \hyperlink{logic__object_8h_a0cfcb8b31cc58d4ab176ee75cc669899}{free\+\_\+fbgc\+\_\+logic\+\_\+object} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{logic__object_8h_a2e0ae28e94b3a32992276c8c1c794b45}\label{logic__object_8h_a2e0ae28e94b3a32992276c8c1c794b45}} 
+\index{logic\+\_\+object.\+h@{logic\+\_\+object.\+h}!cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+logic@{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+logic}}
+\index{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+logic@{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+logic}!logic\+\_\+object.\+h@{logic\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+logic}{cast\_fbgc\_object\_as\_logic}}
+{\footnotesize\ttfamily \#define cast\+\_\+fbgc\+\_\+object\+\_\+as\+\_\+logic(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~(((struct \hyperlink{structfbgc__logic__object}{fbgc\+\_\+logic\+\_\+object}$\ast$) x))}
+
+
+
+Definition at line 13 of file logic\+\_\+object.\+h.
+
+\mbox{\Hypertarget{logic__object_8h_a3d7e3883617eefda3996cc9b7080c459}\label{logic__object_8h_a3d7e3883617eefda3996cc9b7080c459}} 
+\index{logic\+\_\+object.\+h@{logic\+\_\+object.\+h}!sizeof\+\_\+fbgc\+\_\+logic\+\_\+object@{sizeof\+\_\+fbgc\+\_\+logic\+\_\+object}}
+\index{sizeof\+\_\+fbgc\+\_\+logic\+\_\+object@{sizeof\+\_\+fbgc\+\_\+logic\+\_\+object}!logic\+\_\+object.\+h@{logic\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{sizeof\+\_\+fbgc\+\_\+logic\+\_\+object}{sizeof\_fbgc\_logic\_object}}
+{\footnotesize\ttfamily \#define sizeof\+\_\+fbgc\+\_\+logic\+\_\+object(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~(sizeof(struct \hyperlink{structfbgc__logic__object}{fbgc\+\_\+logic\+\_\+object}))}
+
+
+
+Definition at line 14 of file logic\+\_\+object.\+h.
+
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{logic__object_8h_a0cfcb8b31cc58d4ab176ee75cc669899}\label{logic__object_8h_a0cfcb8b31cc58d4ab176ee75cc669899}} 
+\index{logic\+\_\+object.\+h@{logic\+\_\+object.\+h}!free\+\_\+fbgc\+\_\+logic\+\_\+object@{free\+\_\+fbgc\+\_\+logic\+\_\+object}}
+\index{free\+\_\+fbgc\+\_\+logic\+\_\+object@{free\+\_\+fbgc\+\_\+logic\+\_\+object}!logic\+\_\+object.\+h@{logic\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{free\+\_\+fbgc\+\_\+logic\+\_\+object()}{free\_fbgc\_logic\_object()}}
+{\footnotesize\ttfamily void free\+\_\+fbgc\+\_\+logic\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{logic__object_8h_a8cd28a3ac114a01bfd03defff3409eb3}\label{logic__object_8h_a8cd28a3ac114a01bfd03defff3409eb3}} 
+\index{logic\+\_\+object.\+h@{logic\+\_\+object.\+h}!new\+\_\+fbgc\+\_\+logic\+\_\+object@{new\+\_\+fbgc\+\_\+logic\+\_\+object}}
+\index{new\+\_\+fbgc\+\_\+logic\+\_\+object@{new\+\_\+fbgc\+\_\+logic\+\_\+object}!logic\+\_\+object.\+h@{logic\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{new\+\_\+fbgc\+\_\+logic\+\_\+object()}{new\_fbgc\_logic\_object()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ new\+\_\+fbgc\+\_\+logic\+\_\+object (\begin{DoxyParamCaption}\item[{int}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 4 of file logic\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 1
+Here is the caller graph for this function\+:
+% FIG 2
+\mbox{\Hypertarget{logic__object_8h_acc81750312fb80c539a6cc7c6530d4ee}\label{logic__object_8h_acc81750312fb80c539a6cc7c6530d4ee}} 
+\index{logic\+\_\+object.\+h@{logic\+\_\+object.\+h}!operator\+\_\+fbgc\+\_\+logic\+\_\+object@{operator\+\_\+fbgc\+\_\+logic\+\_\+object}}
+\index{operator\+\_\+fbgc\+\_\+logic\+\_\+object@{operator\+\_\+fbgc\+\_\+logic\+\_\+object}!logic\+\_\+object.\+h@{logic\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{operator\+\_\+fbgc\+\_\+logic\+\_\+object()}{operator\_fbgc\_logic\_object()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ operator\+\_\+fbgc\+\_\+logic\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{a,  }\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{b,  }\item[{\hyperlink{tokens_8h_a9d21ebbf42e602eb0cf502c867d20a7e}{fbgc\+\_\+token}}]{op }\end{DoxyParamCaption})}
+
+
+
+Definition at line 16 of file logic\+\_\+object.\+c.
+
+Here is the call graph for this function\+:
+% FIG 3
+\mbox{\Hypertarget{logic__object_8h_a075f68910a9563fb45a7d450a60b8d1d}\label{logic__object_8h_a075f68910a9563fb45a7d450a60b8d1d}} 
+\index{logic\+\_\+object.\+h@{logic\+\_\+object.\+h}!print\+\_\+fbgc\+\_\+logic\+\_\+object@{print\+\_\+fbgc\+\_\+logic\+\_\+object}}
+\index{print\+\_\+fbgc\+\_\+logic\+\_\+object@{print\+\_\+fbgc\+\_\+logic\+\_\+object}!logic\+\_\+object.\+h@{logic\+\_\+object.\+h}}
+\subsubsection{\texorpdfstring{print\+\_\+fbgc\+\_\+logic\+\_\+object()}{print\_fbgc\_logic\_object()}}
+{\footnotesize\ttfamily void print\+\_\+fbgc\+\_\+logic\+\_\+object (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{ }\end{DoxyParamCaption})}
+

@@ -1,0 +1,211 @@
+\hypertarget{grammar_8c}{}\section{src/grammar.c File Reference}
+\label{grammar_8c}\index{src/grammar.\+c@{src/grammar.\+c}}
+{\ttfamily \#include \char`\"{}fbgc.\+h\char`\"{}}\newline
+Include dependency graph for grammar.\+c\+:
+% FIG 0
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{grammar_8c_aab72e5d60be9d2c5f22a673e198e35b4}{\+\_\+info}(s, ...)
+\item 
+\#define \hyperlink{grammar_8c_acb25ea1fe59a89f6007d522ba2a1412a}{\+\_\+info\+\_\+green}(s, ...)
+\item 
+\#define \hyperlink{grammar_8c_a4b4605fb8839c33af5e72592c26a687f}{\+\_\+warning}(s, ...)
+\item 
+\#define \hyperlink{grammar_8c_a11759b81c1a739e694cb7dc848e4dbb1}{\+\_\+print}(s, ...)
+\item 
+\#define \hyperlink{grammar_8c_a010198da0cd8836430f0dacdf2156396}{\+\_\+cprint}(c,  s, ...)
+\item 
+\#define \hyperlink{grammar_8c_af95338584ea0d2477f2c36a6d9929f43}{\+\_\+debug}(s, ...)
+\item 
+\#define \hyperlink{grammar_8c_ad76c1f1e3442b26b6df8e2034f641ba2}{\+\_\+print\+\_\+object}(s,  obj)
+\item 
+\#define \hyperlink{grammar_8c_a8c2213fcdd19c1c83b1966f2b0a9a124}{\+\_\+println\+\_\+object}(s,  obj)
+\item 
+\#define \hyperlink{grammar_8c_aaa15af16bdb9d782644c013e02f438ee}{\+\_\+obj2str}(obj)
+\item 
+\#define \hyperlink{grammar_8c_a74f0856472917f58b7d38b9e1c00b230}{\+\_\+gm2str}(gm)
+\item 
+\#define \hyperlink{grammar_8c_a3983c5489baf42dd041108fda5830385}{gm\+\_\+left}~(gm-\/$>$top)
+\item 
+\#define \hyperlink{grammar_8c_afdfcfcc9dbebe4342f016c40d422d2d8}{gm\+\_\+right}~(gm-\/$>$top)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+uint8\+\_\+t \hyperlink{grammar_8c_ad20551aa0e77e321b1b754734a377d27}{gm\+\_\+seek\+\_\+left} (struct \hyperlink{structfbgc__grammar}{fbgc\+\_\+grammar} $\ast$gm, struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$obj)
+\item 
+uint8\+\_\+t \hyperlink{grammar_8c_a528e886d78ea25ebc8831ee8daad5fce}{gm\+\_\+seek\+\_\+right} (struct \hyperlink{structfbgc__grammar}{fbgc\+\_\+grammar} $\ast$gm, struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$obj)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+uint8\+\_\+t \hyperlink{grammar_8c_a472ad68e41d16e27e135f12038192860}{left\+\_\+matrix} \mbox{[}84\mbox{]}\mbox{[}15\mbox{]}
+\item 
+uint8\+\_\+t \hyperlink{grammar_8c_aa4404b4874886be8fed85c802f38aa33}{right\+\_\+matrix} \mbox{[}84\mbox{]}\mbox{[}15\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{grammar_8c_a010198da0cd8836430f0dacdf2156396}\label{grammar_8c_a010198da0cd8836430f0dacdf2156396}} 
+\index{grammar.\+c@{grammar.\+c}!\+\_\+cprint@{\+\_\+cprint}}
+\index{\+\_\+cprint@{\+\_\+cprint}!grammar.\+c@{grammar.\+c}}
+\subsubsection{\texorpdfstring{\+\_\+cprint}{\_cprint}}
+{\footnotesize\ttfamily \#define \+\_\+cprint(\begin{DoxyParamCaption}\item[{}]{c,  }\item[{}]{s,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+
+
+Definition at line 186 of file grammar.\+c.
+
+\mbox{\Hypertarget{grammar_8c_af95338584ea0d2477f2c36a6d9929f43}\label{grammar_8c_af95338584ea0d2477f2c36a6d9929f43}} 
+\index{grammar.\+c@{grammar.\+c}!\+\_\+debug@{\+\_\+debug}}
+\index{\+\_\+debug@{\+\_\+debug}!grammar.\+c@{grammar.\+c}}
+\subsubsection{\texorpdfstring{\+\_\+debug}{\_debug}}
+{\footnotesize\ttfamily \#define \+\_\+debug(\begin{DoxyParamCaption}\item[{}]{s,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+
+
+Definition at line 187 of file grammar.\+c.
+
+\mbox{\Hypertarget{grammar_8c_a74f0856472917f58b7d38b9e1c00b230}\label{grammar_8c_a74f0856472917f58b7d38b9e1c00b230}} 
+\index{grammar.\+c@{grammar.\+c}!\+\_\+gm2str@{\+\_\+gm2str}}
+\index{\+\_\+gm2str@{\+\_\+gm2str}!grammar.\+c@{grammar.\+c}}
+\subsubsection{\texorpdfstring{\+\_\+gm2str}{\_gm2str}}
+{\footnotesize\ttfamily \#define \+\_\+gm2str(\begin{DoxyParamCaption}\item[{}]{gm }\end{DoxyParamCaption})}
+
+
+
+Definition at line 191 of file grammar.\+c.
+
+\mbox{\Hypertarget{grammar_8c_aab72e5d60be9d2c5f22a673e198e35b4}\label{grammar_8c_aab72e5d60be9d2c5f22a673e198e35b4}} 
+\index{grammar.\+c@{grammar.\+c}!\+\_\+info@{\+\_\+info}}
+\index{\+\_\+info@{\+\_\+info}!grammar.\+c@{grammar.\+c}}
+\subsubsection{\texorpdfstring{\+\_\+info}{\_info}}
+{\footnotesize\ttfamily \#define \+\_\+info(\begin{DoxyParamCaption}\item[{}]{s,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+
+
+Definition at line 182 of file grammar.\+c.
+
+\mbox{\Hypertarget{grammar_8c_acb25ea1fe59a89f6007d522ba2a1412a}\label{grammar_8c_acb25ea1fe59a89f6007d522ba2a1412a}} 
+\index{grammar.\+c@{grammar.\+c}!\+\_\+info\+\_\+green@{\+\_\+info\+\_\+green}}
+\index{\+\_\+info\+\_\+green@{\+\_\+info\+\_\+green}!grammar.\+c@{grammar.\+c}}
+\subsubsection{\texorpdfstring{\+\_\+info\+\_\+green}{\_info\_green}}
+{\footnotesize\ttfamily \#define \+\_\+info\+\_\+green(\begin{DoxyParamCaption}\item[{}]{s,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+
+
+Definition at line 183 of file grammar.\+c.
+
+\mbox{\Hypertarget{grammar_8c_aaa15af16bdb9d782644c013e02f438ee}\label{grammar_8c_aaa15af16bdb9d782644c013e02f438ee}} 
+\index{grammar.\+c@{grammar.\+c}!\+\_\+obj2str@{\+\_\+obj2str}}
+\index{\+\_\+obj2str@{\+\_\+obj2str}!grammar.\+c@{grammar.\+c}}
+\subsubsection{\texorpdfstring{\+\_\+obj2str}{\_obj2str}}
+{\footnotesize\ttfamily \#define \+\_\+obj2str(\begin{DoxyParamCaption}\item[{}]{obj }\end{DoxyParamCaption})}
+
+
+
+Definition at line 190 of file grammar.\+c.
+
+\mbox{\Hypertarget{grammar_8c_a11759b81c1a739e694cb7dc848e4dbb1}\label{grammar_8c_a11759b81c1a739e694cb7dc848e4dbb1}} 
+\index{grammar.\+c@{grammar.\+c}!\+\_\+print@{\+\_\+print}}
+\index{\+\_\+print@{\+\_\+print}!grammar.\+c@{grammar.\+c}}
+\subsubsection{\texorpdfstring{\+\_\+print}{\_print}}
+{\footnotesize\ttfamily \#define \+\_\+print(\begin{DoxyParamCaption}\item[{}]{s,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+
+
+Definition at line 185 of file grammar.\+c.
+
+\mbox{\Hypertarget{grammar_8c_ad76c1f1e3442b26b6df8e2034f641ba2}\label{grammar_8c_ad76c1f1e3442b26b6df8e2034f641ba2}} 
+\index{grammar.\+c@{grammar.\+c}!\+\_\+print\+\_\+object@{\+\_\+print\+\_\+object}}
+\index{\+\_\+print\+\_\+object@{\+\_\+print\+\_\+object}!grammar.\+c@{grammar.\+c}}
+\subsubsection{\texorpdfstring{\+\_\+print\+\_\+object}{\_print\_object}}
+{\footnotesize\ttfamily \#define \+\_\+print\+\_\+object(\begin{DoxyParamCaption}\item[{}]{s,  }\item[{}]{obj }\end{DoxyParamCaption})}
+
+
+
+Definition at line 188 of file grammar.\+c.
+
+\mbox{\Hypertarget{grammar_8c_a8c2213fcdd19c1c83b1966f2b0a9a124}\label{grammar_8c_a8c2213fcdd19c1c83b1966f2b0a9a124}} 
+\index{grammar.\+c@{grammar.\+c}!\+\_\+println\+\_\+object@{\+\_\+println\+\_\+object}}
+\index{\+\_\+println\+\_\+object@{\+\_\+println\+\_\+object}!grammar.\+c@{grammar.\+c}}
+\subsubsection{\texorpdfstring{\+\_\+println\+\_\+object}{\_println\_object}}
+{\footnotesize\ttfamily \#define \+\_\+println\+\_\+object(\begin{DoxyParamCaption}\item[{}]{s,  }\item[{}]{obj }\end{DoxyParamCaption})}
+
+
+
+Definition at line 189 of file grammar.\+c.
+
+\mbox{\Hypertarget{grammar_8c_a4b4605fb8839c33af5e72592c26a687f}\label{grammar_8c_a4b4605fb8839c33af5e72592c26a687f}} 
+\index{grammar.\+c@{grammar.\+c}!\+\_\+warning@{\+\_\+warning}}
+\index{\+\_\+warning@{\+\_\+warning}!grammar.\+c@{grammar.\+c}}
+\subsubsection{\texorpdfstring{\+\_\+warning}{\_warning}}
+{\footnotesize\ttfamily \#define \+\_\+warning(\begin{DoxyParamCaption}\item[{}]{s,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+
+
+Definition at line 184 of file grammar.\+c.
+
+\mbox{\Hypertarget{grammar_8c_a3983c5489baf42dd041108fda5830385}\label{grammar_8c_a3983c5489baf42dd041108fda5830385}} 
+\index{grammar.\+c@{grammar.\+c}!gm\+\_\+left@{gm\+\_\+left}}
+\index{gm\+\_\+left@{gm\+\_\+left}!grammar.\+c@{grammar.\+c}}
+\subsubsection{\texorpdfstring{gm\+\_\+left}{gm\_left}}
+{\footnotesize\ttfamily \#define gm\+\_\+left~(gm-\/$>$top)}
+
+\mbox{\Hypertarget{grammar_8c_afdfcfcc9dbebe4342f016c40d422d2d8}\label{grammar_8c_afdfcfcc9dbebe4342f016c40d422d2d8}} 
+\index{grammar.\+c@{grammar.\+c}!gm\+\_\+right@{gm\+\_\+right}}
+\index{gm\+\_\+right@{gm\+\_\+right}!grammar.\+c@{grammar.\+c}}
+\subsubsection{\texorpdfstring{gm\+\_\+right}{gm\_right}}
+{\footnotesize\ttfamily \#define gm\+\_\+right~(gm-\/$>$top)}
+
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{grammar_8c_ad20551aa0e77e321b1b754734a377d27}\label{grammar_8c_ad20551aa0e77e321b1b754734a377d27}} 
+\index{grammar.\+c@{grammar.\+c}!gm\+\_\+seek\+\_\+left@{gm\+\_\+seek\+\_\+left}}
+\index{gm\+\_\+seek\+\_\+left@{gm\+\_\+seek\+\_\+left}!grammar.\+c@{grammar.\+c}}
+\subsubsection{\texorpdfstring{gm\+\_\+seek\+\_\+left()}{gm\_seek\_left()}}
+{\footnotesize\ttfamily uint8\+\_\+t gm\+\_\+seek\+\_\+left (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__grammar}{fbgc\+\_\+grammar} $\ast$}]{gm,  }\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{obj }\end{DoxyParamCaption})}
+
+
+
+Definition at line 195 of file grammar.\+c.
+
+Here is the caller graph for this function\+:
+% FIG 1
+\mbox{\Hypertarget{grammar_8c_a528e886d78ea25ebc8831ee8daad5fce}\label{grammar_8c_a528e886d78ea25ebc8831ee8daad5fce}} 
+\index{grammar.\+c@{grammar.\+c}!gm\+\_\+seek\+\_\+right@{gm\+\_\+seek\+\_\+right}}
+\index{gm\+\_\+seek\+\_\+right@{gm\+\_\+seek\+\_\+right}!grammar.\+c@{grammar.\+c}}
+\subsubsection{\texorpdfstring{gm\+\_\+seek\+\_\+right()}{gm\_seek\_right()}}
+{\footnotesize\ttfamily uint8\+\_\+t gm\+\_\+seek\+\_\+right (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__grammar}{fbgc\+\_\+grammar} $\ast$}]{gm,  }\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$}]{obj }\end{DoxyParamCaption})}
+
+
+
+Definition at line 244 of file grammar.\+c.
+
+Here is the caller graph for this function\+:
+% FIG 2
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{grammar_8c_a472ad68e41d16e27e135f12038192860}\label{grammar_8c_a472ad68e41d16e27e135f12038192860}} 
+\index{grammar.\+c@{grammar.\+c}!left\+\_\+matrix@{left\+\_\+matrix}}
+\index{left\+\_\+matrix@{left\+\_\+matrix}!grammar.\+c@{grammar.\+c}}
+\subsubsection{\texorpdfstring{left\+\_\+matrix}{left\_matrix}}
+{\footnotesize\ttfamily uint8\+\_\+t left\+\_\+matrix\mbox{[}84\mbox{]}\mbox{[}15\mbox{]}}
+
+
+
+Definition at line 5 of file grammar.\+c.
+
+\mbox{\Hypertarget{grammar_8c_aa4404b4874886be8fed85c802f38aa33}\label{grammar_8c_aa4404b4874886be8fed85c802f38aa33}} 
+\index{grammar.\+c@{grammar.\+c}!right\+\_\+matrix@{right\+\_\+matrix}}
+\index{right\+\_\+matrix@{right\+\_\+matrix}!grammar.\+c@{grammar.\+c}}
+\subsubsection{\texorpdfstring{right\+\_\+matrix}{right\_matrix}}
+{\footnotesize\ttfamily uint8\+\_\+t right\+\_\+matrix\mbox{[}84\mbox{]}\mbox{[}15\mbox{]}}
+
+
+
+Definition at line 91 of file grammar.\+c.
+

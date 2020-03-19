@@ -1,0 +1,244 @@
+\hypertarget{fbgc__math_8c}{}\section{cmodules/fbgc\+\_\+math.c File Reference}
+\label{fbgc__math_8c}\index{cmodules/fbgc\+\_\+math.\+c@{cmodules/fbgc\+\_\+math.\+c}}
+{\ttfamily \#include \char`\"{}../src/fbgc.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}fbgc\+\_\+math.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$math.\+h$>$}\newline
+{\ttfamily \#include $<$cblas.\+h$>$}\newline
+Include dependency graph for fbgc\+\_\+math.\+c\+:
+% FIG 0
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{fbgc__math_8c_a36d3f68672ec96efcd172c680da64577}{new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math}(fun\+\_\+str,  func\+\_\+ptr,  complex\+\_\+func\+\_\+ptr)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structraw__complex}{raw\+\_\+complex} \hyperlink{fbgc__math_8c_a1da63ee12e1b6a2456f2bf0a0d176d9c}{c\+\_\+exp} (struct \hyperlink{structraw__complex}{raw\+\_\+complex} z)
+\item 
+struct \hyperlink{structraw__complex}{raw\+\_\+complex} \hyperlink{fbgc__math_8c_ac905d4a49d52f4c455f650bd65256fae}{c\+\_\+cos} (struct \hyperlink{structraw__complex}{raw\+\_\+complex} z)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{fbgc__math_8c_aa6e10b1ad6ff2f812aec975bf195c447}{one\+\_\+arg\+\_\+math} (struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$$\ast$arg, int argc, double($\ast$fun)(double), struct \hyperlink{structraw__complex}{raw\+\_\+complex}($\ast$zfun)(struct \hyperlink{structraw__complex}{raw\+\_\+complex}))
+\item 
+\hyperlink{fbgc__math_8c_a02d23371b1deb22ee44c53c2c45fad5f}{new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math} (\char`\"{}sin\char`\"{}, sin, N\+U\+LL)
+\item 
+\hyperlink{fbgc__math_8c_a68940d41a5d6c839ba6ff0cef86000d2}{new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math} (\char`\"{}cos\char`\"{}, cos, \hyperlink{fbgc__math_8c_ac905d4a49d52f4c455f650bd65256fae}{c\+\_\+cos})
+\item 
+\hyperlink{fbgc__math_8c_af081a51903c8e6ab8b012e89ace49309}{new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math} (\char`\"{}tan\char`\"{}, tan, N\+U\+LL)
+\item 
+\hyperlink{fbgc__math_8c_aec4dcde635d4d9efca0e380f02c17ad4}{new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math} (\char`\"{}exp\char`\"{}, exp, \hyperlink{fbgc__math_8c_a1da63ee12e1b6a2456f2bf0a0d176d9c}{c\+\_\+exp})
+\item 
+\hyperlink{fbgc__math_8c_a870c4dbd277420595e90d2b02850a6f7}{new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math} (\char`\"{}sqrt\char`\"{}, sqrt, N\+U\+LL)
+\item 
+\hyperlink{fbgc__math_8c_a9eb1700a5bd425c10311d25a941c3f38}{new\+\_\+fbgc\+\_\+cfunction} (fbgc\+\_\+math\+\_\+initializer,\char`\"{}math\char`\"{})
+\item 
+\hyperlink{fbgc__math_8c_acae2e33558ec38d07e79b30d9dedd266}{new\+\_\+fbgc\+\_\+cfunction} (fbgc\+\_\+gsl,\char`\"{}gsl\char`\"{})
+\item 
+\hyperlink{fbgc__math_8c_a257fff332d372d7335e4a7ea95350a18}{new\+\_\+fbgc\+\_\+cfunction} (fbgc\+\_\+randint,\char`\"{}randint\char`\"{})
+\item 
+\hyperlink{fbgc__math_8c_a5961f35a1081f12e716de9fe5351dd93}{new\+\_\+fbgc\+\_\+cfunction} (fbgc\+\_\+random,\char`\"{}random\char`\"{})
+\item 
+\hyperlink{fbgc__math_8c_a31213c396b9fe11344b76eed17716404}{new\+\_\+fbgc\+\_\+cfunction} (fbgc\+\_\+rand,\char`\"{}rand\char`\"{})
+\item 
+\hyperlink{fbgc__math_8c_aab343b5abf6018e1d7337bc70b049e40}{new\+\_\+fbgc\+\_\+cfunction} (fbgc\+\_\+randj,\char`\"{}randj\char`\"{})
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const struct \hyperlink{structfbgc__cmodule}{fbgc\+\_\+cmodule} \hyperlink{fbgc__math_8c_a0e21a6913dcdb97c9dc7893fcde44fe4}{fbgc\+\_\+math\+\_\+module}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{fbgc__math_8c_a36d3f68672ec96efcd172c680da64577}\label{fbgc__math_8c_a36d3f68672ec96efcd172c680da64577}} 
+\index{fbgc\+\_\+math.\+c@{fbgc\+\_\+math.\+c}!new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math@{new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math}}
+\index{new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math@{new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math}!fbgc\+\_\+math.\+c@{fbgc\+\_\+math.\+c}}
+\subsubsection{\texorpdfstring{new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math}{new\_fbgc\_one\_arg\_math}}
+{\footnotesize\ttfamily \#define new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math(\begin{DoxyParamCaption}\item[{}]{fun\+\_\+str,  }\item[{}]{func\+\_\+ptr,  }\item[{}]{complex\+\_\+func\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}
+\textcolor{keyword}{const} \textcolor{keyword}{struct }\hyperlink{structfbgc__cfunction}{fbgc\_cfunction} fbgc\_##func\_ptr##\_struct = \{fun\_str,fbgc\_##func\_ptr\};\(\backslash\)
+extern \textcolor{keyword}{struct }\hyperlink{structfbgc__object}{fbgc\_object} * fbgc\_##func\_ptr(\textcolor{keyword}{struct} \hyperlink{structfbgc__object}{fbgc\_object} ** arg, \textcolor{keywordtype}{int} argc) \{\(\backslash\)
+return (argc == 1) ? \hyperlink{fbgc__math_8c_aa6e10b1ad6ff2f812aec975bf195c447}{one\_arg\_math}(arg,argc,func\_ptr,complex\_func\_ptr) : NULL ;\}\(\backslash\)
+\end{DoxyCode}
+
+
+Definition at line 119 of file fbgc\+\_\+math.\+c.
+
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{fbgc__math_8c_ac905d4a49d52f4c455f650bd65256fae}\label{fbgc__math_8c_ac905d4a49d52f4c455f650bd65256fae}} 
+\index{fbgc\+\_\+math.\+c@{fbgc\+\_\+math.\+c}!c\+\_\+cos@{c\+\_\+cos}}
+\index{c\+\_\+cos@{c\+\_\+cos}!fbgc\+\_\+math.\+c@{fbgc\+\_\+math.\+c}}
+\subsubsection{\texorpdfstring{c\+\_\+cos()}{c\_cos()}}
+{\footnotesize\ttfamily struct \hyperlink{structraw__complex}{raw\+\_\+complex} c\+\_\+cos (\begin{DoxyParamCaption}\item[{struct \hyperlink{structraw__complex}{raw\+\_\+complex}}]{z }\end{DoxyParamCaption})}
+
+
+
+Definition at line 36 of file fbgc\+\_\+math.\+c.
+
+Here is the call graph for this function\+:
+% FIG 1
+\mbox{\Hypertarget{fbgc__math_8c_a1da63ee12e1b6a2456f2bf0a0d176d9c}\label{fbgc__math_8c_a1da63ee12e1b6a2456f2bf0a0d176d9c}} 
+\index{fbgc\+\_\+math.\+c@{fbgc\+\_\+math.\+c}!c\+\_\+exp@{c\+\_\+exp}}
+\index{c\+\_\+exp@{c\+\_\+exp}!fbgc\+\_\+math.\+c@{fbgc\+\_\+math.\+c}}
+\subsubsection{\texorpdfstring{c\+\_\+exp()}{c\_exp()}}
+{\footnotesize\ttfamily struct \hyperlink{structraw__complex}{raw\+\_\+complex} c\+\_\+exp (\begin{DoxyParamCaption}\item[{struct \hyperlink{structraw__complex}{raw\+\_\+complex}}]{z }\end{DoxyParamCaption})}
+
+
+
+Definition at line 27 of file fbgc\+\_\+math.\+c.
+
+Here is the caller graph for this function\+:
+% FIG 2
+\mbox{\Hypertarget{fbgc__math_8c_a9eb1700a5bd425c10311d25a941c3f38}\label{fbgc__math_8c_a9eb1700a5bd425c10311d25a941c3f38}} 
+\index{fbgc\+\_\+math.\+c@{fbgc\+\_\+math.\+c}!new\+\_\+fbgc\+\_\+cfunction@{new\+\_\+fbgc\+\_\+cfunction}}
+\index{new\+\_\+fbgc\+\_\+cfunction@{new\+\_\+fbgc\+\_\+cfunction}!fbgc\+\_\+math.\+c@{fbgc\+\_\+math.\+c}}
+\subsubsection{\texorpdfstring{new\+\_\+fbgc\+\_\+cfunction()}{new\_fbgc\_cfunction()}\hspace{0.1cm}{\footnotesize\ttfamily [1/6]}}
+{\footnotesize\ttfamily new\+\_\+fbgc\+\_\+cfunction (\begin{DoxyParamCaption}\item[{fbgc\+\_\+math\+\_\+initializer}]{,  }\item[{\char`\"{}math\char`\"{}}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 141 of file fbgc\+\_\+math.\+c.
+
+Here is the call graph for this function\+:
+% FIG 3
+\mbox{\Hypertarget{fbgc__math_8c_acae2e33558ec38d07e79b30d9dedd266}\label{fbgc__math_8c_acae2e33558ec38d07e79b30d9dedd266}} 
+\index{fbgc\+\_\+math.\+c@{fbgc\+\_\+math.\+c}!new\+\_\+fbgc\+\_\+cfunction@{new\+\_\+fbgc\+\_\+cfunction}}
+\index{new\+\_\+fbgc\+\_\+cfunction@{new\+\_\+fbgc\+\_\+cfunction}!fbgc\+\_\+math.\+c@{fbgc\+\_\+math.\+c}}
+\subsubsection{\texorpdfstring{new\+\_\+fbgc\+\_\+cfunction()}{new\_fbgc\_cfunction()}\hspace{0.1cm}{\footnotesize\ttfamily [2/6]}}
+{\footnotesize\ttfamily new\+\_\+fbgc\+\_\+cfunction (\begin{DoxyParamCaption}\item[{fbgc\+\_\+gsl}]{,  }\item[{\char`\"{}gsl\char`\"{}}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 150 of file fbgc\+\_\+math.\+c.
+
+Here is the call graph for this function\+:
+% FIG 4
+\mbox{\Hypertarget{fbgc__math_8c_a257fff332d372d7335e4a7ea95350a18}\label{fbgc__math_8c_a257fff332d372d7335e4a7ea95350a18}} 
+\index{fbgc\+\_\+math.\+c@{fbgc\+\_\+math.\+c}!new\+\_\+fbgc\+\_\+cfunction@{new\+\_\+fbgc\+\_\+cfunction}}
+\index{new\+\_\+fbgc\+\_\+cfunction@{new\+\_\+fbgc\+\_\+cfunction}!fbgc\+\_\+math.\+c@{fbgc\+\_\+math.\+c}}
+\subsubsection{\texorpdfstring{new\+\_\+fbgc\+\_\+cfunction()}{new\_fbgc\_cfunction()}\hspace{0.1cm}{\footnotesize\ttfamily [3/6]}}
+{\footnotesize\ttfamily new\+\_\+fbgc\+\_\+cfunction (\begin{DoxyParamCaption}\item[{fbgc\+\_\+randint}]{,  }\item[{\char`\"{}randint\char`\"{}}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 272 of file fbgc\+\_\+math.\+c.
+
+Here is the call graph for this function\+:
+% FIG 5
+\mbox{\Hypertarget{fbgc__math_8c_a5961f35a1081f12e716de9fe5351dd93}\label{fbgc__math_8c_a5961f35a1081f12e716de9fe5351dd93}} 
+\index{fbgc\+\_\+math.\+c@{fbgc\+\_\+math.\+c}!new\+\_\+fbgc\+\_\+cfunction@{new\+\_\+fbgc\+\_\+cfunction}}
+\index{new\+\_\+fbgc\+\_\+cfunction@{new\+\_\+fbgc\+\_\+cfunction}!fbgc\+\_\+math.\+c@{fbgc\+\_\+math.\+c}}
+\subsubsection{\texorpdfstring{new\+\_\+fbgc\+\_\+cfunction()}{new\_fbgc\_cfunction()}\hspace{0.1cm}{\footnotesize\ttfamily [4/6]}}
+{\footnotesize\ttfamily new\+\_\+fbgc\+\_\+cfunction (\begin{DoxyParamCaption}\item[{fbgc\+\_\+random}]{,  }\item[{\char`\"{}random\char`\"{}}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 295 of file fbgc\+\_\+math.\+c.
+
+Here is the call graph for this function\+:
+% FIG 6
+\mbox{\Hypertarget{fbgc__math_8c_a31213c396b9fe11344b76eed17716404}\label{fbgc__math_8c_a31213c396b9fe11344b76eed17716404}} 
+\index{fbgc\+\_\+math.\+c@{fbgc\+\_\+math.\+c}!new\+\_\+fbgc\+\_\+cfunction@{new\+\_\+fbgc\+\_\+cfunction}}
+\index{new\+\_\+fbgc\+\_\+cfunction@{new\+\_\+fbgc\+\_\+cfunction}!fbgc\+\_\+math.\+c@{fbgc\+\_\+math.\+c}}
+\subsubsection{\texorpdfstring{new\+\_\+fbgc\+\_\+cfunction()}{new\_fbgc\_cfunction()}\hspace{0.1cm}{\footnotesize\ttfamily [5/6]}}
+{\footnotesize\ttfamily new\+\_\+fbgc\+\_\+cfunction (\begin{DoxyParamCaption}\item[{fbgc\+\_\+rand}]{,  }\item[{\char`\"{}rand\char`\"{}}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 317 of file fbgc\+\_\+math.\+c.
+
+Here is the call graph for this function\+:
+% FIG 7
+\mbox{\Hypertarget{fbgc__math_8c_aab343b5abf6018e1d7337bc70b049e40}\label{fbgc__math_8c_aab343b5abf6018e1d7337bc70b049e40}} 
+\index{fbgc\+\_\+math.\+c@{fbgc\+\_\+math.\+c}!new\+\_\+fbgc\+\_\+cfunction@{new\+\_\+fbgc\+\_\+cfunction}}
+\index{new\+\_\+fbgc\+\_\+cfunction@{new\+\_\+fbgc\+\_\+cfunction}!fbgc\+\_\+math.\+c@{fbgc\+\_\+math.\+c}}
+\subsubsection{\texorpdfstring{new\+\_\+fbgc\+\_\+cfunction()}{new\_fbgc\_cfunction()}\hspace{0.1cm}{\footnotesize\ttfamily [6/6]}}
+{\footnotesize\ttfamily new\+\_\+fbgc\+\_\+cfunction (\begin{DoxyParamCaption}\item[{fbgc\+\_\+randj}]{,  }\item[{\char`\"{}randj\char`\"{}}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 341 of file fbgc\+\_\+math.\+c.
+
+Here is the call graph for this function\+:
+% FIG 8
+\mbox{\Hypertarget{fbgc__math_8c_a02d23371b1deb22ee44c53c2c45fad5f}\label{fbgc__math_8c_a02d23371b1deb22ee44c53c2c45fad5f}} 
+\index{fbgc\+\_\+math.\+c@{fbgc\+\_\+math.\+c}!new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math@{new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math}}
+\index{new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math@{new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math}!fbgc\+\_\+math.\+c@{fbgc\+\_\+math.\+c}}
+\subsubsection{\texorpdfstring{new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math()}{new\_fbgc\_one\_arg\_math()}\hspace{0.1cm}{\footnotesize\ttfamily [1/5]}}
+{\footnotesize\ttfamily new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math (\begin{DoxyParamCaption}\item[{\char`\"{}sin\char`\"{}}]{,  }\item[{sin}]{,  }\item[{N\+U\+LL}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{fbgc__math_8c_a68940d41a5d6c839ba6ff0cef86000d2}\label{fbgc__math_8c_a68940d41a5d6c839ba6ff0cef86000d2}} 
+\index{fbgc\+\_\+math.\+c@{fbgc\+\_\+math.\+c}!new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math@{new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math}}
+\index{new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math@{new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math}!fbgc\+\_\+math.\+c@{fbgc\+\_\+math.\+c}}
+\subsubsection{\texorpdfstring{new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math()}{new\_fbgc\_one\_arg\_math()}\hspace{0.1cm}{\footnotesize\ttfamily [2/5]}}
+{\footnotesize\ttfamily new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math (\begin{DoxyParamCaption}\item[{\char`\"{}cos\char`\"{}}]{,  }\item[{cos}]{,  }\item[{\hyperlink{fbgc__math_8c_ac905d4a49d52f4c455f650bd65256fae}{c\+\_\+cos}}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{fbgc__math_8c_af081a51903c8e6ab8b012e89ace49309}\label{fbgc__math_8c_af081a51903c8e6ab8b012e89ace49309}} 
+\index{fbgc\+\_\+math.\+c@{fbgc\+\_\+math.\+c}!new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math@{new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math}}
+\index{new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math@{new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math}!fbgc\+\_\+math.\+c@{fbgc\+\_\+math.\+c}}
+\subsubsection{\texorpdfstring{new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math()}{new\_fbgc\_one\_arg\_math()}\hspace{0.1cm}{\footnotesize\ttfamily [3/5]}}
+{\footnotesize\ttfamily new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math (\begin{DoxyParamCaption}\item[{\char`\"{}tan\char`\"{}}]{,  }\item[{tan}]{,  }\item[{N\+U\+LL}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{fbgc__math_8c_aec4dcde635d4d9efca0e380f02c17ad4}\label{fbgc__math_8c_aec4dcde635d4d9efca0e380f02c17ad4}} 
+\index{fbgc\+\_\+math.\+c@{fbgc\+\_\+math.\+c}!new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math@{new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math}}
+\index{new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math@{new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math}!fbgc\+\_\+math.\+c@{fbgc\+\_\+math.\+c}}
+\subsubsection{\texorpdfstring{new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math()}{new\_fbgc\_one\_arg\_math()}\hspace{0.1cm}{\footnotesize\ttfamily [4/5]}}
+{\footnotesize\ttfamily new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math (\begin{DoxyParamCaption}\item[{\char`\"{}exp\char`\"{}}]{,  }\item[{exp}]{,  }\item[{\hyperlink{fbgc__math_8c_a1da63ee12e1b6a2456f2bf0a0d176d9c}{c\+\_\+exp}}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{fbgc__math_8c_a870c4dbd277420595e90d2b02850a6f7}\label{fbgc__math_8c_a870c4dbd277420595e90d2b02850a6f7}} 
+\index{fbgc\+\_\+math.\+c@{fbgc\+\_\+math.\+c}!new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math@{new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math}}
+\index{new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math@{new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math}!fbgc\+\_\+math.\+c@{fbgc\+\_\+math.\+c}}
+\subsubsection{\texorpdfstring{new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math()}{new\_fbgc\_one\_arg\_math()}\hspace{0.1cm}{\footnotesize\ttfamily [5/5]}}
+{\footnotesize\ttfamily new\+\_\+fbgc\+\_\+one\+\_\+arg\+\_\+math (\begin{DoxyParamCaption}\item[{\char`\"{}sqrt\char`\"{}}]{,  }\item[{sqrt}]{,  }\item[{N\+U\+LL}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{fbgc__math_8c_aa6e10b1ad6ff2f812aec975bf195c447}\label{fbgc__math_8c_aa6e10b1ad6ff2f812aec975bf195c447}} 
+\index{fbgc\+\_\+math.\+c@{fbgc\+\_\+math.\+c}!one\+\_\+arg\+\_\+math@{one\+\_\+arg\+\_\+math}}
+\index{one\+\_\+arg\+\_\+math@{one\+\_\+arg\+\_\+math}!fbgc\+\_\+math.\+c@{fbgc\+\_\+math.\+c}}
+\subsubsection{\texorpdfstring{one\+\_\+arg\+\_\+math()}{one\_arg\_math()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ one\+\_\+arg\+\_\+math (\begin{DoxyParamCaption}\item[{struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$$\ast$}]{arg,  }\item[{int}]{argc,  }\item[{double($\ast$)(double)}]{fun,  }\item[{struct \hyperlink{structraw__complex}{raw\+\_\+complex}($\ast$)(struct \hyperlink{structraw__complex}{raw\+\_\+complex})}]{zfun }\end{DoxyParamCaption})}
+
+
+
+Definition at line 55 of file fbgc\+\_\+math.\+c.
+
+Here is the call graph for this function\+:
+% FIG 9
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{fbgc__math_8c_a0e21a6913dcdb97c9dc7893fcde44fe4}\label{fbgc__math_8c_a0e21a6913dcdb97c9dc7893fcde44fe4}} 
+\index{fbgc\+\_\+math.\+c@{fbgc\+\_\+math.\+c}!fbgc\+\_\+math\+\_\+module@{fbgc\+\_\+math\+\_\+module}}
+\index{fbgc\+\_\+math\+\_\+module@{fbgc\+\_\+math\+\_\+module}!fbgc\+\_\+math.\+c@{fbgc\+\_\+math.\+c}}
+\subsubsection{\texorpdfstring{fbgc\+\_\+math\+\_\+module}{fbgc\_math\_module}}
+{\footnotesize\ttfamily const struct \hyperlink{structfbgc__cmodule}{fbgc\+\_\+cmodule} fbgc\+\_\+math\+\_\+module}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+= 
+\{
+    
+    .initializer = &fbgc\_math\_initializer\_struct,
+    .functions = (\textcolor{keyword}{const} \textcolor{keyword}{struct }\hyperlink{structfbgc__cfunction}{fbgc\_cfunction}*[])
+    \{   
+        &fbgc\_sin\_struct,
+        &fbgc\_cos\_struct,
+        &fbgc\_tan\_struct,
+        &fbgc\_exp\_struct,
+        &fbgc\_sqrt\_struct,
+        &fbgc\_gsl\_struct,
+        &fbgc\_random\_struct,
+        &fbgc\_randint\_struct,
+        &fbgc\_rand\_struct,
+        &fbgc\_randj\_struct,     
+        NULL
+    \}
+\}
+\end{DoxyCode}
+
+
+Definition at line 365 of file fbgc\+\_\+math.\+c.
+

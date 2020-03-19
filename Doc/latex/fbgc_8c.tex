@@ -1,0 +1,100 @@
+\hypertarget{fbgc_8c}{}\section{src/fbgc.c File Reference}
+\label{fbgc_8c}\index{src/fbgc.\+c@{src/fbgc.\+c}}
+{\ttfamily \#include \char`\"{}fbgc.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../cmodules/cmodules.\+h\char`\"{}}\newline
+Include dependency graph for fbgc.\+c\+:
+% FIG 0
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{fbgc_8c_a028d4bd3c990b0410fe7e03543a8ed60}{fbgc\+\_\+load\+\_\+module} (const char $\ast$module\+\_\+name, const char $\ast$fun\+\_\+name, uint8\+\_\+t load\+\_\+key)
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{fbgc_8c_a2aeeff0403205e54bd0dd187e4337b4a}{fbgc\+\_\+load\+\_\+file} (char $\ast$file\+\_\+name, const char $\ast$fun\+\_\+name, uint8\+\_\+t load\+\_\+key)
+\item 
+int \hyperlink{fbgc_8c_a3c04138a5bfe5d72780bb7e82a18e627}{main} (int argc, char $\ast$$\ast$argv)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$ \hyperlink{fbgc_8c_a53dc02c343db1a90b4bc6ced5d757740}{current\+\_\+field} = N\+U\+LL
+\item 
+const struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} \hyperlink{fbgc_8c_a0c970fdab36285a8cd145cedb02c57a9}{\+\_\+\+\_\+nil\+\_\+\+\_\+} = \{.type = \hyperlink{tokens_8h_a263efce0e5cda1d387a1a43f94715445}{N\+IL}, .next=N\+U\+LL\}
+\item 
+const struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} $\ast$const \hyperlink{fbgc_8c_a4b86811d738cb6a6fb94ff545364f10c}{\+\_\+\+\_\+fbgc\+\_\+nil} = \&\hyperlink{fbgc_8c_a0c970fdab36285a8cd145cedb02c57a9}{\+\_\+\+\_\+nil\+\_\+\+\_\+}
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{fbgc_8c_a2aeeff0403205e54bd0dd187e4337b4a}\label{fbgc_8c_a2aeeff0403205e54bd0dd187e4337b4a}} 
+\index{fbgc.\+c@{fbgc.\+c}!fbgc\+\_\+load\+\_\+file@{fbgc\+\_\+load\+\_\+file}}
+\index{fbgc\+\_\+load\+\_\+file@{fbgc\+\_\+load\+\_\+file}!fbgc.\+c@{fbgc.\+c}}
+\subsubsection{\texorpdfstring{fbgc\+\_\+load\+\_\+file()}{fbgc\_load\_file()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ fbgc\+\_\+load\+\_\+file (\begin{DoxyParamCaption}\item[{char $\ast$}]{file\+\_\+name,  }\item[{const char $\ast$}]{fun\+\_\+name,  }\item[{uint8\+\_\+t}]{load\+\_\+key }\end{DoxyParamCaption})}
+
+
+
+Definition at line 104 of file fbgc.\+c.
+
+Here is the call graph for this function\+:
+% FIG 1
+Here is the caller graph for this function\+:
+% FIG 2
+\mbox{\Hypertarget{fbgc_8c_a028d4bd3c990b0410fe7e03543a8ed60}\label{fbgc_8c_a028d4bd3c990b0410fe7e03543a8ed60}} 
+\index{fbgc.\+c@{fbgc.\+c}!fbgc\+\_\+load\+\_\+module@{fbgc\+\_\+load\+\_\+module}}
+\index{fbgc\+\_\+load\+\_\+module@{fbgc\+\_\+load\+\_\+module}!fbgc.\+c@{fbgc.\+c}}
+\subsubsection{\texorpdfstring{fbgc\+\_\+load\+\_\+module()}{fbgc\_load\_module()}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ fbgc\+\_\+load\+\_\+module (\begin{DoxyParamCaption}\item[{const char $\ast$}]{module\+\_\+name,  }\item[{const char $\ast$}]{fun\+\_\+name,  }\item[{uint8\+\_\+t}]{load\+\_\+key }\end{DoxyParamCaption})}
+
+
+
+Definition at line 63 of file fbgc.\+c.
+
+Here is the call graph for this function\+:
+% FIG 3
+Here is the caller graph for this function\+:
+% FIG 4
+\mbox{\Hypertarget{fbgc_8c_a3c04138a5bfe5d72780bb7e82a18e627}\label{fbgc_8c_a3c04138a5bfe5d72780bb7e82a18e627}} 
+\index{fbgc.\+c@{fbgc.\+c}!main@{main}}
+\index{main@{main}!fbgc.\+c@{fbgc.\+c}}
+\subsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{argv }\end{DoxyParamCaption})}
+
+$<$ Detailed description after the member 
+
+Definition at line 185 of file fbgc.\+c.
+
+Here is the call graph for this function\+:
+% FIG 5
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{fbgc_8c_a4b86811d738cb6a6fb94ff545364f10c}\label{fbgc_8c_a4b86811d738cb6a6fb94ff545364f10c}} 
+\index{fbgc.\+c@{fbgc.\+c}!\+\_\+\+\_\+fbgc\+\_\+nil@{\+\_\+\+\_\+fbgc\+\_\+nil}}
+\index{\+\_\+\+\_\+fbgc\+\_\+nil@{\+\_\+\+\_\+fbgc\+\_\+nil}!fbgc.\+c@{fbgc.\+c}}
+\subsubsection{\texorpdfstring{\+\_\+\+\_\+fbgc\+\_\+nil}{\_\_fbgc\_nil}}
+{\footnotesize\ttfamily const struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ const \+\_\+\+\_\+fbgc\+\_\+nil = \&\hyperlink{fbgc_8c_a0c970fdab36285a8cd145cedb02c57a9}{\+\_\+\+\_\+nil\+\_\+\+\_\+}}
+
+
+
+Definition at line 7 of file fbgc.\+c.
+
+\mbox{\Hypertarget{fbgc_8c_a0c970fdab36285a8cd145cedb02c57a9}\label{fbgc_8c_a0c970fdab36285a8cd145cedb02c57a9}} 
+\index{fbgc.\+c@{fbgc.\+c}!\+\_\+\+\_\+nil\+\_\+\+\_\+@{\+\_\+\+\_\+nil\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+nil\+\_\+\+\_\+@{\+\_\+\+\_\+nil\+\_\+\+\_\+}!fbgc.\+c@{fbgc.\+c}}
+\subsubsection{\texorpdfstring{\+\_\+\+\_\+nil\+\_\+\+\_\+}{\_\_nil\_\_}}
+{\footnotesize\ttfamily const struct \hyperlink{structfbgc__object}{fbgc\+\_\+object} \+\_\+\+\_\+nil\+\_\+\+\_\+ = \{.type = \hyperlink{tokens_8h_a263efce0e5cda1d387a1a43f94715445}{N\+IL}, .next=N\+U\+LL\}}
+
+
+
+Definition at line 6 of file fbgc.\+c.
+
+\mbox{\Hypertarget{fbgc_8c_a53dc02c343db1a90b4bc6ced5d757740}\label{fbgc_8c_a53dc02c343db1a90b4bc6ced5d757740}} 
+\index{fbgc.\+c@{fbgc.\+c}!current\+\_\+field@{current\+\_\+field}}
+\index{current\+\_\+field@{current\+\_\+field}!fbgc.\+c@{fbgc.\+c}}
+\subsubsection{\texorpdfstring{current\+\_\+field}{current\_field}}
+{\footnotesize\ttfamily struct \hyperlink{structfbgc__object}{fbgc\+\_\+object}$\ast$ current\+\_\+field = N\+U\+LL}
+
+
+
+Definition at line 5 of file fbgc.\+c.
+

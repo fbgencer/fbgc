@@ -12,6 +12,7 @@
 #define _println_object(s,obj)
 #define _obj2str(obj)
 #define _gm2str(gm)
+#define print_field_object_locals(x)
 #endif
 
 
@@ -20,7 +21,6 @@ struct iter_function_ptr_struct{
 };
 
 uint8_t interpreter(struct fbgc_object ** field_obj){
-	return 0;
 	current_field = *field_obj;
 
 	struct fbgc_ll_object * head = cast_fbgc_object_as_ll( cast_fbgc_object_as_field(*field_obj)->head );
@@ -40,7 +40,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 #define STACK_GOTO(i) 	(sctr += i)
 #define PUSH(x)		(*(sp+ sctr++ ) = (x))
-#define POP()			(sp[--sctr])
+#define POP()			(sp[--sctr]) /**< Detailed description after the member */
 #define _POP()			(--sctr)
 #define TOP()			(sp[sctr-1])
 #define SECOND()		(sp[sctr-2])
@@ -668,6 +668,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 		cast_fbgc_object_as_tuple(stack)->size = sctr; //sp - tuple_object_content(stack);
 		_println_object("~~~~~~Stack~~~~~\n",stack);
 		_info("~~~~~~Field Globals~~~~~\n");
+		
 		print_field_object_locals(*field_obj);
 		_info("\n==============================================\n\n");
 		
