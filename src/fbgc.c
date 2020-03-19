@@ -3,7 +3,7 @@
 #include "../cmodules/cmodules.h"
 
 struct fbgc_object * current_field = NULL;
-const struct fbgc_object __nil__ = {.type = NIL, .next=NULL};
+const struct fbgc_object __nil__ = {.type = NIL};
 const struct fbgc_object * const __fbgc_nil = &__nil__;
 
 

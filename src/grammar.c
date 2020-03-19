@@ -194,7 +194,7 @@ uint8_t right_matrix[85][15] = {
 #endif
 
 
-uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
+uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_ll_base * obj){
 
 	#define gm_left (gm->top)
 
@@ -243,7 +243,7 @@ uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj){
 
 	#undef gm_left
 }
-uint8_t gm_seek_right(struct fbgc_grammar * gm, struct fbgc_object * obj){
+uint8_t gm_seek_right(struct fbgc_grammar * gm, struct fbgc_ll_base * obj){
 
 	#define gm_right (gm->top)
 	

@@ -121,136 +121,8 @@ Set1
 Set2
 "<=|>=|==|!=|<|>|||&|!|="
 */
-/*
-struct fbgc_object * tokenize_substr(const char *str1, const char*str2, lexer_token token, uint8_t where){
-	struct fbgc_object *obj = NULL;
 
-	switch(token){
-		case LEXER_TOK_COMMENT:
-		case LEXER_TOK_NEWLINE:
-		{
-			return new_fbgc_object(NEWLINE);
-		}
-		case LEXER_TOK_BASE2_INT:
-		{
-			return new_fbgc_int_object_from_substr(str1+2,str2,2); //eat 0b
-		} 
-		case LEXER_TOK_BASE10_INT:
-		{
-			if(*(str2-1) == 'j') goto GOTO_COMPLEX;
-			return new_fbgc_int_object_from_substr(str1,str2,10);
-		} 
-		case LEXER_TOK_BASE16_INT:
-		{
-			return new_fbgc_int_object_from_substr(str1+2,str2,16); //eat 0x
-		} 
-		case LEXER_TOK_DOUBLE:
-		{	
-			if(*(str2-1) == 'j') goto GOTO_COMPLEX;
-			return new_fbgc_double_object_from_substr(str1,str2); 
-		}
-		case LEXER_TOK_COMPLEX:
-		{	
-			GOTO_COMPLEX: ;
-			return new_fbgc_complex_object_from_substr(str1,str2);
-		}
-		case LEXER_TOK_STRING:
-		{
-			return new_fbgc_str_object_from_substr(str1+1,str2-1);
-		}
-		case LEXER_TOK_OP0:
-		{	
-			//":|,|.|;"
-			return new_fbgc_object(COMMA+where);
-		}
-		case LEXER_TOK_OP1:
-		{	//Set1
-
-			//">>=|<<=|**=|//=|+=|-=|*=|/=|^=|%=|>>|<<|**|//|+|-|*|/|^|%"
-			//possible assigment operators and assignment operator
-			//check the last character, shift the token 
-			if(*(str2-1) == '='){
-				struct fbgc_object * tmp = new_fbgc_id_opcode(0);
-				tmp->type = ++where+ASSIGN;
-				return tmp;
-			}
-
-
-			return new_fbgc_object(where += RSHIFT);
-		}
-		case LEXER_TOK_OP2:
-		{	
-			//"<=|>=|==|!=|<|>|||&|!|~|+|-|="
-			where+=LOEQ;
-			if(*(str2-1) == '='){
-
-				struct fbgc_object * tmp = new_fbgc_id_opcode(0);
-				tmp->type = where;
-				return tmp;
-			}
-			return new_fbgc_object(where);
-		}											
-		case LEXER_TOK_PARA:
-		{
-			
-				(|)|[|]|{|}
-				LPARA  : 1 - 0 
-				RPARA  : 3 - 1
-				LBRACK : 5 - 2
-				RBRACK : 7 - 3
-				LBRACE : 9 - 4
-				RBRACE : 11 - 5
-				"where" gives the location after LPARA, if its 3 it means RBRACK is found because
-				(|)|[|]|{|} , 3rd section is starting from 0 RBRACK 
-			
-			//return (where % 2 == 0) ? 
-			//derive_from_new_int_object(LPARA+where,0) : new_fbgc_object(LPARA+where);	
-			return new_fbgc_object(LPARA+where);
-		}
-		case LEXER_TOK_KEYWORDS:
-		{	
-			//end|fun|elif|else|while|for|break|cont|if|return|true|false
-			fbgc_token kw_tok = END+where;
-
-			switch(kw_tok){
-				case ELIF:
-				case WHILE:
-				case FOR:
-				case BREAK:
-				case CONT:
-				case FUN_MAKE:
-				case IF:{
-					return new_fbgc_jumper_object(kw_tok);
-				}
-
-				default: 
-				{
-					if(kw_tok > RETURN) 
-						return new_fbgc_logic_object( kw_tok-1 == RETURN );
-					
-					return new_fbgc_object(kw_tok);
-				}
-				
-			}
-
-		}
-		case LEXER_TOK_NAME:
-		{	
-			return new_fbgc_symbol_from_substr(str1,str2);
-			//return obj;//new_fbgc_object(NAME);
-		}
-		default: 
-			cprintf(100,"Undefined object creation in new object creation! returning NULL\n");
-			return NULL;
-		break;
-	}
-
-
-    return obj;
-}*/
-
-
-struct fbgc_base_base * _tokenize_substr(const char *str1, const char*str2, lexer_token token, uint8_t where){
+struct fbgc_ll_base * _tokenize_substr(const char *str1, const char*str2, lexer_token token, uint8_t where){
 	struct fbgc_ll_base * obj = NULL;
 
 	switch(token){
@@ -304,7 +176,7 @@ struct fbgc_base_base * _tokenize_substr(const char *str1, const char*str2, lexe
 			//possible assigment operators and assignment operator
 			//check the last character, shift the token 
 			if(*(str2-1) == '='){
-				struct fbgc_object * tmp = _new_fbgc_ll_identifier(0);
+				struct fbgc_ll_base * tmp = _new_fbgc_ll_identifier(0);
 				tmp->type = ++where+ASSIGN;
 				return tmp;
 			}
@@ -318,7 +190,7 @@ struct fbgc_base_base * _tokenize_substr(const char *str1, const char*str2, lexe
 			where+=LOEQ;
 			if(*(str2-1) == '='){
 
-				struct fbgc_object * tmp = _new_fbgc_ll_identifier(0);
+				struct fbgc_ll_base * tmp = _new_fbgc_ll_identifier(0);
 				tmp->type = where;
 				return tmp;
 			}
@@ -658,7 +530,7 @@ uint8_t regex_lexer(struct fbgc_object ** field_obj,char * first_ptr){
 						//print_fbgc_ll_object((cast_fbgc_object_as_field(*field_obj)->head),"FBG");
 
 						_push_back_fbgc_ll( (cast_fbgc_object_as_field(*field_obj)->head),_tokenize_substr(first_ptr,mobile_ptr,current_token,check-1) );
-						_print_fbgc_ll((cast_fbgc_object_as_field(*field_obj)->head),"XXX");						
+						//_print_fbgc_ll((cast_fbgc_object_as_field(*field_obj)->head),"XXX");						
 					//#endif
 					} 
 						current_rule_index = 0;

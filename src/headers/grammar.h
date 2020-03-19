@@ -11,8 +11,8 @@ struct fbgc_grammar{
 };
 
 
-uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_object * obj);
-uint8_t gm_seek_right(struct fbgc_grammar * gm, struct fbgc_object * obj);
+uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_ll_base * obj);
+uint8_t gm_seek_right(struct fbgc_grammar * gm, struct fbgc_ll_base * obj);
 
 
 #ifdef  __cplusplus

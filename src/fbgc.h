@@ -30,7 +30,6 @@ extern "C" {
 #include "headers/memory.h"
 #include "headers/garbage_collector.h"
 
-#include "headers/_linked_list.h"
 #include "headers/linked_list.h"
 #include "headers/array_object.h"
 #include "headers/double_object.h"

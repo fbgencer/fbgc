@@ -6,7 +6,7 @@ OBJ = ${SRC:.c=.o}
 #put -g in order to see good assembly output
 
 CC=gcc
-CFLAGS=-w -c -g
+CFLAGS= -c
 LDFLAGS += -lm
 
 #GSL_CFLAG = -I /home/fbgencer/gsl/include

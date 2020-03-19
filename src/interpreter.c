@@ -38,6 +38,8 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 	struct fbgc_object * last_called_function = NULL;
 	size_t recursion_ctr = 0;
 
+	struct fbgc_ll_base * __dummy = _new_fbgc_ll_base(NIL);
+
 #define STACK_GOTO(i) 	(sctr += i)
 #define PUSH(x)		(*(sp+ sctr++ ) = (x))
 #define POP()			(sp[--sctr]) /**< Detailed description after the member */
@@ -145,8 +147,9 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			}
 			case CONT:{
 
-				stack->next = _cast_llbase_as_lljumper(pc)->content;
-				pc = stack;
+				__dummy->next = _cast_llbase_as_lljumper(pc)->content;
+				pc = __dummy;
+
 				break;
 			}				
 			case RETURN:{
@@ -166,12 +169,12 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					//In order to call methods as typical functions, method call pushes another global to stack 
 				}*/
 				fctr = cast_fbgc_object_as_int(TOP())->content;
-				stack->next = SECOND();
+				__dummy->next = SECOND();
 				sctr = old_fctr;
 				//STACK_GOTO(-2);
 				
 				//##Solve this pc->next problem!!!!!!!!
-				pc = stack;
+				pc = __dummy;
 				_POP();
 				PUSH(ret);
 
@@ -508,8 +511,8 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				//--------------------------------
 
 				//##Solve this pc->next problem!!!!!!!!
-				stack->next = cast_fbgc_object_as_fun(funo)->code;
-				pc = stack;
+				__dummy->next = cast_fbgc_object_as_fun(funo)->code;
+				pc = __dummy;
 				break;
 			}
 			case BUILD_TUPLE:

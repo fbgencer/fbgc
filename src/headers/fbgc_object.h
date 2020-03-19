@@ -7,7 +7,6 @@ extern "C" {
 
 struct fbgc_object{
     fbgc_token type;
-    struct fbgc_object * next;
 };
 
 

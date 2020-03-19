@@ -7,8 +7,8 @@ extern "C" {
 
 struct fbgc_field_object{ 
 	struct fbgc_object base;
-	struct fbgc_object * head; // main tree list, it's a linked list object
-	struct fbgc_object * modules; //modules are connected each other with linked list	
+	struct fbgc_ll_base * head; // main tree list, it's a linked list object
+	struct fbgc_ll_base * modules; //modules are connected each other with linked list	
 	struct fbgc_object * locals;
 };
 

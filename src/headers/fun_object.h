@@ -7,7 +7,7 @@ extern "C" {
 
 struct fbgc_fun_object{ 
 	struct fbgc_object base;
-	struct fbgc_object * code; //function linked list code
+	struct fbgc_ll_base * code; //function linked list code
 	//struct fbgc_object * defaults; //default tuple
 	int8_t no_arg;
 	int8_t no_locals;

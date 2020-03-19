@@ -19,7 +19,6 @@ void initialize_fbgc_memory_block(){
 	fbgc_memb.object_pool_head->size = PAGE_SIZE;
 	fbgc_memb.object_pool_head->next = NULL;
 
-	fbgc_memb.empty_chunk_head.next = NULL;
 }
 
 void * fbgc_malloc(size_t size){
@@ -361,11 +360,10 @@ void fbgc_free(void *ptr){
 
 	//##########################
 	// Make the connections proper for the garbage objects.
-	struct fbgc_garbage_object * gb = (struct fbgc_garbage_object *) ptr;
+	/*struct fbgc_garbage_object * gb = (struct fbgc_garbage_object *) ptr;
 
 	gb->size =  get_fbgc_object_size(ptr);
-	gb->base.type = GARBAGE;
-	gb->base.next = NULL;	
+	gb->base.type = GARBAGE;*/
 }
 
 

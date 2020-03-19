@@ -21,14 +21,7 @@ void load_module_in_field_object(struct fbgc_object * field_obj, const struct fb
 	struct fbgc_cmodule_object * cm = (struct fbgc_cmodule_object *) fbgc_malloc(sizeof(struct fbgc_cmodule_object ));
 	cm->module = module;
 	cm->base.type = CMODULE;//CHANGE THIS
-	_push_front_fbgc_ll(cast_fbgc_object_as_field(field_obj)->modules,(struct fbgc_object *)cm);
-	
-	
-	//const struct fbgc_cfunction * cc  = module->initializer;
-	//cprintf(111,"WHOW name %s\n",cc->name);
-	//	struct fbgc_object * q = cc->function((struct fbgc_object * ) cm);
-	//cprintf(111,"BUM!\n");
-	
+	_push_front_fbgc_ll(cast_fbgc_object_as_field(field_obj)->modules,_new_fbgc_ll_constant((struct fbgc_object *)cm));	
 }
 
 struct fbgc_object * add_variable_in_field_object(struct fbgc_object * field_obj,const char * var_name, struct fbgc_object * rhs){
