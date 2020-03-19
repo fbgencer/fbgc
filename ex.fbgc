@@ -1,5 +1,14 @@
-f = fun(x,y)
-	return x*y
+x = 7
+if(x == 4)
+	print("hello")
+elif(x == 7)
+	print("fuck")
 end
 
-print(f(5,6))
+
+f = fun(x,y)
+	return x*y;
+end
+
+
+print(f(3,4))

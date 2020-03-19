@@ -1,5 +1,6 @@
 UNKNOWN $ Begin with unknown
 NIL $ null or none
+CONSTANT
 LOGIC $ logical true or false
 INT $ int class
 DOUBLE $ double class

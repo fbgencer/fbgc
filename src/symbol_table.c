@@ -7,7 +7,7 @@ struct fbgc_object * initialize_fbgc_symbol_table(){
    	fbgc_symbols = new_fbgc_tuple_object(INITIAL_SYMBOL_TABLE_SIZE);
     return NULL;
 }
-struct fbgc_object * new_fbgc_symbol_from_substr(const char * str1,const char * str2){
+struct fbgc_ll_base * new_fbgc_symbol_from_substr(const char * str1,const char * str2){
 	
 	#ifdef SYMBOL_TABLE_DEBUG
 	cprintf(100,"Symbol table from substring\n");
@@ -38,7 +38,7 @@ struct fbgc_object * new_fbgc_symbol_from_substr(const char * str1,const char * 
 			#ifdef SYMBOL_TABLE_DEBUG
 				cprintf(110,"Found!\n");
 			#endif
-			return new_fbgc_id_opcode(i); 
+			return _new_fbgc_ll_identifier(i); 
 		}
 	}
 
@@ -79,7 +79,7 @@ struct fbgc_object * new_fbgc_symbol_from_substr(const char * str1,const char * 
 	cprintf(111,"\n");
 	#endif	
 
-	return new_fbgc_id_opcode(size_fbgc_tuple_object(fbgc_symbols)-1);
+	return _new_fbgc_ll_identifier(size_fbgc_tuple_object(fbgc_symbols)-1);
 }
 
 

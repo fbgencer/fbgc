@@ -121,7 +121,7 @@ Set1
 Set2
 "<=|>=|==|!=|<|>|||&|!|="
 */
-
+/*
 struct fbgc_object * tokenize_substr(const char *str1, const char*str2, lexer_token token, uint8_t where){
 	struct fbgc_object *obj = NULL;
 
@@ -192,7 +192,7 @@ struct fbgc_object * tokenize_substr(const char *str1, const char*str2, lexer_to
 		}											
 		case LEXER_TOK_PARA:
 		{
-			/*
+			
 				(|)|[|]|{|}
 				LPARA  : 1 - 0 
 				RPARA  : 3 - 1
@@ -202,7 +202,7 @@ struct fbgc_object * tokenize_substr(const char *str1, const char*str2, lexer_to
 				RBRACE : 11 - 5
 				"where" gives the location after LPARA, if its 3 it means RBRACK is found because
 				(|)|[|]|{|} , 3rd section is starting from 0 RBRACK 
-			*/
+			
 			//return (where % 2 == 0) ? 
 			//derive_from_new_int_object(LPARA+where,0) : new_fbgc_object(LPARA+where);	
 			return new_fbgc_object(LPARA+where);
@@ -229,6 +229,140 @@ struct fbgc_object * tokenize_substr(const char *str1, const char*str2, lexer_to
 						return new_fbgc_logic_object( kw_tok-1 == RETURN );
 					
 					return new_fbgc_object(kw_tok);
+				}
+				
+			}
+
+		}
+		case LEXER_TOK_NAME:
+		{	
+			return new_fbgc_symbol_from_substr(str1,str2);
+			//return obj;//new_fbgc_object(NAME);
+		}
+		default: 
+			cprintf(100,"Undefined object creation in new object creation! returning NULL\n");
+			return NULL;
+		break;
+	}
+
+
+    return obj;
+}*/
+
+
+struct fbgc_base_base * _tokenize_substr(const char *str1, const char*str2, lexer_token token, uint8_t where){
+	struct fbgc_ll_base * obj = NULL;
+
+	switch(token){
+		case LEXER_TOK_COMMENT:
+		case LEXER_TOK_NEWLINE:
+		{
+			return _new_fbgc_ll_base(NEWLINE);
+		}
+		case LEXER_TOK_BASE2_INT:
+		{	
+			struct fbgc_object * content = new_fbgc_int_object_from_substr(str1+2,str2,2); //eat 0b
+			return _new_fbgc_ll_constant(content);
+		} 
+		case LEXER_TOK_BASE10_INT:
+		{
+			if(*(str2-1) == 'j') goto GOTO_COMPLEX;
+			struct fbgc_object * content = new_fbgc_int_object_from_substr(str1,str2,10);
+			return _new_fbgc_ll_constant(content);
+		} 
+		case LEXER_TOK_BASE16_INT:
+		{	
+			struct fbgc_object * content = new_fbgc_int_object_from_substr(str1+2,str2,16); //eat 0x
+			return _new_fbgc_ll_constant(content);
+		} 
+		case LEXER_TOK_DOUBLE:
+		{	
+			if(*(str2-1) == 'j') goto GOTO_COMPLEX;
+			struct fbgc_object * content = new_fbgc_double_object_from_substr(str1,str2); 
+			return _new_fbgc_ll_constant(content);
+		}
+		case LEXER_TOK_COMPLEX:
+		{	
+			GOTO_COMPLEX: ;
+			struct fbgc_object * content = new_fbgc_complex_object_from_substr(str1,str2);
+			return _new_fbgc_ll_constant(content);
+		}
+		case LEXER_TOK_STRING:
+		{
+			struct fbgc_object * content = new_fbgc_str_object_from_substr(str1+1,str2-1);
+			return _new_fbgc_ll_constant(content);
+		}
+		case LEXER_TOK_OP0:
+		{	
+			//":|,|.|;"
+			return _new_fbgc_ll_base(COMMA+where);
+		}
+		case LEXER_TOK_OP1:
+		{	//Set1
+
+			//">>=|<<=|**=|//=|+=|-=|*=|/=|^=|%=|>>|<<|**|//|+|-|*|/|^|%"
+			//possible assigment operators and assignment operator
+			//check the last character, shift the token 
+			if(*(str2-1) == '='){
+				struct fbgc_object * tmp = _new_fbgc_ll_identifier(0);
+				tmp->type = ++where+ASSIGN;
+				return tmp;
+			}
+
+
+			return _new_fbgc_ll_base(where += RSHIFT);
+		}
+		case LEXER_TOK_OP2:
+		{	
+			//"<=|>=|==|!=|<|>|||&|!|~|+|-|="
+			where+=LOEQ;
+			if(*(str2-1) == '='){
+
+				struct fbgc_object * tmp = _new_fbgc_ll_identifier(0);
+				tmp->type = where;
+				return tmp;
+			}
+			return _new_fbgc_ll_base(where);
+		}											
+		case LEXER_TOK_PARA:
+		{
+			/*
+				(|)|[|]|{|}
+				LPARA  : 1 - 0 
+				RPARA  : 3 - 1
+				LBRACK : 5 - 2
+				RBRACK : 7 - 3
+				LBRACE : 9 - 4
+				RBRACE : 11 - 5
+				"where" gives the location after LPARA, if its 3 it means RBRACK is found because
+				(|)|[|]|{|} , 3rd section is starting from 0 RBRACK 
+			*/
+			//return (where % 2 == 0) ? 
+			//derive_from_new_int_object(LPARA+where,0) : new_fbgc_object(LPARA+where);	
+			return _new_fbgc_ll_base(LPARA+where);
+		}
+		case LEXER_TOK_KEYWORDS:
+		{	
+			//end|fun|elif|else|while|for|break|cont|if|return|true|false
+			fbgc_token kw_tok = END+where;
+
+			switch(kw_tok){
+				case ELIF:
+				case WHILE:
+				case FOR:
+				case BREAK:
+				case CONT:
+				case FUN_MAKE:
+				case IF:{
+					return _new_fbgc_ll_jumper(kw_tok);
+				}
+
+				default: 
+				{
+					if(kw_tok > RETURN) 
+						return _new_fbgc_ll_constant(new_fbgc_logic_object( kw_tok-1 == RETURN ));
+					
+					return _new_fbgc_ll_base(kw_tok);
 				}
 				
 			}
@@ -520,8 +654,11 @@ uint8_t regex_lexer(struct fbgc_object ** field_obj,char * first_ptr){
 							free(tempstr);
 						#endif
 
-						push_back_fbgc_ll_object( (cast_fbgc_object_as_field(*field_obj)->head),tokenize_substr(first_ptr,mobile_ptr,current_token,check-1) );
+						//push_back_fbgc_ll_object( (cast_fbgc_object_as_field(*field_obj)->head),tokenize_substr(first_ptr,mobile_ptr,current_token,check-1) );
+						//print_fbgc_ll_object((cast_fbgc_object_as_field(*field_obj)->head),"FBG");
 
+						_push_back_fbgc_ll( (cast_fbgc_object_as_field(*field_obj)->head),_tokenize_substr(first_ptr,mobile_ptr,current_token,check-1) );
+						_print_fbgc_ll((cast_fbgc_object_as_field(*field_obj)->head),"XXX");						
 					//#endif
 					} 
 						current_rule_index = 0;

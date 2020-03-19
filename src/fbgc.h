@@ -30,10 +30,9 @@ extern "C" {
 #include "headers/memory.h"
 #include "headers/garbage_collector.h"
 
-
+#include "headers/_linked_list.h"
 #include "headers/linked_list.h"
 #include "headers/array_object.h"
-#include "headers/jumper_object.h"
 #include "headers/double_object.h"
 #include "headers/int_object.h"
 #include "headers/logic_object.h"
@@ -51,7 +50,6 @@ extern "C" {
 
 #include "headers/symbol_table.h"
 #include "headers/field_object.h"
-#include "headers/opcodes.h"
 
 
 #include "headers/relexer.h"

@@ -28,13 +28,7 @@ struct fbgc_identifier{
 
 
 struct fbgc_object * initialize_fbgc_symbol_table();
-struct fbgc_object * new_fbgc_symbol(struct fbgc_object * ,const char * ,const char * );
-struct fbgc_object * get_fbgc_symbol(struct fbgc_object * );
-
-struct fbgc_object * new_fbgc_symbol_from_substr(const char * str1,const char * str2);
-struct fbgc_object * new_cfun_object_from_substr(struct fbgc_object * table_obj,const char * str1,const char * str2);
-
-struct fbgc_object * load_module_in_symbol_table(struct fbgc_object *,struct fbgc_object * );
+struct fbgc_ll_base * new_fbgc_symbol_from_substr(const char * str1,const char * str2);
 
 void print_fbgc_symbol_table(struct fbgc_object * );
 void free_fbgc_symbol_table(struct fbgc_object * );

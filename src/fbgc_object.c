@@ -126,8 +126,8 @@ void print_fbgc_object(struct fbgc_object * self){
 			break;
 			case IDENTIFIER:
 			{
-				if(is_id_flag_GLOBAL(self)) cprintf(011,"%s{G<%d>}","ID",cast_fbgc_object_as_id_opcode(self)->loc);
-            	else if(is_id_flag_LOCAL(self)) cprintf(011,"%s{L<%d>}","ID",cast_fbgc_object_as_id_opcode(self)->loc);
+				if(is_id_flag_GLOBAL(self)) cprintf(011,"%s{G<%d>}","ID",_cast_fbgc_object_as_llidentifier(self)->loc);
+            	else if(is_id_flag_LOCAL(self)) cprintf(011,"%s{L<%d>}","ID",_cast_fbgc_object_as_llidentifier(self)->loc);
 				break;
 			}
 			case TUPLE:
@@ -170,11 +170,11 @@ switch(type){
 	case CFUN : sz = sizeof_fbgc_cfun_object(); break; 
 	case FUN : sz = sizeof_fbgc_fun_object(); break; 
 	case CSTRUCT : sz = sizeof_fbgc_cstruct_object(obj); break; 
-	case IDENTIFIER : sz = sizeof_fbgc_id_opcode(); break; 
+	case IDENTIFIER : sz = sizeof_fbgc_ll_identifier(); break; 
 	case RANGE : sz = sizeof_fbgc_range_object(); break; 
 	case CSTRING : sz = sizeof_fbgc_cstr_object(obj); break; 
 	case ARRAY : sz = sizeof_fbgc_array_object(obj); break; 
-	case LINKED_LIST : sz = sizeof_fbgc_ll_object(); break; 
+	//case LINKED_LIST : sz = sizeof_fbgc_ll_object(); break; 
 	case CMODULE : sz = sizeof_fbgc_cmodule_object(); break; 
 	case GARBAGE : sz = sizeof_fbgc_garbage_object(obj); break; 
 	case FIELD : sz = sizeof_fbgc_field_object(obj); break; 
@@ -185,8 +185,8 @@ switch(type){
 	case WHILE : 
 	case FOR : 
 	case BREAK : 
-	case CONT : sz = sizeof_fbgc_jumper_object(); break; 
-	case IF : sz = sizeof_fbgc_jumper_object(); break; 
+	//case CONT : sz = sizeof_fbgc_jumper_object(); break; 
+	//case IF : sz = sizeof_fbgc_jumper_object(); break; 
 	case RETURN : sz = sizeof_fbgc_object(); break; 
 	case NEWLINE : 
 	case LPARA :
@@ -227,7 +227,7 @@ switch(type){
 	case ASSIGN_SUBSCRIPT :
 	case LOAD_SUBSCRIPT : break;
 	case LEN : sz = sizeof_fbgc_object();
-	case FOR_BEGIN : sz = sizeof_fbgc_jumper_object(); break;
+	//case FOR_BEGIN : sz = sizeof_fbgc_jumper_object(); break;
 	case FUN_CALL : sz = sizeof_fbgc_object(); break;
 	case BUILD_TUPLE :
 	case BUILD_MATRIX : sz = sizeof_fbgc_int_object(); break;

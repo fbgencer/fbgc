@@ -14,7 +14,7 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
 
 	#ifdef LEXER_DEBUG
 		cprintf(111,"Lexer output array\n");
-		print_fbgc_ll_object(cast_fbgc_object_as_field(main_field)->head,"Main"); 
+		_print_fbgc_ll(cast_fbgc_object_as_field(main_field)->head,"Main"); 
 		cprintf(111,"\n");
 	#endif
 
@@ -34,7 +34,7 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
 
 	  #ifdef INTERPRETER_DEBUG
 		cprintf(111,"Parser output array\n");
-		print_fbgc_ll_object(cast_fbgc_object_as_field(main_field)->head,"Main");   
+		_print_fbgc_ll(cast_fbgc_object_as_field(main_field)->head,"Main");   
 		cprintf(111,"\n");
 	#endif
 
@@ -196,9 +196,9 @@ int main(int argc, char **argv){
 
 	//load_module_in_field_object(main_field,&fbgc_file_module);
 	
-
-	//compile_file(main_field, "ex.fbgc");
-
+	//regex_lexer(&main_field,"1+2+3");
+	compile_file(main_field, "ex.fbgc");
+	/*
 	if(argc > 1)
 	{   
 		if(!strcmp(argv[1],"-s")){
@@ -206,14 +206,13 @@ int main(int argc, char **argv){
 		}
 		else{
 		   compile_file(main_field, argv[1]); 
-		   int var; /*!< Detailed description after the member */
 		}
 		//print_fbgc_memory_block();
 		
 	}
 	else{
 	   //realtime_fbgc(main_field);
-	}
+	}*/
 
 	free_fbgc_memory_block();
 //******************************************************************

@@ -23,8 +23,8 @@ struct iter_function_ptr_struct{
 uint8_t interpreter(struct fbgc_object ** field_obj){
 	current_field = *field_obj;
 
-	struct fbgc_ll_object * head = cast_fbgc_object_as_ll( cast_fbgc_object_as_field(*field_obj)->head );
-	struct fbgc_object * pc = head->base.next; //program counter
+	struct fbgc_ll * head = _cast_llbase_as_ll( cast_fbgc_object_as_field(*field_obj)->head );
+	struct fbgc_ll_base * pc = head->base.next; //program counter
 
 	#define PROGRAM_STACK_SIZE 100
 	struct fbgc_object * stack = new_fbgc_tuple_object(PROGRAM_STACK_SIZE);
@@ -82,6 +82,10 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 		_print("################ [%d] = {%s} ########################\n",i,_obj2str(pc));
 
 		switch(type){
+			case CONSTANT:{
+				PUSH(_cast_llbase_as_llconstant(pc)->content);
+				break;
+			}
 			case NIL:
 			case LOGIC:
 			case INT:
@@ -102,7 +106,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				if(is_id_flag_GLOBAL(pc)){
 
 					struct fbgc_identifier * tmp = (struct fbgc_identifier *) 
-						get_address_in_fbgc_array_object(globals,cast_fbgc_object_as_id_opcode(pc)->loc);
+						get_address_in_fbgc_array_object(globals,_cast_fbgc_object_as_llidentifier(pc)->loc);
 
 					//Check undefined variable
 					if(tmp->content == NULL){
@@ -114,7 +118,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					
 					PUSH(tmp->content);
 				} 
-				else if(is_id_flag_LOCAL(pc))  PUSH(GET_AT_FP(cast_fbgc_object_as_id_opcode(pc)->loc));
+				else if(is_id_flag_LOCAL(pc))  PUSH(GET_AT_FP(_cast_fbgc_object_as_llidentifier(pc)->loc));
 				else if(is_id_flag_MEMBER(pc)){
 					//if(TOP()->type == CSTRING)
 					struct fbgc_object * member = POP();
@@ -131,17 +135,17 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			}
 			case BREAK:{
 
-				struct fbgc_object * loop_obj =  cast_fbgc_object_as_jumper(pc)->content;
+				struct fbgc_object * loop_obj =  _cast_llbase_as_lljumper(pc)->content;
 				if(loop_obj->type == FOR) {
 					assert(0);
 					STACK_GOTO(-2); //clean the for loop remainders
 				}
-				pc = cast_fbgc_object_as_jumper(loop_obj)->content;
+				pc = _cast_llbase_as_lljumper(loop_obj)->content;
 				break;
 			}
 			case CONT:{
 
-				stack->next = cast_fbgc_object_as_jumper(pc)->content;
+				stack->next = _cast_llbase_as_lljumper(pc)->content;
 				pc = stack;
 				break;
 			}				
@@ -255,7 +259,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 				if(is_id_flag_GLOBAL(pc)){
 					struct fbgc_identifier * tmp = 
-					(struct fbgc_identifier *) get_address_in_fbgc_array_object(globals,cast_fbgc_object_as_id_opcode(pc)->loc);
+					(struct fbgc_identifier *) get_address_in_fbgc_array_object(globals,_cast_fbgc_object_as_llidentifier(pc)->loc);
 					lhs = &tmp->content;
 				}
 				else if(is_id_flag_MEMBER(pc)){
@@ -274,7 +278,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					//TODO make it general					
 				}
 				else if(is_id_flag_LOCAL(pc)){
-					lhs = &(GET_AT_FP(cast_fbgc_object_as_id_opcode(pc)->loc));
+					lhs = &(GET_AT_FP(_cast_fbgc_object_as_llidentifier(pc)->loc));
 				}
 
 
@@ -355,7 +359,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			}			
 			case JUMP:
 			{
-				pc = cast_fbgc_object_as_jumper(pc)->content;
+				pc = _cast_llbase_as_lljumper(pc)->content;
 				break;
 			}		
 			case IF:
@@ -363,7 +367,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			case WHILE:
 			{
 				if(!convert_fbgc_object_to_logic(TOP())){
-					pc = cast_fbgc_object_as_jumper(pc)->content;
+					pc = _cast_llbase_as_lljumper(pc)->content;
 				}
 				_POP();
 				break;
@@ -438,7 +442,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					//finish the for loop, everything worked normally
 					//pop iterator,holder,sequence object and function struct
 					STACK_GOTO(-4);
-					pc = cast_fbgc_object_as_jumper(pc)->content;
+					pc = _cast_llbase_as_lljumper(pc)->content;
 				}
 
 				break;

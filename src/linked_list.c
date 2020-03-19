@@ -1,3 +1,4 @@
+#ifdef NOLL
 #include "fbgc.h"
 
  
@@ -221,3 +222,5 @@ void print_fbgc_ll_object(struct fbgc_object * head,const char *s1){
 
 }
 
+
+#endif

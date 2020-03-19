@@ -29,7 +29,7 @@ void print_fbgc_cfun_object(const struct fbgc_cmodule_object * obj){
 
 struct fbgc_object * new_cfun_object_from_str(struct fbgc_object * field_obj,const char * str){
 
-	struct fbgc_ll_object * ll = cast_fbgc_object_as_ll( cast_fbgc_object_as_field(field_obj)->modules );
+	struct fbgc_ll * ll = _cast_llbase_as_ll( cast_fbgc_object_as_field(field_obj)->modules );
 	struct fbgc_cmodule_object * cm = (struct fbgc_cmodule_object *)ll->base.next;
 	while(cm!= NULL && (struct fbgc_object * )cm != ll->tail){
 		const struct fbgc_cfunction * cc = cm->module->functions[0];

@@ -7,8 +7,8 @@ struct fbgc_object * new_fbgc_field_object(void){
 	struct fbgc_field_object * field = (struct fbgc_field_object *) fbgc_malloc(sizeof(struct fbgc_field_object ));
 	//field->base.next = NULL;
 	field->base.type = FIELD; 
-	field->head = new_fbgc_ll_object();
-	field->modules = new_fbgc_ll_object();
+	field->head = _new_fbgc_ll();
+	field->modules = _new_fbgc_ll();
 	field->locals = new_fbgc_array_object(1,sizeof(struct fbgc_identifier));
 	
 	load_module_in_field_object((struct fbgc_object *)field,&fbgc_io_module);
@@ -21,7 +21,7 @@ void load_module_in_field_object(struct fbgc_object * field_obj, const struct fb
 	struct fbgc_cmodule_object * cm = (struct fbgc_cmodule_object *) fbgc_malloc(sizeof(struct fbgc_cmodule_object ));
 	cm->module = module;
 	cm->base.type = CMODULE;//CHANGE THIS
-	push_front_fbgc_ll_object(cast_fbgc_object_as_field(field_obj)->modules,(struct fbgc_object *)cm);
+	_push_front_fbgc_ll(cast_fbgc_object_as_field(field_obj)->modules,(struct fbgc_object *)cm);
 	
 	
 	//const struct fbgc_cfunction * cc  = module->initializer;
@@ -37,7 +37,7 @@ struct fbgc_object * add_variable_in_field_object(struct fbgc_object * field_obj
 
 	struct fbgc_object * iter = new_fbgc_symbol_from_substr(var_name,var_name + strlen(var_name));
 	//this location is from symbols, we need to find location in fields
-	struct fbgc_object * cstr_obj = get_object_in_fbgc_tuple_object(fbgc_symbols,cast_fbgc_object_as_id_opcode(iter)->loc);
+	struct fbgc_object * cstr_obj = get_object_in_fbgc_tuple_object(fbgc_symbols,_cast_fbgc_object_as_llidentifier(iter)->loc);
 
 
 	struct fbgc_object * local_array = cast_fbgc_object_as_field(field_obj)->locals;
@@ -61,7 +61,7 @@ struct fbgc_object * add_variable_in_field_object(struct fbgc_object * field_obj
 		cast_fbgc_object_as_field(field_obj)->locals = local_array;
 	}else{
 
-		cast_fbgc_object_as_id_opcode(temp_id)->loc = where;
+		_cast_fbgc_object_as_llidentifier(temp_id)->loc = where;
 		temp_id->content = rhs;
 	}
 	set_id_flag_GLOBAL(iter);
