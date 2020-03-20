@@ -88,21 +88,21 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				PUSH(_cast_llbase_as_llconstant(pc)->content);
 				break;
 			}
-			case NIL:
-			case LOGIC:
-			case INT:
-			case DOUBLE:
-			case COMPLEX:			
-			case STRING:
-			case CSTRING:
-			case CFUN:
-			case FUN:
-			case CSTRUCT:
-			case ROW:{
+			// case NIL:
+			// case LOGIC:
+			// case INT:
+			// case DOUBLE:
+			// case COMPLEX:			
+			// case STRING:
+			// case CSTRING:
+			// case CFUN:
+			// case FUN:
+			// case CSTRUCT:
+			// case ROW:{
 				
-				PUSH(pc);
-				break;
-			}
+			// 	PUSH(pc);
+			// 	break;
+			// }
 			case IDENTIFIER:{	
 
 				if(is_id_flag_GLOBAL(pc)){
@@ -137,7 +137,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			}
 			case BREAK:{
 
-				struct fbgc_object * loop_obj =  _cast_llbase_as_lljumper(pc)->content;
+				struct fbgc_ll_base * loop_obj =  _cast_llbase_as_lljumper(pc)->content;
 				if(loop_obj->type == FOR) {
 					assert(0);
 					STACK_GOTO(-2); //clean the for loop remainders
@@ -255,7 +255,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			case CARET_ASSIGN:
 			case PERCENT_ASSIGN:{
 
-				_info("Assignment op [%x]ID<%d>\n",get_id_flag(pc),get_id_opcode_loc(pc));
+				_info("Assignment op [%x]ID<%d>\n",get_ll_identifier_flag(pc),get_ll_identifier_loc(pc));
 
 				struct fbgc_object * rhs = POP();
 				struct fbgc_object ** lhs = NULL;
@@ -326,14 +326,16 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 						{
 							index = cast_fbgc_object_as_int(TOPN(index_no))->content;
 							_cprint(110,"Here index %d\n",index);
-							lhs = get_object_address_in_fbgc_tuple_object(temp,index);
+							lhs = (struct fbgc_object **)get_object_address_in_fbgc_tuple_object(temp,index);
 							break;
 						}
 					}
 					else if(temp->type == STRING){
-						index = cast_fbgc_object_as_int(TOPN(index_no))->content;
-						lhs =  set_object_in_fbgc_str_object(temp,index,index+1,rhs);
-						rhs = lhs;
+						assert(0);
+						/*index = cast_fbgc_object_as_int(TOPN(index_no))->content;
+						lhs =  &set_object_in_fbgc_str_object(temp,index,index+1,rhs);
+						rhs = *lhs;
+						*/
 						break;
 					}
 					else if(temp->type == MATRIX){
@@ -341,7 +343,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 						index = cast_fbgc_object_as_int(TOPN(index_no))->content;
 						int index_no2 = cast_fbgc_object_as_int(TOPN(--index_no))->content;
 						lhs = set_object_in_fbgc_matrix_object(temp,index,index_no2,rhs);
-						rhs = lhs;
+						//rhs = lhs; ???
 						assert(lhs != NULL);
 						break;
 					}
@@ -452,7 +454,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			}
 			case FUN_CALL:
 			{
-				int arg_no = cast_fbgc_object_as_int(POP())->content;
+				int arg_no = _cast_llbase_as_llopcode_int(pc)->content;
 				struct fbgc_object * funo = TOPN(arg_no+1);
 				if(funo->type != FUN && funo->type != CFUN){
 					printf("Object is not callable\n");
@@ -518,7 +520,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			case BUILD_TUPLE:
 			{	
 
-				int tuple_size = cast_fbgc_object_as_int(pc)->content;
+				int tuple_size = _cast_llbase_as_llopcode_int(pc)->content;
 				struct fbgc_object * to = new_fbgc_tuple_object(tuple_size);
 				size_fbgc_tuple_object(to) = tuple_size;
 				
@@ -542,7 +544,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				}
 
 
-				int ctr = cast_fbgc_object_as_int(pc)->content;
+				int ctr = _cast_llbase_as_llopcode_int(pc)->content;
 				if(ctr == 1 && TOP()->type == MATRIX) break;
 
 
@@ -585,7 +587,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 						}
 						default:
 						{
-							printf(111,"Type %s in matrix is cannot be located\n",object_name_array[TOPN(i+1)->type]);
+							printf("Type %s in matrix is cannot be located\n",object_name_array[TOPN(i+1)->type]);
 							goto INTERPRETER_ERROR_LABEL;
 						}
 					}	
@@ -650,7 +652,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 					}
 					else {
-						printf(111,"Not index accessible!\n");
+						printf("Not index accessible!\n");
 						print_fbgc_object(temp); printf("\n");
 						return 0;
 					}

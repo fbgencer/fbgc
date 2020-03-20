@@ -34,6 +34,13 @@ struct fbgc_ll_base * _new_fbgc_ll_identifier(int loc){
     return (struct fbgc_ll_base *) o;
 }   
 
+struct fbgc_ll_base * _new_fbgc_ll_opcode_int(fbgc_token t, int x){
+    struct fbgc_ll_opcode_int * o = (struct fbgc_ll_opcode_int *) fbgc_malloc(sizeof(struct fbgc_ll_opcode_int));
+    o->base.type = t;
+    o->content = x;
+    return (struct fbgc_ll_base *) o;
+}
+
 
 struct fbgc_ll_base * _new_fbgc_ll(){
     struct fbgc_ll * llo =  (struct fbgc_ll*) fbgc_malloc(sizeof(struct fbgc_ll));
@@ -105,6 +112,14 @@ struct fbgc_ll_base * _top_fbgc_ll(struct fbgc_ll_base * head){
     return head->next;
 }
 
+void _print_fbgc_ll_base(struct fbgc_ll_base * lb){
+    if(lb->type == CONSTANT){
+        struct fbgc_object * obj = _cast_llbase_as_llconstant(lb)->content;
+        print_fbgc_object(obj);
+    }
+    else cprintf(111,"%s",_ll2str(lb));
+}
+
 
 void _print_fbgc_ll(struct fbgc_ll_base * head,const char *s1){
 
@@ -166,22 +181,22 @@ void _print_fbgc_ll(struct fbgc_ll_base * head,const char *s1){
 
         else if(iter->type == IF){
           cprintf(011,"{IF:");
-          if(_cast_llbase_as_lljumper(iter)->content != NULL) print_fbgc_object(_cast_llbase_as_lljumper(iter)->content->next);
+          if(_cast_llbase_as_lljumper(iter)->content != NULL) _print_fbgc_ll_base(_cast_llbase_as_lljumper(iter)->content->next);
           cprintf(011,"}");
         }
         else if(iter->type == ELIF){
         cprintf(011,"{ELIF:");
-          if(_cast_llbase_as_lljumper(iter)->content != NULL) print_fbgc_object(_cast_llbase_as_lljumper(iter)->content->next);
+          if(_cast_llbase_as_lljumper(iter)->content != NULL) _print_fbgc_ll_base(_cast_llbase_as_lljumper(iter)->content->next);
           cprintf(011,"}");
         }    
         else if(iter->type == JUMP){
         cprintf(011,"{JUMP -> ");
-          if(_cast_llbase_as_lljumper(iter)->content != NULL) print_fbgc_object(_cast_llbase_as_lljumper(iter)->content->next);
+          if(_cast_llbase_as_lljumper(iter)->content != NULL) _print_fbgc_ll_base(_cast_llbase_as_lljumper(iter)->content->next);
           cprintf(011,"}");
         }
         else if(iter->type == WHILE){
         cprintf(011,"{WHILE:");
-        if(_cast_llbase_as_lljumper(iter)->content != NULL) print_fbgc_object(_cast_llbase_as_lljumper(iter)->content->next);
+        if(_cast_llbase_as_lljumper(iter)->content != NULL) _print_fbgc_ll_base(_cast_llbase_as_lljumper(iter)->content->next);
           cprintf(011,"}");
         }
         else if(iter->type == FOR_BEGIN){
@@ -191,39 +206,36 @@ void _print_fbgc_ll(struct fbgc_ll_base * head,const char *s1){
         }        
         else if(iter->type == BREAK){
         cprintf(011,"{BREAK -> ");
-          if(_cast_llbase_as_lljumper(iter)->content != NULL) print_fbgc_object(_cast_llbase_as_lljumper(iter)->content->next);
+          if(_cast_llbase_as_lljumper(iter)->content != NULL) _print_fbgc_ll_base(_cast_llbase_as_lljumper(iter)->content->next);
           cprintf(011,"}");
         } 
         else if(iter->type == CONT){
         cprintf(011,"{CONT -> ");
-          if(_cast_llbase_as_lljumper(iter)->content != NULL) print_fbgc_object(_cast_llbase_as_lljumper(iter)->content->next);
+          if(_cast_llbase_as_lljumper(iter)->content != NULL) _print_fbgc_ll_base(_cast_llbase_as_lljumper(iter)->content->next);
           cprintf(011,"}");
         }                  
         else if(iter->type == FUN){
             cprintf(011,"FUN:[");
-            print_fbgc_object(iter);
+            _print_fbgc_ll_base(iter);
             cprintf(011,"]");
         }
 
         else if(iter->type == BUILD_TUPLE){
-            cprintf(011,"{BUILD_TUPLE(%d)}",
-                cast_fbgc_object_as_int(iter)->content);
+            cprintf(011,"{BUILD_TUPLE(%d)}",_cast_llbase_as_llopcode_int(iter)->content);
         }
         else if(iter->type == BUILD_MATRIX){
-            cprintf(011,"{BUILD_MATRIX(%d)}",
-                cast_fbgc_object_as_int(iter)->content);
+            cprintf(011,"{BUILD_MATRIX(%d)}",_cast_llbase_as_llopcode_int(iter)->content);
         }
         else if(iter->type == FUN_CALL){
             cprintf(011,"{FUN_CALL}");
                // cast_fbgc_object_as_int(iter)->content);
         }         
         else if(iter->type == ROW){
-            cprintf(011,"{ROW(%d)}",
-                cast_fbgc_object_as_int(iter)->content);
+            cprintf(011,"{ROW(%d)}",_cast_llbase_as_llopcode_int(iter)->content);
         }                                    
         else if(is_fbgc_OPERATOR(iter->type)) cprintf(011,"{%s}",get_token_as_str(iter->type));
 
-        else cprintf(011,"{%s}",object_name_array[iter->type]);     
+        else cprintf(011,"{%s}",_ll2str(iter));     
             iter = iter->next;
     }
     if(head_ll->base.type == LINKED_LIST) cprintf(101,"<->[T]\n");

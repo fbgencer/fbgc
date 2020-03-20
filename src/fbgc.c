@@ -42,7 +42,7 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
 	 
 	begin = clock();
 	if(par) 
-		interpreter(&main_field); 
+		par = interpreter(&main_field); 
 	end = clock();
 	interpreter_time = (double)(end - begin) / CLOCKS_PER_SEC; 
 

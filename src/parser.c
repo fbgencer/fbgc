@@ -11,6 +11,7 @@
 #define _print_object(s,obj)
 #define _println_object(s,obj)
 #define _obj2str(obj)
+#define _ll2str(obj)
 #define _gm2str(gm)
 #endif
 
@@ -119,14 +120,17 @@ uint8_t compare_operators(fbgc_token stack_top, fbgc_token obj_type){
 }
 
 
-void handle_function_args(struct fbgc_ll_base * fun_obj,struct fbgc_ll_base * arg_end){
+void handle_function_args(struct fbgc_ll_base * fun_holder,struct fbgc_ll_base * arg_end){
 	//	arg_start is always next pt of fun_obj
 	//	arg_start holds parsed arg expression beginning
 	//	example: fun(x,y,z) will be parsed x,y,z,3,build_tuple,
 	//							  arg_start^      arg_end^	
 	//	There could be default assignment situations, we need to handle assignemnt expr and other type of args	
-	cast_fbgc_object_as_fun(fun_obj)->no_arg = size_fbgc_tuple_object(cast_fbgc_object_as_fun(fun_obj)->code); 
-	fun_obj->next = arg_end->next;
+
+	struct fbgc_object * fun_obj = _cast_llbase_as_llconstant(fun_holder)->content;
+	struct fbgc_object * tp = _cast_llbase_as_llconstant(cast_fbgc_object_as_fun(fun_obj)->code)->content;
+	cast_fbgc_object_as_fun(fun_obj)->no_arg = size_fbgc_tuple_object(tp); 
+	fun_holder->next = arg_end->next;
 
 	_info("Handling function args, # of args:%d\n",cast_fbgc_object_as_fun(fun_obj)->no_arg);	
 }
@@ -135,12 +139,14 @@ struct fbgc_ll_base * handle_before_paranthesis(struct fbgc_ll_base * iter_prev,
 	
 	_info("==================================\n");
 	_info("%s is called\n",__FUNCTION__);
-	_info("Stack top:%s\n",_obj2str(TOP_LL(op)));
+	_info("Stack top holder:%s\n",_ll2str(TOP_LL(op)));
 
 	uint8_t gm_error = 1;
 	
-
-	fbgc_token top_type = get_fbgc_object_type(TOP_LL(op));
+	fbgc_token top_type = TOP_LL(op)->type;
+	//struct fbgc_ll_base * top = TOP_LL(op);
+	//fbgc_token top_type = (top->type == CONSTANT) ? _cast_llbase_as_llconstant(top)->content->type : UNKNOWN;
+	//_info("Stack top:%s\n",_obj2str(_cast_llbase_as_llconstant(top)->content));
 
 
 	uint8_t	state = 0;
@@ -149,13 +155,13 @@ struct fbgc_ll_base * handle_before_paranthesis(struct fbgc_ll_base * iter_prev,
 
 	if(top_type == FUN_CALL){
 		
-		_println_object("Function call template, iter_prev:",iter_prev);
+		_print("Function call template, iter_prev:%s\n",_ll2str(iter_prev));
 
-		//state == 2
-		if(state == 2) iter_prev->type = INT; 
+		//state == 2, iter_prev is comma
+		if(state == 2) iter_prev->type = FUN_CALL; 
 		else{
 
-			struct fbgc_ll_base * ito = _new_fbgc_ll_constant(new_fbgc_int_object(state == 1)); //nuple
+			struct fbgc_ll_base * ito = _new_fbgc_ll_opcode_int(FUN_CALL,state==1);
 			ito->next = iter_prev->next;
 			iter_prev->next = ito;
 			iter_prev = ito;
@@ -164,9 +170,9 @@ struct fbgc_ll_base * handle_before_paranthesis(struct fbgc_ll_base * iter_prev,
 		//gm_seek_right(gm,TOP_LL(op));
 		struct fbgc_ll_base * iter = iter_prev->next;
 		//Insert top op to the list  
-		iter_prev->next = TOP_LL(op);
+		//iter_prev->next = TOP_LL(op);
 		POP_LL(op);
-		iter_prev = iter_prev->next;
+		//iter_prev = iter_prev->next;
 		
 		char put_pop_top = 0;
 
@@ -185,19 +191,22 @@ struct fbgc_ll_base * handle_before_paranthesis(struct fbgc_ll_base * iter_prev,
 	else if(top_type == FUN_MAKE){
 
 		_print("Stack top is FUN_MAKE, function make template!\n");
-		if(cast_fbgc_object_as_fun(_cast_llbase_as_lljumper(TOP_LL(op))->content)->no_arg != -1)
+		struct fbgc_ll_base * fun_holder =  _cast_llbase_as_lljumper(TOP_LL(op))->content; 
+		struct fbgc_object * fun_obj = _cast_llbase_as_llconstant(fun_holder)->content;
+		if(cast_fbgc_object_as_fun(fun_obj)->no_arg != -1){
+			_print("already created function,arg :%d\n",cast_fbgc_object_as_fun(fun_obj)->no_arg);
 			return iter_prev;
+		}
 		//fun_make content holds function object, parse the arguments
 		gm_seek_right(gm,TOP_LL(op));
 
-		struct fbgc_ll_base * top = TOP_LL(op);
-		struct fbgc_ll_base * fun_obj =  _cast_llbase_as_lljumper(TOP_LL(op))->content; 
+		
 
-		_println_object("Function Arg Start:",fun_obj->next);
-		_println_object("Function Arg End:",iter_prev);
+		_print("Function Arg Start:%s\n",_ll2str(fun_holder->next));
+		_print("Function Arg End:%s\n",_ll2str(iter_prev));
 
-		handle_function_args(fun_obj,iter_prev);
-		iter_prev = fun_obj;
+		handle_function_args(fun_holder,iter_prev);
+		iter_prev = fun_holder;
 	}
 	else if(top_type == FOR){
 
@@ -207,8 +216,8 @@ struct fbgc_ll_base * handle_before_paranthesis(struct fbgc_ll_base * iter_prev,
 		gm_seek_right(gm,TOP_LL(op));
 
 		_print("Stack top is FOR, for loop template!\n");
-		_print("For loop content:%s\n",_obj2str(_cast_llbase_as_lljumper(TOP_LL(op))->content));
-		_print("Iterator previous:%s\n",_obj2str(iter_prev));
+		_print("For loop content:%s\n",_ll2str(_cast_llbase_as_lljumper(TOP_LL(op))->content));
+		_print("Iterator previous:%s\n",_ll2str(iter_prev));
 		
 		if(iter_prev->type != ASSIGN){
 			//This makes sure we have for i = x type of loop definition
@@ -226,10 +235,10 @@ struct fbgc_ll_base * handle_before_paranthesis(struct fbgc_ll_base * iter_prev,
 
 	}	
 	else if( (top_type == IF || top_type == ELIF || top_type == WHILE) && _cast_llbase_as_lljumper(TOP_LL(op))->content == NULL){
-		_print("Stack top is %s, conditional template!\n",_obj2str(TOP_LL(op)));
+		_print("Stack top is %s, conditional template!\n",_ll2str(TOP_LL(op)));
 		gm_seek_right(gm,TOP_LL(op));
 		_cast_llbase_as_lljumper(TOP_LL(op))->content = iter_prev;
-		_warning("If shows %s\n",_obj2str(iter_prev->next));	
+		_warning("If shows %s\n",_ll2str(iter_prev->next));	
 	}
 	else if(iter_prev->type == COMMA || gm->top == GM_ATOM){
 		
@@ -239,7 +248,7 @@ struct fbgc_ll_base * handle_before_paranthesis(struct fbgc_ll_base * iter_prev,
 		} 
 		else if(state == 0){
 			_debug("State number is 0, creating new object BUILD_TUPLE with 0 size\n");
-			struct fbgc_ll_base * ito = derive_from_new_int_object(BUILD_TUPLE,0);
+			struct fbgc_ll_base * ito = _new_fbgc_ll_opcode_int(BUILD_TUPLE,0);
 			ito->next = iter_prev->next;
 			iter_prev->next = ito;
 			iter_prev = ito;
@@ -264,7 +273,7 @@ struct fbgc_ll_base * handle_before_brackets(struct fbgc_ll_base * iter_prev, st
 	
 	_info("==================================\n");
 	_info("%s is called\n",__FUNCTION__);
-	_info("Stack top:%s\n",_obj2str(TOP_LL(op)));
+	_info("Stack top:%s\n",_ll2str(TOP_LL(op)));
 
 
 	uint8_t gm_error = 1;
@@ -313,7 +322,9 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 	struct fbgc_ll_base * head_obj =  cast_fbgc_object_as_field(*field_obj)->head;
 	struct fbgc_ll_base * op = _new_fbgc_ll();
 	struct fbgc_grammar gm = {.top =  GM_NEWLINE};
-	
+		
+
+	//struct fbgc_ll_base * scope_list = _new_fbgc_ll();
 	struct fbgc_object * current_scope = *field_obj;
 
 	uint8_t gm_error = 1;
@@ -350,7 +361,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 		}
 	
 
-	_cprint(010,"----------[%d]{%s:",i,_obj2str(iter)); _print_object("",iter); _cprint(010,"}----------\n");
+	_cprint(010,"----------[%d]{%s:",i,_ll2str(iter));  _cprint(010,"}----------\n");
 
 	switch(iter->type){
 	case CONSTANT:
@@ -431,12 +442,13 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 		}
 
 		else if(current_scope->type == FUN){				
-			struct fbgc_object * local_tuple = cast_fbgc_object_as_fun(current_scope)->code;
+			struct fbgc_object * local_tuple = 
+				_cast_llbase_as_llconstant(cast_fbgc_object_as_fun(current_scope)->code)->content;
 			int where = index_fbgc_tuple_object(local_tuple,cstr_obj);
 			set_id_flag_LOCAL(iter);
 
 			if(where == -1) {
-				_print("Iter->next type(%s)\n",_obj2str(iter->next));
+				_print("Iter->next type(%s)\n",_ll2str(iter->next));
 
 				//-1 arg means func definition hasnt been done yet! So we are reading arguments
 				if(iter->next->type == ASSIGN  || cast_fbgc_object_as_fun(current_scope)->no_arg == -1){
@@ -444,7 +456,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 
 					local_tuple = push_back_fbgc_tuple_object(local_tuple,cstr_obj);
 					where = size_fbgc_tuple_object(local_tuple)-1;
-					cast_fbgc_object_as_fun(current_scope)->code = local_tuple;
+					_cast_llbase_as_llconstant(cast_fbgc_object_as_fun(current_scope)->code)->content = local_tuple;
 					
 					_println_object("Fun local tuple:",local_tuple);
 				}
@@ -544,35 +556,36 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 		}
 		else if(TOP_LL(op)->type == FUN_MAKE){
 
-			assert(iter_prev->type != FUN);  // why do we have this?
-			assert(TOP_LL(op)->type == FUN_MAKE);
+			//Check the function is empty or not, we need to handle this
+			assert(iter_prev->type != FUN);  // why do we have this
 
 			//???
 			struct fbgc_ll_base * fun_holder = _cast_llbase_as_lljumper(TOP_LL(op))->content;
-			struct fbgc_object * fun_obj = _cast_llbase_as_llconstant(fun_holder);
+			struct fbgc_object * fun_obj = _cast_llbase_as_llconstant(fun_holder)->content;
 			
-
-			cast_fbgc_object_as_fun(fun_obj)->no_locals = size_fbgc_tuple_object(cast_fbgc_object_as_fun(fun_obj)->code); 
+			struct fbgc_object * tp = _cast_llbase_as_llconstant(cast_fbgc_object_as_fun(fun_obj)->code)->content;
+			cast_fbgc_object_as_fun(fun_obj)->no_locals = size_fbgc_tuple_object(tp); 
 			cast_fbgc_object_as_fun(fun_obj)->code = fun_holder->next;
 
 			//This is commented to just save the day..
 			//if(iter_prev->type != RETURN){
 				//add NIL object 
-				iter_prev->next = _new_fbgc_ll_constant(new_fbgc_object(NIL));
+				iter_prev->next = _new_fbgc_ll_constant(__fbgc_nil);
 				iter_prev = iter_prev->next;
 				iter_prev->next = _new_fbgc_ll_base(RETURN);
 				iter_prev = iter_prev->next;
 			//}
 
-			iter_prev->next = fun_holder; //last token in function code shows func object
+			iter_prev->next = NULL; //last token in function code shows NULL
 			iter_prev = fun_holder;
 
-			POP_LL(op);
-			current_scope = *field_obj;
+			POP_LL(op); //Remove fun_make
 			iter_prev->next = iter->next;
+
+			current_scope = *field_obj; //Go back to the previous scope
 			
 		}
-		else{
+		else if(TOP_LL(op)->type != JUMP){
 			cprintf(100,"Found extra END keyword\n");
 			error_code = _FBGC_SYNTAX_ERROR;
 			goto PARSER_ERROR_LABEL;
@@ -598,7 +611,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 	}
 	case FUN_MAKE:{
 		gm_error = gm_seek_left(&gm,iter);	
-		struct fbgc_object * fun_obj = new_fbgc_fun_object();	
+		struct fbgc_object * fun_obj = new_fbgc_fun_object();
 		struct fbgc_ll_base * fun_holder = _new_fbgc_ll_constant(fun_obj);
 		fun_holder->next = iter->next;
 		iter_prev->next = fun_holder;
@@ -607,9 +620,26 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 		_push_front_fbgc_ll(op,iter);
 
 		current_scope = fun_obj;
-		cast_fbgc_object_as_fun(fun_obj)->code = new_fbgc_tuple_object(0);	
+		cast_fbgc_object_as_fun(fun_obj)->code = _new_fbgc_ll_constant(new_fbgc_tuple_object(0));
 		break;		
 	}
+	case CLASS_MAKE:{
+		
+		_print("CLASS_MAKE is not supported rn.\n");
+		assert(0);
+		/*gm_error = gm_seek_left(&gm,iter);	
+		struct fbgc_object * fun_obj = new_fbgc_fun_object();
+		struct fbgc_ll_base * fun_holder = _new_fbgc_ll_constant(fun_obj);
+		fun_holder->next = iter->next;
+		iter_prev->next = fun_holder;
+		iter_prev = fun_holder;
+		_cast_llbase_as_lljumper(iter)->content = fun_holder;
+		_push_front_fbgc_ll(op,iter);
+
+		current_scope = fun_obj;
+		cast_fbgc_object_as_fun(fun_obj)->code = _new_fbgc_ll_constant(new_fbgc_tuple_object(0));
+		break;*/	
+	}	
 	case ELIF:{
 		//gm_error = gm_seek_right(&gm,TOP_LL(op));
 		//gm_error = gm_seek_left(&gm,iter);	
@@ -801,7 +831,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			}
 			else{
 
-				_warning("Top object is not pushable to main list");
+				_warning("Top object is not pushable to main list\n");
 				
 				if(iter->type == SEMICOLON && get_fbgc_object_type(TOP_LL(op)) == LBRACK){
 					
@@ -844,15 +874,15 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 		if( (error_code = gm_seek_left(&gm,iter)) != _FBGC_NO_ERROR  ){ goto PARSER_ERROR_LABEL; }
 
 		if(iter->type == LPARA){
-			_warning("Iter is LPARA, iter_prev %s\n",_obj2str(iter_prev));
+			_warning("Iter is LPARA, iter_prev %s\n",_ll2str(iter_prev));
 
 			if(iter_prev->type == IDENTIFIER || iter_prev->type == LOAD_SUBSCRIPT || is_constant_and_token(iter_prev,CFUN)){
-				_push_front_fbgc_ll(op,_new_fbgc_ll_base(FUN_CALL));	
+				_push_front_fbgc_ll(op,_new_fbgc_ll_opcode_int(FUN_CALL,0));	
 			}
 			_push_front_fbgc_ll(op,iter);
 		}
 		else if(iter->type == LBRACK){
-			_warning("Iter is LBRACK, iter_prev %s\n",_obj2str(iter_prev));
+			_warning("Iter is LBRACK, iter_prev %s\n",_ll2str(iter_prev));
 			if(iter_prev->type == IDENTIFIER || iter_prev->type == FUN_CALL){
 				_push_front_fbgc_ll(op,_new_fbgc_ll_base(LOAD_SUBSCRIPT));
 			}
@@ -862,8 +892,8 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			;
 		}
 		else if(iter->type == COMMA){
-			if(get_fbgc_object_type(TOP_LL(op)) == COMMA){
-				cast_fbgc_object_as_int(TOP_LL(op))->content++;
+			if(TOP_LL(op)->type == COMMA){
+				_cast_llbase_as_llopcode_int(TOP_LL(op))->content++;
 			}
 			else {
 				//Also insert a lpara object for tuple entries without paranthesis
@@ -871,7 +901,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 					_push_front_fbgc_ll(op,_new_fbgc_ll_base(LPARA));
 				}
 
-				_push_front_fbgc_ll(op,derive_from_new_int_object(COMMA,2));
+				_push_front_fbgc_ll(op, _new_fbgc_ll_opcode_int(COMMA,2));
 			}
 		}
 		else if( iter->type == RBRACK){
@@ -894,8 +924,9 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 		}
 		else if(iter->type == RPARA || iter->type == NEWLINE || iter->type == SEMICOLON){
 
-			_warning("%s out of while loop\n",_obj2str(iter));
+			_warning("%s out of while loop\n",_ll2str(iter));
 			_warning("Grammar top %s\n",_gm2str(gm.top));
+
 
 			if(iter->type == RPARA && TOP_LL(op)->type == LPARA) _pop_front_fbgc_ll(op);
 			else if(iter->type == NEWLINE && TOP_LL(op)->type == LPARA) _pop_front_fbgc_ll(op);
@@ -960,7 +991,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 		iter_prev->next = iter->next;
 
 		if(TOP_LL(op)->type == IDENTIFIER){
-			_info("Stack top is [%x]ID<%d>\n",get_id_flag(TOP_LL(op)),get_ll_identifier_loc(TOP_LL(op)));
+			_info("Stack top is [%x]ID<%d>\n",get_ll_identifier_flag(TOP_LL(op)),get_ll_identifier_loc(TOP_LL(op)));
 			TOP_LL(op)->type = iter->type;				
 		}
 		else if(TOP_LL(op)->type == LOAD_SUBSCRIPT){
@@ -972,7 +1003,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 	}
 	default:{
 
-		_warning("Undefined object type[%s] in parser\n",_obj2str(iter));
+		_warning("Undefined object type[%s] in parser\n",_ll2str(iter));
 		assert(0);
 	}
 }

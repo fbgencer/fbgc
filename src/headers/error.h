@@ -23,6 +23,7 @@ extern "C" {
 #define _print_object(s,obj)(cprintf(001,s), print_fbgc_object(obj))
 #define _println_object(s,obj)(cprintf(001,s), print_fbgc_object(obj),cprintf(001,"\n"))
 #define _obj2str(obj)(object_name_array[obj->type])
+#define _ll2str(obj)(object_name_array[obj->type])
 #define _gm2str(gm)(gm_name_array[gm])
 
 //#endif

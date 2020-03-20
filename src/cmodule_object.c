@@ -30,11 +30,11 @@ void print_fbgc_cfun_object(const struct fbgc_cmodule_object * obj){
 struct fbgc_object * new_cfun_object_from_str(struct fbgc_object * field_obj,const char * str){
 
 	struct fbgc_ll * ll = _cast_llbase_as_ll( cast_fbgc_object_as_field(field_obj)->modules );
-	struct fbgc_ll_constant * xx = ll->base.next;
+	struct fbgc_ll_constant * xx = (struct fbgc_ll_constant *)ll->base.next;
 	struct fbgc_cmodule_object * cm = (struct fbgc_cmodule_object *)xx->content;
 
 
-	while(xx != NULL && xx != ll->tail){
+	while(xx != NULL && (struct fbgc_ll_base*)xx != ll->tail){
 		const struct fbgc_cfunction * cc = cm->module->functions[0];
 		//cprintf(111,"Functions:\n");
 		for (int i = 1; cc!=NULL; ++i){
@@ -46,7 +46,7 @@ struct fbgc_object * new_cfun_object_from_str(struct fbgc_object * field_obj,con
 			//cprintf(101,"{%s}\n",cc->name);
 			cc = cm->module->functions[i];
 		}
-		xx = xx->base.next;
+		xx = (struct fbgc_ll_constant *)xx->base.next;
 		cm = (struct fbgc_cmodule_object *)xx->content;
 	}
 

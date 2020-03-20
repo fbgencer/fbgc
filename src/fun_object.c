@@ -14,24 +14,23 @@ new_fbgc_fun_object(){
 
 
 void print_fbgc_fun_object(struct fbgc_object * obj){
-   	
-   	struct fbgc_fun_object * funo = cast_fbgc_object_as_fun(obj);
+    struct fbgc_fun_object * funo = cast_fbgc_object_as_fun(obj);
 
-   	if(funo->code != NULL && funo->code->type != TUPLE){
+    if(funo->code != NULL && funo->code->type != TUPLE){
 
-   		cprintf(010,"[Arg#:%d Local#:%d|",funo->no_arg,funo->no_locals);
-
+      cprintf(010,"[Arg#:%d Local#:%d|",funo->no_arg,funo->no_locals);
     #ifdef FUN_PRINT_DETAILED
-   		struct fbgc_ll_base * iter = funo->code;
-   		while(iter != obj){
+      struct fbgc_ll_base * iter = funo->code;
+      for(;iter != NULL;){
         cprintf(011,"<");
-   			print_fbgc_object(iter);
+        _print_fbgc_ll_base(iter);
         cprintf(011,">");
-   			iter = iter->next;
-   		}
+        iter = iter->next;
+        //if(iter->type == CONSTANT && _cast_llbase_as_llconstant(iter)->content == obj) break;
+      }
     #endif  
- 		cprintf(010,"]");
-   	}
+    cprintf(010,"]");
+    }
 }
 
 
@@ -44,11 +43,12 @@ void fprintf_fbgc_fun_object(struct fbgc_object * obj){
       cprintf(010,"[Arg#:%d Local#:%d|",funo->no_arg,funo->no_locals);
 
       struct fbgc_ll_base * iter = funo->code;
-      while(iter != obj){
+      for(;iter != NULL;){
         cprintf(011,"<");
-        print_fbgc_object(iter);
+        _print_fbgc_ll_base(iter);
         cprintf(011,">");
         iter = iter->next;
+        //if(iter->type == CONSTANT && _cast_llbase_as_llconstant(iter)->content == obj) break;
       }
     cprintf(010,"]");
     }

@@ -48,6 +48,7 @@
 	FIELD #
 	END # end
 	FUN_MAKE #
+	CLASS_MAKE
 	ELIF #
 	ELSE #
 	WHILE #

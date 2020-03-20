@@ -54,7 +54,7 @@ extern "C" {
 #include "headers/relexer.h"
 #include "headers/grammar.h"
 #include "headers/parser.h"
-
+#include "headers/interpreter.h"
 
 extern struct fbgc_object * current_field;
 extern const struct fbgc_object * const __fbgc_nil;

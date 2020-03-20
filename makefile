@@ -6,7 +6,7 @@ OBJ = ${SRC:.c=.o}
 #put -g in order to see good assembly output
 
 CC=gcc
-CFLAGS= -c
+CFLAGS= -c -Wincompatible-pointer-types
 LDFLAGS += -lm
 
 #GSL_CFLAG = -I /home/fbgencer/gsl/include
@@ -28,9 +28,9 @@ LDFLAGS += $(LIB_LDFLAGS)
 #CFLAGS += -DCLOSE_CPRINTF
 #CFLAGS += -DLEXER_DETAILED_DEBUG
 CFLAGS += -DLEXER_DEBUG
-#CFLAGS += -DGRAMMAR_DEBUG
+CFLAGS += -DGRAMMAR_DEBUG
 CFLAGS += -DPARSER_DEBUG
-#CFLAGS += -DINTERPRETER_DEBUG
+CFLAGS += -DINTERPRETER_DEBUG
 #CFLAGS += -DFREE_DEBUG
 #CFLAGS += -DMEM_DEBUG
 #CFLAGS += -DSYMBOL_TABLE_DEBUG

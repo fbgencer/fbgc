@@ -24,11 +24,11 @@ void load_module_in_field_object(struct fbgc_object * field_obj, const struct fb
 	_push_front_fbgc_ll(cast_fbgc_object_as_field(field_obj)->modules,_new_fbgc_ll_constant((struct fbgc_object *)cm));	
 }
 
-struct fbgc_object * add_variable_in_field_object(struct fbgc_object * field_obj,const char * var_name, struct fbgc_object * rhs){
+struct fbgc_ll_base * add_variable_in_field_object(struct fbgc_object * field_obj,const char * var_name, struct fbgc_object * rhs){
 		
 		//if(rhs == NULL) return NULL;
 
-	struct fbgc_object * iter = new_fbgc_symbol_from_substr(var_name,var_name + strlen(var_name));
+	struct fbgc_ll_base * iter = new_fbgc_symbol_from_substr(var_name,var_name + strlen(var_name));
 	//this location is from symbols, we need to find location in fields
 	struct fbgc_object * cstr_obj = get_object_in_fbgc_tuple_object(fbgc_symbols,_cast_fbgc_object_as_llidentifier(iter)->loc);
 

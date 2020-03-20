@@ -38,68 +38,69 @@ typedef struct {
 #define FIELD 20 //
 #define END 21 // end
 #define FUN_MAKE 22 //
-#define ELIF 23 //
-#define ELSE 24 //
-#define WHILE 25 //
-#define FOR 26 //
-#define BREAK 27 //
-#define CONT 28 //
-#define IF 29 //
-#define RETURN 30 //
-#define NEWLINE 31 //
-#define LPARA 32 // (
-#define RPARA 33 // )
-#define LBRACK 34 // [
-#define RBRACK 35 // ]
-#define LBRACE 36 // {
-#define RBRACE 37 // }
-#define COMMA 38 // , -- set1 start
-#define DOT 39 // .
-#define SEMICOLON 40 // ; 
-#define COLON 41 // : set1 finish
-#define RSHIFT 42 // >> assignment and binary operators start from here
-#define LSHIFT 43 // <<
-#define STARSTAR 44 // **
-#define SLASHSLASH 45 // //
-#define PLUS 46 // +
-#define MINUS 47 // -
-#define STAR 48 // *
-#define SLASH 49 // /
-#define CARET 50 // ^
-#define PERCENT 51 // % assignment finish
-#define LOEQ 52 // <=
-#define GREQ 53 // >=
-#define EQEQ 54 // ==
-#define NOTEQ 55 // !=
-#define LOWER 56 // <
-#define GREATER 57 // >
-#define PIPE 58 // |
-#define AMPERSAND 59 // & binary finish
-#define EXCLAMATION 60 // !
-#define TILDE 61 // ~
-#define UPLUS 62 // +
-#define UMINUS 63 // -
-#define ASSIGN 64 // = assignment ops start from here
-#define RSHIFT_ASSIGN 65 // >>=
-#define LSHIFT_ASSIGN 66 // <<=
-#define STARSTAR_ASSIGN 67 // **=
-#define SLASHSLASH_ASSIGN 68 // //=
-#define PLUS_ASSIGN 69 // +=
-#define MINUS_ASSIGN 70 // -=
-#define STAR_ASSIGN 71 // *=
-#define SLASH_ASSIGN 72 // /=
-#define CARET_ASSIGN 73 // ^=
-#define PERCENT_ASSIGN 74 // %=
-#define ASSIGN_SUBSCRIPT 75 //
-#define LEN 76 //
-#define JUMP 77 //
-#define FOR_BEGIN 78 //
-#define FUN_CALL 79 //
-#define BUILD_TUPLE 80 //
-#define BUILD_MATRIX 81 //
-#define POP_TOP 82 //
-#define ROW 83 //
-#define LOAD_SUBSCRIPT 84 //
+#define CLASS_MAKE 23 //
+#define ELIF 24 //
+#define ELSE 25 //
+#define WHILE 26 //
+#define FOR 27 //
+#define BREAK 28 //
+#define CONT 29 //
+#define IF 30 //
+#define RETURN 31 //
+#define NEWLINE 32 //
+#define LPARA 33 // (
+#define RPARA 34 // )
+#define LBRACK 35 // [
+#define RBRACK 36 // ]
+#define LBRACE 37 // {
+#define RBRACE 38 // }
+#define COMMA 39 // , -- set1 start
+#define DOT 40 // .
+#define SEMICOLON 41 // ; 
+#define COLON 42 // : set1 finish
+#define RSHIFT 43 // >> assignment and binary operators start from here
+#define LSHIFT 44 // <<
+#define STARSTAR 45 // **
+#define SLASHSLASH 46 // //
+#define PLUS 47 // +
+#define MINUS 48 // -
+#define STAR 49 // *
+#define SLASH 50 // /
+#define CARET 51 // ^
+#define PERCENT 52 // % assignment finish
+#define LOEQ 53 // <=
+#define GREQ 54 // >=
+#define EQEQ 55 // ==
+#define NOTEQ 56 // !=
+#define LOWER 57 // <
+#define GREATER 58 // >
+#define PIPE 59 // |
+#define AMPERSAND 60 // & binary finish
+#define EXCLAMATION 61 // !
+#define TILDE 62 // ~
+#define UPLUS 63 // +
+#define UMINUS 64 // -
+#define ASSIGN 65 // = assignment ops start from here
+#define RSHIFT_ASSIGN 66 // >>=
+#define LSHIFT_ASSIGN 67 // <<=
+#define STARSTAR_ASSIGN 68 // **=
+#define SLASHSLASH_ASSIGN 69 // //=
+#define PLUS_ASSIGN 70 // +=
+#define MINUS_ASSIGN 71 // -=
+#define STAR_ASSIGN 72 // *=
+#define SLASH_ASSIGN 73 // /=
+#define CARET_ASSIGN 74 // ^=
+#define PERCENT_ASSIGN 75 // %=
+#define ASSIGN_SUBSCRIPT 76 //
+#define LEN 77 //
+#define JUMP 78 //
+#define FOR_BEGIN 79 //
+#define FUN_CALL 80 //
+#define BUILD_TUPLE 81 //
+#define BUILD_MATRIX 82 //
+#define POP_TOP 83 //
+#define ROW 84 //
+#define LOAD_SUBSCRIPT 85 //
 #define TOKEN_LIST_AS_STRINGS()\
 "UNKNOWN",\
 "NIL",\
@@ -124,6 +125,7 @@ typedef struct {
 "FIELD",\
 "END",\
 "FUN_MAKE",\
+"CLASS_MAKE",\
 "ELIF",\
 "ELSE",\
 "WHILE",\

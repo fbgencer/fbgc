@@ -31,6 +31,13 @@ struct fbgc_ll_identifier{
     int loc;
     uint8_t flag;
 };
+
+struct fbgc_ll_opcode_int{
+    struct fbgc_ll_base base;
+    int content;
+};
+
+
 #define sizeof_fbgc_ll_identifier(x)(sizeof(struct fbgc_ll_identifier))
 
 #define ID_FLAG_GLOBAL 0x01 //0b00000001
@@ -54,17 +61,18 @@ struct fbgc_ll_identifier{
 #define is_id_flag_MEMBER(x)(_cast_fbgc_object_as_llidentifier(x)->flag & ID_FLAG_MEMBER )
 #define is_id_flag_PUSH_ITSELF(x)(_cast_fbgc_object_as_llidentifier(x)->flag & ID_FLAG_PUSH_ITSELF )
 
-#define get_id_flag(x)(_cast_fbgc_object_as_llidentifier(x)->flag)
+#define get_ll_identifier_flag(x)(_cast_fbgc_object_as_llidentifier(x)->flag)
 
 struct fbgc_ll_base * _new_fbgc_ll_base(fbgc_token token);
 struct fbgc_ll_base * _new_fbgc_ll_constant(struct fbgc_object * obj);
 struct fbgc_ll_base * _new_fbgc_ll_jumper(fbgc_token tok);
 struct fbgc_ll_base * _new_fbgc_ll_identifier(int loc);
+struct fbgc_ll_base * _new_fbgc_ll_opcode_int(fbgc_token t,int x);
 
 
 #define _cast_llbase_as_llconstant(x)( ((struct fbgc_ll_constant*) x) )
 #define _cast_llbase_as_lljumper(x)( ((struct fbgc_ll_jumper*) x) )
-
+#define _cast_llbase_as_llopcode_int(x)( ((struct fbgc_ll_opcode_int*) x) )
 
 #define _cast_llbase_as_ll(x)(((struct fbgc_ll*) x))
 
