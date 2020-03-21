@@ -11,6 +11,8 @@ TUPLE $ tuple class
 CSTRING $ raw c strings without length
 CFUN $ c function
 FUN $ builtin fbgc function
+CLASS
+INSTANCE
 CSTRUCT $ 
 IDENTIFIER $ identifiers
 RANGE $ range obj
@@ -84,3 +86,4 @@ BUILD_MATRIX
 POP_TOP
 ROW
 LOAD_SUBSCRIPT
+CLASS_CALL

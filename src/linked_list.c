@@ -125,11 +125,17 @@ void _print_fbgc_ll(struct fbgc_ll_base * head,const char *s1){
 
     assert(head != NULL);
     struct fbgc_ll * head_ll = _cast_llbase_as_ll(head);
-    struct fbgc_ll_base * iter = head_ll->base.next;
-
+    _print_fbgc_ll_code(head_ll->base.next,head_ll->tail);
     cprintf(101,"[%s]->",s1);
+}
+
+
+
+void _print_fbgc_ll_code(struct fbgc_ll_base * head_next,struct fbgc_ll_base * tail){
+
+    struct fbgc_ll_base * iter = head_next;
     int i = 0;
-    while(iter!=head_ll->tail){
+    while(iter!=tail){
         
         if(iter == NULL){
             cprintf(111,"\n\n\n\nProblem at %d\n\n\n\n",i);
@@ -227,7 +233,7 @@ void _print_fbgc_ll(struct fbgc_ll_base * head,const char *s1){
             cprintf(011,"{BUILD_MATRIX(%d)}",_cast_llbase_as_llopcode_int(iter)->content);
         }
         else if(iter->type == FUN_CALL){
-            cprintf(011,"{FUN_CALL}");
+            cprintf(011,"{FUN_CALL(%d)}",_cast_llbase_as_llopcode_int(iter)->content);
                // cast_fbgc_object_as_int(iter)->content);
         }         
         else if(iter->type == ROW){
@@ -238,7 +244,5 @@ void _print_fbgc_ll(struct fbgc_ll_base * head,const char *s1){
         else cprintf(011,"{%s}",_ll2str(iter));     
             iter = iter->next;
     }
-    if(head_ll->base.type == LINKED_LIST) cprintf(101,"<->[T]\n");
-    else cprintf(101,"->NULL\n");
+    cprintf(101,"<->[T]\n");
 }
-

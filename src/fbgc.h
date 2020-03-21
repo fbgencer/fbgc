@@ -43,7 +43,7 @@ extern "C" {
 #include "headers/fun_object.h"
 #include "headers/range_object.h"
 #include "headers/cstruct_object.h"
-
+#include "headers/class_object.h"
 
 #include "headers/operator.h"
 

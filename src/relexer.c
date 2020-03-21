@@ -225,6 +225,7 @@ struct fbgc_ll_base * _tokenize_substr(const char *str1, const char*str2, lexer_
 				case BREAK:
 				case CONT:
 				case FUN_MAKE:
+				case CLASS_MAKE:
 				case IF:{
 					return _new_fbgc_ll_jumper(kw_tok);
 				}

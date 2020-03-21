@@ -28,79 +28,82 @@ typedef struct {
 #define CSTRING 10 // raw c strings without length
 #define CFUN 11 // c function
 #define FUN 12 // builtin fbgc function
-#define CSTRUCT 13 // 
-#define IDENTIFIER 14 // identifiers
-#define RANGE 15 // range obj
-#define ARRAY 16 //
-#define LINKED_LIST 17 //
-#define CMODULE 18 //
-#define GARBAGE 19 //
-#define FIELD 20 //
-#define END 21 // end
-#define FUN_MAKE 22 //
-#define CLASS_MAKE 23 //
-#define ELIF 24 //
-#define ELSE 25 //
-#define WHILE 26 //
-#define FOR 27 //
-#define BREAK 28 //
-#define CONT 29 //
-#define IF 30 //
-#define RETURN 31 //
-#define NEWLINE 32 //
-#define LPARA 33 // (
-#define RPARA 34 // )
-#define LBRACK 35 // [
-#define RBRACK 36 // ]
-#define LBRACE 37 // {
-#define RBRACE 38 // }
-#define COMMA 39 // , -- set1 start
-#define DOT 40 // .
-#define SEMICOLON 41 // ; 
-#define COLON 42 // : set1 finish
-#define RSHIFT 43 // >> assignment and binary operators start from here
-#define LSHIFT 44 // <<
-#define STARSTAR 45 // **
-#define SLASHSLASH 46 // //
-#define PLUS 47 // +
-#define MINUS 48 // -
-#define STAR 49 // *
-#define SLASH 50 // /
-#define CARET 51 // ^
-#define PERCENT 52 // % assignment finish
-#define LOEQ 53 // <=
-#define GREQ 54 // >=
-#define EQEQ 55 // ==
-#define NOTEQ 56 // !=
-#define LOWER 57 // <
-#define GREATER 58 // >
-#define PIPE 59 // |
-#define AMPERSAND 60 // & binary finish
-#define EXCLAMATION 61 // !
-#define TILDE 62 // ~
-#define UPLUS 63 // +
-#define UMINUS 64 // -
-#define ASSIGN 65 // = assignment ops start from here
-#define RSHIFT_ASSIGN 66 // >>=
-#define LSHIFT_ASSIGN 67 // <<=
-#define STARSTAR_ASSIGN 68 // **=
-#define SLASHSLASH_ASSIGN 69 // //=
-#define PLUS_ASSIGN 70 // +=
-#define MINUS_ASSIGN 71 // -=
-#define STAR_ASSIGN 72 // *=
-#define SLASH_ASSIGN 73 // /=
-#define CARET_ASSIGN 74 // ^=
-#define PERCENT_ASSIGN 75 // %=
-#define ASSIGN_SUBSCRIPT 76 //
-#define LEN 77 //
-#define JUMP 78 //
-#define FOR_BEGIN 79 //
-#define FUN_CALL 80 //
-#define BUILD_TUPLE 81 //
-#define BUILD_MATRIX 82 //
-#define POP_TOP 83 //
-#define ROW 84 //
-#define LOAD_SUBSCRIPT 85 //
+#define CLASS 13 //
+#define INSTANCE 14 //
+#define CSTRUCT 15 // 
+#define IDENTIFIER 16 // identifiers
+#define RANGE 17 // range obj
+#define ARRAY 18 //
+#define LINKED_LIST 19 //
+#define CMODULE 20 //
+#define GARBAGE 21 //
+#define FIELD 22 //
+#define END 23 // end
+#define FUN_MAKE 24 //
+#define CLASS_MAKE 25 //
+#define ELIF 26 //
+#define ELSE 27 //
+#define WHILE 28 //
+#define FOR 29 //
+#define BREAK 30 //
+#define CONT 31 //
+#define IF 32 //
+#define RETURN 33 //
+#define NEWLINE 34 //
+#define LPARA 35 // (
+#define RPARA 36 // )
+#define LBRACK 37 // [
+#define RBRACK 38 // ]
+#define LBRACE 39 // {
+#define RBRACE 40 // }
+#define COMMA 41 // , -- set1 start
+#define DOT 42 // .
+#define SEMICOLON 43 // ; 
+#define COLON 44 // : set1 finish
+#define RSHIFT 45 // >> assignment and binary operators start from here
+#define LSHIFT 46 // <<
+#define STARSTAR 47 // **
+#define SLASHSLASH 48 // //
+#define PLUS 49 // +
+#define MINUS 50 // -
+#define STAR 51 // *
+#define SLASH 52 // /
+#define CARET 53 // ^
+#define PERCENT 54 // % assignment finish
+#define LOEQ 55 // <=
+#define GREQ 56 // >=
+#define EQEQ 57 // ==
+#define NOTEQ 58 // !=
+#define LOWER 59 // <
+#define GREATER 60 // >
+#define PIPE 61 // |
+#define AMPERSAND 62 // & binary finish
+#define EXCLAMATION 63 // !
+#define TILDE 64 // ~
+#define UPLUS 65 // +
+#define UMINUS 66 // -
+#define ASSIGN 67 // = assignment ops start from here
+#define RSHIFT_ASSIGN 68 // >>=
+#define LSHIFT_ASSIGN 69 // <<=
+#define STARSTAR_ASSIGN 70 // **=
+#define SLASHSLASH_ASSIGN 71 // //=
+#define PLUS_ASSIGN 72 // +=
+#define MINUS_ASSIGN 73 // -=
+#define STAR_ASSIGN 74 // *=
+#define SLASH_ASSIGN 75 // /=
+#define CARET_ASSIGN 76 // ^=
+#define PERCENT_ASSIGN 77 // %=
+#define ASSIGN_SUBSCRIPT 78 //
+#define LEN 79 //
+#define JUMP 80 //
+#define FOR_BEGIN 81 //
+#define FUN_CALL 82 //
+#define BUILD_TUPLE 83 //
+#define BUILD_MATRIX 84 //
+#define POP_TOP 85 //
+#define ROW 86 //
+#define LOAD_SUBSCRIPT 87 //
+#define CLASS_CALL 88 //
 #define TOKEN_LIST_AS_STRINGS()\
 "UNKNOWN",\
 "NIL",\
@@ -115,6 +118,8 @@ typedef struct {
 "CSTRING",\
 "CFUN",\
 "FUN",\
+"CLASS",\
+"INSTANCE",\
 "CSTRUCT",\
 "IDENTIFIER",\
 "RANGE",\
@@ -188,6 +193,7 @@ typedef struct {
 "POP_TOP",\
 "ROW",\
 "LOAD_SUBSCRIPT",\
+"CLASS_CALL",\
 //TOKENS_END
 
 #define GM_ERROR 0

@@ -29,7 +29,7 @@
 
 #define is_pushable_in_main(x)(!is_fbgc_PARA(x) && x != LEN)
 
-#define is_constant_and_token(x,y)( (x->type == CONSTANT && _cast_llbase_as_llconstant(x)->content->type == y) )
+#define is_constant_and_token(x,y)( ((x->type == CONSTANT && _cast_llbase_as_llconstant(x)->content->type == y)) )
 
 
 #define RIGHT_ASSOC 0b10000000
@@ -158,7 +158,9 @@ struct fbgc_ll_base * handle_before_paranthesis(struct fbgc_ll_base * iter_prev,
 		_print("Function call template, iter_prev:%s\n",_ll2str(iter_prev));
 
 		//state == 2, iter_prev is comma
-		if(state == 2) iter_prev->type = FUN_CALL; 
+		if(state == 2){
+			iter_prev->type = FUN_CALL;
+		}
 		else{
 
 			struct fbgc_ll_base * ito = _new_fbgc_ll_opcode_int(FUN_CALL,state==1);
@@ -166,6 +168,7 @@ struct fbgc_ll_base * handle_before_paranthesis(struct fbgc_ll_base * iter_prev,
 			iter_prev->next = ito;
 			iter_prev = ito;
 		}
+		_cast_llbase_as_llopcode_int(iter_prev)->content += _cast_llbase_as_llopcode_int(TOP_LL(op))->content;
 
 		//gm_seek_right(gm,TOP_LL(op));
 		struct fbgc_ll_base * iter = iter_prev->next;
@@ -200,13 +203,15 @@ struct fbgc_ll_base * handle_before_paranthesis(struct fbgc_ll_base * iter_prev,
 		//fun_make content holds function object, parse the arguments
 		gm_seek_right(gm,TOP_LL(op));
 
-		
-
 		_print("Function Arg Start:%s\n",_ll2str(fun_holder->next));
 		_print("Function Arg End:%s\n",_ll2str(iter_prev));
 
 		handle_function_args(fun_holder,iter_prev);
 		iter_prev = fun_holder;
+	}
+	else if(top_type == CLASS_MAKE){
+		_print("Stack top is CLASS_MAKE, making class template!\n");
+
 	}
 	else if(top_type == FOR){
 
@@ -256,12 +261,13 @@ struct fbgc_ll_base * handle_before_paranthesis(struct fbgc_ll_base * iter_prev,
 		//If nothing than it's a tuple!
 
 	}
-	/*else{
+	else{
 		
-		_println_object("iter prev :",iter_prev);
+		//Should we put an error or not ....?
+		/*_println_object("iter prev :",iter_prev);
 		_print_op_stack();
-		assert(0);
-	}*/
+		assert(0);*/
+	}
 
 	_info("==================================\n");
 
@@ -324,8 +330,9 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 	struct fbgc_grammar gm = {.top =  GM_NEWLINE};
 		
 
-	//struct fbgc_ll_base * scope_list = _new_fbgc_ll();
-	struct fbgc_object * current_scope = *field_obj;
+	struct fbgc_ll_base * scope_list = _new_fbgc_ll();
+	_push_front_fbgc_ll(scope_list,_new_fbgc_ll_constant(*field_obj));
+	#define current_scope _cast_llbase_as_llconstant(TOP_LL(scope_list))->content
 
 	uint8_t gm_error = 1;
 
@@ -340,7 +347,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 	int line_no = 0;
 
 
-	for(int i = 0; fbgc_error(error_code,line_no); i++){
+	for(int i = 0; fbgc_error(error_code,line_no) ; i++){
 		
 
 		if(iter == head->tail){
@@ -408,9 +415,13 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			iter_prev = cfun_holder;
 			break;	
 		}
-		else if(current_scope->type == FIELD){
+		else if(current_scope->type == FIELD || current_scope->type == CLASS){
 
-			struct fbgc_object * local_array = cast_fbgc_object_as_field(current_scope)->locals;
+			struct fbgc_object * local_array; 
+
+			if(current_scope->type == FIELD) local_array = cast_fbgc_object_as_field(current_scope)->locals;
+			else local_array = cast_fbgc_object_as_class(current_scope)->locals;
+
 			struct fbgc_identifier * temp_id; 
 			int where = -1;
 
@@ -423,13 +434,15 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			}
 
 			if(where == -1) {
-				_info("Creating a variable inside the Global field\n");
+				_info("Creating a variable inside a field obj\n");
 				
 				struct fbgc_identifier id;		
 				id.name = cstr_obj; id.content = NULL;
 				local_array = push_back_fbgc_array_object(local_array,&id);
 				where = size_fbgc_array_object(local_array)-1;
-				cast_fbgc_object_as_field(current_scope)->locals = local_array;
+
+				if(current_scope->type == FIELD) cast_fbgc_object_as_field(current_scope)->locals = local_array;
+				else cast_fbgc_object_as_class(current_scope)->locals = local_array;
 				
 				_info("Symbol is created @ [%d]\n",where);
 
@@ -437,7 +450,10 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			else{
 				_info_green("Symbol is already defined @ [%d]\n",where);
 			}
+
+			
 			set_id_flag_GLOBAL(iter);
+
 			_cast_fbgc_object_as_llidentifier(iter)->loc = where;
 		}
 
@@ -582,8 +598,28 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			POP_LL(op); //Remove fun_make
 			iter_prev->next = iter->next;
 
-			current_scope = *field_obj; //Go back to the previous scope
-			
+			POP_LL(scope_list);
+			//current_scope = *field_obj; //Go back to the previous scope
+		}
+		else if(TOP_LL(op)->type == CLASS_MAKE){
+
+			struct fbgc_ll_base * cls_holder = _cast_llbase_as_lljumper(TOP_LL(op))->content;
+			struct fbgc_object * cls_obj = _cast_llbase_as_llconstant(cls_holder)->content;
+			cast_fbgc_object_as_class(cls_obj)->code = cls_holder->next;
+
+			iter_prev->next = _new_fbgc_ll_constant(cls_obj);
+			iter_prev = iter_prev->next;
+			iter_prev->next = _new_fbgc_ll_base(RETURN);
+			iter_prev = iter_prev->next;
+
+			iter_prev->next = NULL;
+			POP_LL(op);
+			POP_LL(scope_list);
+			iter_prev = cls_holder;
+			iter_prev->next = _new_fbgc_ll_base(CLASS_CALL);
+			iter_prev = iter_prev->next;
+			iter_prev->next = iter->next;
+
 		}
 		else if(TOP_LL(op)->type != JUMP){
 			cprintf(100,"Found extra END keyword\n");
@@ -610,7 +646,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 		break;			
 	}
 	case FUN_MAKE:{
-		gm_error = gm_seek_left(&gm,iter);	
+		gm_error = gm_seek_left(&gm,iter);
 		struct fbgc_object * fun_obj = new_fbgc_fun_object();
 		struct fbgc_ll_base * fun_holder = _new_fbgc_ll_constant(fun_obj);
 		fun_holder->next = iter->next;
@@ -619,26 +655,26 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 		_cast_llbase_as_lljumper(iter)->content = fun_holder;
 		_push_front_fbgc_ll(op,iter);
 
-		current_scope = fun_obj;
+		_push_front_fbgc_ll(scope_list,_new_fbgc_ll_constant(fun_obj));
+		//current_scope = fun_obj;
+
 		cast_fbgc_object_as_fun(fun_obj)->code = _new_fbgc_ll_constant(new_fbgc_tuple_object(0));
 		break;		
 	}
 	case CLASS_MAKE:{
 		
-		_print("CLASS_MAKE is not supported rn.\n");
-		assert(0);
-		/*gm_error = gm_seek_left(&gm,iter);	
-		struct fbgc_object * fun_obj = new_fbgc_fun_object();
-		struct fbgc_ll_base * fun_holder = _new_fbgc_ll_constant(fun_obj);
-		fun_holder->next = iter->next;
-		iter_prev->next = fun_holder;
-		iter_prev = fun_holder;
-		_cast_llbase_as_lljumper(iter)->content = fun_holder;
+		
+		gm_error = gm_seek_left(&gm,iter);	
+		struct fbgc_object * cls_obj = new_fbgc_class_object();
+		struct fbgc_ll_base * cls_holder = _new_fbgc_ll_constant(cls_obj);
+		cls_holder->next = iter->next;
+		iter_prev->next = cls_holder;
+		iter_prev = cls_holder;
+		_cast_llbase_as_lljumper(iter)->content = cls_holder;
 		_push_front_fbgc_ll(op,iter);
-
-		current_scope = fun_obj;
-		cast_fbgc_object_as_fun(fun_obj)->code = _new_fbgc_ll_constant(new_fbgc_tuple_object(0));
-		break;*/	
+		_push_front_fbgc_ll(scope_list,_new_fbgc_ll_constant(cls_obj));
+		//cast_fbgc_object_as_fun(c)->code = _new_fbgc_ll_constant(new_fbgc_tuple_object(0));
+		break;
 	}	
 	case ELIF:{
 		//gm_error = gm_seek_right(&gm,TOP_LL(op));
@@ -877,7 +913,16 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			_warning("Iter is LPARA, iter_prev %s\n",_ll2str(iter_prev));
 
 			if(iter_prev->type == IDENTIFIER || iter_prev->type == LOAD_SUBSCRIPT || is_constant_and_token(iter_prev,CFUN)){
-				_push_front_fbgc_ll(op,_new_fbgc_ll_opcode_int(FUN_CALL,0));	
+					
+				if(iter_prev->type == CONSTANT && _cast_llbase_as_llconstant(iter_prev)->content == CFUN){
+					_warning("match!");
+				}
+
+				if(iter_prev->type == IDENTIFIER && is_id_flag_MEMBER(iter_prev)){
+					set_id_flag_MEMBER_METHOD(iter_prev);
+					_push_front_fbgc_ll(op,_new_fbgc_ll_opcode_int(FUN_CALL,1));
+				}
+				else _push_front_fbgc_ll(op,_new_fbgc_ll_opcode_int(FUN_CALL,0));
 			}
 			_push_front_fbgc_ll(op,iter);
 		}

@@ -29,14 +29,15 @@ struct fbgc_object * imag_fbgc_complex_object(struct fbgc_object * self){
 struct fbgc_object * subscript_fbgc_complex_object(struct fbgc_object * self,uint8_t index){
     if(index > 1 ) return NULL;
     double d = (index == 0) ? 
-        cast_fbgc_object_as_complex(self)->z.real :
+        cast_fbgc_object_as_complex(self)->z.real:
         cast_fbgc_object_as_complex(self)->z.imag; 
     return new_fbgc_double_object(d);
 }
 
 struct fbgc_object * conjugate_fbgc_complex_object(struct fbgc_object ** arg,int argc){
-    assert(argc == 0);
-        return new_fbgc_complex_object(cast_fbgc_object_as_complex(*arg)->z.real,-cast_fbgc_object_as_complex(*arg)->z.imag); 
+    if(argc == 1)
+    	return new_fbgc_complex_object(cast_fbgc_object_as_complex(arg[0])->z.real,-cast_fbgc_object_as_complex(arg[0])->z.imag); 
+    else return NULL;
 };
 
 double absolute_fbgc_complex_object(struct fbgc_object * a){

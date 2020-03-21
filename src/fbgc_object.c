@@ -409,18 +409,43 @@ struct fbgc_object * get_set_fbgc_object_member(struct fbgc_object * o, const ch
 			return NULL;
 		}
 		case FIELD:{
-
+			if(nm!= NULL) return NULL;
+			
 			struct fbgc_object * ao = cast_fbgc_object_as_field(o)->locals;
 			for(unsigned int i = 0;  i<size_fbgc_array_object(ao); ++i){	
 				struct fbgc_identifier * temp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(ao,i);
+				cprintf(111,"temp_idname = %s, str:%s => %d\n",content_fbgc_cstr_object(temp_id->name),str,my_strcmp(content_fbgc_cstr_object(temp_id->name),str));
 				if(!my_strcmp(content_fbgc_cstr_object(temp_id->name),str)){
+					cprintf(111,"I am returning\n");
+					if(nm != NULL){
+						temp_id->content = nm;	
+					}
 					return temp_id->content;
 				}
 			}
 
-			//should not come here, if cannot return put an error
-			cprintf(100,"Name[%s] cannot found in field object\n");
-			assert(0);
+			return NULL;
+		}
+		case CLASS:{
+
+			if(nm != NULL){
+				//printf("Class variables cannot be changed!\n");
+				return NULL;
+			}
+			struct fbgc_object * ao = cast_fbgc_object_as_class(o)->locals;
+			for(unsigned int i = 0;  i<size_fbgc_array_object(ao); ++i){	
+				struct fbgc_identifier * temp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(ao,i);
+				//cprintf(111,"temp_idname = %s, str:%s => %d\n",content_fbgc_cstr_object(temp_id->name),str,my_strcmp(content_fbgc_cstr_object(temp_id->name),str));
+				if(!my_strcmp(content_fbgc_cstr_object(temp_id->name),str)){
+					//cprintf(111,"I am returning\n");
+					return temp_id->content;
+				}
+			}
+
+			return NULL;
+		}
+		case INSTANCE:{
+			return get_set_fbgc_instance_object_member(o,str,nm);
 		}
 
 		default:
