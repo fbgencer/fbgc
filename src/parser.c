@@ -489,7 +489,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 					//XXX add undefined id error!
 					if(where == -1){
 						cprintf(100,"%s is not defined before\n",&cast_fbgc_object_as_cstr(cstr_obj)->content);
-						assert(0);
+						goto PARSER_ERROR_LABEL;
 					}
 					_print("Id object is found @ [%d]",where);
 					set_id_flag_GLOBAL(iter);
@@ -912,10 +912,12 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 		if(iter->type == LPARA){
 			_warning("Iter is LPARA, iter_prev %s\n",_ll2str(iter_prev));
 
-			if(iter_prev->type == IDENTIFIER || iter_prev->type == LOAD_SUBSCRIPT || is_constant_and_token(iter_prev,CFUN)){
-					
-				if(iter_prev->type == CONSTANT && _cast_llbase_as_llconstant(iter_prev)->content == CFUN){
-					_warning("match!");
+			// && TOP_LL(op)->type != LPARA we need to put this to ensure tuple entries
+
+			if((iter_prev->type == IDENTIFIER) || iter_prev->type == LOAD_SUBSCRIPT || is_constant_and_token(iter_prev,CFUN)) {
+						
+				if(iter_prev->type == CONSTANT && _cast_llbase_as_llconstant(iter_prev)->content->type == CFUN){
+					_warning("match!\n");
 				}
 
 				if(iter_prev->type == IDENTIFIER && is_id_flag_MEMBER(iter_prev)){

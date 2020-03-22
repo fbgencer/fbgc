@@ -16,6 +16,7 @@ format = fun(s,tp)
 		elif(type(i) == type(1j))
 			fmtstr = ("%g" % i.real) + ("%+gj" % i.imag)
 		else
+			print("problem")
 			return s
 		end
 		res += splitted_str[index] + fmtstr

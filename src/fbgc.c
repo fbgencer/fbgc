@@ -12,11 +12,6 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
 	clock_t begin,end;
 	double parser_time,interpreter_time;
 
-	#ifdef LEXER_DEBUG
-		cprintf(111,"Lexer output array\n");
-		_print_fbgc_ll(cast_fbgc_object_as_field(main_field)->head,"Main"); 
-		cprintf(111,"\n");
-	#endif
 
 	begin = clock();
 
@@ -32,7 +27,7 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
 	end = clock();
 	parser_time = (double)(end - begin) / CLOCKS_PER_SEC; 
 
-	  #ifdef INTERPRETER_DEBUG
+	 #ifdef INTERPRETER_DEBUG
 		cprintf(111,"Parser output array\n");
 		_print_fbgc_ll(cast_fbgc_object_as_field(main_field)->head,"Main");   
 		cprintf(111,"\n");

@@ -20,7 +20,7 @@ void print_fbgc_fun_object(struct fbgc_object * obj){
 
       cprintf(010,"[Arg#:%d Local#:%d|",funo->no_arg,funo->no_locals);
       _print_fbgc_ll_code(funo->code,NULL);
-      cprintf(010,"]");
+      cprintf(010,"]\n");
     }
 }
 
@@ -33,6 +33,6 @@ void fprintf_fbgc_fun_object(struct fbgc_object * obj){
 
       cprintf(010,"[Arg#:%d Local#:%d|",funo->no_arg,funo->no_locals);
       _print_fbgc_ll_code(funo->code,NULL);
-      cprintf(010,"]");
+      cprintf(010,"]\n");
     }
 }

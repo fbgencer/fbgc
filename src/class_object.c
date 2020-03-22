@@ -60,18 +60,12 @@ struct fbgc_object * get_set_fbgc_instance_object_member(struct fbgc_object * o,
 
 void print_fbgc_class_object(struct fbgc_object * obj){
     struct fbgc_class_object * cls = cast_fbgc_object_as_class(obj);
-
+  
     if(cls->code != NULL){
-		struct fbgc_ll_base * iter = cls->code;
-      	for(;iter != NULL;){
-        	cprintf(011,"<");
-        	_print_fbgc_ll_base(iter);
-        	cprintf(011,">");
-        	iter = iter->next;
-      	}
-    
-    cprintf(010,"]");
-	}
+      cprintf(010,"CLASS[Local#:%d|",size_fbgc_array_object(cls->locals));
+      _print_fbgc_ll_code(cls->code,NULL);
+      cprintf(010,"]");
+    }
 }
 
 void fprintf_fbgc_class_object(struct fbgc_object * obj){

@@ -38,9 +38,11 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 	_push_front_fbgc_ll(global_list,_new_fbgc_ll_constant(globals));
 	#define current_global _cast_llbase_as_llconstant(TOP_LL(global_list))->content*/
 
-	struct fbgc_object * current_scope = *field_obj;
+	struct fbgc_object * current_scope = current_field;
 
-	struct fbgc_object * globals  = cast_fbgc_object_as_field(current_scope)->locals;
+	struct fbgc_object * globals = cast_fbgc_object_as_field(current_scope)->locals;
+#define update_globals()(globals = (current_scope->type == FIELD) ?\
+	cast_fbgc_object_as_field(current_scope)->locals:cast_fbgc_object_as_class(current_scope)->locals)
 
 	struct fbgc_object * last_called_function = NULL;
 	size_t recursion_ctr = 0;
@@ -71,10 +73,10 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 	for(int i = 0;  (pc != head->tail); i++){
 
-		if(i > 1000){
+		/*if(i > 1000){
 			printf("Too much iteration. Breaking the loop\n");
 			goto INTERPRETER_ERROR_LABEL;
-		}
+		}*/
 
 		if(recursion_ctr>RECURSION_LIMIT){
 			printf("Reached Recursion limit!\n");
@@ -113,7 +115,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			case IDENTIFIER:{	
 
 				if(is_id_flag_GLOBAL(pc)){
-
+					update_globals();
 					struct fbgc_identifier * tmp = (struct fbgc_identifier *) 
 						get_address_in_fbgc_array_object(globals,_cast_fbgc_object_as_llidentifier(pc)->loc);
 
@@ -142,6 +144,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					PUSH(object);
 
 					if(is_id_flag_MEMBER_METHOD(pc)){
+						//if(self->type != FIELD)
 						PUSH(self);
 					}
 				}
@@ -178,23 +181,15 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				//This is a new feature to solve class scope issue
 				//Now after globals we will have field object to assign correct scopes
 				
-				cprintf(100,"old_fctr %d\n",fctr);
 				int old_fctr = fctr;
 				fctr = cast_fbgc_object_as_int(TOP())->content;
 				__dummy->next = SECOND();
-				sctr = old_fctr;
-				//STACK_GOTO(-2);
-				
-				//##Solve this pc->next problem!!!!!!!!
 				pc = __dummy;
+				sctr = old_fctr; // Instead of using stack goto we'll manipulate stack with sctr
+				
 				SET_TOP(ret);
 
-				//if(ret->type == NIL && pc->next->type != ASSIGN) 
-				//	_POP();
-				
-
 				recursion_ctr = 0;
-
 				break;
 			}			
 			case COLON:{
@@ -232,6 +227,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					cprintf(111,"This type does not support operation.\n");
 					return 0;
 				}*/ //Why do we need to check this?
+
 
 				struct fbgc_object * res =  call_fbgc_operator(main_tok,SECOND(),TOP(),type);
 				STACK_GOTO(-1);
@@ -272,6 +268,8 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				struct fbgc_object ** lhs = NULL;
 
 				if(is_id_flag_GLOBAL(pc)){
+					update_globals();
+
 					struct fbgc_identifier * tmp = 
 					(struct fbgc_identifier *) get_address_in_fbgc_array_object(globals,_cast_fbgc_object_as_llidentifier(pc)->loc);
 					lhs = &tmp->content;
@@ -308,6 +306,9 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				}
 
 				*lhs = rhs;
+
+				_println_object("assignment done lhs = ",*lhs);
+				print_field_object_locals(*field_obj);
 
 				
 				// for x = y= 5
@@ -463,10 +464,10 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 				break;
 			}
-			case FUN_CALL:
-			{
-				int arg_no = _cast_llbase_as_llopcode_int(pc)->content;
+			case FUN_CALL:{
 
+				int arg_no = _cast_llbase_as_llopcode_int(pc)->content;
+				
 
 				struct fbgc_object * funo = TOPN(arg_no+1);
 
@@ -493,7 +494,10 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					}else {
 						
 						//Lets just not support this part.
-						assert(0);
+						arg_no++;
+						funo = constructor;
+						PUSH(new_inst);
+						//assert(0);
 
 						/*++arg_no;
 						SET_TOPN(arg_no,new_inst);
@@ -520,7 +524,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				}
 
 				if(funo->type != FUN && funo->type != CFUN){
-					printf("Object is not callable\n");
+					printf("Object is not callable, type %s\n",object_name_array[funo->type]);
 					goto INTERPRETER_ERROR_LABEL;
 				}
 				
@@ -542,6 +546,8 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 						PUSH(res);
 					break;
 				}
+
+
 				
 				if(cast_fbgc_object_as_fun(funo)->no_arg != arg_no ){
 					printf("Argument match error! funo->arg %d, arg_no %d\n",cast_fbgc_object_as_fun(funo)->no_arg,arg_no);
@@ -733,8 +739,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 				globals = cast_fbgc_object_as_class(cls)->locals;
 
-				print_fbgc_class_object(cls);
-
+				//print_fbgc_class_object(cls);
 				struct fbgc_object * last_scope = current_scope;
 				current_scope = cls;
 				PUSH(pc->next);
@@ -745,8 +750,6 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				__dummy->next = cast_fbgc_object_as_class(cls)->code;
 				pc = __dummy;
 
-				
-				
 				break;
 			}
 			

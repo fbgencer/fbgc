@@ -1,0 +1,22 @@
+rect = class()
+	width = 0
+	length = 0 
+
+	init = fun(w,l,self)
+		self.width = w
+		self.length = l
+		return self
+	end
+
+	area = fun(self);return self.width*self.length; end
+
+	show = fun(self)
+		print("Width:",self.width,"length:",self.length)
+		print("Area:",self.area())
+	end
+	
+end
+
+
+r1 = rect(3,4)
+r1.show()
