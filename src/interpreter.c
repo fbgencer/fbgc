@@ -122,7 +122,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					//Check undefined variable
 					if(tmp->content == NULL){
 						struct fbgc_object * name = tmp->name;
-						printf("Undefined variable %s\n",&cast_fbgc_object_as_cstr(name)->content);
+						printf("Undefined variable '%s'\n",&cast_fbgc_object_as_cstr(name)->content);
 						//fbgc_error(_FBGC_UNDEFINED_IDENTIFIER_ERROR,-1);
 						return 0;
 					}
@@ -173,9 +173,10 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				//Notice that global array is just an indicator to collect properly
 
 				struct fbgc_object * ret = POP();
-				while(POP() != cast_fbgc_object_as_field(*field_obj)->locals);
+				//while(POP() != cast_fbgc_object_as_field(*field_obj)->locals);
 
 				current_scope = POP();
+				_print("current_scope TYPE :%s\n",_obj2str(current_scope));
 				if(current_scope->type == FIELD) globals = cast_fbgc_object_as_field(current_scope)->locals;
 				else if(current_scope->type == CLASS) globals = cast_fbgc_object_as_class(current_scope)->locals;
 				//This is a new feature to solve class scope issue
@@ -576,7 +577,8 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				//return will pop everything till see this object.
 				//Nothing from the user side can push globals so we will push global key-value array
 				PUSH(last_scope);
-				PUSH(cast_fbgc_object_as_field(current_scope)->locals);
+				
+				//xx PUSH(cast_fbgc_object_as_field(current_scope)->locals);
 				
 				//--------------------------------
 
@@ -746,7 +748,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				PUSH(new_fbgc_int_object(fctr));
 				fctr = sctr-1;
 				PUSH(last_scope);
-				PUSH(cast_fbgc_object_as_field(*field_obj)->locals);
+				//PUSH(cast_fbgc_object_as_field(*field_obj)->locals);
 				__dummy->next = cast_fbgc_object_as_class(cls)->code;
 				pc = __dummy;
 

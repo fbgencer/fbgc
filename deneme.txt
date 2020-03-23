@@ -1,2 +1,0 @@
-Table construction:
-3 * 400 = 5

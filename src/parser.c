@@ -333,6 +333,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 	struct fbgc_ll_base * scope_list = _new_fbgc_ll();
 	_push_front_fbgc_ll(scope_list,_new_fbgc_ll_constant(*field_obj));
 	#define current_scope _cast_llbase_as_llconstant(TOP_LL(scope_list))->content
+	#define previous_scope _cast_llbase_as_llconstant(TOP_LL(scope_list)->next)->content
 
 	uint8_t gm_error = 1;
 
@@ -445,7 +446,6 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 				else cast_fbgc_object_as_class(current_scope)->locals = local_array;
 				
 				_info("Symbol is created @ [%d]\n",where);
-
 			}
 			else{
 				_info_green("Symbol is already defined @ [%d]\n",where);
@@ -477,7 +477,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 					_println_object("Fun local tuple:",local_tuple);
 				}
 				else {
-					_info("Searching ID object in global field\n");
+					_info("Searching ID object in global (class or field)\n");
 
 					local_tuple = cast_fbgc_object_as_field(*field_obj)->locals;
 					struct fbgc_identifier * temp_id; 
@@ -486,10 +486,21 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 						if(temp_id->name == cstr_obj) where = i; 
 					}						
 					
-					//XXX add undefined id error!
 					if(where == -1){
-						cprintf(100,"%s is not defined before\n",&cast_fbgc_object_as_cstr(cstr_obj)->content);
-						goto PARSER_ERROR_LABEL;
+						_info("Creating a variable inside a previous global\n");
+						struct fbgc_object * local_array; 
+
+						local_array = cast_fbgc_object_as_field(*field_obj)->locals;
+						
+
+						
+						struct fbgc_identifier id;		
+						id.name = cstr_obj; id.content = NULL;
+						local_array = push_back_fbgc_array_object(local_array,&id);
+						where = size_fbgc_array_object(local_array)-1;
+
+						cast_fbgc_object_as_field(*field_obj)->locals = local_array;
+						
 					}
 					_print("Id object is found @ [%d]",where);
 					set_id_flag_GLOBAL(iter);
@@ -906,6 +917,13 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			_print("[GM]:{%s}\n",_gm2str(gm.top));
 
 		}
+		
+		/*
+			print((1,2,3)) gibi durumlarda iter_prev:cfun ve stacktop:lpara olduğu için
+			tuple kurmak yerine function call atıyor. Bu hatayı düzeltmek için grammarde ne olduğunu bilmek gerekir
+			Bu tip durumların düzeltilmesi gerekli.
+		*/		
+		uint8_t gm_prev = gm.top;
 
 		if( (error_code = gm_seek_left(&gm,iter)) != _FBGC_NO_ERROR  ){ goto PARSER_ERROR_LABEL; }
 
@@ -914,7 +932,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 
 			// && TOP_LL(op)->type != LPARA we need to put this to ensure tuple entries
 
-			if((iter_prev->type == IDENTIFIER) || iter_prev->type == LOAD_SUBSCRIPT || is_constant_and_token(iter_prev,CFUN)) {
+			if(gm_prev != GM_LPARA && (iter_prev->type == IDENTIFIER || iter_prev->type == LOAD_SUBSCRIPT || is_constant_and_token(iter_prev,CFUN) )) {
 						
 				if(iter_prev->type == CONSTANT && _cast_llbase_as_llconstant(iter_prev)->content->type == CFUN){
 					_warning("match!\n");
