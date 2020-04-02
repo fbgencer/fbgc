@@ -17,6 +17,8 @@ struct fbgc_object{
 get_fbgc_object_type(o2))
 
 #define MAX(a,b)(a>b?a:b)
+#define MIN(a,b)(a<b?a:b)
+
 
 //This only for debug case!
 #define object_type_as_str(obj)(obj != NULL ? object_name_array[get_fbgc_object_type(obj)] : "NULL")

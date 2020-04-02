@@ -14,8 +14,8 @@ struct fbgc_class_object{
 
 struct fbgc_instance_object{
 	struct fbgc_object base;
-	struct fbgc_object * template_class;
-	struct fbgc_object * variables;
+	struct fbgc_object * template_class; //The class which creates this instance
+	struct fbgc_object * variables; //tuple from class, only variables not the namespace
 };
 
 #define cast_fbgc_object_as_class(x)(((struct fbgc_class_object*) x))
@@ -29,6 +29,7 @@ void fprintf_fbgc_class_object(struct fbgc_object *);
 struct fbgc_object * new_fbgc_class_object();
 struct fbgc_object * new_fbgc_instance_object(struct fbgc_object * template);
 struct fbgc_object * get_set_fbgc_instance_object_member(struct fbgc_object * o, const char * str, struct fbgc_object * nm);
+struct fbgc_object * operator_fbgc_instance_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op);
 
 #ifdef  __cplusplus
 }

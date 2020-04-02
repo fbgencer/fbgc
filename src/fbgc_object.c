@@ -84,13 +84,20 @@ void printf_fbgc_object(struct fbgc_object * self){
 			    //fprintf(stdout,"%3s\n%2s%*s","|","\\",slash_widht,"/");
 			    #undef m 
 			break;
-		}	
+		}
+
 		case FUN:
 		{	
 			fprintf_fbgc_fun_object(self);
 			//fprintf(stdout,"[Function object<%p>]",self);
 			break;
-		}			
+		}
+		case CLASS:
+		{	
+			fprintf_fbgc_class_object(self);
+			//fprintf(stdout,"[Function object<%p>]",self);
+			break;
+		}
 		default:
 				fprintf(stdout,"Error undefined object %s!\n",object_name_array[self->type]);
 				assert(0); 
@@ -141,7 +148,7 @@ void print_fbgc_object(struct fbgc_object * self){
 			break;
 			case RANGE:
 				print_fbgc_range_object(self);
-			break;			
+			break;
 			default:
 				cprintf(100,"[%s]",object_type_as_str(self));  
 			break;

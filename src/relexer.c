@@ -274,14 +274,30 @@ char * fbgc_getline_from_file(char * s, int n, FILE *fp){
    	int c = 0;
     char* cs = s;
 
+    uint8_t count_para = 0, count_brack = 0;
+    uint8_t quote = 0, cquote = 0;
+
     while(--n > 0 && (c = getc(fp)) != EOF){
     // put the input char into the current pointer position, then increment it
     // if a newline entered, break
     	switch((*cs++ = c)){
     		case '\n':{
+    			if(count_para){
+    				--cs;
+    				break;
+    			}
+    			if(count_brack){
+    				--cs;
+    				*cs++ = ';';
+    				break;
+    			}
+    			if(quote || cquote){
+    				--cs;
+    				break;
+    			}
     			goto end_of_getline;
-    		} 
-    		case '\\': 
+    		}
+    		case '\\':{
     			switch( c = getc(fp)){
 					case 'a': *(cs-1) = '\a'; break;
 					case 'b': *(cs-1) = '\b'; break;
@@ -299,8 +315,33 @@ char * fbgc_getline_from_file(char * s, int n, FILE *fp){
     					*cs++ = c;
     						
     			} 
-    		break;	
-    	}          
+    			break;
+    		}
+    		case '(':{
+    			++count_para;
+    			break;
+    		}
+    		case ')':{
+    			--count_para;
+	    		break;
+    		}
+    		case '[':{
+    			++count_brack;
+    			break;
+    		}
+    		case ']':{
+    			--count_brack;
+    			break;
+    		}
+    		case '\"':{
+    			quote = quote ? 0 : 1;
+    			break;
+    		}
+    		case '\'':{
+    			cquote = cquote ? 0 : 1;
+    			break;
+    		}
+    	}
     }
 
     end_of_getline:

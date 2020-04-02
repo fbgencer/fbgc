@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-extern struct fbgc_object * (*fbgc_operator[7]) (struct fbgc_object *, struct fbgc_object *, fbgc_token );
+extern struct fbgc_object * (*fbgc_operator[8]) (struct fbgc_object *, struct fbgc_object *, fbgc_token );
 
 extern struct fbgc_object * (*fbgc_operator2[1]) (struct fbgc_object *, struct fbgc_object *, fbgc_token);
 

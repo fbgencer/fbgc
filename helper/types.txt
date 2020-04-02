@@ -8,11 +8,11 @@ COMPLEX $ complex class
 STRING $ string class
 MATRIX $ matrix class
 TUPLE $ tuple class
+INSTANCE
 CSTRING $ raw c strings without length
 CFUN $ c function
 FUN $ builtin fbgc function
 CLASS
-INSTANCE
 CSTRUCT $ 
 IDENTIFIER $ identifiers
 RANGE $ range obj

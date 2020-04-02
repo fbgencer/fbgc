@@ -57,6 +57,109 @@ struct fbgc_object * get_set_fbgc_instance_object_member(struct fbgc_object * o,
 }
 
 
+struct fbgc_object * operator_fbgc_instance_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op){
+
+	struct fbgc_object * inso = (a->type == INSTANCE) ? a : b;
+
+	struct fbgc_object * fun;
+	switch(op)
+	{   
+
+	    case RSHIFT:{
+	    	fun = get_set_fbgc_object_member(inso,"_rshift",NULL);
+	    	break;
+	    }
+	    case LSHIFT:{
+	    	fun = get_set_fbgc_object_member(inso,"_lshift",NULL);
+	    	break;
+	    }
+	    case STARSTAR:{
+	    	fun = get_set_fbgc_object_member(inso,"_starstar",NULL);
+	    	break;
+	    }
+	    case SLASHSLASH:{
+	    	fun = get_set_fbgc_object_member(inso,"_slashslash",NULL);
+	    	break;
+	    } 
+	    case PLUS:{
+	    	fun = get_set_fbgc_object_member(inso,"_plus",NULL);
+	    	break;
+	    }
+	    case MINUS:{
+	    	fun = get_set_fbgc_object_member(inso,"_minus",NULL);
+	    	break;
+	    }
+	    case STAR:{
+	    	fun = get_set_fbgc_object_member(inso,"_star",NULL);
+	    	break;
+	    }
+	    case SLASH:{
+	    	fun = get_set_fbgc_object_member(inso,"_slash",NULL);
+	    	break;
+	    }
+	    case CARET:{
+	    	fun = get_set_fbgc_object_member(inso,"_caret",NULL);
+	    	break;
+	    }
+	    case PERCENT:{
+	    	fun = get_set_fbgc_object_member(inso,"_percent",NULL);
+	    	break;
+	    }
+	    case LOEQ:{
+	    	fun = get_set_fbgc_object_member(inso,"_rshift",NULL);
+	    	break;
+	    }
+	    case GREQ:{
+	    	fun = get_set_fbgc_object_member(inso,"_greq",NULL);
+	    	break;
+	    }
+	    case EQEQ:{
+	    	fun = get_set_fbgc_object_member(inso,"_eqeq",NULL);
+	    	if(fun == NULL){
+	    		//provide a default comparison
+	    		return new_fbgc_logic_object(a == b);
+	    	}
+	    	break;
+	    }
+	    case NOTEQ:{
+	    	fun = get_set_fbgc_object_member(inso,"_noteq",NULL);
+	    	if(fun == NULL){
+	    		//provide a default comparison
+	    		return new_fbgc_logic_object(a != b);
+	    	}
+	    	break;	    	
+	    }
+	    case LOWER:{
+	    	fun = get_set_fbgc_object_member(inso,"_lo",NULL);
+	    	break;
+	    }
+	    case GREATER:{
+	    	fun = get_set_fbgc_object_member(inso,"_gr",NULL);
+	    	break;
+	    }
+	    case PIPE:{
+	    	fun = get_set_fbgc_object_member(inso,"_or",NULL);
+	    	break;
+	    }
+	    case AMPERSAND:{
+	    	fun = get_set_fbgc_object_member(inso,"_and",NULL);
+	    	break;
+	    }
+	    case EXCLAMATION:
+	    case TILDE:
+	    case UPLUS:
+	    case UMINUS: break;
+	}	
+
+	if(fun == NULL){
+		printf("Operator is not overloaded!\n");
+		return NULL;
+	}
+
+	return fun;
+}
+
+
 
 void print_fbgc_class_object(struct fbgc_object * obj){
     struct fbgc_class_object * cls = cast_fbgc_object_as_class(obj);
@@ -69,5 +172,5 @@ void print_fbgc_class_object(struct fbgc_object * obj){
 }
 
 void fprintf_fbgc_class_object(struct fbgc_object * obj){
-
+	print_fbgc_class_object(obj);
 }

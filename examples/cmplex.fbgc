@@ -1,0 +1,57 @@
+sf = load('./examples/string_format.fbgc','*')
+num2str = fun(arg)
+	if type(arg) == type(0)
+		return "%d"%arg
+	elif type(arg) == type(0.0)
+		return "%g"%arg
+	else
+		return ""
+	end
+end
+
+
+is_int = fun(x); return type(x) == type(0); end
+is_double = fun(x); return type(x) == type(0.0); end
+is_string = fun(x); return type(x) == type(''); end
+is_complex = fun(x); return type(x) == type(1j); end
+
+
+cmplex = class()
+	re = 5.0
+	im = 10.0
+
+	init = fun(x,y,self)
+		self.re = x
+		self.im = y
+		return self
+	end
+
+	_plus = fun(self,z)
+
+		if is_complex(z)
+			re = self.re + z.real
+			im = self.im + z.imag
+		elif is_int(z) | is_double(z)
+			re = self.re + z
+			im = self.im
+		end
+
+		return cmplex(re,im)
+	end
+
+	_print = fun(self)
+		pos = ""
+		if(self.im > 0); pos = "+"; end
+		print(format("<><><>j",(self.re,pos,self.im)))
+		#print("{"+num2str(self.re)+pos+num2str(self.im)+"j}")
+	end
+end
+
+
+c = cmplex(3,-3)
+c._print()
+
+d = c + (1+20j)
+#print(d.re,d.im)#
+d._print()
+#print()

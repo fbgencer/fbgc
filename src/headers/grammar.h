@@ -6,13 +6,10 @@ extern "C" {
 #endif
 
 //this is not an object no need to derive from base object 
-struct fbgc_grammar{
-	int8_t top;
-};
+typedef int8_t fbgc_grammar;
 
-
-uint8_t gm_seek_left(struct fbgc_grammar * gm, struct fbgc_ll_base * obj);
-uint8_t gm_seek_right(struct fbgc_grammar * gm, struct fbgc_ll_base * obj);
+uint8_t gm_seek_left(fbgc_grammar * gm, struct fbgc_ll_base * obj);
+uint8_t gm_seek_right(fbgc_grammar * gm, struct fbgc_ll_base * obj);
 
 
 #ifdef  __cplusplus

@@ -20,23 +20,27 @@ struct iter_function_ptr_struct{
 	struct fbgc_object * (* function)(struct fbgc_object *, int,struct fbgc_object *);
 };
 
+#define PROGRAM_STACK_SIZE 100
 uint8_t interpreter(struct fbgc_object ** field_obj){
-	current_field = *field_obj;
-
+	current_field = * field_obj;
 	struct fbgc_ll * head = _cast_llbase_as_ll( cast_fbgc_object_as_field(*field_obj)->head );
-	struct fbgc_ll_base * pc = head->base.next; //program counter
 
-	#define PROGRAM_STACK_SIZE 100
+	//Drop the tail object, make it null so if we want to run a function we can just use this
+	head->tail->next->next = NULL; 
+	
 	struct fbgc_object * stack = new_fbgc_tuple_object(PROGRAM_STACK_SIZE);
 	struct fbgc_object ** sp = tuple_object_content(stack);
-	int sctr = 0;
-	int fctr = -1;
-	
-	//## change this!!
+	if(run_code(head->base.next, sp,0, -1) != NULL){
+		return 1;	
+	}
+	return 0;
+}
 
-	/*struct fbgc_ll_base * global_list = _new_fbgc_ll();
-	_push_front_fbgc_ll(global_list,_new_fbgc_ll_constant(globals));
-	#define current_global _cast_llbase_as_llconstant(TOP_LL(global_list))->content*/
+struct fbgc_object * run_code(struct fbgc_ll_base * pc, struct fbgc_object ** sp,int sctr, int fctr){
+
+	//struct fbgc_ll_base * pc = code; //program counter
+	
+	
 
 	struct fbgc_object * current_scope = current_field;
 
@@ -50,7 +54,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 	struct fbgc_ll_base * __dummy = _new_fbgc_ll_base(NIL);
 
 #define STACK_GOTO(i) 	(sctr += i)
-#define PUSH(x)		(*(sp+ sctr++ ) = (x))
+#define PUSH(x)			(*(sp+ sctr++ ) = (x))
 #define POP()			(sp[--sctr]) /**< Detailed description after the member */
 #define _POP()			(--sctr)
 #define TOP()			(sp[sctr-1])
@@ -71,7 +75,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 	_info("==========[INTERPRETER]==========\n");
 
-	for(int i = 0;  (pc != head->tail); i++){
+	for(int i = 0;  (pc != NULL); i++){
 
 		/*if(i > 1000){
 			printf("Too much iteration. Breaking the loop\n");
@@ -91,27 +95,23 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 		fbgc_token type = get_fbgc_object_type(pc);
 		
 		_print("################ [%d] = {%s} ########################\n",i,_obj2str(pc));
+		
+		_warning("|PRE Stack|:{");
+		for(size_t i = 0; i<sctr; i++){
+			_print_object("",sp[i]);
+			_cprint(010,", ");
+		}
+		_warning("}\n");
 
 		switch(type){
 			case CONSTANT:{
 				PUSH(_cast_llbase_as_llconstant(pc)->content);
 				break;
 			}
-			// case NIL:
-			// case LOGIC:
-			// case INT:
-			// case DOUBLE:
-			// case COMPLEX:			
-			// case STRING:
-			// case CSTRING:
-			// case CFUN:
-			// case FUN:
-			// case CSTRUCT:
-			// case ROW:{
-				
-			// 	PUSH(pc);
-			// 	break;
-			// }
+			case ROW:{
+				PUSH(pc);
+				break;
+			}
 			case IDENTIFIER:{	
 
 				if(is_id_flag_GLOBAL(pc)){
@@ -169,14 +169,14 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			}				
 			case RETURN:{
 
-				//(LOCALS..., OLD_SCTR,FRAME_CTR,scope,GLOBAL_ARRAY,RETURN_VALUE)
+				//(LOCALS..., OLD_SP,FRAME_CTR,scope,RETURN_VALUE)
 				//Notice that global array is just an indicator to collect properly
 
 				struct fbgc_object * ret = POP();
 				//while(POP() != cast_fbgc_object_as_field(*field_obj)->locals);
 
 				current_scope = POP();
-				_print("current_scope TYPE :%s\n",_obj2str(current_scope));
+				//_print("current_scope TYPE :%s\n",_obj2str(current_scope));
 				if(current_scope->type == FIELD) globals = cast_fbgc_object_as_field(current_scope)->locals;
 				else if(current_scope->type == CLASS) globals = cast_fbgc_object_as_class(current_scope)->locals;
 				//This is a new feature to solve class scope issue
@@ -187,7 +187,8 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				__dummy->next = SECOND();
 				pc = __dummy;
 				sctr = old_fctr; // Instead of using stack goto we'll manipulate stack with sctr
-				
+				//_print_object("sctr deneme",TOP());
+				//_print("sctr:%d\n",sctr);
 				SET_TOP(ret);
 
 				recursion_ctr = 0;
@@ -195,8 +196,13 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			}			
 			case COLON:{
 
+				if(SECOND()->type == STRING){
+					//This is named tuple entry
+					;
+				}
+
 				struct fbgc_object * x = new_fbgc_range_object(SECOND(),TOP());
-				STACK_GOTO(-1);
+				_POP();
 				SET_TOP(x);
 				break;
 			}
@@ -219,19 +225,44 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			case PIPE:
 			case AMPERSAND:
 			{
-				
-				assert(TOP() != NULL && SECOND() != NULL);
 
 				fbgc_token main_tok = MAX(get_fbgc_object_type(TOP()),get_fbgc_object_type(SECOND()));
-
-				/*if(is_fbgc_binary_op_null(main_tok)){
-					cprintf(111,"This type does not support operation.\n");
-					return 0;
-				}*/ //Why do we need to check this?
-
+				if(main_tok > INSTANCE && MIN(get_fbgc_object_type(TOP()),get_fbgc_object_type(SECOND())) < LOGIC) 
+					goto INTERPRETER_ERROR_LABEL;
 
 				struct fbgc_object * res =  call_fbgc_operator(main_tok,SECOND(),TOP(),type);
-				STACK_GOTO(-1);
+
+				
+				if(res->type == FUN){
+					//ornek olarak burada dursun, fun objyi return kendisi sildiği için burada çağıramıyoruz
+					//Ama fonks basip gecici bir cozum elde edilebilir
+					//Ok now lets cheat
+					struct fbgc_object * arg2 = POP();
+					struct fbgc_object * arg1 = POP();
+					PUSH(res);
+					PUSH(arg1);
+					PUSH(arg2);
+
+					_print("\n\nOperator overload.\n\n");
+					//(LOCALS..., OLD_SP,FRAME_CTR,scope,RETURN_VALUE)
+					STACK_GOTO(cast_fbgc_object_as_fun(res)->no_locals - 2);
+					PUSH(NULL);
+					PUSH(new_fbgc_int_object(fctr));
+					
+					PUSH(current_scope);
+					struct fbgc_object ** __sp = sp+sctr-6;
+					
+					_print("sctr:%d\n",sctr);
+					res = run_code(cast_fbgc_object_as_fun(res)->code,sp,sctr,sctr-cast_fbgc_object_as_fun(res)->no_locals-3);
+
+					
+					_println_object("Result:",res);
+					sctr -= 4;
+
+					_println_object("overload return value:\n",res);
+				}
+
+				_POP();
 				//struct fbgc_object * res =  safe_call_fbgc_binary_op(POP(),POP(),main_tok,type);
 
 				assert(res != NULL);
@@ -308,8 +339,8 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 				*lhs = rhs;
 
-				_println_object("assignment done lhs = ",*lhs);
-				print_field_object_locals(*field_obj);
+				//_println_object("assignment done lhs = ",*lhs);
+				
 
 				
 				// for x = y= 5
@@ -469,9 +500,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 				int arg_no = _cast_llbase_as_llopcode_int(pc)->content;
 				
-
 				struct fbgc_object * funo = TOPN(arg_no+1);
-
 
 				struct fbgc_object * last_scope = current_scope;
 				//Geçici olarak burada..
@@ -549,8 +578,19 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 				}
 
 
-				
-				if(cast_fbgc_object_as_fun(funo)->no_arg != arg_no ){
+				if(cast_fbgc_object_as_fun(funo)->no_arg < 0){
+					//Is variadic function ?,
+					int nvararg = arg_no + cast_fbgc_object_as_fun(funo)->no_arg + 1;
+					struct fbgc_object * argtple = new_fbgc_tuple_object_from_tuple_content(sp+sctr-nvararg,nvararg);
+
+					SET_TOPN(nvararg--,argtple);
+					STACK_GOTO( -nvararg );
+					arg_no = -cast_fbgc_object_as_fun(funo)->no_arg;
+					//print_fbgc_object(argtple);
+					
+					//return;
+				}
+				else if(cast_fbgc_object_as_fun(funo)->no_arg != arg_no ){
 					printf("Argument match error! funo->arg %d, arg_no %d\n",cast_fbgc_object_as_fun(funo)->no_arg,arg_no);
 					goto INTERPRETER_ERROR_LABEL;
 				}
@@ -664,7 +704,8 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 					
 					if(i < sctr && TOPN(i+1)->type == ROW){
 						++row;
-						ctr += 1+cast_fbgc_object_as_int(TOPN(i+1))->content;
+
+						ctr += 1+ _cast_llbase_as_llopcode_int(TOPN(i+1))->content;
 						//cprintf(010,"Top is row, msize: %d, ctr :%d ,row :%d\n",msize,ctr,row);
 						++i;
 					}
@@ -763,11 +804,21 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 		}
 
 
-		cast_fbgc_object_as_tuple(stack)->size = sctr; //sp - tuple_object_content(stack);
-		_println_object("~~~~~~Stack~~~~~\n",stack);
+		//cast_fbgc_object_as_tuple(stack)->size = sctr; //sp - tuple_object_content(stack);
+			
+		_info("|After Stack|:{");
+		for(size_t i = 0; i<sctr; i++){
+			_print_object("",sp[i]);
+			_cprint(011,", ");
+		}
+		_info("}\n");
 		_info("~~~~~~Field Globals~~~~~\n");
-		
-		print_field_object_locals(*field_obj);
+		for(int i = 0; i<size_fbgc_array_object(globals); i++){
+			struct fbgc_identifier * temp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(globals,i);
+			_print_object("{",temp_id->name);
+			_print_object(":",temp_id->content);
+			_cprint(010,"}");
+		}
 		_info("\n==============================================\n\n");
 		
 
@@ -775,10 +826,10 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 	}
 
-	return 1;
+	return sctr > 0 ? TOP():NULL;
 
 	INTERPRETER_ERROR_LABEL:
 		cprintf(100,"Execution stopped!\n");
-		return 0;
+		return NULL;
 
 }

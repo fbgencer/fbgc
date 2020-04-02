@@ -1,6 +1,5 @@
-sf = load("file",'*')
-
 File = class()
+	sf = load("file")
 	fname = ""
 	is_open = false
 	file_opening_format = "w+"
@@ -8,7 +7,8 @@ File = class()
 
 	init = fun(fname,self)
 		self.fname = fname
-		self.fl = fopen(fname,self.file_opening_format)
+		_open = self.sf.fopen
+		self.fl = _open(fname,self.file_opening_format)
 		return self
 	end
 

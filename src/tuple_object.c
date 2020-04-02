@@ -49,8 +49,8 @@ struct fbgc_object * new_fbgc_tuple_object_from_tuple_content(struct fbgc_object
 	size_fbgc_tuple_object(to) = num;
 
 	struct fbgc_object ** contents = tuple_object_content(to);
-	for(int i = 0; i<num; ++i){
-		contents[i] = src[i];
+	while(num--){
+		contents[num] = src[num];
 	}
 
     return (struct fbgc_object*) to;

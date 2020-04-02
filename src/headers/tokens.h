@@ -25,11 +25,11 @@ typedef struct {
 #define STRING 7 // string class
 #define MATRIX 8 // matrix class
 #define TUPLE 9 // tuple class
-#define CSTRING 10 // raw c strings without length
-#define CFUN 11 // c function
-#define FUN 12 // builtin fbgc function
-#define CLASS 13 //
-#define INSTANCE 14 //
+#define INSTANCE 10 //
+#define CSTRING 11 // raw c strings without length
+#define CFUN 12 // c function
+#define FUN 13 // builtin fbgc function
+#define CLASS 14 //
 #define CSTRUCT 15 // 
 #define IDENTIFIER 16 // identifiers
 #define RANGE 17 // range obj
@@ -115,11 +115,11 @@ typedef struct {
 "STRING",\
 "MATRIX",\
 "TUPLE",\
+"INSTANCE",\
 "CSTRING",\
 "CFUN",\
 "FUN",\
 "CLASS",\
-"INSTANCE",\
 "CSTRUCT",\
 "IDENTIFIER",\
 "RANGE",\

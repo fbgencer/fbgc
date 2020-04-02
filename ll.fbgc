@@ -1,0 +1,44 @@
+node = class()
+	val = 0
+	next = 0
+	
+	init = fun(v,self)
+		self.val = v
+		return self
+	end
+
+	push_front = fun(self,v)
+		new = node(v)
+		new.next = self.next
+		self.next = new
+	end
+
+	pop_front = fun(self)
+		p = self.next
+		self.next = 0
+		return p
+	end
+
+	erase_after = fun(self)
+		self.next = 0
+	end
+
+	_print = fun(self)
+
+		iter = self
+		while(iter != 0)
+			print("[",iter.val,"]->")
+			iter = iter.next
+		end
+	end
+end
+
+
+
+head = node(100)
+head.push_front(12)
+head.push_front(123)
+head.push_front(444)
+
+head._print()
+
