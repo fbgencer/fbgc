@@ -1,0 +1,6 @@
+<map id="new_fbgc_tuple_object_from_tuple_content" name="new_fbgc_tuple_object_from_tuple_content">
+<area shape="rect" id="node2" href="$tuple__object_8c.html#aea5f2cac3a39a11b2c17445654538710" title="new_fbgc_tuple_object" alt="" coords="208,42,363,69"/>
+<area shape="rect" id="node3" href="$tuple__object_8c.html#af0a95832bdbe0ec168e2a1e8407cc9c9" title="calculate_new_capacity\l_from_size" alt="" coords="411,5,572,47"/>
+<area shape="rect" id="node5" href="$memory_8c.html#a41dd65ee24d51160659bf94bed90e998" title="fbgc_malloc" alt="" coords="445,71,537,98"/>
+<area shape="rect" id="node4" href="$error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="620,42,679,69"/>
+</map>

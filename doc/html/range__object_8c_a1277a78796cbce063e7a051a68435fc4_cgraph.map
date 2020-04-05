@@ -1,0 +1,6 @@
+<map id="new_fbgc_range_object" name="new_fbgc_range_object">
+<area shape="rect" id="node2" href="$memory_8c.html#a41dd65ee24d51160659bf94bed90e998" title="fbgc_malloc" alt="" coords="425,24,517,51"/>
+<area shape="rect" id="node4" href="$int__object_8c.html#a330313f82de7af3f3801d6c366d6c4b1" title="new_fbgc_int_object" alt="" coords="224,24,365,51"/>
+<area shape="rect" id="node5" href="$double__object_8c.html#a08dd93b8f6c56cf7cb6210b63c29dbaf" title="new_fbgc_double_object" alt="" coords="212,75,377,101"/>
+<area shape="rect" id="node3" href="$error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="565,24,624,51"/>
+</map>

@@ -778,7 +778,16 @@ struct fbgc_object * run_code(struct fbgc_ll_base * pc, struct fbgc_object ** sp
 			}
 			case CLASS_CALL:{
 
-				struct fbgc_object * cls = POP();
+				int arg_no = _cast_llbase_as_llopcode_int(pc)->content;
+				FBGC_LOGV(INTERPRETER,"CLASS_CALL : Arg no :%d\n",arg_no);
+
+				struct fbgc_object * cls = TOPN(arg_no+1);
+				
+				while(arg_no--){
+					inherit_from_another_class(cls,POP());
+				}				
+
+				
 
 				globals = cast_fbgc_object_as_class(cls)->locals;
 

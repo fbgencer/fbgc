@@ -8,6 +8,45 @@ struct fbgc_object * new_fbgc_class_object(){
     return (struct fbgc_object*) o;
 }
 
+
+void inherit_from_another_class(struct fbgc_object * self,struct fbgc_object * father){
+
+	struct fbgc_object * fao = cast_fbgc_object_as_class(father)->locals;
+	struct fbgc_object * sao = cast_fbgc_object_as_class(self)->locals;
+	struct fbgc_object * new_sao = sao;
+
+	
+
+	for(size_t i = 0; i<size_fbgc_array_object(fao); ++i){
+		struct fbgc_identifier * fid = (struct fbgc_identifier *) get_address_in_fbgc_array_object(fao,i);
+		uint8_t match = 0;
+		FBGC_LOGV(CLASS_OBJECT,"Father id name:%s",content_fbgc_cstr_object(fid->name));
+
+		for(size_t j = 0; j<size_fbgc_array_object(sao); ++j){
+			struct fbgc_identifier * sid = (struct fbgc_identifier *) get_address_in_fbgc_array_object(sao,j);
+			FBGC_LOGV(CLASS_OBJECT,"Child id name:%s",content_fbgc_cstr_object(sid->name));
+			if(!my_strcmp(content_fbgc_cstr_object(fid->name),content_fbgc_cstr_object(sid->name))){
+				//If there is a match then write to flag;
+				FBGC_LOGV(CLASS_OBJECT,"Match!");
+				match = 1;
+
+			}
+		}
+
+		if(!match){
+			new_sao = push_back_fbgc_array_object(new_sao,fid);
+		}
+		
+	}
+
+
+	cast_fbgc_object_as_class(self)->locals = new_sao;
+}
+
+
+
+//===============================================================================================
+
 struct fbgc_object * new_fbgc_instance_object(struct fbgc_object * template){ 
   struct fbgc_instance_object * o = (struct fbgc_instance_object*) fbgc_malloc(sizeof(struct fbgc_instance_object));
     o->base.type = INSTANCE;

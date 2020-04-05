@@ -1,7 +1,11 @@
+#fbgc makefile, written by fbgencer
+#In order to compile normal fbgc just write "make"
 
 SRC = $(shell find src/*.c cmodules/*.c)
-#MODULES = $(wildcard cmodules/*.c)
 OBJ = ${SRC:.c=.o}
+
+TEST_SRC = $(shell find src/*.c cmodules/*.c module_test/*.c )
+TEST_OBJ = ${TEST_SRC:.c=.o}
 
 #put -g in order to see good assembly output
 
@@ -21,15 +25,45 @@ LIB_LDFLAGS += $(OPENBLAS_LDFLAG)
 CFLAGS += $(LIB_CFLAGS)
 LDFLAGS += $(LIB_LDFLAGS)
 
+#DELETE THE LAST UNDERSCORE TO OPEN LOG PRINTING FOR A SPECIFIC H FILE
+CFLAGS += -DLOG_ARRAY_OBJECT_
+CFLAGS += -DLOG_CLASS_OBJECT_
+CFLAGS += -DLOG_CMODULE_OBJECT_
+CFLAGS += -DLOG_COMPLEX_OBJECT_
+CFLAGS += -DLOG_CSTRUCT_OBJECT_
+CFLAGS += -DLOG_DOUBLE_OBJECT_
+CFLAGS += -DLOG_FBGC_OBJECT_
+CFLAGS += -DLOG_FIELD_OBJECT_
+CFLAGS += -DLOG_FUN_OBJECT_
+CFLAGS += -DLOG_GRAMMAR_
+CFLAGS += -DLOG_INT_OBJECT_
+CFLAGS += -DLOG_INTERPRETER_
+CFLAGS += -DLOG_LINKEDLIST_
+CFLAGS += -DLOG_LOGIC_OBJECT_
+CFLAGS += -DLOG_MATRIX_OBJECT_
+CFLAGS += -DLOG_MEMORY_
+CFLAGS += -DLOG_OPERATOR_
+CFLAGS += -DLOG_PARSER_
+CFLAGS += -DLOG_RANGE_OBJECT_
+CFLAGS += -DLOG_RELEXER_
+CFLAGS += -DLOG_STR_OBJECT_
+CFLAGS += -DLOG_SYMBOL_TABLE_
+CFLAGS += -DLOG_TOKENS_
+CFLAGS += -DLOG_TUPLE_OBJECT_
+
+
+#In order run "make test" open this flag
+CFLAGS += -DMODULE_TEST
+
 
 #LDFLAGS += -lm 
 #OPTIMIZATION_FLAGS = -foptimize-strlen 
 
 #CFLAGS += -DCLOSE_CPRINTF
 #CFLAGS += -DLEXER_DETAILED_DEBUG
-CFLAGS += -DLEXER_DEBUG
-CFLAGS += -DGRAMMAR_DEBUG
-CFLAGS += -DPARSER_DEBUG
+##CFLAGS += -DLEXER_DEBUG
+#CFLAGS += -DGRAMMAR_DEBUG
+#CFLAGS += -DPARSER_DEBUG
 #CFLAGS += -DINTERPRETER_DEBUG
 #CFLAGS += -DFREE_DEBUG
 #CFLAGS += -DMEM_DEBUG
@@ -37,29 +71,29 @@ CFLAGS += -DPARSER_DEBUG
 #CFLAGS += -DTUPLE_DEBUG
 #CFLAGS += -DARRAY_DEBUG
 #CFLAGS += -DFUN_PRINT_DETAILED
-
 #CFLAGS += -DTIME_DEBUG
-
 #CFLAGS += -DDEBUG_TO_FILE
-
-
-TEST_OBJ = ${TEST_SRC:.c=.o}
-
-OUT = fbgc
-all: fbgc
-
 
 %.o:%.c
 	@$(CC) $(CFLAGS) $< -o $@
 
+
+OUT = fbgc
+all: fbgc
 $(OUT): $(OBJ)
 	@$(CC) -o $@ $^ $(LDFLAGS) 
 
-$(info "Succesfully compiled:")
+#$(info "Succesfully compiled:")
 
-#$(OUT): $(TEST_OBJ)
-#	$(CC) $^ $(LDFLAGS) -o $@
 
+TEST_OUT = fbgc_test
+test: fbgc_test
+#TESTFLAGS += -DTEST
+
+$(TEST_OUT): $(TEST_OBJ)
+	@$(CC) -o $@ $^ $(LDFLAGS) $(TESTFLAGS) 
+
+#$(info "Succesfully compiled:")
 
 
 

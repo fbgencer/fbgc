@@ -1,0 +1,10 @@
+<map id="operator_fbgc_int_object" name="operator_fbgc_int_object">
+<area shape="rect" id="node2" href="$int__object_8c.html#a92262fa0b70497f9bfeee584cd00360d" title="return_fbgc_object\l_operator_helper_int" alt="" coords="229,5,368,47"/>
+<area shape="rect" id="node6" href="$int__object_8c.html#a277dca705625a0e09cfe779134f29779" title="return_fbgc_object\l_operator_helper_double" alt="" coords="217,71,380,112"/>
+<area shape="rect" id="node8" href="$int__object_8c.html#a696f74091df7522f7ba16d2a5ec03b7c" title="return_fbgc_object\l_operator_helper_logic" alt="" coords="223,136,375,177"/>
+<area shape="rect" id="node3" href="$int__object_8c.html#a330313f82de7af3f3801d6c366d6c4b1" title="new_fbgc_int_object" alt="" coords="440,21,581,47"/>
+<area shape="rect" id="node4" href="$memory_8c.html#a41dd65ee24d51160659bf94bed90e998" title="fbgc_malloc" alt="" coords="641,78,733,105"/>
+<area shape="rect" id="node5" href="$error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="781,78,840,105"/>
+<area shape="rect" id="node7" href="$double__object_8c.html#a08dd93b8f6c56cf7cb6210b63c29dbaf" title="new_fbgc_double_object" alt="" coords="428,78,593,105"/>
+<area shape="rect" id="node9" href="$logic__object_8c.html#a11def1f376b697a7229879ad4222afab" title="new_fbgc_logic_object" alt="" coords="433,135,588,162"/>
+</map>

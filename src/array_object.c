@@ -21,90 +21,59 @@ size_t array_calculate_new_capacity_from_size(size_t size){
 	while(z < size)
 		z <<= 1;
 
-	#ifdef ARRAY_DEBUG
-	cprintf(011,"For the size %d new capacity is calculated as :%d\n",size,z);
-	#endif
+	FBGC_LOGV(ARRAY_OBJECT,"For the requested size %u new capacity is calculated as :%u",size,z);
+	//#ifdef ARRAY_DEBUG
+	//#endif
 	return z;
 }
 
-struct fbgc_object * new_fbgc_array_object(size_t cap, size_t b_size){
+struct fbgc_object * new_fbgc_array_object(size_t cap, size_t bsize){
 	//here just allocate a space after to->size, we don't need a pointer we know where we are gonna look.
 
 	cap = array_calculate_new_capacity_from_size(cap);
 
-	struct fbgc_array_object *ao =  (struct fbgc_array_object*) fbgc_malloc(sizeof(struct fbgc_array_object) + b_size * cap);
+	struct fbgc_array_object *ao =  (struct fbgc_array_object*) fbgc_malloc(sizeof(struct fbgc_array_object) + bsize * cap);
     ao->base.type = ARRAY;
     //ao->base.next = NULL;
-    ao->block_size = b_size;
+    ao->block_size = bsize;
     ao->size = 0;
     ao->capacity = cap;
 
-    #ifdef ARRAY_DEBUG
-    cprintf(111,"Array is created succesfully!\n");
-    cprintf(111,"Block size %d, Size %d, Capacity:%d\n",ao->block_size,ao->size,ao->capacity);
-    #endif
-
+    FBGC_LOGV(ARRAY_OBJECT,"Array is created succesfully!");
+    FBGC_LOGV(ARRAY_OBJECT,"Block size %d, Size %d, Capacity:%d\n",ao->block_size,ao->size,ao->capacity);
+    
     return (struct fbgc_object*) ao;
 }
 
 
 void set_in_fbgc_array_object(struct fbgc_object * self,void * data,int index){
-	
 	index = (index < 0) * capacity_fbgc_array_object(self) +  index;
 	assert( index >= 0 && index < capacity_fbgc_array_object(self));
-/*
-	struct fbgc_array_object * ao = cast_fbgc_object_as_array(self);
-	unsigned char ** contents = (unsigned char **)( (unsigned char*) &self->type + sizeof(struct fbgc_array_object));
-	//contents[index] = data; 
-
-	cprintf(111,"Base type %p\n",&ao->base.type);
-	cprintf(111,"Base next %p\n",&ao->base.next);
-	cprintf(111,"Block_size %p\n",&ao->block_size);
-	cprintf(111,"Capacity %p\n",&ao->capacity);
-	cprintf(111,"Size %p\n",&ao->size);
-	
-
-	cprintf(111,"Array object content address %p, size address %p\n",(char*)contents+1,&cast_fbgc_object_as_array(self)->size);*/
-
-	//memcpy((char*)contents+index*ao->block_size, (unsigned char*)data,ao->block_size);
-
-	memcpy(array_object_at(self,index), (unsigned char*)data, block_size_fbgc_array_object(self));	
-}
-
-
-void *  get_content_in_fbgc_array_object(struct fbgc_object * self,int index){
-
-	index = (index < 0) * size_fbgc_array_object(self) +  index;
-	assert( index>=0 || index < size_fbgc_array_object(self) );	
-
-	unsigned char ** contents = (unsigned char **)( (unsigned char*) &self->type + sizeof(struct fbgc_array_object));
-	return (void*)contents[index]; 		
+	memcpy(array_object_at(self,index), (uint8_t*)data, block_size_fbgc_array_object(self));	
 }
 
 
 void *  get_address_in_fbgc_array_object(struct fbgc_object * self,int index){
 
 	index = (index < 0) * size_fbgc_array_object(self) +  index;
-	assert( index>=0 || index < size_fbgc_array_object(self) );	
-
+	assert( index>=0 || index < size_fbgc_array_object(self) );
 	return (void*) (array_object_at(self,index));
 }
 
 
-void * get_top_in_fbgc_array_object(struct fbgc_object * self){
-	return size_fbgc_array_object(self) != 0 ? get_address_in_fbgc_array_object(self,size_fbgc_array_object(self)-1): NULL;
+void * get_back_in_fbgc_array_object(struct fbgc_object * self){
+	return get_address_in_fbgc_array_object(self,-1);
+}
+void * get_front_in_fbgc_array_object(struct fbgc_object * self){
+	return get_address_in_fbgc_array_object(self,0);
 }
 
 
 struct fbgc_object * push_back_fbgc_array_object(struct fbgc_object * self,void * obj){
 
-	#ifdef ARRAY_DEBUG
-	cprintf(101,"Push back array object!\n");
-	//
+	FBGC_LOGV(ARRAY_OBJECT,"Push back array object!");
+	FBGC_LOGV(ARRAY_OBJECT,"Array size :%d, capacity %d",size_fbgc_array_object(self) , capacity_fbgc_array_object(self));
 	//	Check the capacity, if there is enough space push back the obj
-	//
-	cprintf(101,"Array size :%d, capacity %d\n",size_fbgc_array_object(self) , capacity_fbgc_array_object(self));
-	#endif
 
 	size_t old_size = size_fbgc_array_object(self);
 
@@ -119,46 +88,21 @@ struct fbgc_object * push_back_fbgc_array_object(struct fbgc_object * self,void 
     	assert(self != NULL);
     	cast_fbgc_object_as_array(self)->capacity <<= 1; //shift the capacity for the next two's power
 
-		#ifdef ARRAY_DEBUG
-		cprintf(101,"New memory reallocated!\n");
-		cprintf(101,"After realloc Array size :%d, capacity %d\n",size_fbgc_array_object(self) , capacity_fbgc_array_object(self));
-		#endif
-
-    	//############
-    		//check the self pointer, it might be null!
-    	//############
+		
+		FBGC_LOGD(ARRAY_OBJECT,"New memory reallocated!");
+		FBGC_LOGD(ARRAY_OBJECT,"After realloc Array size :%d, capacity %d",size_fbgc_array_object(self) , capacity_fbgc_array_object(self));
 	}
 
 	if(size_fbgc_array_object(self) < capacity_fbgc_array_object(self)){
 
-		#ifdef ARRAY_DEBUG
-		cprintf(001,"There is enough space to push, pushing the object..\n");
-		#endif
+		
+		FBGC_LOGD(ARRAY_OBJECT,"There is enough space to push, pushing the object");
 
 		set_in_fbgc_array_object(self,obj,old_size);
-
-		//void ** contents = array_object_content(self);
-		//contents[old_size] = obj;
-
 		cast_fbgc_object_as_array(self)->size = old_size+1;
-		
 
-		#ifdef ARRAY_DEBUG
-		cprintf(001,"New size array %d\n",size_fbgc_array_object(self));
-		#endif
+		FBGC_LOGD(ARRAY_OBJECT,"New size array %d\n",size_fbgc_array_object(self));
 	}
 
 	return (struct fbgc_object*) self;
-}
-
-
-
-int index_fbgc_array_object(struct fbgc_object * self, void * obj){
-	
-	unsigned char ** contents = (unsigned char **)( (unsigned char*) &self->type + sizeof(struct fbgc_array_object));
-	
-	for(size_t i = 0; i<size_fbgc_array_object(self); i++){
-		if(array_object_at(self,i) == obj) return i;
-	}
-	return -1;
 }

@@ -5,25 +5,37 @@
 extern "C" {
 #endif
 
-/*
-	Shunting-Yard algorithm
+
+/*! @details This object is shared between parser main function and its helpers. Instead of pushing all the variables, it holds all the necessary
+information about the state of parser.
+We NEVER create this object dynamically, just parser function has one #parser_packet object and pass its address to helper functions
 */
-
-
 struct parser_packet{
-	struct fbgc_ll * head;
-	struct fbgc_ll_base * iter;
-	struct fbgc_ll_base * iter_prev;
-	struct fbgc_ll_base * op;
-	fbgc_grammar gm;
-	struct fbgc_ll_base * scope_list;	
-	uint8_t error_code;
-	uint8_t gm_error;
+	struct fbgc_ll * head; 				//!< Linked list head object,namely main code list. This is our AST structure
+	struct fbgc_ll_base * iter;			//!< Iterator for main code
+	struct fbgc_ll_base * iter_prev;	//!< Always holds previous value for iterator, we use for insertion and deletions
+	struct fbgc_ll_base * op;			//!< Operator stack, it's  a linked list but we use it as stack
+	struct fbgc_ll_base * scope_list;	//!< Field,class and function scope list, we use it as a stack
+	uint8_t error_code;					//!< When an error occurs function assigns error code to this variable
+	fbgc_grammar gm;					//!< State of grammar
 };
 
-uint8_t operator_precedence(fbgc_token T);
 
 uint8_t parser(struct fbgc_object ** field,FILE * fp);
+
+
+
+#ifdef LOG_PARSER
+#define PARSER_LOGV(format,...) LOGV(format,##__VA_ARGS__)
+#define PARSER_LOGD(format,...) LOGD(format,##__VA_ARGS__)
+#define _PARSER_LOGV(format,...) _LOGV(format,##__VA_ARGS__)
+#define _PARSER_LOGD(format,...) _LOGD(format,##__VA_ARGS__) 
+#else
+#define PARSER_LOGV(...)
+#define PARSER_LOGD(...)
+#define _PARSER_LOGV(...)
+#define _PARSER_LOGD(...)
+#endif
 
 #ifdef  __cplusplus
 }

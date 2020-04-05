@@ -1,9 +1,0 @@
-digraph "cmodules" {
-  compound=true
-  node [ fontsize="10", fontname="Helvetica"];
-  edge [ labelfontsize="10", labelfontname="Helvetica"];
-  dir_5679dd64d832b63f5aa25779665c5cda [shape=box, label="cmodules", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_5679dd64d832b63f5aa25779665c5cda.html"];
-  dir_68267d1309a1af8e8297ef4c3efbcdba [shape=box label="src" fillcolor="white" style="filled" color="red" URL="dir_68267d1309a1af8e8297ef4c3efbcdba.html"];
-  dir_5679dd64d832b63f5aa25779665c5cda->dir_68267d1309a1af8e8297ef4c3efbcdba [headlabel="5", labeldistance=1.5 headhref="dir_000000_000001.html"];
-  dir_68267d1309a1af8e8297ef4c3efbcdba->dir_5679dd64d832b63f5aa25779665c5cda [headlabel="3", labeldistance=1.5 headhref="dir_000001_000000.html"];
-}

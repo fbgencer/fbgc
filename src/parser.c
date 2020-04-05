@@ -17,8 +17,8 @@
 
 
 #ifdef PARSER_DEBUG
-	#define _print_main_list()(_print_fbgc_ll(head_obj,"Main"))
-	#define _print_op_stack()(_print_fbgc_ll(op,"O"))
+	#define _print_main_list()(_print_fbgc_ll(p.head,"Main"))
+	#define _print_op_stack()(_print_fbgc_ll(p.op,"O"))
 	#define _print_field_locals(x)(print_field_object_locals(x),cprintf(111,"\n"))
 #else
 	#define _print_main_list()
@@ -147,7 +147,7 @@ void handle_function_args(struct fbgc_ll_base * fun_holder,struct fbgc_ll_base *
 		else if(iter->next->type == FUN_CALL){
 			//this is variadic template, it must be the last arguments
 			if(iter->next->next != arg_end){
-				cprintf(100,"Variadic argmust be the last arg!\n");
+				_FBGC_LOGE("Variadic argmust be the last arg!");
 				assert(0);	
 			}
 
@@ -155,7 +155,11 @@ void handle_function_args(struct fbgc_ll_base * fun_holder,struct fbgc_ll_base *
 			cast_fbgc_object_as_fun(fun_obj)->no_arg *= -1;
 
 			arg_end = iter->next;
-			//_println_object("hello ",arg_end);
+			
+			if(arg_end->next->type == COMMA){
+				arg_end = arg_end->next;
+			}
+
 			break;
 
 		}
@@ -173,144 +177,154 @@ void handle_function_args(struct fbgc_ll_base * fun_holder,struct fbgc_ll_base *
 	_info("Handling function args, # of args:%d\n",cast_fbgc_object_as_fun(fun_obj)->no_arg);	
 }
 
-struct fbgc_ll_base * handle_before_paranthesis(struct fbgc_ll_base * iter_prev,struct fbgc_ll_base * op, fbgc_grammar * gm){
+void handle_before_paranthesis(struct parser_packet * p){
+	_FBGC_LOGD(PARSER,"\n==================================\nStack top holder:%s\n",_ll2str(TOP_LL(p->op)));
 	
-	_info("==================================\n");
-	_info("%s is called\n",__FUNCTION__);
-	_info("Stack top holder:%s\n",_ll2str(TOP_LL(op)));
-
-	uint8_t gm_error = 1;
-	
-	fbgc_token top_type = TOP_LL(op)->type;
-	//struct fbgc_ll_base * top = TOP_LL(op);
-	//fbgc_token top_type = (top->type == CONSTANT) ? _cast_llbase_as_llconstant(top)->content->type : UNKNOWN;
-	//_info("Stack top:%s\n",_obj2str(_cast_llbase_as_llconstant(top)->content));
-
+	const fbgc_token top_type = TOP_LL(p->op)->type;
 
 	uint8_t	state = 0;
-	if(iter_prev->type == COMMA) state = 2;
-	else if(*gm != GM_ATOM) state = 1;
+	if(p->iter_prev->type == COMMA) state = 2;
+	else if(p->gm != GM_ATOM) state = 1;
 
 	if(top_type == FUN_CALL){
 		
-		_print("Function call template, iter_prev:%s\n",_ll2str(iter_prev));
+		_print("Function call template, p->iter_prev:%s\n",_ll2str(p->iter_prev));
 
-		//state == 2, iter_prev is comma
+		//state == 2, p->iter_prev is comma
 		if(state == 2){
-			iter_prev->type = FUN_CALL;
+			p->iter_prev->type = FUN_CALL;
 		}
 		else{
 
 			struct fbgc_ll_base * ito = _new_fbgc_ll_opcode_int(FUN_CALL,state==1);
-			ito->next = iter_prev->next;
-			iter_prev->next = ito;
-			iter_prev = ito;
+			ito->next = p->iter_prev->next;
+			p->iter_prev->next = ito;
+			p->iter_prev = ito;
 		}
-		_cast_llbase_as_llopcode_int(iter_prev)->content += _cast_llbase_as_llopcode_int(TOP_LL(op))->content;
+		_cast_llbase_as_llopcode_int(p->iter_prev)->content += _cast_llbase_as_llopcode_int(TOP_LL(p->op))->content;
 
-		//gm_seek_right(gm,TOP_LL(op));
-		struct fbgc_ll_base * iter = iter_prev->next;
-		//Insert top op to the list  
-		//iter_prev->next = TOP_LL(op);
-		POP_LL(op);
-		//iter_prev = iter_prev->next;
+		//gm_seek_right(gm,TOP_LL(p->op));
+		struct fbgc_ll_base * iter = p->iter_prev->next;
+		//Insert top p->op to the list  
+		//p->iter_prev->next = TOP_LL(p->op);
+		POP_LL(p->op);
+		//p->iter_prev = p->iter_prev->next;
 		
 		char put_pop_top = 0;
 
-		if(!is_empty_fbgc_ll(op) )
+		if(!is_empty_fbgc_ll(p->op) )
 			put_pop_top = 1;
 
 		put_pop_top = 0;
 
 		if(put_pop_top){
-			iter_prev->next = _new_fbgc_ll_base(POP_TOP);
-			iter_prev = iter_prev->next;			
+			p->iter_prev->next = _new_fbgc_ll_base(POP_TOP);
+			p->iter_prev = p->iter_prev->next;			
 		}
 
-		iter_prev->next = iter;
+		p->iter_prev->next = iter;
 	}
 	else if(top_type == FUN_MAKE){
 
 		_print("Stack top is FUN_MAKE, function make template!\n");
-		struct fbgc_ll_base * fun_holder =  _cast_llbase_as_lljumper(TOP_LL(op))->content; 
+		struct fbgc_ll_base * fun_holder =  _cast_llbase_as_lljumper(TOP_LL(p->op))->content; 
 		struct fbgc_object * fun_obj = _cast_llbase_as_llconstant(fun_holder)->content;
 
 		//Is it possible this is not useful*
 		if(cast_fbgc_object_as_fun(fun_obj)->no_arg < 65){
 			_print("already created function,arg :%d\n",cast_fbgc_object_as_fun(fun_obj)->no_arg);
-			return iter_prev;
+			return;
 		}
 		//fun_make content holds function object, parse the arguments
-		gm_seek_right(gm,TOP_LL(op));
+		//gm_seek_right(&p);
 
 		_print("Function Arg Start:%s\n",_ll2str(fun_holder->next));
-		_print_fbgc_ll_code(fun_holder->next,iter_prev);
-		_print("Function Arg End:%s\n",_ll2str(iter_prev));
+		_print_fbgc_ll_code(fun_holder->next,p->iter_prev);
+		_print("Function Arg End:%s\n",_ll2str(p->iter_prev));
 
-		handle_function_args(fun_holder,iter_prev);
-		iter_prev = fun_holder;
+		handle_function_args(fun_holder,p->iter_prev);
+		p->iter_prev = fun_holder;
 	}
 	else if(top_type == CLASS_MAKE){
-		FBGC_LOGI("Stack top is CLASS_MAKE, making class template!");
+		FBGC_LOGD(PARSER,"Stack top is CLASS_MAKE, making class template!");
 
-		struct fbgc_ll_base * cls_holder =  _cast_llbase_as_lljumper(TOP_LL(op))->content; 
+
+
+		struct fbgc_ll_base * cls_holder =  _cast_llbase_as_lljumper(TOP_LL(p->op))->content; 
 		struct fbgc_object * cls_obj = _cast_llbase_as_llconstant(cls_holder)->content;
 
+		if(_cast_llbase_as_llconstant(TOP_LL(p->scope_list))->content == cls_obj)
+			return;
+
 		_print("Class Arg Start:%s\n",_ll2str(cls_holder->next));
-		//_print_fbgc_ll_code(cls_holder->next,iter_prev);
-		_print("Class Arg End:%s\n",_ll2str(iter_prev));
+		//_print_fbgc_ll_code(cls_holder->next,p->iter_prev);
+		_print("Class Arg End:%s\n",_ll2str(p->iter_prev));
+		_push_front_fbgc_ll(p->scope_list,_new_fbgc_ll_constant(cls_obj));
 
-		/*while(cls_holder->next != iter_prev){
-
+		struct fbgc_ll_base * iter = cls_holder;
+		/*while(iter != p->iter_prev){
+			if(iter->next->type == IDENTIFIER){
+				iter = iter->next;
+			}
+			else assert(0);
 		}*/
 
+		//cls_holder->next = p->iter_prev->next;
+		if(cls_holder->next->type == IDENTIFIER){
+			cls_holder = cls_holder->next;
+			//p->iter_prev = p->iter_prev->next;
+			//p->gm = GM_NEWLINE;
+		}
+		cast_fbgc_object_as_class(cls_obj)->code = cls_holder;
+
+		_print("Class code :%s\n",_ll2str(cast_fbgc_object_as_class(cls_obj)->code));
 
 
 	}
 	else if(top_type == FOR){
 
-		if(_cast_llbase_as_lljumper(TOP_LL(op))->content->type == FOR_BEGIN)
-			return iter_prev;
+		if(_cast_llbase_as_lljumper(TOP_LL(p->op))->content->type == FOR_BEGIN)
+			return;
 		
-		gm_seek_right(gm,TOP_LL(op));
+		//XXgm_seek_right(gm,TOP_LL(p->op));
 
 		_print("Stack top is FOR, for loop template!\n");
-		_print("For loop content:%s\n",_ll2str(_cast_llbase_as_lljumper(TOP_LL(op))->content));
-		_print("Iterator previous:%s\n",_ll2str(iter_prev));
+		_print("For loop content:%s\n",_ll2str(_cast_llbase_as_lljumper(TOP_LL(p->op))->content));
+		_print("Iterator previous:%s\n",_ll2str(p->iter_prev));
 		
-		if(iter_prev->type != ASSIGN){
+		if(p->iter_prev->type != ASSIGN){
 			//This makes sure we have for i = x type of loop definition
 			return NULL;
 		}
 
-		struct fbgc_ll_base * d = _cast_llbase_as_lljumper(TOP_LL(op))->content;
-		while(d->next != iter_prev)
+		struct fbgc_ll_base * d = _cast_llbase_as_lljumper(TOP_LL(p->op))->content;
+		while(d->next != p->iter_prev)
 			d = d->next;
 		
 		struct fbgc_ll_base * fb = _new_fbgc_ll_base(FOR_BEGIN);
 		fb->next = d->next;
 		d->next = fb;
-		_cast_llbase_as_lljumper(TOP_LL(op))->content = fb;
+		_cast_llbase_as_lljumper(TOP_LL(p->op))->content = fb;
 
 	}	
-	else if( (top_type == IF || top_type == ELIF || top_type == WHILE) && _cast_llbase_as_lljumper(TOP_LL(op))->content == NULL){
-		_print("Stack top is %s, conditional template!\n",_ll2str(TOP_LL(op)));
-		gm_seek_right(gm,TOP_LL(op));
-		_cast_llbase_as_lljumper(TOP_LL(op))->content = iter_prev;
-		_warning("If shows %s\n",_ll2str(iter_prev->next));	
+	else if( (top_type == IF || top_type == ELIF || top_type == WHILE) && _cast_llbase_as_lljumper(TOP_LL(p->op))->content == NULL){
+		_print("Stack top is %s, conditional template!\n",_ll2str(TOP_LL(p->op)));
+		//XXgm_seek_right(gm,TOP_LL(p->op));
+		_cast_llbase_as_lljumper(TOP_LL(p->op))->content = p->iter_prev;
+		_warning("If shows %s\n",_ll2str(p->iter_prev->next));	
 	}
-	else if(iter_prev->type == COMMA || *gm == GM_ATOM){
+	else if(p->iter_prev->type == COMMA || p->gm == GM_ATOM){
 		
 		if(state == 2){
 			_debug("State number is 2, changing COMMA to BUILD_TUPLE\n");
-			iter_prev->type = BUILD_TUPLE;
+			p->iter_prev->type = BUILD_TUPLE;
 		} 
 		else if(state == 0){
 			_debug("State number is 0, creating new object BUILD_TUPLE with 0 size\n");
 			struct fbgc_ll_base * ito = _new_fbgc_ll_opcode_int(BUILD_TUPLE,0);
-			ito->next = iter_prev->next;
-			iter_prev->next = ito;
-			iter_prev = ito;
+			ito->next = p->iter_prev->next;
+			p->iter_prev->next = ito;
+			p->iter_prev = ito;
 		}
 		//If nothing than it's a tuple!
 
@@ -318,91 +332,73 @@ struct fbgc_ll_base * handle_before_paranthesis(struct fbgc_ll_base * iter_prev,
 	else{
 		
 		//Should we put an error or not ....?
-		/*_println_object("iter prev :",iter_prev);
+		/*_println_object("iter prev :",p->iter_prev);
 		_print_op_stack();
 		assert(0);*/
 	}
 
 	_info("==================================\n");
-
-	return iter_prev;
-
 }
 
-struct fbgc_ll_base * handle_before_brackets(struct fbgc_ll_base * iter_prev, struct fbgc_ll_base * op, fbgc_grammar * gm){
+void handle_before_brackets(struct parser_packet *p){
+	_FBGC_LOGD(PARSER,"\n==================================\nStack top holder:%s\n",_ll2str(TOP_LL(p->op)));
+
 	
-	_info("==================================\n");
-	_info("%s is called\n",__FUNCTION__);
-	_info("Stack top:%s\n",_ll2str(TOP_LL(op)));
-
-
-	uint8_t gm_error = 1;
 	uint8_t	state = 0;
-	if(iter_prev->type == COMMA) state = 2;
-	else if(*gm != GM_ATOM) state = 1;
+	if(p->iter_prev->type == COMMA) state = 2;
+	else if(p->gm != GM_ATOM) state = 1;
 
 
 	
-	if(is_fbgc_ASSIGNMENT_OPERATOR(iter_prev->next->type)) return iter_prev;
+	if(is_fbgc_ASSIGNMENT_OPERATOR(p->iter_prev->next->type)) return;
 	
-	if(TOP_LL(op)->type == IDENTIFIER || TOP_LL(op)->type == LOAD_SUBSCRIPT){	
+	if(TOP_LL(p->op)->type == IDENTIFIER || TOP_LL(p->op)->type == LOAD_SUBSCRIPT){	
 		_info("Operator stack top load_local or global, this is a subscript call template!\n");
 
-		struct fbgc_ll_base * iter = iter_prev->next;
+		struct fbgc_ll_base * iter = p->iter_prev->next;
 		//Insert top op to the list  
-		iter_prev->next = TOP_LL(op);
-		POP_LL(op);
-		iter_prev = iter_prev->next;
-		iter_prev->next = iter;
+		p->iter_prev->next = TOP_LL(p->op);
+		POP_LL(p->op);
+		p->iter_prev = p->iter_prev->next;
+		p->iter_prev->next = iter;
 	}
 	else{
-		if(state == 2) iter_prev->type = BUILD_MATRIX; 
+		if(state == 2) p->iter_prev->type = BUILD_MATRIX; 
 		else {
 			struct fbgc_ll_base * ito = _new_fbgc_ll_opcode_int(BUILD_MATRIX,state==1);
-			ito->next = iter_prev->next;
-			iter_prev->next = ito;
-			iter_prev = ito;
+			ito->next = p->iter_prev->next;
+			p->iter_prev->next = ito;
+			p->iter_prev = ito;
 		}		
 	}
 	
 	_info("==================================\n");
-	return iter_prev;
 }
 
 uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 
-	FBGC_LOGD("==========[PARSER]==========");
+	FBGC_LOGD(PARSER,"==========[PARSER]==========");
 
-	struct parser_packet p;
-	p.head = _cast_llbase_as_ll( cast_fbgc_object_as_field(*field_obj)->head );
-	p.iter = p.head->base.next;
-	p.iter_prev = (struct fbgc_ll_base *)p.head; //note that p.iter_prev->next is p.iter, always this is the case!
-	//p.gm = GM_NEWLINE
-	//struct fbgc_ll * head = _cast_llbase_as_ll( cast_fbgc_object_as_field(*field_obj)->head );
-	struct fbgc_ll_base * head_obj =  cast_fbgc_object_as_field(*field_obj)->head;
-	struct fbgc_ll_base * op = _new_fbgc_ll();
-	fbgc_grammar gm = GM_NEWLINE;
+	struct parser_packet p = {
+		.head = _cast_llbase_as_ll( cast_fbgc_object_as_field(*field_obj)->head ),
+		.iter = p.head->base.next,
+		.iter_prev = (struct fbgc_ll_base *)p.head, //note that p.iter_prev->next is p.iter, always this is the case!
+		.op = _new_fbgc_ll(),
+		.scope_list = _new_fbgc_ll(),
+		.error_code = _FBGC_NO_ERROR,
+		.gm = GM_NEWLINE,
+	};
+	
 		
+	_push_front_fbgc_ll(p.scope_list,_new_fbgc_ll_constant(*field_obj));
+	#define current_scope _cast_llbase_as_llconstant(TOP_LL(p.scope_list))->content
+	#define previous_scope _cast_llbase_as_llconstant(TOP_LL(p.scope_list)->next)->content
 
-	struct fbgc_ll_base * scope_list = _new_fbgc_ll();
-	_push_front_fbgc_ll(scope_list,_new_fbgc_ll_constant(*field_obj));
-	#define current_scope _cast_llbase_as_llconstant(TOP_LL(scope_list))->content
-	#define previous_scope _cast_llbase_as_llconstant(TOP_LL(scope_list)->next)->content
-
-	uint8_t gm_error = 1;
-
-	uint8_t error_code = _FBGC_NO_ERROR;
 
 	char line[1000] = {0};
-	
-	
-
 	int line_no = 0;
 
-
-	for(int i = 0; fbgc_error(error_code,line_no) ; i++){
-		
-
+	for(int i = 0; fbgc_error(p.error_code,line_no) ; i++){
 		if(p.iter == p.head->tail){
 			if(fbgc_getline_from_file(line, sizeof(line), input_file)){
 				++line_no;
@@ -427,13 +423,13 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 	case CONSTANT:
 	{
 
-		if( (error_code = gm_seek_left(&gm,p.iter)) != _FBGC_NO_ERROR  ){ goto PARSER_ERROR_LABEL; }	
+		if( (p.error_code = gm_seek_left(&p)) != _FBGC_NO_ERROR  ){ goto PARSER_ERROR_LABEL; }	
 		p.iter_prev = p.iter;
 		break;
 	}
 	case IDENTIFIER:{
 
-		if( (error_code = gm_seek_left(&gm,p.iter)) != _FBGC_NO_ERROR  ){ goto PARSER_ERROR_LABEL; }
+		if( (p.error_code = gm_seek_left(&p)) != _FBGC_NO_ERROR  ){ goto PARSER_ERROR_LABEL; }
 
 		_info("Current Scope for identifier:(%s)\n",_obj2str(current_scope));
 		struct fbgc_object * cstr_obj = get_object_in_fbgc_tuple_object(fbgc_symbols,get_ll_identifier_loc(p.iter));
@@ -441,9 +437,9 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			
 		struct fbgc_object * cf = NULL;
 
-		if(!is_empty_fbgc_ll(op) && TOP_LL(op)->type == DOT){
+		if(!is_empty_fbgc_ll(p.op) && TOP_LL(p.op)->type == DOT){
 			//so this is just a member selection
-			POP_LL(op); //pop the dot object
+			POP_LL(p.op); //pop the dot object
 			//now get the name of instance
 			struct fbgc_ll_base * cstr_holder = _new_fbgc_ll_constant(cstr_obj);
 			p.iter_prev->next = cstr_holder;
@@ -557,11 +553,11 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 		}
 
 		p.iter_prev->next = p.iter->next;
-		_push_front_fbgc_ll(op,p.iter);
+		_push_front_fbgc_ll(p.op,p.iter);
 		break;
 	}
 	case END:{
-		gm_error = gm_seek_left(&gm,p.iter);
+		p.error_code = gm_seek_left(&p);
 
 		_info("Before handling END keyword\n");
 		_print_main_list();
@@ -570,36 +566,36 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 		p.iter_prev->next = p.iter->next;
 		
 
-		if(TOP_LL(op)->type == IF){
+		if(TOP_LL(p.op)->type == IF){
 			//now insert if in its place,
 
-			struct fbgc_ll_base * if_obj = TOP_LL(op);
-			POP_LL(op);
+			struct fbgc_ll_base * if_obj = TOP_LL(p.op);
+			POP_LL(p.op);
 
 			if_obj->next = _cast_llbase_as_lljumper(if_obj)->content->next;
 			_cast_llbase_as_lljumper(if_obj)->content->next = if_obj;
 			_cast_llbase_as_lljumper(if_obj)->content = p.iter_prev; //now assign where to jump
 
 		}
-		else if(TOP_LL(op)->type == ELIF){
+		else if(TOP_LL(p.op)->type == ELIF){
 			//now insert if in its place,
-			struct fbgc_ll_base * if_obj = TOP_LL(op);
-			POP_LL(op);
+			struct fbgc_ll_base * if_obj = TOP_LL(p.op);
+			POP_LL(p.op);
 
 			if_obj->next = _cast_llbase_as_lljumper(if_obj)->content->next;
 			_cast_llbase_as_lljumper(if_obj)->content->next = if_obj;
 			_cast_llbase_as_lljumper(if_obj)->content = p.iter_prev;
 		}
-		else if(TOP_LL(op)->type == WHILE){
+		else if(TOP_LL(p.op)->type == WHILE){
 			//now insert while in its place,
-			struct fbgc_ll_base * if_obj = TOP_LL(op);
-			POP_LL(op);
+			struct fbgc_ll_base * if_obj = TOP_LL(p.op);
+			POP_LL(p.op);
 
 			if_obj->next = _cast_llbase_as_lljumper(if_obj)->content->next;
 			_cast_llbase_as_lljumper(if_obj)->content->next = if_obj;
 
-			struct fbgc_ll_base * jump_obj = TOP_LL(op);
-			POP_LL(op);
+			struct fbgc_ll_base * jump_obj = TOP_LL(p.op);
+			POP_LL(p.op);
 
 			jump_obj->next = p.iter_prev->next;
 			p.iter_prev->next = jump_obj;
@@ -607,16 +603,16 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			
 			_cast_llbase_as_lljumper(if_obj)->content = jump_obj;
 		}
-		else if(TOP_LL(op)->type == FOR){
+		else if(TOP_LL(p.op)->type == FOR){
 			//now insert while in its place,
-			struct fbgc_ll_base * if_obj = TOP_LL(op);
-			POP_LL(op);
+			struct fbgc_ll_base * if_obj = TOP_LL(p.op);
+			POP_LL(p.op);
 
 			if_obj->next = _cast_llbase_as_lljumper(if_obj)->content->next;
 			_cast_llbase_as_lljumper(if_obj)->content->next = if_obj;
 
-			struct fbgc_ll_base * jump_obj = TOP_LL(op);
-			POP_LL(op);
+			struct fbgc_ll_base * jump_obj = TOP_LL(p.op);
+			POP_LL(p.op);
 
 			_cast_llbase_as_lljumper(jump_obj)->content = _cast_llbase_as_lljumper(if_obj)->content;	
 
@@ -626,13 +622,13 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			
 			_cast_llbase_as_lljumper(if_obj)->content = jump_obj;
 		}
-		else if(TOP_LL(op)->type == FUN_MAKE){
+		else if(TOP_LL(p.op)->type == FUN_MAKE){
 
 			//Check the function is empty or not, we need to handle this
 			assert(p.iter_prev->type != FUN);  // why do we have this
 
 			//???
-			struct fbgc_ll_base * fun_holder = _cast_llbase_as_lljumper(TOP_LL(op))->content;
+			struct fbgc_ll_base * fun_holder = _cast_llbase_as_lljumper(TOP_LL(p.op))->content;
 			struct fbgc_object * fun_obj = _cast_llbase_as_llconstant(fun_holder)->content;
 			
 			struct fbgc_object * tp = _cast_llbase_as_llconstant(cast_fbgc_object_as_fun(fun_obj)->code)->content;
@@ -651,17 +647,29 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			p.iter_prev->next = NULL; //last token in function code shows NULL
 			p.iter_prev = fun_holder;
 
-			POP_LL(op); //Remove fun_make
+			POP_LL(p.op); //Remove fun_make
 			p.iter_prev->next = p.iter->next;
 
-			POP_LL(scope_list);
+			POP_LL(p.scope_list);
 			//current_scope = *field_obj; //Go back to the previous scope
 		}
-		else if(TOP_LL(op)->type == CLASS_MAKE){
+		else if(TOP_LL(p.op)->type == CLASS_MAKE){
 
-			struct fbgc_ll_base * cls_holder = _cast_llbase_as_lljumper(TOP_LL(op))->content;
+			struct fbgc_ll_base * cls_holder = _cast_llbase_as_lljumper(TOP_LL(p.op))->content;
 			struct fbgc_object * cls_obj = _cast_llbase_as_llconstant(cls_holder)->content;
-			cast_fbgc_object_as_class(cls_obj)->code = cls_holder->next;
+			int arg_no = 0;
+
+			while(cls_holder != cast_fbgc_object_as_class(cls_obj)->code){
+				cls_holder = cls_holder->next;
+				arg_no++;
+			}
+
+			FBGC_LOGV(PARSER,"Class inheritance arg no:%d\n",arg_no);
+
+			cls_holder = cast_fbgc_object_as_class(cls_obj)->code;
+
+			cast_fbgc_object_as_class(cls_obj)->code = cast_fbgc_object_as_class(cls_obj)->code->next;
+
 
 			p.iter_prev->next = _new_fbgc_ll_constant(cls_obj);
 			p.iter_prev = p.iter_prev->next;
@@ -669,23 +677,23 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			p.iter_prev = p.iter_prev->next;
 
 			p.iter_prev->next = NULL;
-			POP_LL(op);
-			POP_LL(scope_list);
-			p.iter_prev = cls_holder;
-			p.iter_prev->next = _new_fbgc_ll_base(CLASS_CALL);
+			POP_LL(p.op);
+			POP_LL(p.scope_list);
+			p.iter_prev = cls_holder; 
+			p.iter_prev->next = _new_fbgc_ll_opcode_int(CLASS_CALL,arg_no);
 			p.iter_prev = p.iter_prev->next;
 			p.iter_prev->next = p.iter->next;
 
 		}
-		else if(TOP_LL(op)->type != JUMP){
+		else if(TOP_LL(p.op)->type != JUMP){
 			cprintf(100,"Found extra END keyword\n");
-			error_code = _FBGC_SYNTAX_ERROR;
+			p.error_code = _FBGC_SYNTAX_ERROR;
 			goto PARSER_ERROR_LABEL;
 		}
 
-		while(TOP_LL(op) != NULL && TOP_LL(op)->type == JUMP){
-			struct fbgc_ll_base * jump_obj = TOP_LL(op);
-			POP_LL(op);
+		while(TOP_LL(p.op) != NULL && TOP_LL(p.op)->type == JUMP){
+			struct fbgc_ll_base * jump_obj = TOP_LL(p.op);
+			POP_LL(p.op);
 
 			jump_obj->next = _cast_llbase_as_lljumper(jump_obj)->content->next;
 			_cast_llbase_as_lljumper(jump_obj)->content->next = jump_obj;
@@ -702,16 +710,16 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 		break;			
 	}
 	case FUN_MAKE:{
-		gm_error = gm_seek_left(&gm,p.iter);
+		p.error_code = gm_seek_left(&p);
 		struct fbgc_object * fun_obj = new_fbgc_fun_object();
 		struct fbgc_ll_base * fun_holder = _new_fbgc_ll_constant(fun_obj);
 		fun_holder->next = p.iter->next;
 		p.iter_prev->next = fun_holder;
 		p.iter_prev = fun_holder;
 		_cast_llbase_as_lljumper(p.iter)->content = fun_holder;
-		_push_front_fbgc_ll(op,p.iter);
+		_push_front_fbgc_ll(p.op,p.iter);
 
-		_push_front_fbgc_ll(scope_list,_new_fbgc_ll_constant(fun_obj));
+		_push_front_fbgc_ll(p.scope_list,_new_fbgc_ll_constant(fun_obj));
 		//current_scope = fun_obj;
 
 		cast_fbgc_object_as_fun(fun_obj)->code = _new_fbgc_ll_constant(new_fbgc_tuple_object(0));
@@ -720,32 +728,34 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 	case CLASS_MAKE:{
 		
 		
-		gm_error = gm_seek_left(&gm,p.iter);	
+		p.error_code = gm_seek_left(&p);	
 		struct fbgc_object * cls_obj = new_fbgc_class_object();
 		struct fbgc_ll_base * cls_holder = _new_fbgc_ll_constant(cls_obj);
 		cls_holder->next = p.iter->next;
 		p.iter_prev->next = cls_holder;
 		p.iter_prev = cls_holder;
 		_cast_llbase_as_lljumper(p.iter)->content = cls_holder;
-		_push_front_fbgc_ll(op,p.iter);
-		_push_front_fbgc_ll(scope_list,_new_fbgc_ll_constant(cls_obj));
-		//cast_fbgc_object_as_fun(c)->code = _new_fbgc_ll_constant(new_fbgc_tuple_object(0));
+		_push_front_fbgc_ll(p.op,p.iter);
+		
+		//Moving this to handle paranthesis for
+		//_push_front_fbgc_ll(p.scope_list,_new_fbgc_ll_constant(cls_obj));
+		
 		break;
 	}	
 	case ELIF:{
-		//gm_error = gm_seek_right(&gm,TOP_LL(op));
-		//gm_error = gm_seek_left(&gm,p.iter);	
+		//p.error_code = gm_seek_right(&p.gm,TOP_LL(p.op));
+		//p.error_code = gm_seek_left(&p.gm,p.iter);	
 
-		if(is_empty_fbgc_ll(op) && (TOP_LL(op)->type != IF || TOP_LL(op)->type != ELIF)){
+		if(is_empty_fbgc_ll(p.op) && (TOP_LL(p.op)->type != IF || TOP_LL(p.op)->type != ELIF)){
 			//We raise this error because we couldn't find any if before so it's not just a syntax error.
 			//## Give proper error message
-			error_code = _FBGC_SYNTAX_ERROR;
+			p.error_code = _FBGC_SYNTAX_ERROR;
 			goto PARSER_ERROR_LABEL;
 		}
 
 		//now insert if in its place,
-		struct fbgc_ll_base * if_obj = TOP_LL(op);
-		POP_LL(op);
+		struct fbgc_ll_base * if_obj = TOP_LL(p.op);
+		POP_LL(p.op);
 		if_obj->next = _cast_llbase_as_lljumper(if_obj)->content->next;
 		_cast_llbase_as_lljumper(if_obj)->content->next = if_obj;
 
@@ -755,33 +765,33 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 
 		_cast_llbase_as_lljumper(if_obj)->content = jump_obj;
 
-		_push_front_fbgc_ll(op,jump_obj);
+		_push_front_fbgc_ll(p.op,jump_obj);
 		p.iter_prev->next = p.iter->next;	
-		_push_front_fbgc_ll(op,p.iter);			
+		_push_front_fbgc_ll(p.op,p.iter);			
 
 		break;
 	}
 	case ELSE:{
 
-		//gm_error = gm_seek_right(&gm,TOP_LL(op));
-		//gm_error = gm_seek_left(&gm,p.iter);	
+		//p.error_code = gm_seek_right(&p.gm,TOP_LL(p.op));
+		//p.error_code = gm_seek_left(&p.gm,p.iter);	
 
-		if(is_empty_fbgc_ll(op) || (TOP_LL(op)->type != IF && TOP_LL(op)->type != ELIF) ){
-			cprintf(100,"Top type = %s\n",object_name_array[TOP_LL(op)->type]);
-			error_code = _FBGC_SYNTAX_ERROR;
+		if(is_empty_fbgc_ll(p.op) || (TOP_LL(p.op)->type != IF && TOP_LL(p.op)->type != ELIF) ){
+			cprintf(100,"Top type = %s\n",object_name_array[TOP_LL(p.op)->type]);
+			p.error_code = _FBGC_SYNTAX_ERROR;
 			goto PARSER_ERROR_LABEL;
 		}
 
 		//now insert if in its place,
-		struct fbgc_ll_base * if_obj = TOP_LL(op);
-		POP_LL(op);
+		struct fbgc_ll_base * if_obj = TOP_LL(p.op);
+		POP_LL(p.op);
 		if_obj->next = _cast_llbase_as_lljumper(if_obj)->content->next;
 		_cast_llbase_as_lljumper(if_obj)->content->next = if_obj;
 
 		struct fbgc_ll_base * jump_obj = _new_fbgc_ll_jumper(JUMP);
 
 		_cast_llbase_as_lljumper(jump_obj)->content = p.iter_prev;
-		_push_front_fbgc_ll(op,jump_obj);
+		_push_front_fbgc_ll(p.op,jump_obj);
 
 		_cast_llbase_as_lljumper(if_obj)->content = jump_obj;
 
@@ -791,10 +801,10 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 		break;
 	}
 	case WHILE:{
-		gm_error = gm_seek_left(&gm,p.iter);	
+		p.error_code = gm_seek_left(&p);	
 
 		struct fbgc_ll_base * jump_obj = _new_fbgc_ll_jumper(JUMP);
-		if(TOP_LL(op) != NULL && TOP_LL(op)->type == WHILE){
+		if(TOP_LL(p.op) != NULL && TOP_LL(p.op)->type == WHILE){
 			//This is a branch optimization to solve an issue between two while loops
 			//if we have a situation
 			// while(a)
@@ -808,42 +818,42 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			//		   ^---------|   |
 			// ^---------------------|
 
-			_cast_llbase_as_lljumper(jump_obj)->content = TOP_LL(op);
+			_cast_llbase_as_lljumper(jump_obj)->content = TOP_LL(p.op);
 		}
-		else if(TOP_LL(op) != NULL && TOP_LL(op)->type == FOR){
+		else if(TOP_LL(p.op) != NULL && TOP_LL(p.op)->type == FOR){
 			cprintf(111,"Why do we have this?\n");
 			assert(0);
 		}
 		else
 			_cast_llbase_as_lljumper(jump_obj)->content = p.iter_prev;
 
-		_push_front_fbgc_ll(op,jump_obj);
+		_push_front_fbgc_ll(p.op,jump_obj);
 		p.iter_prev->next = p.iter->next;	
-		_push_front_fbgc_ll(op,p.iter);	
+		_push_front_fbgc_ll(p.op,p.iter);	
 		//p.iter_prev->next = p.iter->next;	
 		break;
 	}
 	case FOR:{
-		gm_error = gm_seek_left(&gm,p.iter);	
+		p.error_code = gm_seek_left(&p);	
 
 		_cast_llbase_as_lljumper(p.iter)->content = p.iter_prev;
 
 		struct fbgc_ll_base * jump_obj = _new_fbgc_ll_jumper(JUMP);
 		_cast_llbase_as_lljumper(jump_obj)->content = p.iter_prev;
-		_push_front_fbgc_ll(op,jump_obj);
+		_push_front_fbgc_ll(p.op,jump_obj);
 		p.iter_prev->next = p.iter->next;	
-		_push_front_fbgc_ll(op,p.iter);				
+		_push_front_fbgc_ll(p.op,p.iter);				
 		break;
 	}			
 	case BREAK:
 	case CONT:{
 		p.iter_prev = p.iter;
-		gm_error = gm_seek_left(&gm,p.iter);
+		p.error_code = gm_seek_left(&p);
 
-		struct fbgc_ll_base * op_top = TOP_LL(op);
+		struct fbgc_ll_base * op_top = TOP_LL(p.op);
 
 		for(;;){
-			assert(!is_empty_fbgc_ll(op));
+			assert(!is_empty_fbgc_ll(p.op));
 
 			if(op_top->type == WHILE || op_top->type == FOR){
 
@@ -896,25 +906,25 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 	case UPLUS:
 	case UMINUS:{
 
-		//take the op object from main list and connect previous one to the next one 
+		//take the p.op object from main list and connect previous one to the next one 
 		//[H]->[2]->[+]->[3] => [H]->[2]->[3], now p.iter holds the operator, p.iter->next is [3] but we will change that too 
 		//     p^	i^					
 		p.iter_prev->next = p.iter->next;
 		//struct fbgc_object * p.iterp2 = p.iter_prev;
 
 		
-		while( is_not_empty_fbgc_ll(op) && compare_operators(get_fbgc_object_type(TOP_LL(op)),p.iter->type) ){
+		while( is_not_empty_fbgc_ll(p.op) && compare_operators(get_fbgc_object_type(TOP_LL(p.op)),p.iter->type) ){
 
-			if( (error_code = gm_seek_right(&gm,TOP_LL(op))) != _FBGC_NO_ERROR  ){
+			if( (p.error_code = gm_seek_right(&p)) != _FBGC_NO_ERROR ){
 				goto PARSER_ERROR_LABEL;
 			}
 
 			
-			if(is_pushable_in_main(get_fbgc_object_type(TOP_LL(op)))){
-				//Insert top op to the list  
-				p.iter_prev->next = TOP_LL(op);
+			if(is_pushable_in_main(get_fbgc_object_type(TOP_LL(p.op)))){
+				//Insert top p.op to the list  
+				p.iter_prev->next = TOP_LL(p.op);
 				//Pop top from stack
-				POP_LL(op);
+				POP_LL(p.op);
 				//connect list again
 				p.iter_prev->next->next = p.iter->next; 
 				//make the p.iter_prev proper
@@ -925,33 +935,32 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 
 				_warning("Top object is not pushable to main list\n");
 				
-				if(p.iter->type == SEMICOLON && get_fbgc_object_type(TOP_LL(op)) == LBRACK){
+				if(p.iter->type == SEMICOLON && get_fbgc_object_type(TOP_LL(p.op)) == LBRACK){
 					
 					#ifdef PARSER_DEBUG
 					cprintf(110,"\tBRACK AND SEMICOLON\n");
 					#endif
 					break;
 				}
-				else if(p.iter->type == PIPE && get_fbgc_object_type(TOP_LL(op)) == LEN){
+				else if(p.iter->type == PIPE && get_fbgc_object_type(TOP_LL(p.op)) == LEN){
 						
 					p.iter->next = p.iter_prev->next;
 					//eat the pipe insert the len
-					p.iter_prev->next = TOP_LL(op);
+					p.iter_prev->next = TOP_LL(p.op);
 					//Pop top from stack
-					POP_LL(op);
+					POP_LL(p.op);
 					p.iter_prev = p.iter_prev->next;
 					p.iter_prev->next = p.iter->next;
-					p.iter->type = RPARA;//cheat the following part, change this it is very bad..
 
 					break;
 				}
-				else if(get_fbgc_object_type(TOP_LL(op)) == LPARA){
-					POP_LL(op);
+				else if(get_fbgc_object_type(TOP_LL(p.op)) == LPARA){
+					POP_LL(p.op);
 					break;
 				}
 				else {
 					cprintf(111,"Syntax Error :");
-					cprintf(011,"Op Top :[%s], p.iter:[%s]\n",object_name_array[get_fbgc_object_type(TOP_LL(op))],object_name_array[p.iter->type]);
+					cprintf(011,"Op Top :[%s], p.iter:[%s]\n",object_name_array[get_fbgc_object_type(TOP_LL(p.op))],object_name_array[p.iter->type]);
 					assert(0);
 					//goto END_OF_THE_PARSER;
 				}
@@ -959,7 +968,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			_info_green("Checking the operator stack, inside the while loop\n");
 			_print_main_list();
 			_print_op_stack();
-			_print("[GM]:{%s}\n",_gm2str(gm));
+			_print("[GM]:{%s}\n",_gm2str(p.gm));
 
 		}
 		
@@ -968,14 +977,14 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			tuple kurmak yerine function call atıyor. Bu hatayı düzeltmek için grammarde ne olduğunu bilmek gerekir
 			Bu tip durumların düzeltilmesi gerekli.
 		*/		
-		fbgc_grammar gm_prev = gm;
+		fbgc_grammar gm_prev = p.gm;
 
-		if( (error_code = gm_seek_left(&gm,p.iter)) != _FBGC_NO_ERROR  ){ goto PARSER_ERROR_LABEL; }
+		if( (p.error_code = gm_seek_left(&p)) != _FBGC_NO_ERROR  ){ goto PARSER_ERROR_LABEL; }
 
 		if(p.iter->type == LPARA){
 			_warning("p.iter is LPARA, p.iter_prev %s\n",_ll2str(p.iter_prev));
 
-			// && TOP_LL(op)->type != LPARA we need to put this to ensure tuple entries
+			// && TOP_LL(p.op)->type != LPARA we need to put this to ensure tuple entries
 
 			if((gm_prev == GM_ID || gm_prev == GM_MATRIX) && (p.iter_prev->type == IDENTIFIER || p.iter_prev->type == LOAD_SUBSCRIPT || is_constant_and_token(p.iter_prev,CFUN) )) {
 						
@@ -985,45 +994,47 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 
 				if(p.iter_prev->type == IDENTIFIER && is_id_flag_MEMBER(p.iter_prev)){
 					set_id_flag_MEMBER_METHOD(p.iter_prev);
-					_push_front_fbgc_ll(op,_new_fbgc_ll_opcode_int(FUN_CALL,1));
+					_push_front_fbgc_ll(p.op,_new_fbgc_ll_opcode_int(FUN_CALL,1));
 				}
-				else _push_front_fbgc_ll(op,_new_fbgc_ll_opcode_int(FUN_CALL,0));
+				else _push_front_fbgc_ll(p.op,_new_fbgc_ll_opcode_int(FUN_CALL,0));
 			}
-			_push_front_fbgc_ll(op,p.iter);
+			_push_front_fbgc_ll(p.op,p.iter);
 		}
 		else if(p.iter->type == LBRACK){
 			_warning("p.iter is LBRACK, p.iter_prev %s\n",_ll2str(p.iter_prev));
 			if(p.iter_prev->type == IDENTIFIER || p.iter_prev->type == FUN_CALL){
-				_push_front_fbgc_ll(op,_new_fbgc_ll_base(LOAD_SUBSCRIPT));
+				_push_front_fbgc_ll(p.op,_new_fbgc_ll_base(LOAD_SUBSCRIPT));
 			}
-			_push_front_fbgc_ll(op,p.iter);
+			_push_front_fbgc_ll(p.op,p.iter);
 		}
 		else if(p.iter->type == ROW ){
 			;
 		}
 		else if(p.iter->type == COMMA){
-			if(TOP_LL(op)->type == COMMA){
-				_cast_llbase_as_llopcode_int(TOP_LL(op))->content++;
+			if(TOP_LL(p.op)->type == COMMA){
+				_cast_llbase_as_llopcode_int(TOP_LL(p.op))->content++;
 			}
 			else {
 				//Also insert a lpara object for tuple entries without paranthesis
-				if(get_fbgc_object_type(TOP_LL(op)) != LPARA && get_fbgc_object_type(TOP_LL(op)) != LBRACK){
-					_push_front_fbgc_ll(op,_new_fbgc_ll_base(LPARA));
+				if(get_fbgc_object_type(TOP_LL(p.op)) != LPARA && get_fbgc_object_type(TOP_LL(p.op)) != LBRACK){
+					_push_front_fbgc_ll(p.op,_new_fbgc_ll_base(LPARA));
 				}
 
-				_push_front_fbgc_ll(op, _new_fbgc_ll_opcode_int(COMMA,2));
+				_push_front_fbgc_ll(p.op, _new_fbgc_ll_opcode_int(COMMA,2));
 			}
 		}
 		else if( p.iter->type == RBRACK){
 			
-			if(TOP_LL(op)->type == LBRACK){
-				_pop_front_fbgc_ll(op);
+			if(TOP_LL(p.op)->type == LBRACK){
+				_pop_front_fbgc_ll(p.op);
 			}
 			else assert(0);
-			p.iter_prev = handle_before_brackets(p.iter_prev,op,&gm);
+			handle_before_brackets(&p);
+			if( p.error_code != _FBGC_NO_ERROR  ){ goto PARSER_ERROR_LABEL; }
+
 					
 		}
-		else if(p.iter->type == SEMICOLON && get_fbgc_object_type(TOP_LL(op)) == LBRACK){
+		else if(p.iter->type == SEMICOLON && get_fbgc_object_type(TOP_LL(p.op)) == LBRACK){
 			if(p.iter_prev->type == COMMA) p.iter_prev->type = ROW; 
 			else if(p.iter_prev->type != ROW){
 				struct fbgc_ll_base * ito = _new_fbgc_ll_opcode_int(ROW,1);
@@ -1035,30 +1046,29 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 		else if(p.iter->type == RPARA || p.iter->type == NEWLINE || p.iter->type == SEMICOLON){
 
 			_warning("%s out of while loop\n",_ll2str(p.iter));
-			_warning("Grammar top %s\n",_gm2str(gm));
+			_warning("Grammar top %s\n",_gm2str(p.gm));
 
 
-			if(p.iter->type == RPARA && TOP_LL(op)->type == LPARA) _pop_front_fbgc_ll(op);
-			else if(p.iter->type == NEWLINE && TOP_LL(op)->type == LPARA) _pop_front_fbgc_ll(op);
+			if(p.iter->type == RPARA && TOP_LL(p.op)->type == LPARA) _pop_front_fbgc_ll(p.op);
+			else if(p.iter->type == NEWLINE && TOP_LL(p.op)->type == LPARA) _pop_front_fbgc_ll(p.op);
 
-			p.iter_prev = handle_before_paranthesis(p.iter_prev,op,&gm);
-			if(p.iter_prev == NULL){
-				error_code = _FBGC_SYNTAX_ERROR; goto PARSER_ERROR_LABEL;
-			}	
+			handle_before_paranthesis(&p);
+			if( p.error_code != _FBGC_NO_ERROR  ){ goto PARSER_ERROR_LABEL; }
 
-			if(p.iter->type == NEWLINE || p.iter->type == SEMICOLON) gm = GM_NEWLINE;
+
+			if(p.iter->type == NEWLINE || p.iter->type == SEMICOLON) p.gm = GM_NEWLINE;
 
 			if(p.iter_prev->type == BUILD_TUPLE){
-				if(p.iter->type == NEWLINE && !is_empty_fbgc_ll(op)){
+				if(p.iter->type == NEWLINE && !is_empty_fbgc_ll(p.op)){
 					//Now fool the loop and check newline state again,
 					p.iter_prev->next = p.iter;
 					p.iter = p.iter_prev;
-					gm = GM_EXPRESSION;
+					p.gm = GM_EXPRESSION;
 				}
 			}
 		}
 		else {
-			_push_front_fbgc_ll(op,p.iter);
+			_push_front_fbgc_ll(p.op,p.iter);
 		}
 
 
@@ -1076,37 +1086,37 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 	case CARET_ASSIGN:
 	case PERCENT_ASSIGN:{
 
-		if( (error_code = gm_seek_left(&gm,p.iter)) != _FBGC_NO_ERROR  ){ goto PARSER_ERROR_LABEL; }
+		if( (p.error_code = gm_seek_left(&p)) != _FBGC_NO_ERROR  ){ goto PARSER_ERROR_LABEL; }
 		
 
-		if(TOP_LL(op)->type != IDENTIFIER && TOP_LL(op)->type != LOAD_SUBSCRIPT){
-			error_code = _FBGC_SYNTAX_ERROR;
+		if(TOP_LL(p.op)->type != IDENTIFIER && TOP_LL(p.op)->type != LOAD_SUBSCRIPT){
+			p.error_code = _FBGC_SYNTAX_ERROR;
 			cprintf(100,"Assignment operator requires identifier before itself\n");
 			goto PARSER_ERROR_LABEL;
 		}
 		
 		//XXX remove this push itself thing
-		//fbgc_assert(TOP_LL(op)->type == IDENTIFIER ,"Assignment to a non-identifier object, object type:%s\n",object_name_array[TOP_LL(op)->type]);
-		//cprintf(111,"top->next = %s\n",object_name_array[TOP_LL(op)->next->type]);
-		if(TOP_LL(op)->next->type == ASSIGN || TOP_LL(op)->next->type == LPARA || TOP_LL(op)->next->type == COMMA){
+		//fbgc_assert(TOP_LL(p.op)->type == IDENTIFIER ,"Assignment to a non-identifier object, object type:%s\n",object_name_array[TOP_LL(p.op)->type]);
+		//cprintf(111,"top->next = %s\n",object_name_array[TOP_LL(p.op)->next->type]);
+		if(TOP_LL(p.op)->next->type == ASSIGN || TOP_LL(p.op)->next->type == LPARA || TOP_LL(p.op)->next->type == COMMA){
 			
 			_info_green("Opening push itself flag\n");
 
-			if(TOP_LL(op)->next->next == NULL || TOP_LL(op)->next->next->type != FOR)
-				set_id_flag_PUSH_ITSELF(TOP_LL(op));
+			if(TOP_LL(p.op)->next->next == NULL || TOP_LL(p.op)->next->next->type != FOR)
+				set_id_flag_PUSH_ITSELF(TOP_LL(p.op));
 
 			//this creates error when we use "for(i=smth)... end", it pushes p.iter object
 		}
 
 		p.iter_prev->next = p.iter->next;
 
-		if(TOP_LL(op)->type == IDENTIFIER){
-			_info("Stack top is [%x]ID<%d>\n",get_ll_identifier_flag(TOP_LL(op)),get_ll_identifier_loc(TOP_LL(op)));
-			TOP_LL(op)->type = p.iter->type;				
+		if(TOP_LL(p.op)->type == IDENTIFIER){
+			_info("Stack top is [%x]ID<%d>\n",get_ll_identifier_flag(TOP_LL(p.op)),get_ll_identifier_loc(TOP_LL(p.op)));
+			TOP_LL(p.op)->type = p.iter->type;				
 		}
-		else if(TOP_LL(op)->type == LOAD_SUBSCRIPT){
+		else if(TOP_LL(p.op)->type == LOAD_SUBSCRIPT){
 			_info("Stack top is load subscript, converting to assign\n");
-			TOP_LL(op)->type = ASSIGN_SUBSCRIPT;
+			TOP_LL(p.op)->type = ASSIGN_SUBSCRIPT;
 		}
 		
 		break;
@@ -1122,21 +1132,21 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 	
 	_print_main_list();
 	_print_op_stack();
-	_cprint(101,"[GM]:{%s}\n\n",_gm2str(gm));
+	_cprint(101,"[GM]:{%s}\n\n",_gm2str(p.gm));
 
 	}
 	//make the linked list connection proper
 	p.head->tail->next = p.iter_prev;
 
-	if(!is_empty_fbgc_ll(op)){
+	if(!is_empty_fbgc_ll(p.op)){
 		//Check the stack and give proper error
-		if(is_fbgc_FUNCTIONABLE(get_fbgc_object_type(TOP_LL(op)))){
-			cprintf(100,"Missing <END> : <%s>\n",object_type_as_str(TOP_LL(op)));
+		if(is_fbgc_FUNCTIONABLE(get_fbgc_object_type(TOP_LL(p.op)))){
+			cprintf(100,"Missing <END> : <%s>\n",object_type_as_str(TOP_LL(p.op)));
 			return 0;
 		}
 
 		cprintf(100,"Syntax error in line %d, Non-empty operator stack!\n",line_no);
-		_print_fbgc_ll(op,"O");
+		_print_fbgc_ll(p.op,"O");
 		return 0;
 	}
 
@@ -1150,7 +1160,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 
 
 	PARSER_ERROR_LABEL:
-	fbgc_error(error_code,line_no);
+	fbgc_error(p.error_code,line_no);
 		cprintf(100,"%s\n",line);
 	return 0;
 

@@ -5,11 +5,14 @@
 extern "C" {
 #endif
 
+
 //this is not an object no need to derive from base object 
 typedef int8_t fbgc_grammar;
 
-uint8_t gm_seek_left(fbgc_grammar * gm, struct fbgc_ll_base * obj);
-uint8_t gm_seek_right(fbgc_grammar * gm, struct fbgc_ll_base * obj);
+
+#include "parser.h"
+uint8_t gm_seek_left(struct parser_packet * p);
+uint8_t gm_seek_right(struct parser_packet * p);
 
 
 #ifdef  __cplusplus

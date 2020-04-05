@@ -1,0 +1,9 @@
+<map id="get_set_fbgc_complex_object_member" name="get_set_fbgc_complex_object_member">
+<area shape="rect" id="node2" href="$cmodule__object_8c.html#a2772285a9de527a525825b3575453288" title="new_fbgc_cfun_object" alt="" coords="433,5,585,32"/>
+<area shape="rect" id="node5" href="$complex__object_8c.html#a4d5a67859f36b47644ca19c5eacb7b20" title="conjugate_fbgc_complex\l_object" alt="" coords="207,51,373,93"/>
+<area shape="rect" id="node7" href="$double__object_8c.html#a08dd93b8f6c56cf7cb6210b63c29dbaf" title="new_fbgc_double_object" alt="" coords="207,117,373,144"/>
+<area shape="rect" id="node8" href="$fbgc__object_8c.html#a3bb27f7967c007951389378fc9f358e3" title="convert_fbgc_object\l_to_double" alt="" coords="645,139,784,181"/>
+<area shape="rect" id="node3" href="$memory_8c.html#a41dd65ee24d51160659bf94bed90e998" title="fbgc_malloc" alt="" coords="669,77,761,104"/>
+<area shape="rect" id="node4" href="$error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="832,117,891,144"/>
+<area shape="rect" id="node6" href="$complex__object_8c.html#aaa211012c5583b4c23ebcc4824fbc504" title="new_fbgc_complex_object" alt="" coords="421,61,597,88"/>
+</map>

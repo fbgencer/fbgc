@@ -15,7 +15,7 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
 
 	begin = clock();
 
-	FILE *input_file = fopen("ex.fbgc","r");
+	FILE *input_file = fopen(file_name,"r");
 	if(input_file == NULL){
 		cprintf(111,"file error\n");
 	}
@@ -37,7 +37,7 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
 	 
 	begin = clock();
 	if(par) 
-		par = interpreter(&main_field); 
+	//	par = interpreter(&main_field); 
 	end = clock();
 	interpreter_time = (double)(end - begin) / CLOCKS_PER_SEC; 
 
@@ -176,6 +176,7 @@ struct fbgc_object * fbgc_load_file(char * file_name,const char * fun_name, uint
 }
 
 
+#ifndef MODULE_TEST
 
 int main(int argc, char **argv){
 
@@ -185,15 +186,33 @@ int main(int argc, char **argv){
 
 //******************************************************************
 	initialize_fbgc_memory_block();
-	initialize_fbgc_symbol_table();
-	struct fbgc_object * main_field = new_fbgc_field_object();
-	current_field = main_field;
+	int len = 5;
+	struct fbgc_object * a = new_fbgc_array_object(len,sizeof(int));
+
+	for(int i = 0; i<len; ++i){
+		int c = i*5;
+		a = push_back_fbgc_array_object(a,&c);
+	}
+
+	for(int i = 0; i<cast_fbgc_object_as_array(a)->size; ++i){
+		int * p = cast_fbgc_object_as_array(a)->content;
+		int * c = (int*)get_address_in_fbgc_array_object(a,i);
+		printf("Value[%d]:%d,%d\n",i,p[i],*c);
+	}
+
+	printf("%p:pointer\n",cast_fbgc_object_as_array(a)->content);
+
+	print_fbgc_memory_block();
+
+	//initialize_fbgc_symbol_table();
+	//struct fbgc_object * main_field = new_fbgc_field_object();
+	//current_field = main_field;
 	 //load_module_in_field_object(main_field,&fbgc_math_module);
 
 	//load_module_in_field_object(main_field,&fbgc_file_module);
 	
 	//regex_lexer(&main_field,"1+2+3");
-	compile_file(main_field, "ex.fbgc");
+	//compile_file(main_field, "ex.fbgc");
 	/*
 	if(argc > 1)
 	{   
@@ -216,5 +235,5 @@ int main(int argc, char **argv){
 	return 0;
 }
 
-
+#endif
 

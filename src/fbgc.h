@@ -61,6 +61,8 @@ extern const struct fbgc_object * const __fbgc_nil;
 struct fbgc_object * fbgc_load_module(const char * module_name,const char * fun_name, uint8_t load_key);
 struct fbgc_object * fbgc_load_file(char * file_name,const char * fun_name, uint8_t load_key);
 
+struct parser_packet;
+
 #ifdef  __cplusplus
 }
 #endif

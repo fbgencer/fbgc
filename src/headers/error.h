@@ -6,14 +6,6 @@ extern "C" {
 #endif
 
 
-#define _FBGC_NO_ERROR 0
-#define _FBGC_LEXER_ERROR 1
-#define _FBGC_SYNTAX_ERROR 2
-#define _FBGC_UNDEFINED_IDENTIFIER_ERROR 3
-#define _FBGC_DUMMY2_ERROR 4
-
-
-
 #define ANSI_COLOR_BLACK    "\033[1;30m" //000
 #define ANSI_COLOR_RED      "\033[1;31m" //100
 #define ANSI_COLOR_GREEN    "\033[1;32m" //010
@@ -27,10 +19,8 @@ extern "C" {
 #define ANSI_COLOR_RED_UNDERLINE    "\e[4;31m"
 
 #define LOG_LEVEL_ERROR     0
-#define LOG_LEVEL_WARNING   1
-#define LOG_LEVEL_DEBUG     2
-#define LOG_LEVEL_INFO      3
-#define LOG_LEVEL_VERBOSE   4
+#define LOG_LEVEL_DEBUG     1
+#define LOG_LEVEL_VERBOSE   2
 
 #ifdef LOG_LEVEL 
     #define LOG_LEVEL LOG_LEVEL_ERROR
@@ -43,46 +33,42 @@ extern "C" {
 #define FBGC_LOGFORMATDETAILED(color,format) color "%s function:%s at line %u: " format "\n"ANSI_COLOR_RESET ,__FILE__,__FUNCTION__,  __LINE__
 
 
-#ifdef LOG_LEVEL >= LOG_LEVEL_ERROR
-	#define FBGC_LOGE(format, ...) printf(FBGC_LOGFORMATSIMPLE(ANSI_COLOR_RED,format),##__VA_ARGS__)
-	#define _FBGC_LOGE(format, ...) printf(FBGC_LOGFORMATDETAILED(ANSI_COLOR_RED,format),##__VA_ARGS__)
+#if LOG_LEVEL >= LOG_LEVEL_ERROR
+	#define LOGE(format, ...) printf(FBGC_LOGFORMATSIMPLE(ANSI_COLOR_RED,format),##__VA_ARGS__)
+	#define _LOGE(format, ...) printf(FBGC_LOGFORMATDETAILED(ANSI_COLOR_RED,format),##__VA_ARGS__)
 #else
-	#define FBGC_LOGE(...)
-	#define _FBGC_LOGE(...)
+	#define LOGE(...)
+	#define _LOGE(...)
 #endif
 
-#ifdef LOG_LEVEL >= LOG_LEVEL_WARNING
-	#define FBGC_LOGW(format, ...) printf(FBGC_LOGFORMATSIMPLE(ANSI_COLOR_YELLOW,format),##__VA_ARGS__)
-	#define _FBGC_LOGW(format, ...) printf(FBGC_LOGFORMATDETAILED(ANSI_COLOR_YELLOW,format),##__VA_ARGS__)
+#if LOG_LEVEL >= LOG_LEVEL_DEBUG
+	#define LOGD(format, ...) printf(FBGC_LOGFORMATSIMPLE(ANSI_COLOR_YELLOW,format),##__VA_ARGS__)
+	#define _LOGD(format, ...) printf(FBGC_LOGFORMATDETAILED(ANSI_COLOR_YELLOW,format),##__VA_ARGS__)
 #else
-	#define FBGC_LOGW(...)
-	#define _FBGC_LOGW(...)
+	#define LOGD(...)
+	#define _LOGD(...)
 #endif
 
-#ifdef LOG_LEVEL >= LOG_LEVEL_DEBUG
-	#define FBGC_LOGD(format, ...) printf(FBGC_LOGFORMATSIMPLE(ANSI_COLOR_CYAN,format),##__VA_ARGS__)
-	#define _FBGC_LOGD(format, ...) printf(FBGC_LOGFORMATDETAILED(ANSI_COLOR_CYAN,format),##__VA_ARGS__)
+#if LOG_LEVEL >= LOG_LEVEL_VERBOSE
+	#define LOGV(format, ...) printf(FBGC_LOGFORMATSIMPLE(ANSI_COLOR_MAGENTA,format),##__VA_ARGS__)
+	#define _LOGV(format, ...) printf(FBGC_LOGFORMATDETAILED(ANSI_COLOR_MAGENTA,format),##__VA_ARGS__)
 #else
-	#define FBGC_LOGD(...)
-	#define _FBGC_LOGD(...)
-#endif
-
-#ifdef LOG_LEVEL >= LOG_LEVEL_INFO
-	#define FBGC_LOGI(format, ...) printf(FBGC_LOGFORMATSIMPLE(ANSI_COLOR_WHITE,format),##__VA_ARGS__)
-	#define _FBGC_LOGI(format, ...) printf(FBGC_LOGFORMATDETAILED(ANSI_COLOR_WHITE,format),##__VA_ARGS__)
-#else
-	#define FBGC_LOGI(...)
-	#define _FBGC_LOGI(...)
-#endif
-
-#ifdef LOG_LEVEL >= LOG_LEVEL_VERBOSE
-	#define FBGC_LOGV(format, ...) printf(FBGC_LOGFORMATSIMPLE(ANSI_COLOR_MAGENTA,format),##__VA_ARGS__)
-	#define _FBGC_LOGV(format, ...) printf(FBGC_LOGFORMATDETAILED(ANSI_COLOR_MAGENTA,format),##__VA_ARGS__)
-#else
-	#define FBGC_LOGV(...)
-	#define _FBGC_LOGV(...)
+	#define LOGV(...)
+	#define _LOGV(...)
 #endif	
 
+
+#define FBGC_LOGE(format,...) LOGE(format,##__VA_ARGS__)
+#define _FBGC_LOGE(format,...) _LOGE(format,##__VA_ARGS__)
+
+#define FBGC_LOGD(f,format,...) f ## _ ## LOGD(format,##__VA_ARGS__)
+#define _FBGC_LOGD(f,format,...) _ ## f ## _ ## LOGD(format,##__VA_ARGS__)
+
+#define FBGC_LOGV(f,format,...) f ## _  ## 	LOGV(format,##__VA_ARGS__)
+#define _FBGC_LOGV(f,format,...) _ ## f ## _ ## LOGV(format,##__VA_ARGS__)
+
+
+ 
 
 
 //#ifdef INFO_PRINT_AVAILABLE
@@ -98,7 +84,17 @@ extern "C" {
 #define _ll2str(obj)(object_name_array[obj->type])
 #define _gm2str(gm)(gm_name_array[gm])
 
-//#endif
+
+
+
+
+#define _FBGC_NO_ERROR 0
+#define _FBGC_LEXER_ERROR 1
+#define _FBGC_SYNTAX_ERROR 2
+#define _FBGC_UNDEFINED_IDENTIFIER_ERROR 3
+#define _FBGC_DUMMY2_ERROR 4
+
+
 
 #if defined CLOSE_PRINTF
 	#define cprintf(...)
