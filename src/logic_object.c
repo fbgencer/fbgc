@@ -94,3 +94,9 @@ switch(op)
 
     return new_fbgc_logic_object(c);
 }
+
+
+
+struct fbgc_object * fbgc_logic_object_to_str(struct fbgc_object * obj){
+    return (cast_fbgc_object_as_logic(obj)->content) ? new_fbgc_str_object("true") : new_fbgc_str_object("false");
+}

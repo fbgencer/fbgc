@@ -318,7 +318,7 @@ for(int i = 0; i < m1->row; i++)
 	char ism2_complex = cast_fbgc_object_as_matrix(m2)->sub_type == COMPLEX;
 	char ism_complex = sub_type == COMPLEX;
 
-	struct fbgc_matrix_object * tm2 = (struct fbgc_matrix_object *)transpose_fbgc_matrix_object(m2);
+	struct fbgc_matrix_object * tm2 = (struct fbgc_matrix_object *)transpose_fbgc_matrix_object(mat2);
 
 	double * dm1 = content_fbgc_matrix_object(m1);
 	double * dtm2 = content_fbgc_matrix_object(tm2);

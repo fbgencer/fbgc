@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['objtp2str',['objtp2str',['../fbgc__object_8c.html#ab6746edc57eb290c36fbf1ffeecf792c',1,'objtp2str(struct fbgc_object *obj):&#160;fbgc_object.c'],['../fbgc__object_8h.html#ad74900782e65c6b19d07d19013c2c616',1,'objtp2str(struct fbgc_object *):&#160;fbgc_object.c']]],
   ['one_5farg_5fmath',['one_arg_math',['../fbgc__math_8c.html#aa6e10b1ad6ff2f812aec975bf195c447',1,'fbgc_math.c']]],
   ['operator_5ffbgc_5fcomplex_5fobject',['operator_fbgc_complex_object',['../complex__object_8c.html#a359764fc727e64a334631c7eb23b45ba',1,'operator_fbgc_complex_object(struct fbgc_object *a, struct fbgc_object *b, fbgc_token op):&#160;complex_object.c'],['../complex__object_8h.html#a359764fc727e64a334631c7eb23b45ba',1,'operator_fbgc_complex_object(struct fbgc_object *a, struct fbgc_object *b, fbgc_token op):&#160;complex_object.c']]],
   ['operator_5ffbgc_5fdouble_5fobject',['operator_fbgc_double_object',['../double__object_8c.html#aacdf91fc9bcc30dd3fc4213e6cc7f8aa',1,'operator_fbgc_double_object(struct fbgc_object *a, struct fbgc_object *b, fbgc_token op):&#160;double_object.c'],['../double__object_8h.html#aacdf91fc9bcc30dd3fc4213e6cc7f8aa',1,'operator_fbgc_double_object(struct fbgc_object *a, struct fbgc_object *b, fbgc_token op):&#160;double_object.c']]],

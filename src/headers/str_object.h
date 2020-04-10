@@ -8,7 +8,7 @@ extern "C" {
 struct fbgc_str_object{
     struct fbgc_object base;
     size_t len;
-    char content;
+    char content[0];
 };
 
 
@@ -16,11 +16,12 @@ struct fbgc_str_object{
 #define sizeof_fbgc_str_object(x) ( sizeof(struct fbgc_str_object)+cast_fbgc_object_as_str(x)->len)
 
 #define length_fbgc_str_object(x)(cast_fbgc_object_as_str(x)->len)
-#define content_fbgc_str_object(x)((char*)(&cast_fbgc_object_as_str(x)->content))
+#define content_fbgc_str_object(x)(cast_fbgc_object_as_str(x)->content)
 
 struct fbgc_object * new_fbgc_str_object(const char *str);
 struct fbgc_object * new_fbgc_str_object_from_substr(const char *str1,const char *str2);
-struct fbgc_object * new_fbgc_str_object_empty(int len);
+struct fbgc_object * new_fbgc_str_object_empty(size_t len);
+struct fbgc_object * new_fbgc_str_object_from_object(struct fbgc_object * obj);
 
 
 struct fbgc_object * operator_fbgc_str_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op);
@@ -40,12 +41,12 @@ uint8_t my_strcmp(const char *p1, const char *p2);
 
 struct fbgc_cstr_object{
     struct fbgc_object base;
-    char content; 
+    char content[0]; 
 };
 
 #define cast_fbgc_object_as_cstr(x)(((struct fbgc_cstr_object*) x))
-#define length_fbgc_cstr_object(x)(strlen(&cast_fbgc_object_as_cstr(x)->content))
-#define content_fbgc_cstr_object(x)(&cast_fbgc_object_as_cstr(x)->content)
+#define length_fbgc_cstr_object(x)(strlen(cast_fbgc_object_as_cstr(x)->content))
+#define content_fbgc_cstr_object(x)(cast_fbgc_object_as_cstr(x)->content)
 #define sizeof_fbgc_cstr_object(x)(sizeof(struct fbgc_cstr_object)+length_fbgc_cstr_object(x))
 
 struct fbgc_object * new_fbgc_cstr_object(const char *str);

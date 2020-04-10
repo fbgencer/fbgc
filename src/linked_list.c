@@ -1,6 +1,10 @@
 #include "fbgc.h"
 
 
+inline const char * lltp2str(struct fbgc_ll_base * ll){
+    return object_name_array[ll->type];
+}
+
 struct fbgc_ll_base * _new_fbgc_ll_base(fbgc_token token){
     struct fbgc_ll_base *o =  (struct fbgc_ll_base*) fbgc_malloc(sizeof(struct fbgc_ll_base));
     o->type = token;
@@ -20,6 +24,14 @@ struct fbgc_ll_base * _new_fbgc_ll_constant(struct fbgc_object * obj){
 struct fbgc_ll_base * _new_fbgc_ll_jumper(fbgc_token tok){
     struct fbgc_ll_jumper * o =  (struct fbgc_ll_jumper*) fbgc_malloc(sizeof(struct fbgc_ll_jumper));
     o->base.type = tok;
+    o->content = NULL;
+    return (struct fbgc_ll_base *) o;
+}
+
+struct fbgc_ll_base * _new_fbgc_ll_jumper_with_content(fbgc_token tok,struct fbgc_ll_base * ct ){
+    struct fbgc_ll_jumper * o =  (struct fbgc_ll_jumper*) fbgc_malloc(sizeof(struct fbgc_ll_jumper));
+    o->base.type = tok;
+    o->content = ct;
     return (struct fbgc_ll_base *) o;
 }
 
@@ -83,16 +95,32 @@ void _push_back_fbgc_ll(struct fbgc_ll_base * head,struct fbgc_ll_base * obj){
     #undef head_ll
 }
 
-void _insert_next_fbgc_ll(struct fbgc_ll_base * prev,struct fbgc_ll_base * obj){
-    //If you are sure about that obj is inside head list use this function
-    //but it won't check anything, it could cause memory problems!
+struct fbgc_ll_base  * _insert_next_fbgc_ll(struct fbgc_ll_base * prev,struct fbgc_ll_base * obj){
+    //If you are sure about that obj is inside the ist use this function
     obj->next = prev->next;
     prev->next = obj;
+    return obj; //Now return current prev object if iterator wants to continue from the list
 }
+
+struct fbgc_ll_base  * _insert_fbgc_ll(struct fbgc_ll_base * prev,struct fbgc_ll_base * current,struct fbgc_ll_base * obj){
+    //Notice that if prev->next is current we lost this object
+    obj->next = current->next;
+    prev->next = obj;
+    return obj; //Now return current prev object if iterator wants to continue from the list
+}
+
 
 void _pop_front_fbgc_ll(struct fbgc_ll_base *head){
     //cast head as ll so we can change its content as our list size
     _cast_llbase_as_ll(head)->base.next = _cast_llbase_as_ll(head)->base.next->next;
+}
+
+
+struct fbgc_ll_base * _top_and_pop_front_fbgc_ll(struct fbgc_ll_base * head){
+    //cast head as ll so we can change its content as our list size
+    struct fbgc_ll_base * top = head->next;
+    head->next = head->next->next;
+    return top;
 }
 
 
@@ -121,17 +149,18 @@ void _print_fbgc_ll_base(struct fbgc_ll_base * lb){
 }
 
 
-void _print_fbgc_ll(struct fbgc_ll_base * head,const char *s1){
+uint8_t _print_fbgc_ll(struct fbgc_ll_base * head,const char *s1){
 
     assert(head != NULL);
     struct fbgc_ll * head_ll = _cast_llbase_as_ll(head);
-    _print_fbgc_ll_code(head_ll->base.next,head_ll->tail);
-    cprintf(101,"[%s]->",s1);
+     cprintf(101,"[%s]->",s1);
+    return _print_fbgc_ll_code(head_ll->base.next,head_ll->tail);
+   
 }
 
 
 
-void _print_fbgc_ll_code(struct fbgc_ll_base * head_next,struct fbgc_ll_base * tail){
+uint8_t _print_fbgc_ll_code(struct fbgc_ll_base * head_next,struct fbgc_ll_base * tail){
 
     struct fbgc_ll_base * iter = head_next;
     int i = 0;
@@ -164,6 +193,11 @@ void _print_fbgc_ll_code(struct fbgc_ll_base * head_next,struct fbgc_ll_base * t
               cprintf(011,"{TUPLE}:{");
               print_fbgc_tuple_object(obj);
               cprintf(011,"}");
+            }
+            else if(obj->type == FUN){
+                cprintf(011,"{FUN}:{");
+                print_fbgc_fun_object(obj);
+                 cprintf(011,"}");   
             }
             else cprintf(011,"{%s}",object_name_array[obj->type]);  
         }
@@ -220,11 +254,6 @@ void _print_fbgc_ll_code(struct fbgc_ll_base * head_next,struct fbgc_ll_base * t
           if(_cast_llbase_as_lljumper(iter)->content != NULL) _print_fbgc_ll_base(_cast_llbase_as_lljumper(iter)->content->next);
           cprintf(011,"}");
         }                  
-        else if(iter->type == FUN){
-            cprintf(011,"FUN:[");
-            _print_fbgc_ll_base(iter);
-            cprintf(011,"]");
-        }
 
         else if(iter->type == BUILD_TUPLE){
             cprintf(011,"{BUILD_TUPLE(%d)}",_cast_llbase_as_llopcode_int(iter)->content);
@@ -245,4 +274,6 @@ void _print_fbgc_ll_code(struct fbgc_ll_base * head_next,struct fbgc_ll_base * t
             iter = iter->next;
     }
     cprintf(101,"<->[T]\n");
+
+    return 1;
 }

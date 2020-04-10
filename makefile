@@ -8,9 +8,9 @@ TEST_SRC = $(shell find src/*.c cmodules/*.c module_test/*.c )
 TEST_OBJ = ${TEST_SRC:.c=.o}
 
 #put -g in order to see good assembly output
-
+#-Wno-error=incompatible-pointer-types -Wno-error=discarded-qualifiers
 CC=gcc
-CFLAGS= -c -w -Wincompatible-pointer-types
+CFLAGS= -c -Werror -Wno-error=incompatible-pointer-types
 LDFLAGS += -lm
 
 #GSL_CFLAG = -I /home/fbgencer/gsl/include
@@ -35,7 +35,7 @@ CFLAGS += -DLOG_DOUBLE_OBJECT_
 CFLAGS += -DLOG_FBGC_OBJECT_
 CFLAGS += -DLOG_FIELD_OBJECT_
 CFLAGS += -DLOG_FUN_OBJECT_
-CFLAGS += -DLOG_GRAMMAR_
+CFLAGS += -DLOG_GRAMMAR
 CFLAGS += -DLOG_INT_OBJECT_
 CFLAGS += -DLOG_INTERPRETER_
 CFLAGS += -DLOG_LINKEDLIST_
@@ -43,7 +43,7 @@ CFLAGS += -DLOG_LOGIC_OBJECT_
 CFLAGS += -DLOG_MATRIX_OBJECT_
 CFLAGS += -DLOG_MEMORY_
 CFLAGS += -DLOG_OPERATOR_
-CFLAGS += -DLOG_PARSER_
+CFLAGS += -DLOG_PARSER
 CFLAGS += -DLOG_RANGE_OBJECT_
 CFLAGS += -DLOG_RELEXER_
 CFLAGS += -DLOG_STR_OBJECT_
@@ -53,7 +53,7 @@ CFLAGS += -DLOG_TUPLE_OBJECT_
 
 
 #In order run "make test" open this flag
-CFLAGS += -DMODULE_TEST
+#CFLAGS += -DMODULE_TEST
 
 
 #LDFLAGS += -lm 

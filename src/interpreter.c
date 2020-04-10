@@ -1,20 +1,6 @@
 #include "fbgc.h"
 
 
-#ifndef INTERPRETER_DEBUG
-#define _info(s,...)
-#define _info_green(s,...)
-#define _warning(s,...)
-#define _print(s,...)
-#define _cprint(c,s,...)
-#define _debug(s,...)
-#define _print_object(s,obj)
-#define _println_object(s,obj)
-#define _obj2str(obj)
-#define _gm2str(gm)
-#define print_field_object_locals(x)
-#endif
-
 
 struct iter_function_ptr_struct{
 	struct fbgc_object * (* function)(struct fbgc_object *, int,struct fbgc_object *);
@@ -29,7 +15,7 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 	head->tail->next->next = NULL; 
 	
 	struct fbgc_object * stack = new_fbgc_tuple_object(PROGRAM_STACK_SIZE);
-	struct fbgc_object ** sp = tuple_object_content(stack);
+	struct fbgc_object ** sp = content_fbgc_tuple_object(stack);
 	if(run_code(head->base.next, sp,0, -1) != NULL){
 		return 1;	
 	}
@@ -122,7 +108,7 @@ struct fbgc_object * run_code(struct fbgc_ll_base * pc, struct fbgc_object ** sp
 					//Check undefined variable
 					if(tmp->content == NULL){
 						struct fbgc_object * name = tmp->name;
-						printf("Undefined variable '%s'\n",&cast_fbgc_object_as_cstr(name)->content);
+						printf("Undefined variable '%s'\n",content_fbgc_cstr_object(name));
 						//fbgc_error(_FBGC_UNDEFINED_IDENTIFIER_ERROR,-1);
 						return 0;
 					}
@@ -665,7 +651,7 @@ struct fbgc_object * run_code(struct fbgc_ll_base * pc, struct fbgc_object ** sp
 				//traverse reverse!
 
 				//cprintf(111,"sctr %d, ctr %d\n",sctr,ctr);
-				/*cast_fbgc_object_as_tuple(stack)->size = sctr;//sp - tuple_object_content(stack);
+				/*cast_fbgc_object_as_tuple(stack)->size = sctr;//sp - content_fbgc_tuple_object(stack);
 				cprintf(111,"\n==============Stack==========================\n");
 				print_fbgc_object(stack);*/				
 				
@@ -813,7 +799,7 @@ struct fbgc_object * run_code(struct fbgc_ll_base * pc, struct fbgc_object ** sp
 		}
 
 
-		//cast_fbgc_object_as_tuple(stack)->size = sctr; //sp - tuple_object_content(stack);
+		//cast_fbgc_object_as_tuple(stack)->size = sctr; //sp - content_fbgc_tuple_object(stack);
 			
 		_info("|After Stack|:{");
 		for(size_t i = 0; i<sctr; i++){

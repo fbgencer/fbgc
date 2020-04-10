@@ -20,7 +20,7 @@ struct fbgc_object * new_fbgc_field_object(void);
 void load_module_in_field_object(struct fbgc_object * field_obj,const struct fbgc_cmodule * module);
 struct fbgc_ll_base * add_variable_in_field_object(struct fbgc_object * field_obj,const char * var_name, struct fbgc_object * rhs);
 void free_fbgc_field_object(struct fbgc_object * field_obj);
-void print_field_object_locals(struct fbgc_object * field_obj);
+uint8_t print_field_object_locals(struct fbgc_object * field_obj);
 
 #ifdef  __cplusplus
 }

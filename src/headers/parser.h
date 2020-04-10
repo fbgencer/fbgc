@@ -20,11 +20,18 @@ struct parser_packet{
 	fbgc_grammar gm;					//!< State of grammar
 };
 
+/*! @fn uint8_t parser(struct fbgc_object ** field,FILE * fp)
+	
+	@param field : The corresponding field object to parse
+	@param fp : c file pointer
+
+*/
 
 uint8_t parser(struct fbgc_object ** field,FILE * fp);
 
-
-
+/*! \cond DOCUMENT_EVERYTHING
+	Lets not document this part, just log definitions nothing important 
+*/
 #ifdef LOG_PARSER
 #define PARSER_LOGV(format,...) LOGV(format,##__VA_ARGS__)
 #define PARSER_LOGD(format,...) LOGD(format,##__VA_ARGS__)

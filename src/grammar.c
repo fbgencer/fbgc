@@ -188,21 +188,6 @@ uint8_t right_matrix[89][15] = {
 //MATRIX_END
 
 
-//Close everything if we are not gonna debug
-#ifndef GRAMMAR_DEBUG
-#define _info(s,...)
-#define _info_green(s,...)
-#define _warning(s,...)
-#define _print(s,...)
-#define _cprint(c,s,...)
-#define _debug(s,...)
-#define _print_object(s,obj)
-#define _println_object(s,obj)
-#define _obj2str(obj)
-#define _gm2str(gm) 
-#endif
-
-
 uint8_t gm_seek_left(struct parser_packet * p){
 
 	#define gm_left  (p->gm)
@@ -211,8 +196,7 @@ uint8_t gm_seek_left(struct parser_packet * p){
 	
 
 
-	_warning("Grammar LEFT:[%s],Obj:[%s]\n",_gm2str(gm_left),_obj2str(obj));
-
+	FBGC_LOGD(GRAMMAR,"Grammar LEFT:[%s],Obj:[%s]\n",_gm2str(gm_left),_obj2str(obj));
 
 	int8_t new_left = left_matrix[get_fbgc_object_type(obj)][gm_left-1];
 	
@@ -220,7 +204,7 @@ uint8_t gm_seek_left(struct parser_packet * p){
 
 		new_left = -new_left;	
 
-		_print("Grammar gm_left(%s) has a special function definition",_gm2str(gm_left));
+		FBGC_LOGV(GRAMMAR,"Grammar gm_left(%s) has a special function definition",_gm2str(gm_left));
 		
 		switch(get_fbgc_object_type(obj)){
 			case PLUS:
@@ -247,10 +231,12 @@ uint8_t gm_seek_left(struct parser_packet * p){
 	}
 	
 	if(new_left == GM_ERROR){
-		_cprint(100,"Unexpected grammar! LEFT:(%s), OBJ:(%s)\n",_gm2str(gm_left),_obj2str(obj));
+		_FBGC_LOGE("Unexpected grammar! LEFT:(%s), OBJ:(%s)\n",_gm2str(gm_left),_obj2str(obj));
 	}
 
 	gm_left = new_left;
+
+	p->error_code = (new_left == GM_ERROR) ? _FBGC_SYNTAX_ERROR : _FBGC_NO_ERROR;
 
 	return (new_left == GM_ERROR) ? _FBGC_SYNTAX_ERROR : _FBGC_NO_ERROR;
 
@@ -263,12 +249,12 @@ uint8_t gm_seek_right(struct parser_packet * p){
 	#define gm_right  (p->gm)
 	#define obj 	(TOP_LL(p->op))
 	
-	_warning("Grammar Obj:[%s],RIGHT:[%s]\n",_obj2str(obj),_gm2str(gm_right));
+	FBGC_LOGD(GRAMMAR,"Grammar Obj:[%s],RIGHT:[%s]\n",_obj2str(obj),_gm2str(gm_right));
 
 	int8_t new_right = right_matrix[get_fbgc_object_type(obj)][gm_right-1];
 
 	if(new_right == GM_ERROR){
-		_cprint(100,"Unexpected grammar! Obj:(%s) RIGHT:(%s)\n",_obj2str(obj),_gm2str(gm_right));
+		_FBGC_LOGE("Unexpected grammar! Obj:(%s) RIGHT:(%s)\n",_obj2str(obj),_gm2str(gm_right));
 	}
 	
 	gm_right = new_right;
@@ -276,4 +262,10 @@ uint8_t gm_seek_right(struct parser_packet * p){
 
 	#undef gm_right
 	#undef obj
+}
+
+
+
+inline const char * gm2str(fbgc_grammar gm){
+	return gm_name_array[gm];
 }

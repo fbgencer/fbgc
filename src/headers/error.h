@@ -29,8 +29,8 @@ extern "C" {
 #endif
 
 
-#define FBGC_LOGFORMATSIMPLE(color,format) color "" format "\n"ANSI_COLOR_RESET 
-#define FBGC_LOGFORMATDETAILED(color,format) color "%s function:%s at line %u: " format "\n"ANSI_COLOR_RESET ,__FILE__,__FUNCTION__,  __LINE__
+#define FBGC_LOGFORMATSIMPLE(color,format) color "" format "" ANSI_COLOR_RESET 
+#define FBGC_LOGFORMATDETAILED(color,format) color "%s function:%s at line %u: " format "\n" ANSI_COLOR_RESET ,__FILE__,__FUNCTION__,  __LINE__
 
 
 #if LOG_LEVEL >= LOG_LEVEL_ERROR
@@ -61,10 +61,10 @@ extern "C" {
 #define FBGC_LOGE(format,...) LOGE(format,##__VA_ARGS__)
 #define _FBGC_LOGE(format,...) _LOGE(format,##__VA_ARGS__)
 
-#define FBGC_LOGD(f,format,...) f ## _ ## LOGD(format,##__VA_ARGS__)
+#define FBGC_LOGD(f,format,...) f ## _ ##  LOGD(format,##__VA_ARGS__)
 #define _FBGC_LOGD(f,format,...) _ ## f ## _ ## LOGD(format,##__VA_ARGS__)
 
-#define FBGC_LOGV(f,format,...) f ## _  ## 	LOGV(format,##__VA_ARGS__)
+#define FBGC_LOGV(f,format,...) f ## _  ##  LOGV(format,##__VA_ARGS__)
 #define _FBGC_LOGV(f,format,...) _ ## f ## _ ## LOGV(format,##__VA_ARGS__)
 
 

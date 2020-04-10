@@ -28,7 +28,7 @@ struct fbgc_identifier{
 
 
 struct fbgc_object * initialize_fbgc_symbol_table();
-struct fbgc_ll_base * new_fbgc_symbol_from_substr(const char * str1,const char * str2);
+struct fbgc_ll_base * new_fbgc_symbol_from_substr(const char * str1, const char * str2);
 
 void print_fbgc_symbol_table(struct fbgc_object * );
 void free_fbgc_symbol_table(struct fbgc_object * );
@@ -39,22 +39,3 @@ void free_fbgc_symbol_table(struct fbgc_object * );
 #endif
 
 #endif
-
-
-
-
-/*
-
-
-
-void print_fbgc_name_object(struct fbgc_object * obj){
-   	
-   	struct fbgc_name_object * nameo = cast_fbgc_object_as_name(obj);
-    
-    cprintf(011,"[");
-    print_fbgc_object(nameo->name);
-    if(nameo->content == NULL) cprintf(100,"NULL");
-    else print_fbgc_object(nameo->content); 
-}
-
-*/

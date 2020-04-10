@@ -40,9 +40,12 @@ struct fbgc_object * get_set_fbgc_object_member(struct fbgc_object * o, const ch
 struct fbgc_object * get_length_fbgc_object(struct fbgc_object * t);
 
 void claim_ownership(struct fbgc_object * self);
-void print_fbgc_object(struct fbgc_object *);
+uint8_t print_fbgc_object(struct fbgc_object *);
 void printf_fbgc_object(struct fbgc_object * self);
 void free_fbgc_object(struct fbgc_object *);
+
+
+const char * objtp2str(struct fbgc_object * );
 
 #ifdef  __cplusplus
 }

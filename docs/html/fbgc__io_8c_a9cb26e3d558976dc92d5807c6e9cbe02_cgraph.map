@@ -1,6 +1,6 @@
 <map id="new_fbgc_cfunction" name="new_fbgc_cfunction">
 <area shape="rect" id="node2" href="$fbgc__object_8c.html#a79b110ee419e38013556f4379e724da8" title="printf_fbgc_object" alt="" coords="192,528,317,555"/>
-<area shape="rect" id="node20" href="$str__object_8c.html#aa044f9bb1949a87c10a2c17399987412" title="new_fbgc_str_object" alt="" coords="365,620,508,647"/>
+<area shape="rect" id="node20" href="$str__object_8c.html#aa3676319615cda5eb7d09bb7e99837bf" title="new_fbgc_str_object" alt="" coords="365,620,508,647"/>
 <area shape="rect" id="node3" href="$fun__object_8c.html#ab7db555ad4b95573198e2184fbc886fd" title="fprintf_fbgc_fun_object" alt="" coords="558,444,713,471"/>
 <area shape="rect" id="node18" href="$class__object_8c.html#a244c02f9b723f50da4fc2795dfbd3431" title="fprintf_fbgc_class\l_object" alt="" coords="374,521,499,562"/>
 <area shape="rect" id="node4" href="$error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="1533,364,1592,391"/>

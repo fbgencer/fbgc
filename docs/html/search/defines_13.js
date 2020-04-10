@@ -7,6 +7,5 @@ var searchData=
   ['top',['TOP',['../interpreter_8c.html#a609a4645111a9e6fc4af0e187add8743',1,'interpreter.c']]],
   ['top_5fll',['TOP_LL',['../linked__list_8h.html#a5283b2b546543db2ed0d4111147af781',1,'linked_list.h']]],
   ['topn',['TOPN',['../interpreter_8c.html#a23dee8a25b2819c86d76334f50e26d02',1,'interpreter.c']]],
-  ['tuple',['TUPLE',['../tokens_8h.html#ab73d0fab9a1329995b7cb4b98b527f6a',1,'tokens.h']]],
-  ['tuple_5fobject_5fcontent',['tuple_object_content',['../tuple__object_8h.html#ae50d8cf00e3efb702e91b355af2e19b8',1,'tuple_object.h']]]
+  ['tuple',['TUPLE',['../tokens_8h.html#ab73d0fab9a1329995b7cb4b98b527f6a',1,'tokens.h']]]
 ];

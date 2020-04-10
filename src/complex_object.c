@@ -18,11 +18,11 @@ struct fbgc_object * new_fbgc_complex_object_from_substr(const char * z_str_begi
     return new_fbgc_complex_object(0, strtod(z_str_begin, NULL));
 }
 
-struct fbgc_object * real_fbgc_complex_object(struct fbgc_object * self){
+struct fbgc_object * real_fbgc_complex_object_to_double(struct fbgc_object * self){
     return new_fbgc_double_object(cast_fbgc_object_as_complex(self)->z.real);
 }
 
-struct fbgc_object * imag_fbgc_complex_object(struct fbgc_object * self){
+struct fbgc_object * imag_fbgc_complex_object_to_double(struct fbgc_object * self){
     return new_fbgc_double_object(cast_fbgc_object_as_complex(self)->z.imag);
 }
 
@@ -236,6 +236,10 @@ void print_raw_complex(struct raw_complex z){
    cprintf(011,"%g%+gj",z.real,z.imag);  
 }
 
-void free_fbgc_complex_object(struct fbgc_object * obj){
-    //   free(obj);
+struct fbgc_object * fbgc_complex_object_to_str(struct fbgc_object * obj){
+	const char * format = "%.10g%+.10gj";
+	int len = snprintf( NULL,0,format, real_fbgc_complex_object(obj),imag_fbgc_complex_object(obj));
+	struct fbgc_object * s = new_fbgc_str_object_empty(len);
+	snprintf(content_fbgc_str_object(s),len+1,format,real_fbgc_complex_object(obj),imag_fbgc_complex_object(obj));
+	return s;
 }

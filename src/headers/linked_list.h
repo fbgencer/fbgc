@@ -37,6 +37,7 @@ struct fbgc_ll_opcode_int{
     int content;
 };
 
+#define is_constant_and_token(x,y)( ((x->type == CONSTANT && _cast_llbase_as_llconstant(x)->content->type == y)) )
 
 #define sizeof_fbgc_ll_identifier(x)(sizeof(struct fbgc_ll_identifier))
 
@@ -73,6 +74,10 @@ struct fbgc_ll_base * _new_fbgc_ll_jumper(fbgc_token tok);
 struct fbgc_ll_base * _new_fbgc_ll_identifier(int loc);
 struct fbgc_ll_base * _new_fbgc_ll_opcode_int(fbgc_token t,int x);
 
+struct fbgc_ll_base * _new_fbgc_ll_jumper_with_content(fbgc_token tok,struct fbgc_ll_base * ct );
+
+const char * lltp2str(struct fbgc_ll_base * );
+
 
 #define _cast_llbase_as_llconstant(x)( ((struct fbgc_ll_constant*) x) )
 #define _cast_llbase_as_lljumper(x)( ((struct fbgc_ll_jumper*) x) )
@@ -83,9 +88,11 @@ struct fbgc_ll_base * _new_fbgc_ll_opcode_int(fbgc_token t,int x);
 struct fbgc_ll_base * _new_fbgc_ll();
 void _push_front_fbgc_ll(struct fbgc_ll_base * head,struct fbgc_ll_base * obj);
 void _push_back_fbgc_ll(struct fbgc_ll_base * head,struct fbgc_ll_base * obj);
-void _insert_next_fbgc_ll(struct fbgc_ll_base * prev,struct fbgc_ll_base * obj);
+struct fbgc_ll_base * _insert_next_fbgc_ll(struct fbgc_ll_base * prev,struct fbgc_ll_base * obj);
+struct fbgc_ll_base * _insert_fbgc_ll(struct fbgc_ll_base * prev,struct fbgc_ll_base * current,struct fbgc_ll_base * obj);
 void _pop_front_fbgc_ll(struct fbgc_ll_base *head);
 void _pop_back_fbgc_ll(struct fbgc_ll_base *head);
+struct fbgc_ll_base * _top_and_pop_front_fbgc_ll(struct fbgc_ll_base * head);
 struct fbgc_ll_base * _top_fbgc_ll(struct fbgc_ll_base * head);
 
 //FAST LIST ACCES DEFINITION IN ORDER TO INCREASE READABILITY
@@ -96,8 +103,8 @@ struct fbgc_ll_base * _top_fbgc_ll(struct fbgc_ll_base * head);
 #define is_empty_fbgc_ll(head)(_cast_llbase_as_ll(head)->tail == head->next)
 #define is_not_empty_fbgc_ll(head)(_cast_llbase_as_ll(head)->tail != head->next)
 
-void _print_fbgc_ll(struct fbgc_ll_base * head,const char *s1);
-void _print_fbgc_ll_code(struct fbgc_ll_base * head_next,struct fbgc_ll_base * tail);
+uint8_t _print_fbgc_ll(struct fbgc_ll_base * head,const char *s1);
+uint8_t _print_fbgc_ll_code(struct fbgc_ll_base * head_next,struct fbgc_ll_base * tail);
 
 #ifdef  __cplusplus
 }

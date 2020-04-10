@@ -43,14 +43,13 @@ struct fbgc_object * new_fbgc_tuple_object(size_t cap){
 }
 
 
-struct fbgc_object * new_fbgc_tuple_object_from_tuple_content(struct fbgc_object ** src, int num){
+struct fbgc_object * new_fbgc_tuple_object_from_tuple_content(struct fbgc_object ** src, size_t len){
 
-	struct fbgc_object * to = new_fbgc_tuple_object(num);
-	size_fbgc_tuple_object(to) = num;
+	struct fbgc_tuple_object * to = (struct fbgc_tuple_object *)new_fbgc_tuple_object(len);
+	to->size = len;
 
-	struct fbgc_object ** contents = tuple_object_content(to);
-	while(num--){
-		contents[num] = src[num];
+	while(len--){
+		to->content[len] = src[len];
 	}
 
     return (struct fbgc_object*) to;
@@ -63,21 +62,14 @@ void set_object_in_fbgc_tuple_object(struct fbgc_object * self,struct fbgc_objec
 	//in order to get the contents of the array use macro from tuple_object.h
 
 	index = (index < 0) * size_fbgc_tuple_object(self) +  index;
-
 	assert( index>=0 || index < size_fbgc_tuple_object(self) );
-
-	struct fbgc_object ** contents = tuple_object_content(self);
-	contents[index] = obj; 
-	
+	content_fbgc_tuple_object(self)[index] = obj;
 }
 struct fbgc_object *  get_object_in_fbgc_tuple_object(struct fbgc_object * self,int index){
 
 	index = (index < 0) * size_fbgc_tuple_object(self) +  index;
-
 	if( index < 0 || index >= size_fbgc_tuple_object(self) ) return NULL;
-	
-	struct fbgc_object ** contents = tuple_object_content(self);
-	return (struct fbgc_object *) contents[index]; 	
+	return (struct fbgc_object *) content_fbgc_tuple_object(self)[index]; 	
 }
 
 //It seems bizarre to have this function but it should have the same function type as other sequential objects
@@ -91,78 +83,54 @@ struct fbgc_object *  __get_object_in_fbgc_tuple_object(struct fbgc_object * sel
 struct fbgc_object **  get_object_address_in_fbgc_tuple_object(struct fbgc_object * self,int index){
 
 	index = (index < 0) * size_fbgc_tuple_object(self) +  index;
-	
 	if( index < 0 || index >= size_fbgc_tuple_object(self) ) return NULL;
-
-	struct fbgc_object ** contents = tuple_object_content(self);
-	return contents+index; 	
+	return content_fbgc_tuple_object(self)+index; 	
 }
 
-struct fbgc_object *  get_top_in_fbgc_tuple_object(struct fbgc_object * self){
-
-	struct fbgc_object ** contents = tuple_object_content(self);
-	return size_fbgc_tuple_object(self) != 0 ? 
-			(struct fbgc_object *) contents[size_fbgc_tuple_object(self)-1] :
-			NULL;
+inline struct fbgc_object *  get_back_in_fbgc_tuple_object(struct fbgc_object * self){
+	return get_object_in_fbgc_tuple_object(self,-1);
 }
+
+inline struct fbgc_object *  get_front_in_fbgc_tuple_object(struct fbgc_object * self){
+	return get_object_in_fbgc_tuple_object(self,0);
+}
+
 
 
 struct fbgc_object * push_back_fbgc_tuple_object(struct fbgc_object * self,struct fbgc_object * obj){
 
-	#ifdef TUPLE_DEBUG
-	cprintf(101,"Push back tuple object!\n");
-	//
-	//	Check the capacity, if there is enough space push back the obj
-	//
-	cprintf(101,"Tuple size :%d, capacity %d\n",size_fbgc_tuple_object(self) , capacity_fbgc_tuple_object(self));
-	#endif
+	//Check the capacity, if there is enough space push back the obj
+
+	_FBGC_LOGV(TUPLE_OBJECT,"Tuple size :%lu, capacity %lu",size_fbgc_tuple_object(self) , capacity_fbgc_tuple_object(self));
 
 	size_t old_size = size_fbgc_tuple_object(self);
 
 	if(size_fbgc_tuple_object(self) == capacity_fbgc_tuple_object(self)){
 
 		//Before sending to realloc, request a larger block after requesting change the capacity of the tuple
-
     	self = fbgc_realloc(self,
     		sizeof(struct fbgc_tuple_object ) + 
 			(cast_fbgc_object_as_tuple(self)->capacity << 1) * sizeof(struct fbgc_object*) );
 
-    	assert(self != NULL);
     	cast_fbgc_object_as_tuple(self)->capacity <<= 1; //shift the capacity for the next two's power
 
-		#ifdef TUPLE_DEBUG
-		cprintf(101,"New memory reallocated!\n");
-		cprintf(101,"After realloc Tuple size :%d, capacity %d\n",size_fbgc_tuple_object(self) , capacity_fbgc_tuple_object(self));
-		#endif
-
-    	//############
-    		//check the self pointer, it might be null!
-    	//############
+		FBGC_LOGV(TUPLE_OBJECT,"New memory reallocated!\nAfter realloc Tuple size :%lu, capacity %lu",
+			size_fbgc_tuple_object(self) , capacity_fbgc_tuple_object(self));
 	}
+	
+	FBGC_LOGV(TUPLE_OBJECT,"There is enough space to push, pushing the object.");
 
-	if(size_fbgc_tuple_object(self) < capacity_fbgc_tuple_object(self)){
-
-		#ifdef TUPLE_DEBUG
-		cprintf(001,"There is enough space to push, pushing the object..\n");
-		#endif
-
-		
-		struct fbgc_object ** contents = tuple_object_content(self);
-		contents[old_size] = obj;
-		cast_fbgc_object_as_tuple(self)->size = old_size+1;
-		
-
-		#ifdef TUPLE_DEBUG
-		cprintf(001,"New size tuple %d\n",size_fbgc_tuple_object(self));
-		#endif
-	}
-
+	content_fbgc_tuple_object(self)[old_size++] = obj;
+	cast_fbgc_object_as_tuple(self)->size = old_size;
+	
+	FBGC_LOGV(TUPLE_OBJECT,"New size tuple %lu\n",size_fbgc_tuple_object(self));
+	
 	return self;
 }
 
 int index_fbgc_tuple_object(struct fbgc_object * self, struct fbgc_object * obj){
 
-	struct fbgc_object ** contents = tuple_object_content(self);
+	struct fbgc_object ** contents = content_fbgc_tuple_object(self);
 	for(size_t i = 0; i<size_fbgc_tuple_object(self); i++){
 		if(contents[i] == obj) return i;
 	}
@@ -278,7 +246,7 @@ switch(op)
 
 void print_fbgc_tuple_object(struct fbgc_object * obj){
 	cprintf(011,"(");
-	struct fbgc_object ** contents = tuple_object_content(obj);
+	struct fbgc_object ** contents = content_fbgc_tuple_object(obj);
 
 	for(size_t i = 0; i<cast_fbgc_object_as_tuple(obj)->size; i++){
 		print_fbgc_object(contents[i]);

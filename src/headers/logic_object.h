@@ -20,6 +20,7 @@ struct fbgc_object * operator_fbgc_logic_object(struct fbgc_object * a,struct fb
 
 void print_fbgc_logic_object(struct fbgc_object *);
 void free_fbgc_logic_object(struct fbgc_object * );
+struct fbgc_object * fbgc_logic_object_to_str(struct fbgc_object * obj);
 
 
 #ifdef  __cplusplus

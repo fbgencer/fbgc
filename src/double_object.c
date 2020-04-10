@@ -291,6 +291,10 @@ void print_fbgc_double_object(struct fbgc_object * obj){
 	cprintf(011,"%f",cast_fbgc_object_as_double(obj)->content);   
 }
 
-void free_fbgc_double_object(struct fbgc_object * obj){
-   // free(obj);
+struct fbgc_object * fbgc_double_object_to_str(struct fbgc_object * obj){
+	const char * format = "%.10g";
+	int len = snprintf( NULL,0,format, cast_fbgc_object_as_double(obj)->content);
+	struct fbgc_object * s = new_fbgc_str_object_empty(len);
+	snprintf(content_fbgc_str_object(s),len+1,format,cast_fbgc_object_as_double(obj)->content);
+	return s;
 }

@@ -235,12 +235,10 @@ extern const char * object_name_array[];
 extern const token_struct operator_token_array[];
 extern const token_struct reserved_words_token_array[];
 
-fbgc_token get_operator_code(const char *str);
-fbgc_token get_operator_code_from_substr(const char *str1,const char *str2);
-fbgc_token get_reserved_word_code(const char *str);
-fbgc_token get_reserved_word_code_from_substr(const char *str1,const char *str2);
-
 const char * get_token_as_str(fbgc_token tok);
+
+
+
 
 #define is_fbgc_OPERATOR(T)(T>=COLON && T< ASSIGN_SUBSCRIPT )
 #define is_fbgc_IDENTIFIER(T)(T == IDENTIFIER)

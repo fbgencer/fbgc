@@ -240,6 +240,11 @@ void print_fbgc_int_object(struct fbgc_object * obj){
 	cprintf(011,"%d",cast_fbgc_object_as_int(obj)->content);  
 }
 
-void free_fbgc_int_object(struct fbgc_object * obj){
-	//   free(obj);
+
+
+struct fbgc_object * fbgc_int_object_to_str(struct fbgc_object * obj){
+	int len = snprintf( NULL, 0, "%d", cast_fbgc_object_as_int(obj)->content);
+	struct fbgc_object * s = new_fbgc_str_object_empty(len);
+	snprintf(content_fbgc_str_object(s),len+1,"%d",cast_fbgc_object_as_int(obj)->content);
+	return s;
 }

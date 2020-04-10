@@ -3,8 +3,9 @@
 #include "../cmodules/cmodules.h"
 
 struct fbgc_object * current_field = NULL;
-const struct fbgc_object __nil__ = {.type = NIL};
-const struct fbgc_object * const __fbgc_nil = &__nil__;
+
+struct fbgc_object __nil__ = {.type = NIL};
+struct fbgc_object * __fbgc_nil = &__nil__;
 
 
 static void compile_file(struct fbgc_object * main_field,const char *file_name){
@@ -186,33 +187,43 @@ int main(int argc, char **argv){
 
 //******************************************************************
 	initialize_fbgc_memory_block();
-	int len = 5;
-	struct fbgc_object * a = new_fbgc_array_object(len,sizeof(int));
+	initialize_fbgc_symbol_table();
+	struct fbgc_object * main_field = new_fbgc_field_object();
+	current_field = main_field;
+	//load_module_in_field_object(main_field,&fbgc_math_module);
 
-	for(int i = 0; i<len; ++i){
-		int c = i*5;
-		a = push_back_fbgc_array_object(a,&c);
-	}
+		
+	/*struct fbgc_object * s1 = new_fbgc_str_object("fikret|_");
+	struct fbgc_object * s2 = new_fbgc_str_object("_|gencer");
+	struct fbgc_object * s3 = operator_fbgc_str_object(s1,s2,PLUS);
+	struct fbgc_object * s = new_fbgc_cstr_object("hehehe");*/
+	//print_fbgc_object(s);
+	//printf("\n");
+	
 
-	for(int i = 0; i<cast_fbgc_object_as_array(a)->size; ++i){
-		int * p = cast_fbgc_object_as_array(a)->content;
-		int * c = (int*)get_address_in_fbgc_array_object(a,i);
-		printf("Value[%d]:%d,%d\n",i,p[i],*c);
-	}
+	//struct fbgc_object * tp = new_fbgc_tuple_object(2);
 
-	printf("%p:pointer\n",cast_fbgc_object_as_array(a)->content);
+	/*set_object_in_fbgc_tuple_object(tp,s1,0);
+	set_object_in_fbgc_tuple_object(tp,s2,3);
+	set_object_in_fbgc_tuple_object(tp,s3,2);
+	set_object_in_fbgc_tuple_object(tp,s,1);
+	size_fbgc_tuple_object(tp) = 4;*/
 
-	print_fbgc_memory_block();
+	//tp = push_back_fbgc_tuple_object(tp,s1);
+	//tp = push_back_fbgc_tuple_object(tp,s2);
+	//tp = push_back_fbgc_tuple_object(tp,s3);
+	//tp = push_back_fbgc_tuple_object(tp,s);
+	//print_fbgc_object(cast_fbgc_object_as_tuple(tp)->content[2]);
+	//printf("\n");
 
-	//initialize_fbgc_symbol_table();
-	//struct fbgc_object * main_field = new_fbgc_field_object();
-	//current_field = main_field;
-	 //load_module_in_field_object(main_field,&fbgc_math_module);
+	//printf("size %lu\n",sizeof(struct fbgc_tuple_object));
+
+
 
 	//load_module_in_field_object(main_field,&fbgc_file_module);
 	
 	//regex_lexer(&main_field,"1+2+3");
-	//compile_file(main_field, "ex.fbgc");
+	compile_file(main_field, "ex.fbgc");
 	/*
 	if(argc > 1)
 	{   

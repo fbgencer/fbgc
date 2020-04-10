@@ -74,7 +74,7 @@ struct fbgc_object * one_arg_math(struct fbgc_object ** arg,int argc, double (*f
 			size_t sz = size_fbgc_tuple_object(arg[0]);
 			struct fbgc_object * res_tp = new_fbgc_tuple_object( sz );
 			size_fbgc_tuple_object(res_tp) = sz;
-			struct fbgc_object ** tp_content = tuple_object_content(arg[0]);
+			struct fbgc_object ** tp_content = content_fbgc_tuple_object(arg[0]);
 
 			for(size_t i = 0; i <  sz; ++i ){
 				//call recursively

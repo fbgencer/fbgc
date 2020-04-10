@@ -129,6 +129,10 @@ Macros</h2></td></tr>
 <tr class="separator:a15334d36187b009fc711e81670c6b7ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7ed9b181077a054cff8981d28b76900f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="complex__object_8h.html#a7ed9b181077a054cff8981d28b76900f">sizeof_fbgc_complex_object</a>()&#160;&#160;&#160;(sizeof(struct <a class="el" href="structfbgc__complex__object.html">fbgc_complex_object</a>))</td></tr>
 <tr class="separator:a7ed9b181077a054cff8981d28b76900f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71bd4f2f952936adbb1ba84dca080b33"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="complex__object_8h.html#a71bd4f2f952936adbb1ba84dca080b33">real_fbgc_complex_object</a>(x)&#160;&#160;&#160;(<a class="el" href="complex__object_8h.html#a15334d36187b009fc711e81670c6b7ee">cast_fbgc_object_as_complex</a>(x)-&gt;z.real)</td></tr>
+<tr class="separator:a71bd4f2f952936adbb1ba84dca080b33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9940f0653ff696e457ee29a506d895b2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="complex__object_8h.html#a9940f0653ff696e457ee29a506d895b2">imag_fbgc_complex_object</a>(x)&#160;&#160;&#160;(<a class="el" href="complex__object_8h.html#a15334d36187b009fc711e81670c6b7ee">cast_fbgc_object_as_complex</a>(x)-&gt;z.imag)</td></tr>
+<tr class="separator:a9940f0653ff696e457ee29a506d895b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -138,10 +142,10 @@ Functions</h2></td></tr>
 <tr class="separator:a7434c65ebf39068726576a0a6ad30c47"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4e45b488d3b31e778f6de1d9ac4f9597"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="complex__object_8h.html#a4e45b488d3b31e778f6de1d9ac4f9597">new_fbgc_complex_object_from_substr</a> (const char *, const char *)</td></tr>
 <tr class="separator:a4e45b488d3b31e778f6de1d9ac4f9597"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae11eac3443df1abc85d5219a8e23e70c"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="complex__object_8h.html#ae11eac3443df1abc85d5219a8e23e70c">real_fbgc_complex_object</a> (struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *self)</td></tr>
-<tr class="separator:ae11eac3443df1abc85d5219a8e23e70c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a15a5eee37684c89695fcd8d470b7150e"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="complex__object_8h.html#a15a5eee37684c89695fcd8d470b7150e">imag_fbgc_complex_object</a> (struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *self)</td></tr>
-<tr class="separator:a15a5eee37684c89695fcd8d470b7150e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0b1f545b62fd633eec818519a96cb35"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="complex__object_8h.html#aa0b1f545b62fd633eec818519a96cb35">real_fbgc_complex_object_to_double</a> (struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *self)</td></tr>
+<tr class="separator:aa0b1f545b62fd633eec818519a96cb35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3df0e995980f4c10aba246d9e1f31a79"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="complex__object_8h.html#a3df0e995980f4c10aba246d9e1f31a79">imag_fbgc_complex_object_to_double</a> (struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *self)</td></tr>
+<tr class="separator:a3df0e995980f4c10aba246d9e1f31a79"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7b0492b9fa54e6303c27881d96ad6af9"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="complex__object_8h.html#a7b0492b9fa54e6303c27881d96ad6af9">conjugate_fbgc_complex_object</a> (struct <a class="el" href="structfbgc__object.html">fbgc_object</a> **self, int i)</td></tr>
 <tr class="separator:a7b0492b9fa54e6303c27881d96ad6af9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a35a6de78c0508d9a546bdc03b4005380"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="complex__object_8h.html#a35a6de78c0508d9a546bdc03b4005380">subscript_fbgc_complex_object</a> (struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *self, uint8_t index)</td></tr>
@@ -154,8 +158,8 @@ Functions</h2></td></tr>
 <tr class="separator:ac8bdb069f27acd1aa7143ed97fa21e7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab1e47b84121e2e2797807f64b9f8bc98"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="complex__object_8h.html#ab1e47b84121e2e2797807f64b9f8bc98">print_fbgc_complex_object</a> (struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *)</td></tr>
 <tr class="separator:ab1e47b84121e2e2797807f64b9f8bc98"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3c87fd86e0338737fcb4619f82952496"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="complex__object_8h.html#a3c87fd86e0338737fcb4619f82952496">free_fbgc_complex_object</a> (struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *)</td></tr>
-<tr class="separator:a3c87fd86e0338737fcb4619f82952496"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3ed0f6dc7dcc5a6b9ccf6c59d78a913"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="complex__object_8h.html#aa3ed0f6dc7dcc5a6b9ccf6c59d78a913">fbgc_complex_object_to_str</a> (struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *<a class="el" href="grammar_8c.html#a2860d074fd2d86b8826bef4be8e71cd0">obj</a>)</td></tr>
+<tr class="separator:aa3ed0f6dc7dcc5a6b9ccf6c59d78a913"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a15334d36187b009fc711e81670c6b7ee"></a>
@@ -178,6 +182,46 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a9940f0653ff696e457ee29a506d895b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9940f0653ff696e457ee29a506d895b2">&#9670;&nbsp;</a></span>imag_fbgc_complex_object</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define imag_fbgc_complex_object</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">x</td><td>)</td>
+          <td>&#160;&#160;&#160;(<a class="el" href="complex__object_8h.html#a15334d36187b009fc711e81670c6b7ee">cast_fbgc_object_as_complex</a>(x)-&gt;z.imag)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="complex__object_8h_source.html#l00021">21</a> of file <a class="el" href="complex__object_8h_source.html">complex_object.h</a>.</p>
+
+</div>
+</div>
+<a id="a71bd4f2f952936adbb1ba84dca080b33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71bd4f2f952936adbb1ba84dca080b33">&#9670;&nbsp;</a></span>real_fbgc_complex_object</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define real_fbgc_complex_object</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">x</td><td>)</td>
+          <td>&#160;&#160;&#160;(<a class="el" href="complex__object_8h.html#a15334d36187b009fc711e81670c6b7ee">cast_fbgc_object_as_complex</a>(x)-&gt;z.real)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="complex__object_8h_source.html#l00020">20</a> of file <a class="el" href="complex__object_8h_source.html">complex_object.h</a>.</p>
+
+</div>
+</div>
 <a id="a7ed9b181077a054cff8981d28b76900f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7ed9b181077a054cff8981d28b76900f">&#9670;&nbsp;</a></span>sizeof_fbgc_complex_object</h2>
 
@@ -193,7 +237,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="complex__object_8h_source.html#l00020">20</a> of file <a class="el" href="complex__object_8h_source.html">complex_object.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="complex__object_8h_source.html#l00019">19</a> of file <a class="el" href="complex__object_8h_source.html">complex_object.h</a>.</p>
 
 </div>
 </div>
@@ -245,30 +289,40 @@ Here is the caller graph for this function:</div>
 <area shape="rect" id="node4" href="class__object_8h.html#a9e16ab772b9f1e0e9b201c7ae7975ee4" title="operator_fbgc_instance\l_object" alt="" coords="608,5,765,47"/>
 <area shape="rect" id="node5" href="interpreter_8h.html#acdb0cb340501af8374de73b627b6e26a" title="run_code" alt="" coords="649,95,724,122"/>
 <area shape="rect" id="node6" href="interpreter_8h.html#acb0454b55a53dfb587644f66848a0646" title="interpreter" alt="" coords="813,95,893,122"/>
-<area shape="rect" id="node7" href="fbgc_8h.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="941,95,1044,122"/>
+<area shape="rect" id="node7" href="fbgc_8c.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="941,95,1044,122"/>
 <area shape="rect" id="node8" href="fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c" title="new_fbgc_cfunction" alt="" coords="1092,95,1231,122"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="a3c87fd86e0338737fcb4619f82952496"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3c87fd86e0338737fcb4619f82952496">&#9670;&nbsp;</a></span>free_fbgc_complex_object()</h2>
+<a id="aa3ed0f6dc7dcc5a6b9ccf6c59d78a913"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3ed0f6dc7dcc5a6b9ccf6c59d78a913">&#9670;&nbsp;</a></span>fbgc_complex_object_to_str()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void free_fbgc_complex_object </td>
+          <td class="memname">struct <a class="el" href="structfbgc__object.html">fbgc_object</a>* fbgc_complex_object_to_str </td>
           <td>(</td>
           <td class="paramtype">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramname"><em>obj</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="complex__object_8c_source.html#l00239">239</a> of file <a class="el" href="complex__object_8c_source.html">complex_object.c</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="complex__object_8h_aa3ed0f6dc7dcc5a6b9ccf6c59d78a913_cgraph.png" border="0" usemap="#complex__object_8h_aa3ed0f6dc7dcc5a6b9ccf6c59d78a913_cgraph" alt=""/></div>
+<map name="complex__object_8h_aa3ed0f6dc7dcc5a6b9ccf6c59d78a913_cgraph" id="complex__object_8h_aa3ed0f6dc7dcc5a6b9ccf6c59d78a913_cgraph">
+<area shape="rect" id="node2" href="str__object_8c.html#a7dd90bab7f0bbd8ce46b5630a48dd428" title="new_fbgc_str_object\l_empty" alt="" coords="199,5,341,47"/>
+<area shape="rect" id="node3" href="memory_8c.html#a41dd65ee24d51160659bf94bed90e998" title="fbgc_malloc" alt="" coords="389,13,481,39"/>
+<area shape="rect" id="node4" href="error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="529,13,588,39"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -328,21 +382,21 @@ Here is the caller graph for this function:</div>
 <area shape="rect" id="node3" href="class__object_8h.html#a9e16ab772b9f1e0e9b201c7ae7975ee4" title="operator_fbgc_instance\l_object" alt="" coords="393,5,551,47"/>
 <area shape="rect" id="node4" href="interpreter_8h.html#acdb0cb340501af8374de73b627b6e26a" title="run_code" alt="" coords="435,95,509,122"/>
 <area shape="rect" id="node5" href="interpreter_8h.html#acb0454b55a53dfb587644f66848a0646" title="interpreter" alt="" coords="599,95,679,122"/>
-<area shape="rect" id="node6" href="fbgc_8h.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="727,95,829,122"/>
+<area shape="rect" id="node6" href="fbgc_8c.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="727,95,829,122"/>
 <area shape="rect" id="node7" href="fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c" title="new_fbgc_cfunction" alt="" coords="877,95,1016,122"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="a15a5eee37684c89695fcd8d470b7150e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a15a5eee37684c89695fcd8d470b7150e">&#9670;&nbsp;</a></span>imag_fbgc_complex_object()</h2>
+<a id="a3df0e995980f4c10aba246d9e1f31a79"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3df0e995980f4c10aba246d9e1f31a79">&#9670;&nbsp;</a></span>imag_fbgc_complex_object_to_double()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct <a class="el" href="structfbgc__object.html">fbgc_object</a>* imag_fbgc_complex_object </td>
+          <td class="memname">struct <a class="el" href="structfbgc__object.html">fbgc_object</a>* imag_fbgc_complex_object_to_double </td>
           <td>(</td>
           <td class="paramtype">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td>
           <td class="paramname"><em>self</em></td><td>)</td>
@@ -355,11 +409,11 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="complex__object_8h_a15a5eee37684c89695fcd8d470b7150e_cgraph.png" border="0" usemap="#complex__object_8h_a15a5eee37684c89695fcd8d470b7150e_cgraph" alt=""/></div>
-<map name="complex__object_8h_a15a5eee37684c89695fcd8d470b7150e_cgraph" id="complex__object_8h_a15a5eee37684c89695fcd8d470b7150e_cgraph">
-<area shape="rect" id="node2" href="double__object_8c.html#a08dd93b8f6c56cf7cb6210b63c29dbaf" title="new_fbgc_double_object" alt="" coords="233,5,399,32"/>
-<area shape="rect" id="node3" href="memory_8c.html#a41dd65ee24d51160659bf94bed90e998" title="fbgc_malloc" alt="" coords="447,5,539,32"/>
-<area shape="rect" id="node4" href="error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="587,5,645,32"/>
+<div class="center"><img src="complex__object_8h_a3df0e995980f4c10aba246d9e1f31a79_cgraph.png" border="0" usemap="#complex__object_8h_a3df0e995980f4c10aba246d9e1f31a79_cgraph" alt=""/></div>
+<map name="complex__object_8h_a3df0e995980f4c10aba246d9e1f31a79_cgraph" id="complex__object_8h_a3df0e995980f4c10aba246d9e1f31a79_cgraph">
+<area shape="rect" id="node2" href="double__object_8c.html#a08dd93b8f6c56cf7cb6210b63c29dbaf" title="new_fbgc_double_object" alt="" coords="233,13,399,39"/>
+<area shape="rect" id="node3" href="memory_8c.html#a41dd65ee24d51160659bf94bed90e998" title="fbgc_malloc" alt="" coords="447,13,539,39"/>
+<area shape="rect" id="node4" href="error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="587,13,645,39"/>
 </map>
 </div>
 
@@ -418,7 +472,7 @@ Here is the caller graph for this function:</div>
 <area shape="rect" id="node9" href="class__object_8h.html#a9e16ab772b9f1e0e9b201c7ae7975ee4" title="operator_fbgc_instance\l_object" alt="" coords="845,197,1003,238"/>
 <area shape="rect" id="node10" href="interpreter_8h.html#acdb0cb340501af8374de73b627b6e26a" title="run_code" alt="" coords="887,300,961,327"/>
 <area shape="rect" id="node11" href="interpreter_8h.html#acb0454b55a53dfb587644f66848a0646" title="interpreter" alt="" coords="1051,300,1131,327"/>
-<area shape="rect" id="node12" href="fbgc_8h.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="1179,300,1281,327"/>
+<area shape="rect" id="node12" href="fbgc_8c.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="1179,300,1281,327"/>
 <area shape="rect" id="node13" href="fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c" title="new_fbgc_cfunction" alt="" coords="1329,300,1468,327"/>
 <area shape="rect" id="node15" href="complex__object_8h.html#a359764fc727e64a334631c7eb23b45ba" title="operator_fbgc_complex\l_object" alt="" coords="453,249,611,290"/>
 <area shape="rect" id="node16" href="matrix__object_8h.html#acd9358a8cf3ef246db381503466b8c0e" title="operator_fbgc_matrix\l_object" alt="" coords="460,314,604,355"/>
@@ -648,42 +702,43 @@ Here is the caller graph for this function:</div>
 <map name="complex__object_8h_ab1e47b84121e2e2797807f64b9f8bc98_icgraph" id="complex__object_8h_ab1e47b84121e2e2797807f64b9f8bc98_icgraph">
 <area shape="rect" id="node2" href="fbgc__object_8h.html#a3c27b6ebc8a5ad9202eb6f00f28c014b" title="print_fbgc_object" alt="" coords="188,208,309,235"/>
 <area shape="rect" id="node3" href="field__object_8h.html#af022b85fb80b3df106abb4ca425d3642" title="print_field_object\l_locals" alt="" coords="377,41,497,82"/>
-<area shape="rect" id="node4" href="interpreter_8h.html#acdb0cb340501af8374de73b627b6e26a" title="run_code" alt="" coords="1545,227,1620,253"/>
-<area shape="rect" id="node8" href="linked__list_8c.html#adf5d9a585d48523587ecad0495f80d52" title="_print_fbgc_ll_base" alt="" coords="370,157,505,184"/>
-<area shape="rect" id="node20" href="range__object_8h.html#ab8138fb21f5d4098f82847b2354af837" title="print_fbgc_range_object" alt="" coords="357,376,517,403"/>
-<area shape="rect" id="node21" href="symbol__table_8h.html#ac2d095c327888530304e422bd1641baf" title="new_fbgc_symbol_from\l_substr" alt="" coords="357,310,517,351"/>
-<area shape="rect" id="node26" href="tuple__object_8h.html#a43b357c743a4fa9b9f129eca739ab561" title="print_fbgc_tuple_object" alt="" coords="359,107,515,133"/>
-<area shape="rect" id="node5" href="interpreter_8h.html#acb0454b55a53dfb587644f66848a0646" title="interpreter" alt="" coords="1668,227,1748,253"/>
-<area shape="rect" id="node6" href="fbgc_8h.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="1796,227,1899,253"/>
-<area shape="rect" id="node7" href="fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c" title="new_fbgc_cfunction" alt="" coords="1947,269,2085,296"/>
-<area shape="rect" id="node9" href="linked__list_8h.html#a84527cb003478dd4a3d0427586c2d843" title="_print_fbgc_ll_code" alt="" coords="569,107,704,133"/>
-<area shape="rect" id="node10" href="class__object_8h.html#a823234db9332759a36231027d8da7acd" title="print_fbgc_class_object" alt="" coords="765,107,924,133"/>
-<area shape="rect" id="node15" href="fun__object_8h.html#a36b74dd4b00ec815387ba18bae94e41d" title="print_fbgc_fun_object" alt="" coords="771,208,918,235"/>
-<area shape="rect" id="node16" href="fun__object_8h.html#a6949f7b6d871bcbe0abb28b50610652f" title="fprintf_fbgc_fun_object" alt="" coords="981,165,1136,192"/>
-<area shape="rect" id="node17" href="linked__list_8h.html#ae21d5595eb9b9019456b3f93627dbc24" title="_print_fbgc_ll" alt="" coords="795,5,894,32"/>
-<area shape="rect" id="node19" href="parser_8c.html#a8bc68ce2b13120de2f50d21decaff47d" title="handle_before_paranthesis" alt="" coords="756,56,933,83"/>
-<area shape="rect" id="node11" href="class__object_8h.html#a1b56e7c24929269305a02fd54d250435" title="fprintf_fbgc_class\l_object" alt="" coords="996,99,1121,141"/>
-<area shape="rect" id="node12" href="fbgc__object_8h.html#a79b110ee419e38013556f4379e724da8" title="printf_fbgc_object" alt="" coords="1185,155,1310,181"/>
-<area shape="rect" id="node13" href="fbgc__io_8c.html#a747fb58fad9eba861df1158b7acc198d" title="new_fbgc_cfunction" alt="" coords="1359,141,1497,168"/>
-<area shape="rect" id="node14" href="fbgc__object_8h.html#a53923b9b19a00332f088b8c866fb4075" title="convert_fbgc_object\l_to_logic" alt="" coords="1359,193,1497,234"/>
-<area shape="rect" id="node18" href="parser_8h.html#a9128876c7bafe4207a35d10f2c7f12a8" title="parser" alt="" coords="1029,48,1088,75"/>
-<area shape="rect" id="node22" href="field__object_8h.html#a72a879327492fbbc87302acca2de4e5a" title="add_variable_in_field\l_object" alt="" coords="565,361,708,402"/>
-<area shape="rect" id="node25" href="relexer_8c.html#a4e800df9ae16f96fc5517262d24aa91e" title="_tokenize_substr" alt="" coords="576,309,697,336"/>
-<area shape="rect" id="node23" href="fbgc__math_8c.html#a9eb1700a5bd425c10311d25a941c3f38" title="new_fbgc_cfunction" alt="" coords="775,317,914,344"/>
-<area shape="rect" id="node24" href="fbgc_8h.html#a028d4bd3c990b0410fe7e03543a8ed60" title="fbgc_load_module" alt="" coords="1184,353,1311,380"/>
+<area shape="rect" id="node5" href="interpreter_8h.html#acdb0cb340501af8374de73b627b6e26a" title="run_code" alt="" coords="1545,227,1620,253"/>
+<area shape="rect" id="node9" href="linked__list_8c.html#adf5d9a585d48523587ecad0495f80d52" title="_print_fbgc_ll_base" alt="" coords="370,157,505,184"/>
+<area shape="rect" id="node21" href="range__object_8h.html#ab8138fb21f5d4098f82847b2354af837" title="print_fbgc_range_object" alt="" coords="357,376,517,403"/>
+<area shape="rect" id="node22" href="symbol__table_8h.html#ac2d095c327888530304e422bd1641baf" title="new_fbgc_symbol_from\l_substr" alt="" coords="357,310,517,351"/>
+<area shape="rect" id="node27" href="tuple__object_8h.html#a43b357c743a4fa9b9f129eca739ab561" title="print_fbgc_tuple_object" alt="" coords="359,107,515,133"/>
+<area shape="rect" id="node4" href="fbgc__stl_8c.html#a57231667506855f47a848ec5d2d75e4d" title="new_fbgc_cfunction" alt="" coords="567,48,706,75"/>
+<area shape="rect" id="node6" href="interpreter_8h.html#acb0454b55a53dfb587644f66848a0646" title="interpreter" alt="" coords="1668,227,1748,253"/>
+<area shape="rect" id="node7" href="fbgc_8c.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="1796,227,1899,253"/>
+<area shape="rect" id="node8" href="fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c" title="new_fbgc_cfunction" alt="" coords="1947,256,2085,283"/>
+<area shape="rect" id="node10" href="linked__list_8h.html#a84527cb003478dd4a3d0427586c2d843" title="_print_fbgc_ll_code" alt="" coords="569,107,704,133"/>
+<area shape="rect" id="node11" href="class__object_8h.html#a823234db9332759a36231027d8da7acd" title="print_fbgc_class_object" alt="" coords="765,107,924,133"/>
+<area shape="rect" id="node16" href="fun__object_8h.html#a36b74dd4b00ec815387ba18bae94e41d" title="print_fbgc_fun_object" alt="" coords="771,208,918,235"/>
+<area shape="rect" id="node17" href="fun__object_8h.html#a6949f7b6d871bcbe0abb28b50610652f" title="fprintf_fbgc_fun_object" alt="" coords="981,165,1136,192"/>
+<area shape="rect" id="node18" href="linked__list_8h.html#ae21d5595eb9b9019456b3f93627dbc24" title="_print_fbgc_ll" alt="" coords="795,5,894,32"/>
+<area shape="rect" id="node20" href="parser_8c.html#a8bc68ce2b13120de2f50d21decaff47d" title="handle_before_paranthesis" alt="" coords="756,56,933,83"/>
+<area shape="rect" id="node12" href="class__object_8h.html#a1b56e7c24929269305a02fd54d250435" title="fprintf_fbgc_class\l_object" alt="" coords="996,99,1121,141"/>
+<area shape="rect" id="node13" href="fbgc__object_8h.html#a79b110ee419e38013556f4379e724da8" title="printf_fbgc_object" alt="" coords="1185,155,1310,181"/>
+<area shape="rect" id="node14" href="fbgc__io_8c.html#a747fb58fad9eba861df1158b7acc198d" title="new_fbgc_cfunction" alt="" coords="1359,141,1497,168"/>
+<area shape="rect" id="node15" href="fbgc__object_8h.html#a53923b9b19a00332f088b8c866fb4075" title="convert_fbgc_object\l_to_logic" alt="" coords="1359,193,1497,234"/>
+<area shape="rect" id="node19" href="parser_8h.html#a9128876c7bafe4207a35d10f2c7f12a8" title="parser" alt="" coords="1029,48,1088,75"/>
+<area shape="rect" id="node23" href="field__object_8h.html#a72a879327492fbbc87302acca2de4e5a" title="add_variable_in_field\l_object" alt="" coords="565,361,708,402"/>
+<area shape="rect" id="node26" href="relexer_8c.html#a4e800df9ae16f96fc5517262d24aa91e" title="_tokenize_substr" alt="" coords="576,309,697,336"/>
+<area shape="rect" id="node24" href="fbgc__math_8c.html#a9eb1700a5bd425c10311d25a941c3f38" title="new_fbgc_cfunction" alt="" coords="775,368,914,395"/>
+<area shape="rect" id="node25" href="fbgc_8c.html#a028d4bd3c990b0410fe7e03543a8ed60" title="fbgc_load_module" alt="" coords="1184,312,1311,339"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="ae11eac3443df1abc85d5219a8e23e70c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae11eac3443df1abc85d5219a8e23e70c">&#9670;&nbsp;</a></span>real_fbgc_complex_object()</h2>
+<a id="aa0b1f545b62fd633eec818519a96cb35"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0b1f545b62fd633eec818519a96cb35">&#9670;&nbsp;</a></span>real_fbgc_complex_object_to_double()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct <a class="el" href="structfbgc__object.html">fbgc_object</a>* real_fbgc_complex_object </td>
+          <td class="memname">struct <a class="el" href="structfbgc__object.html">fbgc_object</a>* real_fbgc_complex_object_to_double </td>
           <td>(</td>
           <td class="paramtype">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td>
           <td class="paramname"><em>self</em></td><td>)</td>
@@ -696,11 +751,11 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="complex__object_8h_ae11eac3443df1abc85d5219a8e23e70c_cgraph.png" border="0" usemap="#complex__object_8h_ae11eac3443df1abc85d5219a8e23e70c_cgraph" alt=""/></div>
-<map name="complex__object_8h_ae11eac3443df1abc85d5219a8e23e70c_cgraph" id="complex__object_8h_ae11eac3443df1abc85d5219a8e23e70c_cgraph">
-<area shape="rect" id="node2" href="double__object_8c.html#a08dd93b8f6c56cf7cb6210b63c29dbaf" title="new_fbgc_double_object" alt="" coords="227,5,392,32"/>
-<area shape="rect" id="node3" href="memory_8c.html#a41dd65ee24d51160659bf94bed90e998" title="fbgc_malloc" alt="" coords="440,5,532,32"/>
-<area shape="rect" id="node4" href="error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="580,5,639,32"/>
+<div class="center"><img src="complex__object_8h_aa0b1f545b62fd633eec818519a96cb35_cgraph.png" border="0" usemap="#complex__object_8h_aa0b1f545b62fd633eec818519a96cb35_cgraph" alt=""/></div>
+<map name="complex__object_8h_aa0b1f545b62fd633eec818519a96cb35_cgraph" id="complex__object_8h_aa0b1f545b62fd633eec818519a96cb35_cgraph">
+<area shape="rect" id="node2" href="double__object_8c.html#a08dd93b8f6c56cf7cb6210b63c29dbaf" title="new_fbgc_double_object" alt="" coords="227,13,392,39"/>
+<area shape="rect" id="node3" href="memory_8c.html#a41dd65ee24d51160659bf94bed90e998" title="fbgc_malloc" alt="" coords="440,13,532,39"/>
+<area shape="rect" id="node4" href="error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="580,13,639,39"/>
 </map>
 </div>
 
@@ -750,7 +805,7 @@ Here is the caller graph for this function:</div>
 <map name="complex__object_8h_a35a6de78c0508d9a546bdc03b4005380_icgraph" id="complex__object_8h_a35a6de78c0508d9a546bdc03b4005380_icgraph">
 <area shape="rect" id="node2" href="interpreter_8h.html#acdb0cb340501af8374de73b627b6e26a" title="run_code" alt="" coords="216,29,291,56"/>
 <area shape="rect" id="node3" href="interpreter_8h.html#acb0454b55a53dfb587644f66848a0646" title="interpreter" alt="" coords="339,29,419,56"/>
-<area shape="rect" id="node4" href="fbgc_8h.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="467,29,569,56"/>
+<area shape="rect" id="node4" href="fbgc_8c.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="467,29,569,56"/>
 <area shape="rect" id="node5" href="fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c" title="new_fbgc_cfunction" alt="" coords="617,29,756,56"/>
 </map>
 </div>

@@ -15,7 +15,7 @@ struct fbgc_ll_base * new_fbgc_symbol_from_substr(const char * str1,const char *
 
 
 	//General symbol holder see symbol_table.h
-	struct fbgc_object ** symbols = tuple_object_content(fbgc_symbols);
+	struct fbgc_object ** symbols = content_fbgc_tuple_object(fbgc_symbols);
 
 
 	//############################
@@ -70,7 +70,7 @@ struct fbgc_ll_base * new_fbgc_symbol_from_substr(const char * str1,const char *
 	//fbgc_symbols = table;
 
 	//table pointer may not be the same anymore
-	symbols = tuple_object_content(fbgc_symbols);
+	symbols = content_fbgc_tuple_object(fbgc_symbols);
 
 	#ifdef SYMBOL_TABLE_DEBUG
 	cprintf(100,"Succesfully added in the symbol table : ");

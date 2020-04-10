@@ -131,13 +131,13 @@ Macros</h2></td></tr>
 <tr class="separator:a1164e69ea279bb4f2f00d87621a50e56"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7db67250c8631dc15fe817d71d7a311b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str__object_8h.html#a7db67250c8631dc15fe817d71d7a311b">length_fbgc_str_object</a>(x)&#160;&#160;&#160;(<a class="el" href="str__object_8h.html#a2d3b3d079908a731cc158afe6e329e06">cast_fbgc_object_as_str</a>(x)-&gt;len)</td></tr>
 <tr class="separator:a7db67250c8631dc15fe817d71d7a311b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeca90cf21d51b898d52c4d346b2fbb62"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str__object_8h.html#aeca90cf21d51b898d52c4d346b2fbb62">content_fbgc_str_object</a>(x)&#160;&#160;&#160;((char*)(&amp;<a class="el" href="str__object_8h.html#a2d3b3d079908a731cc158afe6e329e06">cast_fbgc_object_as_str</a>(x)-&gt;content))</td></tr>
+<tr class="memitem:aeca90cf21d51b898d52c4d346b2fbb62"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str__object_8h.html#aeca90cf21d51b898d52c4d346b2fbb62">content_fbgc_str_object</a>(x)&#160;&#160;&#160;(<a class="el" href="str__object_8h.html#a2d3b3d079908a731cc158afe6e329e06">cast_fbgc_object_as_str</a>(x)-&gt;content)</td></tr>
 <tr class="separator:aeca90cf21d51b898d52c4d346b2fbb62"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a400538e732c75f5c466e92bbd11902f8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str__object_8h.html#a400538e732c75f5c466e92bbd11902f8">cast_fbgc_object_as_cstr</a>(x)&#160;&#160;&#160;(((struct <a class="el" href="structfbgc__cstr__object.html">fbgc_cstr_object</a>*) x))</td></tr>
 <tr class="separator:a400538e732c75f5c466e92bbd11902f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d5974dda39b5314dab77243462c5b4d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str__object_8h.html#a6d5974dda39b5314dab77243462c5b4d">length_fbgc_cstr_object</a>(x)&#160;&#160;&#160;(strlen(&amp;<a class="el" href="str__object_8h.html#a400538e732c75f5c466e92bbd11902f8">cast_fbgc_object_as_cstr</a>(x)-&gt;content))</td></tr>
+<tr class="memitem:a6d5974dda39b5314dab77243462c5b4d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str__object_8h.html#a6d5974dda39b5314dab77243462c5b4d">length_fbgc_cstr_object</a>(x)&#160;&#160;&#160;(strlen(<a class="el" href="str__object_8h.html#a400538e732c75f5c466e92bbd11902f8">cast_fbgc_object_as_cstr</a>(x)-&gt;content))</td></tr>
 <tr class="separator:a6d5974dda39b5314dab77243462c5b4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13b0d337c0671bc21b204ff5682156ff"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str__object_8h.html#a13b0d337c0671bc21b204ff5682156ff">content_fbgc_cstr_object</a>(x)&#160;&#160;&#160;(&amp;<a class="el" href="str__object_8h.html#a400538e732c75f5c466e92bbd11902f8">cast_fbgc_object_as_cstr</a>(x)-&gt;content)</td></tr>
+<tr class="memitem:a13b0d337c0671bc21b204ff5682156ff"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str__object_8h.html#a13b0d337c0671bc21b204ff5682156ff">content_fbgc_cstr_object</a>(x)&#160;&#160;&#160;(<a class="el" href="str__object_8h.html#a400538e732c75f5c466e92bbd11902f8">cast_fbgc_object_as_cstr</a>(x)-&gt;content)</td></tr>
 <tr class="separator:a13b0d337c0671bc21b204ff5682156ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a167c8f1843a971ee1c1d1a1fb1b0ebf7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str__object_8h.html#a167c8f1843a971ee1c1d1a1fb1b0ebf7">sizeof_fbgc_cstr_object</a>(x)&#160;&#160;&#160;(sizeof(struct <a class="el" href="structfbgc__cstr__object.html">fbgc_cstr_object</a>)+<a class="el" href="str__object_8h.html#a6d5974dda39b5314dab77243462c5b4d">length_fbgc_cstr_object</a>(x))</td></tr>
 <tr class="separator:a167c8f1843a971ee1c1d1a1fb1b0ebf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -148,8 +148,10 @@ Functions</h2></td></tr>
 <tr class="separator:ab7113129345d6c0be86d06312b0816af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acb52d0d5127ded9fbb7718d6b6d13d28"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str__object_8h.html#acb52d0d5127ded9fbb7718d6b6d13d28">new_fbgc_str_object_from_substr</a> (const char *str1, const char *str2)</td></tr>
 <tr class="separator:acb52d0d5127ded9fbb7718d6b6d13d28"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7d2903336f73edf4ed0c60627d47823e"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str__object_8h.html#a7d2903336f73edf4ed0c60627d47823e">new_fbgc_str_object_empty</a> (int len)</td></tr>
-<tr class="separator:a7d2903336f73edf4ed0c60627d47823e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7dd90bab7f0bbd8ce46b5630a48dd428"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str__object_8h.html#a7dd90bab7f0bbd8ce46b5630a48dd428">new_fbgc_str_object_empty</a> (size_t len)</td></tr>
+<tr class="separator:a7dd90bab7f0bbd8ce46b5630a48dd428"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5bf960b58ffc3c7b696f3724f1eb8a66"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str__object_8h.html#a5bf960b58ffc3c7b696f3724f1eb8a66">new_fbgc_str_object_from_object</a> (struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *<a class="el" href="grammar_8c.html#a2860d074fd2d86b8826bef4be8e71cd0">obj</a>)</td></tr>
+<tr class="separator:a5bf960b58ffc3c7b696f3724f1eb8a66"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa52ba68bd74a0ee1167ab4483fec93a3"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str__object_8h.html#aa52ba68bd74a0ee1167ab4483fec93a3">operator_fbgc_str_object</a> (struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *a, struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *b, <a class="el" href="tokens_8h.html#a9d21ebbf42e602eb0cf502c867d20a7e">fbgc_token</a> op)</td></tr>
 <tr class="separator:aa52ba68bd74a0ee1167ab4483fec93a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adfa784fb626df781848ec722eea7b875"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str__object_8h.html#adfa784fb626df781848ec722eea7b875">get_char_from_fbgc_str_object</a> (struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *so, int i1, struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *res)</td></tr>
@@ -192,7 +194,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="str__object_8h_source.html#l00046">46</a> of file <a class="el" href="str__object_8h_source.html">str_object.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="str__object_8h_source.html#l00047">47</a> of file <a class="el" href="str__object_8h_source.html">str_object.h</a>.</p>
 
 </div>
 </div>
@@ -227,12 +229,12 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">x</td><td>)</td>
-          <td>&#160;&#160;&#160;(&amp;<a class="el" href="str__object_8h.html#a400538e732c75f5c466e92bbd11902f8">cast_fbgc_object_as_cstr</a>(x)-&gt;content)</td>
+          <td>&#160;&#160;&#160;(<a class="el" href="str__object_8h.html#a400538e732c75f5c466e92bbd11902f8">cast_fbgc_object_as_cstr</a>(x)-&gt;content)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="str__object_8h_source.html#l00048">48</a> of file <a class="el" href="str__object_8h_source.html">str_object.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="str__object_8h_source.html#l00049">49</a> of file <a class="el" href="str__object_8h_source.html">str_object.h</a>.</p>
 
 </div>
 </div>
@@ -247,7 +249,7 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">x</td><td>)</td>
-          <td>&#160;&#160;&#160;((char*)(&amp;<a class="el" href="str__object_8h.html#a2d3b3d079908a731cc158afe6e329e06">cast_fbgc_object_as_str</a>(x)-&gt;content))</td>
+          <td>&#160;&#160;&#160;(<a class="el" href="str__object_8h.html#a2d3b3d079908a731cc158afe6e329e06">cast_fbgc_object_as_str</a>(x)-&gt;content)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -267,12 +269,12 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">x</td><td>)</td>
-          <td>&#160;&#160;&#160;(strlen(&amp;<a class="el" href="str__object_8h.html#a400538e732c75f5c466e92bbd11902f8">cast_fbgc_object_as_cstr</a>(x)-&gt;content))</td>
+          <td>&#160;&#160;&#160;(strlen(<a class="el" href="str__object_8h.html#a400538e732c75f5c466e92bbd11902f8">cast_fbgc_object_as_cstr</a>(x)-&gt;content))</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="str__object_8h_source.html#l00047">47</a> of file <a class="el" href="str__object_8h_source.html">str_object.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="str__object_8h_source.html#l00048">48</a> of file <a class="el" href="str__object_8h_source.html">str_object.h</a>.</p>
 
 </div>
 </div>
@@ -312,7 +314,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="str__object_8h_source.html#l00049">49</a> of file <a class="el" href="str__object_8h_source.html">str_object.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="str__object_8h_source.html#l00050">50</a> of file <a class="el" href="str__object_8h_source.html">str_object.h</a>.</p>
 
 </div>
 </div>
@@ -353,7 +355,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="str__object_8c_source.html#l00358">358</a> of file <a class="el" href="str__object_8c_source.html">str_object.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="str__object_8c_source.html#l00393">393</a> of file <a class="el" href="str__object_8c_source.html">str_object.c</a>.</p>
 
 </div>
 </div>
@@ -373,7 +375,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="str__object_8c_source.html#l00270">270</a> of file <a class="el" href="str__object_8c_source.html">str_object.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="str__object_8c_source.html#l00309">309</a> of file <a class="el" href="str__object_8c_source.html">str_object.c</a>.</p>
 
 </div>
 </div>
@@ -409,7 +411,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="str__object_8c_source.html#l00228">228</a> of file <a class="el" href="str__object_8c_source.html">str_object.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="str__object_8c_source.html#l00268">268</a> of file <a class="el" href="str__object_8c_source.html">str_object.c</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -417,7 +419,7 @@ Here is the caller graph for this function:</div>
 <map name="str__object_8h_adfa784fb626df781848ec722eea7b875_icgraph" id="str__object_8h_adfa784fb626df781848ec722eea7b875_icgraph">
 <area shape="rect" id="node2" href="interpreter_8h.html#acdb0cb340501af8374de73b627b6e26a" title="run_code" alt="" coords="191,29,265,56"/>
 <area shape="rect" id="node3" href="interpreter_8h.html#acb0454b55a53dfb587644f66848a0646" title="interpreter" alt="" coords="313,29,393,56"/>
-<area shape="rect" id="node4" href="fbgc_8h.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="441,29,544,56"/>
+<area shape="rect" id="node4" href="fbgc_8c.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="441,29,544,56"/>
 <area shape="rect" id="node5" href="fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c" title="new_fbgc_cfunction" alt="" coords="592,29,731,56"/>
 </map>
 </div>
@@ -456,7 +458,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="str__object_8c_source.html#l00238">238</a> of file <a class="el" href="str__object_8c_source.html">str_object.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="str__object_8c_source.html#l00278">278</a> of file <a class="el" href="str__object_8c_source.html">str_object.c</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -475,7 +477,7 @@ Here is the caller graph for this function:</div>
 <area shape="rect" id="node2" href="fbgc__stl_8c.html#a96ff8b55e7227a3b065fa85744eb40ba" title="new_fbgc_cfunction" alt="" coords="184,5,323,32"/>
 <area shape="rect" id="node3" href="interpreter_8h.html#acdb0cb340501af8374de73b627b6e26a" title="run_code" alt="" coords="216,80,291,107"/>
 <area shape="rect" id="node4" href="interpreter_8h.html#acb0454b55a53dfb587644f66848a0646" title="interpreter" alt="" coords="371,80,451,107"/>
-<area shape="rect" id="node5" href="fbgc_8h.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="499,80,601,107"/>
+<area shape="rect" id="node5" href="fbgc_8c.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="499,80,601,107"/>
 <area shape="rect" id="node6" href="fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c" title="new_fbgc_cfunction" alt="" coords="649,80,788,107"/>
 </map>
 </div>
@@ -508,7 +510,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="str__object_8c_source.html#l00306">306</a> of file <a class="el" href="str__object_8c_source.html">str_object.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="str__object_8c_source.html#l00345">345</a> of file <a class="el" href="str__object_8c_source.html">str_object.c</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -516,11 +518,11 @@ Here is the caller graph for this function:</div>
 <map name="str__object_8h_a5aaf56c2518080d35d4feaaeeb3fba65_icgraph" id="str__object_8h_a5aaf56c2518080d35d4feaaeeb3fba65_icgraph">
 <area shape="rect" id="node2" href="fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c" title="new_fbgc_cfunction" alt="" coords="1072,94,1211,120"/>
 <area shape="rect" id="node3" href="class__object_8h.html#ac87ee1f4c137d56abfe3990e6da7aa61" title="inherit_from_another\l_class" alt="" coords="359,237,499,278"/>
-<area shape="rect" id="node6" href="fbgc_8h.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="909,94,1012,120"/>
+<area shape="rect" id="node6" href="fbgc_8c.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="909,94,1012,120"/>
 <area shape="rect" id="node7" href="class__object_8h.html#a0d3ce61103075e16f719b4d0b5abd98a" title="get_set_fbgc_instance\l_object_member" alt="" coords="140,145,293,186"/>
 <area shape="rect" id="node8" href="fbgc__object_8h.html#a6b179b77e73ea2031e250652bb83c1cf" title="get_set_fbgc_object\l_member" alt="" coords="359,158,498,200"/>
 <area shape="rect" id="node10" href="cmodule__object_8h.html#a78b98728bafb17115fa26b483d600ef1" title="new_cfun_object_from_str" alt="" coords="341,94,516,120"/>
-<area shape="rect" id="node12" href="fbgc_8h.html#a028d4bd3c990b0410fe7e03543a8ed60" title="fbgc_load_module" alt="" coords="897,228,1024,255"/>
+<area shape="rect" id="node12" href="fbgc_8c.html#a028d4bd3c990b0410fe7e03543a8ed60" title="fbgc_load_module" alt="" coords="897,228,1024,255"/>
 <area shape="rect" id="node4" href="interpreter_8h.html#acdb0cb340501af8374de73b627b6e26a" title="run_code" alt="" coords="605,240,680,267"/>
 <area shape="rect" id="node5" href="interpreter_8h.html#acb0454b55a53dfb587644f66848a0646" title="interpreter" alt="" coords="769,199,849,226"/>
 <area shape="rect" id="node9" href="class__object_8h.html#a9e16ab772b9f1e0e9b201c7ae7975ee4" title="operator_fbgc_instance\l_object" alt="" coords="564,150,721,192"/>
@@ -562,7 +564,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="str__object_8c_source.html#l00279">279</a> of file <a class="el" href="str__object_8c_source.html">str_object.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="str__object_8c_source.html#l00318">318</a> of file <a class="el" href="str__object_8c_source.html">str_object.c</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -572,7 +574,7 @@ Here is the caller graph for this function:</div>
 <area shape="rect" id="node3" href="field__object_8h.html#a72a879327492fbbc87302acca2de4e5a" title="add_variable_in_field\l_object" alt="" coords="356,23,499,65"/>
 <area shape="rect" id="node7" href="relexer_8c.html#a4e800df9ae16f96fc5517262d24aa91e" title="_tokenize_substr" alt="" coords="367,89,488,116"/>
 <area shape="rect" id="node4" href="fbgc__math_8c.html#a9eb1700a5bd425c10311d25a941c3f38" title="new_fbgc_cfunction" alt="" coords="547,5,685,32"/>
-<area shape="rect" id="node5" href="fbgc_8h.html#a028d4bd3c990b0410fe7e03543a8ed60" title="fbgc_load_module" alt="" coords="553,56,679,83"/>
+<area shape="rect" id="node5" href="fbgc_8c.html#a028d4bd3c990b0410fe7e03543a8ed60" title="fbgc_load_module" alt="" coords="553,56,679,83"/>
 <area shape="rect" id="node6" href="fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c" title="new_fbgc_cfunction" alt="" coords="733,56,872,83"/>
 </map>
 </div>
@@ -595,7 +597,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="str__object_8c_source.html#l00326">326</a> of file <a class="el" href="str__object_8c_source.html">str_object.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="str__object_8c_source.html#l00364">364</a> of file <a class="el" href="str__object_8c_source.html">str_object.c</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -634,7 +636,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="str__object_8c_source.html#l00340">340</a> of file <a class="el" href="str__object_8c_source.html">str_object.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="str__object_8c_source.html#l00377">377</a> of file <a class="el" href="str__object_8c_source.html">str_object.c</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -653,7 +655,7 @@ Here is the caller graph for this function:</div>
 <area shape="rect" id="node3" href="field__object_8h.html#a72a879327492fbbc87302acca2de4e5a" title="add_variable_in_field\l_object" alt="" coords="411,23,553,65"/>
 <area shape="rect" id="node7" href="relexer_8c.html#a4e800df9ae16f96fc5517262d24aa91e" title="_tokenize_substr" alt="" coords="421,89,543,116"/>
 <area shape="rect" id="node4" href="fbgc__math_8c.html#a9eb1700a5bd425c10311d25a941c3f38" title="new_fbgc_cfunction" alt="" coords="601,5,740,32"/>
-<area shape="rect" id="node5" href="fbgc_8h.html#a028d4bd3c990b0410fe7e03543a8ed60" title="fbgc_load_module" alt="" coords="607,56,734,83"/>
+<area shape="rect" id="node5" href="fbgc_8c.html#a028d4bd3c990b0410fe7e03543a8ed60" title="fbgc_load_module" alt="" coords="607,56,734,83"/>
 <area shape="rect" id="node6" href="fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c" title="new_fbgc_cfunction" alt="" coords="788,56,927,83"/>
 </map>
 </div>
@@ -691,18 +693,20 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="str__object_8h_ab7113129345d6c0be86d06312b0816af_icgraph.png" border="0" usemap="#str__object_8h_ab7113129345d6c0be86d06312b0816af_icgraph" alt=""/></div>
 <map name="str__object_8h_ab7113129345d6c0be86d06312b0816af_icgraph" id="str__object_8h_ab7113129345d6c0be86d06312b0816af_icgraph">
-<area shape="rect" id="node2" href="fbgc__io_8c.html#a9cb26e3d558976dc92d5807c6e9cbe02" title="new_fbgc_cfunction" alt="" coords="196,5,335,32"/>
-<area shape="rect" id="node3" href="interpreter_8h.html#acdb0cb340501af8374de73b627b6e26a" title="run_code" alt="" coords="228,80,303,107"/>
-<area shape="rect" id="node4" href="interpreter_8h.html#acb0454b55a53dfb587644f66848a0646" title="interpreter" alt="" coords="383,80,463,107"/>
-<area shape="rect" id="node5" href="fbgc_8h.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="511,80,613,107"/>
-<area shape="rect" id="node6" href="fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c" title="new_fbgc_cfunction" alt="" coords="661,80,800,107"/>
+<area shape="rect" id="node2" href="fbgc__io_8c.html#a9cb26e3d558976dc92d5807c6e9cbe02" title="new_fbgc_cfunction" alt="" coords="208,5,347,32"/>
+<area shape="rect" id="node3" href="interpreter_8h.html#acdb0cb340501af8374de73b627b6e26a" title="run_code" alt="" coords="240,80,315,107"/>
+<area shape="rect" id="node7" href="logic__object_8h.html#a71f21fc384b71184e0983713b4652f45" title="fbgc_logic_object_to_str" alt="" coords="196,131,359,157"/>
+<area shape="rect" id="node8" href="str__object_8h.html#a5bf960b58ffc3c7b696f3724f1eb8a66" title="new_fbgc_str_object\l_from_object" alt="" coords="206,182,349,223"/>
+<area shape="rect" id="node4" href="interpreter_8h.html#acb0454b55a53dfb587644f66848a0646" title="interpreter" alt="" coords="407,80,487,107"/>
+<area shape="rect" id="node5" href="fbgc_8c.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="535,80,637,107"/>
+<area shape="rect" id="node6" href="fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c" title="new_fbgc_cfunction" alt="" coords="685,80,824,107"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="a7d2903336f73edf4ed0c60627d47823e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7d2903336f73edf4ed0c60627d47823e">&#9670;&nbsp;</a></span>new_fbgc_str_object_empty()</h2>
+<a id="a7dd90bab7f0bbd8ce46b5630a48dd428"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7dd90bab7f0bbd8ce46b5630a48dd428">&#9670;&nbsp;</a></span>new_fbgc_str_object_empty()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -710,19 +714,19 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">struct <a class="el" href="structfbgc__object.html">fbgc_object</a>* new_fbgc_str_object_empty </td>
           <td>(</td>
-          <td class="paramtype">int&#160;</td>
+          <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>len</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="str__object_8c_source.html#l00025">25</a> of file <a class="el" href="str__object_8c_source.html">str_object.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="str__object_8c_source.html#l00022">22</a> of file <a class="el" href="str__object_8c_source.html">str_object.c</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="str__object_8h_a7d2903336f73edf4ed0c60627d47823e_cgraph.png" border="0" usemap="#str__object_8h_a7d2903336f73edf4ed0c60627d47823e_cgraph" alt=""/></div>
-<map name="str__object_8h_a7d2903336f73edf4ed0c60627d47823e_cgraph" id="str__object_8h_a7d2903336f73edf4ed0c60627d47823e_cgraph">
+<div class="center"><img src="str__object_8h_a7dd90bab7f0bbd8ce46b5630a48dd428_cgraph.png" border="0" usemap="#str__object_8h_a7dd90bab7f0bbd8ce46b5630a48dd428_cgraph" alt=""/></div>
+<map name="str__object_8h_a7dd90bab7f0bbd8ce46b5630a48dd428_cgraph" id="str__object_8h_a7dd90bab7f0bbd8ce46b5630a48dd428_cgraph">
 <area shape="rect" id="node2" href="memory_8c.html#a41dd65ee24d51160659bf94bed90e998" title="fbgc_malloc" alt="" coords="196,13,288,39"/>
 <area shape="rect" id="node3" href="error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="336,13,395,39"/>
 </map>
@@ -730,10 +734,45 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="str__object_8h_a7d2903336f73edf4ed0c60627d47823e_icgraph.png" border="0" usemap="#str__object_8h_a7d2903336f73edf4ed0c60627d47823e_icgraph" alt=""/></div>
-<map name="str__object_8h_a7d2903336f73edf4ed0c60627d47823e_icgraph" id="str__object_8h_a7d2903336f73edf4ed0c60627d47823e_icgraph">
+<div class="center"><img src="str__object_8h_a7dd90bab7f0bbd8ce46b5630a48dd428_icgraph.png" border="0" usemap="#str__object_8h_a7dd90bab7f0bbd8ce46b5630a48dd428_icgraph" alt=""/></div>
+<map name="str__object_8h_a7dd90bab7f0bbd8ce46b5630a48dd428_icgraph" id="str__object_8h_a7dd90bab7f0bbd8ce46b5630a48dd428_icgraph">
 <area shape="rect" id="node2" href="fbgc__file_8c.html#a2bd515c0839f441866a9a4f91337023a" title="new_fbgc_cfunction" alt="" coords="209,5,348,32"/>
-<area shape="rect" id="node3" href="str__object_8h.html#aa52ba68bd74a0ee1167ab4483fec93a3" title="operator_fbgc_str_object" alt="" coords="196,56,361,83"/>
+<area shape="rect" id="node3" href="complex__object_8h.html#aa3ed0f6dc7dcc5a6b9ccf6c59d78a913" title="fbgc_complex_object\l_to_str" alt="" coords="206,57,351,98"/>
+<area shape="rect" id="node4" href="double__object_8h.html#ad2311f4adc82010d5c967211142c0b81" title="fbgc_double_object\l_to_str" alt="" coords="211,122,346,163"/>
+<area shape="rect" id="node5" href="int__object_8h.html#a167f851084d42d9412089007268f2c29" title="fbgc_int_object_to_str" alt="" coords="203,188,354,215"/>
+<area shape="rect" id="node6" href="str__object_8h.html#a5bf960b58ffc3c7b696f3724f1eb8a66" title="new_fbgc_str_object\l_from_object" alt="" coords="207,239,350,281"/>
+<area shape="rect" id="node7" href="str__object_8h.html#aa52ba68bd74a0ee1167ab4483fec93a3" title="operator_fbgc_str_object" alt="" coords="196,305,361,332"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a5bf960b58ffc3c7b696f3724f1eb8a66"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5bf960b58ffc3c7b696f3724f1eb8a66">&#9670;&nbsp;</a></span>new_fbgc_str_object_from_object()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structfbgc__object.html">fbgc_object</a>* new_fbgc_str_object_from_object </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td>
+          <td class="paramname"><em>obj</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="str__object_8c_source.html#l00032">32</a> of file <a class="el" href="str__object_8c_source.html">str_object.c</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="str__object_8h_a5bf960b58ffc3c7b696f3724f1eb8a66_cgraph.png" border="0" usemap="#str__object_8h_a5bf960b58ffc3c7b696f3724f1eb8a66_cgraph" alt=""/></div>
+<map name="str__object_8h_a5bf960b58ffc3c7b696f3724f1eb8a66_cgraph" id="str__object_8h_a5bf960b58ffc3c7b696f3724f1eb8a66_cgraph">
+<area shape="rect" id="node2" href="str__object_8c.html#aa3676319615cda5eb7d09bb7e99837bf" title="new_fbgc_str_object" alt="" coords="196,5,339,32"/>
+<area shape="rect" id="node5" href="str__object_8c.html#a7dd90bab7f0bbd8ce46b5630a48dd428" title="new_fbgc_str_object\l_empty" alt="" coords="196,57,339,98"/>
+<area shape="rect" id="node3" href="memory_8c.html#a41dd65ee24d51160659bf94bed90e998" title="fbgc_malloc" alt="" coords="387,35,479,61"/>
+<area shape="rect" id="node4" href="error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="527,35,585,61"/>
 </map>
 </div>
 
@@ -765,7 +804,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="str__object_8c_source.html#l00014">14</a> of file <a class="el" href="str__object_8c_source.html">str_object.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="str__object_8c_source.html#l00012">12</a> of file <a class="el" href="str__object_8c_source.html">str_object.c</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -786,7 +825,7 @@ Here is the caller graph for this function:</div>
 <area shape="rect" id="node5" href="fbgc__stl_8c.html#a96ff8b55e7227a3b065fa85744eb40ba" title="new_fbgc_cfunction" alt="" coords="409,77,548,104"/>
 <area shape="rect" id="node6" href="interpreter_8h.html#acdb0cb340501af8374de73b627b6e26a" title="run_code" alt="" coords="441,152,516,179"/>
 <area shape="rect" id="node7" href="interpreter_8h.html#acb0454b55a53dfb587644f66848a0646" title="interpreter" alt="" coords="596,152,676,179"/>
-<area shape="rect" id="node8" href="fbgc_8h.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="724,152,827,179"/>
+<area shape="rect" id="node8" href="fbgc_8c.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="724,152,827,179"/>
 <area shape="rect" id="node9" href="fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c" title="new_fbgc_cfunction" alt="" coords="875,152,1013,179"/>
 </map>
 </div>
@@ -825,23 +864,23 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="str__object_8c_source.html#l00034">34</a> of file <a class="el" href="str__object_8c_source.html">str_object.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="str__object_8c_source.html#l00074">74</a> of file <a class="el" href="str__object_8c_source.html">str_object.c</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="str__object_8h_aa52ba68bd74a0ee1167ab4483fec93a3_cgraph.png" border="0" usemap="#str__object_8h_aa52ba68bd74a0ee1167ab4483fec93a3_cgraph" alt=""/></div>
 <map name="str__object_8h_aa52ba68bd74a0ee1167ab4483fec93a3_cgraph" id="str__object_8h_aa52ba68bd74a0ee1167ab4483fec93a3_cgraph">
-<area shape="rect" id="node2" href="str__object_8c.html#a7d2903336f73edf4ed0c60627d47823e" title="new_fbgc_str_object\l_empty" alt="" coords="427,203,570,244"/>
-<area shape="rect" id="node4" href="error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="833,117,892,143"/>
-<area shape="rect" id="node5" href="tuple__object_8c.html#aea5f2cac3a39a11b2c17445654538710" title="new_fbgc_tuple_object" alt="" coords="421,50,576,77"/>
-<area shape="rect" id="node7" href="tuple__object_8c.html#a0b406898ce0f388a06bbf0cdd3b5b8d5" title="push_back_fbgc_tuple\l_object" alt="" coords="220,269,372,311"/>
-<area shape="rect" id="node11" href="str__object_8c.html#acb52d0d5127ded9fbb7718d6b6d13d28" title="new_fbgc_str_object\l_from_substr" alt="" coords="225,152,367,193"/>
-<area shape="rect" id="node12" href="logic__object_8c.html#a11def1f376b697a7229879ad4222afab" title="new_fbgc_logic_object" alt="" coords="219,101,373,127"/>
+<area shape="rect" id="node2" href="str__object_8c.html#a7dd90bab7f0bbd8ce46b5630a48dd428" title="new_fbgc_str_object\l_empty" alt="" coords="427,143,570,184"/>
+<area shape="rect" id="node4" href="error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="833,146,892,173"/>
+<area shape="rect" id="node5" href="tuple__object_8c.html#aea5f2cac3a39a11b2c17445654538710" title="new_fbgc_tuple_object" alt="" coords="421,209,576,235"/>
+<area shape="rect" id="node7" href="tuple__object_8c.html#a0b406898ce0f388a06bbf0cdd3b5b8d5" title="push_back_fbgc_tuple\l_object" alt="" coords="220,252,372,293"/>
+<area shape="rect" id="node11" href="str__object_8c.html#acb52d0d5127ded9fbb7718d6b6d13d28" title="new_fbgc_str_object\l_from_substr" alt="" coords="225,33,367,75"/>
+<area shape="rect" id="node12" href="logic__object_8c.html#a11def1f376b697a7229879ad4222afab" title="new_fbgc_logic_object" alt="" coords="219,99,373,126"/>
 <area shape="rect" id="node3" href="memory_8c.html#a41dd65ee24d51160659bf94bed90e998" title="fbgc_malloc" alt="" coords="659,117,751,143"/>
-<area shape="rect" id="node6" href="tuple__object_8c.html#af0a95832bdbe0ec168e2a1e8407cc9c9" title="calculate_new_capacity\l_from_size" alt="" coords="624,51,785,92"/>
-<area shape="rect" id="node8" href="memory_8c.html#a46dcfb44df5cac4f04145f1aa208fb9f" title="fbgc_realloc" alt="" coords="453,269,545,295"/>
-<area shape="rect" id="node9" href="fbgc__object_8c.html#a1ba6a6b09db0e6c3a6ac6f6cfc0266de" title="get_fbgc_object_size" alt="" coords="632,269,777,295"/>
-<area shape="rect" id="node10" href="memory_8c.html#a45d076e11af8d11bd73f6529582edbef" title="fbgc_free" alt="" coords="667,167,743,194"/>
+<area shape="rect" id="node6" href="tuple__object_8c.html#af0a95832bdbe0ec168e2a1e8407cc9c9" title="calculate_new_capacity\l_from_size" alt="" coords="624,168,785,209"/>
+<area shape="rect" id="node8" href="memory_8c.html#a46dcfb44df5cac4f04145f1aa208fb9f" title="fbgc_realloc" alt="" coords="453,259,545,286"/>
+<area shape="rect" id="node9" href="fbgc__object_8c.html#a1ba6a6b09db0e6c3a6ac6f6cfc0266de" title="get_fbgc_object_size" alt="" coords="632,285,777,311"/>
+<area shape="rect" id="node10" href="memory_8c.html#a45d076e11af8d11bd73f6529582edbef" title="fbgc_free" alt="" coords="667,335,743,362"/>
 </map>
 </div>
 
@@ -863,7 +902,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="str__object_8c_source.html#l00353">353</a> of file <a class="el" href="str__object_8c_source.html">str_object.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="str__object_8c_source.html#l00388">388</a> of file <a class="el" href="str__object_8c_source.html">str_object.c</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -877,31 +916,32 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="str__object_8h_a35453513d73cacb0c9e8bba885b1d652_icgraph.png" border="0" usemap="#str__object_8h_a35453513d73cacb0c9e8bba885b1d652_icgraph" alt=""/></div>
 <map name="str__object_8h_a35453513d73cacb0c9e8bba885b1d652_icgraph" id="str__object_8h_a35453513d73cacb0c9e8bba885b1d652_icgraph">
-<area shape="rect" id="node2" href="fbgc__object_8h.html#a3c27b6ebc8a5ad9202eb6f00f28c014b" title="print_fbgc_object" alt="" coords="204,209,325,236"/>
-<area shape="rect" id="node9" href="linked__list_8h.html#a84527cb003478dd4a3d0427586c2d843" title="_print_fbgc_ll_code" alt="" coords="585,227,720,253"/>
-<area shape="rect" id="node21" href="symbol__table_8h.html#ac2d095c327888530304e422bd1641baf" title="new_fbgc_symbol_from\l_substr" alt="" coords="373,383,533,425"/>
-<area shape="rect" id="node3" href="field__object_8h.html#af022b85fb80b3df106abb4ca425d3642" title="print_field_object\l_locals" alt="" coords="393,42,513,83"/>
-<area shape="rect" id="node4" href="interpreter_8h.html#acdb0cb340501af8374de73b627b6e26a" title="run_code" alt="" coords="1561,221,1636,248"/>
-<area shape="rect" id="node8" href="linked__list_8c.html#adf5d9a585d48523587ecad0495f80d52" title="_print_fbgc_ll_base" alt="" coords="386,209,521,236"/>
-<area shape="rect" id="node20" href="range__object_8h.html#ab8138fb21f5d4098f82847b2354af837" title="print_fbgc_range_object" alt="" coords="373,108,533,135"/>
-<area shape="rect" id="node26" href="tuple__object_8h.html#a43b357c743a4fa9b9f129eca739ab561" title="print_fbgc_tuple_object" alt="" coords="375,260,531,287"/>
-<area shape="rect" id="node5" href="interpreter_8h.html#acb0454b55a53dfb587644f66848a0646" title="interpreter" alt="" coords="1684,233,1764,260"/>
-<area shape="rect" id="node6" href="fbgc_8h.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="1812,297,1915,324"/>
-<area shape="rect" id="node7" href="fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c" title="new_fbgc_cfunction" alt="" coords="1963,348,2101,375"/>
-<area shape="rect" id="node10" href="class__object_8h.html#a823234db9332759a36231027d8da7acd" title="print_fbgc_class_object" alt="" coords="781,204,940,231"/>
-<area shape="rect" id="node15" href="fun__object_8h.html#a36b74dd4b00ec815387ba18bae94e41d" title="print_fbgc_fun_object" alt="" coords="787,356,934,383"/>
-<area shape="rect" id="node16" href="fun__object_8h.html#a6949f7b6d871bcbe0abb28b50610652f" title="fprintf_fbgc_fun_object" alt="" coords="997,153,1152,180"/>
-<area shape="rect" id="node17" href="linked__list_8h.html#ae21d5595eb9b9019456b3f93627dbc24" title="_print_fbgc_ll" alt="" coords="811,305,910,332"/>
-<area shape="rect" id="node19" href="parser_8c.html#a8bc68ce2b13120de2f50d21decaff47d" title="handle_before_paranthesis" alt="" coords="772,255,949,281"/>
-<area shape="rect" id="node11" href="class__object_8h.html#a1b56e7c24929269305a02fd54d250435" title="fprintf_fbgc_class\l_object" alt="" coords="1012,205,1137,246"/>
-<area shape="rect" id="node12" href="fbgc__object_8h.html#a79b110ee419e38013556f4379e724da8" title="printf_fbgc_object" alt="" coords="1201,195,1326,221"/>
-<area shape="rect" id="node13" href="fbgc__io_8c.html#a747fb58fad9eba861df1158b7acc198d" title="new_fbgc_cfunction" alt="" coords="1375,163,1513,189"/>
-<area shape="rect" id="node14" href="fbgc__object_8h.html#a53923b9b19a00332f088b8c866fb4075" title="convert_fbgc_object\l_to_logic" alt="" coords="1375,214,1513,255"/>
-<area shape="rect" id="node18" href="parser_8h.html#a9128876c7bafe4207a35d10f2c7f12a8" title="parser" alt="" coords="1045,297,1104,324"/>
-<area shape="rect" id="node22" href="field__object_8h.html#a72a879327492fbbc87302acca2de4e5a" title="add_variable_in_field\l_object" alt="" coords="581,394,724,435"/>
-<area shape="rect" id="node25" href="relexer_8c.html#a4e800df9ae16f96fc5517262d24aa91e" title="_tokenize_substr" alt="" coords="592,460,713,487"/>
-<area shape="rect" id="node23" href="fbgc__math_8c.html#a9eb1700a5bd425c10311d25a941c3f38" title="new_fbgc_cfunction" alt="" coords="791,407,930,433"/>
-<area shape="rect" id="node24" href="fbgc_8h.html#a028d4bd3c990b0410fe7e03543a8ed60" title="fbgc_load_module" alt="" coords="1200,424,1327,451"/>
+<area shape="rect" id="node2" href="fbgc__object_8h.html#a3c27b6ebc8a5ad9202eb6f00f28c014b" title="print_fbgc_object" alt="" coords="204,205,325,232"/>
+<area shape="rect" id="node10" href="linked__list_8h.html#a84527cb003478dd4a3d0427586c2d843" title="_print_fbgc_ll_code" alt="" coords="585,129,720,156"/>
+<area shape="rect" id="node22" href="symbol__table_8h.html#ac2d095c327888530304e422bd1641baf" title="new_fbgc_symbol_from\l_substr" alt="" coords="373,358,533,399"/>
+<area shape="rect" id="node3" href="field__object_8h.html#af022b85fb80b3df106abb4ca425d3642" title="print_field_object\l_locals" alt="" coords="393,38,513,79"/>
+<area shape="rect" id="node5" href="interpreter_8h.html#acdb0cb340501af8374de73b627b6e26a" title="run_code" alt="" coords="1561,274,1636,301"/>
+<area shape="rect" id="node9" href="linked__list_8c.html#adf5d9a585d48523587ecad0495f80d52" title="_print_fbgc_ll_base" alt="" coords="386,104,521,130"/>
+<area shape="rect" id="node21" href="range__object_8h.html#ab8138fb21f5d4098f82847b2354af837" title="print_fbgc_range_object" alt="" coords="373,154,533,181"/>
+<area shape="rect" id="node27" href="tuple__object_8h.html#a43b357c743a4fa9b9f129eca739ab561" title="print_fbgc_tuple_object" alt="" coords="375,205,531,232"/>
+<area shape="rect" id="node4" href="fbgc__stl_8c.html#a57231667506855f47a848ec5d2d75e4d" title="new_fbgc_cfunction" alt="" coords="583,45,722,72"/>
+<area shape="rect" id="node6" href="interpreter_8h.html#acb0454b55a53dfb587644f66848a0646" title="interpreter" alt="" coords="1684,274,1764,301"/>
+<area shape="rect" id="node7" href="fbgc_8c.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="1812,274,1915,301"/>
+<area shape="rect" id="node8" href="fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c" title="new_fbgc_cfunction" alt="" coords="1963,317,2101,344"/>
+<area shape="rect" id="node11" href="class__object_8h.html#a823234db9332759a36231027d8da7acd" title="print_fbgc_class_object" alt="" coords="781,205,940,232"/>
+<area shape="rect" id="node16" href="fun__object_8h.html#a36b74dd4b00ec815387ba18bae94e41d" title="print_fbgc_fun_object" alt="" coords="787,256,934,282"/>
+<area shape="rect" id="node17" href="fun__object_8h.html#a6949f7b6d871bcbe0abb28b50610652f" title="fprintf_fbgc_fun_object" alt="" coords="997,154,1152,181"/>
+<area shape="rect" id="node18" href="linked__list_8h.html#ae21d5595eb9b9019456b3f93627dbc24" title="_print_fbgc_ll" alt="" coords="811,104,910,130"/>
+<area shape="rect" id="node20" href="parser_8c.html#a8bc68ce2b13120de2f50d21decaff47d" title="handle_before_paranthesis" alt="" coords="772,53,949,80"/>
+<area shape="rect" id="node12" href="class__object_8h.html#a1b56e7c24929269305a02fd54d250435" title="fprintf_fbgc_class\l_object" alt="" coords="1012,206,1137,247"/>
+<area shape="rect" id="node13" href="fbgc__object_8h.html#a79b110ee419e38013556f4379e724da8" title="printf_fbgc_object" alt="" coords="1201,205,1326,232"/>
+<area shape="rect" id="node14" href="fbgc__io_8c.html#a747fb58fad9eba861df1158b7acc198d" title="new_fbgc_cfunction" alt="" coords="1375,189,1513,216"/>
+<area shape="rect" id="node15" href="fbgc__object_8h.html#a53923b9b19a00332f088b8c866fb4075" title="convert_fbgc_object\l_to_logic" alt="" coords="1375,240,1513,282"/>
+<area shape="rect" id="node19" href="parser_8h.html#a9128876c7bafe4207a35d10f2c7f12a8" title="parser" alt="" coords="1045,104,1104,130"/>
+<area shape="rect" id="node23" href="field__object_8h.html#a72a879327492fbbc87302acca2de4e5a" title="add_variable_in_field\l_object" alt="" coords="581,408,724,450"/>
+<area shape="rect" id="node26" href="relexer_8c.html#a4e800df9ae16f96fc5517262d24aa91e" title="_tokenize_substr" alt="" coords="592,357,713,384"/>
+<area shape="rect" id="node24" href="fbgc__math_8c.html#a9eb1700a5bd425c10311d25a941c3f38" title="new_fbgc_cfunction" alt="" coords="791,365,930,392"/>
+<area shape="rect" id="node25" href="fbgc_8c.html#a028d4bd3c990b0410fe7e03543a8ed60" title="fbgc_load_module" alt="" coords="1200,401,1327,428"/>
 </map>
 </div>
 
@@ -923,7 +963,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="str__object_8c_source.html#l00265">265</a> of file <a class="el" href="str__object_8c_source.html">str_object.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="str__object_8c_source.html#l00305">305</a> of file <a class="el" href="str__object_8c_source.html">str_object.c</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -939,29 +979,30 @@ Here is the caller graph for this function:</div>
 <map name="str__object_8h_a390b1a9eb904e8aa5b7fdfc98fc42be3_icgraph" id="str__object_8h_a390b1a9eb904e8aa5b7fdfc98fc42be3_icgraph">
 <area shape="rect" id="node2" href="fbgc__object_8h.html#a3c27b6ebc8a5ad9202eb6f00f28c014b" title="print_fbgc_object" alt="" coords="196,208,317,235"/>
 <area shape="rect" id="node3" href="field__object_8h.html#af022b85fb80b3df106abb4ca425d3642" title="print_field_object\l_locals" alt="" coords="385,41,505,82"/>
-<area shape="rect" id="node4" href="interpreter_8h.html#acdb0cb340501af8374de73b627b6e26a" title="run_code" alt="" coords="1553,227,1628,253"/>
-<area shape="rect" id="node8" href="linked__list_8c.html#adf5d9a585d48523587ecad0495f80d52" title="_print_fbgc_ll_base" alt="" coords="378,157,513,184"/>
-<area shape="rect" id="node20" href="range__object_8h.html#ab8138fb21f5d4098f82847b2354af837" title="print_fbgc_range_object" alt="" coords="365,376,525,403"/>
-<area shape="rect" id="node21" href="symbol__table_8h.html#ac2d095c327888530304e422bd1641baf" title="new_fbgc_symbol_from\l_substr" alt="" coords="365,310,525,351"/>
-<area shape="rect" id="node26" href="tuple__object_8h.html#a43b357c743a4fa9b9f129eca739ab561" title="print_fbgc_tuple_object" alt="" coords="367,107,523,133"/>
-<area shape="rect" id="node5" href="interpreter_8h.html#acb0454b55a53dfb587644f66848a0646" title="interpreter" alt="" coords="1676,227,1756,253"/>
-<area shape="rect" id="node6" href="fbgc_8h.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="1804,227,1907,253"/>
-<area shape="rect" id="node7" href="fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c" title="new_fbgc_cfunction" alt="" coords="1955,269,2093,296"/>
-<area shape="rect" id="node9" href="linked__list_8h.html#a84527cb003478dd4a3d0427586c2d843" title="_print_fbgc_ll_code" alt="" coords="577,107,712,133"/>
-<area shape="rect" id="node10" href="class__object_8h.html#a823234db9332759a36231027d8da7acd" title="print_fbgc_class_object" alt="" coords="773,107,932,133"/>
-<area shape="rect" id="node15" href="fun__object_8h.html#a36b74dd4b00ec815387ba18bae94e41d" title="print_fbgc_fun_object" alt="" coords="779,208,926,235"/>
-<area shape="rect" id="node16" href="fun__object_8h.html#a6949f7b6d871bcbe0abb28b50610652f" title="fprintf_fbgc_fun_object" alt="" coords="989,165,1144,192"/>
-<area shape="rect" id="node17" href="linked__list_8h.html#ae21d5595eb9b9019456b3f93627dbc24" title="_print_fbgc_ll" alt="" coords="803,5,902,32"/>
-<area shape="rect" id="node19" href="parser_8c.html#a8bc68ce2b13120de2f50d21decaff47d" title="handle_before_paranthesis" alt="" coords="764,56,941,83"/>
-<area shape="rect" id="node11" href="class__object_8h.html#a1b56e7c24929269305a02fd54d250435" title="fprintf_fbgc_class\l_object" alt="" coords="1004,99,1129,141"/>
-<area shape="rect" id="node12" href="fbgc__object_8h.html#a79b110ee419e38013556f4379e724da8" title="printf_fbgc_object" alt="" coords="1193,155,1318,181"/>
-<area shape="rect" id="node13" href="fbgc__io_8c.html#a747fb58fad9eba861df1158b7acc198d" title="new_fbgc_cfunction" alt="" coords="1367,141,1505,168"/>
-<area shape="rect" id="node14" href="fbgc__object_8h.html#a53923b9b19a00332f088b8c866fb4075" title="convert_fbgc_object\l_to_logic" alt="" coords="1367,193,1505,234"/>
-<area shape="rect" id="node18" href="parser_8h.html#a9128876c7bafe4207a35d10f2c7f12a8" title="parser" alt="" coords="1037,48,1096,75"/>
-<area shape="rect" id="node22" href="field__object_8h.html#a72a879327492fbbc87302acca2de4e5a" title="add_variable_in_field\l_object" alt="" coords="573,361,716,402"/>
-<area shape="rect" id="node25" href="relexer_8c.html#a4e800df9ae16f96fc5517262d24aa91e" title="_tokenize_substr" alt="" coords="584,309,705,336"/>
-<area shape="rect" id="node23" href="fbgc__math_8c.html#a9eb1700a5bd425c10311d25a941c3f38" title="new_fbgc_cfunction" alt="" coords="783,317,922,344"/>
-<area shape="rect" id="node24" href="fbgc_8h.html#a028d4bd3c990b0410fe7e03543a8ed60" title="fbgc_load_module" alt="" coords="1192,353,1319,380"/>
+<area shape="rect" id="node5" href="interpreter_8h.html#acdb0cb340501af8374de73b627b6e26a" title="run_code" alt="" coords="1553,227,1628,253"/>
+<area shape="rect" id="node9" href="linked__list_8c.html#adf5d9a585d48523587ecad0495f80d52" title="_print_fbgc_ll_base" alt="" coords="378,157,513,184"/>
+<area shape="rect" id="node21" href="range__object_8h.html#ab8138fb21f5d4098f82847b2354af837" title="print_fbgc_range_object" alt="" coords="365,376,525,403"/>
+<area shape="rect" id="node22" href="symbol__table_8h.html#ac2d095c327888530304e422bd1641baf" title="new_fbgc_symbol_from\l_substr" alt="" coords="365,310,525,351"/>
+<area shape="rect" id="node27" href="tuple__object_8h.html#a43b357c743a4fa9b9f129eca739ab561" title="print_fbgc_tuple_object" alt="" coords="367,107,523,133"/>
+<area shape="rect" id="node4" href="fbgc__stl_8c.html#a57231667506855f47a848ec5d2d75e4d" title="new_fbgc_cfunction" alt="" coords="575,48,714,75"/>
+<area shape="rect" id="node6" href="interpreter_8h.html#acb0454b55a53dfb587644f66848a0646" title="interpreter" alt="" coords="1676,227,1756,253"/>
+<area shape="rect" id="node7" href="fbgc_8c.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="1804,227,1907,253"/>
+<area shape="rect" id="node8" href="fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c" title="new_fbgc_cfunction" alt="" coords="1955,256,2093,283"/>
+<area shape="rect" id="node10" href="linked__list_8h.html#a84527cb003478dd4a3d0427586c2d843" title="_print_fbgc_ll_code" alt="" coords="577,107,712,133"/>
+<area shape="rect" id="node11" href="class__object_8h.html#a823234db9332759a36231027d8da7acd" title="print_fbgc_class_object" alt="" coords="773,107,932,133"/>
+<area shape="rect" id="node16" href="fun__object_8h.html#a36b74dd4b00ec815387ba18bae94e41d" title="print_fbgc_fun_object" alt="" coords="779,208,926,235"/>
+<area shape="rect" id="node17" href="fun__object_8h.html#a6949f7b6d871bcbe0abb28b50610652f" title="fprintf_fbgc_fun_object" alt="" coords="989,165,1144,192"/>
+<area shape="rect" id="node18" href="linked__list_8h.html#ae21d5595eb9b9019456b3f93627dbc24" title="_print_fbgc_ll" alt="" coords="803,5,902,32"/>
+<area shape="rect" id="node20" href="parser_8c.html#a8bc68ce2b13120de2f50d21decaff47d" title="handle_before_paranthesis" alt="" coords="764,56,941,83"/>
+<area shape="rect" id="node12" href="class__object_8h.html#a1b56e7c24929269305a02fd54d250435" title="fprintf_fbgc_class\l_object" alt="" coords="1004,99,1129,141"/>
+<area shape="rect" id="node13" href="fbgc__object_8h.html#a79b110ee419e38013556f4379e724da8" title="printf_fbgc_object" alt="" coords="1193,155,1318,181"/>
+<area shape="rect" id="node14" href="fbgc__io_8c.html#a747fb58fad9eba861df1158b7acc198d" title="new_fbgc_cfunction" alt="" coords="1367,141,1505,168"/>
+<area shape="rect" id="node15" href="fbgc__object_8h.html#a53923b9b19a00332f088b8c866fb4075" title="convert_fbgc_object\l_to_logic" alt="" coords="1367,193,1505,234"/>
+<area shape="rect" id="node19" href="parser_8h.html#a9128876c7bafe4207a35d10f2c7f12a8" title="parser" alt="" coords="1037,48,1096,75"/>
+<area shape="rect" id="node23" href="field__object_8h.html#a72a879327492fbbc87302acca2de4e5a" title="add_variable_in_field\l_object" alt="" coords="573,361,716,402"/>
+<area shape="rect" id="node26" href="relexer_8c.html#a4e800df9ae16f96fc5517262d24aa91e" title="_tokenize_substr" alt="" coords="584,309,705,336"/>
+<area shape="rect" id="node24" href="fbgc__math_8c.html#a9eb1700a5bd425c10311d25a941c3f38" title="new_fbgc_cfunction" alt="" coords="783,368,922,395"/>
+<area shape="rect" id="node25" href="fbgc_8c.html#a028d4bd3c990b0410fe7e03543a8ed60" title="fbgc_load_module" alt="" coords="1192,312,1319,339"/>
 </map>
 </div>
 
@@ -1005,7 +1046,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="str__object_8c_source.html#l00247">247</a> of file <a class="el" href="str__object_8c_source.html">str_object.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="str__object_8c_source.html#l00287">287</a> of file <a class="el" href="str__object_8c_source.html">str_object.c</a>.</p>
 
 </div>
 </div>

@@ -1,14 +1,14 @@
 #include "fbgc.h"
 
 
-struct
-fbgc_object * new_fbgc_object(fbgc_token token){
+struct fbgc_object * new_fbgc_object(const fbgc_token token){
 	struct fbgc_object *o =  (struct fbgc_object*) fbgc_malloc(sizeof(struct fbgc_object));
     o->type = token;
-    //o->next = NULL;  
     return (struct fbgc_object*) o;
 }
-
+inline const char * objtp2str(struct fbgc_object * obj){
+	return object_name_array[obj->type];
+}
 
 void printf_fbgc_object(struct fbgc_object * self){
 
@@ -37,12 +37,12 @@ void printf_fbgc_object(struct fbgc_object * self){
 		}
 		case STRING:
 		{
-		    fprintf(stdout,"%s",&cast_fbgc_object_as_str(self)->content);   
+		    fprintf(stdout,"%s",cast_fbgc_object_as_str(self)->content);   
 			break;
 		}
 		case TUPLE:
 		{
-			struct fbgc_object ** contents = tuple_object_content(self);
+			struct fbgc_object ** contents = content_fbgc_tuple_object(self);
 			fprintf(stdout,"(");
 			for(size_t i = 0; i<size_fbgc_tuple_object(self); i++){
 				printf_fbgc_object(contents[i]);
@@ -107,7 +107,7 @@ void printf_fbgc_object(struct fbgc_object * self){
 }
 
 
-void print_fbgc_object(struct fbgc_object * self){
+uint8_t print_fbgc_object(struct fbgc_object * self){
 
 	if(self != NULL){ 
 		switch(get_fbgc_object_type(self)){
@@ -156,6 +156,7 @@ void print_fbgc_object(struct fbgc_object * self){
 		}
 	}
 	else cprintf(111,"[NULL]");
+	return 1;
 }
 
 
@@ -358,7 +359,7 @@ struct fbgc_object * get_length_fbgc_object(struct fbgc_object * t){
 		case MATRIX:
 		{
 			struct fbgc_object * sz_tuple = new_fbgc_tuple_object(2);
-			struct fbgc_object ** aa = tuple_object_content(sz_tuple);
+			struct fbgc_object ** aa = content_fbgc_tuple_object(sz_tuple);
 			aa[0] = new_fbgc_int_object(cast_fbgc_object_as_matrix(t)->row);
 			aa[1] = new_fbgc_int_object(cast_fbgc_object_as_matrix(t)->column);
 			size_fbgc_tuple_object(sz_tuple) = 2;
@@ -382,7 +383,7 @@ struct fbgc_object * get_set_fbgc_object_member(struct fbgc_object * o, const ch
 		case CSTRUCT:
 		{
 			struct fbgc_cstruct_object * so = cast_fbgc_object_as_cstruct(o);
-			struct fbgc_cmodule * cm = so->parent;
+			const struct fbgc_cmodule * cm = so->parent;
 			for (int i = 0; ; ++i){
 				const struct fbgc_cfunction * cc = cm->functions[i];
 				if(cc == NULL) break;
