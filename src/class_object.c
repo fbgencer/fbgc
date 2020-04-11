@@ -203,7 +203,7 @@ struct fbgc_object * operator_fbgc_instance_object(struct fbgc_object * a,struct
 void print_fbgc_class_object(struct fbgc_object * obj){
     struct fbgc_class_object * cls = cast_fbgc_object_as_class(obj);
   
-    if(cls->code != NULL){
+    if(cls->code != NULL && !is_constant_and_token(cls->code,CLASS) && _cast_llbase_as_llconstant(cls->code)->content != obj ){
       cprintf(010,"CLASS[Local#:%d|",size_fbgc_array_object(cls->locals));
       _print_fbgc_ll_code(cls->code,NULL);
       cprintf(010,"]");

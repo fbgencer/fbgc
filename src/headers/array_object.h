@@ -52,20 +52,19 @@ struct fbgc_array_object{
 */
 #define block_size_fbgc_array_object(x)(cast_fbgc_object_as_array(x)->block_size)
 
-
 /*! @def sizeof_fbgc_array_object(x)
     \brief Gets the total size of the given structure, it also calculates the size of data and block size, hence we use it to know the actual boundaries of our object
     \param x : Array object
 */
 #define sizeof_fbgc_array_object(x) (sizeof(struct fbgc_array_object)+ ( capacity_fbgc_array_object(x) * block_size_fbgc_array_object(x) ) )
 
-/*! @def array_object_at(ar,it)
+/*! @def at_fbgc_array_object(ar,it)
     \brief Gets the value at location 'it', calculates where the data lies in the memory by using block size
     \details Note that we need to cast content object as uint8_t* because we want to find the address by adding bytes so compiler makes addition for one byte at a time
     \param x : Array object
     \param it : Location of the variable
 */
-#define array_object_at(x,it)((uint8_t*)cast_fbgc_object_as_array(x)->content + it * block_size_fbgc_array_object(x))
+#define at_fbgc_array_object(x,it)((uint8_t*)cast_fbgc_object_as_array(x)->content + it * block_size_fbgc_array_object(x))
 
 /*! @def is_empty_fbgc_array_object(x)
     \brief Returns 1 if the array object is empty, otherwise returns zero
@@ -129,6 +128,8 @@ void * get_front_in_fbgc_array_object(struct fbgc_object * self);
     \return New address of the array object, if may return exactly the self itself or change it.
 */
 struct fbgc_object * push_back_fbgc_array_object(struct fbgc_object * self,void * obj);
+
+void _push_back_fbgc_array_object(struct fbgc_object ** arr,void * obj);
 
 
 /*! \cond DOCUMENT_EVERYTHING

@@ -4,7 +4,8 @@ void keypair_test();
 void some_arbitrary_struct_test();
 
 void array_test(){
-    some_arbitrary_struct_test();
+    keypair_test();
+    //some_arbitrary_struct_test();
 }
 
 
@@ -18,24 +19,26 @@ void keypair_test(){
     struct keypair kp;
     struct fbgc_array_object * ao = new_fbgc_array_object(0,sizeof(struct keypair));
 
+    struct fbgc_object * array  = ao;
+
     //Lets push the following key&value pairs into our array
 
     kp.key = new_fbgc_cstr_object("fbgencer");
     kp.value = new_fbgc_int_object(314151619);
-    ao = push_back_fbgc_array_object(ao,&kp);
+    _push_back_fbgc_array_object(&ao,&kp);
    
     kp.key = new_fbgc_cstr_object("__fbgc__");
     kp.value = new_fbgc_double_object(3.14151619);
-    ao = push_back_fbgc_array_object(ao,&kp);
+    _push_back_fbgc_array_object(&ao,&kp);
 
     kp.key = new_fbgc_cstr_object("xXxX:)");
     kp.value = new_fbgc_logic_object(1);
-    ao = push_back_fbgc_array_object(ao,&kp);
+    _push_back_fbgc_array_object(&ao,&kp);
 
 
     kp.key = new_fbgc_cstr_object("0123456");
     kp.value = new_fbgc_double_object(-273.15);
-    ao = push_back_fbgc_array_object(ao,&kp); 
+    _push_back_fbgc_array_object(&ao,&kp);
 
     struct keypair * kk = (struct keypair *)get_back_in_fbgc_array_object(ao);
     printf("Last data in the array\n");
@@ -48,12 +51,12 @@ void keypair_test(){
     printf("Value : "); print_fbgc_object(kk->value); printf("\n");
 
 
-    for(int i = 0; i<size_fbgc_array_object(ao); ++i){
-        kk = get_address_in_fbgc_array_object(ao,i);
+    for(int i = 0; i<size_fbgc_array_object(array); ++i){
+        kk = get_address_in_fbgc_array_object(array,i);
         printf("Data[%d]\n",i);
         printf("Key : "); print_fbgc_object(kk->key); printf("\n");
         printf("Value : "); print_fbgc_object(kk->value); printf("\n");        
-    }    
+    }   
 }
 
 

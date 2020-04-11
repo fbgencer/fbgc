@@ -99,7 +99,7 @@ extern "C" {
 #if defined CLOSE_PRINTF
 	#define cprintf(...)
 #else
-	int cprintf(char color,const char *format, ...);
+	uint8_t cprintf(char color,const char *format, ...);
 #endif
 
 int fbgc_assert(unsigned char cond,const char * format,...);

@@ -35,6 +35,7 @@ struct fbgc_object * push_back_fbgc_tuple_object(struct fbgc_object * self,struc
 int index_fbgc_tuple_object(struct fbgc_object * self, struct fbgc_object * obj);
 
 
+void _push_back_fbgc_tuple_object(struct fbgc_object ** tp,struct fbgc_object * obj);
 
 struct fbgc_object *  __get_object_in_fbgc_tuple_object(struct fbgc_object * self,int index,struct fbgc_object * res);
 

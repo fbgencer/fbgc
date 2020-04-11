@@ -11,11 +11,12 @@ struct fbgc_object * new_fbgc_str_object(const char * inc_str){
 
 struct fbgc_object * new_fbgc_str_object_from_substr(const char * str1,const char * str2){
     
-    struct fbgc_str_object *stro =  (struct fbgc_str_object*) fbgc_malloc(sizeof(struct fbgc_str_object) + str2-str1); 
+    struct fbgc_str_object *stro =  (struct fbgc_str_object*) fbgc_malloc(sizeof(struct fbgc_str_object) + str2-str1+1); 
     stro->base.type = STRING;
     stro->len = str2-str1;
     memcpy(stro->content,str1,stro->len+1);
     stro->content[stro->len] = '\0';
+
     return (struct fbgc_object*) stro;  
 }
 
@@ -387,7 +388,7 @@ struct fbgc_object * new_fbgc_cstr_object_from_substr(const char * str1,const ch
 
 void print_fbgc_cstr_object(struct fbgc_object * obj){
    // const char * s = &cast_fbgc_object_as_cstr(obj)->content;
-    cprintf(011,"\"%s\"", &cast_fbgc_object_as_cstr(obj)->content);   
+    cprintf(011,"\"%s\"", cast_fbgc_object_as_cstr(obj)->content);   
 }
 
 void free_fbgc_cstr_object(struct fbgc_object * obj){

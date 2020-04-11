@@ -154,8 +154,9 @@ uint8_t _print_fbgc_ll(struct fbgc_ll_base * head,const char *s1){
     assert(head != NULL);
     struct fbgc_ll * head_ll = _cast_llbase_as_ll(head);
      cprintf(101,"[%s]->",s1);
-    return _print_fbgc_ll_code(head_ll->base.next,head_ll->tail);
-   
+    _print_fbgc_ll_code(head_ll->base.next,head_ll->tail);
+    cprintf(101,"<->[]\n");
+    return 1;
 }
 
 
@@ -179,8 +180,7 @@ uint8_t _print_fbgc_ll_code(struct fbgc_ll_base * head_next,struct fbgc_ll_base 
             else if(obj->type == COMPLEX)
                 cprintf(011,"{%g%+gj}",cast_fbgc_object_as_complex(obj)->z.real,cast_fbgc_object_as_complex(obj)->z.imag);
             
-            //CHANGE THIS LINE, STRING CASTING MUST BE CHANGED | THIS WAY(&cast_fbgc_object_as_str(iter)->content) IS NOT SAFE!
-            else if(obj->type == STRING) cprintf(011,"{'%s'}",&cast_fbgc_object_as_str(obj)->content,object_name_array[obj->type]);
+            else if(obj->type == STRING) cprintf(011,"{'%s'}",content_fbgc_str_object(obj));
             else if(obj->type == CSTRING){
               cprintf(011,"{");
               print_fbgc_cstr_object(obj);
@@ -199,6 +199,7 @@ uint8_t _print_fbgc_ll_code(struct fbgc_ll_base * head_next,struct fbgc_ll_base 
                 print_fbgc_fun_object(obj);
                  cprintf(011,"}");   
             }
+            //Do not print CLASS types because they have themselves in their code so it causes infinite loop
             else cprintf(011,"{%s}",object_name_array[obj->type]);  
         }
         else if(iter->type == IDENTIFIER){
@@ -273,7 +274,6 @@ uint8_t _print_fbgc_ll_code(struct fbgc_ll_base * head_next,struct fbgc_ll_base 
         else cprintf(011,"{%s}",_ll2str(iter));     
             iter = iter->next;
     }
-    cprintf(101,"<->[T]\n");
-
+    
     return 1;
 }

@@ -60,7 +60,7 @@ uint8_t compare_operators(fbgc_token stack_top, fbgc_token obj_type){
 	
 
 
-	_info("Object type comparison StackTop:[%s]>=Obj[%s]:",object_name_array[stack_top],object_name_array[obj_type]);
+	FBGC_LOGV(PARSER,"%c",cprintf(111,"Object type comparison StackTop:[%s]>=Obj[%s]:",object_name_array[stack_top],object_name_array[obj_type]));
 	
 	// precedence outputs
 	// stack_top >= obj_type => return 1;
@@ -83,9 +83,7 @@ uint8_t compare_operators(fbgc_token stack_top, fbgc_token obj_type){
 		}
 	}
 
-
-	_info("%d\n",result&&1);
-
+	FBGC_LOGV(PARSER,"%d\n",result&&1);
 	return result;
 }
 
@@ -380,7 +378,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 					--i;
 					continue; //fast passing the comment
 				}
-				_debug("Processed line[%d]:{%s}\n",line_no,line);
+				//_debug("Processed line[%d]:{%s}\n",line_no,line);
 				
 				p.head->tail->next = p.iter_prev;
 				regex_lexer(field_obj,line);
@@ -389,143 +387,273 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			else break;
 		}
 	
-	FBGC_LOGD(PARSER,"-----[%d]{%s}-------\n",i,lltp2str(p.iter));
+	FBGC_LOGD(PARSER,"%c",cprintf(111,"\n===========================[%d]{%s}===========================\n",i,lltp2str(p.iter)));
 
 	switch(p.iter->type){
 	case CONSTANT:{
 		//! check the grammar and move forward, we don't push constants to stack
-		gm_seek_left(&p);
-		PARSER_CHECK_ERROR(p.error_code);
+		gm_seek_left(&p); PARSER_CHECK_ERROR(p.error_code);
+		//At the end of switch-case there is a command p.iter = p.iter_prev->next
+		//We always use p.iter_prev to make insertions etc, iter just a pointer to move in list
+		FBGC_LOGV(PARSER,":Content%c\n",print_fbgc_object(_cast_llbase_as_llconstant(p.iter)->content));
 		p.iter_prev = p.iter;
 		break;
 	}
 	case IDENTIFIER:{
-
 		//First check the grammar
-		gm_seek_left(&p);
-		PARSER_CHECK_ERROR(p.error_code);
+		gm_seek_left(&p); PARSER_CHECK_ERROR(p.error_code);
+
+		//Now there are different cases for identifiers. They can be CFUN objects, like print, input etc.
+		//There can belong to fields,classes and functions we need to find to understand where the user defined them
 
 		FBGC_LOGV(PARSER,"Current Scope for identifier:(%s)\n",objtp2str(current_scope));
 		
+		//Symbols are defined as cstr_obj in fbgc_symbols which is a tuple, now from relexer they come with a tag called location
+		//Which basically tells us where this symbol is, we ask the symbol first 
 		struct fbgc_object * cstr_obj = get_object_in_fbgc_tuple_object(fbgc_symbols,get_ll_identifier_loc(p.iter));
-		FBGC_LOGV(PARSER,"Symbol name as a cstring object:%s\n",content_fbgc_cstr_object(cstr_obj));
-			
+		FBGC_LOGV(PARSER,"Symbol name as a cstring object:'%s'\n",content_fbgc_cstr_object(cstr_obj));
+		
+		//Now we got the symbol, we are gonna use it to identify is this a new definition of a variable or cfun or using pre defined variable
+
 		struct fbgc_object * cf = NULL;
 
-		if(!is_empty_fbgc_ll(p.op) && TOP_LL(p.op)->type == DOT){
-			//so this is just a member selection
-			POP_LL(p.op); //pop the dot object
+		if(TOP_LL(p.op)->type == DOT){
+			//If we have a enty looks like 'x.y' , when we read x we don't know anything about the dot symbol
+			//But when it comes to 'y', y is not a variable because it is an attribute of x, so we cannot define y as a variable
+			//It is needed to stay there as c-str to use it in interpreter. At this stage we CANNOT tell "does x have y attribute?" the answer is we do not know
+			//So it looks ugly checking from stack here but couldn't find any solution, we will check it and put c_str into the main list
+
+			POP_LL(p.op); //pop the dot object, we do not need it
 			//now get the name of instance
-			struct fbgc_ll_base * cstr_holder = _new_fbgc_ll_constant(cstr_obj);
-			p.iter_prev->next = cstr_holder;
-			cstr_holder->next = p.iter->next;
-			p.iter_prev = cstr_holder;
+			p.iter_prev = _insert_next_fbgc_ll(p.iter_prev, _new_fbgc_ll_constant(cstr_obj));
+			
+			//Just change the flag of iter, below we will push this into stack
 			set_id_flag_MEMBER(p.iter);
+			//but we are using IDENTIFIER type and ask for its flags, I left it in order not to increase opcode number
+			//However it will affect our performance
+			//@TODO make a new opcode for member
 		}
-		else if((cf = new_cfun_object_from_str(*field_obj,content_fbgc_cstr_object(cstr_obj))) != NULL){
-			//remove identifier object, put cfun object into list
-			//cf->next = p.iter->next;
-			//p.iter = cf;
-			struct fbgc_ll_base * cfun_holder = _new_fbgc_ll_constant(cf);
-			p.iter_prev->next =  cfun_holder;
-			cfun_holder->next = p.iter->next;
-			p.iter_prev = cfun_holder;
-			break;	
+		else if( ( cf = new_cfun_object_from_str(*field_obj,content_fbgc_cstr_object(cstr_obj)) ) != NULL){
+			//Identifier can be cfun object, if it is not above condition returns null
+			FBGC_LOGD(PARSER,"Symbol is a CFUN, inserting cfun into list\n");
+			//We don't need iter anymore skip it and insert cfun
+			p.iter_prev = _insert_fbgc_ll(p.iter_prev,p.iter,_new_fbgc_ll_constant(cf));
+			break;//let's break here because we deleted p.iter, we don't want to push it into op-stack
 		}
-		else if(current_scope->type == FIELD || current_scope->type == CLASS){
+		else{
 
-			struct fbgc_object * local_array; 
-
-			if(current_scope->type == FIELD) local_array = cast_fbgc_object_as_field(current_scope)->locals;
-			else local_array = cast_fbgc_object_as_class(current_scope)->locals;
-
-			struct fbgc_identifier * temp_id; 
+			//This do-while(0) loop is used instead of using goto, because if scope is fun we do not want to go through below field variable
+			//registeration, the whole point is reducing the code size not when we break, we jump at the end of do-while loop so which is what we wanted
 			int where = -1;
+			do{
+			struct fbgc_object ** current_locals;
 
-			for(int i = 0; i<size_fbgc_array_object(local_array); i++){
-				temp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(local_array,i);
-				if(temp_id->name == cstr_obj) {
+			if(current_scope->type == FUN){
+				//function have local tuple that is defined when FUN_MAKE first creates this function			
+				current_locals = &(_cast_llbase_as_llconstant(cast_fbgc_object_as_fun(current_scope)->code)->content);
+				
+				set_id_flag_LOCAL(p.iter); //make it local, if it is not it will be changed
+
+				//Ask for this pointer, notic e that this is different than array object because tuple only holds fbgc_object pointers
+				//So we are basically asking does your contents contain this ?
+				where = index_fbgc_tuple_object(*current_locals,cstr_obj);
+				if(where != -1){
+					//Most likely we will call our previous definitions
+					//We already set flag to local, so just break do-while loop at the end of case IDENTIFIER
+					break;
+				}
+				else{ 
+					if(p.iter->next->type == ASSIGN  || cast_fbgc_object_as_fun(current_scope)->no_arg == 65){
+					//Now ask for is this a new definition ? if it is not, it will leave as where = -1
+			
+						FBGC_LOGD(PARSER,"First time defining IDENTIFIER inside function\n");
+
+						_push_back_fbgc_tuple_object(current_locals,cstr_obj);
+						where = size_fbgc_tuple_object(*current_locals)-1;
+						//_cast_llbase_as_llconstant(cast_fbgc_object_as_fun(current_scope)->code)->content = current_locals;
+						
+						FBGC_LOGD(PARSER,"Function local tuple:");
+						FBGC_LOGD(PARSER,"%c\n",print_fbgc_object(*current_locals));
+						break;						
+					}
+				}
+				
+				FBGC_LOGV(PARSER,"Identifier could be global, searching in global fields.\n");
+				//Now change current locals to field object locals because we do not allow to get variables defined in classes, 
+				//only field  is allowed
+
+				current_locals = &(cast_fbgc_object_as_field(*field_obj)->locals);
+
+
+			}else{
+				//If we are here we sure that current scope either field or class no need to check
+				//get the local array of field/class objects
+				//They both use global flag so no need to make difference
+				current_locals = (current_scope->type == FIELD) ? 
+												&(cast_fbgc_object_as_field(current_scope)->locals):
+												&(cast_fbgc_object_as_class(current_scope)->locals);
+			}
+
+			//@TODO instead of for loop can we use c++ like iterators here ?
+			//Maybe this variable is defined before, lets check first
+			
+			for(size_t i = 0; i<size_fbgc_array_object(*current_locals); ++i){
+				struct fbgc_identifier * temp_id = (struct fbgc_identifier *) at_fbgc_array_object(*current_locals,i);
+				if(temp_id->name == cstr_obj){  //Notice that this is not a string comparison because we use same symbols for each occurence of a symbol
 					where = i;
 					break;
 				} 
 			}
 
+			//New definition of our symbol
+			if(where == -1) {
+				FBGC_LOGD(PARSER,"Creating a variable inside a field obj\n");
+				struct fbgc_identifier temp_id;
+				temp_id.name = cstr_obj; temp_id.content = NULL;
+				//Now array will make copy of this id object in our array so we can pass its address
+				_push_back_fbgc_array_object(current_locals,&temp_id);
+				//Now we now the location in globals
+				where = size_fbgc_array_object(*current_locals)-1;
+
+				//else if(current_scope->type == FIELD) cast_fbgc_object_as_field(current_scope)->locals = current_locals;
+				//else cast_fbgc_object_as_class(current_scope)->locals = current_locals;
+				
+				FBGC_LOGD(PARSER,"Symbol is created @ [%d]\n",where);
+			}
+			else{
+				FBGC_LOGD(PARSER,"Symbol is already defined @ [%d]\n",where);
+			}
+
+			
+			set_id_flag_GLOBAL(p.iter);
+			
+			
+			}while(0);
+			
+			//Now current identifier object needs know the location of its definition
+			set_ll_identifier_loc(p.iter,where);
+		}
+
+
+		/*
+
+		//####################################################################
+		else if(current_scope->type == FIELD || current_scope->type == CLASS){
+
+			//get the local array of field/class objects
+			//They both use global flag so no need to make difference
+			struct fbgc_object * local_array = (current_scope->type == FIELD) ? 
+											cast_fbgc_object_as_field(current_scope)->locals:
+											cast_fbgc_object_as_class(current_scope)->locals;
+
+			struct fbgc_identifier * temp_id; 
+			int where = -1;
+
+			//@TODO instead of for loop can we use c++ like iterators here ?
+			//Maybe this variable is defined before, lets check first
+			for(size_t i = 0; i<size_fbgc_array_object(local_array); ++i){
+				temp_id = (struct fbgc_identifier *) at_fbgc_array_object(local_array,i);
+				if(temp_id->name == cstr_obj){  //Notice that this is not a string comparison because we use same symbols for each occurence of a symbol
+					where = i;
+					break;
+				} 
+			}
+
+			//New definition of our symbol
 			if(where == -1) {
 				_info("Creating a variable inside a field obj\n");
-				
-				struct fbgc_identifier id;		
-				id.name = cstr_obj; id.content = NULL;
+
+				struct fbgc_identifier id = {.name = cstr_obj, .content = NULL};
+				//Now array will make copy of this id object in our array so we can pass its address
 				local_array = push_back_fbgc_array_object(local_array,&id);
+				//Now we now the location in globals
 				where = size_fbgc_array_object(local_array)-1;
 
 				if(current_scope->type == FIELD) cast_fbgc_object_as_field(current_scope)->locals = local_array;
 				else cast_fbgc_object_as_class(current_scope)->locals = local_array;
 				
-				_info("Symbol is created @ [%d]\n",where);
+				FBGC_LOGD(PARSER,"Symbol is created @ [%d]\n",where);
 			}
 			else{
-				_info_green("Symbol is already defined @ [%d]\n",where);
+				FBGC_LOGD(PARSER,"Symbol is already defined @ [%d]\n",where);
 			}
 
 			
 			set_id_flag_GLOBAL(p.iter);
-
+			//Now current identifier object needs know the location of its definition
 			_cast_fbgc_object_as_llidentifier(p.iter)->loc = where;
 		}
 
-		else if(current_scope->type == FUN){				
+		else if(current_scope->type == FUN){
+
+			//function have local tuple that is defined when FUN_MAKE first creates this function			
 			struct fbgc_object * local_tuple = 
 				_cast_llbase_as_llconstant(cast_fbgc_object_as_fun(current_scope)->code)->content;
+			
+			//Ask for this pointer, notice that this is different than array object because tuple only holds fbgc_object pointers
+			//So we are basically asking does your contents contain this ?
 			int where = index_fbgc_tuple_object(local_tuple,cstr_obj);
+
+			//Set id flag to local before doing anything because we may change to global if this variable is defined in global scope
 			set_id_flag_LOCAL(p.iter);
 
+			//If already defined do nothing, just change the location of this identifier and its flag
 			if(where == -1) {
-				_print("p.iter->next type(%s)\n",lltp2str(p.iter->next));
+				//So this does not defined before in function
+				//There are two cases here : 
+				//	1)It may defined in global scope which is scope of the field object, arg of this parser function
+				//  2)variable definition in function
 
+				//@TODO make some clear documentation about this 65
 				//65 arg means func definition hasnt been done yet! So we are reading arguments
+				//So user tries to define this variable for the first time
+				//We need to check args because variable names can match with some global names
 				if(p.iter->next->type == ASSIGN  || cast_fbgc_object_as_fun(current_scope)->no_arg == 65){
-					_info("Id object is an argument of function or a new definition inside the function\n");
+					FBGC_LOGD(PARSER,"First time defining IDENTIFIER inside function\n");
 
 					local_tuple = push_back_fbgc_tuple_object(local_tuple,cstr_obj);
 					where = size_fbgc_tuple_object(local_tuple)-1;
 					_cast_llbase_as_llconstant(cast_fbgc_object_as_fun(current_scope)->code)->content = local_tuple;
 					
-					_println_object("Fun local tuple:",local_tuple);
+
+					FBGC_LOGD(PARSER,"Function local tuple:")	
+					FBGC_LOGD(PARSER,"%c\n",print_fbgc_object(local_tuple));
+					
 				}
 				else {
 					_info("Searching ID object in global (class or field)\n");
-
+					
 					local_tuple = cast_fbgc_object_as_field(*field_obj)->locals;
+
 					struct fbgc_identifier * temp_id; 
 					for(int i = 0; i<size_fbgc_array_object(local_tuple); i++){
 						temp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(local_tuple,i);
 						if(temp_id->name == cstr_obj) where = i; 
-					}						
+					}	
 					
+					//Still no result from field object so maybe this variable is globally defined from another library,
+					//Let's assume user defined this, if it is not it will cause run time error.
 					if(where == -1){
-						_info("Creating a variable inside a previous global\n");
-						struct fbgc_object * local_array; 
-
-						local_array = cast_fbgc_object_as_field(*field_obj)->locals;
-						
-
-						
-						struct fbgc_identifier id;		
+						FBGC_LOGD(PARSER,"Creating variable inside global field object\n");
+						//No need to define a new variable use local_tuple instead
+						local_tuple = cast_fbgc_object_as_field(*field_obj)->locals;
+					
+						struct fbgc_identifier id; 
 						id.name = cstr_obj; id.content = NULL;
-						local_array = push_back_fbgc_array_object(local_array,&id);
-						where = size_fbgc_array_object(local_array)-1;
 
-						cast_fbgc_object_as_field(*field_obj)->locals = local_array;
-						
+						local_tuple = push_back_fbgc_array_object(local_tuple,&id);
+						where = size_fbgc_array_object(local_tuple)-1;
+
+						cast_fbgc_object_as_field(*field_obj)->locals = local_tuple;			
 					}
-					_print("Id object is found @ [%d]",where);
+
+					FBGC_LOGV(PARSER,"Identifier object is found @[%d]\n",where);
 					set_id_flag_GLOBAL(p.iter);
 				}
 			}
-			
-			
 			set_ll_identifier_loc(p.iter,where);
 		}
+		*/
 
 		p.iter_prev->next = p.iter->next;
 		_push_front_fbgc_ll(p.op,p.iter);
@@ -535,55 +663,54 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 
 		//Check the grammar is it ok ?
 		gm_seek_left(&p); PARSER_CHECK_ERROR(p.error_code);
-
-
-		p.iter_prev->next = p.iter->next;
+		p.iter_prev->next = p.iter->next; //skip END
 		
-		fbgc_token top_type = TOP_LL(p.op)->type;
-
-		switch(top_type){
+		//Get top_type and top object, also pop it we don't need them in stack
+		//They are going to main list
+		struct fbgc_ll_base * top_obj = _top_and_pop_front_fbgc_ll(p.op);
+		FBGC_LOGV(PARSER,"Top type :%s\n",lltp2str(top_obj));
+		switch(top_obj->type){
 			case IF:
 			case ELIF:{
 				//Take IF/ELIF object from op-stack
 				//ELIF and IF are not different when inserting them into list, so no need to make another condition
-				struct fbgc_ll_base * if_obj = _top_and_pop_front_fbgc_ll(p.op);
+				//Here top_obj is either IF or ELIF
 				//Recal that if_obj holds its location to insert correctly
 				//content->nect is where we are gonna insert IF
 				//if_obj->next = _cast_llbase_as_lljumper(if_obj)->content->next;
 				//_cast_llbase_as_lljumper(if_obj)->content->next = if_obj;
 				//Following function does the above operations
-				_insert_next_fbgc_ll(_cast_llbase_as_lljumper(if_obj)->content,if_obj);
+				_insert_next_fbgc_ll(_cast_llbase_as_lljumper(top_obj)->content,top_obj);
 				//Now if object know where to jump if condition is not satisfied
-				_cast_llbase_as_lljumper(if_obj)->content = p.iter_prev; //now assign where to jump
+				_cast_llbase_as_lljumper(top_obj)->content = p.iter_prev; //now assign where to jump
 				break;
 			}
 			case WHILE:{
 				//now insert while in its place,
-				struct fbgc_ll_base * wh_obj = _top_and_pop_front_fbgc_ll(p.op);
-				_insert_next_fbgc_ll(_cast_llbase_as_lljumper(wh_obj)->content,wh_obj);
+				_insert_next_fbgc_ll(_cast_llbase_as_lljumper(top_obj)->content,top_obj);
 
 				//Now also insert jump object back to END token which is iter_prev
 				struct fbgc_ll_base * jump_obj = _top_and_pop_front_fbgc_ll(p.op);
 				p.iter_prev = _insert_next_fbgc_ll(p.iter_prev,jump_obj);
 
 				//While object is gonna jump to next of its content for unsatisfied conditions
-				_cast_llbase_as_lljumper(wh_obj)->content = jump_obj;
+				_cast_llbase_as_lljumper(top_obj)->content = jump_obj;
 				break;
 			}
 			case FOR:{
 				//Now insert for in its place
-				struct fbgc_ll_base * for_obj = _top_and_pop_front_fbgc_ll(p.op);
-				_insert_next_fbgc_ll(_cast_llbase_as_lljumper(for_obj)->content,for_obj);
+				struct fbgc_ll_base * top_obj = _top_and_pop_front_fbgc_ll(p.op);
+				_insert_next_fbgc_ll(_cast_llbase_as_lljumper(top_obj)->content,top_obj);
 
 				//Now also insert jump object back to END token which is iter_prev
 				struct fbgc_ll_base * jump_obj = _top_and_pop_front_fbgc_ll(p.op);
 				p.iter_prev = _insert_next_fbgc_ll(p.iter_prev,jump_obj);
 
 				//for content holds prev location of for, jump need to know where to jump to make loop
-				_cast_llbase_as_lljumper(jump_obj)->content = _cast_llbase_as_lljumper(for_obj)->content;	
+				_cast_llbase_as_lljumper(jump_obj)->content = _cast_llbase_as_lljumper(top_obj)->content;	
 				
 				//For object is gonna jump to next of its jump_obj to finish the loop
-				_cast_llbase_as_lljumper(for_obj)->content = jump_obj;
+				_cast_llbase_as_lljumper(top_obj)->content = jump_obj;
 				break;
 
 			}
@@ -597,7 +724,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 				}
 
 				//Now we need to find which functions are we holding
-				struct fbgc_ll_base * fun_holder = _cast_llbase_as_lljumper(TOP_LL(p.op))->content;
+				struct fbgc_ll_base * fun_holder = _cast_llbase_as_lljumper(top_obj)->content;
 				struct fbgc_object * fun_obj = _cast_llbase_as_llconstant(fun_holder)->content;
 				
 				//Recall that fun_obj code was holding a tuple which holds local symbols, its size gives us number of locals
@@ -617,14 +744,11 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 				p.iter_prev = _insert_next_fbgc_ll(p.iter_prev,_new_fbgc_ll_constant(__fbgc_nil));
 				p.iter_prev = _insert_next_fbgc_ll(p.iter_prev,_new_fbgc_ll_base(RETURN));
 				
-				
-				
 				//Now we are finishing fun_obj->code
 				p.iter_prev->next = NULL; //last token in function code shows NULL
 				//Now finished, the only reference from previous tokens are from fun_obj->code
 				p.iter_prev = fun_holder;
 
-				POP_LL(p.op); //Remove fun_make
 				POP_LL(p.scope_list); //remove this function from scope list
 
 				//eat END we no longer need it
@@ -633,13 +757,15 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 
 			}
 			case CLASS_MAKE:{
+				//finishing the class definition
+
 				if(is_constant_and_token(p.iter_prev,CLASS)){
 					p.error_code = _FBGC_SYNTAX_ERROR;
 					FBGC_LOGE("Classes cannot be empty\n");
 					goto PARSER_ERROR_LABEL;
 				}
 
-				struct fbgc_ll_base * cls_holder = _cast_llbase_as_lljumper(TOP_LL(p.op))->content;
+				struct fbgc_ll_base * cls_holder = _cast_llbase_as_lljumper(top_obj)->content;
 				struct fbgc_object * cls_obj = _cast_llbase_as_llconstant(cls_holder)->content;
 				
 				//Now check for inheritance, assuming that is not gonna be long so we can just iterate through next to cls_holder
@@ -663,15 +789,21 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 				
 				//Now finish the class code
 				p.iter_prev->next = NULL;
+
+				//Let's print this class object to see its code
+				FBGC_LOGV(PARSER,"Created class :");
+				FBGC_LOGV(PARSER,"%c\n",_print_fbgc_ll_code(cast_fbgc_object_as_class(cls_obj)->code,NULL));
+
 				
-				POP_LL(p.op); //Remove class_make
 				POP_LL(p.scope_list); //remove class from scope list
 
 				//We need to put class_call for the first time class definitions in order to run their code
 				p.iter_prev = cls_holder; //Start from cls_holder
-
 				p.iter_prev = _insert_next_fbgc_ll(p.iter_prev,_new_fbgc_ll_opcode_int(CLASS_CALL,arg_no));
 				p.iter_prev->next = p.iter->next;
+
+
+
 
 				break;
 			}
@@ -1181,10 +1313,11 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 }
 
 	p.iter = p.iter_prev->next;
-
+	FBGC_LOGD(PARSER,"%c\n",cprintf(010,"------------------------------------"));
 	FBGC_LOGV(PARSER,"%c",_print_fbgc_ll((struct fbgc_ll_base *)p.head,"Main"));
 	FBGC_LOGV(PARSER,"%c",_print_fbgc_ll((struct fbgc_ll_base *)p.op,"Op"));
 	FBGC_LOGV(PARSER,"[GM]:{%s}\n",gm2str(p.gm));
+	FBGC_LOGD(PARSER,"%c\n",cprintf(010,"------------------------------------"));
 
 	}
 	//make the linked list connection proper

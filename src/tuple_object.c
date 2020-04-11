@@ -128,11 +128,41 @@ struct fbgc_object * push_back_fbgc_tuple_object(struct fbgc_object * self,struc
 	return self;
 }
 
+void _push_back_fbgc_tuple_object(struct fbgc_object ** tp,struct fbgc_object * obj){
+
+    //Check the capacity, if there is enough space push back the obj
+
+    _FBGC_LOGV(TUPLE_OBJECT,"Tuple size :%lu, capacity %lu",size_fbgc_tuple_object(*tp) , capacity_fbgc_tuple_object(*tp));
+
+    size_t old_size = size_fbgc_tuple_object(*tp);
+
+    if(size_fbgc_tuple_object(*tp) == capacity_fbgc_tuple_object(*tp)){
+
+        //Before sending to realloc, request a larger block after requesting change the capacity of the tuple
+        *tp = fbgc_realloc(*tp,
+            sizeof(struct fbgc_tuple_object ) + 
+            (cast_fbgc_object_as_tuple(*tp)->capacity << 1) * sizeof(struct fbgc_object*) );
+
+        cast_fbgc_object_as_tuple(*tp)->capacity <<= 1; //shift the capacity for the next two's power
+
+        FBGC_LOGV(TUPLE_OBJECT,"New memory reallocated!\nAfter realloc Tuple size :%lu, capacity %lu",
+            size_fbgc_tuple_object(*tp) , capacity_fbgc_tuple_object(*tp));
+    }
+    
+    FBGC_LOGV(TUPLE_OBJECT,"There is enough space to push, pushing the object.");
+
+    content_fbgc_tuple_object(*tp)[old_size++] = obj;
+    cast_fbgc_object_as_tuple(*tp)->size = old_size;
+    
+    FBGC_LOGV(TUPLE_OBJECT,"New size tuple %lu\n",size_fbgc_tuple_object(*tp));
+    
+}
+
+
 int index_fbgc_tuple_object(struct fbgc_object * self, struct fbgc_object * obj){
 
-	struct fbgc_object ** contents = content_fbgc_tuple_object(self);
 	for(size_t i = 0; i<size_fbgc_tuple_object(self); i++){
-		if(contents[i] == obj) return i;
+		if(content_fbgc_tuple_object(self)[i] == obj) return i;
 	}
 	return -1;
 }

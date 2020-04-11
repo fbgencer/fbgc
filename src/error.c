@@ -1,7 +1,7 @@
 #include "fbgc.h"
 
 
-int cprintf(char color,const char *format, ...) {
+uint8_t cprintf(char color,const char *format, ...) {
 
 #ifndef CLOSE_CPRINTF
 
