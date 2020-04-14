@@ -9,6 +9,7 @@ extern "C" {
 typedef int8_t fbgc_grammar;
 //this is not an object no need to derive from base object 
 #include "parser.h"
+void gm_convert_left(struct parser_packet * p);
 uint8_t gm_seek_left(struct parser_packet * p);
 uint8_t gm_seek_right(struct parser_packet * p);
 

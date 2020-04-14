@@ -206,6 +206,7 @@ uint8_t _print_fbgc_ll_code(struct fbgc_ll_base * head_next,struct fbgc_ll_base 
             if(is_id_flag_GLOBAL(iter) ) cprintf(011,"%s{G<%d>}","ID",_cast_fbgc_object_as_llidentifier(iter)->loc);
             else if(is_id_flag_LOCAL(iter) ) cprintf(011,"%s{L<%d>}","ID",_cast_fbgc_object_as_llidentifier(iter)->loc);
             else if(is_id_flag_MEMBER(iter) ) cprintf(011,"%s{M<%d>}","ID",_cast_fbgc_object_as_llidentifier(iter)->loc);
+            else if(is_id_flag_CLASS(iter) ) cprintf(011,"%s{C<%d>}","ID",_cast_fbgc_object_as_llidentifier(iter)->loc);
             else{
                 cprintf(111,"Undefined ID!\n"); 
             }           
@@ -215,6 +216,7 @@ uint8_t _print_fbgc_ll_code(struct fbgc_ll_base * head_next,struct fbgc_ll_base 
             if(is_id_flag_GLOBAL(iter) ) cprintf(011,"G<%d>}",_cast_fbgc_object_as_llidentifier(iter)->loc);
             else if(is_id_flag_LOCAL(iter) ) cprintf(011,"L<%d>}",_cast_fbgc_object_as_llidentifier(iter)->loc);
             else if(is_id_flag_MEMBER(iter) ) cprintf(011,"M<%d>}",_cast_fbgc_object_as_llidentifier(iter)->loc);
+            else if(is_id_flag_CLASS(iter) ) cprintf(011,"C<%d>}",_cast_fbgc_object_as_llidentifier(iter)->loc);
             else{
                 cprintf(111,"Undefined ID!\n"); 
             }           
@@ -264,8 +266,10 @@ uint8_t _print_fbgc_ll_code(struct fbgc_ll_base * head_next,struct fbgc_ll_base 
         }
         else if(iter->type == FUN_CALL){
             cprintf(011,"{FUN_CALL(%d)}",_cast_llbase_as_llopcode_int(iter)->content);
-               // cast_fbgc_object_as_int(iter)->content);
-        }         
+        }
+        else if(iter->type == LOAD_SUBSCRIPT){
+            cprintf(011,"{LOAD_SUBSCRIPT(%d)}",_cast_llbase_as_llopcode_int(iter)->content);   
+        }
         else if(iter->type == ROW){
             cprintf(011,"{ROW(%d)}",_cast_llbase_as_llopcode_int(iter)->content);
         }                                    

@@ -26,13 +26,7 @@ struct fbgc_object * run_code(struct fbgc_ll_base * pc, struct fbgc_object ** sp
 
 	//struct fbgc_ll_base * pc = code; //program counter
 	
-	
-
-	struct fbgc_object * current_scope = current_field;
-
-	struct fbgc_object * globals = cast_fbgc_object_as_field(current_scope)->locals;
-#define update_globals()(globals = (current_scope->type == FIELD) ?\
-	cast_fbgc_object_as_field(current_scope)->locals:cast_fbgc_object_as_class(current_scope)->locals)
+	struct fbgc_object * current_scope = NULL;
 
 	struct fbgc_object * last_called_function = NULL;
 	size_t recursion_ctr = 0;
@@ -81,13 +75,6 @@ struct fbgc_object * run_code(struct fbgc_ll_base * pc, struct fbgc_object ** sp
 		fbgc_token type = get_fbgc_object_type(pc);
 		
 		_print("################ [%d] = {%s} ########################\n",i,_obj2str(pc));
-		
-		_warning("|PRE Stack|:{");
-		for(size_t i = 0; i<sctr; i++){
-			_print_object("",sp[i]);
-			_cprint(010,", ");
-		}
-		_warning("}\n");
 
 		switch(type){
 			case CONSTANT:{
@@ -101,9 +88,9 @@ struct fbgc_object * run_code(struct fbgc_ll_base * pc, struct fbgc_object ** sp
 			case IDENTIFIER:{	
 
 				if(is_id_flag_GLOBAL(pc)){
-					update_globals();
 					struct fbgc_identifier * tmp = (struct fbgc_identifier *) 
-						get_address_in_fbgc_array_object(globals,_cast_fbgc_object_as_llidentifier(pc)->loc);
+						get_address_in_fbgc_array_object(cast_fbgc_object_as_field(current_field)->locals,
+							_cast_fbgc_object_as_llidentifier(pc)->loc);
 
 					//Check undefined variable
 					if(tmp->content == NULL){
@@ -134,6 +121,23 @@ struct fbgc_object * run_code(struct fbgc_ll_base * pc, struct fbgc_object ** sp
 						PUSH(self);
 					}
 				}
+				else if(is_id_flag_CLASS(pc)){
+
+					
+					struct fbgc_identifier * tmp = (struct fbgc_identifier *) 
+						get_address_in_fbgc_array_object(cast_fbgc_object_as_class(current_scope)->locals
+								,_cast_fbgc_object_as_llidentifier(pc)->loc);
+
+					//Check undefined variable
+					if(tmp->content == NULL){
+						struct fbgc_object * name = tmp->name;
+						printf("Undefined variable '%s'\n",content_fbgc_cstr_object(name));
+						//fbgc_error(_FBGC_UNDEFINED_IDENTIFIER_ERROR,-1);
+						return 0;
+					}
+					
+					PUSH(tmp->content);					
+				}
 				break;
 			}
 			case BREAK:{
@@ -162,9 +166,8 @@ struct fbgc_object * run_code(struct fbgc_ll_base * pc, struct fbgc_object ** sp
 				//while(POP() != cast_fbgc_object_as_field(*field_obj)->locals);
 
 				current_scope = POP();
-				//_print("current_scope TYPE :%s\n",_obj2str(current_scope));
-				if(current_scope->type == FIELD) globals = cast_fbgc_object_as_field(current_scope)->locals;
-				else if(current_scope->type == CLASS) globals = cast_fbgc_object_as_class(current_scope)->locals;
+
+				
 				//This is a new feature to solve class scope issue
 				//Now after globals we will have field object to assign correct scopes
 				
@@ -286,10 +289,14 @@ struct fbgc_object * run_code(struct fbgc_ll_base * pc, struct fbgc_object ** sp
 				struct fbgc_object ** lhs = NULL;
 
 				if(is_id_flag_GLOBAL(pc)){
-					update_globals();
-
 					struct fbgc_identifier * tmp = 
-					(struct fbgc_identifier *) get_address_in_fbgc_array_object(globals,_cast_fbgc_object_as_llidentifier(pc)->loc);
+					(struct fbgc_identifier *) get_address_in_fbgc_array_object(cast_fbgc_object_as_field(current_field)->locals,_cast_fbgc_object_as_llidentifier(pc)->loc);
+					lhs = &tmp->content;
+				}
+				else if(is_id_flag_CLASS(pc)){
+					
+					struct fbgc_identifier * tmp = 
+					(struct fbgc_identifier *) get_address_in_fbgc_array_object(cast_fbgc_object_as_class(current_scope)->locals,_cast_fbgc_object_as_llidentifier(pc)->loc);
 					lhs = &tmp->content;
 				}
 				else if(is_id_flag_MEMBER(pc)){
@@ -771,11 +778,8 @@ struct fbgc_object * run_code(struct fbgc_ll_base * pc, struct fbgc_object ** sp
 				
 				while(arg_no--){
 					inherit_from_another_class(cls,POP());
-				}				
-
-				
-
-				globals = cast_fbgc_object_as_class(cls)->locals;
+				}
+				cls = POP(); //RETURN'de class kaldigi icin yazdik, degistir
 
 				//print_fbgc_class_object(cls);
 				struct fbgc_object * last_scope = current_scope;
@@ -801,13 +805,18 @@ struct fbgc_object * run_code(struct fbgc_ll_base * pc, struct fbgc_object ** sp
 
 		//cast_fbgc_object_as_tuple(stack)->size = sctr; //sp - content_fbgc_tuple_object(stack);
 			
-		_info("|After Stack|:{");
+		_info("{");
 		for(size_t i = 0; i<sctr; i++){
 			_print_object("",sp[i]);
 			_cprint(011,", ");
 		}
 		_info("}\n");
 		_info("~~~~~~Field Globals~~~~~\n");
+
+		struct fbgc_object * globals;
+		if(current_scope != NULL && current_scope->type == CLASS) globals = cast_fbgc_object_as_class(current_scope)->locals;
+		else globals = cast_fbgc_object_as_field(current_field)->locals;
+
 		for(int i = 0; i<size_fbgc_array_object(globals); i++){
 			struct fbgc_identifier * temp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(globals,i);
 			_print_object("{",temp_id->name);

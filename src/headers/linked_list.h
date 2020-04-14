@@ -41,12 +41,12 @@ struct fbgc_ll_opcode_int{
 
 #define sizeof_fbgc_ll_identifier(x)(sizeof(struct fbgc_ll_identifier))
 
-#define ID_FLAG_GLOBAL 0x01 //0b00000001
-#define ID_FLAG_LOCAL 0x02 //0b00000010
-#define ID_FLAG_MEMBER 0x04 //0b00000100
-#define ID_FLAG_MEMBER_METHOD 0x08 //0b00000100
-
-#define ID_FLAG_PUSH_ITSELF 0x10 // x=y=10 like enterance can be solved with this but it could be a problem..
+#define ID_FLAG_GLOBAL 0x01     //0b00000001
+#define ID_FLAG_LOCAL  0x02     //0b00000010
+#define ID_FLAG_MEMBER 0x04     //0b00000100
+#define ID_FLAG_CLASS  0x08     //0b00001000
+#define ID_FLAG_MEMBER_METHOD 0x10 //0b00000100
+#define ID_FLAG_PUSH_ITSELF 0x80 // x=y=10 like enterance can be solved with this but it could be a problem..
 
 //This flags will be used by the assignment operator!, It uses MSB 4-bit of the flag
 #define _cast_fbgc_object_as_llidentifier(x)((struct fbgc_ll_identifier *) x)
@@ -57,12 +57,16 @@ struct fbgc_ll_opcode_int{
 #define set_id_flag_GLOBAL(x)(_cast_fbgc_object_as_llidentifier(x)->flag = ID_FLAG_GLOBAL )
 #define set_id_flag_LOCAL(x)(_cast_fbgc_object_as_llidentifier(x)->flag = ID_FLAG_LOCAL )
 #define set_id_flag_MEMBER(x)(_cast_fbgc_object_as_llidentifier(x)->flag = ID_FLAG_MEMBER )
+#define set_id_flag_CLASS(x)(_cast_fbgc_object_as_llidentifier(x)->flag = ID_FLAG_CLASS )
+
 #define set_id_flag_MEMBER_METHOD(x)(_cast_fbgc_object_as_llidentifier(x)->flag = ID_FLAG_MEMBER_METHOD|ID_FLAG_MEMBER )
 #define set_id_flag_PUSH_ITSELF(x)(_cast_fbgc_object_as_llidentifier(x)->flag |= ID_FLAG_PUSH_ITSELF )
+
 
 #define is_id_flag_GLOBAL(x)(_cast_fbgc_object_as_llidentifier(x)->flag & ID_FLAG_GLOBAL )
 #define is_id_flag_LOCAL(x)(_cast_fbgc_object_as_llidentifier(x)->flag & ID_FLAG_LOCAL )
 #define is_id_flag_MEMBER(x)(_cast_fbgc_object_as_llidentifier(x)->flag & ID_FLAG_MEMBER )
+#define is_id_flag_CLASS(x)(_cast_fbgc_object_as_llidentifier(x)->flag & ID_FLAG_CLASS )
 #define is_id_flag_MEMBER_METHOD(x)(_cast_fbgc_object_as_llidentifier(x)->flag & ID_FLAG_MEMBER_METHOD )
 #define is_id_flag_PUSH_ITSELF(x)(_cast_fbgc_object_as_llidentifier(x)->flag & ID_FLAG_PUSH_ITSELF )
 

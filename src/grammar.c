@@ -65,7 +65,7 @@ uint8_t left_matrix[89][15] = {
 {0,4,4,0,0,0,0,4,0,0,0,0,0,0,4},
 {0,4,4,0,0,0,0,4,0,0,0,0,0,0,4},
 {0,4,4,0,0,0,0,4,0,0,0,0,0,0,4},
-{-13,4,4,-13,-13,-13,0,4,-13,0,-13,-13,0,-13,4},
+{-13,4,4,-13,-13,-13,0,4,-13,0,-13,-13,8,-13,4},
 {0,4,4,0,0,0,0,4,0,0,0,0,0,0,4},
 {5,0,0,5,5,0,0,0,0,0,0,0,0,0,0},
 {5,0,0,5,5,0,0,0,0,0,0,0,0,0,0},
@@ -83,7 +83,7 @@ uint8_t left_matrix[89][15] = {
 {0,0,6,0,0,0,0,6,0,0,0,0,0,0,6},
 {0,0,6,0,0,0,0,6,0,0,0,0,0,0,6},
 {0,0,6,0,0,0,0,6,0,0,0,0,0,0,6},
-{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{1,0,0,1,1,0,0,0,1,0,0,0,0,0,0},
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -174,7 +174,7 @@ uint8_t right_matrix[89][15] = {
 {0,8,8,0,0,0,0,8,0,8,0,0,0,0,8},
 {0,8,8,0,0,0,0,8,0,8,0,0,0,0,8},
 {0,8,8,0,0,0,0,8,0,8,0,0,0,0,8},
-{0,8,8,0,0,0,0,8,0,0,0,0,0,0,0},
+{0,13,13,0,0,0,0,13,0,0,0,0,0,0,0},
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -188,23 +188,17 @@ uint8_t right_matrix[89][15] = {
 //MATRIX_END
 
 
-uint8_t gm_seek_left(struct parser_packet * p){
-
+void gm_convert_left(struct parser_packet * p){
 	#define gm_left  (p->gm)
 	#define obj 	(p->iter)
-	//struct fbgc_ll_base * obj = p->iter;
-	
-
-
-	FBGC_LOGD(GRAMMAR,"Grammar LEFT:[%s],Obj:[%s]\n",_gm2str(gm_left),_obj2str(obj));
-
-	int8_t new_left = left_matrix[get_fbgc_object_type(obj)][gm_left-1];
+	//Just check for special functions.
+	int8_t new_left = left_matrix[get_fbgc_object_type(obj)][gm_left - 1];
 	
 	if(new_left < 0){
 
 		new_left = -new_left;	
 
-		FBGC_LOGV(GRAMMAR,"Grammar gm_left(%s) has a special function definition",_gm2str(gm_left));
+		FBGC_LOGV(GRAMMAR,"Grammar gm_left(%s) has a special function definition\n",_gm2str(new_left));
 		
 		switch(get_fbgc_object_type(obj)){
 			case PLUS:
@@ -228,8 +222,29 @@ uint8_t gm_seek_left(struct parser_packet * p){
 				break;
 			}	
 		}
+
+		//gm_left = new_left;
 	}
 	
+
+
+	#undef gm_left
+	#undef obj
+}
+
+
+uint8_t gm_seek_left(struct parser_packet * p){
+
+	#define gm_left  (p->gm)
+	#define obj 	(p->iter)
+	//struct fbgc_ll_base * obj = p->iter;
+	
+
+
+	FBGC_LOGD(GRAMMAR,"Grammar LEFT:[%s],Obj:[%s]\n",_gm2str(gm_left),_obj2str(obj));
+
+	int8_t new_left = left_matrix[get_fbgc_object_type(obj)][gm_left-1];
+
 	if(new_left == GM_ERROR){
 		_FBGC_LOGE("Unexpected grammar! LEFT:(%s), OBJ:(%s)\n",_gm2str(gm_left),_obj2str(obj));
 	}
@@ -258,6 +273,7 @@ uint8_t gm_seek_right(struct parser_packet * p){
 	}
 	
 	gm_right = new_right;
+	p->error_code = (new_right == GM_ERROR) ? _FBGC_SYNTAX_ERROR : _FBGC_NO_ERROR;
 	return (new_right == GM_ERROR) ? _FBGC_SYNTAX_ERROR : _FBGC_NO_ERROR;
 
 	#undef gm_right
