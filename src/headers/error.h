@@ -19,8 +19,9 @@ extern "C" {
 #define ANSI_COLOR_RED_UNDERLINE    "\e[4;31m"
 
 #define LOG_LEVEL_ERROR     0
-#define LOG_LEVEL_DEBUG     1
-#define LOG_LEVEL_VERBOSE   2
+#define LOG_LEVEL_WARNING 	1
+#define LOG_LEVEL_DEBUG     2
+#define LOG_LEVEL_VERBOSE   3
 
 #ifdef LOG_LEVEL 
     #define LOG_LEVEL LOG_LEVEL_ERROR
@@ -32,26 +33,26 @@ extern "C" {
 #define FBGC_LOGFORMATSIMPLE(color,format) color "" format "" ANSI_COLOR_RESET 
 #define FBGC_LOGFORMATDETAILED(color,format) color "%s function:%s at line %u: " format "\n" ANSI_COLOR_RESET ,__FILE__,__FUNCTION__,  __LINE__
 
+//These loge and logw are for compiler not for users or developers
 
-#if LOG_LEVEL >= LOG_LEVEL_ERROR
-	#define LOGE(format, ...) printf(FBGC_LOGFORMATSIMPLE(ANSI_COLOR_RED,format),##__VA_ARGS__)
-	#define _LOGE(format, ...) printf(FBGC_LOGFORMATDETAILED(ANSI_COLOR_RED,format),##__VA_ARGS__)
-#else
-	#define LOGE(...)
-	#define _LOGE(...)
-#endif
+#define LOGE(format, ...) printf(FBGC_LOGFORMATSIMPLE(ANSI_COLOR_RED,format),##__VA_ARGS__)
+#define _LOGE(format, ...) printf(FBGC_LOGFORMATDETAILED(ANSI_COLOR_RED,format),##__VA_ARGS__)
+
+#define LOGW(format, ...) printf(FBGC_LOGFORMATSIMPLE(ANSI_COLOR_YELLOW,format),##__VA_ARGS__)
+#define _LOGW(format, ...) printf(FBGC_LOGFORMATDETAILED(ANSI_COLOR_YELLOW,format),##__VA_ARGS__)
+
 
 #if LOG_LEVEL >= LOG_LEVEL_DEBUG
-	#define LOGD(format, ...) printf(FBGC_LOGFORMATSIMPLE(ANSI_COLOR_YELLOW,format),##__VA_ARGS__)
-	#define _LOGD(format, ...) printf(FBGC_LOGFORMATDETAILED(ANSI_COLOR_YELLOW,format),##__VA_ARGS__)
+	#define LOGD(format, ...) printf(FBGC_LOGFORMATSIMPLE(ANSI_COLOR_CYAN,format),##__VA_ARGS__)
+	#define _LOGD(format, ...) printf(FBGC_LOGFORMATDETAILED(ANSI_COLOR_CYAN,format),##__VA_ARGS__)
 #else
 	#define LOGD(...)
 	#define _LOGD(...)
 #endif
 
 #if LOG_LEVEL >= LOG_LEVEL_VERBOSE
-	#define LOGV(format, ...) printf(FBGC_LOGFORMATSIMPLE(ANSI_COLOR_MAGENTA,format),##__VA_ARGS__)
-	#define _LOGV(format, ...) printf(FBGC_LOGFORMATDETAILED(ANSI_COLOR_MAGENTA,format),##__VA_ARGS__)
+	#define LOGV(format, ...) printf(FBGC_LOGFORMATSIMPLE(ANSI_COLOR_WHITE,format),##__VA_ARGS__)
+	#define _LOGV(format, ...) printf(FBGC_LOGFORMATDETAILED(ANSI_COLOR_WHITE,format),##__VA_ARGS__)
 #else
 	#define LOGV(...)
 	#define _LOGV(...)
@@ -60,6 +61,9 @@ extern "C" {
 
 #define FBGC_LOGE(format,...) LOGE(format,##__VA_ARGS__)
 #define _FBGC_LOGE(format,...) _LOGE(format,##__VA_ARGS__)
+
+#define FBGC_LOGW(format,...) LOGE(format,##__VA_ARGS__)
+#define _FBGC_LOGW(format,...) _LOGE(format,##__VA_ARGS__)
 
 #define FBGC_LOGD(f,format,...) f ## _ ##  LOGD(format,##__VA_ARGS__)
 #define _FBGC_LOGD(f,format,...) _ ## f ## _ ## LOGD(format,##__VA_ARGS__)

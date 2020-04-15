@@ -15,7 +15,7 @@ const fbgc_token const precedence_table[] =
 	16,//RBRACE
 	RIGHT_ASSOC | 18,//COMMA // it was 20 now we changed to make bigger than equal sign for x = 1,2,3 cases
 	52,//DOT
-	3,//SEMICOLON
+	2,//SEMICOLON
 	32,//COLON	
 	42,//R_SHIFT
 	42,//L_SHIFT
@@ -56,8 +56,6 @@ const fbgc_token const precedence_table[] =
 
 uint8_t compare_operators(fbgc_token stack_top, fbgc_token obj_type){
 	
-
-
 	FBGC_LOGV(PARSER,"%c",cprintf(111,"Object type comparison StackTop:[%s]>=Obj[%s]:",object_name_array[stack_top],object_name_array[obj_type]));
 	
 	// precedence outputs
@@ -86,60 +84,71 @@ uint8_t compare_operators(fbgc_token stack_top, fbgc_token obj_type){
 }
 
 
-void handle_function_args(struct fbgc_ll_base * fun_holder,struct fbgc_ll_base * arg_end){
+void handle_function_args(struct parser_packet * p){
+
+	struct fbgc_ll_base * fun_holder = _cast_llbase_as_lljumper(TOP_LL(p->op))->content;
+	struct fbgc_ll_base * arg_end = p->iter_prev;
+
 	//	arg_start is always next pt of fun_holder
 	//	arg_start holds parsed arg expression beginning
-	//	example: fun(x,y,z) will be parsed x,y,z
-	//							  arg_start^   ^arg_end
-	//	There could be default assignment situations, we need to handle assignemnt expr and other type of args
+	//	e.g: fun(x,y,z) will be parsed x,y,z,3
+	//					      arg_start^     ^arg_end
+
+	struct fbgc_object * fun_obj = _cast_llbase_as_llconstant(fun_holder)->content;
+	struct fbgc_object * tp = _cast_llbase_as_llconstant(cast_fbgc_object_as_fun(fun_obj)->code)->content;
+	cast_fbgc_object_as_fun(fun_obj)->no_arg = size_fbgc_tuple_object(tp);
+	FBGC_LOGD(PARSER,"Function arg no is:%d\n",cast_fbgc_object_as_fun(fun_obj)->no_arg);
+
+	//Arguments may contain comma or other types because we treat them tuples because parser does not know anything about
+	//function definition, this function checks whether given args are valid or not.
+	//Basic scenarios : 
+	//	-Args cannot be constants
+	//	-Arg names must be unique(this was already checked no need to check again)
+	//	-Variadic args must be the last argument
+	//There could be default assignment situations, we need to handle assignemnt expr and other type of args
 	//Variadic arguments
 	//We define them by putting function call operator(), ex: fun(a,b,args())
 	
-	struct fbgc_object * fun_obj = _cast_llbase_as_llconstant(fun_holder)->content;
-	struct fbgc_object * tp = _cast_llbase_as_llconstant(cast_fbgc_object_as_fun(fun_obj)->code)->content;
-	cast_fbgc_object_as_fun(fun_obj)->no_arg = size_fbgc_tuple_object(tp); 
 
-	FBGC_LOGD(PARSER,"Function arg no is:%d\n",cast_fbgc_object_as_fun(fun_obj)->no_arg);
+	//In the above code we assumed that everything is normal and get the size of tuple which gives us arg_no if nothing is wrong with args
 
-	//If arg no is just 1, arg end does not hold correctly
-	//if(cast_fbgc_object_as_fun(fun_obj)->no_arg == 1)
-	//	arg_end = arg_end->next;
-
-	//Validate the arguments are they normal ?
-	struct fbgc_ll_base * iter = fun_holder; //args start is iter->next
+	struct fbgc_ll_base * iter = fun_holder; //arg_start is iter->next because args start after fun holder
 	while(iter != arg_end){
+		
 		if(iter->next->type == IDENTIFIER || iter->next->type == COMMA){
-			FBGC_LOGV(PARSER,"Ok moving, typical function arg\n");
+			
+			if(iter->next->type == IDENTIFIER){
+				struct fbgc_object * cstr_obj = content_fbgc_tuple_object(tp)[get_ll_identifier_loc(iter->next)];
+				FBGC_LOGV(PARSER,"Argument:(%s) validated!\n",content_fbgc_cstr_object(cstr_obj));
+			}
+
 			iter = iter->next;
 		}
 		else if(iter->next->type == FUN_CALL){
-			//this is variadic template, it must be the last arguments
-			if(iter->next->next != arg_end){
-				_FBGC_LOGE("Variadic argmust be the last arg!\n");
-				assert(0);	
-			}
+			//When we use arg_name() structure, parser thinks that this is function call and we do not change it to not make it complex
+			//Here if we see fun_call that means user wants to define variadic function, variadic arg must be the last arg
+			//So no need to make sure having more than one variadic args
 
-			//Make it negative so we will understand that it has variadic template
+			//first check is this the last ?
+			if(iter->next->next != arg_end && cast_fbgc_object_as_fun(fun_obj)->no_arg != 1){
+				FBGC_LOGE("Variadic arg must be the last arg!\n");
+				p->error_code = _FBGC_SYNTAX_ERROR;
+				return;	
+			}
+			//Make arg_no negative so we will understand that it has the variadic template
 			cast_fbgc_object_as_fun(fun_obj)->no_arg *= -1;
 
-			arg_end = iter->next;
-			
-			if(arg_end->next->type == COMMA){
-				arg_end = arg_end->next;
-			}
-
-			break;
-
+			iter = iter->next;
 		}
 		else{
-			_FBGC_LOGE("Syntax error in function definition! iter_type :%s\n",lltp2str(iter->next));
-			assert(0);
+			FBGC_LOGE("Undefined token in function arguments\n");
+			p->error_code = _FBGC_SYNTAX_ERROR;
+			return;
 		}
 	}
 
 	fun_holder->next = arg_end->next;
-
-
+	p->iter_prev = fun_holder;
 
 	FBGC_LOGV(PARSER,"Handling function args, # of args:%d\n",cast_fbgc_object_as_fun(fun_obj)->no_arg);	
 }
@@ -147,11 +156,17 @@ void handle_function_args(struct fbgc_ll_base * fun_holder,struct fbgc_ll_base *
 void handle_before_paranthesis(struct parser_packet * p){
 	_FBGC_LOGD(PARSER,"%c",cprintf(010,"\n<><><><><><><><><><><><><><><><><><>\nStack top holder:%s\n",lltp2str(TOP_LL(p->op))));
 	
-	const fbgc_token top_type = TOP_LL(p->op)->type;
 
-	uint8_t	state = 0;
-	if(p->iter_prev->type == COMMA) state = 2;
-	else if(p->gm != GM_ATOM) state = 1;
+	//Name of the function is used to define functionable entries, those can be function definition, class definition
+	//if/elif/while/for and tuple constructions. Whenever we hit RPARA/SEMICOLON/NEWLINE we call this function
+	//Basically it handles entries before paranthesis, although we may not come here due to paranthesis but the name is just a name.
+
+
+	//	Left it as an example, just fun call and build tuple uses these cases so I defined conditions inside their case statements
+	//	uint8_t	state = 0;
+	//	if(p->iter_prev->type == COMMA) state = 2;
+	//	else if(p->gm != GM_ATOM) state = 1;
+	//
 
 	//Get the top to decide what are we gonna do
 	switch(TOP_LL(p->op)->type){
@@ -159,14 +174,14 @@ void handle_before_paranthesis(struct parser_packet * p){
 			FBGC_LOGV(PARSER,"Function call,p->iter_prev:%s\n",lltp2str(p->iter_prev));
 
 			//state == 2, p->iter_prev is comma
-			if(state == 2){
+			if(p->iter_prev->type == COMMA){
 				p->iter_prev->type = FUN_CALL;
 				_cast_llbase_as_llopcode_int(p->iter_prev)->content += _cast_llbase_as_llopcode_int(TOP_LL(p->op))->content;
 				POP_LL(p->op);
 			}
 			else{
 				//insert the function call, if state is 1 means that we have 1 argument, if it is zero than no arg
-				_cast_llbase_as_llopcode_int(TOP_LL(p->op))->content += (state == 1);
+				_cast_llbase_as_llopcode_int(TOP_LL(p->op))->content += (p->gm != GM_ATOM);
 				p->iter_prev = _insert_next_fbgc_ll(p->iter_prev,_top_and_pop_front_fbgc_ll(p->op));
 			}
 			break;
@@ -210,6 +225,7 @@ void handle_before_paranthesis(struct parser_packet * p){
 
 			FBGC_LOGV(PARSER,"Stack top is FUN_MAKE, function make template!\n");
 
+
 			struct fbgc_ll_base * fun_holder =  _cast_llbase_as_lljumper(TOP_LL(p->op))->content; 
 			struct fbgc_object * fun_obj = _cast_llbase_as_llconstant(fun_holder)->content;
 
@@ -218,12 +234,19 @@ void handle_before_paranthesis(struct parser_packet * p){
 				//maybe function is already defined before
 				return;
 			}
-
-			FBGC_LOGV(PARSER,"Function arguments starts(%s) & ends(%s):",lltp2str(fun_holder->next),lltp2str(p->iter_prev));
-			FBGC_LOGV(PARSER,"%c\n",_print_fbgc_ll_code(fun_holder->next,p->iter_prev));
-
-			handle_function_args(fun_holder,p->iter_prev);
-			p->iter_prev = fun_holder;	
+			//struct fbgc_ll_base * fun_holder,struct fbgc_ll_base * arg_end
+			//fun_holder,p->iter_prev
+			//Do not call for zero args
+			FBGC_LOGV(PARSER,"Function arguments starts(%s) & ends(%s):\n",lltp2str(fun_holder->next),lltp2str(p->iter_prev));
+			if(cast_fbgc_object_as_fun(fun_obj)->no_arg != 0 && cast_fbgc_object_as_fun(fun_obj)->no_arg != 65){
+				//For zero arg functions calling args may cause infinite loop
+				//Just for the debug case nothing important
+				FBGC_LOGV(PARSER,"%c\n",_print_fbgc_ll_code(fun_holder->next,p->iter_prev));
+			}
+			
+			handle_function_args(p);
+			
+			
 			break;
 		}
 		case CLASS_MAKE:{
@@ -243,17 +266,30 @@ void handle_before_paranthesis(struct parser_packet * p){
 			//Because of inheritance, we start scope of a class at the end of its definition 
 			_push_front_fbgc_ll(p->scope_list,_new_fbgc_ll_constant(cls_obj));
 
-			if(cls_holder->next->type == IDENTIFIER){
-				cls_holder = cls_holder->next;
+			while(cls_holder->next != p->iter_prev){
+				if(cls_holder->next->type == IDENTIFIER){
+					cls_holder = cls_holder->next;
+				}
+				else if(cls_holder->next->type == COMMA){
+					cls_holder->next = cls_holder->next->next;
+					p->iter_prev = cls_holder;
+				}
+				else{
+					p->error_code = _FBGC_SYNTAX_ERROR;
+					return;
+				}
 			}
 			cast_fbgc_object_as_class(cls_obj)->code = cls_holder;
 
 			FBGC_LOGV(PARSER,"Class code :%s\n",lltp2str(cast_fbgc_object_as_class(cls_obj)->code));
+			
 			break;	
 		}
 		case IF:
 		case ELIF:
 		case WHILE:{
+			//As other cases we first check did we define if/elif/while or not, if it is null then they are not defined so assign their
+			//content to jump iter_prev
 			if(_cast_llbase_as_lljumper(TOP_LL(p->op))->content == NULL){		
 				FBGC_LOGV(PARSER,"Stack top is %s, conditional template!\n",lltp2str(TOP_LL(p->op)));
 				_cast_llbase_as_lljumper(TOP_LL(p->op))->content = p->iter_prev;
@@ -263,18 +299,19 @@ void handle_before_paranthesis(struct parser_packet * p){
 		}
 		default:{
 
-			if(p->iter_prev->type == COMMA || p->gm == GM_ATOM){
-					
-					if(state == 2){
-						FBGC_LOGV(PARSER,"State number is 2, changing COMMA to BUILD_TUPLE\n");
-						p->iter_prev->type = BUILD_TUPLE;
-					} 
-					else if(state == 0){
-						FBGC_LOGV(PARSER,"State number is 0, creating new object BUILD_TUPLE with 0 size\n");
-						p->iter_prev = _insert_next_fbgc_ll(p->iter_prev,_new_fbgc_ll_opcode_int(BUILD_TUPLE,0));
-					}
-					//If nothing than it's a tuple!
-			}			
+			//So we have nothing in op-stack, only thing is left it could be list of items or just nuple e.g tuple with no entry ()
+			//We need to check for two cases and either change comma to tuple or create nuple
+							
+			if(p->iter_prev->type == COMMA){
+				FBGC_LOGV(PARSER,"State number is 2, changing COMMA to BUILD_TUPLE\n");
+				p->iter_prev->type = BUILD_TUPLE;
+			} 
+			else if(p->gm == GM_ATOM){
+				FBGC_LOGV(PARSER,"State number is 0, creating new object BUILD_TUPLE with 0 size\n");
+				p->iter_prev = _insert_next_fbgc_ll(p->iter_prev,_new_fbgc_ll_opcode_int(BUILD_TUPLE,0));
+			}
+			//If nothing than it's a tuple!
+			
 			break;
 		}
 	}
@@ -284,13 +321,17 @@ void handle_before_paranthesis(struct parser_packet * p){
 void handle_before_brackets(struct parser_packet *p){
 	_FBGC_LOGD(PARSER,"\n==================================\nStack top holder:%s\n",lltp2str(TOP_LL(p->op)));
 
-	
+	//Same as handle paranthesis, this time we handle brackets 
+	//There are three scenarios
+	// - Matrix entry
+	// - loading subsciprt e.g: x[1,2,3]
+	// - assigning to subscript e.g: y[5,10] = 'fbgc'
+
 	uint8_t	state = 0;
 	if(p->iter_prev->type == COMMA) state = 2;
 	else if(p->gm != GM_ATOM) state = 1;
 
-
-	
+	//For subscript assignments, just leave it assignment operator will handle this scenario	
 	if(is_fbgc_ASSIGNMENT_OPERATOR(p->iter_prev->next->type)) return;
 	
 	if(TOP_LL(p->op)->type == IDENTIFIER || TOP_LL(p->op)->type == LOAD_SUBSCRIPT){	
@@ -298,7 +339,7 @@ void handle_before_brackets(struct parser_packet *p){
 
 		
 		if(state == 2){
-			//comma already in the list, just change its type to load subscript and pop load subscripts
+			//comma already in the list, just change its type to load subscript and pop load subscript
 			p->iter_prev->type = LOAD_SUBSCRIPT;
 			POP_LL(p->op);
 		}
@@ -308,16 +349,14 @@ void handle_before_brackets(struct parser_packet *p){
 		}
 		else{
 			p->error_code = _FBGC_SYNTAX_ERROR;
+			return;
 			//cannot have entries like x[], empty subscripts
 		}
 	}
 	else{
 		if(state == 2) p->iter_prev->type = BUILD_MATRIX; 
-		else {
-			struct fbgc_ll_base * ito = _new_fbgc_ll_opcode_int(BUILD_MATRIX,state==1);
-			ito->next = p->iter_prev->next;
-			p->iter_prev->next = ito;
-			p->iter_prev = ito;
+		else{
+			p->iter_prev = _insert_next_fbgc_ll(p->iter_prev,_new_fbgc_ll_opcode_int(BUILD_MATRIX,state==1));
 		}		
 	}
 	
@@ -337,8 +376,9 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 		.scope_list = _new_fbgc_ll(),
 		.error_code = _FBGC_NO_ERROR,
 		.gm = GM_NEWLINE,
+		.statement_begin = p.head->base.next
 	};
-	
+
 		
 	_push_front_fbgc_ll(p.scope_list,_new_fbgc_ll_constant(*field_obj));
 	#define current_scope _cast_llbase_as_llconstant(TOP_LL(p.scope_list))->content
@@ -364,7 +404,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			else break;
 		}
 	
-	FBGC_LOGD(PARSER,"%c",cprintf(111,"\n\n===========================[%d]{%s}===========================\n\n",i,lltp2str(p.iter)));
+	FBGC_LOGD(PARSER,"%c",cprintf(011,"\n\n===========================[%d]{%s}===========================\n\n",i,lltp2str(p.iter)));
 
 	switch(p.iter->type){
 	case CONSTANT:{
@@ -437,6 +477,15 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 				if(where != -1){
 					//Most likely we will call our previous definitions
 					//We already set flag to local, so just break do-while loop to go at the end of case IDENTIFIER
+					//However first check that are we still reading function args ? Because in that case we MUST NOT find our previous
+					//args so set an error
+					if(cast_fbgc_object_as_fun(current_scope)->no_arg == 65){
+						FBGC_LOGE("Function arguments must have unique names\n");
+						p.error_code = _FBGC_SYNTAX_ERROR;
+						goto PARSER_ERROR_LABEL;
+					}
+
+
 					break;
 				}
 				else{ 
@@ -640,6 +689,10 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 
 				POP_LL(p.scope_list); //remove this function from scope list
 
+
+				FBGC_LOGV(PARSER,"Created function code:");
+				FBGC_LOGV(PARSER,"%c\n",_print_fbgc_ll_code(cast_fbgc_object_as_fun(fun_obj)->code,NULL));
+
 				//eat END we no longer need it
 				p.iter_prev->next = p.iter->next;
 				break;
@@ -715,6 +768,15 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 	case FUN_MAKE:{
 		//FUN_MAKE is a lljumper type holder, it will hold the function object
 		//while we are seeing till the END token.
+
+
+		//Let's not allow closures right now, later we might change this property
+		if(current_scope->type == FUN){
+			p.error_code = _FBGC_SYNTAX_ERROR;
+			FBGC_LOGE("Nested functions are not allowed\n");
+			goto PARSER_ERROR_LABEL;
+		}
+
 
 		//Check the grammar is it ok ?
 		gm_seek_left(&p); PARSER_CHECK_ERROR(p.error_code);
@@ -1083,8 +1145,10 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			//each time a line is finished we need to figure it out what it was by using newline/rpara/semicolon
 			//handle paranthesis function will decide which action to make
 
-			if(p.iter->type == RPARA && TOP_LL(p.op)->type == LPARA) _pop_front_fbgc_ll(p.op);
-			else if(p.iter->type == NEWLINE && TOP_LL(p.op)->type == LPARA) _pop_front_fbgc_ll(p.op);
+
+			//Now evertyhing pop lpara from stack
+			if(TOP_LL(p.op)->type == LPARA) _pop_front_fbgc_ll(p.op);
+			
 
 			handle_before_paranthesis(&p);
 			PARSER_CHECK_ERROR(p.error_code);
@@ -1156,27 +1220,30 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 	case CARET_ASSIGN:
 	case PERCENT_ASSIGN:{
 
+		//@TODO
+		//The problem here is we change identifier type to assignment operator, hence we lose some extra bytes while creating assignment
+		//operators. In order to reduce memory size, there must be two types
 
 		gm_seek_left(&p); PARSER_CHECK_ERROR(p.error_code);
 		
+		//There is a problem with assignment operator and grammar rules, in order not to blow up below code we need to check
+		//by hand top value types must be identifier or load subscript
 		if(TOP_LL(p.op)->type != IDENTIFIER && TOP_LL(p.op)->type != LOAD_SUBSCRIPT){
 			p.error_code = _FBGC_SYNTAX_ERROR;
 			goto PARSER_ERROR_LABEL;
 		}
 		
-		//XXX remove this push itself thing
-		//fbgc_assert(TOP_LL(p.op)->type == IDENTIFIER ,"Assignment to a non-identifier object, object type:%s\n",object_name_array[TOP_LL(p.op)->type]);
-		//cprintf(111,"top->next = %s\n",object_name_array[TOP_LL(p.op)->next->type]);
-		if(TOP_LL(p.op)->next->type == ASSIGN || TOP_LL(p.op)->next->type == LPARA || TOP_LL(p.op)->next->type == COMMA){
-			
+		//In order to support entries 'x = y = 1', we need to set a flag for identifier 'y' to push itself to the stack again
+		//Since we just parse one time our list we cannot know whether to insert assigned variable one time. Instead we tell second variable to push itself
+		if(TOP_LL(p.op)->next->type == ASSIGN){
+			// || TOP_LL(p.op)->next->type == LPARA || TOP_LL(p.op)->next->type == COMMA
 			FBGC_LOGV(PARSER,"Opening push itself flag\n");
 
-			if(TOP_LL(p.op)->next->next == NULL || TOP_LL(p.op)->next->next->type != FOR)
+			if(TOP_LL(p.op)->next->next->type != FOR)
 				set_id_flag_PUSH_ITSELF(TOP_LL(p.op));
-
-			//this creates error when we use "for(i=smth)... end", it pushes p.iter object
 		}
 
+		//Eat current assignment operator
 		p.iter_prev->next = p.iter->next;
 
 		if(TOP_LL(p.op)->type == IDENTIFIER){
@@ -1233,5 +1300,11 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 	fbgc_error(p.error_code,line_no);
 		cprintf(100,"%s\n",line);
 	return 0;
-
 }
+
+
+//Kalan kısım 
+// precedence comparisona bakılacak
+// f(1,2) gibi durumlarda stacktan pop yapılacak
+// assignmenta tekrar bakılabilir
+// her durum için test yaz + dot ile çizdir

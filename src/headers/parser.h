@@ -18,6 +18,7 @@ struct parser_packet{
 	struct fbgc_ll_base * scope_list;	//!< Field,class and function scope list, we use it as a stack
 	uint8_t error_code;					//!< When an error occurs function assigns error code to this variable
 	fbgc_grammar gm;					//!< State of grammar
+	struct fbgc_ll_base * statement_begin;
 };
 
 /*! @fn uint8_t parser(struct fbgc_object ** field,FILE * fp)

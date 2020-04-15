@@ -110,7 +110,7 @@ struct fbgc_object * matrix_creation_from_stack(struct fbgc_object ** sp, int ct
 			yof += y;
 		   // cprintf(101,">>xof :%d, yof: %d column %d\n",xof,yof,m->column);
 			struct fbgc_matrix_object * msub = cast_fbgc_object_as_matrix(sp[i]);
-			struct fbgc_object * obj = sp[i];
+			//struct fbgc_object * obj = sp[i];
 			double * ds = content_fbgc_matrix_object(msub);
 			
 		   // cprintf(101,">>msub r:%d, c:%d\n",msub->row,msub->column);
@@ -542,7 +542,7 @@ void print_fbgc_matrix_object(struct fbgc_object * mat){
 	#define m cast_fbgc_object_as_matrix(mat)
 
 	double * contents = content_fbgc_matrix_object(mat);
-	size_t sz = m->row*m->column;
+	//size_t sz = m->row*m->column;
 	cprintf(010,"[");  
 	for(int i = 0; i<m->row; i++){
 		

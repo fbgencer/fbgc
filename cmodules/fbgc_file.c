@@ -99,7 +99,9 @@ new_fbgc_cfunction(fbgc_freadline,"freadline")
 			
 			fseek(fs->fp,-count_char-1,SEEK_CUR);
 			struct fbgc_object * str = new_fbgc_str_object_empty(count_char);
-			size_t res = fread(content_fbgc_str_object(str),1,count_char,fs->fp);
+			//Why do we have this? It causes unused variable error
+			//size_t res = fread(content_fbgc_str_object(str),1,count_char,fs->fp);
+
 			fseek(fs->fp,old_fp_loc,SEEK_SET); //set the file pointer to its old location
 			return str;
 		}		

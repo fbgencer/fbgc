@@ -267,6 +267,9 @@ uint8_t _print_fbgc_ll_code(struct fbgc_ll_base * head_next,struct fbgc_ll_base 
         else if(iter->type == FUN_CALL){
             cprintf(011,"{FUN_CALL(%d)}",_cast_llbase_as_llopcode_int(iter)->content);
         }
+        else if(iter->type == CLASS_CALL){
+            cprintf(011,"{CLASS_CALL(%d)}",_cast_llbase_as_llopcode_int(iter)->content);
+        }        
         else if(iter->type == LOAD_SUBSCRIPT){
             cprintf(011,"{LOAD_SUBSCRIPT(%d)}",_cast_llbase_as_llopcode_int(iter)->content);   
         }

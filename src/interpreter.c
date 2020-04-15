@@ -239,7 +239,7 @@ struct fbgc_object * run_code(struct fbgc_ll_base * pc, struct fbgc_object ** sp
 					PUSH(new_fbgc_int_object(fctr));
 					
 					PUSH(current_scope);
-					struct fbgc_object ** __sp = sp+sctr-6;
+					//struct fbgc_object ** __sp = sp+sctr-6;
 					
 					_print("sctr:%d\n",sctr);
 					res = run_code(cast_fbgc_object_as_fun(res)->code,sp,sctr,sctr-cast_fbgc_object_as_fun(res)->no_locals-3);
@@ -351,7 +351,6 @@ struct fbgc_object * run_code(struct fbgc_ll_base * pc, struct fbgc_object ** sp
 				
 				struct fbgc_object * temp = TOPN(index_no+1);
 				int index = 0;
-				int stck_goto = index_no;
 				while(index_no > 0){
 					if(temp->type == TUPLE){
 						index = cast_fbgc_object_as_int(TOPN(index_no))->content;
@@ -652,7 +651,6 @@ struct fbgc_object * run_code(struct fbgc_ll_base * pc, struct fbgc_object ** sp
 
 
 				int row = 0;
-				int col = 0;
 				int msize = 0;
 
 				//traverse reverse!
