@@ -2,6 +2,10 @@
 
 #include "../cmodules/cmodules.h"
 
+//Forward declarations
+void print_logo();
+
+
 struct fbgc_object * current_field = NULL;
 
 struct fbgc_object __nil__ = {.type = NIL};
@@ -38,7 +42,7 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
 	 
 	begin = clock();
 	if(par) 
-	//	par = interpreter(&main_field); 
+		par = interpreter(&main_field); 
 	end = clock();
 	interpreter_time = (double)(end - begin) / CLOCKS_PER_SEC; 
 
@@ -181,8 +185,9 @@ struct fbgc_object * fbgc_load_file(char * file_name,const char * fun_name, uint
 
 int main(int argc, char **argv){
 
-
-
+	#ifdef FBGC_LOGO
+		print_logo();
+	#endif                   
 
 
 //******************************************************************
@@ -244,6 +249,37 @@ int main(int argc, char **argv){
 //******************************************************************
 
 	return 0;
+}
+
+
+void print_logo(){
+	FILE * pFile;
+	long lSize;
+	char * buffer;
+	size_t result;
+
+	pFile = fopen ( "./src/_fbgc_.txt" , "r" );
+	if (pFile==NULL) {fputs ("File error",stderr); exit (1);}
+
+	// obtain file size:
+	fseek (pFile , 0 , SEEK_END);
+	lSize = ftell (pFile);
+	rewind (pFile);
+
+	// allocate memory to contain the whole file:
+	buffer = (char*) malloc (sizeof(char)*lSize);
+	if (buffer == NULL) {fputs ("Memory error",stderr); exit (2);}
+
+	// copy the file into the buffer:
+	result = fread (buffer,1,lSize,pFile);
+	if (result != lSize) {fputs ("Reading error",stderr); exit (3);}
+
+	printf("%s\n",buffer);
+
+	// terminate
+	fclose (pFile);
+	free (buffer);
+
 }
 
 #endif

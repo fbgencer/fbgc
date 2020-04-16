@@ -53,7 +53,7 @@ struct fbgc_object * run_code(struct fbgc_ll_base * pc, struct fbgc_object ** sp
 #define RECURSION_LIMIT 1000
 
 
-	_info("==========[INTERPRETER]==========\n");
+	FBGC_LOGV(INTERPRETER,"==========[INTERPRETER]==========\n");
 
 	for(int i = 0;  (pc != NULL); i++){
 
@@ -74,7 +74,7 @@ struct fbgc_object * run_code(struct fbgc_ll_base * pc, struct fbgc_object ** sp
 
 		fbgc_token type = get_fbgc_object_type(pc);
 		
-		_print("################ [%d] = {%s} ########################\n",i,_obj2str(pc));
+		FBGC_LOGV(INTERPRETER,"################ [%d] = {%s} ########################\n",i,_obj2str(pc));
 
 		switch(type){
 			case CONSTANT:{
@@ -117,8 +117,9 @@ struct fbgc_object * run_code(struct fbgc_ll_base * pc, struct fbgc_object ** sp
 					PUSH(object);
 
 					if(is_id_flag_MEMBER_METHOD(pc)){
-						//if(self->type != FIELD)
-						PUSH(self);
+						FBGC_LOGV(PARSER,"This is member method also pushing self\n");
+						//if(object->type != CLASS)			
+							PUSH(self);
 					}
 				}
 				else if(is_id_flag_CLASS(pc)){
@@ -283,7 +284,7 @@ struct fbgc_object * run_code(struct fbgc_ll_base * pc, struct fbgc_object ** sp
 			case CARET_ASSIGN:
 			case PERCENT_ASSIGN:{
 
-				_info("Assignment op [%x]ID<%d>\n",get_ll_identifier_flag(pc),get_ll_identifier_loc(pc));
+				FBGC_LOGV(INTERPRETER,"Assignment op [%x]ID<%d>\n",get_ll_identifier_flag(pc),get_ll_identifier_loc(pc));
 
 				struct fbgc_object * rhs = POP();
 				struct fbgc_object ** lhs = NULL;
@@ -491,13 +492,14 @@ struct fbgc_object * run_code(struct fbgc_ll_base * pc, struct fbgc_object ** sp
 			case FUN_CALL:{
 
 				int arg_no = _cast_llbase_as_llopcode_int(pc)->content;
+				FBGC_LOGV(INTERPRETER,"Fun call arg no :%d\n",arg_no);
 				
 				struct fbgc_object * funo = TOPN(arg_no+1);
 
 				struct fbgc_object * last_scope = current_scope;
 				//Geçici olarak burada..
 				if(funo->type == CLASS){
-					_info("Calling class constructor...\n");
+					FBGC_LOGV(INTERPRETER,"Calling class constructor\n");
 
 					struct fbgc_object * new_inst = new_fbgc_instance_object(funo);
 
@@ -505,43 +507,27 @@ struct fbgc_object * run_code(struct fbgc_ll_base * pc, struct fbgc_object ** sp
 
 					struct fbgc_object * constructor = get_set_fbgc_object_member(funo,"init",NULL);
 					if(constructor == NULL){
+						FBGC_LOGV(INTERPRETER,"Class constructor is created default\n");
 						if(arg_no != 0){
+							//Changed for nested classes, may need revise
+							arg_no = 0;
+							_POP();
 							//this is also an error
-							assert(0);
+							//assert(0);
 						}
 						//No definition of constructor 
+						
 						_POP(); //pop cls object
 						PUSH(new_inst);
 						break;
 					}else {
-						
-						//Lets just not support this part.
-						arg_no++;
+						FBGC_LOGV(INTERPRETER,"User defined class constructor\n");
 						funo = constructor;
 						PUSH(new_inst);
-						//assert(0);
-
-						/*++arg_no;
-						SET_TOPN(arg_no,new_inst);
-						//print_fbgc_object(TOPN(arg_no));
-						//print_fbgc_object(constructor);
-						funo = constructor;
-						//return 0;
-						cprintf(100,"sctr %d\n",sctr);
-						if(cast_fbgc_object_as_fun(funo)->no_arg != arg_no) {
-							printf("Argument match error! funo->arg %d, arg_no %d\n",cast_fbgc_object_as_fun(funo)->no_arg,arg_no);
-							goto INTERPRETER_ERROR_LABEL;		
+						if(cast_fbgc_object_as_fun(funo)->no_arg != arg_no){
+							FBGC_LOGV(INTERPRETER,"Args are not equal\n");
+							++arg_no; 
 						}
-
-						STACK_GOTO(cast_fbgc_object_as_fun(funo)->no_locals - arg_no);
-						PUSH(pc->next);
-						PUSH(new_fbgc_int_object(fctr));
-						fctr = sctr-cast_fbgc_object_as_fun(funo)->no_locals-2;
-						PUSH(last_scope);
-						PUSH(cast_fbgc_object_as_field(current_scope)->locals);
-						__dummy->next = cast_fbgc_object_as_fun(funo)->code;
-						pc = __dummy;
-						break;*/
 					}
 				}
 
@@ -563,9 +549,7 @@ struct fbgc_object * run_code(struct fbgc_ll_base * pc, struct fbgc_object ** sp
 						goto INTERPRETER_ERROR_LABEL;
 					} 
 						
-					//XXX solve this issue
-					if(res != __fbgc_nil)
-						PUSH(res);
+					PUSH(res);
 					break;
 				}
 
@@ -803,13 +787,13 @@ struct fbgc_object * run_code(struct fbgc_ll_base * pc, struct fbgc_object ** sp
 
 		//cast_fbgc_object_as_tuple(stack)->size = sctr; //sp - content_fbgc_tuple_object(stack);
 			
-		_info("{");
+		FBGC_LOGV(INTERPRETER,"{");
 		for(size_t i = 0; i<sctr; i++){
-			_print_object("",sp[i]);
-			_cprint(011,", ");
+			FBGC_LOGV(INTERPRETER,"%c",print_fbgc_object(sp[i]));
+			FBGC_LOGV(INTERPRETER,", ");
 		}
-		_info("}\n");
-		_info("~~~~~~Field Globals~~~~~\n");
+		FBGC_LOGV(INTERPRETER,"}\n");
+		FBGC_LOGV(INTERPRETER,"~~~~~~Field Globals~~~~~\n");
 
 		struct fbgc_object * globals;
 		if(current_scope != NULL && current_scope->type == CLASS) globals = cast_fbgc_object_as_class(current_scope)->locals;
@@ -817,11 +801,11 @@ struct fbgc_object * run_code(struct fbgc_ll_base * pc, struct fbgc_object ** sp
 
 		for(int i = 0; i<size_fbgc_array_object(globals); i++){
 			struct fbgc_identifier * temp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(globals,i);
-			_print_object("{",temp_id->name);
-			_print_object(":",temp_id->content);
-			_cprint(010,"}");
+			FBGC_LOGV(INTERPRETER,"%c:",print_fbgc_object(temp_id->name));
+			FBGC_LOGV(INTERPRETER,"%c",print_fbgc_object(temp_id->content));
+			FBGC_LOGV(INTERPRETER,"}");
 		}
-		_info("\n==============================================\n\n");
+		FBGC_LOGV(INTERPRETER,"\n==============================================\n\n\n");
 		
 
 		FETCH_NEXT();
@@ -835,3 +819,36 @@ struct fbgc_object * run_code(struct fbgc_ll_base * pc, struct fbgc_object ** sp
 		return NULL;
 
 }
+
+
+//@TODO
+//Error when calling nested class constructor as self.class_name()
+//It gives some error see following code
+/*
+car = class()
+	engine = class()
+		rpm = 0
+		power = 0
+
+		init = fun(r,p,self)
+			self.rpm = r
+			self.power = p
+			return self
+		end
+	end
+
+	eng = 0
+	gas = 10
+
+	init = fun(r,p,g,self)
+		self.eng = self.engine(r,p)
+		self.gas = g
+		print(self.gas)
+		return self
+	end
+end
+
+
+
+audi = car(3,4,5)
+*/

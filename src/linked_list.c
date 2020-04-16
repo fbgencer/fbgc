@@ -238,9 +238,10 @@ uint8_t _print_fbgc_ll_code(struct fbgc_ll_base * head_next,struct fbgc_ll_base 
           cprintf(011,"}");
         }
         else if(iter->type == WHILE){
-        cprintf(011,"{WHILE:");
-        if(_cast_llbase_as_lljumper(iter)->content != NULL) _print_fbgc_ll_base(_cast_llbase_as_lljumper(iter)->content->next);
-          cprintf(011,"}");
+            
+            cprintf(011,"{WHILE:");
+            if(_cast_llbase_as_lljumper(iter)->content != NULL) _print_fbgc_ll_base(_cast_llbase_as_lljumper(iter)->content->next);
+            cprintf(011,"}");
         }
         else if(iter->type == FOR_BEGIN){
         cprintf(011,"{FOR_BEGIN}");

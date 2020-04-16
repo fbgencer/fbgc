@@ -104,6 +104,7 @@ typedef struct {
 #define ROW 86 //
 #define LOAD_SUBSCRIPT 87 //
 #define CLASS_CALL 88 //
+#define CLASS_SELF 89 //
 #define TOKEN_LIST_AS_STRINGS()\
 "UNKNOWN",\
 "NIL",\
@@ -194,6 +195,7 @@ typedef struct {
 "ROW",\
 "LOAD_SUBSCRIPT",\
 "CLASS_CALL",\
+"CLASS_SELF",\
 //TOKENS_END
 
 #define GM_ERROR 0

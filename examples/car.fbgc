@@ -1,0 +1,26 @@
+car = class()
+	engine = class()
+		rpm = 0
+		power = 0
+
+		init = fun(r,p,self)
+			self.rpm = r
+			self.power = p
+			return self
+		end
+	end
+
+	eng = 0
+	gas = 10
+
+	init = fun(r,p,g,self)
+		self.eng = self.engine(r,p)
+		self.gas = g
+		print(self.gas)
+		return self
+	end
+end
+
+
+
+audi = car(3,4,5)

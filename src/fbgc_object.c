@@ -457,7 +457,9 @@ struct fbgc_object * get_set_fbgc_object_member(struct fbgc_object * o, const ch
 		}
 
 		default:
-			assert(1 && !cprintf(100,"[%s] cannot accessible\n",object_name_array[o->type]) );
+			cprintf(100,"[%s] cannot accessible\n",object_name_array[o->type]);
+			assert(0);
+
 		return NULL;
 	}
 } 

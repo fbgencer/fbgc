@@ -62,8 +62,8 @@ extern "C" {
 #define FBGC_LOGE(format,...) LOGE(format,##__VA_ARGS__)
 #define _FBGC_LOGE(format,...) _LOGE(format,##__VA_ARGS__)
 
-#define FBGC_LOGW(format,...) LOGE(format,##__VA_ARGS__)
-#define _FBGC_LOGW(format,...) _LOGE(format,##__VA_ARGS__)
+#define FBGC_LOGW(format,...) LOGW(format,##__VA_ARGS__)
+#define _FBGC_LOGW(format,...) _LOGW(format,##__VA_ARGS__)
 
 #define FBGC_LOGD(f,format,...) f ## _ ##  LOGD(format,##__VA_ARGS__)
 #define _FBGC_LOGD(f,format,...) _ ## f ## _ ## LOGD(format,##__VA_ARGS__)
