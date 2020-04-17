@@ -1,6 +1,6 @@
 #include "fbgc.h"
 
-
+struct general_symbol_container general_symbols = {.sym = NULL};
 
 struct fbgc_object * initialize_fbgc_symbol_table(){
     //struct fbgc_tuple_object * table = (struct fbgc_tuple_object*) new_fbgc_tuple_object(INITIAL_SYMBOL_TABLE_SIZE);

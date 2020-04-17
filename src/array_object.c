@@ -81,7 +81,7 @@ struct fbgc_object * push_back_fbgc_array_object(struct fbgc_object * self,void 
 
 		//Before sending to realloc, request a larger block after a request change for the capacity of the array
 
-    	self = fbgc_realloc(self,
+    	self = (struct fbgc_object*)fbgc_realloc(self,
     		sizeof(struct fbgc_array_object ) + 
 			(cast_fbgc_object_as_array(self)->capacity << 1) * block_size_fbgc_array_object(self) );
 
@@ -122,7 +122,7 @@ void _push_back_fbgc_array_object(struct fbgc_object ** arr,void * obj){
 
 		//Before sending to realloc, request a larger block after a request change for the capacity of the array
 
-    	self = fbgc_realloc(self,
+    	self = (struct fbgc_object*)fbgc_realloc(self,
     		sizeof(struct fbgc_array_object ) + 
 			(cast_fbgc_object_as_array(self)->capacity << 1) * block_size_fbgc_array_object(self) );
 

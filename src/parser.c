@@ -2,7 +2,7 @@
 
 #define RIGHT_ASSOC 0b10000000
 #define LEFT_ASSOC 0	
-const fbgc_token const precedence_table[] =
+const fbgc_token precedence_table[] =
 {
 	RIGHT_ASSOC | 0,//IF
 	4,//RETURN

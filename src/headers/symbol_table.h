@@ -16,7 +16,7 @@ struct general_symbol_container{
 // General symbol holder
 // Why making extern gives an error ? Investigate..
 //XXXXXXXXXXXXXXXXXXXX
-struct general_symbol_container general_symbols;
+extern struct general_symbol_container general_symbols;
 
 #define fbgc_symbols (general_symbols.sym)
 

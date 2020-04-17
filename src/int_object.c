@@ -194,6 +194,7 @@ switch(op)
 	}
 }	
 
+	return NULL;
 }
 
 

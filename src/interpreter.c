@@ -82,7 +82,7 @@ struct fbgc_object * run_code(struct fbgc_ll_base * pc, struct fbgc_object ** sp
 				break;
 			}
 			case ROW:{
-				PUSH(pc);
+				PUSH((struct fbgc_object *)pc);
 				break;
 			}
 			case IDENTIFIER:{	
@@ -174,7 +174,7 @@ struct fbgc_object * run_code(struct fbgc_ll_base * pc, struct fbgc_object ** sp
 				
 				int old_fctr = fctr;
 				fctr = cast_fbgc_object_as_int(TOP())->content;
-				__dummy->next = SECOND();
+				__dummy->next = (struct fbgc_ll_base *)SECOND();
 				pc = __dummy;
 				sctr = old_fctr; // Instead of using stack goto we'll manipulate stack with sctr
 				//_print_object("sctr deneme",TOP());
@@ -379,7 +379,7 @@ struct fbgc_object * run_code(struct fbgc_ll_base * pc, struct fbgc_object ** sp
 						assert(index_no > 1);
 						index = cast_fbgc_object_as_int(TOPN(index_no))->content;
 						int index_no2 = cast_fbgc_object_as_int(TOPN(--index_no))->content;
-						lhs = set_object_in_fbgc_matrix_object(temp,index,index_no2,rhs);
+						*lhs = set_object_in_fbgc_matrix_object(temp,index,index_no2,rhs);
 						//rhs = lhs; ???
 						assert(lhs != NULL);
 						break;
@@ -580,7 +580,7 @@ struct fbgc_object * run_code(struct fbgc_ll_base * pc, struct fbgc_object ** sp
 				STACK_GOTO(cast_fbgc_object_as_fun(funo)->no_locals - arg_no);
 				//save our first next operation after this function call
 				//After returning the value we will take this space and run the main code
-				PUSH(pc->next);
+				PUSH((struct fbgc_object *)pc->next);
 				//hold old frame pointer location
 				PUSH(new_fbgc_int_object(fctr));
 				//hold old position of sp with fp, assume that args already pushed into stack
@@ -766,7 +766,7 @@ struct fbgc_object * run_code(struct fbgc_ll_base * pc, struct fbgc_object ** sp
 				//print_fbgc_class_object(cls);
 				struct fbgc_object * last_scope = current_scope;
 				current_scope = cls;
-				PUSH(pc->next);
+				PUSH((struct fbgc_object *)pc->next);
 				PUSH(new_fbgc_int_object(fctr));
 				fctr = sctr-1;
 				PUSH(last_scope);

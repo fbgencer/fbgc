@@ -302,7 +302,7 @@ print("File:%s is constructed."%outputcsv_file)
 
 matrix_text_as_str = ""
 
-matrix_text_as_str += "uint8_t left_matrix[%d][%d] = {\n"%(len(gm.tokens),len(gm.grammar_tokens))
+matrix_text_as_str += "int8_t left_matrix[%d][%d] = {\n"%(len(gm.tokens),len(gm.grammar_tokens))
 line = ""
 for i in range(len(lm)):
 	matrix_text_as_str += "{"
@@ -311,7 +311,7 @@ for i in range(len(lm)):
 	matrix_text_as_str += line[0:-1]+"},\n"
 	line = ""
 matrix_text_as_str += "};\n"
-matrix_text_as_str += "uint8_t right_matrix[%d][%d] = {\n"%(len(gm.tokens),len(gm.grammar_tokens))
+matrix_text_as_str += "int8_t right_matrix[%d][%d] = {\n"%(len(gm.tokens),len(gm.grammar_tokens))
 
 for i in range(len(rm)):
 	matrix_text_as_str += "{"

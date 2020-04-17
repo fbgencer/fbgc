@@ -88,6 +88,8 @@ struct fbgc_object * new_fbgc_matrix_object_from_range(struct fbgc_object * robj
 		return (struct fbgc_object *) m;
 	#undef r
 	}
+
+	return NULL;
 }
 
 
@@ -188,7 +190,8 @@ struct fbgc_object * get_object_in_fbgc_matrix_object(struct fbgc_object * mat, 
 		return new_fbgc_complex_object(*d,*(d+1) );
 	}
 	else 
-		new_fbgc_double_object(*d);
+		return	new_fbgc_double_object(*d);
+
 
 	#undef m
 }  

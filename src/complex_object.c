@@ -225,6 +225,7 @@ struct fbgc_object * get_set_fbgc_complex_object_member(struct fbgc_object * o, 
     else {
         *p = convert_fbgc_object_to_double(nm);
     }
+    return NULL;
 } 
 
 

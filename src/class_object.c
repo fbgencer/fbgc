@@ -47,12 +47,12 @@ void inherit_from_another_class(struct fbgc_object * self,struct fbgc_object * f
 
 //===============================================================================================
 
-struct fbgc_object * new_fbgc_instance_object(struct fbgc_object * template){ 
+struct fbgc_object * new_fbgc_instance_object(struct fbgc_object * _template){ 
   struct fbgc_instance_object * o = (struct fbgc_instance_object*) fbgc_malloc(sizeof(struct fbgc_instance_object));
     o->base.type = INSTANCE;
-    o->template_class = template;
+    o->template_class = _template;
 
-	struct fbgc_object * ao = cast_fbgc_object_as_class(template)->locals;
+	struct fbgc_object * ao = cast_fbgc_object_as_class(_template)->locals;
 	o->variables = new_fbgc_tuple_object(size_fbgc_array_object(ao));
 
 	size_fbgc_tuple_object(o->variables) = size_fbgc_array_object(ao);

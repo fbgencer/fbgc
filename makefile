@@ -9,10 +9,10 @@ TEST_OBJ = ${TEST_SRC:.c=.o}
 
 #put -g in order to see good assembly output
 #-Wno-error=incompatible-pointer-types -Wno-error=discarded-qualifiers
-CC=gcc
+CC=g++
 #-Wunused-variable
 OPTIMIZATION_FLAG = 
-WARNING_FLAG = -Werror -Wno-error=incompatible-pointer-types 
+WARNING_FLAG = -Werror -Wno-error=incompatible-pointer-types -Wno-error=pointer-arith
 DEBUG_FLAG = -s
 
 CFLAGS = -c

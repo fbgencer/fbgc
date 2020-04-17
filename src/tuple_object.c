@@ -108,7 +108,7 @@ struct fbgc_object * push_back_fbgc_tuple_object(struct fbgc_object * self,struc
 	if(size_fbgc_tuple_object(self) == capacity_fbgc_tuple_object(self)){
 
 		//Before sending to realloc, request a larger block after requesting change the capacity of the tuple
-    	self = fbgc_realloc(self,
+    	self = (struct fbgc_object*)fbgc_realloc(self,
     		sizeof(struct fbgc_tuple_object ) + 
 			(cast_fbgc_object_as_tuple(self)->capacity << 1) * sizeof(struct fbgc_object*) );
 
@@ -139,7 +139,7 @@ void _push_back_fbgc_tuple_object(struct fbgc_object ** tp,struct fbgc_object * 
     if(size_fbgc_tuple_object(*tp) == capacity_fbgc_tuple_object(*tp)){
 
         //Before sending to realloc, request a larger block after requesting change the capacity of the tuple
-        *tp = fbgc_realloc(*tp,
+        *tp = (struct fbgc_object*)fbgc_realloc(*tp,
             sizeof(struct fbgc_tuple_object ) + 
             (cast_fbgc_object_as_tuple(*tp)->capacity << 1) * sizeof(struct fbgc_object*) );
 

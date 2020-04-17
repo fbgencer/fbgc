@@ -1,7 +1,7 @@
 #include "fbgc.h"
 
 
-inline const char * lltp2str(struct fbgc_ll_base * ll){
+const char * lltp2str(struct fbgc_ll_base * ll){
     return object_name_array[ll->type];
 }
 

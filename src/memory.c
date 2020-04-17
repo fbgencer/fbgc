@@ -2,6 +2,14 @@
 
 
 
+struct fbgc_memory_block fbgc_memb = {	.internal_buffer_head = NULL,
+										.internal_buffer_size = 0,
+										.object_pool_head = NULL,
+										.object_pool_size = 0,
+										.empty_chunk_head = {.type=NIL}
+									};
+
+
 void initialize_fbgc_memory_block(){
 	//first allocate a big chunck that contains both inital buffer and object pool
 	/*fbgc_memb.internal_buffer_head = (void *) calloc(INITIAL_INTERNAL_BUFFER_SIZE,1);
@@ -80,7 +88,7 @@ void * fbgc_malloc(size_t size){
 		#endif
 
 
-		if( (opool_iter->data + opool_iter->size - opool_iter->tptr) >= size){
+		if( ((uint8_t*)opool_iter->data + opool_iter->size - (uint8_t*)opool_iter->tptr) >= size){
 			#ifdef MEM_DEBUG
 				//cprintf(111,"Requested memory is available\n");
 			#endif
@@ -322,7 +330,7 @@ then the result is undefined!
 */
 	if(ptr == NULL) return fbgc_malloc(size);
 
-	size_t block_size = get_fbgc_object_size(ptr);
+	size_t block_size = get_fbgc_object_size((struct fbgc_object * )ptr);
 
 	#ifdef MEM_DEBUG
 		cprintf(010,"~~~~~~~Realloc~~~~~~~~\n");
@@ -389,7 +397,7 @@ void print_fbgc_memory_block(){
 			int val = *( char *)((iter->data)+j); 
 
 			if(j == obj_start && ((char *)iter->data+j) != iter->tptr){
-				struct fbgc_object * dummy = ((iter->data)+j);
+				struct fbgc_object * dummy = (struct fbgc_object *)((uint8_t*)(iter->data)+j);
 				obj_start += get_fbgc_object_size(dummy);
 				//print the type of the data in the memory
 				cprintf(101,">>[%s] obj size in memory %d\n",object_name_array[0x7F & val],get_fbgc_object_size(dummy));				

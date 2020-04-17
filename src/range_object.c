@@ -48,7 +48,8 @@ struct fbgc_object * get_element_in_fbgc_range_object(struct fbgc_object * robj,
 
     if(range_type == INT) return get_int_element_in_fbgc_range_object(robj,index,result);
     else if(range_type == DOUBLE) return get_double_element_in_fbgc_range_object(robj,index,result);
-      
+    
+    return NULL;
 } 
 
 

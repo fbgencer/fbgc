@@ -279,7 +279,7 @@ char convert_fbgc_object_to_logic(struct fbgc_object * obj){
 	return 0;
 }
 
-inline int convert_fbgc_object_to_int(struct fbgc_object * obj){
+int convert_fbgc_object_to_int(struct fbgc_object * obj){
 
 	switch(get_fbgc_object_type(obj)){
 		case LOGIC:

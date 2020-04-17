@@ -30,7 +30,7 @@ struct fbgc_memory_block{
 };
 
 
-struct fbgc_memory_block fbgc_memb;
+extern struct fbgc_memory_block fbgc_memb;
 
 void initialize_fbgc_memory_block();
 void print_fbgc_memory_block();
