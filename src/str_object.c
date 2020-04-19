@@ -265,6 +265,14 @@ switch(op)
 return NULL;
 }
 
+int handle_str_index(struct fbgc_object * self,int index){
+
+    index = (index < 0) * length_fbgc_str_object(self) +  index;
+    if( index < 0 || index >= length_fbgc_str_object(self) )
+        return -1;
+    return index;
+}
+
 //for the given res object, we will change its content by looking so object
 struct fbgc_object * get_char_from_fbgc_str_object(struct fbgc_object * so,int i1,struct fbgc_object * res){
     //change the content of given res object
@@ -276,27 +284,26 @@ struct fbgc_object * get_char_from_fbgc_str_object(struct fbgc_object * so,int i
     return NULL;
 }
 
-struct fbgc_object * get_object_in_fbgc_str_object(struct fbgc_object * so,int i1, int i2){
+struct fbgc_object * get_object_in_fbgc_str_object(struct fbgc_object * so,int i1, int len){
     //return new str object, it could be sequence inside the object or just one char
-
-    if(i1<length_fbgc_str_object(so) && i2<=length_fbgc_str_object(so) && i2>i1 ){
-        char * c = content_fbgc_str_object(so);
-        return new_fbgc_str_object_from_substr(c+i1,c+i2);
-    }
-    return NULL;
+    i1 = handle_str_index(so,i1);
+    if(i1 < 0) return NULL;
+    char * c = content_fbgc_str_object(so);
+    return new_fbgc_str_object_from_substr(c+i1,c+i1+len);
 }
-struct fbgc_object * set_object_in_fbgc_str_object(struct fbgc_object * so,int i1, int i2,struct fbgc_object * obj){
-    //return new str object, it could be sequence inside the object or just one char
+struct fbgc_object * set_object_in_fbgc_str_object(struct fbgc_object * so,int i1, int len,struct fbgc_object * obj){
 
-    assert(obj->type == STRING);
+    if(get_fbgc_object_type(obj) != STRING) return NULL;
 
-    assert(i1<length_fbgc_str_object(so) && i2<=length_fbgc_str_object(so) && i2>i1 );
+    i1 = handle_str_index(so,i1);
+    if(i1 < 0) return 0;
 
-    if(length_fbgc_str_object(obj) == 1){
+    if(len == 1){
         char * c = content_fbgc_str_object(so);
         *(c+i1) = *(content_fbgc_str_object(obj)); 
     }
     else{
+        FBGC_LOGE("not implemented.");
         assert(0);
     }
 

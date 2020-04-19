@@ -2,13 +2,13 @@
 
 struct fbgc_object *  new_fbgc_range_object(struct fbgc_object * s,struct fbgc_object * e){ 
     struct fbgc_range_object * r;
+    fbgc_token tok = MAX(get_fbgc_object_type(s), get_fbgc_object_type(e));
+
     if(s->type != RANGE){
         r =  (struct fbgc_range_object*) fbgc_malloc(sizeof_fbgc_range_object());
         r->base.type = RANGE;
         r->start = s;
         r->end = e;  
-
-        fbgc_token tok = MAX(get_fbgc_object_type(r->start),get_fbgc_object_type(r->end));    
      
         if(tok == INT){
             //if tok is int, both of them is int (we are sure check tokens.h)
@@ -19,10 +19,11 @@ struct fbgc_object *  new_fbgc_range_object(struct fbgc_object * s,struct fbgc_o
             double stp = cast_fbgc_object_as_double(s)->content > cast_fbgc_object_as_double(e)->content ? -1.0 : 1.0;
             r->step = new_fbgc_double_object(stp);
         }
+        else r->step = NULL;
     }
     else{
         r = cast_fbgc_object_as_range(s);
-        fbgc_token tok = MAX(get_fbgc_object_type(r->start), get_fbgc_object_type(r->end));
+        
         tok = MAX(get_fbgc_object_type(e),tok);
 
         //if tok is int we are absolutely sure that each element of range object is integer..

@@ -26,7 +26,7 @@ struct fbgc_tuple_object{
 struct fbgc_object * new_fbgc_tuple_object(size_t size);
 struct fbgc_object * new_fbgc_tuple_object_from_tuple_content(struct fbgc_object ** src, size_t len);
 
-void set_object_in_fbgc_tuple_object(struct fbgc_object * self,struct fbgc_object * obj,int index);
+struct fbgc_object * set_object_in_fbgc_tuple_object(struct fbgc_object * self,struct fbgc_object * obj,int index);
 struct fbgc_object * get_object_in_fbgc_tuple_object(struct fbgc_object * self,int index);
 struct fbgc_object ** get_object_address_in_fbgc_tuple_object(struct fbgc_object * self,int index);
 struct fbgc_object *  get_back_in_fbgc_tuple_object(struct fbgc_object * self);

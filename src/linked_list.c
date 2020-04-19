@@ -145,7 +145,7 @@ void _print_fbgc_ll_base(struct fbgc_ll_base * lb){
         struct fbgc_object * obj = _cast_llbase_as_llconstant(lb)->content;
         print_fbgc_object(obj);
     }
-    else cprintf(111,"%s",_ll2str(lb));
+    else cprintf(111,"%s",lltp2str(lb));
 }
 
 
@@ -279,9 +279,10 @@ uint8_t _print_fbgc_ll_code(struct fbgc_ll_base * head_next,struct fbgc_ll_base 
         }                                    
         else if(is_fbgc_OPERATOR(iter->type)) cprintf(011,"{%s}",get_token_as_str(iter->type));
 
-        else cprintf(011,"{%s}",_ll2str(iter));     
+        else cprintf(011,"{%s}",lltp2str(iter));     
             iter = iter->next;
     }
     
     return 1;
 }
+

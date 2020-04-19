@@ -205,15 +205,15 @@ typedef struct {
 #define GM_BINOP 4
 #define GM_UNOP 5
 #define GM_ASSIGNOP 6
-#define GM_ASSIGNMENT_EXPRESSION 7
-#define GM_EXPRESSION 8
-#define GM_UNBALANCED_LIST 9
-#define GM_BALANCED_LIST 10
-#define GM_LPARA 11
-#define GM_LBRACK 12
-#define GM_PIPE 13
-#define GM_FUNCTIONAL 14
-#define GM_MATRIX 15
+#define GM_EXPRESSION 7
+#define GM_UNBALANCED_LIST 8
+#define GM_BALANCED_LIST 9
+#define GM_LPARA 10
+#define GM_LBRACK 11
+#define GM_PIPE 12
+#define GM_FUNCTIONAL 13
+#define GM_MATRIX 14
+#define GM_DOT 15
 #define GRAMMAR_TOKENS_AS_STRINGS()\
 "GM_ERROR",\
 "GM_NEWLINE",\
@@ -222,7 +222,6 @@ typedef struct {
 "GM_BINOP",\
 "GM_UNOP",\
 "GM_ASSIGNOP",\
-"GM_ASSIGNMENT_EXPRESSION",\
 "GM_EXPRESSION",\
 "GM_UNBALANCED_LIST",\
 "GM_BALANCED_LIST",\
@@ -230,7 +229,8 @@ typedef struct {
 "GM_LBRACK",\
 "GM_PIPE",\
 "GM_FUNCTIONAL",\
-"GM_MATRIX"
+"GM_MATRIX",\
+"GM_DOT"
 
 extern const char * gm_name_array[];
 extern const char * object_name_array[];

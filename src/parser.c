@@ -10,7 +10,7 @@ const fbgc_token precedence_table[] =
 	RIGHT_ASSOC | 5,//LPARA
 	16,//RPARA
 	RIGHT_ASSOC | 5,//LBRACK
-	16,//RBRACK
+	18,//RBRACK
 	RIGHT_ASSOC | 5,//LBRACE
 	16,//RBRACE
 	RIGHT_ASSOC | 18,//COMMA // it was 20 now we changed to make bigger than equal sign for x = 1,2,3 cases
@@ -118,8 +118,7 @@ void handle_function_args(struct parser_packet * p){
 		if(iter->next->type == IDENTIFIER || iter->next->type == COMMA){
 			
 			if(iter->next->type == IDENTIFIER){
-				struct fbgc_object * cstr_obj = content_fbgc_tuple_object(tp)[get_ll_identifier_loc(iter->next)];
-				FBGC_LOGV(PARSER,"Argument:(%s) validated!\n",content_fbgc_cstr_object(cstr_obj));
+				FBGC_LOGV(PARSER,"Argument:(%s) validated!\n",content_fbgc_cstr_object(content_fbgc_tuple_object(tp)[get_ll_identifier_loc(iter->next)]));
 			}
 
 			iter = iter->next;
@@ -158,9 +157,13 @@ void handle_statements(struct parser_packet * p){
 	
 	FBGC_LOGV(PARSER,"begin: %s, prev:%s\n",lltp2str(p->statement_begin),lltp2str(p->iter_prev));
 
-	if(is_fbgc_ASSIGNMENT_OPERATOR(TOP_LL(p->op)->type) == 0 && is_fbgc_ASSIGNMENT_OPERATOR(p->iter_prev->type) == 0
-		&&  p->iter_prev->type != RETURN && TOP_LL(p->op)->type != RETURN && 
-		TOP_LL(p->op)->type != LPARA && TOP_LL(p->op)->type != LBRACK){
+	/*if(is_fbgc_ASSIGNMENT_OPERATOR(TOP_LL(p->op)->type) == 0 && is_fbgc_ASSIGNMENT_OPERATOR(p->iter_prev->type) == 0
+		&& TOP_LL(p->op)->type != LOAD_SUBSCRIPT && TOP_LL(p->op)->type != ASSIGN_SUBSCRIPT 
+		&& p->iter_prev->type != LOAD_SUBSCRIPT && p->iter_prev->type != ASSIGN_SUBSCRIPT 
+		&&  p->iter_prev->type != RETURN && TOP_LL(p->op)->type != RETURN &&
+		p->iter_prev->type !=  BREAK && p->iter_prev->type !=  CONT &&
+		TOP_LL(p->op)->type != LPARA && TOP_LL(p->op)->type != LBRACK &&
+		TOP_LL(p->op)->type != IF ){
 		FBGC_LOGV(PARSER,"Statement did not assigned to a variable\n");
 		//Ok remove this branch by usign statement_begin pointer
 		// v-------statement begin , actual statement start at statement_begin->next but in order to remove from list we need to hold previous element
@@ -171,15 +174,10 @@ void handle_statements(struct parser_packet * p){
 		p->statement_begin->next = p->iter_prev->next;
 		p->iter_prev = p->statement_begin;
 	}
-	/*else if(is_empty_fbgc_ll(p.op) && is_fbgc_ASSIGNMENT_OPERATOR(p.iter_prev->type) == 0 ){
-		p.statement_begin->next = p.iter_prev->next;
-		p.iter_prev = p.statement_begin;
-		break;	
-	}*/
 	else{
 		FBGC_LOGV(PARSER,"Updating statement\n");					
 		p->statement_begin = p->iter_prev;
-	}
+	}*/
 }
 
 
@@ -217,9 +215,12 @@ void handle_before_paranthesis(struct parser_packet * p){
 
 			if(!is_fbgc_OPERATOR(TOP_LL(p->op)->type) && TOP_LL(p->op)->type != COMMA &&
 					!is_fbgc_OPERATOR(p->iter_prev->type) && p->iter_prev->next->type != COMMA &&
-					TOP_LL(p->op)->type != LPARA && TOP_LL(p->op)->type != LBRACK
+					TOP_LL(p->op)->type != LPARA && TOP_LL(p->op)->type != LBRACK && 
+					TOP_LL(p->op)->type != IF && TOP_LL(p->op)->type != ELIF && TOP_LL(p->op)->type != WHILE
+					&& TOP_LL(p->op)->type != RETURN
 				){
 				
+				FBGC_LOGV(PARSER,"Inserting pop_top, iter_prev:%s, top:%s\n",lltp2str(p->iter_prev),lltp2str(TOP_LL(p->op)));
 				p->iter_prev = _insert_next_fbgc_ll(p->iter_prev,_new_fbgc_ll_base(POP_TOP));
 
 			}
@@ -333,8 +334,6 @@ void handle_before_paranthesis(struct parser_packet * p){
 				}
 				else{
 					//This is valid for zero argument
-					
-
 					p->error_code = _FBGC_SYNTAX_ERROR;
 					return;
 				}
@@ -400,7 +399,12 @@ void handle_before_brackets(struct parser_packet *p){
 	else if(p->gm != GM_ATOM) state = 1;
 
 	//For subscript assignments, just leave it assignment operator will handle this scenario	
-	if(is_fbgc_ASSIGNMENT_OPERATOR(p->iter_prev->next->type)) return;
+	if(is_fbgc_ASSIGNMENT_OPERATOR(p->iter_prev->next->type)){
+		if(state == 2){
+			//p->iter_prev->type = 
+		}
+		return;
+	}
 	
 	if(TOP_LL(p->op)->type == IDENTIFIER || TOP_LL(p->op)->type == LOAD_SUBSCRIPT){	
 		FBGC_LOGV(PARSER,"Operator stack top load_local or global, this is a subscript call template!\n");
@@ -497,6 +501,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 		//Which basically tells us where this symbol is, we ask the symbol first 
 		struct fbgc_object * cstr_obj = get_object_in_fbgc_tuple_object(fbgc_symbols,get_ll_identifier_loc(p.iter));
 		FBGC_LOGV(PARSER,"Symbol name as a cstring object:'%s'\n",content_fbgc_cstr_object(cstr_obj));
+		FBGC_LOGV(PARSER,"prev:'%s'\n",lltp2str(p.iter_prev));
 		
 		//Now we got the symbol, we are gonna use it to identify is this a new definition of a variable or cfun or using pre defined variable
 
@@ -629,7 +634,8 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 				//If it is not a class definition then change the locals and search it again maybe it is defined in global scope
 				//This is why we have a loop here
 				//if it is NOT then always breaks the loop so it is going to be defined.
-				if(where == -1 && current_scope->type == CLASS && p.iter->next->type != ASSIGN){
+				if(where == -1 && current_scope->type == CLASS && p.iter->next->type != ASSIGN && is_id_flag_GLOBAL(p.iter) == 0){
+
 					FBGC_LOGD(PARSER,"Could not find in CLASS, assuming it is defined in global scope\n");
 					current_locals = &(cast_fbgc_object_as_field(*field_obj)->locals);
 					set_id_flag_GLOBAL(p.iter);
@@ -661,7 +667,10 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			//Now current identifier object needs know the location of its definition
 			set_ll_identifier_loc(p.iter,where);
 		}
+
+		//Connect the list and insert current identifier
 		p.iter_prev->next = p.iter->next;
+		//push the identifier into op stack
 		_push_front_fbgc_ll(p.op,p.iter);
 		break;
 	}
@@ -707,7 +716,7 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 					FBGC_LOGE("Conditional statements cannot be empty\n");
 					p.error_code = _FBGC_SYNTAX_ERROR;
 					goto PARSER_ERROR_LABEL;
-				}*	
+				}
 				//now insert while in its place,
 				_insert_next_fbgc_ll(_cast_llbase_as_lljumper(top_obj)->content,top_obj);
 
@@ -834,9 +843,10 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 				POP_LL(p.scope_list); //remove class from scope list
 
 				//We need to put class_call for the first time class definitions in order to run their code
-				p.iter_prev = cls_holder; //Start from cls_holder
-				p.iter_prev = _insert_next_fbgc_ll(p.iter_prev,_new_fbgc_ll_opcode_int(CLASS_CALL,arg_no));
+				//Start from cls_holder
+				p.iter_prev = _insert_next_fbgc_ll(cls_holder,_new_fbgc_ll_opcode_int(CLASS_CALL,arg_no));
 				p.iter_prev->next = p.iter->next;
+
 				break;
 			}
 			case JUMP:{
@@ -1258,49 +1268,8 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			//Before calling below function lets check is this statement assigned to somewhere ?
 			//Only we check end of the statements e.g we expect newline and semicolon not rpara
 			
-			
-			/*if(p.iter->type != RPARA){
-				if( TOP_LL(p.op)->type != FUN_MAKE && (is_fbgc_ASSIGNMENT_OPERATOR(TOP_LL(p.op)->type) == 0 && is_fbgc_ASSIGNMENT_OPERATOR(p.iter_prev->type) == 0) 
-					&&	(	is_fbgc_FUNCTIONABLE(TOP_LL(p.op)->type) && 
-							_cast_llbase_as_lljumper(TOP_LL(p.op))->content != NULL)
-					&&  p.iter_prev->type != RETURN
-							
-					){
-					FBGC_LOGW("Statement did not assigned to a variable\n");
-					//Ok remove this branch by usign statement_begin pointer
-					// v-------statement begin , actual statement start at statement_begin->next but in order to remove from list we need to hold previous element
-					//[]->{[]-> ... []}
-					//				^---- p.iter_prev
-					//Now removed all the items and statement_begin assigned to its new location
-
-					p.statement_begin->next = p.iter_prev->next;
-					p.iter_prev = p.statement_begin;
-					break;
-				}
-				else if(is_empty_fbgc_ll(p.op) && is_fbgc_ASSIGNMENT_OPERATOR(p.iter_prev->type) == 0 ){
-					p.statement_begin->next = p.iter_prev->next;
-					p.iter_prev = p.statement_begin;
-					break;	
-				}
-				else{
-					FBGC_LOGW("Updating statement\n");					
-					p.statement_begin = p.iter_prev;
-				}
-			}*/
-			/*
-			else{
-				if(TOP_LL(p.op)->type == FUN_CALL){
-					_insert_next_fbgc_ll(p.iter_prev,_new_fbgc_ll_base(POP_TOP));
-					p.statement_begin = p.iter_prev;
-				}				
-			}*/
-						
-
 			handle_before_paranthesis(&p);
 			PARSER_CHECK_ERROR(p.error_code);
-
-
-			
 
 			if(p.iter_prev->type == BUILD_TUPLE){
 				if((p.iter->type == NEWLINE || p.iter->type == SEMICOLON) && !is_empty_fbgc_ll(p.op)){
@@ -1335,6 +1304,12 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 			break;
 		}
 		else if( p.iter->type == RBRACK){
+			
+			if(TOP_LL(p.op)->type == COMMA){
+				//top->next->next is load_subscript, change its content
+				_cast_llbase_as_llopcode_int(TOP_LL(p.op)->next->next)->content = _cast_llbase_as_llopcode_int(TOP_LL(p.op))->content;
+				_pop_front_fbgc_ll(p.op);
+			}
 			
 			if(TOP_LL(p.op)->type == LBRACK){
 				_pop_front_fbgc_ll(p.op);
@@ -1374,11 +1349,12 @@ uint8_t parser(struct fbgc_object ** field_obj, FILE * input_file){
 		
 		//There is a problem with assignment operator and grammar rules, in order not to blow up below code we need to check
 		//by hand top value types must be identifier or load subscript
+		/* Now grammar checks these 
 		if(TOP_LL(p.op)->type != IDENTIFIER && TOP_LL(p.op)->type != LOAD_SUBSCRIPT){
 			p.error_code = _FBGC_SYNTAX_ERROR;
 			goto PARSER_ERROR_LABEL;
 		}
-		
+		*/
 		//In order to support entries 'x = y = 1', we need to set a flag for identifier 'y' to push itself to the stack again
 		//Since we just parse one time our list we cannot know whether to insert assigned variable one time. Instead we tell second variable to push itself
 		if(TOP_LL(p.op)->next->type == ASSIGN|| TOP_LL(p.op)->next->type == LPARA || TOP_LL(p.op)->next->type == COMMA){

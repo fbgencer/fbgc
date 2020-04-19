@@ -78,7 +78,8 @@ switch(op)
     }        
     case EXCLAMATION:
     {
-        c = !a1;  
+        c = !a1;
+        break;
     }
     case TILDE:
     {

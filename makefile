@@ -9,7 +9,7 @@ TEST_OBJ = ${TEST_SRC:.c=.o}
 
 #put -g in order to see good assembly output
 #-Wno-error=incompatible-pointer-types -Wno-error=discarded-qualifiers
-CC=g++
+CC=gcc
 #-Wunused-variable
 OPTIMIZATION_FLAG = 
 WARNING_FLAG = -Werror -Wno-error=incompatible-pointer-types -Wno-error=pointer-arith
@@ -46,13 +46,13 @@ CFLAGS += -DLOG_FIELD_OBJECT_
 CFLAGS += -DLOG_FUN_OBJECT_
 CFLAGS += -DLOG_GRAMMAR_
 CFLAGS += -DLOG_INT_OBJECT_
-CFLAGS += -DLOG_INTERPRETER_
+CFLAGS += -DLOG_INTERPRETER
 CFLAGS += -DLOG_LINKEDLIST_
 CFLAGS += -DLOG_LOGIC_OBJECT_
 CFLAGS += -DLOG_MATRIX_OBJECT_
 CFLAGS += -DLOG_MEMORY_
 CFLAGS += -DLOG_OPERATOR_
-CFLAGS += -DLOG_PARSER_
+CFLAGS += -DLOG_PARSER
 CFLAGS += -DLOG_RANGE_OBJECT_
 CFLAGS += -DLOG_RELEXER
 CFLAGS += -DLOG_STR_OBJECT_

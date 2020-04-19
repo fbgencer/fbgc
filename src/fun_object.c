@@ -15,11 +15,12 @@ struct fbgc_object * new_fbgc_fun_object(){
 void print_fbgc_fun_object(struct fbgc_object * obj){
     struct fbgc_fun_object * funo = cast_fbgc_object_as_fun(obj);
 
-    if(funo->code != NULL && !is_constant_and_token(funo->code,TUPLE)){
+    cprintf(010,"{fun}");
+    /*if(funo->code != NULL && !is_constant_and_token(funo->code,TUPLE)){
       cprintf(010,"[Arg#:%d Local#:%d|",funo->no_arg,funo->no_locals);
       _print_fbgc_ll_code(funo->code,NULL);
       cprintf(010,"]");
-    }
+    }*/
 }
 
 

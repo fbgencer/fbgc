@@ -92,7 +92,29 @@ struct fbgc_object * get_set_fbgc_instance_object_member(struct fbgc_object * o,
 	//So nm is not null, set the new value
 	set_object_in_fbgc_tuple_object(cast_fbgc_object_as_instance(o)->variables,nm,str_loc);
 	return nm;
+}
 
+struct fbgc_object ** get_set_fbgc_instance_object_member_address(struct fbgc_object * o, const char * str){
+	//First get the location of this string
+
+	int str_loc = -1;
+	struct fbgc_object * ao = cast_fbgc_object_as_class(cast_fbgc_object_as_instance(o)->template_class)->locals;
+
+
+	for(int i = 0; i<size_fbgc_array_object(ao); i++){
+		struct fbgc_identifier * temp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(ao,i);
+		
+		if(!my_strcmp(content_fbgc_cstr_object(temp_id->name),str)){
+			str_loc = i;
+			break;
+		}
+	}
+	if(str_loc == -1){
+		//Couldn't find
+		return NULL;
+	}
+
+	return content_fbgc_tuple_object(cast_fbgc_object_as_instance(o)->variables) + str_loc;		
 }
 
 
@@ -105,55 +127,55 @@ struct fbgc_object * operator_fbgc_instance_object(struct fbgc_object * a,struct
 	{   
 
 	    case RSHIFT:{
-	    	fun = get_set_fbgc_object_member(inso,"_rshift",NULL);
+	    	fun = get_set_fbgc_object_member(inso,"__>>__",NULL);
 	    	break;
 	    }
 	    case LSHIFT:{
-	    	fun = get_set_fbgc_object_member(inso,"_lshift",NULL);
+	    	fun = get_set_fbgc_object_member(inso,"__<<__",NULL);
 	    	break;
 	    }
 	    case STARSTAR:{
-	    	fun = get_set_fbgc_object_member(inso,"_starstar",NULL);
+	    	fun = get_set_fbgc_object_member(inso,"__**__",NULL);
 	    	break;
 	    }
 	    case SLASHSLASH:{
-	    	fun = get_set_fbgc_object_member(inso,"_slashslash",NULL);
+	    	fun = get_set_fbgc_object_member(inso,"__//__",NULL);
 	    	break;
 	    } 
 	    case PLUS:{
-	    	fun = get_set_fbgc_object_member(inso,"_plus",NULL);
+	    	fun = get_set_fbgc_object_member(inso,"__+__",NULL);
 	    	break;
 	    }
 	    case MINUS:{
-	    	fun = get_set_fbgc_object_member(inso,"_minus",NULL);
+	    	fun = get_set_fbgc_object_member(inso,"__-__",NULL);
 	    	break;
 	    }
 	    case STAR:{
-	    	fun = get_set_fbgc_object_member(inso,"_star",NULL);
+	    	fun = get_set_fbgc_object_member(inso,"__*__",NULL);
 	    	break;
 	    }
 	    case SLASH:{
-	    	fun = get_set_fbgc_object_member(inso,"_slash",NULL);
+	    	fun = get_set_fbgc_object_member(inso,"__/__",NULL);
 	    	break;
 	    }
 	    case CARET:{
-	    	fun = get_set_fbgc_object_member(inso,"_caret",NULL);
+	    	fun = get_set_fbgc_object_member(inso,"__^__",NULL);
 	    	break;
 	    }
 	    case PERCENT:{
-	    	fun = get_set_fbgc_object_member(inso,"_percent",NULL);
+	    	fun = get_set_fbgc_object_member(inso,"__%__",NULL);
 	    	break;
 	    }
 	    case LOEQ:{
-	    	fun = get_set_fbgc_object_member(inso,"_rshift",NULL);
+	    	fun = get_set_fbgc_object_member(inso,"__<=__",NULL);
 	    	break;
 	    }
 	    case GREQ:{
-	    	fun = get_set_fbgc_object_member(inso,"_greq",NULL);
+	    	fun = get_set_fbgc_object_member(inso,"_>=__",NULL);
 	    	break;
 	    }
 	    case EQEQ:{
-	    	fun = get_set_fbgc_object_member(inso,"_eqeq",NULL);
+	    	fun = get_set_fbgc_object_member(inso,"__==__",NULL);
 	    	if(fun == NULL){
 	    		//provide a default comparison
 	    		return new_fbgc_logic_object(a == b);
@@ -161,7 +183,7 @@ struct fbgc_object * operator_fbgc_instance_object(struct fbgc_object * a,struct
 	    	break;
 	    }
 	    case NOTEQ:{
-	    	fun = get_set_fbgc_object_member(inso,"_noteq",NULL);
+	    	fun = get_set_fbgc_object_member(inso,"__!=__",NULL);
 	    	if(fun == NULL){
 	    		//provide a default comparison
 	    		return new_fbgc_logic_object(a != b);
@@ -169,19 +191,19 @@ struct fbgc_object * operator_fbgc_instance_object(struct fbgc_object * a,struct
 	    	break;	    	
 	    }
 	    case LOWER:{
-	    	fun = get_set_fbgc_object_member(inso,"_lo",NULL);
+	    	fun = get_set_fbgc_object_member(inso,"__<__",NULL);
 	    	break;
 	    }
 	    case GREATER:{
-	    	fun = get_set_fbgc_object_member(inso,"_gr",NULL);
+	    	fun = get_set_fbgc_object_member(inso,"__>__",NULL);
 	    	break;
 	    }
 	    case PIPE:{
-	    	fun = get_set_fbgc_object_member(inso,"_or",NULL);
+	    	fun = get_set_fbgc_object_member(inso,"__|__",NULL);
 	    	break;
 	    }
 	    case AMPERSAND:{
-	    	fun = get_set_fbgc_object_member(inso,"_and",NULL);
+	    	fun = get_set_fbgc_object_member(inso,"__&__",NULL);
 	    	break;
 	    }
 	    case EXCLAMATION:

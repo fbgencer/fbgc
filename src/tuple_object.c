@@ -55,21 +55,29 @@ struct fbgc_object * new_fbgc_tuple_object_from_tuple_content(struct fbgc_object
     return (struct fbgc_object*) to;
 }
 
+int handle_tuple_index(struct fbgc_object * self,int index){
 
-void set_object_in_fbgc_tuple_object(struct fbgc_object * self,struct fbgc_object * obj,int index){
+    index = (index < 0) * size_fbgc_tuple_object(self) +  index;
+    if( index < 0 || index >= size_fbgc_tuple_object(self) )
+        return -1;
+    return index;
+}
+
+
+struct fbgc_object * set_object_in_fbgc_tuple_object(struct fbgc_object * self,struct fbgc_object * obj,int index){
 	
 	//Index can be negative, assume that array rotates.
 	//in order to get the contents of the array use macro from tuple_object.h
-
-	index = (index < 0) * size_fbgc_tuple_object(self) +  index;
-	assert( index>=0 || index < size_fbgc_tuple_object(self) );
-	content_fbgc_tuple_object(self)[index] = obj;
+    if((index = handle_tuple_index(self,index))  != -1){
+	   return content_fbgc_tuple_object(self)[index] = obj;
+    }
+    else return NULL;
 }
 struct fbgc_object *  get_object_in_fbgc_tuple_object(struct fbgc_object * self,int index){
-
-	index = (index < 0) * size_fbgc_tuple_object(self) +  index;
-	if( index < 0 || index >= size_fbgc_tuple_object(self) ) return NULL;
-	return (struct fbgc_object *) content_fbgc_tuple_object(self)[index]; 	
+    if((index = handle_tuple_index(self,index)) != -1){
+        return (struct fbgc_object *) content_fbgc_tuple_object(self)[index];
+    }
+    else return NULL;
 }
 
 //It seems bizarre to have this function but it should have the same function type as other sequential objects

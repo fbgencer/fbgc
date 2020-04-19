@@ -128,13 +128,6 @@ new_fbgc_one_arg_math("tan",tan,NULL);
 new_fbgc_one_arg_math("exp",exp,c_exp);
 new_fbgc_one_arg_math("sqrt",sqrt,NULL);
 
-/*
-const struct fbgc_cfunction fbgc_math_initializer_struct = {"math",fbgc_math_initializer};
-extern struct fbgc_object * fbgc_math_initializer (struct fbgc_object * cm)*/
-
-// #define new_fbgc_cfunction(fun_name,str_fun_name)\
-// const struct fbgc_cfunction fun_name##_struct  = {str_fun_name,fun_name};\
-// extern struct fbgc_object * fun_name(struct fbgc_object ** arg, int argc)
 
 
 

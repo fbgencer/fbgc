@@ -6,7 +6,7 @@ struct fbgc_object * new_fbgc_object(const fbgc_token token){
     o->type = token;
     return (struct fbgc_object*) o;
 }
-inline const char * objtp2str(struct fbgc_object * obj){
+const char * objtp2str(struct fbgc_object * obj){
 	return object_name_array[obj->type];
 }
 
@@ -96,6 +96,16 @@ void printf_fbgc_object(struct fbgc_object * self){
 		{	
 			fprintf_fbgc_class_object(self);
 			//fprintf(stdout,"[Function object<%p>]",self);
+			break;
+		}
+		case RANGE:{
+			printf_fbgc_object(cast_fbgc_object_as_range(self)->start);
+			printf(":");
+			if(cast_fbgc_object_as_range(self)->step != NULL){
+				printf_fbgc_object(cast_fbgc_object_as_range(self)->step);
+				printf(":");
+			}
+			printf_fbgc_object(cast_fbgc_object_as_range(self)->end);
 			break;
 		}
 		default:
@@ -265,7 +275,7 @@ char convert_fbgc_object_to_logic(struct fbgc_object * obj){
 	
 	switch(get_fbgc_object_type(obj)){
 		case LOGIC:
-			cast_fbgc_object_as_logic(obj)->content;
+			return cast_fbgc_object_as_logic(obj)->content;
 		case INT:
 			return (char)(cast_fbgc_object_as_int(obj)->content);
 		case DOUBLE:
@@ -375,6 +385,8 @@ struct fbgc_object * get_length_fbgc_object(struct fbgc_object * t){
 
 
 struct fbgc_object * get_set_fbgc_object_member(struct fbgc_object * o, const char * str, struct fbgc_object * nm){
+
+	//! \todo arrange the case order 
 	switch(o->type)
 	{
 		//case INT: return get_set_fbgc_int_object_member(o,str,nm);
@@ -398,22 +410,14 @@ struct fbgc_object * get_set_fbgc_object_member(struct fbgc_object * o, const ch
 		case CMODULE:{
 			struct fbgc_cmodule_object * cm = cast_fbgc_object_as_cmodule(o);
 			const struct fbgc_cfunction * cc = cm->module->functions[0];
-			//cprintf(111,"Functions:\n");
 			for (int i = 1; cc!=NULL; ++i){
-				//XXX optimize strlen part
 				if(!my_strcmp(str,cc->name) ){
-					#ifdef INTERPRETER_DEBUG
-					cprintf(010,"\n**Function [%s] matched with str [%s]\n",cc->name,str);
-					#endif
 					return new_fbgc_cfun_object(cc->function);
 				} 
 				//cprintf(101,"{%s}\n",cc->name);
 				cc = cm->module->functions[i];
 			}
 			
-			#ifdef INTERPRETER_DEBUG
-			cprintf(111,"Not a cfunction!\n");
-			#endif				
 			return NULL;
 		}
 		case FIELD:{
@@ -438,6 +442,7 @@ struct fbgc_object * get_set_fbgc_object_member(struct fbgc_object * o, const ch
 
 			if(nm != NULL){
 				//printf("Class variables cannot be changed!\n");
+				//this is for the case if class defined before and user wants to change its definition
 				return NULL;
 			}
 			struct fbgc_object * ao = cast_fbgc_object_as_class(o)->locals;
@@ -453,7 +458,9 @@ struct fbgc_object * get_set_fbgc_object_member(struct fbgc_object * o, const ch
 			return NULL;
 		}
 		case INSTANCE:{
-			return get_set_fbgc_instance_object_member(o,str,nm);
+			struct fbgc_object ** adr = get_set_fbgc_instance_object_member_address(o,str);
+			return *adr;
+			//return get_set_fbgc_instance_object_member(o,str,nm);
 		}
 
 		default:
@@ -463,3 +470,149 @@ struct fbgc_object * get_set_fbgc_object_member(struct fbgc_object * o, const ch
 		return NULL;
 	}
 } 
+
+
+
+struct fbgc_object ** get_address_fbgc_object_member(struct fbgc_object * o, const char * str){
+	switch(o->type)
+	{
+		//case INT: return get_set_fbgc_int_object_member(o,str,nm);
+		//case DOUBLE: return get_set_fbgc_double_object_member(o,str,nm);
+		/*case COMPLEX: return get_set_fbgc_complex_object_member(o,str,nm);
+		case CSTRUCT:
+		{
+			struct fbgc_cstruct_object * so = cast_fbgc_object_as_cstruct(o);
+			const struct fbgc_cmodule * cm = so->parent;
+			for (int i = 0; ; ++i){
+				const struct fbgc_cfunction * cc = cm->functions[i];
+				if(cc == NULL) break;
+				
+				if(!my_strcmp(str,cc->name)){
+					return new_fbgc_cfun_object(cc->function);
+				} 
+				
+			}
+			return NULL;
+		}
+		case FIELD:{
+			if(nm!= NULL) return NULL;
+
+			struct fbgc_object * ao = cast_fbgc_object_as_field(o)->locals;
+			for(unsigned int i = 0;  i<size_fbgc_array_object(ao); ++i){	
+				struct fbgc_identifier * temp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(ao,i);
+				//cprintf(111,"temp_idname = %s, str:%s => %d\n",content_fbgc_cstr_object(temp_id->name),str,my_strcmp(content_fbgc_cstr_object(temp_id->name),str));
+				if(!my_strcmp(content_fbgc_cstr_object(temp_id->name),str)){
+					//cprintf(111,"I am returning\n");
+					if(nm != NULL){
+						temp_id->content = nm;	
+					}
+					return temp_id->content;
+				}
+			}
+
+			return NULL;
+		}*/
+
+		case INSTANCE:{
+			return get_set_fbgc_instance_object_member_address(o,str);
+		}
+
+		default:
+			cprintf(100,"[%s] cannot accessible\n",object_name_array[o->type]);
+			break;
+
+		return NULL;
+	}
+}
+
+
+struct fbgc_object * iterator_get_fbgc_object(struct fbgc_object * iterable,struct fbgc_object * index_obj){
+	switch(iterable->type){
+		case COMPLEX:{
+
+			return NULL;
+		}
+		case STRING:{
+
+			if(index_obj->type == INT){
+				iterable = get_object_in_fbgc_str_object(iterable,cast_fbgc_object_as_int(index_obj)->content,1);	
+			}
+			else if(index_obj->type == RANGE){
+				if(get_fbgc_range_object_iter_type(index_obj) != INT) return NULL;
+				int i1 = cast_fbgc_object_as_int(cast_fbgc_object_as_range(index_obj)->start)->content;
+				int len = cast_fbgc_object_as_int(cast_fbgc_object_as_range(index_obj)->end)->content - i1;
+				iterable = get_object_in_fbgc_str_object(iterable,i1,len);
+			}
+			else{
+				FBGC_LOGE("Index value must be integer");
+				return NULL;
+			}
+			
+			break;
+		}
+		case TUPLE:{
+			if(index_obj->type != INT){
+				FBGC_LOGE("Index value must be integer");
+				return NULL;
+			}
+			iterable = get_object_in_fbgc_tuple_object(iterable,cast_fbgc_object_as_int(index_obj)->content);
+			break;
+		}
+		case MATRIX:{
+			return NULL;
+		}
+		case INSTANCE:{
+
+			
+		}
+		default:{
+			return NULL;
+		}
+	}
+
+	if(iterable == NULL){
+		FBGC_LOGE("Index value out of range");
+		return NULL;	
+	}
+	else return iterable;
+	
+}
+
+
+struct fbgc_object * iterator_set_fbgc_object(struct fbgc_object * iterable,struct fbgc_object * index_obj, struct fbgc_object * rhs){
+	switch(iterable->type){
+		case COMPLEX:{
+
+			break;
+		}
+		case STRING:{
+
+			if(index_obj->type != INT){
+				FBGC_LOGE("Index value must be integer");
+				return NULL;
+			}
+			return set_object_in_fbgc_str_object(iterable,cast_fbgc_object_as_int(index_obj)->content,1,rhs);
+			
+		}
+		case TUPLE:{
+			if(index_obj->type != INT){
+				FBGC_LOGE("Index value must be integer");
+				return NULL;
+			}
+			iterable = set_object_in_fbgc_tuple_object(iterable,rhs,cast_fbgc_object_as_int(index_obj)->content);
+			if(iterable == NULL){
+				FBGC_LOGE("Index value out of range");
+				return NULL;	
+			}
+			return iterable;
+		}
+		case MATRIX:{
+			break;
+		}
+
+		default:{
+			break;
+		}
+	}
+	return NULL;
+}

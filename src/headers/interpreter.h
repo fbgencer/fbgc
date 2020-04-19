@@ -5,7 +5,30 @@
 extern "C" {
 #endif
 
-uint8_t interpreter(struct fbgc_object ** field_obj);
+
+struct interpreter_packet{
+	struct fbgc_object ** current_field;
+	struct fbgc_object ** sp;
+	struct fbgc_object * pc;
+	int sctr;
+	int fctr;
+};
+
+
+extern struct interpreter_packet global_interpreter_packet;
+
+/*! @fn uint8_t interpreter(struct fbgc_object ** field_obj)
+	
+	@param field : The corresponding field object to interpret
+*/
+uint8_t interpreter(struct fbgc_object ** field);
+
+
+
+/*! @fn uint8_t interpreter(struct fbgc_object ** field_obj)
+	
+	@param field : The corresponding field object to interpret
+*/
 struct fbgc_object * run_code(struct fbgc_ll_base * code,struct fbgc_object ** sp,int sctr, int fctr );
 
 

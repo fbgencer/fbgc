@@ -33,6 +33,7 @@ void inherit_from_another_class(struct fbgc_object * self,struct fbgc_object * f
 
 struct fbgc_object * new_fbgc_instance_object(struct fbgc_object * _template);
 struct fbgc_object * get_set_fbgc_instance_object_member(struct fbgc_object * o, const char * str, struct fbgc_object * nm);
+struct fbgc_object ** get_set_fbgc_instance_object_member_address(struct fbgc_object * o, const char * str);
 struct fbgc_object * operator_fbgc_instance_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op);
 
 

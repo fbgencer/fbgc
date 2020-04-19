@@ -27,8 +27,8 @@ struct parser_packet{
 	@param fp : c file pointer
 
 */
-
 uint8_t parser(struct fbgc_object ** field,FILE * fp);
+
 
 /*! \cond DOCUMENT_EVERYTHING
 	Lets not document this part, just log definitions nothing important 

@@ -176,7 +176,7 @@ struct fbgc_object * fbgc_load_file(char * file_name,const char * fun_name, uint
 		assert(atleast_matched);
 	}
 
-	current_field = prev_field;
+	global_interpreter_packet.current_field = prev_field;
 	return file_field;
 }
 
@@ -187,44 +187,15 @@ int main(int argc, char **argv){
 
 	#ifdef FBGC_LOGO
 		print_logo();
-	#endif                   
-
+	#endif   
+	
 
 //******************************************************************
 	initialize_fbgc_memory_block();
 	initialize_fbgc_symbol_table();
 	struct fbgc_object * main_field = new_fbgc_field_object();
-	current_field = main_field;
+	global_interpreter_packet.current_field = main_field;
 	//load_module_in_field_object(main_field,&fbgc_math_module);
-
-		
-	/*struct fbgc_object * s1 = new_fbgc_str_object("fikret|_");
-	struct fbgc_object * s2 = new_fbgc_str_object("_|gencer");
-	struct fbgc_object * s3 = operator_fbgc_str_object(s1,s2,PLUS);
-	struct fbgc_object * s = new_fbgc_cstr_object("hehehe");*/
-	//print_fbgc_object(s);
-	//printf("\n");
-	
-
-	//struct fbgc_object * tp = new_fbgc_tuple_object(2);
-
-	/*set_object_in_fbgc_tuple_object(tp,s1,0);
-	set_object_in_fbgc_tuple_object(tp,s2,3);
-	set_object_in_fbgc_tuple_object(tp,s3,2);
-	set_object_in_fbgc_tuple_object(tp,s,1);
-	size_fbgc_tuple_object(tp) = 4;*/
-
-	//tp = push_back_fbgc_tuple_object(tp,s1);
-	//tp = push_back_fbgc_tuple_object(tp,s2);
-	//tp = push_back_fbgc_tuple_object(tp,s3);
-	//tp = push_back_fbgc_tuple_object(tp,s);
-	//print_fbgc_object(cast_fbgc_object_as_tuple(tp)->content[2]);
-	//printf("\n");
-
-	//printf("size %lu\n",sizeof(struct fbgc_tuple_object));
-
-
-
 	//load_module_in_field_object(main_field,&fbgc_file_module);
 	
 	//regex_lexer(&main_field,"1+2+3");

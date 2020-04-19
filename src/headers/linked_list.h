@@ -70,6 +70,10 @@ struct fbgc_ll_opcode_int{
 #define is_id_flag_MEMBER_METHOD(x)(_cast_fbgc_object_as_llidentifier(x)->flag & ID_FLAG_MEMBER_METHOD )
 #define is_id_flag_PUSH_ITSELF(x)(_cast_fbgc_object_as_llidentifier(x)->flag & ID_FLAG_PUSH_ITSELF )
 
+//So either global or class, in order to reduce code size this comparison is added
+#define is_id_flag_array_accessible(x)(_cast_fbgc_object_as_llidentifier(x)->flag & (ID_FLAG_GLOBAL | ID_FLAG_CLASS ) )
+
+
 #define get_ll_identifier_flag(x)(_cast_fbgc_object_as_llidentifier(x)->flag)
 
 struct fbgc_ll_base * _new_fbgc_ll_base(fbgc_token token);
