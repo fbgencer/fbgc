@@ -66,34 +66,6 @@ struct fbgc_object * new_fbgc_instance_object(struct fbgc_object * _template){
 }
 
 
-struct fbgc_object * get_set_fbgc_instance_object_member(struct fbgc_object * o, const char * str, struct fbgc_object * nm){
-	//First get the location of this string
-
-	int str_loc = -1;
-	struct fbgc_object * ao = cast_fbgc_object_as_class(cast_fbgc_object_as_instance(o)->template_class)->locals;
-
-
-	for(int i = 0; i<size_fbgc_array_object(ao); i++){
-		struct fbgc_identifier * temp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(ao,i);
-		if(!my_strcmp(content_fbgc_cstr_object(temp_id->name),str)){
-			str_loc = i;
-			break;
-		}
-	}
-	if(str_loc == -1){
-		//Couldn't find
-		return NULL;
-	}
-
-	if(nm == NULL){
-		return get_object_in_fbgc_tuple_object(cast_fbgc_object_as_instance(o)->variables,str_loc);
-	}
-
-	//So nm is not null, set the new value
-	set_object_in_fbgc_tuple_object(cast_fbgc_object_as_instance(o)->variables,nm,str_loc);
-	return nm;
-}
-
 struct fbgc_object ** get_set_fbgc_instance_object_member_address(struct fbgc_object * o, const char * str){
 	//First get the location of this string
 
@@ -109,14 +81,18 @@ struct fbgc_object ** get_set_fbgc_instance_object_member_address(struct fbgc_ob
 			break;
 		}
 	}
-	if(str_loc == -1){
-		//Couldn't find
-		return NULL;
-	}
 
-	return content_fbgc_tuple_object(cast_fbgc_object_as_instance(o)->variables) + str_loc;		
+
+	return (str_loc != -1) ? content_fbgc_tuple_object(cast_fbgc_object_as_instance(o)->variables)+str_loc : NULL;
+
 }
 
+
+struct fbgc_object * get_overloaded_member(struct fbgc_object * o, const char * str){
+	char buf[10]; //Overloadble function names are always short
+	sprintf(buf,"__%s__",str);
+	return *(get_set_fbgc_instance_object_member_address(o,buf));
+}
 
 struct fbgc_object * operator_fbgc_instance_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op){
 
@@ -127,55 +103,55 @@ struct fbgc_object * operator_fbgc_instance_object(struct fbgc_object * a,struct
 	{   
 
 	    case RSHIFT:{
-	    	fun = get_set_fbgc_object_member(inso,"__>>__",NULL);
+	    	fun = get_overloaded_member(inso,">>");
 	    	break;
 	    }
 	    case LSHIFT:{
-	    	fun = get_set_fbgc_object_member(inso,"__<<__",NULL);
+	    	fun = get_overloaded_member(inso,"<<");
 	    	break;
 	    }
 	    case STARSTAR:{
-	    	fun = get_set_fbgc_object_member(inso,"__**__",NULL);
+	    	fun = get_overloaded_member(inso,"**");
 	    	break;
 	    }
 	    case SLASHSLASH:{
-	    	fun = get_set_fbgc_object_member(inso,"__//__",NULL);
+	    	fun = get_overloaded_member(inso,"//");
 	    	break;
 	    } 
 	    case PLUS:{
-	    	fun = get_set_fbgc_object_member(inso,"__+__",NULL);
+	    	fun = get_overloaded_member(inso,"+");
 	    	break;
 	    }
 	    case MINUS:{
-	    	fun = get_set_fbgc_object_member(inso,"__-__",NULL);
+	    	fun = get_overloaded_member(inso,"-");
 	    	break;
 	    }
 	    case STAR:{
-	    	fun = get_set_fbgc_object_member(inso,"__*__",NULL);
+	    	fun = get_overloaded_member(inso,"*");
 	    	break;
 	    }
 	    case SLASH:{
-	    	fun = get_set_fbgc_object_member(inso,"__/__",NULL);
+	    	fun = get_overloaded_member(inso,"//");
 	    	break;
 	    }
 	    case CARET:{
-	    	fun = get_set_fbgc_object_member(inso,"__^__",NULL);
+	    	fun = get_overloaded_member(inso,"^");
 	    	break;
 	    }
 	    case PERCENT:{
-	    	fun = get_set_fbgc_object_member(inso,"__%__",NULL);
+	    	fun = get_overloaded_member(inso,"%");
 	    	break;
 	    }
 	    case LOEQ:{
-	    	fun = get_set_fbgc_object_member(inso,"__<=__",NULL);
+	    	fun = get_overloaded_member(inso,"<=");
 	    	break;
 	    }
 	    case GREQ:{
-	    	fun = get_set_fbgc_object_member(inso,"_>=__",NULL);
+	    	fun = get_overloaded_member(inso,">=");
 	    	break;
 	    }
 	    case EQEQ:{
-	    	fun = get_set_fbgc_object_member(inso,"__==__",NULL);
+	    	fun = get_overloaded_member(inso,"==");
 	    	if(fun == NULL){
 	    		//provide a default comparison
 	    		return new_fbgc_logic_object(a == b);
@@ -183,7 +159,7 @@ struct fbgc_object * operator_fbgc_instance_object(struct fbgc_object * a,struct
 	    	break;
 	    }
 	    case NOTEQ:{
-	    	fun = get_set_fbgc_object_member(inso,"__!=__",NULL);
+	    	fun = get_overloaded_member(inso,"!=");
 	    	if(fun == NULL){
 	    		//provide a default comparison
 	    		return new_fbgc_logic_object(a != b);
@@ -191,19 +167,19 @@ struct fbgc_object * operator_fbgc_instance_object(struct fbgc_object * a,struct
 	    	break;	    	
 	    }
 	    case LOWER:{
-	    	fun = get_set_fbgc_object_member(inso,"__<__",NULL);
+	    	fun = get_overloaded_member(inso,"<");
 	    	break;
 	    }
 	    case GREATER:{
-	    	fun = get_set_fbgc_object_member(inso,"__>__",NULL);
+	    	fun = get_overloaded_member(inso,">");
 	    	break;
 	    }
 	    case PIPE:{
-	    	fun = get_set_fbgc_object_member(inso,"__|__",NULL);
+	    	fun = get_overloaded_member(inso,">");
 	    	break;
 	    }
 	    case AMPERSAND:{
-	    	fun = get_set_fbgc_object_member(inso,"__&__",NULL);
+	    	fun = get_overloaded_member(inso,"&");
 	    	break;
 	    }
 	    case EXCLAMATION:
@@ -212,12 +188,21 @@ struct fbgc_object * operator_fbgc_instance_object(struct fbgc_object * a,struct
 	    case UMINUS: break;
 	}	
 
-	if(fun == NULL){
-		printf("Operator is not overloaded!\n");
-		return NULL;
-	}
+	if(fun != NULL){
+		if(cast_fbgc_object_as_fun(fun)->no_arg != 2){
+			FBGC_LOGE("Binary operators can only have two arguments, defined arg no :%d\n",cast_fbgc_object_as_fun(fun)->no_arg);
+			return NULL;
+		}
 
-	return fun;
+		fun = call_fun_object(fun);
+		global_interpreter_packet->sctr += 1; //since we are called from binary op opcode we will increase sctr because interpreter will pop the arguments
+		return fun;
+
+	}
+	
+
+	printf("Operator is not overloaded!\n");
+	return NULL;
 }
 
 

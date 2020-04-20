@@ -13,12 +13,11 @@ struct fun_call_packet{
 	// maybe we can add later, struct fbgc_object * fun; //!< Called function
 	struct fbgc_ll_base * last_pc;
 	struct fbgc_object * last_scope;
-	struct fbgc_object * must_return; //This is a temprorary variable, we will change it
 	int frame_ctr;
 	uint8_t pop_number;
 };
 
-struct fbgc_object * prepare_fun_call_packet(struct fbgc_ll_base * _pc, struct fbgc_object * _last_scope, int _frame_ctr , uint8_t _pop_number, struct fbgc_object * _ret){
+struct fbgc_object * prepare_fun_call_packet(struct fbgc_ll_base * _pc, struct fbgc_object * _last_scope, int _frame_ctr , uint8_t _pop_number){
 		struct fbgc_cstruct_object * so = (struct fbgc_cstruct_object *) 
 		new_fbgc_cstruct_object(sizeof(struct fun_call_packet), NULL);
 		struct fun_call_packet * fcp = (struct fun_call_packet *) so->cstruct;
@@ -29,17 +28,13 @@ struct fbgc_object * prepare_fun_call_packet(struct fbgc_ll_base * _pc, struct f
 		fcp->frame_ctr = _frame_ctr;
 		fcp->last_scope = _last_scope;
 		fcp->pop_number = _pop_number;
-		fcp->must_return = _ret;
 
 		return (struct fbgc_object *) so;
 }
 
 
-struct interpreter_packet global_interpreter_packet = { .current_field = NULL,
-														.sp = NULL,
-														.pc = NULL,
-														.fctr = -1,
-														.sctr = -1};
+struct interpreter_packet * global_interpreter_packet = NULL;
+
 
 
 uint8_t interpreter(struct fbgc_object ** field_obj){
@@ -53,9 +48,12 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 	struct fbgc_object * stack = new_fbgc_tuple_object(PROGRAM_STACK_SIZE);
 	//sp is just stack pointer
 	struct fbgc_object ** sp = content_fbgc_tuple_object(stack);
-
+	struct interpreter_packet ip = {	.pc = head->base.next, 
+										.sp = sp, 
+									 	.sctr = 0,
+									 	.fctr = -1};
 	//now run the code for
-	if(run_code(head->base.next, sp,0, -1) != NULL){
+	if(run_code(&ip) != NULL){
 		return 1;	
 	}
 	return 0;
@@ -63,13 +61,16 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 
 struct fbgc_object * run_code(struct interpreter_packet * ip){
 
-	
-	struct fbgc_object * current_scope = NULL;
+	global_interpreter_packet = ip;
 
+	struct fbgc_object * current_scope = NULL;
 	struct fbgc_object * last_called_function = NULL;
 	size_t recursion_ctr = 0;
 
-	struct fbgc_ll_base * __dummy = _new_fbgc_ll_base(NIL);
+#define sctr ip->sctr
+#define fctr ip->fctr
+#define pc (ip->pc)
+#define sp (ip->sp)	
 
 // Stack layout for normal operations: 
 // 1.sctr starts from zero so pushing shifts sctr and puts the object into 0th place. After three pushing the layout looks like the following
@@ -203,28 +204,27 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 		}
 		case CONT:{
 
-			__dummy->next = _cast_llbase_as_lljumper(pc)->content;
-			pc = __dummy;
-
-			break;
+			pc = _cast_llbase_as_lljumper(pc)->content;
+			continue;
 		}				
 		case RETURN:{
 
 
 			struct fbgc_object * ret = POP();
 			struct fun_call_packet * fcp = (struct fun_call_packet *) cast_fbgc_object_as_cstruct(POP())->cstruct;
-			cprintf(100,"fctr:%d sctr:%d, pop:%d\n",fctr,sctr,fcp->pop_number);
-
-
-			current_scope = fcp->last_scope;	
-			fctr = fcp->frame_ctr;
-			pc = fcp->last_pc;
-			sctr -= fcp->pop_number;
-
-			if(fcp->must_return != NULL) ret = fcp->must_return;
 			
+			sctr -= fcp->pop_number;
 			PUSH(ret);
 
+			current_scope = fcp->last_scope;
+			fctr = fcp->frame_ctr;
+
+			if(fcp->last_pc == NULL){
+				return TOP();
+			}
+
+			pc = fcp->last_pc;
+			
 			recursion_ctr = 0;
 			break;
 		}			
@@ -270,22 +270,6 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 				FBGC_LOGE("Object %s does not support operator %s\n",object_name_array[main_tok],object_name_array[type]);
 				return 0;
 			}
-			
-			if(res->type == FUN){
-				if(cast_fbgc_object_as_fun(res)->no_arg != 2){
-					FBGC_LOGE("Binary operators can only have two arguments, defined arg no :%d\n",cast_fbgc_object_as_fun(res)->no_arg);
-					return 0;
-				}
-
-				FBGC_LOGV(INTERPRETER,"Overloaded function call\n");
-				STACK_GOTO(cast_fbgc_object_as_fun(res)->no_locals-2);
-				PUSH( prepare_fun_call_packet(pc,current_scope,fctr,cast_fbgc_object_as_fun(res)->no_locals,NULL));
-				fctr = sctr-cast_fbgc_object_as_fun(res)->no_locals-1;
-				//execute function
-				pc = cast_fbgc_object_as_fun(res)->code;
-				continue;
-			}
-
 			_POP();
 			SET_TOP(res);		
 
@@ -374,7 +358,7 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 			break;
 		}
 		case ASSIGN_SUBSCRIPT:
-		{
+		{	
 			struct fbgc_object * rhs = POP();
 			int index_no = _cast_llbase_as_llopcode_int(pc)->content+1;
 			struct fbgc_object * iterable = TOPN(index_no);
@@ -384,8 +368,7 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 			// iterable, index1,index2,index3,rhs
 			//index_no tells us how many iteration that we need to do, until it is zero we will try to get the next object
 			//Finally when getting the object we will change its value
-			FBGC_LOGV(INTERPRETER,"%c:iterable object | index_no:%d\n",print_fbgc_object(iterable),index_no-1);
-
+			
 
 			for(int i = index_no-1; i>1; --i){
 				iterable = iterator_get_fbgc_object(iterable,TOPN(i));
@@ -398,49 +381,8 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 				assert(0);
 			}
 			STACK_GOTO(-index_no);
-			
-
-			/*int index = 0;
-			while(index_no > 0){
-				if(temp->type == TUPLE){
-					index = cast_fbgc_object_as_int(TOPN(index_no))->content;
-					if(index_no > 1){
-						temp = get_object_in_fbgc_tuple_object(temp,index);
-						index_no--;
-					}
-					else
-					{
-						index = cast_fbgc_object_as_int(TOPN(index_no))->content;
-						lhs = (struct fbgc_object **)get_object_address_in_fbgc_tuple_object(temp,index);
-					}
-				}
-				else if(temp->type == STRING){
-					assert(0);
-					/*index = cast_fbgc_object_as_int(TOPN(index_no))->content;
-					lhs =  &set_object_in_fbgc_str_object(temp,index,index+1,rhs);
-					rhs = *lhs;
-					*/
-			// 		break;
-			// 	}
-			// 	else if(temp->type == MATRIX){
-			// 		assert(index_no > 1);
-			// 		index = cast_fbgc_object_as_int(TOPN(index_no))->content;
-			// 		int index_no2 = cast_fbgc_object_as_int(TOPN(--index_no))->content;
-			// 		*lhs = set_object_in_fbgc_matrix_object(temp,index,index_no2,rhs);
-			// 		//rhs = lhs; ???
-			// 		assert(lhs != NULL);
-			// 		break;
-			// 	}
-			// 	else {
-			// 		printf("Not index accessable!\n");
-			// 		goto INTERPRETER_ERROR_LABEL;
-			// 	}
-			// }
-			// *lhs=rhs;
 			break;
-
 		}
-
 		case LEN:
 		{
 			SET_TOP( get_length_fbgc_object(TOP()) );
@@ -543,11 +485,6 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 			
 			struct fbgc_object * funo = TOPN(arg_no+1);
 
-			uint8_t pop_function_name = 1;
-
-			struct fbgc_object * must_return = NULL;			
-
-
 			if(funo->type == CLASS){
 				FBGC_LOGV(INTERPRETER,"Calling class constructor\n");
 
@@ -575,14 +512,9 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 					//Now class is already pushed we will change it with new_inst
 
 					SET_TOPN(arg_no+1,new_inst);
-					must_return = new_inst;
-
-					if(cast_fbgc_object_as_fun(funo)->no_arg != arg_no){
-						FBGC_LOGV(INTERPRETER,"Args are not equal\n");
-						++arg_no;
-					}
-
-					pop_function_name = 0;
+					call_fun_object(constructor);
+					SET_TOP(new_inst);
+					break;
 				}
 			}
 
@@ -642,7 +574,7 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 			//We also want to delete function name so we add +1
 
 
-			PUSH( prepare_fun_call_packet(pc,current_scope,fctr,cast_fbgc_object_as_fun(funo)->no_locals + pop_function_name,must_return));
+			PUSH( prepare_fun_call_packet(pc,current_scope,fctr,cast_fbgc_object_as_fun(funo)->no_locals));
 
 			//PUSH((struct fbgc_object *)pc->next);
 			//hold old frame pointer location
@@ -764,7 +696,6 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 		}
 		case LOAD_SUBSCRIPT:
 		{
-
 			int index_no = _cast_llbase_as_llopcode_int(pc)->content+1;
 			struct fbgc_object * iterable = TOPN(index_no);
 
@@ -776,49 +707,9 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 				}
 			}
 			STACK_GOTO(-index_no);
-			PUSH(iterable);		
-
-			/*int index_no = cast_fbgc_object_as_int(POP())->content;
-			//take index values one by one and finally left last index 
-			struct fbgc_object * temp = TOPN(index_no+1);
-			int index = 0;
-			for(int i = 0; i<index_no; i++){
-				index = cast_fbgc_object_as_int(TOPN(index_no-i))->content;
-				if(temp->type == TUPLE){
-					//cprintf(111,"Current index %d\n",index);
-					temp = get_object_in_fbgc_tuple_object(temp,index);
-					//print_fbgc_object(dummy); cprintf(111,"<<<\n");
-				}
-				else if(temp->type == COMPLEX){
-					temp = subscript_fbgc_complex_object(temp,index);
-				}
-				else if(temp->type == STRING){
-					temp = get_object_in_fbgc_str_object(temp,index,index+1);
-				}
-				else if(temp->type == MATRIX){
-					if(index_no == 2){
-						int index_no2 = cast_fbgc_object_as_int(TOPN(index_no-1))->content;
-						temp = get_object_in_fbgc_matrix_object(temp,index,index_no2);
-						assert(temp != NULL);
-						break;
-					}
-
-				}
-				else {
-					printf("Not index accessible!\n");
-					print_fbgc_object(temp); printf("\n");
-					return 0;
-				}
-				
-				assert(temp != NULL);
-			}
-
-			STACK_GOTO(-index_no-1);
-			PUSH(temp);*/
-
-
+			PUSH(iterable);
 			break;
-		}
+		}		
 		case CLASS_CALL:{
 
 			int arg_no = _cast_llbase_as_llopcode_int(pc)->content;
@@ -831,7 +722,7 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 			}
 
 			//Just pop the function object when returning 
-			PUSH( prepare_fun_call_packet(pc,current_scope,fctr,1,NULL) );
+			PUSH( prepare_fun_call_packet(pc,current_scope,fctr,1) );
 
 			current_scope = cls;
 			fctr = sctr-1;
@@ -881,7 +772,53 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 		cprintf(100,"Execution stopped!\n");
 		return NULL;
 
+
+#undef sctr
+#undef fctr
+#undef pc
+#undef sp
+
+
 }
+
+
+struct fbgc_object * call_fun_object(struct fbgc_object * fun){
+	FBGC_LOGV(INTERPRETER,"Calling function no_arg:%d, no_locals:%d\n",cast_fbgc_object_as_fun(fun)->no_arg,cast_fbgc_object_as_fun(fun)->no_arg);
+		
+	struct interpreter_packet * old_global_ip = global_interpreter_packet;
+
+	struct interpreter_packet tip = { 	
+		.pc = cast_fbgc_object_as_fun(fun)->code,
+		.sp = global_interpreter_packet->sp,
+		.sctr = global_interpreter_packet->sctr + cast_fbgc_object_as_fun(fun)->no_locals - cast_fbgc_object_as_fun(fun)->no_arg,
+		.fctr = global_interpreter_packet->sctr - cast_fbgc_object_as_fun(fun)->no_arg,
+		.current_scope = global_interpreter_packet->current_scope
+	};
+
+	//fprintf_fbgc_fun_object(fun);
+
+	FBGC_LOGV(INTERPRETER,"Calculated fctr:%d\n",tip.fctr);
+
+	tip.sp[tip.sctr++] = prepare_fun_call_packet(NULL, tip.current_scope, -1, cast_fbgc_object_as_fun(fun)->no_locals);
+	
+	struct fbgc_object * result = run_code(&tip);
+
+	global_interpreter_packet = old_global_ip;
+	global_interpreter_packet->sctr = tip.sctr;
+
+	FBGC_LOGV(INTERPRETER,"%c:returning\n",print_fbgc_object(result));
+	FBGC_LOGV(INTERPRETER,"{");
+	for(size_t i = 0; i<tip.sctr; i++){
+		FBGC_LOGV(INTERPRETER,"%c",print_fbgc_object(global_interpreter_packet->sp[i]));
+		FBGC_LOGV(INTERPRETER,", ");
+	}
+	FBGC_LOGV(INTERPRETER,"}\n");
+
+	FBGC_LOGV(INTERPRETER,"finished\n");	
+
+	return result;
+}
+
 
 
 //@TODO

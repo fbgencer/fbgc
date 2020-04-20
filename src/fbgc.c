@@ -176,7 +176,7 @@ struct fbgc_object * fbgc_load_file(char * file_name,const char * fun_name, uint
 		assert(atleast_matched);
 	}
 
-	global_interpreter_packet.current_field = prev_field;
+	current_field = prev_field;
 	return file_field;
 }
 
@@ -194,7 +194,7 @@ int main(int argc, char **argv){
 	initialize_fbgc_memory_block();
 	initialize_fbgc_symbol_table();
 	struct fbgc_object * main_field = new_fbgc_field_object();
-	global_interpreter_packet.current_field = main_field;
+	current_field = main_field;
 	//load_module_in_field_object(main_field,&fbgc_math_module);
 	//load_module_in_field_object(main_field,&fbgc_file_module);
 	

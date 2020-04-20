@@ -544,7 +544,7 @@ struct fbgc_object * iterator_get_fbgc_object(struct fbgc_object * iterable,stru
 				iterable = get_object_in_fbgc_str_object(iterable,i1,len);
 			}
 			else{
-				FBGC_LOGE("Index value must be integer");
+				FBGC_LOGE("Index value must be integer, %s given",objtp2str(index_obj));
 				return NULL;
 			}
 			
@@ -559,11 +559,28 @@ struct fbgc_object * iterator_get_fbgc_object(struct fbgc_object * iterable,stru
 			break;
 		}
 		case MATRIX:{
+			//2 tane index gerekiyor bu sebepten array almak daha mantıklı
+			//temp = get_object_in_fbgc_matrix_object(temp,index,index_no2);
 			return NULL;
 		}
 		case INSTANCE:{
-
-			
+			struct fbgc_object * fun = get_overloaded_member(iterable,"[]");
+			if(fun != NULL && fun->type == FUN){
+				if(cast_fbgc_object_as_fun(fun)->no_arg == 2){
+					//we need only two arguments, self and index
+					global_interpreter_packet->sp[global_interpreter_packet->sctr++] = iterable;
+					global_interpreter_packet->sp[global_interpreter_packet->sctr++] = index_obj;
+					fun = call_fun_object(fun);
+					global_interpreter_packet->sctr--;
+					return fun;
+				}
+				
+			}
+			else{
+				FBGC_LOGE("Iterator not overloaded");
+				return NULL;
+			}
+			break;
 		}
 		default:{
 			return NULL;
@@ -609,7 +626,28 @@ struct fbgc_object * iterator_set_fbgc_object(struct fbgc_object * iterable,stru
 		case MATRIX:{
 			break;
 		}
+		case INSTANCE:{
+			struct fbgc_object * fun = get_overloaded_member(iterable,"[]=");
+			if(fun != NULL && fun->type == FUN){
+				if(cast_fbgc_object_as_fun(fun)->no_arg == 3){
+					//we need only two arguments, self and index
 
+					global_interpreter_packet->sp[global_interpreter_packet->sctr++] = iterable;
+					global_interpreter_packet->sp[global_interpreter_packet->sctr++] = index_obj;
+					global_interpreter_packet->sp[global_interpreter_packet->sctr++] = rhs;
+					fun = call_fun_object(fun);
+					global_interpreter_packet->sctr--;
+					//global_interpreter_packet->sctr += 2;
+					return fun;
+				}
+				
+			}
+			else{
+				FBGC_LOGE("Iterator not overloaded");
+				return NULL;
+			}
+			break;
+		}
 		default:{
 			break;
 		}

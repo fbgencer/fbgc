@@ -323,9 +323,9 @@ void free_fbgc_str_object(struct fbgc_object * obj){
 //$$$$$$$$$$$$$$$$$$$$$$$$$     CSTRING   $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 //###############################################################################
 
-uint8_t my_strncmp(const char *s1, const char *s2, register size_t n)
+uint8_t my_strncmp(const char *s1, const char *s2, size_t n)
 {
-    register unsigned char u1, u2;
+    unsigned char u1, u2;
     while (n-- > 0){
 
         u1 = (unsigned char) *s1++;
