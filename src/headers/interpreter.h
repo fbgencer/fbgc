@@ -8,8 +8,8 @@ extern "C" {
 
 struct interpreter_packet{
 	struct fbgc_object ** sp;
-	struct fbgc_ll_base * pc;
 	struct fbgc_object * current_scope;
+	struct fbgc_ll_base * pc;
 	int sctr;
 	int fctr;
 };

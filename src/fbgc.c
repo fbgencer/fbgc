@@ -181,14 +181,30 @@ struct fbgc_object * fbgc_load_file(char * file_name,const char * fun_name, uint
 }
 
 
-#ifndef MODULE_TEST
+void printBits(size_t const size, void const * const ptr)
+{
+    unsigned char *b = (unsigned char*) ptr;
+    unsigned char byte;
+    int i, j;
 
+    for (i=size-1;i>=0;i--)
+    {
+        for (j=7;j>=0;j--)
+        {
+            byte = (b[i] >> j) & 1;
+            printf("%u", byte);
+        }
+    }
+}
+
+#ifndef MODULE_TEST
 int main(int argc, char **argv){
 
 	#ifdef FBGC_LOGO
 		print_logo();
 	#endif   
-	
+
+
 
 //******************************************************************
 	initialize_fbgc_memory_block();
@@ -198,8 +214,72 @@ int main(int argc, char **argv){
 	//load_module_in_field_object(main_field,&fbgc_math_module);
 	//load_module_in_field_object(main_field,&fbgc_file_module);
 	
+
+	clock_t begin1,begin2;
+	double loop_time = 0, struct_time = 0;
+
+	struct fbgc_object * q = new_fbgc_int_object(88);
+	
+	
+
+	/*struct fbgc_object_property_holder * p = get_fbgc_object_property_holder(q);
+	uint32_t bits = p->bits;
+	uint32_t bit_conf = _BIT_TO_INT & bits;
+
+	printBits(sizeof(bits),&bits);printf("<<\n");
+	printBits(sizeof(bit_conf),&bit_conf);printf("<<\n");
+
+	int8_t w = _find_property(p->bits,_BIT_DESTRUCTOR);
+	printf("w = %d\n",w );
+
+	//return p->properties[2].print(self);*/
+
+	long boom = 100000000;
+
+	//#define FOO
+
+	#ifdef FOO
+	begin2 = clock();	
+	for(int i = 0; i<boom; ++i)
+		myprint_fbgc_object(q);
+	struct_time = (double)(clock() - begin2) / CLOCKS_PER_SEC;
+	#else	
+
+	begin1 = clock();
+	for(int i = 0; i< boom; ++i)
+		print_fbgc_object(q);
+
+	loop_time = (double)(clock() - begin1) / CLOCKS_PER_SEC; 
+	#endif
+
+	printf("Loop time :%g | Struct time :%g\n",loop_time,struct_time );
+
+	/*printf("bit:%04x\n",fbgc_int_object_property_holder.bits);
+	printf("Counting bits...\n");
+
+	uint8_t where = _LOC_DESTRUCTOR;
+	int8_t count = 0;
+	uint32_t bit = fbgc_int_object_property_holder.bits;
+
+	count = _find_property(fbgc_int_object_property_holder.bits,where);
+
+	//printf("is prop %d, %d %s\n",(0x0001<<where)? "yes":"no" );
+	printf("Count:%d\n",count);*/
+	
+	/*
+
+	fbgc_int_object_property_holder.properties[1].print(q);
+
+	printf("\n%p:holder start\n",&fbgc_int_object_property_holder);
+	printf("%p:bits start\n",&fbgc_int_object_property_holder.bits );
+	printf("%p:properties0\n",&fbgc_int_object_property_holder.properties[0]);
+	printf("%p:properties1\n",&fbgc_int_object_property_holder.properties[1]);
+	printf("%p:properties1\n",&fbgc_int_object_property_holder.properties[2]);
+	printf("%p:properties1\n",&fbgc_int_object_property_holder.properties[3]);
+	printf("Sizeof %lu\n",sizeof(fbgc_int_object_property_holder));*/
+	
 	//regex_lexer(&main_field,"1+2+3");
-	compile_file(main_field, "ex.fbgc");
+	//compile_file(main_field, "ex.fbgc");""
 	/*
 	if(argc > 1)
 	{   

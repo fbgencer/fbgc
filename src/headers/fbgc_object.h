@@ -10,6 +10,8 @@ struct fbgc_object{
 };
 
 
+
+
 #define is_object_null(obj)(obj == NULL)
 #define get_fbgc_object_type(obj)( (obj->type & 0x7F))
 
@@ -44,13 +46,70 @@ struct fbgc_object * iterator_set_fbgc_object(struct fbgc_object * iterable,stru
 
 struct fbgc_object * get_length_fbgc_object(struct fbgc_object * t);
 
-void claim_ownership(struct fbgc_object * self);
 uint8_t print_fbgc_object(struct fbgc_object *);
+uint8_t myprint_fbgc_object(struct fbgc_object *);
 void printf_fbgc_object(struct fbgc_object * self);
 void free_fbgc_object(struct fbgc_object *);
 
 
+
+uint8_t _is_property(uint32_t bit, uint8_t where);
+int8_t _find_property(uint32_t bit, uint32_t bit_fonc);
+struct fbgc_object_property_holder * get_fbgc_object_property_holder(struct fbgc_object * o);
+
 const char * objtp2str(struct fbgc_object * );
+
+
+#define _LOC_BINARY_OPERATOR 0
+#define _LOC_UNARY_OPERATOR 1
+#define _LOC_SUBSCRIPT_OPERATOR 2
+#define _LOC_SUBSCRIPT_ASSIGN_OPERATOR 3
+#define _LOC_TO_LOGIC 4
+#define _LOC_TO_INT 5
+#define _LOC_TO_DOUBLE 6
+#define _LOC_TO_STR 7
+#define _LOC_TO_TUPLE 8
+#define _LOC_PRINT 9
+#define _LOC_DESTRUCTOR 10
+
+
+#define _BIT_BINARY_OPERATOR (0x0001 << _LOC_BINARY_OPERATOR)
+#define _BIT_UNARY_OPERATOR	(0x0001 << _LOC_UNARY_OPERATOR)
+#define _BIT_SUBSCRIPT_OPERATOR 		(0x0001 << _LOC_SUBSCRIPT_OPERATOR)
+#define _BIT_SUBSCRIPT_ASSIGN_OPERATOR  (0x0001 << _LOC_SUBSCRIPT_ASSIGN_OPERATOR)
+#define _BIT_TO_LOGIC (0x0001 << _LOC_TO_LOGIC)
+#define _BIT_TO_INT (0x0001 << _LOC_TO_INT)
+#define _BIT_TO_DOUBLE (0x0001 << _LOC_TO_DOUBLE)
+#define _BIT_TO_STR (0x0001 << _LOC_TO_STR)
+#define _BIT_TO_TUPLE (0x0001 << _LOC_TO_TUPLE)
+#define _BIT_PRINT (0x0001 << _LOC_PRINT)
+#define _BIT_DESTRUCTOR (0x0001 << _LOC_DESTRUCTOR)
+
+
+union _properties{
+	struct fbgc_object * ( * const binary_operator)(struct fbgc_object *,struct fbgc_object * ,fbgc_token op);
+	struct fbgc_object * ( * const unary_operator)(struct fbgc_object *,fbgc_token op);
+	struct fbgc_object * ( * const subscript_operator)(struct fbgc_object *,struct fbgc_object *);
+	struct fbgc_object * ( * const subscript_assign_operator)(struct fbgc_object *,struct fbgc_object *,struct fbgc_object *);
+	struct fbgc_object * ( * const to_logic)(struct fbgc_object *);
+	struct fbgc_object * ( * const to_int)(struct fbgc_object *);
+	struct fbgc_object * ( * const to_double)(struct fbgc_object *);
+	struct fbgc_object * ( * const to_str)(struct fbgc_object *);
+	struct fbgc_object * ( * const to_tuple)(struct fbgc_object *);
+	uint8_t (* const print)(struct fbgc_object *);
+	void (* const destructor)(struct fbgc_object *);
+};
+
+struct fbgc_object_property_holder{
+	const uint32_t bits;
+	const union _properties properties[];
+};
+
+
+
+
+
+
 
 #ifdef  __cplusplus
 }

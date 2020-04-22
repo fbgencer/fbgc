@@ -116,6 +116,70 @@ void printf_fbgc_object(struct fbgc_object * self){
 	}	
 }
 
+struct fbgc_object_property_holder * get_fbgc_object_property_holder(struct fbgc_object * o){
+	switch(get_fbgc_object_type(o)){
+		case INT:{
+			return &fbgc_int_object_property_holder;
+		}
+	}
+
+	return NULL;
+}
+
+
+uint32_t swar(uint32_t i) {
+  i = i - ((i >> 1) & 0x55555555);
+  i = (i & 0x33333333) + ((i >> 2) & 0x33333333);
+  return (((i + (i >> 4)) & 0x0F0F0F0F) * 0x01010101) >> 24;
+}
+
+
+int8_t _find_property(uint32_t bit, uint32_t bit_conf){
+	if( (bit & bit_conf) == 0) return -1;
+	
+	bit &= (bit_conf-1);
+	return __builtin_popcount(bit);
+	//return swar(bit);
+
+	/*printBits(sizeof(uint32_t),&bits);printf(":bits\n"); 
+	uint32_t prt = _BIT_BINARY_OPERATOR-1;
+	printBits(sizeof(uint32_t),&prt);printf(":print\n"); 
+	bits &= prt;
+	printBits(sizeof(uint32_t),&bits);printf(":flipped\n"); 
+	printf("flipped %d\n", swar(bits) );*/
+
+	/*printf("where:%d\n",where );
+	int8_t count = 0;
+	while(where--){
+		if( (bit>>where) & 0x0001 ){
+			++count;
+		}
+	}
+	return count;*/
+}
+
+uint8_t myprint_fbgc_object(struct fbgc_object * self){
+
+	//return print_fbgc_int_object(self);
+	return fbgc_int_object_property_holder.properties[2].print(self);
+
+	struct fbgc_object_property_holder * p = NULL;
+	if(self != NULL){
+		p = get_fbgc_object_property_holder(self);
+	}
+	else{
+		return cprintf(111,"[NULL]");
+	}
+
+
+	//return p->properties[2].print(self);
+
+	int8_t w = _find_property(p->bits,_BIT_PRINT);
+	if(w != -1){
+		return p->properties[w].print(self);
+	}
+	else return 1;
+}
 
 uint8_t print_fbgc_object(struct fbgc_object * self){
 
@@ -166,6 +230,7 @@ uint8_t print_fbgc_object(struct fbgc_object * self){
 		}
 	}
 	else cprintf(111,"[NULL]");
+
 	return 1;
 }
 
@@ -520,9 +585,8 @@ struct fbgc_object ** get_address_fbgc_object_member(struct fbgc_object * o, con
 		default:
 			cprintf(100,"[%s] cannot accessible\n",object_name_array[o->type]);
 			break;
-
-		return NULL;
 	}
+	return NULL;
 }
 
 

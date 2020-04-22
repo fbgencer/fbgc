@@ -48,10 +48,14 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 	struct fbgc_object * stack = new_fbgc_tuple_object(PROGRAM_STACK_SIZE);
 	//sp is just stack pointer
 	struct fbgc_object ** sp = content_fbgc_tuple_object(stack);
-	struct interpreter_packet ip = {	.pc = head->base.next, 
-										.sp = sp, 
-									 	.sctr = 0,
-									 	.fctr = -1};
+	struct interpreter_packet ip = {	
+			sp, //sp
+			NULL, //current_scope
+			head->base.next,  // pc
+			0,//sctr
+			-1 //fctr
+	};
+
 	//now run the code for
 	if(run_code(&ip) != NULL){
 		return 1;	
@@ -117,7 +121,7 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 		break;
 	}
 
-	FBGC_LOGV(INTERPRETER,"################ [%d] = {%s} ########################\n",i++,objtp2str(pc));
+	FBGC_LOGV(INTERPRETER,"################ [%d] = {%s} ########################\n",i++,lltp2str(pc));
 
 	//pc is just mnemonic for program counter, basically it is just an iterator for the code that this function is executing
 	fbgc_token type = get_fbgc_object_type(pc);
@@ -788,11 +792,12 @@ struct fbgc_object * call_fun_object(struct fbgc_object * fun){
 	struct interpreter_packet * old_global_ip = global_interpreter_packet;
 
 	struct interpreter_packet tip = { 	
-		.pc = cast_fbgc_object_as_fun(fun)->code,
-		.sp = global_interpreter_packet->sp,
-		.sctr = global_interpreter_packet->sctr + cast_fbgc_object_as_fun(fun)->no_locals - cast_fbgc_object_as_fun(fun)->no_arg,
-		.fctr = global_interpreter_packet->sctr - cast_fbgc_object_as_fun(fun)->no_arg,
-		.current_scope = global_interpreter_packet->current_scope
+		global_interpreter_packet->sp, //sp
+		global_interpreter_packet->current_scope, //current_scope
+		cast_fbgc_object_as_fun(fun)->code, //pc
+		global_interpreter_packet->sctr + cast_fbgc_object_as_fun(fun)->no_locals - cast_fbgc_object_as_fun(fun)->no_arg, //sctr
+		global_interpreter_packet->sctr - cast_fbgc_object_as_fun(fun)->no_arg, // fctr
+		
 	};
 
 	//fprintf_fbgc_fun_object(fun);
