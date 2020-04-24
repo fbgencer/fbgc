@@ -70,3 +70,27 @@ void free_fbgc_cfun_object(struct fbgc_object * obj){
 	//free(obj);
 }
 
+
+struct fbgc_object * get_set_fbgc_cmodule_object_member(struct fbgc_object * o, const char * str, struct fbgc_object * rhs){
+	struct fbgc_cmodule_object * cm = cast_fbgc_object_as_cmodule(o);
+	const struct fbgc_cfunction * cc = cm->module->functions[0];
+	for (int i = 1; cc!=NULL; ++i){
+		if(!my_strcmp(str,cc->name) ){
+			return new_fbgc_cfun_object(cc->function);
+		} 
+		//cprintf(101,"{%s}\n",cc->name);
+		cc = cm->module->functions[i];
+	}
+	
+	return NULL;
+}
+
+
+const struct fbgc_object_property_holder fbgc_cmodule_object_property_holder = {
+	.bits = 
+	_BIT_GET_SET_MEMBER
+	,
+	.properties ={
+		{.get_set_member = &get_set_fbgc_cmodule_object_member},			
+	}
+};

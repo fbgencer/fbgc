@@ -10,6 +10,7 @@ struct fbgc_str_object{
     size_t len;
     char content[0];
 };
+extern const struct fbgc_object_property_holder fbgc_str_object_property_holder;
 
 
 #define cast_fbgc_object_as_str(x)(((struct fbgc_str_object*) x))
@@ -30,7 +31,7 @@ struct fbgc_object * get_char_from_fbgc_str_object(struct fbgc_object * so,int i
 struct fbgc_object * get_object_in_fbgc_str_object(struct fbgc_object * obj,int i1, int i2);
 struct fbgc_object * set_object_in_fbgc_str_object(struct fbgc_object * obj,int i1, int i2,struct fbgc_object *o);
 
-void print_fbgc_str_object(struct fbgc_object *);
+uint8_t print_fbgc_str_object(struct fbgc_object *);
 void free_fbgc_str_object(struct fbgc_object * );
 
 

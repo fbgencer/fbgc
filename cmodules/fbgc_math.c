@@ -5,7 +5,7 @@
 //#include <gsl/gsl_blas.h>
 //#include <gsl/gsl_complex_math.h>
 
-#include <cblas.h>
+//#include <cblas.h>
 
 /*
 #define new_fbgc_cfunction(fun_name,str_fun_name)\
@@ -161,6 +161,7 @@ new_fbgc_cfunction(fbgc_gsl,"gsl")
 
   	return NULL;*/
 
+/*
 	struct fbgc_matrix_object * m1 = (struct fbgc_matrix_object *) arg[0];
 	struct fbgc_matrix_object * m2 = (struct fbgc_matrix_object *) arg[1];
 	if(m1->column != m2->row) return NULL;
@@ -192,7 +193,7 @@ new_fbgc_cfunction(fbgc_gsl,"gsl")
  	return (struct fbgc_object *) res;
 
 
-
+*/
 
 	/*if(argc == 2 && arg[0]->type == MATRIX && arg[1]->type == MATRIX){
 

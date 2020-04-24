@@ -231,6 +231,7 @@ void handle_before_paranthesis(struct parser_packet * p){
 			break;
 		}
 		case FOR:{
+			
 			//Do not try to initialize for loop all the time, this might be the case since we call this function for rpara and newline
 			if(_cast_llbase_as_lljumper(TOP_LL(p->op))->content->type == FOR_BEGIN){
 				handle_statements(p);

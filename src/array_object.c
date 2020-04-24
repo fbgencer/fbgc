@@ -129,7 +129,7 @@ void _push_back_fbgc_array_object(struct fbgc_object ** arr,void * obj){
     	cast_fbgc_object_as_array(self)->capacity <<= 1; //shift the capacity for the next two's power
 
 		
-		FBGC_LOGD(ARRAY_OBJECT,"New memory reallocated!\n");
+		FBGC_LOGD(ARRAY_OBJECT,".New memory reallocated!\n");
 		FBGC_LOGD(ARRAY_OBJECT,"After realloc Array size :%lu, capacity %lu\n",size_fbgc_array_object(self) , capacity_fbgc_array_object(self));
 	}
 

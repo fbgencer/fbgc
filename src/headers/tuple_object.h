@@ -12,7 +12,7 @@ struct fbgc_tuple_object{
     size_t size;
     struct fbgc_object * content[0];
 };
-
+extern const struct fbgc_object_property_holder fbgc_tuple_object_property_holder;
 
 #define cast_fbgc_object_as_tuple(x)(((struct fbgc_tuple_object*) x))
 #define size_fbgc_tuple_object(x)(cast_fbgc_object_as_tuple(x)->size)
@@ -41,7 +41,7 @@ struct fbgc_object *  __get_object_in_fbgc_tuple_object(struct fbgc_object * sel
 
 struct fbgc_object * operator_fbgc_tuple_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op);
 
-void print_fbgc_tuple_object(struct fbgc_object *);
+uint8_t print_fbgc_tuple_object(struct fbgc_object *);
 void free_fbgc_tuple_object(struct fbgc_object * );
 
 

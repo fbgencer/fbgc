@@ -541,7 +541,7 @@ for(size_t i = 0; i< row; ++i){
 
 
 
-void print_fbgc_matrix_object(struct fbgc_object * mat){
+uint8_t print_fbgc_matrix_object(struct fbgc_object * mat){
 	#define m cast_fbgc_object_as_matrix(mat)
 
 	double * contents = content_fbgc_matrix_object(mat);
@@ -560,6 +560,61 @@ void print_fbgc_matrix_object(struct fbgc_object * mat){
 		}
 		if(i!= m->row-1) cprintf(010,";");
 	}
-	cprintf(010,"]");
+	return cprintf(010,"]");
 	#undef m 
 }
+
+/*
+    #define m cast_fbgc_object_as_matrix(self)
+
+    double * contents = content_fbgc_matrix_object(self);
+
+    int width = 8;
+    int slash_widht = m->column*width+1;
+	if(m->sub_type == COMPLEX)
+		slash_widht += 5;
+
+    //fprintf(stdout,"%2s%*s\n%1s","/",slash_widht,"\\","|");
+	char iscomplex = (m->sub_type == COMPLEX);
+
+    for(int i = 0; i<m->row; ++i){
+        for(int j = 0; j<m->column; ++j){
+
+        	size_t index = (i * m->column + j)<<iscomplex;
+
+    		fprintf(stdout,"%*g",width,contents[index]);
+		    
+		    if(iscomplex){
+    			fprintf(stdout,"%+gj%*s",contents[index+1],width," " );
+    		}
+        }
+        if(i!=m->row-1) 
+        	fprintf(stdout,"\n");
+        //if(i!= m->row-1) fprintf(stdout,"%3s\n%1s","|","|");
+    }
+    //fprintf(stdout,"%3s\n%2s%*s","|","\\",slash_widht,"/");
+    #undef m 
+break;
+*/
+
+
+struct fbgc_object * abs_operator_fbgc_matrix_object(struct fbgc_object * self){
+	struct fbgc_object * sz_tuple = new_fbgc_tuple_object(2);
+	content_fbgc_tuple_object(sz_tuple)[0] = new_fbgc_int_object(cast_fbgc_object_as_matrix(self)->row);
+	content_fbgc_tuple_object(sz_tuple)[1] = new_fbgc_int_object(cast_fbgc_object_as_matrix(self)->column);
+	size_fbgc_tuple_object(sz_tuple) = 2;
+	return sz_tuple;
+}
+
+const struct fbgc_object_property_holder fbgc_matrix_object_property_holder = {
+	.bits = 
+	_BIT_PRINT |
+	_BIT_BINARY_OPERATOR |
+	_BIT_ABS_OPERATOR
+	,
+	.properties ={
+		{.print = &print_fbgc_matrix_object},
+		{.binary_operator = &operator_fbgc_matrix_object},
+		{.abs_operator = &abs_operator_fbgc_matrix_object},
+	}
+};

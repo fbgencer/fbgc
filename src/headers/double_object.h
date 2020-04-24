@@ -9,6 +9,9 @@ struct fbgc_double_object{
     struct fbgc_object base;
     double content;
 };
+
+extern const struct fbgc_object_property_holder fbgc_double_object_property_holder;
+
 #define cast_fbgc_object_as_double(x)(((struct fbgc_double_object*) x))
 #define sizeof_fbgc_double_object() (sizeof(struct fbgc_double_object)) 
 
@@ -23,7 +26,7 @@ double operator_method_double(double a1,double b1,fbgc_token op,struct fbgc_obje
 struct fbgc_object * fbgc_double_object_to_str(struct fbgc_object * obj);
 
 
-void print_fbgc_double_object(struct fbgc_object *);
+uint8_t print_fbgc_double_object(struct fbgc_object *);
 void free_fbgc_double_object(struct fbgc_object * );
 
 

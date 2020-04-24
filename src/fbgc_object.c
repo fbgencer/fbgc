@@ -10,120 +10,23 @@ const char * objtp2str(struct fbgc_object * obj){
 	return object_name_array[obj->type];
 }
 
-void printf_fbgc_object(struct fbgc_object * self){
 
-	assert(self != NULL);
-	switch(get_fbgc_object_type(self))
-	{
-		case LOGIC:
-		{
-			fprintf(stdout, "%s", (cast_fbgc_object_as_logic(self)->content) ? "true" :"false");
-			break;
-		}
-		case INT:
-		{
-			fprintf(stdout,"%d",cast_fbgc_object_as_int(self)->content);
-			break;			
-		}	
-		case DOUBLE:
-		{
-			fprintf(stdout,"%g",cast_fbgc_object_as_double(self)->content);
-			break;			
-		}
-		case COMPLEX:
-		{
-			fprintf(stdout,"%g%+gj",cast_fbgc_object_as_complex(self)->z.real,cast_fbgc_object_as_complex(self)->z.imag); 
-			break;
-		}
-		case STRING:
-		{
-		    fprintf(stdout,"%s",cast_fbgc_object_as_str(self)->content);   
-			break;
-		}
-		case TUPLE:
-		{
-			struct fbgc_object ** contents = content_fbgc_tuple_object(self);
-			fprintf(stdout,"(");
-			for(size_t i = 0; i<size_fbgc_tuple_object(self); i++){
-				printf_fbgc_object(contents[i]);
-				if(i < size_fbgc_tuple_object(self)-1 ) 
-					fprintf(stdout,",");
-			}
-			fprintf(stdout,")");
-			break;
-		}
-		case MATRIX:
-		{
-			    #define m cast_fbgc_object_as_matrix(self)
 
-			    double * contents = content_fbgc_matrix_object(self);
-
-			    int width = 8;
-			    int slash_widht = m->column*width+1;
-				if(m->sub_type == COMPLEX)
-					slash_widht += 5;
-
-			    //fprintf(stdout,"%2s%*s\n%1s","/",slash_widht,"\\","|");
-				char iscomplex = (m->sub_type == COMPLEX);
-			
-			    for(int i = 0; i<m->row; ++i){
-			        for(int j = 0; j<m->column; ++j){
-
-			        	size_t index = (i * m->column + j)<<iscomplex;
-
-			    		fprintf(stdout,"%*g",width,contents[index]);
-        			    
-        			    if(iscomplex){
-			    			fprintf(stdout,"%+gj%*s",contents[index+1],width," " );
-			    		}
-			        }
-			        if(i!=m->row-1) 
-			        	fprintf(stdout,"\n");
-			        //if(i!= m->row-1) fprintf(stdout,"%3s\n%1s","|","|");
-			    }
-			    //fprintf(stdout,"%3s\n%2s%*s","|","\\",slash_widht,"/");
-			    #undef m 
-			break;
-		}
-
-		case FUN:
-		{	
-			fprintf_fbgc_fun_object(self);
-			//fprintf(stdout,"[Function object<%p>]",self);
-			break;
-		}
-		case CLASS:
-		{	
-			fprintf_fbgc_class_object(self);
-			//fprintf(stdout,"[Function object<%p>]",self);
-			break;
-		}
-		case RANGE:{
-			printf_fbgc_object(cast_fbgc_object_as_range(self)->start);
-			printf(":");
-			if(cast_fbgc_object_as_range(self)->step != NULL){
-				printf_fbgc_object(cast_fbgc_object_as_range(self)->step);
-				printf(":");
-			}
-			printf_fbgc_object(cast_fbgc_object_as_range(self)->end);
-			break;
-		}
-		default:
-				fprintf(stdout,"Error undefined object %s!\n",object_name_array[self->type]);
-				assert(0); 
-		break;
-
-	}	
-}
-
-struct fbgc_object_property_holder * get_fbgc_object_property_holder(struct fbgc_object * o){
-	switch(get_fbgc_object_type(o)){
-		case INT:{
-			return &fbgc_int_object_property_holder;
-		}
+const struct fbgc_object_property_holder * get_fbgc_object_property_holder(struct fbgc_object * o){
+	switch(o->type){
+		case LOGIC: return &fbgc_logic_object_property_holder;
+		case INT: return &fbgc_int_object_property_holder;
+		case DOUBLE: return &fbgc_double_object_property_holder;
+		case COMPLEX: return &fbgc_complex_object_property_holder;
+		case MATRIX: return &fbgc_matrix_object_property_holder;
+		case TUPLE: return &fbgc_tuple_object_property_holder;
+		case STRING: return &fbgc_str_object_property_holder;
+		case CLASS : return &fbgc_class_object_property_holder;
+		case INSTANCE : return &fbgc_instance_object_property_holder;
+		case RANGE: return &fbgc_range_object_property_holder;
 	}
-
-	return NULL;
+	FBGC_LOGE("Type %s does not have property holder\n",objtp2str(o));
+	assert(0);
 }
 
 
@@ -140,37 +43,17 @@ int8_t _find_property(uint32_t bit, uint32_t bit_conf){
 	bit &= (bit_conf-1);
 	return __builtin_popcount(bit);
 	//return swar(bit);
-
-	/*printBits(sizeof(uint32_t),&bits);printf(":bits\n"); 
-	uint32_t prt = _BIT_BINARY_OPERATOR-1;
-	printBits(sizeof(uint32_t),&prt);printf(":print\n"); 
-	bits &= prt;
-	printBits(sizeof(uint32_t),&bits);printf(":flipped\n"); 
-	printf("flipped %d\n", swar(bits) );*/
-
-	/*printf("where:%d\n",where );
-	int8_t count = 0;
-	while(where--){
-		if( (bit>>where) & 0x0001 ){
-			++count;
-		}
-	}
-	return count;*/
 }
 
 uint8_t myprint_fbgc_object(struct fbgc_object * self){
 
-	//return print_fbgc_int_object(self);
-	return fbgc_int_object_property_holder.properties[2].print(self);
-
-	struct fbgc_object_property_holder * p = NULL;
+	const struct fbgc_object_property_holder * p = NULL;
 	if(self != NULL){
 		p = get_fbgc_object_property_holder(self);
 	}
 	else{
 		return cprintf(111,"[NULL]");
 	}
-
 
 	//return p->properties[2].print(self);
 
@@ -182,6 +65,7 @@ uint8_t myprint_fbgc_object(struct fbgc_object * self){
 }
 
 uint8_t print_fbgc_object(struct fbgc_object * self){
+	//We only use this function for debug
 
 	if(self != NULL){ 
 		switch(get_fbgc_object_type(self)){
@@ -205,12 +89,6 @@ uint8_t print_fbgc_object(struct fbgc_object * self){
 			case CSTRING:
 				print_fbgc_cstr_object(self);
 			break;
-			case IDENTIFIER:
-			{
-				if(is_id_flag_GLOBAL(self)) cprintf(011,"%s{G<%d>}","ID",_cast_fbgc_object_as_llidentifier(self)->loc);
-            	else if(is_id_flag_LOCAL(self)) cprintf(011,"%s{L<%d>}","ID",_cast_fbgc_object_as_llidentifier(self)->loc);
-				break;
-			}
 			case TUPLE:
 				print_fbgc_tuple_object(self);
 			break;
@@ -314,25 +192,7 @@ switch(type){
 	case FUN_CALL : sz = sizeof_fbgc_object(); break;
 	case BUILD_TUPLE :
 	case BUILD_MATRIX : sz = sizeof_fbgc_int_object(); break;
-
 }
-
-	/*switch(type){
-		case INT: return sizeof_fbgc_int_object();
-		case DOUBLE: return sizeof_fbgc_double_object();
-		case STRING: return sizeof_fbgc_str_object(obj);
-		case MATRIX: return sizeof_fbgc_matrix_object(obj);
-		case CSTRING: return sizeof_fbgc_cstr_object(obj);
-		case TUPLE: return sizeof_fbgc_tuple_object(obj);
-		case FIELD: return sizeof_fbgc_field_object();
-		case LINKED_LIST: return sizeof_fbgc_ll_object();
-		case GARBAGE: return sizeof_fbgc_garbage_object(obj);
-		case ARRAY: return sizeof_fbgc_array_object(obj); 
-		default: break;
-	}
-
-	if(type>THREE_DOT) return sizeof(struct fbgc_object);*/
-
 	return sz;
 }
 
@@ -391,6 +251,7 @@ double convert_fbgc_object_to_double(struct fbgc_object * obj){
 }
 
 
+
 struct raw_complex convert_fbgc_object_to_complex(struct fbgc_object * obj){
 	if(get_fbgc_object_type(obj) == COMPLEX) return cast_fbgc_object_as_complex(obj)->z;
 	
@@ -412,129 +273,82 @@ struct raw_complex convert_fbgc_object_to_complex(struct fbgc_object * obj){
 }
 
 
-struct fbgc_object * get_length_fbgc_object(struct fbgc_object * t){
-	switch(t->type){
-		case INT:
-		{
-			return new_fbgc_int_object(abs(cast_fbgc_object_as_int(t)->content));
-		}
-		case DOUBLE:
-		{
-			return new_fbgc_double_object(fabs(cast_fbgc_object_as_double(t)->content));
-		}
-		case STRING:
-		{
-			return new_fbgc_int_object(cast_fbgc_object_as_str(t)->len);
-		}				
-		case TUPLE:
-		{
+void printf_fbgc_object(struct fbgc_object * self){
 
-			return new_fbgc_int_object(size_fbgc_tuple_object(t)) ;
-		}
-		case MATRIX:
-		{
-			struct fbgc_object * sz_tuple = new_fbgc_tuple_object(2);
-			struct fbgc_object ** aa = content_fbgc_tuple_object(sz_tuple);
-			aa[0] = new_fbgc_int_object(cast_fbgc_object_as_matrix(t)->row);
-			aa[1] = new_fbgc_int_object(cast_fbgc_object_as_matrix(t)->column);
-			size_fbgc_tuple_object(sz_tuple) = 2;
-			return sz_tuple;
-		}
-		default:
-		{
-			cprintf(100,"Not an iterable object type %s\n",object_name_array[t->type]);
-			assert(0);
-		}	
+	const struct fbgc_object_property_holder * p = get_fbgc_object_property_holder(self);
+
+	int8_t w = _find_property(p->bits,_BIT_PRINT);
+	if(w != -1){
+		p->properties[w].print(self);
+		return;
+	}
+	else{
+		//put an error
+		assert(0);
+	}
+}
+
+struct fbgc_object * abs_operator_fbgc_object(struct fbgc_object * self){
+
+	const struct fbgc_object_property_holder * p = get_fbgc_object_property_holder(self);
+
+	int8_t w = _find_property(p->bits,_BIT_ABS_OPERATOR);
+	if(w != -1){
+		return p->properties[w].abs_operator(self);
+	}
+	else{
+		//FBGC_LOGE("%s does not satisfy || operator\n",objtp2str(self));
+		return NULL;
 	}
 } 
 
 
 struct fbgc_object * get_set_fbgc_object_member(struct fbgc_object * o, const char * str, struct fbgc_object * nm){
+	
+	const struct fbgc_object_property_holder * p = get_fbgc_object_property_holder(o);
 
-	//! \todo arrange the case order 
-	switch(o->type)
-	{
-		//case INT: return get_set_fbgc_int_object_member(o,str,nm);
-		//case DOUBLE: return get_set_fbgc_double_object_member(o,str,nm);
-		case COMPLEX: return get_set_fbgc_complex_object_member(o,str,nm);
-		case CSTRUCT:
-		{
-			struct fbgc_cstruct_object * so = cast_fbgc_object_as_cstruct(o);
-			const struct fbgc_cmodule * cm = so->parent;
-			for (int i = 0; ; ++i){
-				const struct fbgc_cfunction * cc = cm->functions[i];
-				if(cc == NULL) break;
-				
-				if(!my_strcmp(str,cc->name)){
-					return new_fbgc_cfun_object(cc->function);
-				} 
-				
-			}
-			return NULL;
-		}
-		case CMODULE:{
-			struct fbgc_cmodule_object * cm = cast_fbgc_object_as_cmodule(o);
-			const struct fbgc_cfunction * cc = cm->module->functions[0];
-			for (int i = 1; cc!=NULL; ++i){
-				if(!my_strcmp(str,cc->name) ){
-					return new_fbgc_cfun_object(cc->function);
-				} 
-				//cprintf(101,"{%s}\n",cc->name);
-				cc = cm->module->functions[i];
-			}
-			
-			return NULL;
-		}
-		case FIELD:{
-			if(nm!= NULL) return NULL;
-
-			struct fbgc_object * ao = cast_fbgc_object_as_field(o)->locals;
-			for(unsigned int i = 0;  i<size_fbgc_array_object(ao); ++i){	
-				struct fbgc_identifier * temp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(ao,i);
-				//cprintf(111,"temp_idname = %s, str:%s => %d\n",content_fbgc_cstr_object(temp_id->name),str,my_strcmp(content_fbgc_cstr_object(temp_id->name),str));
-				if(!my_strcmp(content_fbgc_cstr_object(temp_id->name),str)){
-					//cprintf(111,"I am returning\n");
-					if(nm != NULL){
-						temp_id->content = nm;	
-					}
-					return temp_id->content;
-				}
-			}
-
-			return NULL;
-		}
-		case CLASS:{
-
-			if(nm != NULL){
-				//printf("Class variables cannot be changed!\n");
-				//this is for the case if class defined before and user wants to change its definition
-				return NULL;
-			}
-			struct fbgc_object * ao = cast_fbgc_object_as_class(o)->locals;
-			for(unsigned int i = 0;  i<size_fbgc_array_object(ao); ++i){	
-				struct fbgc_identifier * temp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(ao,i);
-				//cprintf(111,"temp_idname = %s, str:%s => %d\n",content_fbgc_cstr_object(temp_id->name),str,my_strcmp(content_fbgc_cstr_object(temp_id->name),str));
-				if(!my_strcmp(content_fbgc_cstr_object(temp_id->name),str)){
-					//cprintf(111,"I am returning\n");
-					return temp_id->content;
-				}
-			}
-
-			return NULL;
-		}
-		case INSTANCE:{
-			struct fbgc_object ** adr = get_set_fbgc_instance_object_member_address(o,str);
-			return *adr;
-			//return get_set_fbgc_instance_object_member(o,str,nm);
-		}
-
-		default:
-			cprintf(100,"[%s] cannot accessible\n",object_name_array[o->type]);
-			assert(0);
-
+	int8_t w = _find_property(p->bits,_BIT_GET_SET_MEMBER);
+	if(w != -1){
+		return p->properties[w].get_set_member(o,str,nm);
+	}
+	else{
+		FBGC_LOGE("%s does not satisfy member\n",objtp2str(o));
 		return NULL;
 	}
 } 
+
+
+
+struct fbgc_object * subscript_operator_fbgc_object(struct fbgc_object * iterable,struct fbgc_object * index_obj){
+
+	const struct fbgc_object_property_holder * p = get_fbgc_object_property_holder(iterable);
+
+	int8_t w = _find_property(p->bits,_BIT_SUBSCRIPT_OPERATOR);
+	if(w != -1){
+		return p->properties[w].subscript_operator(iterable,index_obj);
+	}
+	else{
+		FBGC_LOGE("%s does not satisfy [] operator\n",objtp2str(iterable));
+		return NULL;
+	}
+}
+
+
+struct fbgc_object * subscript_assign_operator_fbgc_object(struct fbgc_object * iterable,struct fbgc_object * index_obj, struct fbgc_object * rhs){
+
+	const struct fbgc_object_property_holder * p = get_fbgc_object_property_holder(iterable);
+
+	int8_t w = _find_property(p->bits,_BIT_SUBSCRIPT_ASSIGN_OPERATOR);
+	if(w != -1){
+		return p->properties[w].subscript_assign_operator(iterable,index_obj,rhs);
+	}
+	else{
+		FBGC_LOGE("%s does not satisfy []= operator\n",objtp2str(iterable));
+		return NULL;
+	}
+}
+
+
 
 
 
@@ -585,136 +399,6 @@ struct fbgc_object ** get_address_fbgc_object_member(struct fbgc_object * o, con
 		default:
 			cprintf(100,"[%s] cannot accessible\n",object_name_array[o->type]);
 			break;
-	}
-	return NULL;
-}
-
-
-struct fbgc_object * iterator_get_fbgc_object(struct fbgc_object * iterable,struct fbgc_object * index_obj){
-	switch(iterable->type){
-		case COMPLEX:{
-
-			return NULL;
-		}
-		case STRING:{
-
-			if(index_obj->type == INT){
-				iterable = get_object_in_fbgc_str_object(iterable,cast_fbgc_object_as_int(index_obj)->content,1);	
-			}
-			else if(index_obj->type == RANGE){
-				if(get_fbgc_range_object_iter_type(index_obj) != INT) return NULL;
-				int i1 = cast_fbgc_object_as_int(cast_fbgc_object_as_range(index_obj)->start)->content;
-				int len = cast_fbgc_object_as_int(cast_fbgc_object_as_range(index_obj)->end)->content - i1;
-				iterable = get_object_in_fbgc_str_object(iterable,i1,len);
-			}
-			else{
-				FBGC_LOGE("Index value must be integer, %s given",objtp2str(index_obj));
-				return NULL;
-			}
-			
-			break;
-		}
-		case TUPLE:{
-			if(index_obj->type != INT){
-				FBGC_LOGE("Index value must be integer");
-				return NULL;
-			}
-			iterable = get_object_in_fbgc_tuple_object(iterable,cast_fbgc_object_as_int(index_obj)->content);
-			break;
-		}
-		case MATRIX:{
-			//2 tane index gerekiyor bu sebepten array almak daha mantıklı
-			//temp = get_object_in_fbgc_matrix_object(temp,index,index_no2);
-			return NULL;
-		}
-		case INSTANCE:{
-			struct fbgc_object * fun = get_overloaded_member(iterable,"[]");
-			if(fun != NULL && fun->type == FUN){
-				if(cast_fbgc_object_as_fun(fun)->no_arg == 2){
-					//we need only two arguments, self and index
-					global_interpreter_packet->sp[global_interpreter_packet->sctr++] = iterable;
-					global_interpreter_packet->sp[global_interpreter_packet->sctr++] = index_obj;
-					fun = call_fun_object(fun);
-					global_interpreter_packet->sctr--;
-					return fun;
-				}
-				
-			}
-			else{
-				FBGC_LOGE("Iterator not overloaded");
-				return NULL;
-			}
-			break;
-		}
-		default:{
-			return NULL;
-		}
-	}
-
-	if(iterable == NULL){
-		FBGC_LOGE("Index value out of range");
-		return NULL;	
-	}
-	else return iterable;
-	
-}
-
-
-struct fbgc_object * iterator_set_fbgc_object(struct fbgc_object * iterable,struct fbgc_object * index_obj, struct fbgc_object * rhs){
-	switch(iterable->type){
-		case COMPLEX:{
-
-			break;
-		}
-		case STRING:{
-
-			if(index_obj->type != INT){
-				FBGC_LOGE("Index value must be integer");
-				return NULL;
-			}
-			return set_object_in_fbgc_str_object(iterable,cast_fbgc_object_as_int(index_obj)->content,1,rhs);
-			
-		}
-		case TUPLE:{
-			if(index_obj->type != INT){
-				FBGC_LOGE("Index value must be integer");
-				return NULL;
-			}
-			iterable = set_object_in_fbgc_tuple_object(iterable,rhs,cast_fbgc_object_as_int(index_obj)->content);
-			if(iterable == NULL){
-				FBGC_LOGE("Index value out of range");
-				return NULL;	
-			}
-			return iterable;
-		}
-		case MATRIX:{
-			break;
-		}
-		case INSTANCE:{
-			struct fbgc_object * fun = get_overloaded_member(iterable,"[]=");
-			if(fun != NULL && fun->type == FUN){
-				if(cast_fbgc_object_as_fun(fun)->no_arg == 3){
-					//we need only two arguments, self and index
-
-					global_interpreter_packet->sp[global_interpreter_packet->sctr++] = iterable;
-					global_interpreter_packet->sp[global_interpreter_packet->sctr++] = index_obj;
-					global_interpreter_packet->sp[global_interpreter_packet->sctr++] = rhs;
-					fun = call_fun_object(fun);
-					global_interpreter_packet->sctr--;
-					//global_interpreter_packet->sctr += 2;
-					return fun;
-				}
-				
-			}
-			else{
-				FBGC_LOGE("Iterator not overloaded");
-				return NULL;
-			}
-			break;
-		}
-		default:{
-			break;
-		}
 	}
 	return NULL;
 }

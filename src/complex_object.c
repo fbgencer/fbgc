@@ -209,6 +209,8 @@ struct fbgc_object * get_set_fbgc_complex_object_member(struct fbgc_object * o, 
 
     double * p = NULL;
 
+
+
     if( !strcmp(str,"imag")){
         p = &cast_fbgc_object_as_complex(o)->z.imag;
     }
@@ -229,8 +231,8 @@ struct fbgc_object * get_set_fbgc_complex_object_member(struct fbgc_object * o, 
 } 
 
 
-void print_fbgc_complex_object(struct fbgc_object * obj){
-   cprintf(011,"%g%+gj",cast_fbgc_object_as_complex(obj)->z.real,cast_fbgc_object_as_complex(obj)->z.imag);  
+uint8_t print_fbgc_complex_object(struct fbgc_object * obj){
+   return printf("%g%+gj",cast_fbgc_object_as_complex(obj)->z.real,cast_fbgc_object_as_complex(obj)->z.imag);  
 }
 
 void print_raw_complex(struct raw_complex z){
@@ -244,3 +246,21 @@ struct fbgc_object * fbgc_complex_object_to_str(struct fbgc_object * obj){
 	snprintf(content_fbgc_str_object(s),len+1,format,real_fbgc_complex_object(obj),imag_fbgc_complex_object(obj));
 	return s;
 }
+
+
+
+const struct fbgc_object_property_holder fbgc_complex_object_property_holder = {
+	.bits = 
+	_BIT_PRINT |
+	_BIT_TO_STR |
+	_BIT_BINARY_OPERATOR |
+	_BIT_GET_SET_MEMBER
+	,
+	.properties ={
+		{.print = &print_fbgc_complex_object},
+		{.get_set_member = &get_set_fbgc_complex_object_member},
+		{.binary_operator = &operator_fbgc_complex_object},
+		{.to_str = &fbgc_complex_object_to_str},
+		
+	}
+};

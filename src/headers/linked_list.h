@@ -32,6 +32,14 @@ struct fbgc_ll_identifier{
     uint8_t flag;
 };
 
+struct fbgc_ll_assignment{
+    struct fbgc_ll_base base;
+    uint8_t subtype;
+    int loc;
+    uint8_t flag;
+};
+
+
 struct fbgc_ll_opcode_int{
     struct fbgc_ll_base base;
     int content;

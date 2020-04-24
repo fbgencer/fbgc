@@ -282,27 +282,60 @@ switch(op)
 }
 
 
-void print_fbgc_tuple_object(struct fbgc_object * obj){
-	cprintf(011,"(");
-	struct fbgc_object ** contents = content_fbgc_tuple_object(obj);
-
-	for(size_t i = 0; i<cast_fbgc_object_as_tuple(obj)->size; i++){
-		print_fbgc_object(contents[i]);
-		cprintf(011,", ");
+uint8_t print_fbgc_tuple_object(struct fbgc_object * obj){
+	printf("(");
+	for(size_t i = 0; i<size_fbgc_tuple_object(obj); i++){
+		print_fbgc_object(content_fbgc_tuple_object(obj)[i]);
+		printf(", ");
 	}
-
-	//##########TODO#############
-	//improve this part 
-	cprintf(011,")");
+	return printf(")");
 }
 
-void free_fbgc_tuple_object(struct fbgc_object * obj){
-   /* for(int i = 0; i<cast_fbgc_object_as_tuple(obj)->size; i++){
-    	
-    	//cast_fbgc_object_as_tuple(obj)->contents[i]->type &= 0x7F;
-    	//cprintf(100,"Deleting my contents 2 0x%X\n",cast_fbgc_object_as_tuple(obj)->contents[i]->type);
-    	free_fbgc_object(cast_fbgc_object_as_tuple(obj)->contents[i]);
+struct fbgc_object * subscript_operator_fbgc_tuple_object(struct fbgc_object * iterable,struct fbgc_object * index_obj){
+    if(index_obj->type != INT){
+        FBGC_LOGE("Index value must be integer");
+        return NULL;
     }
-    free(cast_fbgc_object_as_tuple(obj)->contents);
-    free(obj);*/
+    iterable = get_object_in_fbgc_tuple_object(iterable,cast_fbgc_object_as_int(index_obj)->content);
+
+    if(iterable == NULL){
+        FBGC_LOGE("Index value out of range");
+    }
+    
+    return iterable;    
 }
+
+struct fbgc_object * subscript_assign_operator_fbgc_tuple_object(struct fbgc_object * iterable,struct fbgc_object * index_obj, struct fbgc_object * rhs){
+    if(index_obj->type != INT){
+        FBGC_LOGE("Index value must be integer");
+        return NULL;
+    }
+    iterable = set_object_in_fbgc_tuple_object(iterable,rhs,cast_fbgc_object_as_int(index_obj)->content);
+    if(iterable == NULL){
+        FBGC_LOGE("Index value out of range");
+        return NULL;    
+    }
+    return iterable;  
+}
+
+struct fbgc_object * abs_operator_fbgc_tuple_object(struct fbgc_object * self){
+    return new_fbgc_int_object(size_fbgc_tuple_object(self));
+}
+
+
+const struct fbgc_object_property_holder fbgc_tuple_object_property_holder = {
+    .bits = 
+    _BIT_PRINT |
+    _BIT_BINARY_OPERATOR | 
+    _BIT_SUBSCRIPT_OPERATOR |
+    _BIT_SUBSCRIPT_ASSIGN_OPERATOR |
+    _BIT_ABS_OPERATOR
+    ,
+    .properties ={
+        {.print = &print_fbgc_tuple_object},
+        {.binary_operator = &operator_fbgc_tuple_object},
+        {.subscript_operator = &subscript_operator_fbgc_tuple_object},
+        {.subscript_assign_operator = &subscript_assign_operator_fbgc_tuple_object},
+        {.abs_operator = &abs_operator_fbgc_tuple_object},
+    }
+};

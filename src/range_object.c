@@ -138,16 +138,22 @@ struct fbgc_object * get_element_in_fbgc_range_object(struct fbgc_object * obj, 
 } 
 */
 
-void print_fbgc_range_object(struct fbgc_object * obj){
-
-   #define r cast_fbgc_object_as_range(obj)
-    cprintf(111,"<");
-    print_fbgc_object(r->start);
-    cprintf(111,":");
-    if(r->step != NULL) print_fbgc_object(r->step);
-    cprintf(111,":");
-    print_fbgc_object(r->end);
-    cprintf(111,">");
-    #undef r
-     
+uint8_t print_fbgc_range_object(struct fbgc_object * self){
+    printf_fbgc_object(cast_fbgc_object_as_range(self)->start);
+    printf(":");
+    if(cast_fbgc_object_as_range(self)->step != NULL){
+        printf_fbgc_object(cast_fbgc_object_as_range(self)->step);
+        printf(":");
+    }
+    printf_fbgc_object(cast_fbgc_object_as_range(self)->end); 
 }
+
+const struct fbgc_object_property_holder fbgc_range_object_property_holder = {
+    .bits = 
+    _BIT_PRINT
+    ,
+    .properties ={
+        {.print = &print_fbgc_range_object},
+        
+    }
+};

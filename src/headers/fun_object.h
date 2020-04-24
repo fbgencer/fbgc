@@ -13,6 +13,8 @@ struct fbgc_fun_object{
 	int8_t no_locals;
 };
 
+extern const struct fbgc_object_property_holder fbgc_fun_object_property_holder;
+
 #define cast_fbgc_object_as_fun(x)(((struct fbgc_fun_object*) x))
 #define sizeof_fbgc_fun_object()(sizeof(struct fbgc_fun_object)) 
 

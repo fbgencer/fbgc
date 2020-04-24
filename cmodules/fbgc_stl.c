@@ -17,7 +17,7 @@ extern struct fbgc_object * fun_name(struct fbgc_object * arg)\
 new_fbgc_cfunction(fbgc_len,"len")
 {
 	if(argc == 1){
-		return get_length_fbgc_object(arg[0]);
+		return abs_operator_fbgc_object(arg[0]);
 	}
 	else cprintf(100,"<len> takes only 1 argument, %d given !\n",argc);
 	return NULL;

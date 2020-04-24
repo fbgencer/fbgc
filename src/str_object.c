@@ -310,14 +310,63 @@ struct fbgc_object * set_object_in_fbgc_str_object(struct fbgc_object * so,int i
     return so;
 }
 
-void print_fbgc_str_object(struct fbgc_object * obj){
-    cprintf(011,"'%s'",content_fbgc_str_object(obj));   
+uint8_t print_fbgc_str_object(struct fbgc_object * obj){
+    return printf("'%s'",content_fbgc_str_object(obj));   
 }
 
 void free_fbgc_str_object(struct fbgc_object * obj){
     //free(cast_fbgc_object_as_str(obj)->content);
     //free(obj);
 }
+
+struct fbgc_object * subscript_operator_fbgc_str_object(struct fbgc_object * iterable,struct fbgc_object * index_obj){
+    if(index_obj->type == INT){
+        iterable = get_object_in_fbgc_str_object(iterable,cast_fbgc_object_as_int(index_obj)->content,1);   
+    }
+    else if(index_obj->type == RANGE){
+        if(get_fbgc_range_object_iter_type(index_obj) != INT) return NULL;
+        int i1 = cast_fbgc_object_as_int(cast_fbgc_object_as_range(index_obj)->start)->content;
+        int len = cast_fbgc_object_as_int(cast_fbgc_object_as_range(index_obj)->end)->content - i1;
+        iterable = get_object_in_fbgc_str_object(iterable,i1,len);
+    }
+    else{
+        FBGC_LOGE("Index value must be integer, %s given",objtp2str(index_obj));
+        return NULL;
+    }
+}
+
+struct fbgc_object * subscript_assign_operator_fbgc_str_object(struct fbgc_object * iterable,struct fbgc_object * index_obj, struct fbgc_object * rhs){
+
+    if(index_obj->type != INT){
+        FBGC_LOGE("Index value must be integer");
+        return NULL;
+    }
+    return set_object_in_fbgc_str_object(iterable,cast_fbgc_object_as_int(index_obj)->content,1,rhs);   
+}
+
+
+struct fbgc_object * abs_operator_fbgc_str_object(struct fbgc_object * self){
+    return new_fbgc_int_object(cast_fbgc_object_as_str(self)->len);
+}
+
+const struct fbgc_object_property_holder fbgc_str_object_property_holder = {
+    .bits = 
+    _BIT_PRINT |
+    _BIT_BINARY_OPERATOR |
+    _BIT_SUBSCRIPT_OPERATOR |
+    _BIT_SUBSCRIPT_ASSIGN_OPERATOR |
+    _BIT_ABS_OPERATOR
+    ,
+    .properties ={
+        {.print = &print_fbgc_str_object},
+        {.binary_operator = &operator_fbgc_str_object}, 
+        {.subscript_operator = &subscript_operator_fbgc_str_object},
+        {.subscript_assign_operator = &subscript_assign_operator_fbgc_str_object},
+        {.abs_operator = &abs_operator_fbgc_str_object},   
+    }
+};
+
+
 
 //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 //$$$$$$$$$$$$$$$$$$$$$$$$$     CSTRING   $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$

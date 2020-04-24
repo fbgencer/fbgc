@@ -11,16 +11,16 @@ TEST_OBJ = ${TEST_SRC:.c=.o}
 #-Wno-error=incompatible-pointer-types -Wno-error=discarded-qualifiers
 CC=gcc
 #-Wunused-variable
-OPTIMIZATION_FLAG = -Os
-WARNING_FLAG = -Werror -Wno-error=incompatible-pointer-types -Wno-error=pointer-arith 
-DEBUG_FLAG = 
+OPTIMIZATION_FLAG = -Ofast -fdata-sections -ffunction-sections -flto
+WARNING_FLAG = -Werror -Wno-error=pointer-arith 
+DEBUG_FLAG =  
 #-s
 
 CFLAGS = -c
-LDFLAGS += -lm
+LDFLAGS += -lm -Wl,--gc-sections -flto
 CFLAGS += $(OPTIMIZATION_FLAG)
 CFLAGS += $(WARNING_FLAG)
-CFLAGS += $(DEBUG_FLAG)
+#CFLAGS += $(DEBUG_FLAG)
 
 
 #GSL_CFLAG = -I /home/fbgencer/gsl/include
@@ -47,20 +47,21 @@ CFLAGS += -DLOG_FIELD_OBJECT_
 CFLAGS += -DLOG_FUN_OBJECT_
 CFLAGS += -DLOG_GRAMMAR_
 CFLAGS += -DLOG_INT_OBJECT_
-CFLAGS += -DLOG_INTERPRETER
+CFLAGS += -DLOG_INTERPRETER_
 CFLAGS += -DLOG_LINKEDLIST_
 CFLAGS += -DLOG_LOGIC_OBJECT_
 CFLAGS += -DLOG_MATRIX_OBJECT_
 CFLAGS += -DLOG_MEMORY_
 CFLAGS += -DLOG_OPERATOR_
-CFLAGS += -DLOG_PARSER
+CFLAGS += -DLOG_PARSER_
 CFLAGS += -DLOG_RANGE_OBJECT_
-CFLAGS += -DLOG_RELEXER
+CFLAGS += -DLOG_RELEXER_
 CFLAGS += -DLOG_STR_OBJECT_
 CFLAGS += -DLOG_SYMBOL_TABLE_
 CFLAGS += -DLOG_TOKENS_
 CFLAGS += -DLOG_TUPLE_OBJECT_
 
+#CFLAGS += -DTIME_DEBUG
 
 #In order run "make test" open this flag
 CFLAGS += -DMODULE_TEST_
@@ -83,7 +84,7 @@ CFLAGS += -DFBGC_LOGO_
 #CFLAGS += -DTUPLE_DEBUG
 #CFLAGS += -DARRAY_DEBUG
 #CFLAGS += -DFUN_PRINT_DETAILED
-#CFLAGS += -DTIME_DEBUG
+
 #CFLAGS += -DDEBUG_TO_FILE
 
 %.o:%.c

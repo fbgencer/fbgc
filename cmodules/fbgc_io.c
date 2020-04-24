@@ -17,7 +17,19 @@ new_fbgc_cfunction(fbgc_print,"print")
 {
 	
 	for(size_t i = 0; i<argc; ++i){
-		printf_fbgc_object(arg[i]);
+		 
+		print_fbgc_object(arg[i]);
+		/*const struct fbgc_object_property_holder * p = get_fbgc_object_property_holder(arg[i]);
+
+		int8_t w = _find_property(p->bits,_BIT_PRINT);
+		if(w != -1){
+			p->properties[w].print(arg[i]);
+		}
+		else{
+			//put an error
+			assert(0);
+		}*/
+		//printf_fbgc_object(arg[i]);
 		fprintf(stdout," ");
 	}
 	fprintf(stdout,"\n");

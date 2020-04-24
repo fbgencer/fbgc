@@ -11,7 +11,7 @@ struct fbgc_int_object{
     int content; /**< fbgc_int object holds integer value in this variable */
 };
 
-extern struct fbgc_object_property_holder fbgc_int_object_property_holder;
+extern const struct fbgc_object_property_holder fbgc_int_object_property_holder;
 
 
 #define cast_fbgc_object_as_int(x)(((struct fbgc_int_object*) x))

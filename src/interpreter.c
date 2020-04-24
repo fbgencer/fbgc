@@ -375,12 +375,12 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 			
 
 			for(int i = index_no-1; i>1; --i){
-				iterable = iterator_get_fbgc_object(iterable,TOPN(i));
+				iterable = subscript_operator_fbgc_object(iterable,TOPN(i));
 				if(iterable == NULL){
 					assert(0);
 				}
 			}
-			iterable = iterator_set_fbgc_object(iterable,TOP(),rhs);
+			iterable = subscript_assign_operator_fbgc_object(iterable,TOP(),rhs);
 			if(iterable == NULL){
 				assert(0);
 			}
@@ -389,7 +389,7 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 		}
 		case LEN:
 		{
-			SET_TOP( get_length_fbgc_object(TOP()) );
+			SET_TOP( abs_operator_fbgc_object(TOP()) );
 			break;
 		}			
 		case JUMP:
@@ -489,6 +489,23 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 			
 			struct fbgc_object * funo = TOPN(arg_no+1);
 
+			if(funo->type == CFUN){
+				STACK_GOTO(-arg_no);
+				struct fbgc_object * res = cfun_object_call(funo, sp+sctr, arg_no);
+				//#define cfun_object_call(cfuno,args,argc)(cast_fbgc_object_as_cfun(cfuno)->function(args,argc))
+				_POP(); // pop cfun object 
+
+				if(res == NULL){
+					//const struct fbgc_cfunction * cc = cast_fbgc_object_as_cfun(funo);
+					//cprintf(100,"Error in function %s\n",cc->name);
+					goto INTERPRETER_ERROR_LABEL;
+				} 
+					
+				PUSH(res);
+				break;
+			}
+
+			
 			if(funo->type == CLASS){
 				FBGC_LOGV(INTERPRETER,"Calling class constructor\n");
 
@@ -522,28 +539,12 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 				}
 			}
 
-			if(funo->type != FUN && funo->type != CFUN){
+
+
+			if(funo->type != FUN){
 				printf("Object is not callable, type %s\n",object_name_array[funo->type]);
 				goto INTERPRETER_ERROR_LABEL;
 			}
-			
-
-			if(funo->type == CFUN){
-				STACK_GOTO(-arg_no);
-				struct fbgc_object * res = cfun_object_call(funo, sp+sctr, arg_no);
-				//#define cfun_object_call(cfuno,args,argc)(cast_fbgc_object_as_cfun(cfuno)->function(args,argc))
-				_POP(); // pop cfun object 
-
-				if(res == NULL){
-					//const struct fbgc_cfunction * cc = cast_fbgc_object_as_cfun(funo);
-					//cprintf(100,"Error in function %s\n",cc->name);
-					goto INTERPRETER_ERROR_LABEL;
-				} 
-					
-				PUSH(res);
-				break;
-			}
-
 
 			if(cast_fbgc_object_as_fun(funo)->no_arg < 0){
 				//Is variadic function ?,
@@ -705,9 +706,9 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 
 
 			for(int i = index_no-1; i>0; --i){
-				iterable = iterator_get_fbgc_object(iterable,TOPN(i));
+				iterable = subscript_operator_fbgc_object(iterable,TOPN(i));
 				if(iterable == NULL){
-					return 0;
+					assert(0);
 				}
 			}
 			STACK_GOTO(-index_no);
