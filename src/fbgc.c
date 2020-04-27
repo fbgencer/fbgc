@@ -19,26 +19,14 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
 
 
 	begin = clock();
-
-	FILE *input_file = fopen(file_name,"r");
-	if(input_file == NULL){
-		cprintf(111,"file error\n");
-	}
 	 
-   int par = parser(&main_field,input_file);
+   int par = parse_file(&main_field,file_name);
 
-	fclose(input_file); 
+	
 	
 	end = clock();
 	parser_time = (double)(end - begin) / CLOCKS_PER_SEC; 
 
-	 #ifdef INTERPRETER_DEBUG
-		cprintf(111,"Parser output array\n");
-		_print_fbgc_ll(cast_fbgc_object_as_field(main_field)->head,"Main");   
-		cprintf(111,"\n");
-	#endif
-
-	//print_fbgc_memory_block();
 	 
 	begin = clock();
 	if(par) 
@@ -103,16 +91,14 @@ struct fbgc_object * fbgc_load_module(const char * module_name,const char * fun_
 
 struct fbgc_object * fbgc_load_file(char * file_name,const char * fun_name, uint8_t load_key){
 
-	FILE * input_file = fopen(file_name,"r");
-	if(input_file == NULL){
-		return NULL; 
-	}
-
 	struct fbgc_object * prev_field = current_field;	
 
 	struct fbgc_object * file_field = new_fbgc_field_object();
-	parser(&file_field,input_file);
-	interpreter(&file_field);
+	if(parse_file(&file_field,file_name))
+		interpreter(&file_field);
+	else 
+		assert(0);
+
 	current_field = file_field;
 
 	if(load_key != 0){
@@ -212,10 +198,10 @@ int main(int argc, char **argv){
 	//load_module_in_field_object(main_field,&fbgc_math_module);
 	//load_module_in_field_object(main_field,&fbgc_file_module);
 		
+	//parse_string(&main_field,"x = 88\n");
+	//cast_fbgc_object_as_field(main_field)->code;
 
 
-	compile_file(main_field, "ex.fbgc");
-	/*
 	if(argc > 1)
 	{   
 		if(!strcmp(argv[1],"-s")){
@@ -228,8 +214,9 @@ int main(int argc, char **argv){
 		
 	}
 	else{
+		compile_file(main_field, "ex.fbgc");
 	   //realtime_fbgc(main_field);
-	}*/
+	}
 
 	free_fbgc_memory_block();
 //******************************************************************

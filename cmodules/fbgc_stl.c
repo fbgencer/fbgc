@@ -160,6 +160,36 @@ new_fbgc_cfunction(fbgc_tuple,"tuple"){
 	return NULL;
 }
 
+
+struct fbgc_object * check_type(struct fbgc_object ** arg,int argc, fbgc_token t){
+	uint8_t res = argc;
+	
+	while(argc--){
+		res &= (get_fbgc_object_type(arg[argc]) == t); 
+	}
+	
+	return new_fbgc_logic_object(res);
+}
+
+new_fbgc_cfunction(fbgc_is_int,"is_int"){
+	return check_type(arg,argc,INT);
+}
+new_fbgc_cfunction(fbgc_is_double,"is_double"){
+	return check_type(arg,argc,DOUBLE);
+}
+new_fbgc_cfunction(fbgc_is_complex,"is_complex"){
+	return check_type(arg,argc,COMPLEX);
+}
+new_fbgc_cfunction(fbgc_is_string,"is_string"){
+	return check_type(arg,argc,MATRIX);
+}
+new_fbgc_cfunction(fbgc_is_tuple,"is_tuple"){
+	return check_type(arg,argc,TUPLE);
+}
+new_fbgc_cfunction(fbgc_is_matrix,"is_matrix"){
+	return check_type(arg,argc,MATRIX);
+}
+
 new_fbgc_cfunction(fbgc_matrix,"matrix"){
 	
 	if(argc == 3){
@@ -212,11 +242,17 @@ const struct fbgc_cmodule fbgc_stl_module =
 		&fbgc_id_struct,
 		&fbgc_int_struct,
 		&fbgc_double_struct,
-		&fbgc_tuple_struct,	
-		&fbgc_matrix_struct,			
+		&fbgc_tuple_struct,
+		&fbgc_matrix_struct,
 		&fbgc_type_struct,
 		&fbgc_mem_struct,
 		&fbgc_locals_struct,
+		&fbgc_is_int_struct,
+		&fbgc_is_double_struct,
+		&fbgc_is_complex_struct,
+		&fbgc_is_string_struct,
+		&fbgc_is_tuple_struct,
+		&fbgc_is_matrix_struct,
 		NULL
 	}
 };

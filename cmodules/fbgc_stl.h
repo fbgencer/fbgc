@@ -22,6 +22,12 @@ declare_new_fbgc_cfunction(fbgc_type);
 declare_new_fbgc_cfunction(fbgc_mem);
 declare_new_fbgc_cfunction(fbgc_locals);
 
+declare_new_fbgc_cfunction(fbgc_is_int);
+declare_new_fbgc_cfunction(fbgc_is_double);
+declare_new_fbgc_cfunction(fbgc_is_complex);
+declare_new_fbgc_cfunction(fbgc_is_string);
+declare_new_fbgc_cfunction(fbgc_is_tuple);
+declare_new_fbgc_cfunction(fbgc_is_matrix);
 
 
 #ifdef  __cplusplus

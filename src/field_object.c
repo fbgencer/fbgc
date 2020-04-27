@@ -82,10 +82,6 @@ struct fbgc_object * get_set_fbgc_field_object_member(struct fbgc_object * o, co
 		struct fbgc_identifier * temp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(ao,i);
 		//cprintf(111,"temp_idname = %s, str:%s => %d\n",content_fbgc_cstr_object(temp_id->name),str,my_strcmp(content_fbgc_cstr_object(temp_id->name),str));
 		if(!my_strcmp(content_fbgc_cstr_object(temp_id->name),str)){
-			//cprintf(111,"I am returning\n");
-			if(nm != NULL){
-				temp_id->content = nm;	
-			}
 			return temp_id->content;
 		}
 	}

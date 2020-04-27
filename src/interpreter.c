@@ -4,6 +4,9 @@
 
 struct iter_function_ptr_struct{
 	struct fbgc_object * (* function)(struct fbgc_object *, int,struct fbgc_object *);
+	struct fbgc_object * seq_ob;
+	struct fbgc_object * holder;
+	int iterator;
 };
 
 #define PROGRAM_STACK_SIZE 100
@@ -55,7 +58,6 @@ uint8_t interpreter(struct fbgc_object ** field_obj){
 			0,//sctr
 			-1 //fctr
 	};
-
 	//now run the code for
 	if(run_code(&ip) != NULL){
 		return 1;	
@@ -169,29 +171,48 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 			}
 			else if(is_id_flag_MEMBER(pc)){
 				
+				FBGC_LOGV(INTERPRETER,"Member flag\n");
 				//For the entries x.y, x pushed as identifier object and y is a cstr object so first member name is top value
 
 				struct fbgc_object * member = POP();
 				struct fbgc_object * self = POP();
-				struct fbgc_object * object = get_set_fbgc_object_member(self,content_fbgc_cstr_object(member), NULL);
 
-				if(object == NULL){
-					//! @todo more meaningfull error messages
-					printf("Object does not have %s member\n",content_fbgc_cstr_object(member));
-					goto INTERPRETER_ERROR_LABEL;
+				struct fbgc_object * object;
+
+				if(is_id_flag_MEMBER_METHOD(pc) == 0){
+					object = get_set_fbgc_object_member(self,content_fbgc_cstr_object(member), NULL);
+					if(object == NULL){
+						//! @todo more meaningfull error messages
+						printf("Object does not have %s member\n",content_fbgc_cstr_object(member));
+						goto INTERPRETER_ERROR_LABEL;
+					}					
+					PUSH(object);
+				}
+				else{
+					object = get_fbgc_object_method(self,content_fbgc_cstr_object(member));
+					if(object == NULL)
+						object = get_set_fbgc_object_member(self,content_fbgc_cstr_object(member), NULL);
+
+					if(object == NULL){
+						//! @todo more meaningfull error messages
+						printf("Object does not have %s method\n",content_fbgc_cstr_object(member));
+						goto INTERPRETER_ERROR_LABEL;
+					}
+
+					if(self->type != CMODULE && self->type != FIELD){
+						PUSH(object);
+						PUSH(self);
+					}
+					else{
+						//When we call a cfun from cmodule it pushed cmodule as a first object
+						//but for normal cfun calls we do not provide cmodule
+						PUSH(self);
+						PUSH(object);
+						
+					}					
 				}
 
-				//Object is found, it means self has this member
-				PUSH(object);
 
-				//If this member is a method of object, this flag is set during parsing
-				//Because the first local variable of member functions must be self
-
-				//self.x(1,2,3) is equal to x(self,1,2,3) however user does not know about this
-				if(is_id_flag_MEMBER_METHOD(pc)){
-					FBGC_LOGV(PARSER,"This is member method also pushing self\n");
-					PUSH(self);
-				}
 
 				//! @todo there is no need to put this in identifier, instead making new opcode is necessary 
 			}
@@ -325,19 +346,18 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 			}			
 			else if(is_id_flag_MEMBER(pc)){
 				struct fbgc_object * member = POP();
-				//struct fbgc_object * object = 
-				lhs = get_address_fbgc_object_member(TOP(),content_fbgc_cstr_object(member));
-				//get_set_fbgc_object_member(TOP(),content_fbgc_cstr_object(member) , rhs);
+				
+				struct fbgc_object * obj = get_set_fbgc_object_member(TOP(),content_fbgc_cstr_object(member) , rhs);
 
 				//<! @todo This function is only valid for instance objects so change it !
-				if(lhs == NULL ){
+				if(obj == NULL ){
 					printf("[%s] does not support [%s] member assignment\n",objtp2str(TOP()),content_fbgc_cstr_object(member));
 					goto INTERPRETER_ERROR_LABEL;
 				}
 				_POP();
+
+				break;
 			}
-
-
 
 			//Call other assignment types
 			if(type != ASSIGN)
@@ -388,8 +408,10 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 			break;
 		}
 		case LEN:
-		{
-			SET_TOP( abs_operator_fbgc_object(TOP()) );
+		{	
+			struct fbgc_object * obj =  abs_operator_fbgc_object(TOP());
+			assert(obj != NULL);
+			SET_TOP(obj);
 			break;
 		}			
 		case JUMP:
@@ -410,26 +432,27 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 		case FOR_BEGIN:
 		{
 
-
-			struct fbgc_object * seq_ob = TOP();
-
 			struct fbgc_cstruct_object * so = (struct fbgc_cstruct_object *) 
 			new_fbgc_cstruct_object(sizeof(struct iter_function_ptr_struct), NULL);
 			struct iter_function_ptr_struct * ifps = (struct iter_function_ptr_struct *) so->cstruct;
-			
+			ifps->seq_ob = POP();
+
 			PUSH((struct fbgc_object *) so);
 			
-			if(seq_ob->type == RANGE){
+			
+			if(ifps->seq_ob->type == RANGE){
 
-				fbgc_token range_type = get_fbgc_range_object_iter_type(seq_ob);
+				fbgc_token range_type = get_fbgc_range_object_iter_type(ifps->seq_ob);
 
 				if(range_type == INT){
 					ifps->function = get_int_element_in_fbgc_range_object;
-					PUSH(new_fbgc_int_object(888));  	
+					ifps->holder = new_fbgc_int_object(0xFB6C);
+					//PUSH(new_fbgc_int_object(888));  	
 				}
 				else if(range_type == DOUBLE){
 					ifps->function = get_double_element_in_fbgc_range_object;
-					PUSH(new_fbgc_double_object(8.8));
+					ifps->holder = new_fbgc_double_object(8.8);
+					//PUSH(new_fbgc_double_object(8.8));
 				}
 				//=====================================================
 				//check the top is it sequential obj ?
@@ -438,45 +461,43 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 				// string : string etc..
 						
 			}
-			else if(seq_ob->type == STRING){
+			else if(ifps->seq_ob->type == STRING){
 				ifps->function = get_char_from_fbgc_str_object;
-				PUSH(new_fbgc_str_object("*"));
+				ifps->holder = new_fbgc_str_object("*");
+				//PUSH(new_fbgc_str_object("*"));
 			}
-			else if(seq_ob->type == TUPLE){
+			else if(ifps->seq_ob->type == TUPLE){
 				ifps->function = __get_object_in_fbgc_tuple_object;
+				ifps->holder = NULL;
 				//holder of tuple will never be used, we are sure of it but it is not a good idea to push null object
-				PUSH(NULL);
-			
+				//PUSH(NULL);
+
 			}
+			else assert(0);
 
 			//this is always the same!
-			PUSH(new_fbgc_int_object(0)); //iterator starter
+			//PUSH(new_fbgc_int_object(0)); //iterator starter
+			ifps->iterator = 0;
 			break;
 		}
 		case FOR:
 		{	
-			//Assume that FOR_BEGIN checked everything so no need to check in this case
-			//if we check something, it may introduce latency
-
-			struct fbgc_object * seq_ob = TOPN(4);
-			//this is out index iterator and we will increase it inplace
-			int i = (cast_fbgc_object_as_int(TOP())->content)++;			
-			struct fbgc_object * holder = SECOND();
-			
-			struct fbgc_cstruct_object * so = cast_fbgc_object_as_cstruct(TOPN(3));
-			struct iter_function_ptr_struct * fs = (struct iter_function_ptr_struct *) so->cstruct; 
-			
-			//call the pre-determined function				
-			seq_ob = fs->function(seq_ob,i,holder);
+			//Assume that FOR_BEGIN checked everything and prepared
+			struct iter_function_ptr_struct * ifps = (struct iter_function_ptr_struct *) 
+														cast_fbgc_object_as_cstruct(TOP())->cstruct; 			
+			print_fbgc_object(ifps->seq_ob);
+			printf("........\n");
+			//call the pre-defined function
+			struct fbgc_object * res = ifps->function(ifps->seq_ob,(ifps->iterator)++,ifps->holder);
 
 
-			if(seq_ob != NULL){
-				PUSH(seq_ob);
+			if(res != NULL){
+				PUSH(res);
 			}
 			else{
 				//finish the for loop, everything worked normally
-				//pop iterator,holder,sequence object and function struct
-				STACK_GOTO(-4);
+				//pop struct
+				_POP();
 				pc = _cast_llbase_as_lljumper(pc)->content;
 			}
 
@@ -485,27 +506,36 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 		case FUN_CALL:{
 
 			int arg_no = _cast_llbase_as_llopcode_int(pc)->content;
-			FBGC_LOGV(INTERPRETER,"Fun call arg no :%d\n",arg_no);
-			
 			struct fbgc_object * funo = TOPN(arg_no+1);
+
+			int pop_number = 0;
+
+			FBGC_LOGV(INTERPRETER,"Fun call arg no :%d || call type :%s\n",arg_no,objtp2str(funo));
+			
+			if(funo->type == FIELD || funo->type == CMODULE){
+				//Call the second pop the field
+				funo = TOPN(arg_no--);
+				--pop_number; 
+			}
+			
 
 			if(funo->type == CFUN){
 				STACK_GOTO(-arg_no);
 				struct fbgc_object * res = cfun_object_call(funo, sp+sctr, arg_no);
-				//#define cfun_object_call(cfuno,args,argc)(cast_fbgc_object_as_cfun(cfuno)->function(args,argc))
-				_POP(); // pop cfun object 
+				--pop_number;
 
 				if(res == NULL){
 					//const struct fbgc_cfunction * cc = cast_fbgc_object_as_cfun(funo);
 					//cprintf(100,"Error in function %s\n",cc->name);
 					goto INTERPRETER_ERROR_LABEL;
 				} 
-					
+				STACK_GOTO(pop_number);	
 				PUSH(res);
 				break;
 			}
 
-			
+
+
 			if(funo->type == CLASS){
 				FBGC_LOGV(INTERPRETER,"Calling class constructor\n");
 
@@ -516,24 +546,31 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 					FBGC_LOGV(INTERPRETER,"Class constructor is created default\n");
 					if(arg_no != 0){
 						//Changed for nested classes, may need revise
-						arg_no = 0;
-						_POP();
+						//arg_no = 0;
+						//_POP();
 						//this is also an error
-						//assert(0);
+						assert(0);
 					}
 					//No definition of constructor 
-					
-					_POP(); //pop cls object
+					--pop_number;
+					STACK_GOTO(pop_number); //pop cls object
 					PUSH(new_inst);
 					break;
 				}else {
 					FBGC_LOGV(INTERPRETER,"User defined class constructor\n");
 					//Check is it callable ? 
+
 					funo = constructor;
 					//Now class is already pushed we will change it with new_inst
+					if(cast_fbgc_object_as_fun(funo)->no_arg != (arg_no+1) ){
+						printf("Argument match error! funo->arg %d, arg_no %d\n",cast_fbgc_object_as_fun(funo)->no_arg,arg_no);
+						goto INTERPRETER_ERROR_LABEL;
+					}
 
+					global_interpreter_packet = ip; //TODO why do we need to assign it again ?
 					SET_TOPN(arg_no+1,new_inst);
 					call_fun_object(constructor);
+					STACK_GOTO(pop_number);
 					SET_TOP(new_inst);
 					break;
 				}
@@ -579,7 +616,7 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 			//We also want to delete function name so we add +1
 
 
-			PUSH( prepare_fun_call_packet(pc,current_scope,fctr,cast_fbgc_object_as_fun(funo)->no_locals));
+			PUSH( prepare_fun_call_packet(pc,current_scope,fctr,cast_fbgc_object_as_fun(funo)->no_locals+1));
 
 			//PUSH((struct fbgc_object *)pc->next);
 			//hold old frame pointer location
@@ -775,7 +812,7 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 
 	INTERPRETER_ERROR_LABEL:
 		cprintf(100,"Execution stopped!\n");
-		return NULL;
+		assert(0);
 
 
 #undef sctr
@@ -789,7 +826,7 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 
 struct fbgc_object * call_fun_object(struct fbgc_object * fun){
 	FBGC_LOGV(INTERPRETER,"Calling function no_arg:%d, no_locals:%d\n",cast_fbgc_object_as_fun(fun)->no_arg,cast_fbgc_object_as_fun(fun)->no_arg);
-		
+	
 	struct interpreter_packet * old_global_ip = global_interpreter_packet;
 
 	struct interpreter_packet tip = { 	

@@ -38,6 +38,7 @@ double convert_fbgc_object_to_double(struct fbgc_object * );
 struct raw_complex convert_fbgc_object_to_complex(struct fbgc_object * obj);
 
 struct fbgc_object * get_set_fbgc_object_member(struct fbgc_object * o, const char * str, struct fbgc_object * nm);
+struct fbgc_object * get_fbgc_object_method(struct fbgc_object * o, const char * str);
 struct fbgc_object ** get_address_fbgc_object_member(struct fbgc_object * o, const char * str);
 
 struct fbgc_object * subscript_operator_fbgc_object(struct fbgc_object * iterable,struct fbgc_object * index_obj);
@@ -60,9 +61,31 @@ const struct fbgc_object_property_holder * get_fbgc_object_property_holder(struc
 const char * objtp2str(struct fbgc_object * );
 
 
+struct fbgc_object_member{
+	const uint8_t len;
+	const struct _member{
+		const char * const name;
+		struct fbgc_object * (* const function)(struct fbgc_object * self,struct fbgc_object * rhs);
+	} member[];
+};
+
+// This is actual function struct
+// Pointer holds C function itself, each C function must take 2 args and return 1 fbgc_object
+struct fbgc_cfunction{
+    const char *name;
+    struct fbgc_object * (* function)(struct fbgc_object **, int );
+};
+
+struct fbgc_object_method{
+	const uint8_t len;
+	const struct fbgc_cfunction method[];
+};
+
 enum{
 	_LOC_PRINT = 0,
 	_LOC_GET_SET_MEMBER,
+	_LOC_MEMBERS,
+	_LOC_METHODS,
 	_LOC_BINARY_OPERATOR ,
 	_LOC_UNARY_OPERATOR ,
 	_LOC_SUBSCRIPT_OPERATOR ,
@@ -80,6 +103,8 @@ enum{
 
 #define _BIT_PRINT (0x0001 << _LOC_PRINT)
 #define _BIT_GET_SET_MEMBER (0x0001  << _LOC_GET_SET_MEMBER)
+#define _BIT_MEMBERS (0x0001  << _LOC_MEMBERS)
+#define _BIT_METHODS (0x0001  << _LOC_METHODS)
 #define _BIT_BINARY_OPERATOR (0x0001 << _LOC_BINARY_OPERATOR)
 #define _BIT_UNARY_OPERATOR	(0x0001 << _LOC_UNARY_OPERATOR)
 #define _BIT_SUBSCRIPT_OPERATOR 		(0x0001 << _LOC_SUBSCRIPT_OPERATOR)
@@ -110,6 +135,8 @@ union _properties{
 	size_t (* const size_of)(struct fbgc_object * );
 
 	struct fbgc_object * ( * const get_set_member)(struct fbgc_object *, const char *, struct fbgc_object *);
+	struct fbgc_object_member * members;
+	struct fbgc_object_method * methods;
 	
 	uint8_t (* const print)(struct fbgc_object *);
 	void (* const destructor)(struct fbgc_object *);

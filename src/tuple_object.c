@@ -84,7 +84,7 @@ struct fbgc_object *  get_object_in_fbgc_tuple_object(struct fbgc_object * self,
 //This function will only be called by the for loop to iterate inside the object
 
 struct fbgc_object *  __get_object_in_fbgc_tuple_object(struct fbgc_object * self,int index,struct fbgc_object * res){
-
+    printf("sz...\n");
 	return get_object_in_fbgc_tuple_object(self,index);
 }
 

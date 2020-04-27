@@ -7,7 +7,7 @@
 new_fbgc_cfunction(fbgc_tic,"tic")
 {	
 	
-	if(argc != 0){
+	/*if(argc != 0){
 		cprintf(100,"<tic> requires no argument!\n");
 		return NULL;
 	}
@@ -15,12 +15,12 @@ new_fbgc_cfunction(fbgc_tic,"tic")
 	struct fbgc_cstruct_object * so = (struct fbgc_cstruct_object *)new_fbgc_cstruct_object(sizeof(struct time_struct), &fbgc_time_module);
 	struct time_struct * ts = (struct time_struct *) so->cstruct; 	
 	ts->clk = clock();
-	return (struct fbgc_object *) so;
+	return (struct fbgc_object *) so;*/
 }
 
 new_fbgc_cfunction(fbgc_toc,"toc")
 {	
-	if(argc != 1){
+	/*if(argc != 1){
 		cprintf(100,"<toc> requires 1 argument!\n");
 		return NULL;
 	}
@@ -33,6 +33,7 @@ new_fbgc_cfunction(fbgc_toc,"toc")
 	double tm = (double)(clock()-ts->clk) / CLOCKS_PER_SEC; 	
 
 	return (struct fbgc_object *) new_fbgc_double_object(tm);
+	*/
 }
 
 

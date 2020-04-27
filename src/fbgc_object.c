@@ -13,17 +13,22 @@ const char * objtp2str(struct fbgc_object * obj){
 
 
 const struct fbgc_object_property_holder * get_fbgc_object_property_holder(struct fbgc_object * o){
-	switch(o->type){
-		case LOGIC: return &fbgc_logic_object_property_holder;
+	switch(o->type){		
 		case INT: return &fbgc_int_object_property_holder;
 		case DOUBLE: return &fbgc_double_object_property_holder;
 		case COMPLEX: return &fbgc_complex_object_property_holder;
+		case STRING: return &fbgc_str_object_property_holder;
 		case MATRIX: return &fbgc_matrix_object_property_holder;
 		case TUPLE: return &fbgc_tuple_object_property_holder;
-		case STRING: return &fbgc_str_object_property_holder;
-		case CLASS : return &fbgc_class_object_property_holder;
+		case LOGIC: return &fbgc_logic_object_property_holder;
 		case INSTANCE : return &fbgc_instance_object_property_holder;
 		case RANGE: return &fbgc_range_object_property_holder;
+		case CMODULE: return &fbgc_cmodule_object_property_holder;
+		case CSTRUCT: return cast_fbgc_object_as_cstruct(o)->properties;
+		case FUN : return &fbgc_fun_object_property_holder;
+		case CLASS : return &fbgc_class_object_property_holder;
+		case FIELD : return &fbgc_field_object_property_holder;
+
 	}
 	FBGC_LOGE("Type %s does not have property holder\n",objtp2str(o));
 	assert(0);
@@ -297,7 +302,7 @@ struct fbgc_object * abs_operator_fbgc_object(struct fbgc_object * self){
 		return p->properties[w].abs_operator(self);
 	}
 	else{
-		//FBGC_LOGE("%s does not satisfy || operator\n",objtp2str(self));
+		FBGC_LOGE("%s does not satisfy || operator\n",objtp2str(self));
 		return NULL;
 	}
 } 
@@ -312,9 +317,38 @@ struct fbgc_object * get_set_fbgc_object_member(struct fbgc_object * o, const ch
 		return p->properties[w].get_set_member(o,str,nm);
 	}
 	else{
-		FBGC_LOGE("%s does not satisfy member\n",objtp2str(o));
-		return NULL;
+		
+			w = _find_property(p->bits,_BIT_MEMBERS);
+			if(w != -1){
+				const struct fbgc_object_member *members = p->properties[w].members;
+				uint8_t len = members->len;
+				
+				while(len--){
+					if(my_strcmp(members->member[len].name,str) == 0){
+						return members->member[len].function(o,nm);
+					}
+				}
+			}
 	}
+	return NULL;
+} 
+
+
+struct fbgc_object * get_fbgc_object_method(struct fbgc_object * o, const char * str){
+	
+	const struct fbgc_object_property_holder * p = get_fbgc_object_property_holder(o);
+
+	int8_t w = _find_property(p->bits,_BIT_METHODS);
+	if(w != -1){
+		const struct fbgc_object_method * methods = p->properties[w].methods;
+		uint8_t len = methods->len;
+		while(len--){
+			if(my_strcmp(methods->method[len].name,str) == 0){
+				return new_fbgc_cfun_object(methods->method[len].function);
+			}
+		}
+	}
+	return NULL;
 } 
 
 

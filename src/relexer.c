@@ -270,12 +270,122 @@ void pretty_print_pointer(const char *buffer ,const char * ptr){
 
 #endif
 
-char * fbgc_getline_from_file(char * s, int n, FILE *fp){
-   	int c = 0;
-    char* cs = s;
+ssize_t fbgc_getline_from_file(char ** line,FILE * fp){
+
+
+	//Start with 120 bytes, this function
+	if(*line != NULL) free(*line);
+
+	size_t n = 128;
+	if( (*line = (char *) malloc(sizeof(char)*n)) == NULL ){
+		_FBGC_LOGE("No mem!");
+	}
+
+	char * cs = *line;
+
+	char c = 0;
+
 
     uint8_t count_para = 0, count_brack = 0;
     uint8_t quote = 0, cquote = 0;
+
+	while( (c = getc(fp)) != EOF ){
+		//We need one final byte to store null terminator
+		if( (*line + n - cs) < 2 ){
+			size_t where = cs-*line;
+			n = n*2; //Double the length
+			printf("Here n:%lu\n",n);
+			if( (*line = (char *) realloc(*line,n*sizeof(char))) == NULL){
+				_FBGC_LOGE("No mem\n");
+				break;
+			}
+			cs = *line + where;
+		}
+
+		switch(*cs++ = c){
+    		case '\n':{
+    			if(count_para){
+    				--cs;
+    				break;
+    			}
+    			if(count_brack){
+    				--cs;
+    				*cs++ = ';'; // Allow matrix entries
+    				break;
+    			}
+    			if(quote || cquote){
+    				--cs;
+    				break;
+    			}
+    			goto end_of_getline;
+    		}
+    		case '\\':{
+    			switch( c = getc(fp)){
+					case 'a': *(cs-1) = '\a'; break;
+					case 'b': *(cs-1) = '\b'; break;
+					case 'e': *(cs-1) = '\e'; break;
+					case 'f': *(cs-1) = '\f'; break;
+					case 'n': *(cs-1) = '\n'; break;
+					case 'r': *(cs-1) = '\r'; break;
+					case 't': *(cs-1) = '\t'; break;
+					case 'v': *(cs-1) = '\v'; break;
+					case '\\': *(cs-1) = '\\'; break;     				
+    				case EOF: 
+    					*(cs++) = '\n';
+    					goto end_of_getline;	
+    				default:
+    					*cs++ = c;
+    			} 
+    			break;
+    		}
+    		case '(':{
+    			++count_para;
+    			break;
+    		}
+    		case ')':{
+    			--count_para;
+	    		break;
+    		}
+    		case '[':{
+    			++count_brack;
+    			break;
+    		}
+    		case ']':{
+    			--count_brack;
+    			break;
+    		}
+    		case '\"':{
+    			quote = quote ? 0 : 1;
+    			break;
+    		}
+    		case '\'':{
+    			cquote = cquote ? 0 : 1;
+    			break;
+    		}
+    	}		
+	}
+
+	end_of_getline:
+	if(c != EOF){
+		*cs='\0';
+	}else{
+		//Maybe tried to read eof again, free ptr
+		if(*line == cs){
+			free(*line);
+			*line = NULL;
+			return 0;
+		}
+		//if we are at the eof, put newline to make things easier for parser
+		*cs++ = '\n';
+		*cs-- = '\0';
+
+	}
+    return (*line-cs);
+
+
+   	/*int c = 0;
+    char* cs = s;
+
 
     while(--n > 0 && (c = getc(fp)) != EOF){
     // put the input char into the current pointer position, then increment it
@@ -347,7 +457,7 @@ char * fbgc_getline_from_file(char * s, int n, FILE *fp){
     end_of_getline:
     *cs = (c == EOF) ? '\n':'\0'; //handle this, i added to understand comments
     *(cs+1)='\0';
-    return (c == EOF && cs == s) ? NULL : s;
+    return (c == EOF && cs == s) ? NULL : s;*/
 }
 
 

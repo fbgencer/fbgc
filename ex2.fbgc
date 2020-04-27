@@ -5,8 +5,18 @@ end
 
 x(3)
 
+c2 = class()
+	a = 6
+	y = 0
+	
+	init = fun(x,y)
+		.a = x
+		.y = y
+	end		
+end
 
-c=class()
+
+c = class()
 	z = "fbg"
 
 	abc = fun(x,y)

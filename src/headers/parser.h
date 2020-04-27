@@ -19,15 +19,14 @@ struct parser_packet{
 	uint8_t error_code;					//!< When an error occurs function assigns error code to this variable
 	fbgc_grammar gm;					//!< State of grammar
 	struct fbgc_ll_base * statement_begin;
+	size_t line_no;
+	char * line;
 };
 
-/*! @fn uint8_t parser(struct fbgc_object ** field,FILE * fp)
-	
-	@param field : The corresponding field object to parse
-	@param fp : c file pointer
 
-*/
-uint8_t parser(struct fbgc_object ** field,FILE * fp);
+uint8_t parse_file(struct fbgc_object ** field_obj, const char * file_name);
+uint8_t parse_string(struct fbgc_object ** field_obj, char * str);
+
 
 
 /*! \cond DOCUMENT_EVERYTHING

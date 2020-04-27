@@ -6,17 +6,13 @@ extern "C" {
 #endif
 
 
-// Do not change order of the objects in the struct
-// last object is always size_t size!
-
 struct fbgc_cstruct_object{
     struct fbgc_object base;
     size_t block_size; // block size of defined object
-    const struct fbgc_cmodule * parent;
+    const struct fbgc_object_property_holder * properties;
     void * cstruct; // defined in C 
 };
 
-extern const struct fbgc_object_property_holder fbgc_cstruct_object_property_holder;
 
 
 #define cast_fbgc_object_as_cstruct(x)( (struct fbgc_cstruct_object *) x)
@@ -27,7 +23,7 @@ extern const struct fbgc_object_property_holder fbgc_cstruct_object_property_hol
 
 
 
-struct fbgc_object * new_fbgc_cstruct_object(size_t bsz,const struct fbgc_cmodule * parent);
+struct fbgc_object * new_fbgc_cstruct_object(size_t bsz,const struct fbgc_object_property_holder * );
 
 struct fbgc_object * get_set_fbgc_cstruct_object_member(struct fbgc_object * o, const char * str, struct fbgc_object * rhs);
 

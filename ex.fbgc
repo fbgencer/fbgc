@@ -1,3 +1,17 @@
-for i = 1:10000000
-	print(i)
+m = load("ex2.fbgc")
+
+z = class()
+	x = 2.3
+	y = 0
 end
+
+
+q = z()
+q.x = 55
+print(q.x)
+
+
+a = m.c2(2^2,3)
+
+
+print(a.a)

@@ -26,8 +26,3 @@ format = fun(s,tp)
 
 	return res
 end
-
-
-doo = fun()
-	return 3
-end
