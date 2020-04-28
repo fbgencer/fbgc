@@ -7,29 +7,6 @@ extern "C" {
 
 extern const struct fbgc_cmodule fbgc_stl_module;
 
-//static struct fbgc_object * fbgc_print(struct fbgc_object * sm);
-//extern const struct fbgc_cfunction fbgc_print_struct;
-
-declare_new_fbgc_cfunction(fbgc_stl_initializer);
-declare_new_fbgc_cfunction(fbgc_len);
-declare_new_fbgc_cfunction(fbgc_load);
-declare_new_fbgc_cfunction(fbgc_id);
-declare_new_fbgc_cfunction(fbgc_int);
-declare_new_fbgc_cfunction(fbgc_tuple);
-declare_new_fbgc_cfunction(fbgc_double);
-declare_new_fbgc_cfunction(fbgc_matrix);
-declare_new_fbgc_cfunction(fbgc_type);
-declare_new_fbgc_cfunction(fbgc_mem);
-declare_new_fbgc_cfunction(fbgc_locals);
-
-declare_new_fbgc_cfunction(fbgc_is_int);
-declare_new_fbgc_cfunction(fbgc_is_double);
-declare_new_fbgc_cfunction(fbgc_is_complex);
-declare_new_fbgc_cfunction(fbgc_is_string);
-declare_new_fbgc_cfunction(fbgc_is_tuple);
-declare_new_fbgc_cfunction(fbgc_is_matrix);
-
-
 #ifdef  __cplusplus
 }
 #endif

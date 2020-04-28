@@ -21,6 +21,10 @@ void load_module_in_field_object(struct fbgc_object * field_obj, const struct fb
 	struct fbgc_cmodule_object * cm = (struct fbgc_cmodule_object *) fbgc_malloc(sizeof(struct fbgc_cmodule_object ));
 	cm->module = module;
 	cm->base.type = CMODULE;//CHANGE THIS
+
+	if(module->initializer.function != NULL)
+		module->initializer.function(&field_obj, 1);
+
 	_push_front_fbgc_ll(cast_fbgc_object_as_field(field_obj)->modules,_new_fbgc_ll_constant((struct fbgc_object *)cm));	
 }
 

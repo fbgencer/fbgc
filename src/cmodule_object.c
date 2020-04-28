@@ -6,7 +6,6 @@ struct fbgc_object * new_fbgc_cfun_object( struct fbgc_object * (* function_obj)
 	if(function_obj == NULL) return NULL;
 	struct fbgc_cfun_object *cfuno =  (struct fbgc_cfun_object*) fbgc_malloc(sizeof(struct fbgc_cfun_object));
     cfuno->base.type = CFUN;
-   //cfuno->base.next = NULL;
     cfuno->function = function_obj; 
     return (struct fbgc_object*) cfuno;
 }
@@ -27,7 +26,7 @@ void print_fbgc_cfun_object(const struct fbgc_cmodule_object * obj){
 }*/
 
 
-struct fbgc_object * new_cfun_object_from_str(struct fbgc_object * field_obj,const char * str){
+struct fbgc_object * new_cfun_object_from_str(struct fbgc_object * field_obj, const char * str){
 
 	struct fbgc_ll * ll = _cast_llbase_as_ll( cast_fbgc_object_as_field(field_obj)->modules );
 	struct fbgc_ll_constant * xx = (struct fbgc_ll_constant *)ll->base.next;
@@ -35,16 +34,12 @@ struct fbgc_object * new_cfun_object_from_str(struct fbgc_object * field_obj,con
 
 
 	while(xx != NULL && (struct fbgc_ll_base*)xx != ll->tail){
-		const struct fbgc_cfunction * cc = cm->module->functions[0];
-		//cprintf(111,"Functions:\n");
-		for (int i = 1; cc!=NULL; ++i){
-			//optimize strlen part
+		
+		for (const struct fbgc_cfunction * cc = cm->module->functions; cc->name != NULL; ++cc){
 			if(!my_strcmp(str,cc->name) ){
 				//cprintf(111,"Catch!\n");
 				return new_fbgc_cfun_object(cc->function);
-			} 
-			//cprintf(101,"{%s}\n",cc->name);
-			cc = cm->module->functions[i];
+			}
 		}
 		xx = (struct fbgc_ll_constant *)xx->base.next;
 		cm = (struct fbgc_cmodule_object *)xx->content;
@@ -55,13 +50,11 @@ struct fbgc_object * new_cfun_object_from_str(struct fbgc_object * field_obj,con
 
 
 void print_fbgc_cmodule(const struct fbgc_cmodule * obj){
-	const struct fbgc_cfunction * cc  = obj->initializer;
-	cprintf(100,"[Cmodule Object]:{%s}\n",cc->name);
-	cc = obj->functions[0];
+	cprintf(100,"[Cmodule Object]:{%s}\n",obj->initializer.name);
+	
 	cprintf(111,"Functions:\n");
-	for (int i = 1; cc!=NULL; ++i){
+	for (const struct fbgc_cfunction * cc = obj->functions; cc->name != NULL; ++cc){
 		cprintf(101,"{%s}\n",cc->name);
-		cc = obj->functions[i];
 	}
 	cprintf(100,"-----\n");
 }
@@ -72,16 +65,13 @@ void free_fbgc_cfun_object(struct fbgc_object * obj){
 
 
 struct fbgc_object * get_set_fbgc_cmodule_object_member(struct fbgc_object * o, const char * str, struct fbgc_object * rhs){
-	struct fbgc_cmodule_object * cm = cast_fbgc_object_as_cmodule(o);
-	const struct fbgc_cfunction * cc = cm->module->functions[0];
-	for (int i = 1; cc!=NULL; ++i){
+	const struct fbgc_cmodule * cm = cast_fbgc_object_as_cmodule(o)->module;
+	
+	for (const struct fbgc_cfunction * cc = cm->functions; cc->name != NULL; ++cc){
 		if(!my_strcmp(str,cc->name) ){
 			return new_fbgc_cfun_object(cc->function);
-		} 
-		//cprintf(101,"{%s}\n",cc->name);
-		cc = cm->module->functions[i];
+		}
 	}
-	
 	return NULL;
 }
 

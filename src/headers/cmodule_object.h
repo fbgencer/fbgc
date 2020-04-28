@@ -11,16 +11,13 @@
 extern "C" {
 #endif
 
-struct _fbgc_cmodule{
-    const struct fbgc_cfunction initializer;
-    const struct fbgc_object_property_holder * properties;
-};
 
 
 //C module holds CONSTANT array of c functions, this array is (pre)determined during the compilation time
+
 struct fbgc_cmodule{
-    const struct fbgc_cfunction * initializer; //do we need this?
-    const struct fbgc_cfunction ** functions;
+    const struct fbgc_cfunction initializer;
+    const struct fbgc_cfunction functions[];
 };
 
 //This is where c functions and modules interact with each other

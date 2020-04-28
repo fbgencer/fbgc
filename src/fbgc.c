@@ -52,13 +52,13 @@ struct fbgc_object * fbgc_load_module(const char * module_name,const char * fun_
 		
 	//load_key == 0, just return the module
 	//load_key == 1, load all and return 
-	//load_key == 2, load specific and return
+	//load_key == 2, load specific and return, requires fun_name
 
 	assert(current_field != NULL);
 
 	const struct fbgc_cmodule * cm = NULL; 
 	for(uint8_t i = 0; i<sizeof(__cmodules)/sizeof(__cmodules[0]); ++i){
-		if(strcmp(module_name,__cmodules[i]->initializer->name) == 0){
+		if(strcmp(module_name,__cmodules[i]->initializer.name) == 0){
 			cm = __cmodules[i];
 		}
 	}
@@ -66,22 +66,20 @@ struct fbgc_object * fbgc_load_module(const char * module_name,const char * fun_
 	if(cm == NULL){
 		return NULL;
 	}
+
 	if(load_key != 0){
 		//call function initializer
-		cm->initializer->function(&current_field, 1); //need to send the address of current field
+		if(cm->initializer.function != NULL)
+			cm->initializer.function(&current_field, 1); //need to send the address of current field
 
-	 	const struct fbgc_cfunction * cc = cm->functions[0];
-	 	for(int i = 1; cc!= NULL; i++){
-
+		for (const struct fbgc_cfunction * cc = cm->functions; cc->name != NULL; ++cc){
 			if(load_key == 2 && my_strcmp(fun_name,cc->name)){
 				//if no match, 
-				cc = cm->functions[i];
 				continue;
 			}
-			add_variable_in_field_object(current_field,cc->name,new_fbgc_cfun_object(cc->function));
-			if(load_key == 2) break;
 
-			cc = cm->functions[i];
+			add_variable_in_field_object(current_field,cc->name,new_fbgc_cfun_object(cc->function));
+			if(load_key == 2) break;		
 		}
 	}
 
@@ -89,7 +87,7 @@ struct fbgc_object * fbgc_load_module(const char * module_name,const char * fun_
 
 }
 
-struct fbgc_object * fbgc_load_file(char * file_name,const char * fun_name, uint8_t load_key){
+struct fbgc_object * fbgc_load_file(const char * file_name,const char * fun_name, uint8_t load_key){
 
 	struct fbgc_object * prev_field = current_field;	
 
@@ -182,6 +180,184 @@ void printBits(size_t const size, void const * const ptr)
         }
     }
 }
+
+
+int8_t parse_tuple_content(struct fbgc_object ** c, int sz, const char * format, ...){
+
+	cprintf(111,"parsing tuple sz:%d | format'%s'\n",sz,format);
+
+	//Verilecek hatalar
+	//eğer hiç arg verilmemişse argdaki objelerin sadece tipleri kontrol edilecek
+	//eğer arg varsa mümkün olan arg'a kadar arrayin o objesi assign edilecek
+	//argüman sayısı uyuşmazsa match hatası verilip null dönülecek
+	// parse(a,b,"ij");
+
+    va_list args;
+    va_start(args, format);
+    
+    uint8_t have_arg = 0;
+    if(*format == '!'){
+    	//so only verification, assuming no arg is passed
+    	cprintf(110,"Not assignment, only verification\n");
+    	++format;
+    }
+    else have_arg = 1;
+
+
+    uint8_t ok = 0;
+    int8_t level = 0;
+
+    const char * level_start = format;
+
+    uint8_t count_match = 0;
+    
+	for(int i = 0; i<sz; ++i){
+		struct fbgc_object * co = c[i];
+		cprintf(111,"Current[%d] type :%s | format:%c\n",i,objtp2str(co),*format);
+
+	switch(*format){
+		case 'b':{
+			ok = (co->type == LOGIC);
+			cprintf(001,"b:logic:%d\n",ok);
+			break;
+		}
+		case 'i':{
+			ok = (co->type == INT);
+			cprintf(001,"i:int:%d\n",ok);
+			break;
+		}
+		case 'd':{
+			ok = (co->type == DOUBLE);
+			cprintf(001,"d:double:%d\n",ok);
+			break;
+		}
+		case 'j':{
+			ok = (co->type == COMPLEX);
+			cprintf(001,"c:complex:%d\n",ok);
+			break;
+		}
+		case 's':{
+			ok = (co->type == STRING);
+			cprintf(001,"s:string:%d\n",ok);
+			break;
+		}
+		case 'm':{
+			ok = (co->type == MATRIX);
+			cprintf(001,"m:matrix:%d\n",ok);
+			break;
+		}
+		case 't':{
+			ok = (co->type == TUPLE);
+			cprintf(001,"t:tuple:%d\n",ok);
+			break;
+		}
+		case 'r':{
+			ok = (co->type == RANGE);
+			cprintf(001,"r:range:%d\n",ok);
+			break;
+		}		
+		case '.':{
+			ok = (co->type == CSTRUCT);
+			cprintf(001,".:cstruct:%d\n",ok);
+			break;	
+		}
+		case 'o':{
+			//any type 
+			ok = 1;
+			cprintf(001,"o:any:%d\n",ok);
+			break;
+		}
+		case '|':{
+			if(ok)
+				goto end_of_parse_tuple_content;
+			
+			++format;
+			cprintf(001,"or\n");
+			continue;
+		}
+		case ':':{
+			cprintf(001,"colon\n");
+			if(ok == 1){
+				//No need to print error message
+			}
+			else{
+				const char * er_start = ++format;
+				while(*er_start != '\0' && *er_start != '|')
+					++er_start;
+				//Now we have error message..
+
+			}
+			break;
+		}
+		case '*':{
+			cprintf(001,"star\n");
+			break;
+		}
+		case '+':{
+			cprintf(001,"plus\n");
+			if(count_match){
+				format = level_start;
+				continue;
+			}
+			else ok = 0;
+			break;
+		}
+		case '\0':{
+			cprintf(010,"end of format!\n");
+			if(ok){
+				printf("args is valid!\n");
+			}
+			else {
+				printf("args is not valid\n");
+				count_match = 0;
+			}
+
+			goto end_of_parse_tuple_content;
+			
+		}
+		default:{
+			assert(0);
+		}
+	}
+
+	if(ok == 1){
+		++count_match;
+		if(have_arg){
+			cprintf(111,"We have args, now assigning them\n");
+			struct fbgc_object ** o = va_arg(args, struct fbgc_object **);
+			*o = c[i];
+		}
+		ok = 0;
+	}
+	else{
+		
+		while(*format != '\0' && *format != '|')
+			++format;
+
+		if(*format == '\0'){
+			count_match = 0;
+			FBGC_LOGE("Arg match error!\n");
+			break;
+		}
+		else{
+			printf("----------------\n");
+			++level;
+			count_match = 0;
+			i = -1;
+		}
+	}
+
+	++format;
+	}
+
+
+	end_of_parse_tuple_content:
+	va_end(args);
+	level = (count_match > 0) ? level : -1;
+	cprintf(111,"Returning level:%d\n",level);
+	return level;
+}
+
 
 #ifndef MODULE_TEST
 int main(int argc, char **argv){

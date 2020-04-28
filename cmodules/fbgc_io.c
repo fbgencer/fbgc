@@ -1,20 +1,8 @@
 #include "../src/fbgc.h"
 #include "fbgc_io.h"
 
-/*
-#define declare_new_fbgc_cfunction(fun_name)\
-struct fbgc_object * fun_name(struct fbgc_object * sm);\
-extern const struct fbgc_cfunction fun_name##_struct
 
-#define new_fbgc_cfunction(fun_name,str_fun_name)\
-const struct fbgc_cfunction fun_name##_struct  = {str_fun_name,fun_name};\
-extern struct fbgc_object * fun_name(struct fbgc_object * arg)\
-*/
-
-//new_fbgc_cfunction(fbgc_print,"print")
-
-new_fbgc_cfunction(fbgc_print,"print")
-{
+static struct fbgc_object * fbgc_io_print(struct fbgc_object ** arg, int argc){
 	
 	for(size_t i = 0; i<argc; ++i){
 		 
@@ -37,7 +25,7 @@ new_fbgc_cfunction(fbgc_print,"print")
 	return __fbgc_nil;
 }
 
-new_fbgc_cfunction(fbgc_read,"read"){
+static struct fbgc_object * fbgc_io_read(struct fbgc_object ** arg, int argc){
 
 	assert(argc > 0);
 	
@@ -51,41 +39,12 @@ new_fbgc_cfunction(fbgc_read,"read"){
 }
 
 
-
-//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-// CHANGE THIS INITIALIZER
-//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-const struct fbgc_cfunction fbgc_io_initializer_struct = {"io",fbgc_io_initializer};
-extern struct fbgc_object * fbgc_io_initializer (struct fbgc_object ** arg, int argc){
-	return __fbgc_nil;
-}
-
-
-/*
-new_fbgc_cfunction(fbgc_io_initializer,"io"){
-	return arg;
-}*/
-
-//Work on this, is it possible to cast ?
 const struct fbgc_cmodule fbgc_io_module = 
 {
-	.initializer = &fbgc_io_initializer_struct,
-	.functions = (const struct fbgc_cfunction*[])
-	{
-		&fbgc_print_struct,
-		&fbgc_read_struct,
-		NULL
+	.initializer = {.name = "io", .function = NULL},
+	.functions = {
+		{.name = "print", .function = &fbgc_io_print},
+		{.name = "read", .function = &fbgc_io_read},
+		{NULL,NULL}
 	}
 };
-
-
-
-/*
-struct fbgc_object * fbgc_io_module_init(){
-	struct fbgc_cmodule_object * fbgc_io_module = (struct fbgc_cmodule_object *)malloc(sizeof(fbgc_cmodule_object));
-	fbgc_io_module.base->next = NULL;
-	fbgc_io_module.base->type = UNKNOWN;
-	fbgc_io_module->name; 
-}*/
- 
