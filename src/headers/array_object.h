@@ -8,23 +8,14 @@ extern "C" {
 /*! @details fbgc_array_object holds typical C-arrays for any size of a block.
 In order to add, remove, push or whatever the operation you need for an array, see the functions of this object.
 
-There are some important parts of its implementation: 
 
-Normally we were calculating the content location by just adding 
-the size of each variable in the structure, however GCC allows us to put void * content[0] variable and it does not affect
-the size of the structure. It's like not there but compiler already known its address and gives us an option to use it.
-Yet, it is a void pointer we must cast it before using this array. One can also use this array pointer or can call wrapper
-functions. I believe functions are safe and more meaningful to use.
-
-See /module_test/array_test.c to understand how to use the following functions.
 
 */
 struct fbgc_array_object{
     struct fbgc_object base; 	//!< Base object that holds type information
     size_t block_size; 			//!< Block size of each slot
-    size_t capacity; 			//!< Capacity that we can hold
     size_t size; 				//!< Actual size of the array
-    void * content[0];			//!< The content of the array object, it tricks the compiler to use this variable as our data array
+    void * content;			    //!< The content of the array object
 };
 
 
@@ -44,7 +35,8 @@ struct fbgc_array_object{
     \brief Gets the capacity of #fbgc_array_object, instead of using access operator we call it as a function
     \param x : Array object
 */
-#define capacity_fbgc_array_object(x)(cast_fbgc_object_as_array(x)->capacity)
+
+#define capacity_fbgc_array_object(x)(capacity_fbgc_raw_memory(cast_fbgc_object_as_array(x)->content,cast_fbgc_object_as_array(x)->block_size))
 
 /*! @def block_size_fbgc_array_object(x)
     \brief Gets the block size of #fbgc_array_object, instead of using access operator we call it as a function
@@ -56,7 +48,7 @@ struct fbgc_array_object{
     \brief Gets the total size of the given structure, it also calculates the size of data and block size, hence we use it to know the actual boundaries of our object
     \param x : Array object
 */
-#define sizeof_fbgc_array_object(x) (sizeof(struct fbgc_array_object)+ ( capacity_fbgc_array_object(x) * block_size_fbgc_array_object(x) ) )
+#define sizeof_fbgc_array_object(x) (sizeof(struct fbgc_array_object) )
 
 /*! @def at_fbgc_array_object(ar,it)
     \brief Gets the value at location 'it', calculates where the data lies in the memory by using block size

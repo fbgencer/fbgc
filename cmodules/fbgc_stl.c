@@ -6,16 +6,24 @@ static int8_t _verify_one_arg(struct fbgc_object ** arg, int argc){
 	return parse_tuple_content(arg,argc,"!o") != -1;
 }
 
-static
-struct fbgc_object * fbgc_stl_len(struct fbgc_object ** arg, int argc){
 
-	if(_verify_one_arg(arg,argc)){
-		return abs_operator_fbgc_object(arg[0]);
+
+static
+struct fbgc_object * fbgc_stl_assert(struct fbgc_object ** arg, int argc){
+
+	if(parse_tuple_content(arg,argc,"!b|bs") == -1){
+		return NULL;
+	}
+
+
+	if(!cast_fbgc_object_as_logic(arg[0])->content){
+		if(argc>1){
+			FBGC_LOGE("%s\n",content_fbgc_str_object(arg[1]) );
+		}
+		assert(0);
 	}
 	return NULL;
 }
-
-
 
 static
 struct fbgc_object * fbgc_stl_load(struct fbgc_object ** arg, int argc){
@@ -63,6 +71,14 @@ struct fbgc_object * fbgc_stl_load(struct fbgc_object ** arg, int argc){
 }
 
 
+static
+struct fbgc_object * fbgc_stl_len(struct fbgc_object ** arg, int argc){
+
+	if(_verify_one_arg(arg,argc)){
+		return abs_operator_fbgc_object(arg[0]);
+	}
+	return NULL;
+}
 
 static
 struct fbgc_object * fbgc_stl_id(struct fbgc_object ** arg, int argc){
@@ -215,9 +231,11 @@ const struct fbgc_cmodule fbgc_stl_module =
 {
 	.initializer = {.name = "stl", .function = NULL},
 	.functions = {
+		
+		{.name = "assert", .function = &fbgc_stl_assert},
 		{.name = "len", .function = &fbgc_stl_len},
-		{.name = "load", .function = &fbgc_stl_load},
 		{.name = "id", .function = &fbgc_stl_id},
+		{.name = "type", .function = &fbgc_stl_type},
 		{.name = "int", .function = &fbgc_stl_int},
 		{.name = "double", .function = &fbgc_stl_double},
 		{.name = "tuple", .function = &fbgc_stl_tuple},
@@ -228,6 +246,7 @@ const struct fbgc_cmodule fbgc_stl_module =
 		{.name = "is_complex", .function = &fbgc_stl_is_complex},
 		{.name = "is_tuple", .function = &fbgc_stl_is_tuple},
 		{.name = "is_matrix", .function = &fbgc_stl_is_matrix},
+		{.name = "load", .function = &fbgc_stl_load},
 		{NULL,NULL},
 	}
 };

@@ -45,6 +45,8 @@ struct fbgc_cstr_object{
     char content[0]; 
 };
 
+extern const struct fbgc_object_property_holder fbgc_cstr_object_property_holder;
+
 #define cast_fbgc_object_as_cstr(x)(((struct fbgc_cstr_object*) x))
 #define length_fbgc_cstr_object(x)(strlen(cast_fbgc_object_as_cstr(x)->content))
 #define content_fbgc_cstr_object(x)(cast_fbgc_object_as_cstr(x)->content)
@@ -52,11 +54,7 @@ struct fbgc_cstr_object{
 
 struct fbgc_object * new_fbgc_cstr_object(const char *str);
 struct fbgc_object * new_fbgc_cstr_object_from_substr(const char *str1,const char *str2);
-
-
-
-void print_fbgc_cstr_object(struct fbgc_object *);
-void free_fbgc_cstr_object(struct fbgc_object * );
+uint8_t print_fbgc_cstr_object(struct fbgc_object *);
 
 
 

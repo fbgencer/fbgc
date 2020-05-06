@@ -18,7 +18,7 @@ extern "C" {
 
 const struct fbgc_cmodule  * __cmodules[] =
 {
-	//&fbgc_math_module,
+	&fbgc_math_module,
 	&fbgc_file_module,
 	//&fbgc_time_module			
 };

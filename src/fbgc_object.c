@@ -2,7 +2,7 @@
 
 
 struct fbgc_object * new_fbgc_object(const fbgc_token token){
-	struct fbgc_object *o =  (struct fbgc_object*) fbgc_malloc(sizeof(struct fbgc_object));
+	struct fbgc_object *o =  (struct fbgc_object*) fbgc_malloc_object(sizeof(struct fbgc_object));
     o->type = token;
     return (struct fbgc_object*) o;
 }
@@ -19,6 +19,7 @@ const struct fbgc_object_property_holder * get_fbgc_object_property_holder(struc
 		case COMPLEX: return &fbgc_complex_object_property_holder;
 		case STRING: return &fbgc_str_object_property_holder;
 		case MATRIX: return &fbgc_matrix_object_property_holder;
+		case MAP: return &fbgc_map_object_property_holder;
 		case TUPLE: return &fbgc_tuple_object_property_holder;
 		case LOGIC: return &fbgc_logic_object_property_holder;
 		case INSTANCE : return &fbgc_instance_object_property_holder;
@@ -28,6 +29,7 @@ const struct fbgc_object_property_holder * get_fbgc_object_property_holder(struc
 		case FUN : return &fbgc_fun_object_property_holder;
 		case CLASS : return &fbgc_class_object_property_holder;
 		case FIELD : return &fbgc_field_object_property_holder;
+		case CSTRING : return &fbgc_cstr_object_property_holder;
 
 	}
 	FBGC_LOGE("Type %s does not have property holder\n",objtp2str(o));

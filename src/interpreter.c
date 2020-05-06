@@ -484,9 +484,7 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 		{	
 			//Assume that FOR_BEGIN checked everything and prepared
 			struct iter_function_ptr_struct * ifps = (struct iter_function_ptr_struct *) 
-														cast_fbgc_object_as_cstruct(TOP())->cstruct; 			
-			print_fbgc_object(ifps->seq_ob);
-			printf("........\n");
+														cast_fbgc_object_as_cstruct(TOP())->cstruct;
 			//call the pre-defined function
 			struct fbgc_object * res = ifps->function(ifps->seq_ob,(ifps->iterator)++,ifps->holder);
 

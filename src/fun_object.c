@@ -1,7 +1,7 @@
 #include "fbgc.h"
 
 struct fbgc_object * new_fbgc_fun_object(){ 
-	struct fbgc_fun_object * funo =  (struct fbgc_fun_object*) fbgc_malloc(sizeof_fbgc_fun_object());
+	struct fbgc_fun_object * funo =  (struct fbgc_fun_object*) fbgc_malloc_object(sizeof_fbgc_fun_object());
     funo->base.type = FUN;
     funo->code = NULL;
     funo->no_arg = 65;

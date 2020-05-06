@@ -36,7 +36,6 @@ struct fbgc_object * get_set_fbgc_complex_object_member(struct fbgc_object * o,c
 
 
 uint8_t print_fbgc_complex_object(struct fbgc_object *);
-struct fbgc_object * fbgc_complex_object_to_str(struct fbgc_object * obj);
 
 #ifdef  __cplusplus
 }

@@ -3,7 +3,7 @@
 
 struct fbgc_object  * new_fbgc_logic_object(int i){
 
-	struct fbgc_logic_object * lo = (struct fbgc_logic_object *)fbgc_malloc(sizeof(struct fbgc_logic_object));
+	struct fbgc_logic_object * lo = (struct fbgc_logic_object *)fbgc_malloc_object(sizeof(struct fbgc_logic_object));
 	lo->base.type = LOGIC;
 	lo->content = (char) i == 1;
 

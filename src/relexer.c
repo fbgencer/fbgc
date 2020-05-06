@@ -105,7 +105,7 @@ const fbgc_lexer_rule_struct fbgc_lexer_rule_holder [] =
 	{LEXER_TOK_DOUBLE,"!d!+ . !d!+ j!*"}, 	
 	{LEXER_TOK_BASE10_INT,"!d!+ j!*"},
 	{LEXER_TOK_PARA,"(|)|[|]|{|}"},		
-	{LEXER_TOK_KEYWORDS,"end|fun|class|elif|else|while|for|break|cont|if|return|true|false !b"},
+	{LEXER_TOK_KEYWORDS,"end|fun|class|elif|else|while|for|break|cont|if|return|true|false|nil !b"},
 	{LEXER_TOK_NAME,"__ !w!d!o!+ __"},
 	{LEXER_TOK_NAME,"_!w!d _!w!d!*"},		
 	{LEXER_TOK_OP0,",|.|;|:"},
@@ -231,8 +231,13 @@ struct fbgc_ll_base * _tokenize_substr(const char *str1, const char*str2, lexer_
 				}
 				default: 
 				{
-					if(kw_tok > RETURN) 
-						return _new_fbgc_ll_constant(new_fbgc_logic_object( kw_tok-1 == RETURN ));
+					if(kw_tok > RETURN){ 
+						if(kw_tok-3 == RETURN){
+							return _new_fbgc_ll_constant(__fbgc_nil);
+						}
+						else
+							return _new_fbgc_ll_constant(new_fbgc_logic_object( kw_tok-1 == RETURN ));
+					}
 					
 					return _new_fbgc_ll_base(kw_tok);
 				}

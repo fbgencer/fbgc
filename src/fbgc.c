@@ -106,8 +106,6 @@ struct fbgc_object * fbgc_load_file(const char * file_name,const char * fun_name
 		//current field local array object
 		struct fbgc_object * current_ao = cast_fbgc_object_as_field(current_field)->locals;
 
-		printf("\n");
-
 		unsigned int last_j = 0;
 
 		char atleast_matched = 0;
@@ -184,7 +182,7 @@ void printBits(size_t const size, void const * const ptr)
 
 int8_t parse_tuple_content(struct fbgc_object ** c, int sz, const char * format, ...){
 
-	cprintf(111,"parsing tuple sz:%d | format'%s'\n",sz,format);
+	//cprintf(111,"parsing tuple sz:%d | format'%s'\n",sz,format);
 
 	//Verilecek hatalar
 	//eğer hiç arg verilmemişse argdaki objelerin sadece tipleri kontrol edilecek
@@ -198,7 +196,7 @@ int8_t parse_tuple_content(struct fbgc_object ** c, int sz, const char * format,
     uint8_t have_arg = 0;
     if(*format == '!'){
     	//so only verification, assuming no arg is passed
-    	cprintf(110,"Not assignment, only verification\n");
+    	//cprintf(110,"Not assignment, only verification\n");
     	++format;
     }
     else have_arg = 1;
@@ -213,58 +211,58 @@ int8_t parse_tuple_content(struct fbgc_object ** c, int sz, const char * format,
     
 	for(int i = 0; i<sz; ++i){
 		struct fbgc_object * co = c[i];
-		cprintf(111,"Current[%d] type :%s | format:%c\n",i,objtp2str(co),*format);
+		//cprintf(111,"Current[%d] type :%s | format:%c\n",i,objtp2str(co),*format);
 
 	switch(*format){
 		case 'b':{
 			ok = (co->type == LOGIC);
-			cprintf(001,"b:logic:%d\n",ok);
+			//cprintf(001,"b:logic:%d\n",ok);
 			break;
 		}
 		case 'i':{
 			ok = (co->type == INT);
-			cprintf(001,"i:int:%d\n",ok);
+			//cprintf(001,"i:int:%d\n",ok);
 			break;
 		}
 		case 'd':{
 			ok = (co->type == DOUBLE);
-			cprintf(001,"d:double:%d\n",ok);
+			//cprintf(001,"d:double:%d\n",ok);
 			break;
 		}
 		case 'j':{
 			ok = (co->type == COMPLEX);
-			cprintf(001,"c:complex:%d\n",ok);
+			//cprintf(001,"c:complex:%d\n",ok);
 			break;
 		}
 		case 's':{
 			ok = (co->type == STRING);
-			cprintf(001,"s:string:%d\n",ok);
+			//cprintf(001,"s:string:%d\n",ok);
 			break;
 		}
 		case 'm':{
 			ok = (co->type == MATRIX);
-			cprintf(001,"m:matrix:%d\n",ok);
+			////cprintf(001,"m:matrix:%d\n",ok);
 			break;
 		}
 		case 't':{
 			ok = (co->type == TUPLE);
-			cprintf(001,"t:tuple:%d\n",ok);
+			//cprintf(001,"t:tuple:%d\n",ok);
 			break;
 		}
 		case 'r':{
 			ok = (co->type == RANGE);
-			cprintf(001,"r:range:%d\n",ok);
+			//cprintf(001,"r:range:%d\n",ok);
 			break;
 		}		
 		case '.':{
 			ok = (co->type == CSTRUCT);
-			cprintf(001,".:cstruct:%d\n",ok);
+			//cprintf(001,".:cstruct:%d\n",ok);
 			break;	
 		}
 		case 'o':{
 			//any type 
 			ok = 1;
-			cprintf(001,"o:any:%d\n",ok);
+			//cprintf(001,"o:any:%d\n",ok);
 			break;
 		}
 		case '|':{
@@ -272,11 +270,11 @@ int8_t parse_tuple_content(struct fbgc_object ** c, int sz, const char * format,
 				goto end_of_parse_tuple_content;
 			
 			++format;
-			cprintf(001,"or\n");
+			//cprintf(001,"or\n");
 			continue;
 		}
 		case ':':{
-			cprintf(001,"colon\n");
+			//cprintf(001,"colon\n");
 			if(ok == 1){
 				//No need to print error message
 			}
@@ -290,11 +288,11 @@ int8_t parse_tuple_content(struct fbgc_object ** c, int sz, const char * format,
 			break;
 		}
 		case '*':{
-			cprintf(001,"star\n");
+			//cprintf(001,"star\n");
 			break;
 		}
 		case '+':{
-			cprintf(001,"plus\n");
+			//cprintf(001,"plus\n");
 			if(count_match){
 				format = level_start;
 				continue;
@@ -303,12 +301,12 @@ int8_t parse_tuple_content(struct fbgc_object ** c, int sz, const char * format,
 			break;
 		}
 		case '\0':{
-			cprintf(010,"end of format!\n");
+			//cprintf(010,"end of format!\n");
 			if(ok){
-				printf("args is valid!\n");
+				//printf("args is valid!\n");
 			}
 			else {
-				printf("args is not valid\n");
+				FBGC_LOGE("args is not valid\n");
 				count_match = 0;
 			}
 
@@ -323,7 +321,7 @@ int8_t parse_tuple_content(struct fbgc_object ** c, int sz, const char * format,
 	if(ok == 1){
 		++count_match;
 		if(have_arg){
-			cprintf(111,"We have args, now assigning them\n");
+			//cprintf(111,"We have args, now assigning them\n");
 			struct fbgc_object ** o = va_arg(args, struct fbgc_object **);
 			*o = c[i];
 		}
@@ -340,7 +338,7 @@ int8_t parse_tuple_content(struct fbgc_object ** c, int sz, const char * format,
 			break;
 		}
 		else{
-			printf("----------------\n");
+			//printf("----------------\n");
 			++level;
 			count_match = 0;
 			i = -1;
@@ -354,7 +352,7 @@ int8_t parse_tuple_content(struct fbgc_object ** c, int sz, const char * format,
 	end_of_parse_tuple_content:
 	va_end(args);
 	level = (count_match > 0) ? level : -1;
-	cprintf(111,"Returning level:%d\n",level);
+	//cprintf(111,"Returning level:%d\n",level);
 	return level;
 }
 
@@ -368,14 +366,40 @@ int main(int argc, char **argv){
 
 //******************************************************************
 	initialize_fbgc_memory_block();
-	initialize_fbgc_symbol_table();
-	struct fbgc_object * main_field = new_fbgc_field_object();
-	current_field = main_field;
+
+	struct fbgc_object * c = new_fbgc_array_object(20,sizeof(int));
+	printf("array object sizeof :%lu\n",sizeof(struct fbgc_array_object) );
+	printf("array cap : %ld\n",capacity_fbgc_array_object(c) );
+
+	for(int i = 3; i<8; ++i)
+		push_back_fbgc_array_object(c,&i);
+
+	print_fbgc_memory_block();
+
+	/*int * lol = (int * ) fbgc_malloc(sizeof(int)*10);
+	int val[10] = {10,20,30,40,50,60,70,80,90,100};
+	memcpy(lol,val,sizeof(int)*10);
+
+
+	int val2[10] = {1,2,3,4,5,6,7,8,9,10};
+	int * lol2 = (int * ) fbgc_malloc(sizeof(int)*20);
+	memcpy(lol2,val2,sizeof(int)*10);
+
+	print_fbgc_memory_block();
+	
+
+	cprintf(100,"capacity lol :%ld\n",capacity_fbgc_raw_memory(lol,sizeof(int)));
+	cprintf(100,"capacity lol2 :%ld\n",capacity_fbgc_raw_memory(lol2,sizeof(int)));*/
+	//initialize_fbgc_symbol_table();
+	//struct fbgc_object * main_field = new_fbgc_field_object();
+	/*current_field = main_field;
 	//load_module_in_field_object(main_field,&fbgc_math_module);
 	//load_module_in_field_object(main_field,&fbgc_file_module);
 		
 	//parse_string(&main_field,"x = 88\n");
 	//cast_fbgc_object_as_field(main_field)->code;
+
+	
 
 
 	if(argc > 1)
@@ -392,7 +416,7 @@ int main(int argc, char **argv){
 	else{
 		compile_file(main_field, "ex.fbgc");
 	   //realtime_fbgc(main_field);
-	}
+	}*/
 
 	free_fbgc_memory_block();
 //******************************************************************

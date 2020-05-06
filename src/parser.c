@@ -223,6 +223,8 @@ static void handle_before_paranthesis(struct parser_packet * p){
 				p->iter_prev = _insert_next_fbgc_ll(p->iter_prev,_top_and_pop_front_fbgc_ll(p->op));
 			}
 
+			p->current_state = 0;
+
 			/*if(!is_fbgc_OPERATOR(TOP_LL(p->op)->type) && TOP_LL(p->op)->type != COMMA &&
 					!is_fbgc_OPERATOR(p->iter_prev->type) && p->iter_prev->next->type != COMMA &&
 					TOP_LL(p->op)->type != LPARA && TOP_LL(p->op)->type != LBRACK && 
@@ -456,11 +458,12 @@ static inline struct parser_packet init_parser_packet(struct fbgc_object * field
 		.iter_prev = (struct fbgc_ll_base *)p.head, //note that p->iter_prev->next is p->iter, always this is the case!
 		.op = _new_fbgc_ll(),
 		.scope_list = _new_fbgc_ll(),
-		.error_code = _FBGC_NO_ERROR,
-		.gm = GM_NEWLINE,
 		.statement_begin = (struct fbgc_ll_base *)p.head,
 		.line = NULL,
 		.line_no = 1,
+		.error_code = _FBGC_NO_ERROR,
+		.gm = GM_NEWLINE,
+		.current_state = 0		
 	};
 
 	_push_front_fbgc_ll(p.scope_list,_new_fbgc_ll_constant(field_obj));
@@ -479,7 +482,13 @@ uint8_t parse_file(struct fbgc_object ** field_obj, const char * file_name){
 		FBGC_LOGE("File %s could not be found\n",file_name);
 		return 0;
 	}
+
+
+
+	//printf("Adding new file name %s\n",file_name );
+	//add_variable_in_field_object(*field_obj,"__file__",new_fbgc_str_object(file_name));
 	
+
 	struct parser_packet p = init_parser_packet(*field_obj,NULL);
 
 	while(fbgc_getline_from_file(&p.line,fp)){
@@ -558,6 +567,7 @@ uint8_t parse_string(struct fbgc_object ** field_obj, char * str ){
 	FBGC_LOGV(PARSER,"Global field locals:");
 	FBGC_LOGV(PARSER,"%c\n",print_field_object_locals(*field_obj));
 	FBGC_LOGV(PARSER,"==========================\n");
+	return 1;
 }
 
 #define PARSER_CHECK_ERROR(p_error_code)( {if(p_error_code != _FBGC_NO_ERROR) return p_error_code;} )
@@ -598,6 +608,15 @@ static uint8_t parser(struct parser_packet * p){
 		//Now we got the symbol, we are gonna use it to identify is this a new definition of a variable or cfun or using pre defined variable
 
 		struct fbgc_object * cf = NULL;
+
+		if(p->current_state == FUN_CALL){
+			//named args
+			p->iter_prev->next = p->iter->next;
+			p->iter_prev = _insert_next_fbgc_ll(p->iter_prev, _new_fbgc_ll_constant(cstr_obj));
+			
+			break;
+		}
+
 
 		if(TOP_LL(p->op)->type == DOT){
 			//If we have a enty looks like 'x.y' , when we read x we don't know anything about the dot symbol
@@ -1319,8 +1338,9 @@ static uint8_t parser(struct parser_packet * p){
 			if((gm_prev == GM_ID || gm_prev == GM_MATRIX) && 
 				(p->iter_prev->type == IDENTIFIER || p->iter_prev->type == LOAD_SUBSCRIPT || is_constant_and_token(p->iter_prev,CFUN))) {
 				
-				//assume typical function call with global name
+				//assume typical function call
 				_push_front_fbgc_ll(p->op,_new_fbgc_ll_opcode_int(FUN_CALL,0));
+				p->current_state = FUN_CALL;
 
 				//So user want so call member function we will push fun_call with 1 arg because self is also an argument for member methods		
 				if(p->iter_prev->type == IDENTIFIER && is_id_flag_MEMBER(p->iter_prev)){

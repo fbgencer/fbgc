@@ -2,7 +2,7 @@
 
 struct fbgc_object * new_fbgc_str_object(const char * inc_str){
     size_t len = strlen(inc_str);
-    struct fbgc_str_object *stro =  (struct fbgc_str_object*) fbgc_malloc(sizeof(struct fbgc_str_object) + len + 1); 
+    struct fbgc_str_object *stro =  (struct fbgc_str_object*) fbgc_malloc_object(sizeof(struct fbgc_str_object) + len + 1); 
     stro->base.type = STRING;
     stro->len = len;
     memcpy(stro->content,inc_str,len+1);
@@ -11,7 +11,7 @@ struct fbgc_object * new_fbgc_str_object(const char * inc_str){
 
 struct fbgc_object * new_fbgc_str_object_from_substr(const char * str1,const char * str2){
     
-    struct fbgc_str_object *stro =  (struct fbgc_str_object*) fbgc_malloc(sizeof(struct fbgc_str_object) + str2-str1+1); 
+    struct fbgc_str_object *stro =  (struct fbgc_str_object*) fbgc_malloc_object(sizeof(struct fbgc_str_object) + str2-str1+1); 
     stro->base.type = STRING;
     stro->len = str2-str1;
     memcpy(stro->content,str1,stro->len+1);
@@ -21,7 +21,7 @@ struct fbgc_object * new_fbgc_str_object_from_substr(const char * str1,const cha
 }
 
 struct fbgc_object * new_fbgc_str_object_empty(size_t len){
-    struct fbgc_str_object *stro =  (struct fbgc_str_object*) fbgc_malloc(sizeof(struct fbgc_str_object) + len+1 ); 
+    struct fbgc_str_object *stro =  (struct fbgc_str_object*) fbgc_malloc_object(sizeof(struct fbgc_str_object) + len+1 ); 
     stro->base.type = STRING;
     stro->len = len;
     stro->content[len] = '\0';
@@ -319,6 +319,133 @@ void free_fbgc_str_object(struct fbgc_object * obj){
     //free(obj);
 }
 
+static 
+struct fbgc_object * find_fbgc_str_object(struct fbgc_object ** arg,int argc){
+    struct fbgc_str_object * self;
+    struct fbgc_str_object * so;
+    if(parse_tuple_content(arg,argc,"ss",&self,&so) == -1)
+        return NULL;
+
+    char * pch = strstr (self->content,so->content);
+
+    if(pch != NULL)
+        return new_fbgc_int_object(pch-self->content);
+    return NULL;
+};
+
+
+static 
+struct fbgc_object * split_fbgc_str_object(struct fbgc_object ** arg,int argc){
+    
+    if(parse_tuple_content(arg,argc,"!s|ss") == -1)
+        return NULL;
+    struct fbgc_str_object * self = (struct fbgc_str_object *)arg[0];
+    
+    struct fbgc_object * str_tuple = new_fbgc_tuple_object(0);
+
+    char * start = self->content;
+    char * end = start;
+
+    if(argc == 1){
+        for(;;){       
+            //Go until we see no space
+            while(*end && !isspace(*end))
+                ++end;
+            //now we have a string from start to end
+            _push_back_fbgc_tuple_object(&str_tuple,new_fbgc_str_object_from_substr(start,end));
+            
+            //go until finishing the space
+            while(*end && isspace(*end))
+                ++end;
+            //if we are at the end of string break it
+            if(*end == 0) break; 
+
+            //new start is end of spaces
+            start = end;
+        }        
+    }
+    else{
+        struct fbgc_object * splt_str = arg[1];
+        while(*end){
+            end = strstr(start,content_fbgc_str_object(splt_str));
+            if(end == NULL)
+                end = content_fbgc_str_object(self)+length_fbgc_str_object(self);
+            
+            _push_back_fbgc_tuple_object(&str_tuple,new_fbgc_str_object_from_substr(start,end));
+            start = end + length_fbgc_str_object(splt_str);
+        }
+
+    }
+    return str_tuple;  
+};
+
+static char * lstrip_internal(char * start){
+    while(*start && isspace(*start))
+        ++start;
+    return start;
+}
+static char * rstrip_internal(char *start ,char * end){
+    while(end >= start && isspace(*end))
+        --end;
+    return end;
+}
+
+static
+struct fbgc_object * strip_fbgc_str_object(struct fbgc_object ** arg,int argc){
+    
+    if(parse_tuple_content(arg,argc,"!s|ss") == -1)
+        return NULL;
+
+    struct fbgc_str_object * self = (struct fbgc_str_object *)arg[0];
+
+    char * start = self->content;
+    char * end = self->content + length_fbgc_str_object(self)-1;
+    
+    start = lstrip_internal(start);
+    end = rstrip_internal(start,end);
+    return new_fbgc_str_object_from_substr(start,++end);
+}
+static
+struct fbgc_object * lstrip_fbgc_str_object(struct fbgc_object ** arg,int argc){
+    
+    if(parse_tuple_content(arg,argc,"!s|ss") == -1)
+        return NULL;
+
+    struct fbgc_str_object * self = (struct fbgc_str_object *)arg[0];
+    
+    char * start = self->content;
+    char * end = self->content + length_fbgc_str_object(self);
+    
+    start = lstrip_internal(start);
+    return new_fbgc_str_object_from_substr(start,end);
+}
+static
+struct fbgc_object * rstrip_fbgc_str_object(struct fbgc_object ** arg,int argc){
+    
+    if(parse_tuple_content(arg,argc,"!s|ss") == -1)
+        return NULL;
+
+    struct fbgc_str_object * self = (struct fbgc_str_object *)arg[0];
+    
+    char * start = self->content;
+    char * end = self->content + length_fbgc_str_object(self)-1;
+    
+    end = rstrip_internal(start,end);
+    return new_fbgc_str_object_from_substr(start,++end);
+}
+
+static struct fbgc_object_method _str_methods = {
+    .len = 5,
+    .method = {
+        {.name = "find", .function = &find_fbgc_str_object},
+        {.name = "split", .function = &split_fbgc_str_object},
+        {.name = "strip", .function = &strip_fbgc_str_object},
+        {.name = "lstrip", .function = &lstrip_fbgc_str_object},
+        {.name = "rstrip", .function = &rstrip_fbgc_str_object},
+    }
+};
+
+
 struct fbgc_object * subscript_operator_fbgc_str_object(struct fbgc_object * iterable,struct fbgc_object * index_obj){
     if(index_obj->type == INT){
         iterable = get_object_in_fbgc_str_object(iterable,cast_fbgc_object_as_int(index_obj)->content,1);   
@@ -333,6 +460,8 @@ struct fbgc_object * subscript_operator_fbgc_str_object(struct fbgc_object * ite
         FBGC_LOGE("Index value must be integer, %s given",objtp2str(index_obj));
         return NULL;
     }
+
+    return iterable;
 }
 
 struct fbgc_object * subscript_assign_operator_fbgc_str_object(struct fbgc_object * iterable,struct fbgc_object * index_obj, struct fbgc_object * rhs){
@@ -355,10 +484,12 @@ const struct fbgc_object_property_holder fbgc_str_object_property_holder = {
     _BIT_BINARY_OPERATOR |
     _BIT_SUBSCRIPT_OPERATOR |
     _BIT_SUBSCRIPT_ASSIGN_OPERATOR |
-    _BIT_ABS_OPERATOR
+    _BIT_ABS_OPERATOR |
+    _BIT_METHODS
     ,
     .properties ={
         {.print = &print_fbgc_str_object},
+        {.methods = &_str_methods},
         {.binary_operator = &operator_fbgc_str_object}, 
         {.subscript_operator = &subscript_operator_fbgc_str_object},
         {.subscript_assign_operator = &subscript_assign_operator_fbgc_str_object},
@@ -422,7 +553,7 @@ struct fbgc_object * new_fbgc_cstr_object(const char * str_content){
 
     size_t str_len = strlen(str_content);
 
-    struct fbgc_cstr_object *stro =  (struct fbgc_cstr_object*) fbgc_malloc(sizeof(struct fbgc_cstr_object) + str_len+1 ); 
+    struct fbgc_cstr_object *stro =  (struct fbgc_cstr_object*) fbgc_malloc_object(sizeof(struct fbgc_cstr_object) + str_len+1 ); 
     stro->base.type = CSTRING;
     //stro->base.next = NULL;
     memcpy(&stro->content,str_content,str_len+1);
@@ -434,7 +565,7 @@ struct fbgc_object * new_fbgc_cstr_object(const char * str_content){
 struct fbgc_object * new_fbgc_cstr_object_from_substr(const char * str1,const char * str2){
     
     size_t str_len = str2-str1;
-    struct fbgc_cstr_object *stro =  (struct fbgc_cstr_object*) fbgc_malloc(sizeof(struct fbgc_cstr_object)+ str_len+1 ); 
+    struct fbgc_cstr_object *stro =  (struct fbgc_cstr_object*) fbgc_malloc_object(sizeof(struct fbgc_cstr_object)+ str_len+1 ); 
     stro->base.type = CSTRING;
     memcpy(&stro->content,str1,str_len);
     stro->content[str_len] = '\0';
@@ -442,12 +573,17 @@ struct fbgc_object * new_fbgc_cstr_object_from_substr(const char * str1,const ch
 }
 
 
-void print_fbgc_cstr_object(struct fbgc_object * obj){
-   // const char * s = &cast_fbgc_object_as_cstr(obj)->content;
-    cprintf(011,"\"%s\"", cast_fbgc_object_as_cstr(obj)->content);   
+uint8_t print_fbgc_cstr_object(struct fbgc_object * obj){
+    return cprintf(011,"\"%s\"", cast_fbgc_object_as_cstr(obj)->content);   
 }
 
-void free_fbgc_cstr_object(struct fbgc_object * obj){
-    //free(cast_fbgc_object_as_str(obj)->content);
-    //free(obj);
-}
+
+
+const struct fbgc_object_property_holder fbgc_cstr_object_property_holder = {
+    .bits = 
+    _BIT_PRINT 
+    ,
+    .properties ={
+        {.print = &print_fbgc_cstr_object}, 
+    }
+};

@@ -16,11 +16,12 @@ struct parser_packet{
 	struct fbgc_ll_base * iter_prev;	//!< Always holds previous value for iterator, we use for insertion and deletions
 	struct fbgc_ll_base * op;			//!< Operator stack, it's  a linked list but we use it as stack
 	struct fbgc_ll_base * scope_list;	//!< Field,class and function scope list, we use it as a stack
+	struct fbgc_ll_base * statement_begin;
+	char * line;
+	size_t line_no;
 	uint8_t error_code;					//!< When an error occurs function assigns error code to this variable
 	fbgc_grammar gm;					//!< State of grammar
-	struct fbgc_ll_base * statement_begin;
-	size_t line_no;
-	char * line;
+	fbgc_token current_state;
 };
 
 

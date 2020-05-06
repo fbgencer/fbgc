@@ -33,7 +33,7 @@ struct fbgc_object * new_fbgc_tuple_object(size_t cap){
 
 	cap = calculate_new_capacity_from_size(cap);
 
-	struct fbgc_tuple_object *to =  (struct fbgc_tuple_object*) fbgc_malloc(sizeof(struct fbgc_tuple_object) + sizeof(struct fbgc_object*)*cap);
+	struct fbgc_tuple_object *to =  (struct fbgc_tuple_object*) fbgc_malloc_object(sizeof(struct fbgc_tuple_object) + sizeof(struct fbgc_object*)*cap);
     to->base.type = TUPLE;
     //to->base.next = NULL;
     to->size = 0;
@@ -84,7 +84,6 @@ struct fbgc_object *  get_object_in_fbgc_tuple_object(struct fbgc_object * self,
 //This function will only be called by the for loop to iterate inside the object
 
 struct fbgc_object *  __get_object_in_fbgc_tuple_object(struct fbgc_object * self,int index,struct fbgc_object * res){
-    printf("sz...\n");
 	return get_object_in_fbgc_tuple_object(self,index);
 }
 
@@ -180,7 +179,7 @@ struct fbgc_object * copy_fbgc_tuple_object(struct fbgc_object * src){
 	size_t cap = calculate_new_capacity_from_size( size_fbgc_tuple_object(src) );
 	size_t sz = sizeof(struct fbgc_tuple_object) + sizeof(struct fbgc_object*)*cap;
 
-	struct fbgc_tuple_object * dest =  (struct fbgc_tuple_object*) fbgc_malloc(sz);
+	struct fbgc_tuple_object * dest =  (struct fbgc_tuple_object*) fbgc_malloc_object(sz);
 	
 	memcpy(dest,src,sz);	
 
@@ -322,6 +321,35 @@ struct fbgc_object * abs_operator_fbgc_tuple_object(struct fbgc_object * self){
     return new_fbgc_int_object(size_fbgc_tuple_object(self));
 }
 
+struct fbgc_object * find_fbgc_tuple_object(struct fbgc_object ** arg,int argc){
+    struct fbgc_tuple_object * self;
+    struct fbgc_object * o;
+    if(parse_tuple_content(arg,argc,"to",&self,&o) == -1)
+        return NULL;
+
+    int sz = self->size;
+
+    while(sz--){
+        struct fbgc_object * current_obj = self->content[sz];
+        fbgc_token main_tok = MAX(current_obj->type,o->type);
+        struct fbgc_object * res = call_fbgc_operator(main_tok,o,current_obj,EQEQ);
+        if(res == NULL) continue;
+        if(res->type == LOGIC && cast_fbgc_object_as_logic(res)->content)
+            return new_fbgc_int_object(sz);
+    }
+
+
+    return NULL;
+};
+
+
+static struct fbgc_object_method _tuple_methods = {
+    .len = 1,
+    .method = {
+        {.name = "find", .function = &find_fbgc_tuple_object},
+    }
+};
+
 
 const struct fbgc_object_property_holder fbgc_tuple_object_property_holder = {
     .bits = 
@@ -329,10 +357,12 @@ const struct fbgc_object_property_holder fbgc_tuple_object_property_holder = {
     _BIT_BINARY_OPERATOR | 
     _BIT_SUBSCRIPT_OPERATOR |
     _BIT_SUBSCRIPT_ASSIGN_OPERATOR |
-    _BIT_ABS_OPERATOR
+    _BIT_ABS_OPERATOR | 
+    _BIT_METHODS
     ,
     .properties ={
         {.print = &print_fbgc_tuple_object},
+        {.methods = &_tuple_methods},
         {.binary_operator = &operator_fbgc_tuple_object},
         {.subscript_operator = &subscript_operator_fbgc_tuple_object},
         {.subscript_assign_operator = &subscript_assign_operator_fbgc_tuple_object},

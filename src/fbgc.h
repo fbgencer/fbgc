@@ -21,6 +21,11 @@ extern "C" {
 #include <signal.h>
 
 
+typedef uint8_t bool;
+#define true 1
+#define false 0
+
+
 #include "headers/tokens.h"
 #include "headers/error.h"
 
@@ -36,6 +41,7 @@ extern "C" {
 #include "headers/logic_object.h"
 #include "headers/complex_object.h"	
 #include "headers/str_object.h"
+#include "headers/map_object.h"
 #include "headers/matrix_object.h"
 #include "headers/tuple_object.h"
 #include "headers/cmodule_object.h"

@@ -1,0 +1,31 @@
+format = fun(s,tp())
+	
+	splitted_str = s / "<>"
+	
+	assert(|tp| == |splitted_str|-1, "Given tuple size is greater than locations in the string")
+
+	res = ""
+	index = 0
+	fmtstr = ""
+
+	for i = tp
+		if is_int(i)
+			fmtstr = "%d" % i 
+		elif is_double(i)
+			fmtstr = "%g" % i
+		elif is_string(i)
+			fmtstr = i
+		elif is_complex(i)
+			fmtstr = ("%g" % i.real) + ("%+gj" % i.imag)
+		else
+			assert(false,"Undefined type!")
+		end
+		res += splitted_str[index] + fmtstr
+		index += 1
+	end
+	res += splitted_str[index]
+
+	return res
+end
+
+x = 10

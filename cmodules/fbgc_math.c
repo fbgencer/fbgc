@@ -1,146 +1,165 @@
 
 
-// #include "../src/fbgc.h"
-// #include "fbgc_math.h"
-// #include <math.h>
-// //#include <gsl/gsl_matrix.h>
-// //#include <gsl/gsl_blas.h>
-// //#include <gsl/gsl_complex_math.h>
+#include "../src/fbgc.h"
+#include "fbgc_math.h"
+#include <tgmath.h>
+#include <complex.h>
+//#include <gsl/gsl_matrix.h>
+//#include <gsl/gsl_blas.h>
+//#include <gsl/gsl_complex_math.h>
 
-// //#include <cblas.h>
+//#include <cblas.h>
 
-// /*
-// #define new_fbgc_cfunction(fun_name,str_fun_name)\
-// const struct fbgc_cfunction fun_name##_struct  = {str_fun_name,fun_name};\
-// extern struct fbgc_object * fun_name(struct fbgc_object * arg)\
-// */
+/*
+#define new_fbgc_cfunction(fun_name,str_fun_name)\
+const struct fbgc_cfunction fun_name##_struct  = {str_fun_name,fun_name};\
+extern struct fbgc_object * fun_name(struct fbgc_object * arg)\
+*/
 
 
-// /*
-// >> z = 1+2j
-// z =  1 + 2i
-// >> cos(z)
-// ans =  2.0327 - 3.0519i
-// >> (exp(1j*z)+exp(-1j*z))/2
-// ans =  2.0327 - 3.0519i
-// >>
-// */
+/*
+>> z = 1+2j
+z =  1 + 2i
+>> cos(z)
+ans =  2.0327 - 3.0519i
+>> (exp(1j*z)+exp(-1j*z))/2
+ans =  2.0327 - 3.0519i
+>>
+*/
 
-// struct raw_complex c_exp(struct raw_complex z){
-// 	//complex exponantiel
-// 	struct raw_complex res;
-// 	double r = exp(z.real);
-// 	res.real = r*cos(z.imag);
-// 	res.imag = r*sin(z.imag);
-// 	return res;
-// }
-
-// struct raw_complex c_cos(struct raw_complex z){
-// 	//complex cos
-// 	struct raw_complex u1,u2;
-
-// 	u1.real = -z.imag;
-// 	u1.imag = z.real;
-
-// 	u2.real = z.imag;
-// 	u2.imag = -z.real;
+#ifdef __C99_COMPLEXH__
 	
-// 	u1 = c_exp(u1);
-// 	u2 = c_exp(u2);
-
-// 	u1.real = (u1.real+u2.real)/2;
-// 	u1.imag = (u1.imag+u2.imag)/2;
-
-// 	return u1;
-// }
-
-// struct fbgc_object * one_arg_math(struct fbgc_object ** arg,int argc, double (*fun) (double),
-// 	struct raw_complex(*zfun) (struct raw_complex))
-// {
-// 	switch(arg[0]->type)
-// 	{
-// 		case INT:
-// 		case DOUBLE:
-// 		{
-// 			double dbarg = convert_fbgc_object_to_double( arg[0] );
-// 			return new_fbgc_double_object((*fun)(dbarg));
-// 		}
-// 		case COMPLEX:
-// 		{
-// 			struct raw_complex z = convert_fbgc_object_to_complex(arg[0]);
-// 			z = (*zfun)(z);
-// 			return new_fbgc_complex_object(z.real,z.imag);
-// 		}
-// 		case TUPLE:
-// 		{
-// 			size_t sz = size_fbgc_tuple_object(arg[0]);
-// 			struct fbgc_object * res_tp = new_fbgc_tuple_object( sz );
-// 			size_fbgc_tuple_object(res_tp) = sz;
-// 			struct fbgc_object ** tp_content = content_fbgc_tuple_object(arg[0]);
-
-// 			for(size_t i = 0; i <  sz; ++i ){
-// 				//call recursively
-// 				struct fbgc_object * result = one_arg_math(tp_content+i,1,fun,zfun);
-// 				assert(result != NULL);
-// 				set_object_in_fbgc_tuple_object(res_tp,result, i);
-// 			}
-// 			return res_tp;
-// 		}
-// 		case MATRIX:
-// 		{
-// 			struct fbgc_matrix_object * m = (struct fbgc_matrix_object *) arg[0];
-// 			struct fbgc_object * res_m = new_fbgc_matrix_object(m->sub_type,m->row,m->column,UNINITIALIZED_MATRIX);
-
-// 			size_t rc = m->row*m->column;
-
-// 			struct raw_complex z;
-
-// 			for(size_t i = 0; i<m->row; ++i){
-// 				for(size_t j = 0; j<m->column; ++j){
-// 					size_t index = i * m->column + j;
-// 					size_t c_index = rc + index;
-
-// 					z.real = *(content_fbgc_matrix_object(m)+index);
-// 					if(m->sub_type == COMPLEX){
-// 						z.imag = *(content_fbgc_matrix_object(m)+c_index);
-// 						struct raw_complex result = (*zfun)(z);
-// 						*(content_fbgc_matrix_object(res_m)+index) = result.real;
-// 						*(content_fbgc_matrix_object(res_m)+c_index) = result.imag;
-// 					}
-// 					else *(content_fbgc_matrix_object(res_m)+index) = (*fun)(z.real);
-// 				}
-// 			}
-// 			return res_m;			
-// 		}
-// 		default:
-// 			return NULL;
-// 	}
-// }
 
 
-// #define new_fbgc_one_arg_math(fun_str,func_ptr,complex_func_ptr)\
-// const struct fbgc_cfunction fbgc_##func_ptr##_struct = {fun_str,fbgc_##func_ptr};\
-// extern struct fbgc_object * fbgc_##func_ptr(struct fbgc_object ** arg, int argc) {\
-// return (argc == 1) ? one_arg_math(arg,argc,func_ptr,complex_func_ptr) : NULL ;}\
+#endif
 
 
-// new_fbgc_one_arg_math("sin",sin,NULL);
-// new_fbgc_one_arg_math("cos",cos,c_cos);
-// new_fbgc_one_arg_math("tan",tan,NULL);
-// new_fbgc_one_arg_math("exp",exp,c_exp);
-// new_fbgc_one_arg_math("sqrt",sqrt,NULL);
+struct raw_complex c_exp(struct raw_complex z){
+	//complex exponantiel
+
+	//<! \todo We need to write a new complex library and also provide c99 complex math interface so we can call those functions with just one casting
+	/*
+	struct raw_complex mm = z;
+	double complex * xx = (double complex*)&mm;
+
+	//((double *)&xx)[0] = z.real;
+	//((double *)&xx)[1] = z.imag;
+	*xx = cexp(*xx); // Euler's formula
+	
+	printf("res %g%+gj\n", creal(*xx), cimag(*xx));*/
+
+	struct raw_complex res;
+	double r = exp(z.real);
+	res.real = r*cos(z.imag);
+	res.imag = r*sin(z.imag);
+	return res;
+}
+
+struct raw_complex c_cos(struct raw_complex z){
+	//complex cos
+	struct raw_complex u1,u2;
+
+	u1.real = -z.imag;
+	u1.imag = z.real;
+
+	u2.real = z.imag;
+	u2.imag = -z.real;
+	
+	u1 = c_exp(u1);
+	u2 = c_exp(u2);
+
+	u1.real = (u1.real+u2.real)/2;
+	u1.imag = (u1.imag+u2.imag)/2;
+
+	return u1;
+}
+
+struct fbgc_object * one_arg_math(struct fbgc_object ** arg,int argc, double (*fun) (double),struct raw_complex(*zfun) (struct raw_complex)){
+
+	struct fbgc_object * obj;
+
+	if(parse_tuple_content(arg,argc,"i|d|j|t|m",&obj) == -1)
+		return NULL;
+
+	switch(obj->type){
+		case INT:
+		case DOUBLE:
+		{
+			double dbarg = convert_fbgc_object_to_double(obj);
+			return new_fbgc_double_object((*fun)(dbarg));
+		}
+		case COMPLEX:
+		{
+			struct raw_complex z = convert_fbgc_object_to_complex(obj);
+			z = (*zfun)(z);
+			return new_fbgc_complex_object(z.real,z.imag);
+		}
+		case TUPLE:
+		{
+			size_t sz = size_fbgc_tuple_object(obj);
+			struct fbgc_object * res_tp = new_fbgc_tuple_object( sz );
+			size_fbgc_tuple_object(res_tp) = sz;
+			while(sz--){
+				content_fbgc_tuple_object(res_tp)[sz] = 
+					one_arg_math(content_fbgc_tuple_object(obj)+sz,1,fun,zfun);
+			}
+			return res_tp;
+		}
+		case MATRIX:
+		{
+			struct fbgc_matrix_object * m = (struct fbgc_matrix_object *) obj;
+			struct fbgc_object * res_m = new_fbgc_matrix_object(m->sub_type,m->row,m->column,UNINITIALIZED_MATRIX);
+
+			size_t rc = m->row*m->column;
+
+			struct raw_complex z;
+
+			for(size_t i = 0; i<m->row; ++i){
+				for(size_t j = 0; j<m->column; ++j){
+					size_t index = i * m->column + j;
+					size_t c_index = rc + index;
+
+					z.real = *(content_fbgc_matrix_object(m)+index);
+					if(m->sub_type == COMPLEX){
+						z.imag = *(content_fbgc_matrix_object(m)+c_index);
+						struct raw_complex result = (*zfun)(z);
+						*(content_fbgc_matrix_object(res_m)+index) = result.real;
+						*(content_fbgc_matrix_object(res_m)+c_index) = result.imag;
+					}
+					else *(content_fbgc_matrix_object(res_m)+index) = (*fun)(z.real);
+				}
+			}
+			return res_m;			
+		}
+		default:
+			return NULL;
+	}
+}
 
 
+#define new_fbgc_one_arg_math(func_ptr,complex_func_ptr)\
+static struct fbgc_object * fbgc_math_##func_ptr(struct fbgc_object ** arg, int argc){\
+return one_arg_math(arg,argc,func_ptr,complex_func_ptr);}\
 
 
-// new_fbgc_cfunction(fbgc_math_initializer,"math")
-// {	
-// 	//cprintf(111,"Called math initializer!\n");
-// 	add_variable_in_field_object(arg[0],"pi",new_fbgc_double_object(FBGC_MATH_PI));
-// 	add_variable_in_field_object(arg[0],"e",new_fbgc_double_object(FBGC_MATH_E));
+new_fbgc_one_arg_math(cos,c_cos);
+new_fbgc_one_arg_math(sin,NULL);
+new_fbgc_one_arg_math(tan,NULL);
+new_fbgc_one_arg_math(acos,NULL);
+new_fbgc_one_arg_math(asin,NULL);
+new_fbgc_one_arg_math(atan,NULL);
 
-// 	return NULL;
-// }
+new_fbgc_one_arg_math(cosh,NULL);
+new_fbgc_one_arg_math(sinh,NULL);
+new_fbgc_one_arg_math(tanh,NULL);
+new_fbgc_one_arg_math(acosh,NULL);
+new_fbgc_one_arg_math(asinh,NULL);
+new_fbgc_one_arg_math(atanh,NULL);
+
+
+new_fbgc_one_arg_math(exp,c_exp);
+new_fbgc_one_arg_math(sqrt,NULL);
+
 
 // new_fbgc_cfunction(fbgc_gsl,"gsl")
 // {
@@ -197,7 +216,7 @@
 
 
 
-// 	/*if(argc == 2 && arg[0]->type == MATRIX && arg[1]->type == MATRIX){
+// 	if(argc == 2 && arg[0]->type == MATRIX && arg[1]->type == MATRIX){
 
 
 // 		struct fbgc_matrix_object * m1 = (struct fbgc_matrix_object *) arg[0];
@@ -232,7 +251,7 @@
 
 // 		return (struct fbgc_object *) res;
 
-// 	}*/
+// 	}
 		
 // /*
 // 	//x = [1+2j 3+4j; 2.2+3j 5.5-8.8j];
@@ -377,3 +396,25 @@
 // 		NULL
 // 	}
 // };
+
+
+static
+struct fbgc_object * fbgc_math_init(struct fbgc_object ** arg, int argc){
+	//cprintf(111,"Called math initializer!\n");
+	add_variable_in_field_object(arg[0],"pi",new_fbgc_double_object(FBGC_MATH_PI));
+	add_variable_in_field_object(arg[0],"e",new_fbgc_double_object(FBGC_MATH_E));
+
+	return NULL;
+}
+
+const struct fbgc_cmodule fbgc_math_module = 
+{
+	.initializer = {.name = "math", .function = &fbgc_math_init},
+	.functions = {
+		{.name = "sin", .function = &fbgc_math_sin},
+		{.name = "cos", .function = &fbgc_math_cos},
+		{.name = "tan", .function = &fbgc_math_tan},
+		{.name = "exp", .function = &fbgc_math_exp},
+		{NULL,NULL},
+	}
+};

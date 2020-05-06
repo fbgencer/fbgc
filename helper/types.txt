@@ -7,6 +7,7 @@ DOUBLE $ double class
 COMPLEX $ complex class
 STRING $ string class
 MATRIX $ matrix class
+MAP $ map class
 TUPLE $ tuple class
 INSTANCE
 CSTRING $ raw c strings without length

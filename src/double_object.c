@@ -1,7 +1,7 @@
 #include "fbgc.h"
 
 struct fbgc_object * new_fbgc_double_object(double db_content){
-	struct fbgc_double_object *dbo =  (struct fbgc_double_object*) fbgc_malloc(sizeof_fbgc_double_object());
+	struct fbgc_double_object *dbo =  (struct fbgc_double_object*) fbgc_malloc_object(sizeof_fbgc_double_object());
 	dbo->base.type = DOUBLE;
 	//dbo->base.next = NULL;
 	dbo->content = db_content; 

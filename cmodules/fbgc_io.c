@@ -27,7 +27,8 @@ static struct fbgc_object * fbgc_io_print(struct fbgc_object ** arg, int argc){
 
 static struct fbgc_object * fbgc_io_read(struct fbgc_object ** arg, int argc){
 
-	assert(argc > 0);
+	if(parse_tuple_content(arg,argc,"!s") == -1)
+        return NULL;
 	
 	printf_fbgc_object(arg[0]);
 	char *str_content;

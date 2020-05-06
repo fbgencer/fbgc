@@ -9,11 +9,11 @@ struct fbgc_object * new_fbgc_matrix_object(fbgc_token sub_tp, size_t row, size_
 	// if sub_tp == COMPLEX than open an array twice length as double, first array will contain real numbers while second will hold imaginary part
 
 /*  struct fbgc_matrix_object * mo = (tp == DOUBLE) 
-	(struct fbgc_matrix_object*) fbgc_malloc(sizeof(struct fbgc_matrix_object) + (sizeof(double) * len) ) :
-	(struct fbgc_matrix_object*) fbgc_malloc(sizeof(struct fbgc_matrix_object) + (sizeof(struct raw_complex) * len) ) :
+	(struct fbgc_matrix_object*) fbgc_malloc_object(sizeof(struct fbgc_matrix_object) + (sizeof(double) * len) ) :
+	(struct fbgc_matrix_object*) fbgc_malloc_object(sizeof(struct fbgc_matrix_object) + (sizeof(struct raw_complex) * len) ) :
 */
 
-	struct fbgc_matrix_object * mo = (struct fbgc_matrix_object*) fbgc_malloc(sizeof(struct fbgc_matrix_object) + (1 + (sub_tp == COMPLEX) ) *(sizeof(double) * len) );
+	struct fbgc_matrix_object * mo = (struct fbgc_matrix_object*) fbgc_malloc_object(sizeof(struct fbgc_matrix_object) + (1 + (sub_tp == COMPLEX) ) *(sizeof(double) * len) );
 
 	mo->base.type = MATRIX;
 	mo->row = row;

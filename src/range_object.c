@@ -5,7 +5,7 @@ struct fbgc_object *  new_fbgc_range_object(struct fbgc_object * s,struct fbgc_o
     fbgc_token tok = MAX(get_fbgc_object_type(s), get_fbgc_object_type(e));
 
     if(s->type != RANGE){
-        r =  (struct fbgc_range_object*) fbgc_malloc(sizeof_fbgc_range_object());
+        r =  (struct fbgc_range_object*) fbgc_malloc_object(sizeof_fbgc_range_object());
         r->base.type = RANGE;
         r->start = s;
         r->end = e;  
@@ -146,6 +146,7 @@ uint8_t print_fbgc_range_object(struct fbgc_object * self){
         printf(":");
     }
     printf_fbgc_object(cast_fbgc_object_as_range(self)->end); 
+    return 1;
 }
 
 const struct fbgc_object_property_holder fbgc_range_object_property_holder = {

@@ -4,7 +4,7 @@
 
 struct fbgc_object * new_fbgc_field_object(void){
 
-	struct fbgc_field_object * field = (struct fbgc_field_object *) fbgc_malloc(sizeof(struct fbgc_field_object ));
+	struct fbgc_field_object * field = (struct fbgc_field_object *) fbgc_malloc_object(sizeof(struct fbgc_field_object ));
 	//field->base.next = NULL;
 	field->base.type = FIELD; 
 	field->head = _new_fbgc_ll();
@@ -18,7 +18,7 @@ struct fbgc_object * new_fbgc_field_object(void){
 
 void load_module_in_field_object(struct fbgc_object * field_obj, const struct fbgc_cmodule * module){
 
-	struct fbgc_cmodule_object * cm = (struct fbgc_cmodule_object *) fbgc_malloc(sizeof(struct fbgc_cmodule_object ));
+	struct fbgc_cmodule_object * cm = (struct fbgc_cmodule_object *) fbgc_malloc_object(sizeof(struct fbgc_cmodule_object ));
 	cm->module = module;
 	cm->base.type = CMODULE;//CHANGE THIS
 

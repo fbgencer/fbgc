@@ -1,7 +1,7 @@
 #include "fbgc.h"
 
 struct fbgc_object * new_fbgc_class_object(){ 
-  struct fbgc_class_object * o = (struct fbgc_class_object*) fbgc_malloc(sizeof_fbgc_class_object());
+  struct fbgc_class_object * o = (struct fbgc_class_object*) fbgc_malloc_object(sizeof_fbgc_class_object());
     o->base.type = CLASS;
     o->code = NULL;
 	o->locals = new_fbgc_array_object(1,sizeof(struct fbgc_identifier));
@@ -48,7 +48,7 @@ void inherit_from_another_class(struct fbgc_object * self,struct fbgc_object * f
 //===============================================================================================
 
 struct fbgc_object * new_fbgc_instance_object(struct fbgc_object * _template){ 
-  struct fbgc_instance_object * o = (struct fbgc_instance_object*) fbgc_malloc(sizeof(struct fbgc_instance_object));
+  struct fbgc_instance_object * o = (struct fbgc_instance_object*) fbgc_malloc_object(sizeof(struct fbgc_instance_object));
     o->base.type = INSTANCE;
     o->template_class = _template;
 
