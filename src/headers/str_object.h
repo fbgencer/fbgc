@@ -40,24 +40,6 @@ void free_fbgc_str_object(struct fbgc_object * );
 uint8_t my_strncmp(const char *s1, const char *s2, register size_t n);
 uint8_t my_strcmp(const char *p1, const char *p2);
 
-struct fbgc_cstr_object{
-    struct fbgc_object base;
-    char content[0]; 
-};
-
-extern const struct fbgc_object_property_holder fbgc_cstr_object_property_holder;
-
-#define cast_fbgc_object_as_cstr(x)(((struct fbgc_cstr_object*) x))
-#define length_fbgc_cstr_object(x)(strlen(cast_fbgc_object_as_cstr(x)->content))
-#define content_fbgc_cstr_object(x)(cast_fbgc_object_as_cstr(x)->content)
-#define sizeof_fbgc_cstr_object(x)(sizeof(struct fbgc_cstr_object)+length_fbgc_cstr_object(x))
-
-struct fbgc_object * new_fbgc_cstr_object(const char *str);
-struct fbgc_object * new_fbgc_cstr_object_from_substr(const char *str1,const char *str2);
-uint8_t print_fbgc_cstr_object(struct fbgc_object *);
-
-
-
 
 
 #ifdef  __cplusplus

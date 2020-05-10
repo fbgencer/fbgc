@@ -8,20 +8,21 @@ extern "C" {
 
 struct fbgc_tuple_object{
     struct fbgc_object base;
-    size_t capacity;
     size_t size;
-    struct fbgc_object * content[0];
+    struct fbgc_object ** content;
 };
 extern const struct fbgc_object_property_holder fbgc_tuple_object_property_holder;
 
+#define sizeof_fbgc_tuple_object(x)(sizeof(struct fbgc_tuple_object))
+
 #define cast_fbgc_object_as_tuple(x)(((struct fbgc_tuple_object*) x))
 #define size_fbgc_tuple_object(x)(cast_fbgc_object_as_tuple(x)->size)
-#define capacity_fbgc_tuple_object(x)(cast_fbgc_object_as_tuple(x)->capacity)
-
-#define sizeof_fbgc_tuple_object(x)(sizeof(struct fbgc_tuple_object) + sizeof(struct fbgc_object*)*capacity_fbgc_tuple_object(x))
-
-
+#define capacity_fbgc_tuple_object(x)(capacity_fbgc_raw_memory(cast_fbgc_object_as_tuple(x)->content,sizeof(struct fbgc_object *) ))
 #define content_fbgc_tuple_object(x)(cast_fbgc_object_as_tuple(x)->content)
+
+
+
+
 
 struct fbgc_object * new_fbgc_tuple_object(size_t size);
 struct fbgc_object * new_fbgc_tuple_object_from_tuple_content(struct fbgc_object ** src, size_t len);

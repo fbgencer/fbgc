@@ -69,11 +69,19 @@ struct fbgc_object_member{
 	} member[];
 };
 
+
+
+
+struct fbgc_cfun_arg{
+	struct fbgc_object ** arg;
+	uint8_t argc : 7;
+	uint8_t kwargs_flag : 1;
+};
 // This is actual function struct
 // Pointer holds C function itself, each C function must take 2 args and return 1 fbgc_object
 struct fbgc_cfunction{
     const char *name;
-    struct fbgc_object * (* function)(struct fbgc_object **, int );
+    struct fbgc_object * (* function)(struct fbgc_cfun_arg * );
 };
 
 struct fbgc_object_method{

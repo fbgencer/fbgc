@@ -2,35 +2,55 @@
 #include "fbgc_io.h"
 
 
-static struct fbgc_object * fbgc_io_print(struct fbgc_object ** arg, int argc){
-	
-	for(size_t i = 0; i<argc; ++i){
-		 
-		//print_fbgc_object(arg[i]);
-		const struct fbgc_object_property_holder * p = get_fbgc_object_property_holder(arg[i]);
 
-		int8_t w = _find_property(p->bits,_BIT_PRINT);
-		if(w != -1){
-			p->properties[w].print(arg[i]);
+static struct fbgc_object * fbgc_io_print(struct fbgc_cfun_arg * arg){
+	
+
+	static const char * keywords [] = {"end","sep",NULL};
+	struct fbgc_object * kwargs = NULL;
+	if(arg->kwargs_flag)
+		kwargs = arg->arg[arg->argc];
+
+
+	uint8_t _argc = arg->argc-1;
+	for(uint8_t i = 0; i<arg->argc; ++i){
+		 
+		printf_fbgc_object(arg->arg[i]);
+		
+		//Change this printing seperator part
+		if(i != _argc){
+			if(kwargs){
+				struct fbgc_object * sepobj = fbgc_map_object_lookup_str(kwargs,keywords[1]);
+				if(sepobj != NULL){
+					printf_fbgc_object(sepobj);
+					continue;
+				}
+
+			}
+			fprintf(stdout," ");
 		}
-		else{
-			//put an error
-			assert(0);
+		
+	}
+	if(kwargs){
+		struct fbgc_object * endobj = fbgc_map_object_lookup_str(kwargs,keywords[0]);
+		if(endobj != NULL){
+			printf_fbgc_object(endobj);
+			return __fbgc_nil;
 		}
-		//printf_fbgc_object(arg[i]);
-		fprintf(stdout," ");
+		
 	}
 	fprintf(stdout,"\n");
 
 	return __fbgc_nil;
 }
 
-static struct fbgc_object * fbgc_io_read(struct fbgc_object ** arg, int argc){
 
-	if(parse_tuple_content(arg,argc,"!s") == -1)
+static struct fbgc_object * fbgc_io_read(struct fbgc_cfun_arg * arg){
+
+	if(parse_tuple_content(arg,"!s") == -1)
         return NULL;
 	
-	printf_fbgc_object(arg[0]);
+	printf_fbgc_object(arg->arg[0]);
 	char *str_content;
 	assert(scanf("%ms",&str_content) == 1);
 	

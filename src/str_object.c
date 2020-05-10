@@ -311,7 +311,7 @@ struct fbgc_object * set_object_in_fbgc_str_object(struct fbgc_object * so,int i
 }
 
 uint8_t print_fbgc_str_object(struct fbgc_object * obj){
-    return printf("'%s'",content_fbgc_str_object(obj));   
+    return printf("%s",content_fbgc_str_object(obj));   
 }
 
 void free_fbgc_str_object(struct fbgc_object * obj){
@@ -320,10 +320,10 @@ void free_fbgc_str_object(struct fbgc_object * obj){
 }
 
 static 
-struct fbgc_object * find_fbgc_str_object(struct fbgc_object ** arg,int argc){
+struct fbgc_object * find_fbgc_str_object(struct fbgc_cfun_arg * arg){
     struct fbgc_str_object * self;
     struct fbgc_str_object * so;
-    if(parse_tuple_content(arg,argc,"ss",&self,&so) == -1)
+    if(parse_tuple_content(arg,"ss",&self,&so) == -1)
         return NULL;
 
     char * pch = strstr (self->content,so->content);
@@ -335,24 +335,24 @@ struct fbgc_object * find_fbgc_str_object(struct fbgc_object ** arg,int argc){
 
 
 static 
-struct fbgc_object * split_fbgc_str_object(struct fbgc_object ** arg,int argc){
+struct fbgc_object * split_fbgc_str_object(struct fbgc_cfun_arg * arg){
     
-    if(parse_tuple_content(arg,argc,"!s|ss") == -1)
+    if(parse_tuple_content(arg,"!s|ss") == -1)
         return NULL;
-    struct fbgc_str_object * self = (struct fbgc_str_object *)arg[0];
+    struct fbgc_str_object * self = (struct fbgc_str_object *)arg->arg[0];
     
     struct fbgc_object * str_tuple = new_fbgc_tuple_object(0);
 
     char * start = self->content;
     char * end = start;
 
-    if(argc == 1){
+    if(arg->argc == 1){
         for(;;){       
             //Go until we see no space
             while(*end && !isspace(*end))
                 ++end;
             //now we have a string from start to end
-            _push_back_fbgc_tuple_object(&str_tuple,new_fbgc_str_object_from_substr(start,end));
+            push_back_fbgc_tuple_object(str_tuple,new_fbgc_str_object_from_substr(start,end));
             
             //go until finishing the space
             while(*end && isspace(*end))
@@ -365,13 +365,13 @@ struct fbgc_object * split_fbgc_str_object(struct fbgc_object ** arg,int argc){
         }        
     }
     else{
-        struct fbgc_object * splt_str = arg[1];
+        struct fbgc_object * splt_str = arg->arg[1];
         while(*end){
             end = strstr(start,content_fbgc_str_object(splt_str));
             if(end == NULL)
                 end = content_fbgc_str_object(self)+length_fbgc_str_object(self);
             
-            _push_back_fbgc_tuple_object(&str_tuple,new_fbgc_str_object_from_substr(start,end));
+            push_back_fbgc_tuple_object(str_tuple,new_fbgc_str_object_from_substr(start,end));
             start = end + length_fbgc_str_object(splt_str);
         }
 
@@ -391,12 +391,12 @@ static char * rstrip_internal(char *start ,char * end){
 }
 
 static
-struct fbgc_object * strip_fbgc_str_object(struct fbgc_object ** arg,int argc){
+struct fbgc_object * strip_fbgc_str_object(struct fbgc_cfun_arg * arg){
     
-    if(parse_tuple_content(arg,argc,"!s|ss") == -1)
+    if(parse_tuple_content(arg,"!s|ss") == -1)
         return NULL;
 
-    struct fbgc_str_object * self = (struct fbgc_str_object *)arg[0];
+    struct fbgc_str_object * self = (struct fbgc_str_object *)arg->arg[0];
 
     char * start = self->content;
     char * end = self->content + length_fbgc_str_object(self)-1;
@@ -406,12 +406,12 @@ struct fbgc_object * strip_fbgc_str_object(struct fbgc_object ** arg,int argc){
     return new_fbgc_str_object_from_substr(start,++end);
 }
 static
-struct fbgc_object * lstrip_fbgc_str_object(struct fbgc_object ** arg,int argc){
+struct fbgc_object * lstrip_fbgc_str_object(struct fbgc_cfun_arg * arg){
     
-    if(parse_tuple_content(arg,argc,"!s|ss") == -1)
+    if(parse_tuple_content(arg,"!s|ss") == -1)
         return NULL;
 
-    struct fbgc_str_object * self = (struct fbgc_str_object *)arg[0];
+    struct fbgc_str_object * self = (struct fbgc_str_object *)arg->arg[0];
     
     char * start = self->content;
     char * end = self->content + length_fbgc_str_object(self);
@@ -420,12 +420,12 @@ struct fbgc_object * lstrip_fbgc_str_object(struct fbgc_object ** arg,int argc){
     return new_fbgc_str_object_from_substr(start,end);
 }
 static
-struct fbgc_object * rstrip_fbgc_str_object(struct fbgc_object ** arg,int argc){
+struct fbgc_object * rstrip_fbgc_str_object(struct fbgc_cfun_arg * arg){
     
-    if(parse_tuple_content(arg,argc,"!s|ss") == -1)
+    if(parse_tuple_content(arg,"!s|ss") == -1)
         return NULL;
 
-    struct fbgc_str_object * self = (struct fbgc_str_object *)arg[0];
+    struct fbgc_str_object * self = (struct fbgc_str_object *)arg->arg[0];
     
     char * start = self->content;
     char * end = self->content + length_fbgc_str_object(self)-1;
@@ -489,7 +489,7 @@ const struct fbgc_object_property_holder fbgc_str_object_property_holder = {
     ,
     .properties ={
         {.print = &print_fbgc_str_object},
-        {.methods = &_str_methods},
+        //{.methods = &_str_methods},
         {.binary_operator = &operator_fbgc_str_object}, 
         {.subscript_operator = &subscript_operator_fbgc_str_object},
         {.subscript_assign_operator = &subscript_assign_operator_fbgc_str_object},
@@ -545,45 +545,3 @@ uint8_t my_strcmp(const char *p1, const char *p2)
   while (c1 == c2);
   return c1 - c2;
 }
-
-
-//##########################################[C-STRINGS]###################################
-
-struct fbgc_object * new_fbgc_cstr_object(const char * str_content){
-
-    size_t str_len = strlen(str_content);
-
-    struct fbgc_cstr_object *stro =  (struct fbgc_cstr_object*) fbgc_malloc_object(sizeof(struct fbgc_cstr_object) + str_len+1 ); 
-    stro->base.type = CSTRING;
-    //stro->base.next = NULL;
-    memcpy(&stro->content,str_content,str_len+1);
-    return (struct fbgc_object*) stro;  
-
-}
-
-
-struct fbgc_object * new_fbgc_cstr_object_from_substr(const char * str1,const char * str2){
-    
-    size_t str_len = str2-str1;
-    struct fbgc_cstr_object *stro =  (struct fbgc_cstr_object*) fbgc_malloc_object(sizeof(struct fbgc_cstr_object)+ str_len+1 ); 
-    stro->base.type = CSTRING;
-    memcpy(&stro->content,str1,str_len);
-    stro->content[str_len] = '\0';
-    return (struct fbgc_object*) stro;  
-}
-
-
-uint8_t print_fbgc_cstr_object(struct fbgc_object * obj){
-    return cprintf(011,"\"%s\"", cast_fbgc_object_as_cstr(obj)->content);   
-}
-
-
-
-const struct fbgc_object_property_holder fbgc_cstr_object_property_holder = {
-    .bits = 
-    _BIT_PRINT 
-    ,
-    .properties ={
-        {.print = &print_fbgc_cstr_object}, 
-    }
-};

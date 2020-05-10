@@ -1,4 +1,4 @@
-
+#ifdef OPEN_ME
 
 #include "../src/fbgc.h"
 #include "fbgc_math.h"
@@ -418,3 +418,5 @@ const struct fbgc_cmodule fbgc_math_module =
 		{NULL,NULL},
 	}
 };
+
+#endif

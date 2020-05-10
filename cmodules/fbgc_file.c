@@ -2,11 +2,11 @@
 #include "fbgc_file.h"
 
 static
-struct fbgc_object * fbgc_file_read(struct fbgc_object ** arg,int argc){
+struct fbgc_object * fbgc_file_read(struct fbgc_cfun_arg * arg){
 
 	struct fbgc_cstruct_object * so; 
 
-	if(parse_tuple_content(arg,argc,".",&so) == -1)
+	if(parse_tuple_content(arg,".",&so) == -1)
 		return NULL;
 
 	//= cast_fbgc_object_as_cstruct(arg[0]);
@@ -30,12 +30,12 @@ struct fbgc_object * fbgc_file_read(struct fbgc_object ** arg,int argc){
 
 
 static
-struct fbgc_object * fbgc_file_print(struct fbgc_object ** arg,int argc){
+struct fbgc_object * fbgc_file_print(struct fbgc_cfun_arg * arg){
 	
 	struct fbgc_cstruct_object * so; 
 	struct fbgc_str_object * payload;
 
-	if(parse_tuple_content(arg,argc,".s",&so,&payload) == -1)
+	if(parse_tuple_content(arg,".s",&so,&payload) == -1)
 		return NULL;
 	
 	struct file_struct * fs = (struct file_struct *) so->cstruct; 
@@ -46,7 +46,7 @@ struct fbgc_object * fbgc_file_print(struct fbgc_object ** arg,int argc){
 
 
 static
-struct fbgc_object * fbgc_file_printline(struct fbgc_object ** arg,int argc){
+struct fbgc_object * fbgc_file_printline(struct fbgc_cfun_arg * arg){
 	
 	//Not tested yet..
 
@@ -54,7 +54,7 @@ struct fbgc_object * fbgc_file_printline(struct fbgc_object ** arg,int argc){
 	struct fbgc_int_object * line_no;
 	struct fbgc_str_object * payload;
 
-	if(parse_tuple_content(arg,argc,".is",&so,&line_no,&payload) == -1)
+	if(parse_tuple_content(arg,".is",&so,&line_no,&payload) == -1)
 		return NULL;
 	
 	struct file_struct * fs = (struct file_struct *) so->cstruct; 
@@ -93,12 +93,12 @@ struct fbgc_object * fbgc_file_printline(struct fbgc_object ** arg,int argc){
 }
 
 static
-struct fbgc_object * fbgc_file_readline(struct fbgc_object ** arg,int argc){
+struct fbgc_object * fbgc_file_readline(struct fbgc_cfun_arg * arg){
 	
 	struct fbgc_cstruct_object * so; 
 	struct fbgc_int_object * line_no;
 
-	if(parse_tuple_content(arg,argc,".i",&so,&line_no) == -1)
+	if(parse_tuple_content(arg,".i",&so,&line_no) == -1)
 		return NULL;
 		
 	struct file_struct * fs = (struct file_struct *) so->cstruct; 
@@ -144,11 +144,11 @@ struct fbgc_object * fbgc_file_readline(struct fbgc_object ** arg,int argc){
 }
 
 static
-struct fbgc_object * fbgc_file_close(struct fbgc_object ** arg,int argc){
+struct fbgc_object * fbgc_file_close(struct fbgc_cfun_arg * arg){
 	
 	struct fbgc_cstruct_object * so; 
 
-	if(parse_tuple_content(arg,argc,".",&so) == -1)
+	if(parse_tuple_content(arg,".",&so) == -1)
 		return NULL;
 	
 	struct file_struct * fs = (struct file_struct *) so->cstruct; 
@@ -160,8 +160,9 @@ struct fbgc_object * fbgc_file_close(struct fbgc_object ** arg,int argc){
 
 
 static struct fbgc_object * subscript_operator_fbgc_file(struct fbgc_object * iterable,struct fbgc_object * index_obj){
-	struct fbgc_object * xx[2] = {iterable,index_obj};
-	return fbgc_file_readline(xx,2);
+	struct fbgc_object * temp[2] = {iterable,index_obj};
+	struct fbgc_cfun_arg arg = {.arg = temp, .argc = 2, .kwargs_flag = 0};
+	return fbgc_file_readline(&arg);
 }
 
 static struct fbgc_object_method _fbgc_file_cstruct_methods = {
@@ -188,9 +189,9 @@ const struct fbgc_object_property_holder fbgc_file_cstruct_property_holder = {
 };
 
 
-static struct fbgc_object * fbgc_file_fopen(struct fbgc_object ** arg,int argc){
+static struct fbgc_object * fbgc_file_fopen(struct fbgc_cfun_arg * arg){
 	
-	if(argc == 2 && arg[0]->type == STRING && arg[1]->type == STRING){
+	/*if(argc == 2 && arg[0]->type == STRING && arg[1]->type == STRING){
 		struct fbgc_cstruct_object * so = (struct fbgc_cstruct_object *) new_fbgc_cstruct_object(sizeof(struct file_struct), &fbgc_file_cstruct_property_holder);
 		struct file_struct * fs = (struct file_struct *) so->cstruct; 		
 	
@@ -198,7 +199,7 @@ static struct fbgc_object * fbgc_file_fopen(struct fbgc_object ** arg,int argc){
 		assert(fs->fp != NULL);
 
 		return (struct fbgc_object *)so;
-	}
+	}*/
 	
 	cprintf(100,"fopen takes exactly two arguments!\n");
 	return NULL;	

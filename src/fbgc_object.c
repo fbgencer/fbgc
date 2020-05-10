@@ -29,7 +29,7 @@ const struct fbgc_object_property_holder * get_fbgc_object_property_holder(struc
 		case FUN : return &fbgc_fun_object_property_holder;
 		case CLASS : return &fbgc_class_object_property_holder;
 		case FIELD : return &fbgc_field_object_property_holder;
-		case CSTRING : return &fbgc_cstr_object_property_holder;
+		
 
 	}
 	FBGC_LOGE("Type %s does not have property holder\n",objtp2str(o));
@@ -93,8 +93,8 @@ uint8_t print_fbgc_object(struct fbgc_object * self){
 			case STRING:
 				print_fbgc_str_object(self);
 			break;
-			case CSTRING:
-				print_fbgc_cstr_object(self);
+			case MAP:
+				print_fbgc_map_object(self);
 			break;
 			case TUPLE:
 				print_fbgc_tuple_object(self);
@@ -139,8 +139,7 @@ switch(type){
 	case FUN : sz = sizeof_fbgc_fun_object(); break; 
 	case CSTRUCT : sz = sizeof_fbgc_cstruct_object(obj); break; 
 	case IDENTIFIER : sz = sizeof_fbgc_ll_identifier(); break; 
-	case RANGE : sz = sizeof_fbgc_range_object(); break; 
-	case CSTRING : sz = sizeof_fbgc_cstr_object(obj); break; 
+	case RANGE : sz = sizeof_fbgc_range_object(); break;
 	case ARRAY : sz = sizeof_fbgc_array_object(obj); break; 
 	//case LINKED_LIST : sz = sizeof_fbgc_ll_object(); break; 
 	case CMODULE : sz = sizeof_fbgc_cmodule_object(); break; 
@@ -382,59 +381,4 @@ struct fbgc_object * subscript_assign_operator_fbgc_object(struct fbgc_object * 
 		FBGC_LOGE("%s does not satisfy []= operator\n",objtp2str(iterable));
 		return NULL;
 	}
-}
-
-
-
-
-
-struct fbgc_object ** get_address_fbgc_object_member(struct fbgc_object * o, const char * str){
-	switch(o->type)
-	{
-		//case INT: return get_set_fbgc_int_object_member(o,str,nm);
-		//case DOUBLE: return get_set_fbgc_double_object_member(o,str,nm);
-		/*case COMPLEX: return get_set_fbgc_complex_object_member(o,str,nm);
-		case CSTRUCT:
-		{
-			struct fbgc_cstruct_object * so = cast_fbgc_object_as_cstruct(o);
-			const struct fbgc_cmodule * cm = so->parent;
-			for (int i = 0; ; ++i){
-				const struct fbgc_cfunction * cc = cm->functions[i];
-				if(cc == NULL) break;
-				
-				if(!my_strcmp(str,cc->name)){
-					return new_fbgc_cfun_object(cc->function);
-				} 
-				
-			}
-			return NULL;
-		}
-		case FIELD:{
-			if(nm!= NULL) return NULL;
-
-			struct fbgc_object * ao = cast_fbgc_object_as_field(o)->locals;
-			for(unsigned int i = 0;  i<size_fbgc_array_object(ao); ++i){	
-				struct fbgc_identifier * temp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(ao,i);
-				//cprintf(111,"temp_idname = %s, str:%s => %d\n",content_fbgc_cstr_object(temp_id->name),str,my_strcmp(content_fbgc_cstr_object(temp_id->name),str));
-				if(!my_strcmp(content_fbgc_cstr_object(temp_id->name),str)){
-					//cprintf(111,"I am returning\n");
-					if(nm != NULL){
-						temp_id->content = nm;	
-					}
-					return temp_id->content;
-				}
-			}
-
-			return NULL;
-		}*/
-
-		case INSTANCE:{
-			return get_set_fbgc_instance_object_member_address(o,str);
-		}
-
-		default:
-			cprintf(100,"[%s] cannot accessible\n",object_name_array[o->type]);
-			break;
-	}
-	return NULL;
 }

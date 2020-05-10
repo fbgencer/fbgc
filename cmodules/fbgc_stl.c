@@ -1,3 +1,5 @@
+#ifdef OPEN_ME
+
 #include "../src/fbgc.h"
 #include "fbgc_stl.h"
 
@@ -268,3 +270,4 @@ const struct fbgc_cmodule fbgc_stl_module =
 // 	}
 // };
 
+#endif

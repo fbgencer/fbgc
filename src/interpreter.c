@@ -153,7 +153,7 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 
 				//In parsing phase content of identifiers are set the NULL so it means they did not defined by the user
 				if(tmp->content == NULL){
-					printf("Undefined variable '%s'\n",content_fbgc_cstr_object(tmp->name));
+					printf("Undefined variable '%s'\n",content_fbgc_str_object(tmp->name));
 					//fbgc_error(_FBGC_UNDEFINED_IDENTIFIER_ERROR,-1);
 					return 0;
 				}
@@ -180,22 +180,22 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 				struct fbgc_object * object;
 
 				if(is_id_flag_MEMBER_METHOD(pc) == 0){
-					object = get_set_fbgc_object_member(self,content_fbgc_cstr_object(member), NULL);
+					object = get_set_fbgc_object_member(self,content_fbgc_str_object(member), NULL);
 					if(object == NULL){
 						//! @todo more meaningfull error messages
-						printf("Object does not have %s member\n",content_fbgc_cstr_object(member));
+						printf("Object does not have %s member\n",content_fbgc_str_object(member));
 						goto INTERPRETER_ERROR_LABEL;
 					}					
 					PUSH(object);
 				}
 				else{
-					object = get_fbgc_object_method(self,content_fbgc_cstr_object(member));
+					object = get_fbgc_object_method(self,content_fbgc_str_object(member));
 					if(object == NULL)
-						object = get_set_fbgc_object_member(self,content_fbgc_cstr_object(member), NULL);
+						object = get_set_fbgc_object_member(self,content_fbgc_str_object(member), NULL);
 
 					if(object == NULL){
 						//! @todo more meaningfull error messages
-						printf("Object does not have %s method\n",content_fbgc_cstr_object(member));
+						printf("Object does not have %s method\n",content_fbgc_str_object(member));
 						goto INTERPRETER_ERROR_LABEL;
 					}
 
@@ -347,11 +347,11 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 			else if(is_id_flag_MEMBER(pc)){
 				struct fbgc_object * member = POP();
 				
-				struct fbgc_object * obj = get_set_fbgc_object_member(TOP(),content_fbgc_cstr_object(member) , rhs);
+				struct fbgc_object * obj = get_set_fbgc_object_member(TOP(),content_fbgc_str_object(member) , rhs);
 
 				//<! @todo This function is only valid for instance objects so change it !
 				if(obj == NULL ){
-					printf("[%s] does not support [%s] member assignment\n",objtp2str(TOP()),content_fbgc_cstr_object(member));
+					printf("[%s] does not support [%s] member assignment\n",objtp2str(TOP()),content_fbgc_str_object(member));
 					goto INTERPRETER_ERROR_LABEL;
 				}
 				_POP();
@@ -501,25 +501,38 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 
 			break;
 		}
+		case KWFUN_CALL:
 		case FUN_CALL:{
+
 
 			int arg_no = _cast_llbase_as_llopcode_int(pc)->content;
 			struct fbgc_object * funo = TOPN(arg_no+1);
 
+			uint8_t kwargs_flag = false;
 			int pop_number = 0;
+
+			if(type == KWFUN_CALL){
+				kwargs_flag = true;
+				--arg_no;
+				--pop_number;
+			}
+
+			
 
 			FBGC_LOGV(INTERPRETER,"Fun call arg no :%d || call type :%s\n",arg_no,objtp2str(funo));
 			
 			if(funo->type == FIELD || funo->type == CMODULE){
-				//Call the second pop the field
+				//Call the second, pop the field
 				funo = TOPN(arg_no--);
 				--pop_number; 
 			}
 			
 
 			if(funo->type == CFUN){
-				STACK_GOTO(-arg_no);
-				struct fbgc_object * res = cfun_object_call(funo, sp+sctr, arg_no);
+				STACK_GOTO(-arg_no - kwargs_flag);
+				struct fbgc_cfun_arg cfarg = {.arg =sp+sctr, .argc = arg_no, .kwargs_flag = kwargs_flag };
+				struct fbgc_object * res = cast_fbgc_object_as_cfun(funo)->function(&cfarg);
+				
 				--pop_number;
 
 				if(res == NULL){
@@ -574,28 +587,77 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 				}
 			}
 
-
-
 			if(funo->type != FUN){
 				printf("Object is not callable, type %s\n",object_name_array[funo->type]);
 				goto INTERPRETER_ERROR_LABEL;
 			}
 
-			if(cast_fbgc_object_as_fun(funo)->no_arg < 0){
-				//Is variadic function ?,
-				int nvararg = arg_no + cast_fbgc_object_as_fun(funo)->no_arg + 1;
-				struct fbgc_object * argtple = new_fbgc_tuple_object_from_tuple_content(sp+sctr-nvararg,nvararg);
+			int8_t funo_no_arg = cast_fbgc_object_as_fun(funo)->no_arg;
 
-				SET_TOPN(nvararg--,argtple);
+			cprintf(111,"funo no arg: %d\n",funo_no_arg);
+
+			struct fbgc_ll_base * code_start = cast_fbgc_object_as_fun(funo)->code;
+
+			if(funo_no_arg < 0){
+
+				int pos_arg_no = -funo_no_arg-1;
+
+				//Is variadic function ?,
+				int nvararg = arg_no + funo_no_arg + 1;
+
+				if(cast_fbgc_object_as_fun(funo)->flag_default_args == 0){
+					if(pos_arg_no > arg_no){
+						printf("Argument match error! funo->arg %d, arg_no %d\n",funo_no_arg,arg_no);
+						goto INTERPRETER_ERROR_LABEL;
+					}
+					funo_no_arg = pos_arg_no;
+					arg_no = funo_no_arg;
+				}
+				else{
+					if(arg_no <= pos_arg_no){
+						//We need to skip variadic part
+						//delete variadic part
+						funo_no_arg = pos_arg_no;
+						nvararg = 0;
+					}
+					else{
+						//We need to skip default arg part
+						funo_no_arg = pos_arg_no;
+						arg_no = funo_no_arg;
+					}
+
+					if(funo_no_arg != arg_no){
+						struct fbgc_object * deftuple = _cast_llbase_as_llconstant(cast_fbgc_object_as_fun(funo)->code)->content;
+						print_fbgc_object(deftuple);
+
+						int push_no = funo_no_arg - arg_no;
+						if(push_no != size_fbgc_tuple_object(deftuple)){
+							assert(0);
+						}
+
+						for(int i = 0; i< push_no; ++i){
+							cprintf(111,"%c:pushing\n",print_fbgc_object(content_fbgc_tuple_object(deftuple)[i]));
+							PUSH(content_fbgc_tuple_object(deftuple)[i]);
+						}
+					}
+
+					arg_no = funo_no_arg;
+				}
+
+				struct fbgc_object * argtple = new_fbgc_tuple_object_from_tuple_content(sp+sctr-nvararg,nvararg);
+				SET_TOPN(nvararg,argtple);
 				STACK_GOTO( -nvararg );
-				arg_no = -cast_fbgc_object_as_fun(funo)->no_arg;
+				//arg_no = -funo_no_arg;
+				
 				//print_fbgc_object(argtple);
 				
 				//return;
 			}
-			else if(cast_fbgc_object_as_fun(funo)->no_arg != arg_no ){
-				printf("Argument match error! funo->arg %d, arg_no %d\n",cast_fbgc_object_as_fun(funo)->no_arg,arg_no);
+			else if(cast_fbgc_object_as_fun(funo)->flag_default_args == 0 && funo_no_arg != arg_no ){
+				
+				printf("Argument match error! funo->arg %d, arg_no %d\n",funo_no_arg,arg_no);
 				goto INTERPRETER_ERROR_LABEL;
+				
 			}
 
 			if(last_called_function == funo) ++recursion_ctr;
@@ -604,15 +666,25 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 				recursion_ctr = 0;
 			}
 
-
 			STACK_GOTO(cast_fbgc_object_as_fun(funo)->no_locals - arg_no);
-			//struct fbgc_object * prepare_fun_call_packet(struct fbgc_ll_base _pc, struct fbgc_object * _last_scope, int _frame_ctr , uint8_t _pop_number)
-			//pc is after returning code will start executing from the next of pc
-			//last_scope is changing scopes for variables for their definition
-			//frame_ctr is for function local variables
-			//pop_number is return will change the stack size by using this variable
-			//We also want to delete function name so we add +1
 
+			if(cast_fbgc_object_as_fun(funo)->flag_default_args){
+				if(funo_no_arg != arg_no){
+					struct fbgc_object * deftuple = _cast_llbase_as_llconstant(cast_fbgc_object_as_fun(funo)->code)->content;
+					print_fbgc_object(deftuple);
+
+					int push_no = funo_no_arg - arg_no;
+					if(push_no > size_fbgc_tuple_object(deftuple)){
+						assert(0);
+					}
+
+					for(int i = 0; i< push_no; ++i){
+						cprintf(111,"%c:pushing\n",print_fbgc_object(content_fbgc_tuple_object(deftuple)[i]));
+						SET_TOPN(i+1,content_fbgc_tuple_object(deftuple)[i]);
+					}
+				}
+				code_start = cast_fbgc_object_as_fun(funo)->code->next;
+			}
 
 			PUSH( prepare_fun_call_packet(pc,current_scope,fctr,cast_fbgc_object_as_fun(funo)->no_locals+1));
 
@@ -622,8 +694,9 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 			//hold old position of sp with fp, assume that args already pushed into stack
 			fctr = sctr-cast_fbgc_object_as_fun(funo)->no_locals-1;
 			//execute function
-			
-			pc = cast_fbgc_object_as_fun(funo)->code;
+
+
+			pc = code_start;
 			//We should not break here because pc will start immeadiately from where is it assigned above
 			//if we use break, fetch_next will change the order of execution
 			continue;
@@ -729,6 +802,19 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 			break;
 			//return 0;
 		}
+		case BUILD_MAP:{
+			int map_size = _cast_llbase_as_llopcode_int(pc)->content;
+			struct fbgc_object * map = new_fbgc_map_object(map_size,50);
+			//Instead of pop we can give starting address and insert everything automatically
+			while(map_size--){
+				struct fbgc_object * value = POP();
+				struct fbgc_object * key = POP();
+				fbgc_map_object_insert(map,key,value);
+			}
+
+			PUSH(map);
+			break;
+		}
 		case POP_TOP:
 		{
 			_POP();
@@ -770,6 +856,27 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 			pc = cast_fbgc_object_as_class(cls)->code;
 			continue;
 		}
+		case BUILD_FUN_DEFAULT_ARGS:{
+			
+			struct fbgc_object * tp = POP();
+			struct fbgc_object * funo = TOP();		
+
+			struct fbgc_ll_base * n = _new_fbgc_ll_constant(tp);
+			n->next = cast_fbgc_object_as_fun(funo)->code;
+			cast_fbgc_object_as_fun(funo)->code = n;
+			
+
+			FBGC_LOGV(INTERPRETER,"%c\n",_print_fbgc_ll_code(cast_fbgc_object_as_fun(funo)->code,NULL));
+			//FBGC_LOGV(INTERPRETER,"Default arg no :%d\n",arg_no);
+
+			//struct fbgc_object * funo = TOPN(arg_no+1);
+			//
+
+			//struct fbgc_object * tp = new_fbgc_tuple_object(arg_no);
+
+
+			break;
+		}
 		
 		default:
 		{
@@ -810,7 +917,7 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 
 	INTERPRETER_ERROR_LABEL:
 		cprintf(100,"Execution stopped!\n");
-		assert(0);
+		return NULL;
 
 
 #undef sctr

@@ -8,7 +8,7 @@ extern "C" {
 #define KILOBYTE 1024
 
 
-#define PAGE_SIZE  256// 128 * KILOBYTE //[byte]
+#define PAGE_SIZE  128 * KILOBYTE //[byte]
 
 
 #define MEM_OBJECT_POOL 0 

@@ -69,8 +69,10 @@ struct fbgc_object * fbgc_load_module(const char * module_name,const char * fun_
 
 	if(load_key != 0){
 		//call function initializer
-		if(cm->initializer.function != NULL)
-			cm->initializer.function(&current_field, 1); //need to send the address of current field
+		if(cm->initializer.function != NULL){
+			struct fbgc_cfun_arg cfarg = {.arg = &current_field, .argc = 1, .kwargs_flag = 0};
+			cm->initializer.function(&cfarg); //need to send the address of current field
+		}
 
 		for (const struct fbgc_cfunction * cc = cm->functions; cc->name != NULL; ++cc){
 			if(load_key == 2 && my_strcmp(fun_name,cc->name)){
@@ -116,9 +118,9 @@ struct fbgc_object * fbgc_load_file(const char * file_name,const char * fun_name
 			struct fbgc_identifier * ptemp_id;
 			char found = 0;
 
-			//cprintf(111,"ctemp_id name:[%s]fun:[%s]\n",content_fbgc_cstr_object(ctemp_id->name),fun_name);
-			//cprintf(100,"result %d\n",my_strcmp(fun_name,content_fbgc_cstr_object(ctemp_id->name)));
-			if(load_key == 2 && my_strcmp(fun_name,content_fbgc_cstr_object(ctemp_id->name)) ){
+			//cprintf(111,"ctemp_id name:[%s]fun:[%s]\n",content_fbgc_str_object(ctemp_id->name),fun_name);
+			//cprintf(100,"result %d\n",my_strcmp(fun_name,content_fbgc_str_object(ctemp_id->name)));
+			if(load_key == 2 && my_strcmp(fun_name,content_fbgc_str_object(ctemp_id->name)) ){
 				//if no match
 				continue;
 			}
@@ -131,7 +133,7 @@ struct fbgc_object * fbgc_load_file(const char * file_name,const char * fun_name
 				//cprintf(111,"ptemp_id name :"); print_fbgc_object(ptemp_id->name);
 				//cprintf(111," | ctemp_id name :"); print_fbgc_object(ctemp_id->name);
 				
-				if(!my_strcmp(content_fbgc_cstr_object(ptemp_id->name),content_fbgc_cstr_object(ctemp_id->name))){
+				if(!my_strcmp(content_fbgc_str_object(ptemp_id->name),content_fbgc_str_object(ctemp_id->name))){
 					//change the content of ptemp_id object with the second one
 					found = 1;
 					last_j = ++j;
@@ -180,8 +182,9 @@ void printBits(size_t const size, void const * const ptr)
 }
 
 
-int8_t parse_tuple_content(struct fbgc_object ** c, int sz, const char * format, ...){
+int8_t parse_tuple_content(struct fbgc_cfun_arg * cfun_arg,const char * format, ...){
 
+	
 	//cprintf(111,"parsing tuple sz:%d | format'%s'\n",sz,format);
 
 	//Verilecek hatalar
@@ -189,6 +192,9 @@ int8_t parse_tuple_content(struct fbgc_object ** c, int sz, const char * format,
 	//eğer arg varsa mümkün olan arg'a kadar arrayin o objesi assign edilecek
 	//argüman sayısı uyuşmazsa match hatası verilip null dönülecek
 	// parse(a,b,"ij");
+
+	struct fbgc_object ** c = cfun_arg->arg;
+	int sz = cfun_arg->argc;
 
     va_list args;
     va_start(args, format);
@@ -354,6 +360,8 @@ int8_t parse_tuple_content(struct fbgc_object ** c, int sz, const char * format,
 	level = (count_match > 0) ? level : -1;
 	//cprintf(111,"Returning level:%d\n",level);
 	return level;
+	
+	return 0;
 }
 
 
@@ -366,15 +374,6 @@ int main(int argc, char **argv){
 
 //******************************************************************
 	initialize_fbgc_memory_block();
-
-	struct fbgc_object * c = new_fbgc_array_object(20,sizeof(int));
-	printf("array object sizeof :%lu\n",sizeof(struct fbgc_array_object) );
-	printf("array cap : %ld\n",capacity_fbgc_array_object(c) );
-
-	for(int i = 3; i<8; ++i)
-		push_back_fbgc_array_object(c,&i);
-
-	print_fbgc_memory_block();
 
 	/*int * lol = (int * ) fbgc_malloc(sizeof(int)*10);
 	int val[10] = {10,20,30,40,50,60,70,80,90,100};
@@ -390,17 +389,32 @@ int main(int argc, char **argv){
 
 	cprintf(100,"capacity lol :%ld\n",capacity_fbgc_raw_memory(lol,sizeof(int)));
 	cprintf(100,"capacity lol2 :%ld\n",capacity_fbgc_raw_memory(lol2,sizeof(int)));*/
-	//initialize_fbgc_symbol_table();
-	//struct fbgc_object * main_field = new_fbgc_field_object();
-	/*current_field = main_field;
+	initialize_fbgc_symbol_table();
+	struct fbgc_object * main_field = new_fbgc_field_object();
+	current_field = main_field;
 	//load_module_in_field_object(main_field,&fbgc_math_module);
 	//load_module_in_field_object(main_field,&fbgc_file_module);
 		
 	//parse_string(&main_field,"x = 88\n");
 	//cast_fbgc_object_as_field(main_field)->code;
 
-	
+	/*cprintf(100,"sizeof :%lu\n",sizeof(struct fbgc_map_object));
 
+	struct fbgc_object * map = new_fbgc_map_object(2,50);
+	fbgc_map_object_insert(map,new_fbgc_str_object("end"),new_fbgc_int_object(333));
+	fbgc_map_object_insert(map,new_fbgc_str_object("sep"),new_fbgc_int_object(553));
+	
+	cprintf(110,"CHECK sep: %d\n",fbgc_map_object_does_key_exist_str(map,"sep"));
+
+	print_detailed_fbgc_map_object(map);*/
+	//fbgc_map_object_remove_str(map,"fbgencer");
+	//cprintf(100,"fbgencer found at index :%ld\n",fbgc_map_object_get_key_index_str(map,"samsung"));
+
+	//fbgc_map_object_set_exact_size(map);
+	
+	//fbgc_map_object_insert(map,new_fbgc_str_object("floler4"),new_fbgc_int_object(553));
+
+	//print_detailed_fbgc_map_object(map);
 
 	if(argc > 1)
 	{   
@@ -416,7 +430,7 @@ int main(int argc, char **argv){
 	else{
 		compile_file(main_field, "ex.fbgc");
 	   //realtime_fbgc(main_field);
-	}*/
+	}
 
 	free_fbgc_memory_block();
 //******************************************************************

@@ -291,7 +291,7 @@ ssize_t fbgc_getline_from_file(char ** line,FILE * fp){
 	char c = 0;
 
 
-    uint8_t count_para = 0, count_brack = 0;
+    uint8_t count_para = 0, count_brack = 0, count_brace = 0;
     uint8_t quote = 0, cquote = 0;
 
 	while( (c = getc(fp)) != EOF ){
@@ -316,6 +316,10 @@ ssize_t fbgc_getline_from_file(char ** line,FILE * fp){
     			if(count_brack){
     				--cs;
     				*cs++ = ';'; // Allow matrix entries
+    				break;
+    			}
+    			if(count_brace){
+    				--cs;
     				break;
     			}
     			if(quote || cquote){
@@ -357,6 +361,14 @@ ssize_t fbgc_getline_from_file(char ** line,FILE * fp){
     		}
     		case ']':{
     			--count_brack;
+    			break;
+    		}
+    		case '{':{
+    			++count_brace;
+    			break;
+    		}
+    		case '}':{
+    			--count_brace;
     			break;
     		}
     		case '\"':{

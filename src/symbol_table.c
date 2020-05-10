@@ -16,14 +16,6 @@ struct fbgc_ll_base * new_fbgc_symbol_from_substr(const char * str1,const char *
 
 	//General symbol holder see symbol_table.h
 	struct fbgc_object ** symbols = content_fbgc_tuple_object(fbgc_symbols);
-
-
-	//############################
-	//Oh. this part just fucks the time for the variable searching. Clearly, without hash table adding new variable causes lots of times!
-	//############################
-    //clock_t begin,end;
-   // double search_time;
-	//begin = clock();
 	
 	#ifdef SYMBOL_TABLE_DEBUG
 		cprintf(111,"Trying to find str in old symbols\n");
@@ -33,7 +25,7 @@ struct fbgc_ll_base * new_fbgc_symbol_from_substr(const char * str1,const char *
 		//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 		// Find something proper, don't check the string size first but without checking the first match of n characters will return true 
 		//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-		if( strlen(content_fbgc_cstr_object(symbols[i])) == str2-str1 && !my_strncmp(content_fbgc_cstr_object(symbols[i]),str1,str2-str1)  ){
+		if( strlen(content_fbgc_str_object(symbols[i])) == str2-str1 && !my_strncmp(content_fbgc_str_object(symbols[i]),str1,str2-str1)  ){
 
 			#ifdef SYMBOL_TABLE_DEBUG
 				cprintf(110,"Found!\n");
@@ -50,7 +42,7 @@ struct fbgc_ll_base * new_fbgc_symbol_from_substr(const char * str1,const char *
 	//search_time = (double)(end - begin) / CLOCKS_PER_SEC; 
 	//printf("Time :%f\n",search_time );
 
-	struct fbgc_object * temp_obj =  new_fbgc_cstr_object_from_substr(str1,str2);
+	struct fbgc_object * temp_obj =  new_fbgc_str_object_from_substr(str1,str2);
 
 	#ifdef SYMBOL_TABLE_DEBUG
 	cprintf(100,"OLD symbol table : ");

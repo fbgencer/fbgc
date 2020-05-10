@@ -162,7 +162,6 @@ static void * _fbgc_malloc(struct fbgc_memory_pool * opool_iter, size_t size){
 		long * byte_size =  (long *)opool_iter->data;
 		*byte_size = size;
 		opool_iter->tptr = opool_iter->data + size + sizeof(long);
-		cprintf(100,"returning :%p\n",opool_iter->data + sizeof(long));
 		return ( opool_iter->data + sizeof(long) );
 	}
 

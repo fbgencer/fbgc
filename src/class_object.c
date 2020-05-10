@@ -20,12 +20,12 @@ void inherit_from_another_class(struct fbgc_object * self,struct fbgc_object * f
 	for(size_t i = 0; i<size_fbgc_array_object(fao); ++i){
 		struct fbgc_identifier * fid = (struct fbgc_identifier *) get_address_in_fbgc_array_object(fao,i);
 		uint8_t match = 0;
-		FBGC_LOGV(CLASS_OBJECT,"Father id name:%s",content_fbgc_cstr_object(fid->name));
+		FBGC_LOGV(CLASS_OBJECT,"Father id name:%s",content_fbgc_str_object(fid->name));
 
 		for(size_t j = 0; j<size_fbgc_array_object(sao); ++j){
 			struct fbgc_identifier * sid = (struct fbgc_identifier *) get_address_in_fbgc_array_object(sao,j);
-			FBGC_LOGV(CLASS_OBJECT,"Child id name:%s",content_fbgc_cstr_object(sid->name));
-			if(!my_strcmp(content_fbgc_cstr_object(fid->name),content_fbgc_cstr_object(sid->name))){
+			FBGC_LOGV(CLASS_OBJECT,"Child id name:%s",content_fbgc_str_object(sid->name));
+			if(!my_strcmp(content_fbgc_str_object(fid->name),content_fbgc_str_object(sid->name))){
 				//If there is a match then write to flag;
 				FBGC_LOGV(CLASS_OBJECT,"Match!");
 				match = 1;
@@ -212,8 +212,8 @@ struct fbgc_object * get_set_fbgc_class_object_member(struct fbgc_object * o, co
 	struct fbgc_object * ao = cast_fbgc_object_as_class(o)->locals;
 	for(unsigned int i = 0;  i<size_fbgc_array_object(ao); ++i){	
 		struct fbgc_identifier * temp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(ao,i);
-		//cprintf(111,"temp_idname = %s, str:%s => %d\n",content_fbgc_cstr_object(temp_id->name),str,my_strcmp(content_fbgc_cstr_object(temp_id->name),str));
-		if(!my_strcmp(content_fbgc_cstr_object(temp_id->name),str)){
+		//cprintf(111,"temp_idname = %s, str:%s => %d\n",content_fbgc_str_object(temp_id->name),str,my_strcmp(content_fbgc_str_object(temp_id->name),str));
+		if(!my_strcmp(content_fbgc_str_object(temp_id->name),str)){
 			//cprintf(111,"I am returning\n");
 			return temp_id->content;
 		}
@@ -241,7 +241,7 @@ struct fbgc_object * get_set_fbgc_instance_object_member(struct fbgc_object * o,
 	for(int i = 0; i<size_fbgc_array_object(ao); i++){
 		struct fbgc_identifier * temp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(ao,i);
 		
-		if(!my_strcmp(content_fbgc_cstr_object(temp_id->name),str)){
+		if(!my_strcmp(content_fbgc_str_object(temp_id->name),str)){
 			if(rhs == NULL) return content_fbgc_tuple_object(cast_fbgc_object_as_instance(o)->variables)[i];
 			else set_object_in_fbgc_tuple_object(cast_fbgc_object_as_instance(o)->variables,rhs,i);
 			return o;

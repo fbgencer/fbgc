@@ -27,10 +27,10 @@ struct fbgc_object * imag_fbgc_complex_object_to_double(struct fbgc_object * sel
 }
 
 
-struct fbgc_object * conjugate_fbgc_complex_object(struct fbgc_object ** arg,int argc){
-	if(argc == 1)
-		return new_fbgc_complex_object(cast_fbgc_object_as_complex(arg[0])->z.real,-cast_fbgc_object_as_complex(arg[0])->z.imag); 
-	else return NULL;
+static struct fbgc_object * conjugate_fbgc_complex_object(struct fbgc_cfun_arg * arg){
+	//if(argc == 1)
+	//	return new_fbgc_complex_object(cast_fbgc_object_as_complex(arg[0])->z.real,-cast_fbgc_object_as_complex(arg[0])->z.imag); 
+	return NULL;
 };
 
 

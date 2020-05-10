@@ -21,12 +21,6 @@ struct fbgc_ll_base * _new_fbgc_ll_constant(struct fbgc_object * obj){
     return (struct fbgc_ll_base *) o;
 }
 
-struct fbgc_ll_base * _new_fbgc_ll_jumper(fbgc_token tok){
-    struct fbgc_ll_jumper * o =  (struct fbgc_ll_jumper*) fbgc_malloc(sizeof(struct fbgc_ll_jumper));
-    o->base.type = tok;
-    o->content = NULL;
-    return (struct fbgc_ll_base *) o;
-}
 
 struct fbgc_ll_base * _new_fbgc_ll_jumper_with_content(fbgc_token tok,struct fbgc_ll_base * ct ){
     struct fbgc_ll_jumper * o =  (struct fbgc_ll_jumper*) fbgc_malloc(sizeof(struct fbgc_ll_jumper));
@@ -35,6 +29,10 @@ struct fbgc_ll_base * _new_fbgc_ll_jumper_with_content(fbgc_token tok,struct fbg
     return (struct fbgc_ll_base *) o;
 }
 
+
+struct fbgc_ll_base * _new_fbgc_ll_jumper(fbgc_token tok){
+    return _new_fbgc_ll_jumper_with_content(tok,NULL);
+}
 
 
 struct fbgc_ll_base * _new_fbgc_ll_identifier(int loc){
@@ -181,11 +179,6 @@ uint8_t _print_fbgc_ll_code(struct fbgc_ll_base * head_next,struct fbgc_ll_base 
                 cprintf(011,"{%g%+gj}",cast_fbgc_object_as_complex(obj)->z.real,cast_fbgc_object_as_complex(obj)->z.imag);
             
             else if(obj->type == STRING) cprintf(011,"{'%s'}",content_fbgc_str_object(obj));
-            else if(obj->type == CSTRING){
-              cprintf(011,"{");
-              print_fbgc_cstr_object(obj);
-              cprintf(011,"}");
-            }
             else if(obj->type == LOGIC){
                 cprintf(011, "{%s}", (cast_fbgc_object_as_logic(obj)->content) ? "true" :"false");
             }
@@ -208,7 +201,7 @@ uint8_t _print_fbgc_ll_code(struct fbgc_ll_base * head_next,struct fbgc_ll_base 
             else if(is_id_flag_MEMBER(iter) ) cprintf(011,"%s{M<%d>}","ID",_cast_fbgc_object_as_llidentifier(iter)->loc);
             else if(is_id_flag_CLASS(iter) ) cprintf(011,"%s{C<%d>}","ID",_cast_fbgc_object_as_llidentifier(iter)->loc);
             else{
-                cprintf(111,"Undefined ID!\n"); 
+                cprintf(111,"Undefined ID! %d\n"); 
             }           
         }
         else if(iter->type != ASSIGN_SUBSCRIPT && is_fbgc_ASSIGNMENT_OPERATOR(iter->type)){
@@ -265,6 +258,9 @@ uint8_t _print_fbgc_ll_code(struct fbgc_ll_base * head_next,struct fbgc_ll_base 
         else if(iter->type == BUILD_MATRIX){
             cprintf(011,"{BUILD_MATRIX(%d)}",_cast_llbase_as_llopcode_int(iter)->content);
         }
+        else if(iter->type == BUILD_MAP){
+            cprintf(011,"{BUILD_MAP(%d)}",_cast_llbase_as_llopcode_int(iter)->content);
+        }        
         else if(iter->type == FUN_CALL){
             cprintf(011,"{FUN_CALL(%d)}",_cast_llbase_as_llopcode_int(iter)->content);
         }

@@ -66,7 +66,7 @@ static uint8_t compare_operators(fbgc_token stack_top, fbgc_token obj_type){
 	if(stack_top == IDENTIFIER) 
 		result = 1;
 	//x=(1,2) requires low precedence!
-	else if(obj_type == LBRACK || obj_type == LPARA) result =  0;
+	else if(obj_type == LBRACK || obj_type == LPARA || obj_type == LBRACE) result =  0;
 
 	else if(obj_type >= IF && obj_type <= LEN && stack_top >= IF && stack_top <= LEN ){
 		//precedence of the operators have to change according to their positions
@@ -113,43 +113,139 @@ static void handle_function_args(struct parser_packet * p){
 	//In the above code we assumed that everything is normal and get the size of tuple which gives us arg_no if nothing is wrong with args
 
 	struct fbgc_ll_base * iter = fun_holder; //arg_start is iter->next because args start after fun holder
+	struct fbgc_ll_base * from = NULL;
+
+	struct fbgc_ll_base * def_arg_ptr = NULL;
+
+	bool allow_exp = false;
+	uint8_t count_id = 0;
+
+	struct fbgc_ll_base * iter_next = iter->next;
+	FBGC_LOGE("===================================================================================\n");
+	int i = 0;
 	while(iter != arg_end){
-		
-		if(iter->next->type == IDENTIFIER || iter->next->type == COMMA){
-			
-			if(iter->next->type == IDENTIFIER){
-				FBGC_LOGV(PARSER,"Argument:(%s) validated!\n",content_fbgc_cstr_object(content_fbgc_tuple_object(tp)[get_ll_identifier_loc(iter->next)]));
+		if(++i>20) break;
+
+		bool arg_finished_ok = false;
+
+		FBGC_LOGV(PARSER,"Current : Now iter:%s | iter_next :%s\n",lltp2str(iter),lltp2str(iter_next));
+		if(iter_next->type == IDENTIFIER && is_id_flag_LOCAL(iter_next)){
+			FBGC_LOGV(PARSER,"Argument:(%s) validated!\n",content_fbgc_str_object(content_fbgc_tuple_object(tp)[get_ll_identifier_loc(iter->next)]));
+			from = iter_next;
+			allow_exp = true;
+			iter = iter->next;
+			iter_next = iter->next;
+			++count_id;
+			arg_finished_ok = true;
+		}
+
+		if(allow_exp == false && iter_next != arg_end){
+			assert(0);
+		}
+
+
+
+		FBGC_LOGD(PARSER,"Before while Now iter:%s | iter_next :%s\n",lltp2str(iter),lltp2str(iter_next));
+		while(iter != arg_end && iter_next->type != IDENTIFIER ){
+			if(++i>20) break;
+			printf("In while type:%s\n",lltp2str(iter_next));
+			allow_exp = false;
+			arg_finished_ok = true;
+			if(iter_next->type == COLON){
+
+				/*if(iter_next->next->type == IDENTIFIER){
+					FBGC_LOGE("Non-default arguments cannot follow default arguments!\n");
+					p->error_code = _FBGC_SYNTAX_ERROR;
+					return;
+				}*/
+
+				//Default arguments
+				struct fbgc_ll_base * fun_make = TOP_LL(p->op); 
+				FBGC_LOGE("from:%s | %s\n",lltp2str(from),lltp2str(fun_holder->next));
+
+				//default argument
+				struct fbgc_ll_base * assign = iter_next;
+				struct fbgc_ll_base * sta_begin = from->next;
+				from->next = assign->next;
+				
+				assign = iter;
+
+				assign->next = fun_make->next;
+				fun_make->next = sta_begin;
+				iter = from;
+
+				
+				if(def_arg_ptr == NULL){
+					_insert_next_fbgc_ll(assign,_new_fbgc_ll_base(BUILD_FUN_DEFAULT_ARGS));
+					def_arg_ptr = _new_fbgc_ll_opcode_int(BUILD_TUPLE,1);
+					_insert_next_fbgc_ll(assign,def_arg_ptr);
+				}
+				else{
+					_cast_llbase_as_llopcode_int(def_arg_ptr)->content++;
+				}
+
+				_print_fbgc_ll(p->op,"DD");
+				cast_fbgc_object_as_fun(fun_obj)->flag_default_args = 1;
+
+				if(iter_next == arg_end){
+					iter = arg_end;
+					break;
+				}
+
+				iter_next = iter->next;	
+				break;
 			}
+			else if(iter_next == arg_end && iter_next->type == COMMA){
+				if(count_id != _cast_llbase_as_llopcode_int(iter_next)->content){
+					assert(0);
+				}
+				
+			}
+			else if(iter_next->type == FUN_CALL){
+				//When we use arg_name() structure, parser thinks that this is function call and we do not change it to not make it complex
+				//Here if we see fun_call that means user wants to define variadic function, variadic arg must be the last arg
+				//So no need to make sure having more than one variadic args
+
+				//first check is this the last ?
+				FBGC_LOGD(PARSER,"Arg end:%s|iternextnext:%s = %d\n",lltp2str(arg_end),lltp2str(iter->next->next),arg_end == iter->next->next);
+				if(iter_next->next != arg_end && cast_fbgc_object_as_fun(fun_obj)->no_arg != 1){
+					FBGC_LOGE("Variadic arg must be the last arg!\n");
+					p->error_code = _FBGC_SYNTAX_ERROR;
+					return;	
+				}
+				//Make arg_no negative so we will understand that it has the variadic template
+				cast_fbgc_object_as_fun(fun_obj)->no_arg *= -1;
+			}
+			else arg_finished_ok = false;		
 
 			iter = iter->next;
+			iter_next = iter->next;
 		}
-		else if(iter->next->type == FUN_CALL){
-			//When we use arg_name() structure, parser thinks that this is function call and we do not change it to not make it complex
-			//Here if we see fun_call that means user wants to define variadic function, variadic arg must be the last arg
-			//So no need to make sure having more than one variadic args
 
-			//first check is this the last ?
-			if(iter->next->next != arg_end && cast_fbgc_object_as_fun(fun_obj)->no_arg != 1){
-				FBGC_LOGE("Variadic arg must be the last arg!\n");
-				p->error_code = _FBGC_SYNTAX_ERROR;
-				return;	
-			}
-			//Make arg_no negative so we will understand that it has the variadic template
-			cast_fbgc_object_as_fun(fun_obj)->no_arg *= -1;
-
-			iter = iter->next;
-		}
-		else{
-			FBGC_LOGE("Undefined token in function arguments\n");
+		if(allow_exp && def_arg_ptr != NULL){
+			FBGC_LOGE("Non-default arguments cannot follow default arguments!\n");
 			p->error_code = _FBGC_SYNTAX_ERROR;
 			return;
 		}
+
+		allow_exp = false;
+		if(arg_finished_ok == false){
+			assert(0);
+		}
+
+
+		//iter = iter->next;
 	}
+			//FBGC_LOGE("Undefined token in function arguments\n");
+			//p->error_code = _FBGC_SYNTAX_ERROR;
+			//return;
 
 	fun_holder->next = arg_end->next;
 	p->iter_prev = fun_holder;
 
-	FBGC_LOGV(PARSER,"Handling function args, # of args:%d\n",cast_fbgc_object_as_fun(fun_obj)->no_arg);	
+	FBGC_LOGV(PARSER,"Handling function args, # of args:%d\n",cast_fbgc_object_as_fun(fun_obj)->no_arg);
+
+	FBGC_LOGE("===================================================================================\n");	
 }
 
 
@@ -208,6 +304,30 @@ static void handle_before_paranthesis(struct parser_packet * p){
 
 	//Get the top to decide what are we gonna do
 	switch(TOP_LL(p->op)->type){
+		case KWFUN_CALL:{
+			FBGC_LOGV(PARSER,"Keyworded Function call,p->iter_prev:%s\n",lltp2str(p->iter_prev));
+
+			struct fbgc_ll_base * kwcall = _top_and_pop_front_fbgc_ll(p->op);
+
+			struct fbgc_ll_base * kwstart = _cast_llbase_as_lljumper(_top_and_pop_front_fbgc_ll(p->op))->content;
+			FBGC_LOGV(PARSER,"Keyword start:%s\n",lltp2str(kwstart));
+			if(kwstart->next != p->iter_prev){
+				p->error_code = _FBGC_SYNTAX_ERROR;
+				return;
+			}
+
+			if(p->iter_prev->type == COMMA){
+				p->iter_prev->type = KWFUN_CALL;
+				_cast_llbase_as_llopcode_int(p->iter_prev)->content += _cast_llbase_as_llopcode_int(kwcall)->content;
+			}
+			else{
+				//insert the function call, if state is 1 means that we have 1 argument, if it is zero than no arg
+				_cast_llbase_as_llopcode_int(TOP_LL(p->op))->content += (p->gm != GM_ATOM);
+				p->iter_prev = _insert_next_fbgc_ll(p->iter_prev,kwcall);
+			}
+
+			break;		
+		}
 		case FUN_CALL:{
 			FBGC_LOGV(PARSER,"Function call,p->iter_prev:%s\n",lltp2str(p->iter_prev));
 
@@ -223,7 +343,7 @@ static void handle_before_paranthesis(struct parser_packet * p){
 				p->iter_prev = _insert_next_fbgc_ll(p->iter_prev,_top_and_pop_front_fbgc_ll(p->op));
 			}
 
-			p->current_state = 0;
+			//p->current_state = 0;
 
 			/*if(!is_fbgc_OPERATOR(TOP_LL(p->op)->type) && TOP_LL(p->op)->type != COMMA &&
 					!is_fbgc_OPERATOR(p->iter_prev->type) && p->iter_prev->next->type != COMMA &&
@@ -290,7 +410,7 @@ static void handle_before_paranthesis(struct parser_packet * p){
 			struct fbgc_object * fun_obj = _cast_llbase_as_llconstant(fun_holder)->content;
 
 			//Is it possible this is not useful*
-			if(cast_fbgc_object_as_fun(fun_obj)->no_arg < 65){
+			if(is_fbgc_fun_object_defined(fun_obj)){
 
 				handle_statements(p);
 				//maybe function is already defined before
@@ -307,6 +427,7 @@ static void handle_before_paranthesis(struct parser_packet * p){
 			}
 			
 			handle_function_args(p);
+			if(p->error_code != _FBGC_NO_ERROR) return;
 
 			//@TODO increase verbosity of warnings
 			//now we can put a warning if this function is not assigned to something
@@ -447,6 +568,70 @@ static void handle_before_brackets(struct parser_packet *p){
 	
 }
 
+static void handle_before_braces(struct parser_packet *p){
+	_FBGC_LOGD(PARSER,"\n==================================\nStack top holder:%s\n",lltp2str(TOP_LL(p->op)));
+	struct fbgc_ll_base * jump_obj = _top_and_pop_front_fbgc_ll(p->op);
+	assert(jump_obj->type == JUMP);
+
+
+	struct fbgc_ll_base * iter = _cast_llbase_as_lljumper(jump_obj)->content;
+	//FBGC_LOGE("iter type %s\n",lltp2str(iter));
+	//FBGC_LOGE("piter type %s\n",lltp2str(p->iter));
+	uint8_t count = 0;
+
+	if(iter == p->iter_prev){
+		p->iter_prev = _insert_next_fbgc_ll(p->iter_prev,_new_fbgc_ll_opcode_int(BUILD_MAP,0));
+		return;
+	}
+	int i = 0;
+	while(iter != p->iter_prev){
+		++i;
+		if(i>200) break;
+		FBGC_LOGE("..iter type %s\n",lltp2str(iter));
+		if(iter->next->type == CONSTANT){
+			printf("inc count ...\n");
+			++count;
+		}
+		else if(iter->next->type == COLON){
+			printf("count :%d\n",count);
+			if(count < 2) assert(0);
+			count = 0;
+
+			if(iter->next == p->iter_prev){
+				p->iter_prev = _insert_next_fbgc_ll(p->iter_prev,_new_fbgc_ll_opcode_int(BUILD_MAP,1));
+				iter->next = iter->next->next;
+				break;
+			}
+
+			iter->next = iter->next->next;
+
+			continue;
+		}
+		else if(iter->next->type == COMMA){
+			//_cast_llbase_as_llopcode_int(iter->next)->content *= 2;
+			iter->next->type = BUILD_MAP;
+		}
+		iter = iter->next;
+	}
+
+	if(TOP_LL(p->op)->type == CLASS_SELF){
+		struct fbgc_ll_base * it = _top_and_pop_front_fbgc_ll(p->op);
+		while(it->type != FUN_CALL){
+			it = it->next;
+			printf("it :%s\n",lltp2str(it));
+			if(it == tail_fbgc_ll(p->op)){
+				p->error_code = _FBGC_SYNTAX_ERROR;
+				return;
+			}
+		}
+
+		printf("hit the fun call :%s\n",lltp2str(it));
+		it->type = KWFUN_CALL;
+		
+		struct fbgc_ll_base * jumper = _insert_next_fbgc_ll(it,_new_fbgc_ll_jumper_with_content(JUMP,p->iter_prev));
+	}		
+}
+
 
 
 static uint8_t parser(struct parser_packet * p);
@@ -463,7 +648,6 @@ static inline struct parser_packet init_parser_packet(struct fbgc_object * field
 		.line_no = 1,
 		.error_code = _FBGC_NO_ERROR,
 		.gm = GM_NEWLINE,
-		.current_state = 0		
 	};
 
 	_push_front_fbgc_ll(p.scope_list,_new_fbgc_ll_constant(field_obj));
@@ -602,20 +786,22 @@ static uint8_t parser(struct parser_packet * p){
 		//Symbols are defined as cstr_obj in fbgc_symbols which is a tuple, now from relexer they come with a tag called location
 		//Which basically tells us where this symbol is, we ask the symbol first 
 		struct fbgc_object * cstr_obj = get_object_in_fbgc_tuple_object(fbgc_symbols,get_ll_identifier_loc(p->iter));
-		FBGC_LOGV(PARSER,"Symbol name as a cstring object:'%s'\n",content_fbgc_cstr_object(cstr_obj));
+		FBGC_LOGV(PARSER,"Symbol name as a cstring object:'%s'\n",content_fbgc_str_object(cstr_obj));
 		FBGC_LOGV(PARSER,"prev:'%s'\n",lltp2str(p->iter_prev));
 		
 		//Now we got the symbol, we are gonna use it to identify is this a new definition of a variable or cfun or using pre defined variable
 
 		struct fbgc_object * cf = NULL;
 
-		if(p->current_state == FUN_CALL){
+		/*if(p->kwargs_holder->type == FUN_CALL && p->iter->next->type == COLON ){
 			//named args
 			p->iter_prev->next = p->iter->next;
 			p->iter_prev = _insert_next_fbgc_ll(p->iter_prev, _new_fbgc_ll_constant(cstr_obj));
-			
+
+
+
 			break;
-		}
+		}*/
 
 
 		if(TOP_LL(p->op)->type == DOT){
@@ -652,7 +838,7 @@ static uint8_t parser(struct parser_packet * p){
 				return p->error_code = _FBGC_SYNTAX_ERROR;
 			}
 		}
-		else if( ( cf = new_cfun_object_from_str(current_field,content_fbgc_cstr_object(cstr_obj)) ) != NULL){
+		else if( ( cf = new_cfun_object_from_str(current_field,content_fbgc_str_object(cstr_obj)) ) != NULL){
 			//Identifier can be cfun object, if it is not above condition returns null
 			FBGC_LOGD(PARSER,"Symbol is a CFUN, inserting cfun into list\n");
 			//We don't need iter anymore skip it and insert cfun
@@ -663,7 +849,7 @@ static uint8_t parser(struct parser_packet * p){
 
 			//This do-while(0) loop is used instead of using goto, because if scope is fun we do not want to go through below field variable
 			//registeration, the whole point is reducing the code size not when we break, we jump at the end of do-while loop so which is what we wanted
-			int16_t where = -1;
+			ssize_t where = -1;
 			do{
 			struct fbgc_object ** current_locals;
 
@@ -681,7 +867,7 @@ static uint8_t parser(struct parser_packet * p){
 					//We already set flag to local, so just break do-while loop to go at the end of case IDENTIFIER
 					//However first check that are we still reading function args ? Because in that case we MUST NOT find our previous
 					//args so set an error
-					if(cast_fbgc_object_as_fun(current_scope)->no_arg == 65){
+					if(!is_fbgc_fun_object_defined(current_scope)){
 						FBGC_LOGE("Function arguments must have unique names\n");
 						return p->error_code = _FBGC_SYNTAX_ERROR;
 					}
@@ -690,12 +876,12 @@ static uint8_t parser(struct parser_packet * p){
 					break;
 				}
 				else{ 
-					if(p->iter->next->type == ASSIGN  || cast_fbgc_object_as_fun(current_scope)->no_arg == 65){
+					if(p->iter->next->type == ASSIGN  || (!is_fbgc_fun_object_defined(current_scope) && TOP_LL(p->op)->type != ASSIGN)){
 					//Now ask for is this a new definition ? if it is not, it will leave as where = -1
 			
 						FBGC_LOGD(PARSER,"First time defining IDENTIFIER inside function\n");
 
-						_push_back_fbgc_tuple_object(current_locals,cstr_obj);
+						push_back_fbgc_tuple_object(*current_locals,cstr_obj);
 						where = size_fbgc_tuple_object(*current_locals)-1;
 						//_cast_llbase_as_llconstant(cast_fbgc_object_as_fun(current_scope)->code)->content = current_locals;
 						
@@ -758,17 +944,17 @@ static uint8_t parser(struct parser_packet * p){
 				struct fbgc_identifier temp_id;
 				temp_id.name = cstr_obj; temp_id.content = NULL;
 				//Now array will make copy of this id object in our array so we can pass its address
-				_push_back_fbgc_array_object(current_locals,&temp_id);
+				push_back_fbgc_array_object(*current_locals,&temp_id);
 				//Now we now the location in globals
 				where = size_fbgc_array_object(*current_locals)-1;
 
 				//else if(current_scope->type == FIELD) cast_fbgc_object_as_field(current_scope)->locals = current_locals;
 				//else cast_fbgc_object_as_class(current_scope)->locals = current_locals;
 				
-				FBGC_LOGD(PARSER,"Symbol is created @ [%d]\n",where);
+				FBGC_LOGD(PARSER,"Symbol is created @ [%ld]\n",where);
 			}
 			else{
-				FBGC_LOGD(PARSER,"Symbol is already defined @ [%d]\n",where);
+				FBGC_LOGD(PARSER,"Symbol is already defined @ [%ld]\n",where);
 			}
 
 			}while(0);
@@ -897,13 +1083,28 @@ static uint8_t parser(struct parser_packet * p){
 				p->iter_prev = fun_holder;
 
 				POP_LL(p->scope_list); //remove this function from scope list
+				//eat END we no longer need it
+				p->iter_prev->next = p->iter->next;
+				
+				if(cast_fbgc_object_as_fun(fun_obj)->flag_default_args){
+					struct fbgc_ll_base * start_def_arg = TOP_LL(p->op);
+					struct fbgc_ll_base * end_def_arg = TOP_LL(p->op);
+					while(end_def_arg->type != BUILD_FUN_DEFAULT_ARGS){
+						end_def_arg = end_def_arg->next;
+					}
+					cprintf(100,"fun holder next :%s\n",lltp2str(p->iter_prev->next));
+					_cast_llbase_as_ll(p->op)->base.next = end_def_arg->next;
+
+					end_def_arg->next = p->iter_prev->next;
+					p->iter_prev->next = start_def_arg;
+					p->iter_prev = end_def_arg;
+				}
 
 
 				FBGC_LOGV(PARSER,"Created function code:");
 				FBGC_LOGV(PARSER,"%c\n",_print_fbgc_ll_code(cast_fbgc_object_as_fun(fun_obj)->code,NULL));
 
-				//eat END we no longer need it
-				p->iter_prev->next = p->iter->next;
+				
 				break;
 
 			}
@@ -1030,7 +1231,7 @@ static uint8_t parser(struct parser_packet * p){
 
 		if(current_scope->type == CLASS){
 			struct fbgc_object ** tp =&(_cast_llbase_as_llconstant(cast_fbgc_object_as_fun(fun_obj)->code)->content);
-			_push_back_fbgc_tuple_object(tp,new_fbgc_cstr_object("."));
+			push_back_fbgc_tuple_object(*tp,new_fbgc_str_object("."));
 		}
 
 
@@ -1240,8 +1441,8 @@ static uint8_t parser(struct parser_packet * p){
 	case RPARA:
 	case LBRACK:
 	case RBRACK:
-	//case LBRACE:
-	//case RBRACE:
+	case LBRACE:
+	case RBRACE:
 	case COMMA:
 	case DOT:
 	case SEMICOLON:
@@ -1340,10 +1541,12 @@ static uint8_t parser(struct parser_packet * p){
 				
 				//assume typical function call
 				_push_front_fbgc_ll(p->op,_new_fbgc_ll_opcode_int(FUN_CALL,0));
-				p->current_state = FUN_CALL;
+				
+				//p->current_state = FUN_CALL;
 
 				//So user want so call member function we will push fun_call with 1 arg because self is also an argument for member methods		
 				if(p->iter_prev->type == IDENTIFIER && is_id_flag_MEMBER(p->iter_prev)){
+					_FBGC_LOGD(PARSER,"Setting id flag to member\n");
 					set_id_flag_MEMBER_METHOD(p->iter_prev);
 					//increase arg number of the fun_call that we pushed two lines ago
 					++_cast_llbase_as_llopcode_int(TOP_LL(p->op))->content;
@@ -1407,8 +1610,13 @@ static uint8_t parser(struct parser_packet * p){
 			else {
 				//So if we have an entry such as 1,2,3,4 without lpara, we assume these are tuple entries
 				//basically we will add lpara and handle_paranthesis function will assume that these are nothing but tuples and pop lpara
-				if(get_fbgc_object_type(TOP_LL(p->op)) != LPARA && get_fbgc_object_type(TOP_LL(p->op)) != LBRACK){
-					_push_front_fbgc_ll(p->op,_new_fbgc_ll_base(LPARA));
+				if(get_fbgc_object_type(TOP_LL(p->op)) != LPARA && get_fbgc_object_type(TOP_LL(p->op)) != LBRACK 
+					&&get_fbgc_object_type(TOP_LL(p->op)) != LBRACE){
+					if(current_scope->type == FUN && is_fbgc_fun_object_defined(current_scope) == 0){
+						;
+					}
+					else
+						_push_front_fbgc_ll(p->op,_new_fbgc_ll_base(LPARA));
 				}
 				// comma with 2 means 2 entry
 				_push_front_fbgc_ll(p->op, _new_fbgc_ll_opcode_int(COMMA,2));
@@ -1419,6 +1627,18 @@ static uint8_t parser(struct parser_packet * p){
 			//we are just counting them and increasing here
 
 			//Do not push current comma, we increased counter
+			break;
+		}
+		else if(p->iter->type == LBRACE){
+			_push_front_fbgc_ll(p->op,_new_fbgc_ll_jumper_with_content(JUMP,p->iter_prev));
+		}
+		else if(p->iter->type == RBRACE){
+			if(TOP_LL(p->op)->type == LBRACE){
+				_pop_front_fbgc_ll(p->op);
+				handle_before_braces(p);
+				PARSER_CHECK_ERROR(p->error_code);
+			}
+			else assert(0);
 			break;
 		}
 		else if( p->iter->type == RBRACK){
@@ -1473,14 +1693,24 @@ static uint8_t parser(struct parser_packet * p){
 			goto PARSER_ERROR_LABEL;
 		}
 		*/
+
+		if(current_scope->type == FUN && !is_fbgc_fun_object_defined(current_scope)){
+			//is this default argument entry ?
+			//User tries to assign in function definition..
+			
+			return p->error_code = _FBGC_SYNTAX_ERROR;
+			
+		}
+
 		//In order to support entries 'x = y = 1', we need to set a flag for identifier 'y' to push itself to the stack again
 		//Since we just parse one time our list we cannot know whether to insert assigned variable one time. Instead we tell second variable to push itself
 		if(TOP_LL(p->op)->next->type == ASSIGN|| TOP_LL(p->op)->next->type == LPARA || TOP_LL(p->op)->next->type == COMMA){
 			// || TOP_LL(p->op)->next->type == LPARA || TOP_LL(p->op)->next->type == COMMA
 			FBGC_LOGV(PARSER,"Opening push itself flag\n");
 
-			if(TOP_LL(p->op)->next->next->type != FOR)
-				set_id_flag_PUSH_ITSELF(TOP_LL(p->op));
+			if(TOP_LL(p->op)->next->next->type != FOR){
+				//set_id_flag_PUSH_ITSELF(TOP_LL(p->op));
+			}
 		}
 
 		//Eat current assignment operator

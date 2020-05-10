@@ -99,13 +99,16 @@ typedef struct {
 #define JUMP 81 //
 #define FOR_BEGIN 82 //
 #define FUN_CALL 83 //
-#define BUILD_TUPLE 84 //
-#define BUILD_MATRIX 85 //
-#define POP_TOP 86 //
-#define ROW 87 //
-#define LOAD_SUBSCRIPT 88 //
-#define CLASS_CALL 89 //
-#define CLASS_SELF 90 //
+#define KWFUN_CALL 84 //
+#define BUILD_TUPLE 85 //
+#define BUILD_MATRIX 86 //
+#define BUILD_MAP 87 //
+#define POP_TOP 88 //
+#define ROW 89 //
+#define LOAD_SUBSCRIPT 90 //
+#define CLASS_CALL 91 //
+#define CLASS_SELF 92 //
+#define BUILD_FUN_DEFAULT_ARGS 93 //
 #define TOKEN_LIST_AS_STRINGS()\
 "UNKNOWN",\
 "NIL",\
@@ -191,13 +194,16 @@ typedef struct {
 "JUMP",\
 "FOR_BEGIN",\
 "FUN_CALL",\
+"KWFUN_CALL",\
 "BUILD_TUPLE",\
 "BUILD_MATRIX",\
+"BUILD_MAP",\
 "POP_TOP",\
 "ROW",\
 "LOAD_SUBSCRIPT",\
 "CLASS_CALL",\
 "CLASS_SELF",\
+"BUILD_FUN_DEFAULT_ARGS",\
 //TOKENS_END
 
 #define GM_ERROR 0
@@ -212,10 +218,11 @@ typedef struct {
 #define GM_BALANCED_LIST 9
 #define GM_LPARA 10
 #define GM_LBRACK 11
-#define GM_PIPE 12
-#define GM_FUNCTIONAL 13
-#define GM_MATRIX 14
-#define GM_DOT 15
+#define GM_LBRACE 12
+#define GM_PIPE 13
+#define GM_FUNCTIONAL 14
+#define GM_MATRIX 15
+#define GM_DOT 16
 #define GRAMMAR_TOKENS_AS_STRINGS()\
 "GM_ERROR",\
 "GM_NEWLINE",\
@@ -229,6 +236,7 @@ typedef struct {
 "GM_BALANCED_LIST",\
 "GM_LPARA",\
 "GM_LBRACK",\
+"GM_LBRACE",\
 "GM_PIPE",\
 "GM_FUNCTIONAL",\
 "GM_MATRIX",\

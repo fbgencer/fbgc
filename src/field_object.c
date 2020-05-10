@@ -12,7 +12,7 @@ struct fbgc_object * new_fbgc_field_object(void){
 	field->locals = new_fbgc_array_object(1,sizeof(struct fbgc_identifier));
 	
 	load_module_in_field_object((struct fbgc_object *)field,&fbgc_io_module);
-	load_module_in_field_object((struct fbgc_object *)field,&fbgc_stl_module);
+	//load_module_in_field_object((struct fbgc_object *)field,&fbgc_stl_module);
 	return (struct fbgc_object *) field;
 };
 
@@ -22,8 +22,10 @@ void load_module_in_field_object(struct fbgc_object * field_obj, const struct fb
 	cm->module = module;
 	cm->base.type = CMODULE;//CHANGE THIS
 
-	if(module->initializer.function != NULL)
-		module->initializer.function(&field_obj, 1);
+	if(module->initializer.function != NULL){
+		struct fbgc_cfun_arg cfarg = {.arg = &field_obj, .argc = 1, .kwargs_flag = 0};;
+		module->initializer.function(&cfarg);
+	}
 
 	_push_front_fbgc_ll(cast_fbgc_object_as_field(field_obj)->modules,_new_fbgc_ll_constant((struct fbgc_object *)cm));	
 }
@@ -84,8 +86,8 @@ struct fbgc_object * get_set_fbgc_field_object_member(struct fbgc_object * o, co
 	struct fbgc_object * ao = cast_fbgc_object_as_field(o)->locals;
 	for(unsigned int i = 0;  i<size_fbgc_array_object(ao); ++i){	
 		struct fbgc_identifier * temp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(ao,i);
-		//cprintf(111,"temp_idname = %s, str:%s => %d\n",content_fbgc_cstr_object(temp_id->name),str,my_strcmp(content_fbgc_cstr_object(temp_id->name),str));
-		if(!my_strcmp(content_fbgc_cstr_object(temp_id->name),str)){
+		//cprintf(111,"temp_idname = %s, str:%s => %d\n",content_fbgc_str_object(temp_id->name),str,my_strcmp(content_fbgc_str_object(temp_id->name),str));
+		if(!my_strcmp(content_fbgc_str_object(temp_id->name),str)){
 			return temp_id->content;
 		}
 	}
