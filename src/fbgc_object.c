@@ -24,7 +24,7 @@ const struct fbgc_object_property_holder * get_fbgc_object_property_holder(struc
 		case LOGIC: return &fbgc_logic_object_property_holder;
 		case INSTANCE : return &fbgc_instance_object_property_holder;
 		case RANGE: return &fbgc_range_object_property_holder;
-		case CMODULE: return &fbgc_cmodule_object_property_holder;
+		case CMODULE: return cast_fbgc_object_as_cmodule(o)->properties;
 		case CSTRUCT: return cast_fbgc_object_as_cstruct(o)->properties;
 		case FUN : return &fbgc_fun_object_property_holder;
 		case CLASS : return &fbgc_class_object_property_holder;
@@ -318,14 +318,13 @@ struct fbgc_object * get_set_fbgc_object_member(struct fbgc_object * o, const ch
 		return p->properties[w].get_set_member(o,str,nm);
 	}
 	else{
-		
 			w = _find_property(p->bits,_BIT_MEMBERS);
 			if(w != -1){
 				const struct fbgc_object_member *members = p->properties[w].members;
 				uint8_t len = members->len;
 				
 				while(len--){
-					if(my_strcmp(members->member[len].name,str) == 0){
+					if(!strcmp(members->member[len].name,str)){
 						return members->member[len].function(o,nm);
 					}
 				}
@@ -344,7 +343,7 @@ struct fbgc_object * get_fbgc_object_method(struct fbgc_object * o, const char *
 		const struct fbgc_object_method * methods = p->properties[w].methods;
 		uint8_t len = methods->len;
 		while(len--){
-			if(my_strcmp(methods->method[len].name,str) == 0){
+			if(strcmp(methods->method[len].name,str) == 0){
 				return new_fbgc_cfun_object(methods->method[len].function);
 			}
 		}

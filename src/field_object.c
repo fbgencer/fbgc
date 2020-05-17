@@ -2,33 +2,34 @@
 #include "../cmodules/fbgc_io.h"
 #include "../cmodules/fbgc_stl.h"
 
+
+static void load_module_in_field_object(struct fbgc_object * field_obj,const struct fbgc_object_property_holder * p){
+
+	struct fbgc_object * cm = new_fbgc_cmodule_object(p);
+	push_back_fbgc_tuple_object(cast_fbgc_object_as_field(field_obj)->modules,cm);
+
+	//call function initializer
+	int8_t w = _find_property(p->bits,_BIT_INITIALIZER);
+	if(w != -1){
+		//call initializer
+		p->properties[w].initializer();
+	}
+}
+
 struct fbgc_object * new_fbgc_field_object(void){
 
 	struct fbgc_field_object * field = (struct fbgc_field_object *) fbgc_malloc_object(sizeof(struct fbgc_field_object ));
 	//field->base.next = NULL;
 	field->base.type = FIELD; 
 	field->head = _new_fbgc_ll();
-	field->modules = _new_fbgc_ll();
+	field->modules = new_fbgc_tuple_object(2); 
 	field->locals = new_fbgc_array_object(1,sizeof(struct fbgc_identifier));
 	
-	load_module_in_field_object((struct fbgc_object *)field,&fbgc_io_module);
+	load_module_in_field_object((struct fbgc_object *)field,&_fbgc_stl_property_holder);
 	//load_module_in_field_object((struct fbgc_object *)field,&fbgc_stl_module);
 	return (struct fbgc_object *) field;
 };
 
-void load_module_in_field_object(struct fbgc_object * field_obj, const struct fbgc_cmodule * module){
-
-	struct fbgc_cmodule_object * cm = (struct fbgc_cmodule_object *) fbgc_malloc_object(sizeof(struct fbgc_cmodule_object ));
-	cm->module = module;
-	cm->base.type = CMODULE;//CHANGE THIS
-
-	if(module->initializer.function != NULL){
-		struct fbgc_cfun_arg cfarg = {.arg = &field_obj, .argc = 1, .kwargs_flag = 0};;
-		module->initializer.function(&cfarg);
-	}
-
-	_push_front_fbgc_ll(cast_fbgc_object_as_field(field_obj)->modules,_new_fbgc_ll_constant((struct fbgc_object *)cm));	
-}
 
 struct fbgc_ll_base * add_variable_in_field_object(struct fbgc_object * field_obj,const char * var_name, struct fbgc_object * rhs){
 		

@@ -1,26 +1,24 @@
-#ifdef OPEN_ME
-
 #include "../src/fbgc.h"
 #include "fbgc_stl.h"
 
 
-static int8_t _verify_one_arg(struct fbgc_object ** arg, int argc){
-	return parse_tuple_content(arg,argc,"!o") != -1;
+
+static int8_t _verify_one_arg(struct fbgc_cfun_arg * arg,struct fbgc_object ** obj){
+	return parse_tuple_content(arg,"!o",obj) != -1;
 }
 
 
-
 static
-struct fbgc_object * fbgc_stl_assert(struct fbgc_object ** arg, int argc){
+struct fbgc_object * fbgc_stl_assert(struct fbgc_cfun_arg * arg){
 
-	if(parse_tuple_content(arg,argc,"!b|bs") == -1){
+	if(parse_tuple_content(arg,"!b|bs") == -1){
 		return NULL;
 	}
 
 
-	if(!cast_fbgc_object_as_logic(arg[0])->content){
-		if(argc>1){
-			FBGC_LOGE("%s\n",content_fbgc_str_object(arg[1]) );
+	if(!cast_fbgc_object_as_logic(arg->arg[0])->content){
+		if(arg->argc>1){
+			FBGC_LOGE("%s\n",content_fbgc_str_object(arg->arg[1]) );
 		}
 		assert(0);
 	}
@@ -28,20 +26,24 @@ struct fbgc_object * fbgc_stl_assert(struct fbgc_object ** arg, int argc){
 }
 
 static
-struct fbgc_object * fbgc_stl_load(struct fbgc_object ** arg, int argc){
+struct fbgc_object * fbgc_stl_load(struct fbgc_cfun_arg * arg){
 	//There are 3 states
 	// load('module_name') : just returns module : state 0
 	// load('module_name','*') : loads all in the field object, state : 1
 	// load('module_name','fun1','fun2','funN') : loads desired functions : state : 2
 	//XX last one cannot add desired variables, we need to fix it
 
+
 	
-	if(parse_tuple_content(arg,argc,"!s+") == -1){
+	if(parse_tuple_content(arg,"!s+") == -1){
 		return NULL;
 	}
 
+	struct fbgc_object ** args = arg->arg;
+	uint8_t argc = arg->argc;
+
 	struct fbgc_object * res = NULL;
-	const char * libname = content_fbgc_str_object(arg[0]);
+	const char * libname = content_fbgc_str_object(args[0]);
 
 	if(argc == 1){
 			res = fbgc_load_module(libname,NULL,0);
@@ -52,7 +54,7 @@ struct fbgc_object * fbgc_stl_load(struct fbgc_object ** arg, int argc){
 		return res;
 	}
 		
-	if(!my_strcmp(content_fbgc_str_object(arg[1]),"*")){
+	if(!my_strcmp(content_fbgc_str_object(args[1]),"*")){
 		res = fbgc_load_module(libname,NULL,1);
 		if(res == NULL){
 			res = fbgc_load_file(libname,NULL,1);
@@ -62,9 +64,9 @@ struct fbgc_object * fbgc_stl_load(struct fbgc_object ** arg, int argc){
 
 	//fbgc_load_module_specific(const char * module_name, const char * fun_name){
 	while(--argc){
-		res = fbgc_load_module(libname,content_fbgc_str_object(arg[argc]),2);
+		res = fbgc_load_module(libname,content_fbgc_str_object(args[argc]),2);
 		if(res == NULL){
-			res = fbgc_load_file(libname,content_fbgc_str_object(arg[argc]),2);
+			res = fbgc_load_file(libname,content_fbgc_str_object(args[argc]),2);
 		}	
 	}
 	
@@ -74,54 +76,59 @@ struct fbgc_object * fbgc_stl_load(struct fbgc_object ** arg, int argc){
 
 
 static
-struct fbgc_object * fbgc_stl_len(struct fbgc_object ** arg, int argc){
+struct fbgc_object * fbgc_stl_len(struct fbgc_cfun_arg * arg){
 
-	if(_verify_one_arg(arg,argc)){
-		return abs_operator_fbgc_object(arg[0]);
+	struct fbgc_object * o = NULL;
+	if(_verify_one_arg(arg,&o)){
+		return abs_operator_fbgc_object(o);
 	}
 	return NULL;
 }
 
 static
-struct fbgc_object * fbgc_stl_id(struct fbgc_object ** arg, int argc){
-	if(_verify_one_arg(arg,argc)){
-		fprintf(stdout,"%p\n",arg[0]);
+struct fbgc_object * fbgc_stl_id(struct fbgc_cfun_arg * arg){
+	struct fbgc_object * o = NULL;
+	if(_verify_one_arg(arg,&o)){
+		fprintf(stdout,"%p\n",o);
 		return fbgc_nil_object;
 	}
 	return NULL;
 }
 
 static
-struct fbgc_object * fbgc_stl_type(struct fbgc_object ** arg, int argc){
-	if(_verify_one_arg(arg,argc)){
-		return new_fbgc_int_object(arg[0]->type);
+struct fbgc_object * fbgc_stl_type(struct fbgc_cfun_arg * arg){
+	struct fbgc_object * o = NULL;
+	if(_verify_one_arg(arg,&o)){
+		return new_fbgc_int_object(o->type);
 	}
 	return NULL;
 }
 
 static
-struct fbgc_object * fbgc_stl_int(struct fbgc_object ** arg, int argc){
-	if(_verify_one_arg(arg,argc)){
-		int d = convert_fbgc_object_to_int(arg[0]);
+struct fbgc_object * fbgc_stl_int(struct fbgc_cfun_arg * arg){
+	struct fbgc_object * o = NULL;
+	if(_verify_one_arg(arg,&o)){
+		int d = convert_fbgc_object_to_int(o);
 		return new_fbgc_int_object(d);
 	}
 	return NULL;
 }
 
 static
-struct fbgc_object * fbgc_stl_double(struct fbgc_object ** arg, int argc){
-	if(_verify_one_arg(arg,argc)){
-		double d = convert_fbgc_object_to_double(arg[0]);
+struct fbgc_object * fbgc_stl_double(struct fbgc_cfun_arg * arg){
+	struct fbgc_object * o = NULL;
+	if(_verify_one_arg(arg,&o)){
+		double d = convert_fbgc_object_to_double(o);
 		return new_fbgc_double_object(d);
 	}
 	return NULL;
 }
 
 static
-struct fbgc_object * fbgc_stl_tuple(struct fbgc_object ** arg, int argc){
+struct fbgc_object * fbgc_stl_tuple(struct fbgc_cfun_arg * arg){
 
 	struct fbgc_object * obj;
-	int8_t level = parse_tuple_content(arg,argc,"i|s|r",&obj);
+	int8_t level = parse_tuple_content(arg,"i|s|r",&obj);
 	if(level == -1){
 		return NULL;
 	}
@@ -163,77 +170,46 @@ struct fbgc_object * fbgc_stl_tuple(struct fbgc_object ** arg, int argc){
 }
 
 
-struct fbgc_object * check_type(struct fbgc_object ** arg,int argc, fbgc_token t){
-	uint8_t res = argc;
+static
+struct fbgc_object * check_type(struct fbgc_cfun_arg * arg, fbgc_token t){
+	uint8_t res = arg->argc;
+	uint8_t argc = arg->argc;
 	while(argc--){
-		res &= (get_fbgc_object_type(arg[argc]) == t); 
+		res &= (get_fbgc_object_type(arg->arg[argc]) == t); 
 	}
 	return new_fbgc_logic_object(res);
 }
 
 static
-struct fbgc_object * fbgc_stl_is_int(struct fbgc_object ** arg, int argc){
-	return check_type(arg,argc,INT);
+struct fbgc_object * fbgc_stl_is_int(struct fbgc_cfun_arg * arg){
+	return check_type(arg,INT);
 }
 static
-struct fbgc_object * fbgc_stl_is_double(struct fbgc_object ** arg, int argc){
-	return check_type(arg,argc,DOUBLE);
+struct fbgc_object * fbgc_stl_is_double(struct fbgc_cfun_arg * arg){
+	return check_type(arg,DOUBLE);
 }
 static
-struct fbgc_object * fbgc_stl_is_complex(struct fbgc_object ** arg, int argc){
-	return check_type(arg,argc,COMPLEX);
+struct fbgc_object * fbgc_stl_is_complex(struct fbgc_cfun_arg * arg){
+	return check_type(arg,COMPLEX);
 }
 static
-struct fbgc_object * fbgc_stl_is_string(struct fbgc_object ** arg, int argc){
-	return check_type(arg,argc,STRING);
+struct fbgc_object * fbgc_stl_is_string(struct fbgc_cfun_arg * arg){
+	return check_type(arg,STRING);
 }
 static
-struct fbgc_object * fbgc_stl_is_tuple(struct fbgc_object ** arg, int argc){
-	return check_type(arg,argc,TUPLE);
+struct fbgc_object * fbgc_stl_is_tuple(struct fbgc_cfun_arg * arg){
+	return check_type(arg,TUPLE);
 }
 static
-struct fbgc_object * fbgc_stl_is_matrix(struct fbgc_object ** arg, int argc){
-	return check_type(arg,argc,MATRIX);
-}
-
-/*
-new_fbgc_cfunction(fbgc_matrix,"matrix"){
-	
-	if(argc == 3){
-		size_t r = convert_fbgc_object_to_int(arg[0]);
-		size_t c = convert_fbgc_object_to_int(arg[1]);
-		return new_fbgc_matrix_object(DOUBLE,r,c,convert_fbgc_object_to_int(arg[2]));
-	}
-	else cprintf(100,"<matrix> takes only 3 argument, %d given !\n",argc);
-	return NULL;
+struct fbgc_object * fbgc_stl_is_matrix(struct fbgc_cfun_arg * arg){
+	return check_type(arg,MATRIX);
 }
 
 
-new_fbgc_cfunction(fbgc_mem,"mem"){
-	if(argc == 0){
-		print_fbgc_memory_block();
-		return __fbgc_nil;
-	}
-	else cprintf(100,"<mem> takes only 0 argument, %d given !\n",argc);
-	return NULL;
-}
 
-
-new_fbgc_cfunction(fbgc_locals,"locals"){
-	if(argc == 0){
-		print_field_object_locals(current_field);
-		return __fbgc_nil;
-	}
-	else cprintf(100,"<locals> takes only 0 argument, %d given !\n",argc);
-	return NULL;
-}
-*/
-
-const struct fbgc_cmodule fbgc_stl_module = 
-{
-	.initializer = {.name = "stl", .function = NULL},
-	.functions = {
-		
+static struct fbgc_object_method _fbgc_stl_methods = {
+	.len = 14,
+	.method = {
 		{.name = "assert", .function = &fbgc_stl_assert},
 		{.name = "len", .function = &fbgc_stl_len},
 		{.name = "id", .function = &fbgc_stl_id},
@@ -249,25 +225,16 @@ const struct fbgc_cmodule fbgc_stl_module =
 		{.name = "is_tuple", .function = &fbgc_stl_is_tuple},
 		{.name = "is_matrix", .function = &fbgc_stl_is_matrix},
 		{.name = "load", .function = &fbgc_stl_load},
-		{NULL,NULL},
 	}
 };
 
-
-
-// //Work on this, is it possible to cast ?
-// const struct fbgc_cmodule fbgc_stl_module = 
-// {
-// 	.initializer = &fbgc_stl_initializer_struct,
-// 	.functions = (const struct fbgc_cfunction*[])
-// 	{
-// 		&fbgc_tuple_struct,
-// 		&fbgc_matrix_struct,
-// 		&fbgc_type_struct,
-// 		&fbgc_mem_struct,
-// 		&fbgc_locals_struct,
-// 		NULL
-// 	}
-// };
-
-#endif
+const struct fbgc_object_property_holder _fbgc_stl_property_holder = {
+	.bits = 
+	_BIT_METHODS |
+	_BIT_NAME
+	,
+	.properties ={
+		{.methods = &_fbgc_stl_methods},
+		{.name = "stl"},
+	}
+};

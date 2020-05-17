@@ -1,9 +1,157 @@
-#ifdef OPEN_ME
-
 #include "../src/fbgc.h"
 #include "fbgc_math.h"
 #include <tgmath.h>
 #include <complex.h>
+
+
+struct fbgc_math_constants{
+	struct fbgc_object * pi;
+	struct fbgc_object * e;
+};
+
+static struct fbgc_math_constants mc = {.pi = NULL, .e = NULL};
+
+
+struct fbgc_object * one_arg_math(struct fbgc_cfun_arg *arg, double (*fun) (double),struct raw_complex(*zfun) (struct raw_complex)){
+
+	struct fbgc_object * obj;
+	uint8_t argc = arg->argc;
+	if(parse_tuple_content(arg,"i|d|j|t|m",&obj) == -1)
+		return NULL;
+
+	switch(obj->type){
+		case INT:
+		case DOUBLE:
+		{
+			double dbarg = convert_fbgc_object_to_double(obj);
+			return new_fbgc_double_object((*fun)(dbarg));
+		}
+		case COMPLEX:
+		{
+			struct raw_complex z = convert_fbgc_object_to_complex(obj);
+			z = (*zfun)(z);
+			return new_fbgc_complex_object(z.real,z.imag);
+		}
+		/*case TUPLE:
+		{
+			size_t sz = size_fbgc_tuple_object(obj);
+			struct fbgc_object * res_tp = new_fbgc_tuple_object( sz );
+			size_fbgc_tuple_object(res_tp) = sz;
+			while(sz--){
+				content_fbgc_tuple_object(res_tp)[sz] = 
+					one_arg_math(content_fbgc_tuple_object(obj)+sz,1,fun,zfun);
+			}
+			return res_tp;
+		}
+		case MATRIX:
+		{
+			struct fbgc_matrix_object * m = (struct fbgc_matrix_object *) obj;
+			struct fbgc_object * res_m = new_fbgc_matrix_object(m->sub_type,m->row,m->column,UNINITIALIZED_MATRIX);
+
+			size_t rc = m->row*m->column;
+
+			struct raw_complex z;
+
+			for(size_t i = 0; i<m->row; ++i){
+				for(size_t j = 0; j<m->column; ++j){
+					size_t index = i * m->column + j;
+					size_t c_index = rc + index;
+
+					z.real = *(content_fbgc_matrix_object(m)+index);
+					if(m->sub_type == COMPLEX){
+						z.imag = *(content_fbgc_matrix_object(m)+c_index);
+						struct raw_complex result = (*zfun)(z);
+						*(content_fbgc_matrix_object(res_m)+index) = result.real;
+						*(content_fbgc_matrix_object(res_m)+c_index) = result.imag;
+					}
+					else *(content_fbgc_matrix_object(res_m)+index) = (*fun)(z.real);
+				}
+			}
+			return res_m;			
+		}*/
+		default:
+			return NULL;
+	}
+}
+
+
+#define new_fbgc_one_arg_math(func_ptr,complex_func_ptr)\
+static struct fbgc_object * fbgc_math_##func_ptr(struct fbgc_cfun_arg * arg){\
+return one_arg_math(arg,func_ptr,complex_func_ptr);}\
+
+
+new_fbgc_one_arg_math(cos,NULL);
+new_fbgc_one_arg_math(sin,NULL);
+new_fbgc_one_arg_math(tan,NULL);
+new_fbgc_one_arg_math(acos,NULL);
+new_fbgc_one_arg_math(asin,NULL);
+new_fbgc_one_arg_math(atan,NULL);
+
+new_fbgc_one_arg_math(cosh,NULL);
+new_fbgc_one_arg_math(sinh,NULL);
+new_fbgc_one_arg_math(tanh,NULL);
+new_fbgc_one_arg_math(acosh,NULL);
+new_fbgc_one_arg_math(asinh,NULL);
+new_fbgc_one_arg_math(atanh,NULL);
+
+
+new_fbgc_one_arg_math(exp,NULL);
+new_fbgc_one_arg_math(sqrt,NULL);
+
+
+
+static struct fbgc_object_method _fbgc_math_methods = {
+	.len = 4,
+	.method = {
+		{.name = "cos", .function = &fbgc_math_cos},
+		{.name = "sin", .function = &fbgc_math_exp},
+		{.name = "tan", .function = &fbgc_math_tan},
+		{.name = "exp", .function = &fbgc_math_exp},
+	}
+};
+
+
+
+struct fbgc_object * fbgc_math_pi_member(struct fbgc_object * self, struct fbgc_object * rhs){
+	return mc.pi;
+}
+
+struct fbgc_object * fbgc_math_e_member(struct fbgc_object * self, struct fbgc_object * rhs){
+	return mc.e;
+}
+
+static struct fbgc_object_member _fbgc_math_members = {
+	.len = 2,
+	.member = {
+		{.name = "pi", .function = fbgc_math_pi_member},
+		{.name = "e", .function = fbgc_math_e_member}
+	}
+};
+
+
+void fbgc_math_initializer(void){
+	mc.pi = new_fbgc_double_object(FBGC_MATH_PI);
+	mc.e = new_fbgc_double_object(FBGC_MATH_E);
+}
+
+
+const struct fbgc_object_property_holder _fbgc_math_property_holder = {
+	.bits = 
+	_BIT_NAME |
+	_BIT_INITIALIZER |
+	_BIT_METHODS |
+	_BIT_MEMBERS
+	,
+	.properties ={
+		{.members = &_fbgc_math_members},
+		{.methods = &_fbgc_math_methods},
+		{.name = "math"},
+		{.initializer = fbgc_math_initializer}
+	}
+};
+
+#ifdef OPEN_ME
+
 //#include <gsl/gsl_matrix.h>
 //#include <gsl/gsl_blas.h>
 //#include <gsl/gsl_complex_math.h>
@@ -73,92 +221,6 @@ struct raw_complex c_cos(struct raw_complex z){
 
 	return u1;
 }
-
-struct fbgc_object * one_arg_math(struct fbgc_object ** arg,int argc, double (*fun) (double),struct raw_complex(*zfun) (struct raw_complex)){
-
-	struct fbgc_object * obj;
-
-	if(parse_tuple_content(arg,argc,"i|d|j|t|m",&obj) == -1)
-		return NULL;
-
-	switch(obj->type){
-		case INT:
-		case DOUBLE:
-		{
-			double dbarg = convert_fbgc_object_to_double(obj);
-			return new_fbgc_double_object((*fun)(dbarg));
-		}
-		case COMPLEX:
-		{
-			struct raw_complex z = convert_fbgc_object_to_complex(obj);
-			z = (*zfun)(z);
-			return new_fbgc_complex_object(z.real,z.imag);
-		}
-		case TUPLE:
-		{
-			size_t sz = size_fbgc_tuple_object(obj);
-			struct fbgc_object * res_tp = new_fbgc_tuple_object( sz );
-			size_fbgc_tuple_object(res_tp) = sz;
-			while(sz--){
-				content_fbgc_tuple_object(res_tp)[sz] = 
-					one_arg_math(content_fbgc_tuple_object(obj)+sz,1,fun,zfun);
-			}
-			return res_tp;
-		}
-		case MATRIX:
-		{
-			struct fbgc_matrix_object * m = (struct fbgc_matrix_object *) obj;
-			struct fbgc_object * res_m = new_fbgc_matrix_object(m->sub_type,m->row,m->column,UNINITIALIZED_MATRIX);
-
-			size_t rc = m->row*m->column;
-
-			struct raw_complex z;
-
-			for(size_t i = 0; i<m->row; ++i){
-				for(size_t j = 0; j<m->column; ++j){
-					size_t index = i * m->column + j;
-					size_t c_index = rc + index;
-
-					z.real = *(content_fbgc_matrix_object(m)+index);
-					if(m->sub_type == COMPLEX){
-						z.imag = *(content_fbgc_matrix_object(m)+c_index);
-						struct raw_complex result = (*zfun)(z);
-						*(content_fbgc_matrix_object(res_m)+index) = result.real;
-						*(content_fbgc_matrix_object(res_m)+c_index) = result.imag;
-					}
-					else *(content_fbgc_matrix_object(res_m)+index) = (*fun)(z.real);
-				}
-			}
-			return res_m;			
-		}
-		default:
-			return NULL;
-	}
-}
-
-
-#define new_fbgc_one_arg_math(func_ptr,complex_func_ptr)\
-static struct fbgc_object * fbgc_math_##func_ptr(struct fbgc_object ** arg, int argc){\
-return one_arg_math(arg,argc,func_ptr,complex_func_ptr);}\
-
-
-new_fbgc_one_arg_math(cos,c_cos);
-new_fbgc_one_arg_math(sin,NULL);
-new_fbgc_one_arg_math(tan,NULL);
-new_fbgc_one_arg_math(acos,NULL);
-new_fbgc_one_arg_math(asin,NULL);
-new_fbgc_one_arg_math(atan,NULL);
-
-new_fbgc_one_arg_math(cosh,NULL);
-new_fbgc_one_arg_math(sinh,NULL);
-new_fbgc_one_arg_math(tanh,NULL);
-new_fbgc_one_arg_math(acosh,NULL);
-new_fbgc_one_arg_math(asinh,NULL);
-new_fbgc_one_arg_math(atanh,NULL);
-
-
-new_fbgc_one_arg_math(exp,c_exp);
-new_fbgc_one_arg_math(sqrt,NULL);
 
 
 // new_fbgc_cfunction(fbgc_gsl,"gsl")

@@ -29,9 +29,6 @@ static size_t map_new_capacity_from_size(size_t size){
 
 static struct fbgc_object * _new_fbgc_map_object(size_t cap, uint8_t rlf){
 	
-	//Make sure whateber the entry is we will end up having  2s power of capacity
-	
-
 	struct fbgc_map_object * map =  (struct fbgc_map_object*) fbgc_malloc_object(sizeof(struct fbgc_map_object));
 	map->base.type = MAP;
 	map->size = 0;

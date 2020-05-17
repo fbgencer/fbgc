@@ -106,6 +106,9 @@ enum{
 	_LOC_TO_STR ,
 	_LOC_TO_TUPLE ,
 	_LOC_DESTRUCTOR,
+	_LOC_NAME,
+	_LOC_CONSTRUCTOR,
+	_LOC_INITIALIZER,
 };
 	
 
@@ -126,7 +129,11 @@ enum{
 #define _BIT_TO_TUPLE (0x0001 << _LOC_TO_TUPLE)
 #define _BIT_DESTRUCTOR (0x0001 << _LOC_DESTRUCTOR)
 
+#define _BIT_NAME (0x0001 << _LOC_NAME)
+#define _BIT_CONSTRUCTOR (0x0001 << _LOC_CONSTRUCTOR)
+#define _BIT_INITIALIZER (0x0001 << _LOC_INITIALIZER)
 
+/*
 union _properties{
 	struct fbgc_object * ( * const binary_operator)(struct fbgc_object *,struct fbgc_object * ,fbgc_token op);
 	struct fbgc_object * ( * const unary_operator)(struct fbgc_object *,fbgc_token op);
@@ -147,15 +154,46 @@ union _properties{
 	struct fbgc_object_method * methods;
 	
 	uint8_t (* const print)(struct fbgc_object *);
+	
+	const char * const name;
+	void (* const initializer)(void);
+	struct fbgc_cfunction * constructor;
 	void (* const destructor)(struct fbgc_object *);
-};
+};*/
 
 struct fbgc_object_property_holder{
 	const uint32_t bits;
-	const union _properties properties[];
+	const union _properties{
+	struct fbgc_object * ( * const binary_operator)(struct fbgc_object *,struct fbgc_object * ,fbgc_token op);
+	struct fbgc_object * ( * const unary_operator)(struct fbgc_object *,fbgc_token op);
+	struct fbgc_object * ( * const subscript_operator)(struct fbgc_object *,struct fbgc_object *);
+	struct fbgc_object * ( * const subscript_assign_operator)(struct fbgc_object *,struct fbgc_object *,struct fbgc_object *);
+	struct fbgc_object * ( * const abs_operator)(struct fbgc_object *);
+	struct fbgc_object * ( * const to_logic)(struct fbgc_object *);
+	struct fbgc_object * ( * const to_int)(struct fbgc_object *);
+	struct fbgc_object * ( * const to_double)(struct fbgc_object *);
+	struct fbgc_object * ( * const to_str)(struct fbgc_object *);
+	struct fbgc_object * ( * const to_tuple)(struct fbgc_object *);
+	struct fbgc_object * ( * const to_matrix)(struct fbgc_object *);
+	struct fbgc_object * ( * const to_range)(struct fbgc_object *);
+	size_t (* const size_of)(struct fbgc_object * );
+
+	struct fbgc_object * ( * const get_set_member)(struct fbgc_object *, const char *, struct fbgc_object *);
+	struct fbgc_object_member * members;
+	struct fbgc_object_method * methods;
+	
+	uint8_t (* const print)(struct fbgc_object *);
+	
+	const char * const name;
+	void (* const initializer)(void);
+	struct fbgc_cfunction * constructor;
+	void (* const destructor)(struct fbgc_object *);
+	}properties[];
+	//const union _properties properties[];
 };
 
-
+//
+//if holder contains constructor, only constructor will be added to the global scope
 
 
 

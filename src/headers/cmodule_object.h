@@ -25,10 +25,8 @@ struct fbgc_cmodule{
 //This is our object to hold in fields
 struct fbgc_cmodule_object{
     struct fbgc_object base;
-    const struct fbgc_cmodule * module;
+    const struct fbgc_object_property_holder * properties;
 };
-
-extern const struct fbgc_object_property_holder fbgc_cmodule_object_property_holder;
 
 #define sizeof_fbgc_cmodule_object()(sizeof(struct fbgc_cmodule_object))
 
@@ -48,7 +46,7 @@ extern const struct fbgc_object_property_holder fbgc_cfun_object_property_holder
 
 
 struct fbgc_object * new_fbgc_cfun_object( struct fbgc_object * (* function_obj)(struct fbgc_cfun_arg * ) );
-struct fbgc_object * new_fbgc_cmodule_object(const struct fbgc_cmodule * cm);
+struct fbgc_object * new_fbgc_cmodule_object(const struct fbgc_object_property_holder * p);
 void print_fbgc_cmodule(const struct fbgc_cmodule * );
 void free_fbgc_cfun_object(struct fbgc_object * obj);
 struct fbgc_object * get_set_fbgc_cmodule_object_member(struct fbgc_object * o, const char * str, struct fbgc_object * rhs);

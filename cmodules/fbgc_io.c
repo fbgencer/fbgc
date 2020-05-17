@@ -1,3 +1,5 @@
+
+#ifdef OPEMM
 #include "../src/fbgc.h"
 #include "fbgc_io.h"
 
@@ -69,3 +71,5 @@ const struct fbgc_cmodule fbgc_io_module =
 		{NULL,NULL}
 	}
 };
+
+#endif

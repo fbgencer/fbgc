@@ -4,9 +4,8 @@
 struct fbgc_object * new_fbgc_cstruct_object(size_t bsz, const struct fbgc_object_property_holder * prop){
 	struct fbgc_cstruct_object * so =  (struct fbgc_cstruct_object*) fbgc_malloc_object(sizeof(struct fbgc_cstruct_object)+bsz);
     so->base.type = CSTRUCT;
-    so->block_size = bsz;
     so->properties = prop;
-    so->cstruct = ((uint8_t*)&so->cstruct + sizeof(so->cstruct));  
+    so->cstruct = fbgc_malloc(bsz);
     return (struct fbgc_object*) so;
 }
 

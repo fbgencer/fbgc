@@ -1,6 +1,8 @@
 #include "../src/fbgc.h"
 #include "fbgc_file.h"
 
+
+
 static
 struct fbgc_object * fbgc_file_read(struct fbgc_cfun_arg * arg){
 
@@ -177,43 +179,35 @@ static struct fbgc_object_method _fbgc_file_cstruct_methods = {
 };
 
 
-const struct fbgc_object_property_holder fbgc_file_cstruct_property_holder = {
+static struct fbgc_object * fbgc_file_fopen(struct fbgc_cfun_arg * arg){
+	
+	struct fbgc_object * fname;
+	struct fbgc_object * open_type;
+	if(parse_tuple_content(arg,"ss",&fname,&open_type) == -1)
+		return NULL;
+
+	struct fbgc_cstruct_object * so = (struct fbgc_cstruct_object *) new_fbgc_cstruct_object(sizeof(struct file_struct), &_fbgc_file_cstruct_property_holder);
+	struct file_struct * fs = (struct file_struct *) so->cstruct; 		
+	
+	fs->fp = fopen(content_fbgc_str_object(fname),content_fbgc_str_object(open_type));
+	assert(fs->fp != NULL);
+
+	return (struct fbgc_object *)so;
+};
+
+static struct fbgc_cfunction _fbgc_file_fopen_struct =  {.name = "fopen", .function = &fbgc_file_fopen};
+
+const struct fbgc_object_property_holder _fbgc_file_cstruct_property_holder = {
 	.bits = 
 	_BIT_METHODS | 
-	_BIT_SUBSCRIPT_OPERATOR
+	_BIT_SUBSCRIPT_OPERATOR |
+	_BIT_NAME |
+	_BIT_CONSTRUCTOR
 	,
 	.properties ={
 		{.methods = &_fbgc_file_cstruct_methods},
 		{.subscript_operator = &subscript_operator_fbgc_file},
-	}
-};
-
-
-static struct fbgc_object * fbgc_file_fopen(struct fbgc_cfun_arg * arg){
-	
-	/*if(argc == 2 && arg[0]->type == STRING && arg[1]->type == STRING){
-		struct fbgc_cstruct_object * so = (struct fbgc_cstruct_object *) new_fbgc_cstruct_object(sizeof(struct file_struct), &fbgc_file_cstruct_property_holder);
-		struct file_struct * fs = (struct file_struct *) so->cstruct; 		
-	
-		fs->fp = fopen(content_fbgc_str_object(arg[0]),content_fbgc_str_object(arg[1]));
-		assert(fs->fp != NULL);
-
-		return (struct fbgc_object *)so;
-	}*/
-	
-	cprintf(100,"fopen takes exactly two arguments!\n");
-	return NULL;	
-};
-
-
-
-
-
-const struct fbgc_cmodule fbgc_file_module = 
-{
-	.initializer = {.name = "file", .function = NULL},
-	.functions = {
-		{.name = "fopen", .function = &fbgc_file_fopen},
-		{NULL,NULL}
+		{.name = "file"},
+		{.constructor = &_fbgc_file_fopen_struct}
 	}
 };

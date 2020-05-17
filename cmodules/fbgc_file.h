@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-extern const struct fbgc_cmodule fbgc_file_module;
+extern const struct fbgc_object_property_holder _fbgc_file_cstruct_property_holder;
 
 
 struct file_struct{

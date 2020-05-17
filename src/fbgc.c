@@ -51,47 +51,89 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
 struct fbgc_object * fbgc_load_module(const char * module_name,const char * fun_name, uint8_t load_key){
 		
 	//load_key == 0, just return the module
-	//load_key == 1, load all and return 
-	//load_key == 2, load specific and return, requires fun_name
+	//load_key == 1, load all and return : global
+	//load_key == 2, load specific and return, requires fun_name : local naming
 
 	assert(current_field != NULL);
 
-	const struct fbgc_cmodule * cm = NULL; 
-	for(uint8_t i = 0; i<sizeof(__cmodules)/sizeof(__cmodules[0]); ++i){
-		if(strcmp(module_name,__cmodules[i]->initializer.name) == 0){
-			cm = __cmodules[i];
+	const struct fbgc_object_property_holder * p = NULL;
+	for(uint8_t i = 0; i<sizeof(__property_holders)/sizeof(__property_holders[0]); ++i){
+		p = __property_holders[i];
+		int8_t w = _find_property(p->bits,_BIT_NAME);
+		if(w != -1){
+			//call initializer
+			if(strcmp(module_name,p->properties[w].name) == 0){
+				break;
+			}
+			
 		}
 	}
 
-	if(cm == NULL){
+	if(p == NULL){
 		return NULL;
+	}
+	//call function initializer
+	int8_t w = _find_property(p->bits,_BIT_INITIALIZER);
+	if(w != -1){
+		//call initializer
+		p->properties[w].initializer();
 	}
 
 	if(load_key != 0){
-		//call function initializer
-		if(cm->initializer.function != NULL){
-			struct fbgc_cfun_arg cfarg = {.arg = &current_field, .argc = 1, .kwargs_flag = 0};
-			cm->initializer.function(&cfarg); //need to send the address of current field
-		}
-
-		for (const struct fbgc_cfunction * cc = cm->functions; cc->name != NULL; ++cc){
-			if(load_key == 2 && my_strcmp(fun_name,cc->name)){
-				//if no match, 
-				continue;
+		w = _find_property(p->bits,_BIT_CONSTRUCTOR);
+		if(w != -1){
+			//if this module has constructor we will only load its constructor into global scope
+			const struct fbgc_cfunction * cc = p->properties[w].constructor;
+			if(load_key == 2 && strcmp(fun_name,cc->name) != 0){
+				FBGC_LOGE("%s could not be found in %s",fun_name,module_name);
+				return NULL; 
 			}
 
+			//if load key == 1 or == 2, it does not matter we checked name of the constructor
 			add_variable_in_field_object(current_field,cc->name,new_fbgc_cfun_object(cc->function));
-			if(load_key == 2) break;		
+		}
+		else{
+
+			//no constructor, then this is a normal cmodule like math
+			w = _find_property(p->bits,_BIT_METHODS);
+			if(w != -1){
+
+				const struct fbgc_object_method * methods = p->properties[w].methods;
+				uint8_t len = methods->len;
+				while(len--){
+					const char * str = methods->method[len].name;
+					if(load_key == 2 && strcmp(str,fun_name) != 0){
+						continue; //No match continue, if load_key is not 2 then we will add everything
+					}
+					add_variable_in_field_object(current_field,str,new_fbgc_cfun_object(methods->method[len].function));
+				}
+			}
+			w = _find_property(p->bits,_BIT_MEMBERS);
+			if(w != -1){
+
+				const struct fbgc_object_member *members = p->properties[w].members;
+				uint8_t len = members->len;
+				
+				while(len--){
+					const char * str = members->member[len].name;
+					if(load_key == 2 && my_strcmp(str,fun_name) != 0){
+						continue;
+					}
+
+					//No self is provided, user must know this
+					add_variable_in_field_object(current_field,str,members->member[len].function(NULL,NULL));
+				}
+			}				
 		}
 	}
 
-	return new_fbgc_cmodule_object(cm);
+	return new_fbgc_cmodule_object(p);
 
 }
 
 struct fbgc_object * fbgc_load_file(const char * file_name,const char * fun_name, uint8_t load_key){
 
-	struct fbgc_object * prev_field = current_field;	
+	/*struct fbgc_object * prev_field = current_field;	
 
 	struct fbgc_object * file_field = new_fbgc_field_object();
 	if(parse_file(&file_field,file_name))
@@ -161,7 +203,8 @@ struct fbgc_object * fbgc_load_file(const char * file_name,const char * fun_name
 	}
 
 	current_field = prev_field;
-	return file_field;
+	return file_field;*/
+	return NULL;
 }
 
 
@@ -361,8 +404,213 @@ int8_t parse_tuple_content(struct fbgc_cfun_arg * cfun_arg,const char * format, 
 	//cprintf(111,"Returning level:%d\n",level);
 	return level;
 	
+}
+
+int8_t parse_keywordargs_content(struct fbgc_cfun_arg * cfun_arg,const char ** keywords, const char * format, ...){
+
+	
+	//cprintf(111,"parsing tuple sz:%d | format'%s'\n",sz,format);
+
+	//Verilecek hatalar
+	//eğer hiç arg verilmemişse argdaki objelerin sadece tipleri kontrol edilecek
+	//eğer arg varsa mümkün olan arg'a kadar arrayin o objesi assign edilecek
+	//argüman sayısı uyuşmazsa match hatası verilip null dönülecek
+	// parse(a,b,"ij");
+	struct fbgc_object * kwargs = NULL;
+	if(cfun_arg->kwargs_flag){
+		kwargs = cfun_arg->arg[cfun_arg->argc];
+	}
+	else return 0;
+
+	struct fbgc_object ** c = cfun_arg->arg;
+	size_t sz = size_fbgc_map_object(kwargs);
+
+    va_list args;
+    va_start(args, format);
+    
+    uint8_t have_arg = 0;
+    if(*format == '!'){
+    	//so only verification, assuming no arg is passed
+    	//cprintf(110,"Not assignment, only verification\n");
+    	++format;
+    }
+    else have_arg = 1;
+
+    
+
+
+
+    uint8_t ok = 0;
+    int8_t level = 0;
+
+    const char * level_start = format;
+
+    uint8_t count_match = 0;
+    
+    for(const char * ckw = keywords[0]; ckw != NULL; ckw = *(++keywords)){
+    	struct fbgc_object * co = fbgc_map_object_lookup_str(kwargs,ckw);
+    	if(co == NULL){
+			struct fbgc_object ** o = va_arg(args, struct fbgc_object **);
+			*o = NULL;
+    		continue; 		
+    	}
+
+	switch(*format){
+		case 'b':{
+			ok = (co->type == LOGIC);
+			//cprintf(001,"b:logic:%d\n",ok);
+			break;
+		}
+		case 'i':{
+			ok = (co->type == INT);
+			//cprintf(001,"i:int:%d\n",ok);
+			break;
+		}
+		case 'd':{
+			ok = (co->type == DOUBLE);
+			//cprintf(001,"d:double:%d\n",ok);
+			break;
+		}
+		case 'j':{
+			ok = (co->type == COMPLEX);
+			//cprintf(001,"c:complex:%d\n",ok);
+			break;
+		}
+		case 's':{
+			ok = (co->type == STRING);
+			//cprintf(001,"s:string:%d\n",ok);
+			break;
+		}
+		case 'm':{
+			ok = (co->type == MATRIX);
+			////cprintf(001,"m:matrix:%d\n",ok);
+			break;
+		}
+		case 't':{
+			ok = (co->type == TUPLE);
+			//cprintf(001,"t:tuple:%d\n",ok);
+			break;
+		}
+		case 'r':{
+			ok = (co->type == RANGE);
+			//cprintf(001,"r:range:%d\n",ok);
+			break;
+		}		
+		case '.':{
+			ok = (co->type == CSTRUCT);
+			//cprintf(001,".:cstruct:%d\n",ok);
+			break;	
+		}
+		case 'o':{
+			//any type 
+			ok = 1;
+			//cprintf(001,"o:any:%d\n",ok);
+			break;
+		}
+		case '|':{
+			if(ok)
+				goto end_of_parse_tuple_content;
+			
+			++format;
+			//cprintf(001,"or\n");
+			continue;
+		}
+		case ':':{
+			//cprintf(001,"colon\n");
+			if(ok == 1){
+				//No need to print error message
+			}
+			else{
+				const char * er_start = ++format;
+				while(*er_start != '\0' && *er_start != '|')
+					++er_start;
+				//Now we have error message..
+
+			}
+			break;
+		}
+		case '*':{
+			format = level_start;
+			continue;
+		}
+		case '+':{
+			//cprintf(001,"plus\n");
+			if(count_match){
+				format = level_start;
+				continue;
+			}
+			else ok = 0;
+			break;
+		}
+		case '\0':{
+			//cprintf(010,"end of format!\n");
+			if(ok){
+				//printf("args is valid!\n");
+			}
+			else {
+				FBGC_LOGE("args is not valid\n");
+				count_match = 0;
+			}
+
+			goto end_of_parse_tuple_content;
+			
+		}
+		default:{
+			assert(0);
+		}
+	}
+
+	if(ok == 1){
+		++count_match;
+		if(have_arg){
+			//cprintf(111,"We have args, now assigning them\n");
+			struct fbgc_object ** o = va_arg(args, struct fbgc_object **);
+			*o = co;
+		}
+		ok = 0;
+	}
+	else{
+		
+		while(*format != '\0' && *format != '|')
+			++format;
+
+		if(*format == '\0'){
+			count_match = 0;
+			FBGC_LOGE("Arg match error!\n");
+			break;
+		}
+		else{
+			//printf("----------------\n");
+			++level;
+			count_match = 0;
+		}
+	}
+
+	++format;
+	}
+
+
+	end_of_parse_tuple_content:
+	va_end(args);
+	level = (count_match > 0) ? level : -1;
+	//cprintf(111,"Returning level:%d\n",level);
+	return level;
+	
 	return 0;
 }
+
+
+static unsigned long fhash(const void * keyp,size_t len){
+	unsigned long hash = 5381;
+	
+	const char * key = (const char * )keyp;
+	while(len--){
+		char c = *key++;
+		hash = ((hash << 5) + hash) + c; // hash * 33 + c
+	}
+	return hash;
+}
+
 
 
 #ifndef MODULE_TEST
@@ -390,10 +638,7 @@ int main(int argc, char **argv){
 	cprintf(100,"capacity lol :%ld\n",capacity_fbgc_raw_memory(lol,sizeof(int)));
 	cprintf(100,"capacity lol2 :%ld\n",capacity_fbgc_raw_memory(lol2,sizeof(int)));*/
 	initialize_fbgc_symbol_table();
-	struct fbgc_object * main_field = new_fbgc_field_object();
-	current_field = main_field;
-	//load_module_in_field_object(main_field,&fbgc_math_module);
-	//load_module_in_field_object(main_field,&fbgc_file_module);
+	current_field = new_fbgc_field_object();
 		
 	//parse_string(&main_field,"x = 88\n");
 	//cast_fbgc_object_as_field(main_field)->code;
@@ -406,7 +651,14 @@ int main(int argc, char **argv){
 	
 	cprintf(110,"CHECK sep: %d\n",fbgc_map_object_does_key_exist_str(map,"sep"));
 
-	print_detailed_fbgc_map_object(map);*/
+	print_detailed_fbgc_map_object(map);
+	printf("\n");
+
+	int x = -123;
+	int y = -123;
+	for(double i = -20; i< 20; ++i)
+		printf("Hash val '%g' = %ld\n",i,fhash(&i,sizeof(i))%40);*/
+
 	//fbgc_map_object_remove_str(map,"fbgencer");
 	//cprintf(100,"fbgencer found at index :%ld\n",fbgc_map_object_get_key_index_str(map,"samsung"));
 
@@ -422,13 +674,13 @@ int main(int argc, char **argv){
 			//compile_one_line(main_field,argv[2]);
 		}
 		else{
-		   compile_file(main_field, argv[1]); 
+		   compile_file(current_field, argv[1]); 
 		}
 		//print_fbgc_memory_block();
 		
 	}
 	else{
-		compile_file(main_field, "ex.fbgc");
+		compile_file(current_field, "ex.fbgc");
 	   //realtime_fbgc(main_field);
 	}
 

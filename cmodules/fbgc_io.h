@@ -5,8 +5,7 @@
 extern "C" {
 #endif
 
-extern const struct fbgc_cmodule fbgc_io_module;
-
+extern const struct fbgc_object_property_holder _fbgc_io_property_holder;
 
 #ifdef  __cplusplus
 }
