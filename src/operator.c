@@ -23,11 +23,6 @@ struct fbgc_object * (*fbgc_operator[8]) (struct fbgc_object *, struct fbgc_obje
 };
 
 
-struct fbgc_object * (*fbgc_operator2[1]) (struct fbgc_object *, struct fbgc_object *, fbgc_token) =
-{	
-	operator_fbgc_int_object2,
-};
-
 /*
 struct fbgc_object * safe_call_fbgc_operator(struct fbgc_object * a, struct fbgc_object * b, fbgc_token main, fbgc_token op){
 	switch(main){

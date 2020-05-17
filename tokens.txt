@@ -1,0 +1,70 @@
+UNKNOWN # Begin with unknown
+CONSTANT
+IDENTIFIER # identifiers
+END # end
+FUN_MAKE
+CLASS_MAKE
+ELIF
+ELSE
+WHILE
+FOR
+BREAK
+CONT
+IF
+RETURN
+NEWLINE
+LPARA # (
+RPARA # )
+LBRACK # [
+RBRACK # ]
+LBRACE # {
+RBRACE # }
+COMMA # -- set1 start
+DOT # .
+SEMICOLON # ; 
+COLON # set1 finish
+RSHIFT # >> assignment and binary operators start from here
+LSHIFT # <<
+STARSTAR # **
+SLASHSLASH # //
+PLUS # +
+MINUS # -
+STAR # *
+SLASH # /
+CARET # ^
+PERCENT # % assignment finish
+LOEQ # <=
+GREQ # >=
+EQEQ # ==
+NOTEQ # !=
+LOWER # <
+GREATER # >
+PIPE # |
+AMPERSAND # & binary finish
+EXCLAMATION # !
+TILDE # ~
+UPLUS # +
+UMINUS # -
+ASSIGN # = assignment ops start from here
+RSHIFT_ASSIGN # >>=
+LSHIFT_ASSIGN # <<=
+STARSTAR_ASSIGN # **=
+SLASHSLASH_ASSIGN # //=
+PLUS_ASSIGN # +=
+MINUS_ASSIGN # -=
+STAR_ASSIGN # *=
+SLASH_ASSIGN # /=
+CARET_ASSIGN # ^=
+PERCENT_ASSIGN # %=
+ASSIGN_SUBSCRIPT
+LEN
+JUMP
+FOR_BEGIN
+FUN_CALL
+BUILD_TUPLE
+BUILD_MATRIX
+POP_TOP
+ROW
+LOAD_SUBSCRIPT
+CLASS_CALL
+CLASS_SELF

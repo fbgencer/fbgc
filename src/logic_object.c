@@ -3,7 +3,7 @@
 
 struct fbgc_object  * new_fbgc_logic_object(int i){
 
-	struct fbgc_logic_object * lo = (struct fbgc_logic_object *)fbgc_malloc(sizeof(struct fbgc_logic_object));
+	struct fbgc_logic_object * lo = (struct fbgc_logic_object *)fbgc_malloc_object(sizeof(struct fbgc_logic_object));
 	lo->base.type = LOGIC;
 	lo->content = (char) i == 1;
 
@@ -101,3 +101,23 @@ switch(op)
 struct fbgc_object * fbgc_logic_object_to_str(struct fbgc_object * obj){
     return (cast_fbgc_object_as_logic(obj)->content) ? new_fbgc_str_object("true") : new_fbgc_str_object("false");
 }
+
+
+uint8_t print_fbgc_logic_object(struct fbgc_object * obj){
+    return printf("%s", (cast_fbgc_object_as_logic(obj)->content) ? "true" :"false");
+}
+
+
+
+const struct fbgc_object_property_holder fbgc_logic_object_property_holder = {
+    .bits = 
+    _BIT_PRINT |
+    _BIT_TO_STR |
+    _BIT_BINARY_OPERATOR
+    ,
+    .properties ={
+        {.print = &print_fbgc_logic_object},
+        {.binary_operator = &operator_fbgc_logic_object},
+        {.to_str = &fbgc_logic_object_to_str},       
+    }
+};

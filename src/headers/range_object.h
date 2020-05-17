@@ -12,6 +12,8 @@ struct fbgc_range_object{
 	struct fbgc_object * step;
 };
 
+extern const struct fbgc_object_property_holder fbgc_range_object_property_holder;
+
 #define cast_fbgc_object_as_range(x)(((struct fbgc_range_object*) x))
 #define sizeof_fbgc_range_object() (sizeof(struct fbgc_range_object)) 
 
@@ -25,7 +27,7 @@ struct fbgc_object * get_double_element_in_fbgc_range_object(struct fbgc_object 
 #define get_fbgc_range_object_iter_type(x)\
 (MAX(MAX(get_fbgc_object_type(cast_fbgc_object_as_range(x)->start),get_fbgc_object_type(cast_fbgc_object_as_range(x)->step)),get_fbgc_object_type(cast_fbgc_object_as_range(x)->end))) 
 
-void print_fbgc_range_object(struct fbgc_object * obj);
+uint8_t print_fbgc_range_object(struct fbgc_object * obj);
 
 #ifdef  __cplusplus
 }

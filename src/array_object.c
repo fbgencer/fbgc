@@ -32,22 +32,23 @@ struct fbgc_object * new_fbgc_array_object(size_t cap, size_t bsize){
 
 	cap = array_calculate_new_capacity_from_size(cap);
 
-	struct fbgc_array_object *ao =  (struct fbgc_array_object*) fbgc_malloc(sizeof(struct fbgc_array_object) + bsize * cap);
+	struct fbgc_array_object *ao =  (struct fbgc_array_object*) fbgc_malloc_object(sizeof(struct fbgc_array_object));
     ao->base.type = ARRAY;
     //ao->base.next = NULL;
     ao->block_size = bsize;
     ao->size = 0;
-    ao->capacity = cap;
+    
+    ao->content = fbgc_malloc(bsize * cap);
 
     FBGC_LOGV(ARRAY_OBJECT,"Array is created succesfully!\n");
-    FBGC_LOGV(ARRAY_OBJECT,"Block size %lu, Size %lu, Capacity:%lu\n",ao->block_size,ao->size,ao->capacity);
+    FBGC_LOGV(ARRAY_OBJECT,"Block size %lu, Size %lu, Capacity:%lu\n",ao->block_size,ao->size,capacity_fbgc_array_object(ao));
     
     return (struct fbgc_object*) ao;
 }
 
 
 void set_in_fbgc_array_object(struct fbgc_object * self,void * data,int index){
-	index = (index < 0) * capacity_fbgc_array_object(self) +  index;
+	index = (index < 0) * size_fbgc_array_object(self) +  index;
 	assert( index >= 0 && index < capacity_fbgc_array_object(self));
 	memcpy(at_fbgc_array_object(self,index), (uint8_t*)data, block_size_fbgc_array_object(self));	
 }
@@ -80,67 +81,25 @@ struct fbgc_object * push_back_fbgc_array_object(struct fbgc_object * self,void 
 	if(size_fbgc_array_object(self) == capacity_fbgc_array_object(self)){
 
 		//Before sending to realloc, request a larger block after a request change for the capacity of the array
-
-    	self = (struct fbgc_object*)fbgc_realloc(self,
-    		sizeof(struct fbgc_array_object ) + 
-			(cast_fbgc_object_as_array(self)->capacity << 1) * block_size_fbgc_array_object(self) );
-
-    	assert(self != NULL);
-    	cast_fbgc_object_as_array(self)->capacity <<= 1; //shift the capacity for the next two's power
-
+		
+		cast_fbgc_object_as_array(self)->content = 
+										fbgc_realloc(cast_fbgc_object_as_array(self)->content,(capacity_fbgc_array_object(self)<<1) * block_size_fbgc_array_object(self) );
 		
 		FBGC_LOGD(ARRAY_OBJECT,"New memory reallocated!\n");
 		FBGC_LOGD(ARRAY_OBJECT,"After realloc Array size :%lu, capacity %lu\n",size_fbgc_array_object(self) , capacity_fbgc_array_object(self));
 	}
 
-	if(size_fbgc_array_object(self) < capacity_fbgc_array_object(self)){
+	
 
-		
-		FBGC_LOGD(ARRAY_OBJECT,"There is enough space to push, pushing the object\n");
-
-		set_in_fbgc_array_object(self,obj,old_size);
-		cast_fbgc_object_as_array(self)->size = old_size+1;
-
-		FBGC_LOGD(ARRAY_OBJECT,"New size array %lu\n",size_fbgc_array_object(self));
-	}
-
-	return (struct fbgc_object*) self;
-}
-
-
-void _push_back_fbgc_array_object(struct fbgc_object ** arr,void * obj){
-
-	#define self *arr
-
-	FBGC_LOGV(ARRAY_OBJECT,"Push back array object!\n");
-	FBGC_LOGV(ARRAY_OBJECT,"Array size :%lu, capacity %lu\n",size_fbgc_array_object(self), capacity_fbgc_array_object(self));
-	//	Check the capacity, if there is enough space push back the obj
-
-	size_t old_size = size_fbgc_array_object(self);
-
-	if(size_fbgc_array_object(self) == capacity_fbgc_array_object(self)){
-
-		//Before sending to realloc, request a larger block after a request change for the capacity of the array
-
-    	self = (struct fbgc_object*)fbgc_realloc(self,
-    		sizeof(struct fbgc_array_object ) + 
-			(cast_fbgc_object_as_array(self)->capacity << 1) * block_size_fbgc_array_object(self) );
-
-    	cast_fbgc_object_as_array(self)->capacity <<= 1; //shift the capacity for the next two's power
-
-		
-		FBGC_LOGD(ARRAY_OBJECT,"New memory reallocated!\n");
-		FBGC_LOGD(ARRAY_OBJECT,"After realloc Array size :%lu, capacity %lu\n",size_fbgc_array_object(self) , capacity_fbgc_array_object(self));
-	}
-
-		
 	FBGC_LOGD(ARRAY_OBJECT,"There is enough space to push, pushing the object\n");
+	
+	memcpy(at_fbgc_array_object(self,old_size), (uint8_t*)obj, block_size_fbgc_array_object(self));
 
-	set_in_fbgc_array_object(self,obj,old_size);
+	//set_in_fbgc_array_object(self,obj,old_size);
 	cast_fbgc_object_as_array(self)->size = old_size+1;
 
 	FBGC_LOGD(ARRAY_OBJECT,"New size array %lu\n",size_fbgc_array_object(self));
+	
 
-
-	#undef self
+	return (struct fbgc_object*) self;
 }

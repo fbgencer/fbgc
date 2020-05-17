@@ -1,0 +1,46 @@
+x = fun(a)
+	return a
+end
+
+
+x(3)
+
+c2 = class()
+	a = 6
+	y = 0
+	
+	init = fun(x,y)
+		.a = x
+		.y = y
+	end		
+end
+
+
+c = class()
+	z = "fbg"
+
+	abc = fun(x,y)
+		.z = x*y
+	end
+
+	doo = fun()
+		.abc(12,10)
+	end
+
+end
+
+
+q = c()
+#q.abc(3,4)
+q.doo()
+
+print(q.z)
+
+f = fun x,y
+	return (x+y),4,5
+end
+
+print( (f(3,4),5,33,312) )
+
+
+print(3:'fbgencer',"lol":44)

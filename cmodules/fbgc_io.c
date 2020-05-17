@@ -1,35 +1,44 @@
 #include "../src/fbgc.h"
 #include "fbgc_io.h"
 
-/*
-#define declare_new_fbgc_cfunction(fun_name)\
-struct fbgc_object * fun_name(struct fbgc_object * sm);\
-extern const struct fbgc_cfunction fun_name##_struct
 
-#define new_fbgc_cfunction(fun_name,str_fun_name)\
-const struct fbgc_cfunction fun_name##_struct  = {str_fun_name,fun_name};\
-extern struct fbgc_object * fun_name(struct fbgc_object * arg)\
-*/
 
-//new_fbgc_cfunction(fbgc_print,"print")
-
-new_fbgc_cfunction(fbgc_print,"print")
-{
+static struct fbgc_object * fbgc_io_print(struct fbgc_cfun_arg * arg){
 	
-	for(size_t i = 0; i<argc; ++i){
-		printf_fbgc_object(arg[i]);
-		fprintf(stdout," ");
+	static const char * keywords [] = {"end","sep",NULL};
+	struct fbgc_object * end = NULL, * sep = NULL;
+
+	if(parse_keywordargs_content(arg,keywords,"oo",&end,&sep) == -1){
+		return NULL;
 	}
-	fprintf(stdout,"\n");
+
+	for(uint8_t i = 0; i<arg->argc; ++i){
+		 
+		printf_fbgc_object(arg->arg[i]);
+		
+		//Change this printing seperator part
+		if(i != arg->argc-1){
+			if(sep)
+				printf_fbgc_object(sep);
+			else
+				fprintf(stdout," ");
+		}
+	}
+	if(end)
+		printf_fbgc_object(end);
+	else
+		fprintf(stdout,"\n");
 
 	return __fbgc_nil;
 }
 
-new_fbgc_cfunction(fbgc_read,"read"){
 
-	assert(argc > 0);
+static struct fbgc_object * fbgc_io_read(struct fbgc_cfun_arg * arg){
+
+	if(parse_tuple_content(arg,"!s") == -1)
+        return NULL;
 	
-	printf_fbgc_object(arg[0]);
+	printf_fbgc_object(arg->arg[0]);
 	char *str_content;
 	assert(scanf("%ms",&str_content) == 1);
 	
@@ -38,42 +47,21 @@ new_fbgc_cfunction(fbgc_read,"read"){
 	return res;
 }
 
-
-
-//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-// CHANGE THIS INITIALIZER
-//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-const struct fbgc_cfunction fbgc_io_initializer_struct = {"io",fbgc_io_initializer};
-extern struct fbgc_object * fbgc_io_initializer (struct fbgc_object ** arg, int argc){
-	return __fbgc_nil;
-}
-
-
-/*
-new_fbgc_cfunction(fbgc_io_initializer,"io"){
-	return arg;
-}*/
-
-//Work on this, is it possible to cast ?
-const struct fbgc_cmodule fbgc_io_module = 
-{
-	.initializer = &fbgc_io_initializer_struct,
-	.functions = (const struct fbgc_cfunction*[])
-	{
-		&fbgc_print_struct,
-		&fbgc_read_struct,
-		NULL
+static struct fbgc_object_method _fbgc_io_methods = {
+	.len = 2,
+	.method = {
+		{.name = "print", .function = &fbgc_io_print},
+		{.name = "read", .function = &fbgc_io_read},
 	}
 };
 
-
-
-/*
-struct fbgc_object * fbgc_io_module_init(){
-	struct fbgc_cmodule_object * fbgc_io_module = (struct fbgc_cmodule_object *)malloc(sizeof(fbgc_cmodule_object));
-	fbgc_io_module.base->next = NULL;
-	fbgc_io_module.base->type = UNKNOWN;
-	fbgc_io_module->name; 
-}*/
- 
+const struct fbgc_object_property_holder _fbgc_io_property_holder = {
+	.bits = 
+	_BIT_NAME |
+	_BIT_METHODS
+	,
+	.properties ={
+		{.methods = &_fbgc_io_methods},
+		{.name = "io"}
+	}
+};

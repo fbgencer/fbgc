@@ -1,153 +1,213 @@
 #include "../src/fbgc.h"
 #include "fbgc_file.h"
 
-new_fbgc_cfunction(fbgc_fopen,"fopen")
-{
-	
-	if(argc == 2 && arg[0]->type == STRING && arg[1]->type == STRING){
-		struct fbgc_cstruct_object * so = (struct fbgc_cstruct_object *) new_fbgc_cstruct_object(sizeof(struct file_struct), &fbgc_file_module);
-		struct file_struct * fs = (struct file_struct *) so->cstruct; 		
-	
-		fs->fp = fopen(content_fbgc_str_object(arg[0]),content_fbgc_str_object(arg[1]));
-		assert(fs->fp != NULL);
 
-		return (struct fbgc_object *)so;
+
+static
+struct fbgc_object * fbgc_file_read(struct fbgc_cfun_arg * arg){
+
+	struct fbgc_cstruct_object * so; 
+
+	if(parse_tuple_content(arg,".",&so) == -1)
+		return NULL;
+
+	//= cast_fbgc_object_as_cstruct(arg[0]);
+
+	struct file_struct * fs = (struct file_struct *) so->cstruct; 
+
+	//long old_fp_loc = ftell(fs->fp);
+
+	fseek (fs->fp , 0 , SEEK_END);
+	long file_text_len = ftell(fs->fp);
+	rewind(fs->fp);
+
+	struct fbgc_object * str = new_fbgc_str_object_empty(file_text_len);
+	size_t res = fread(content_fbgc_str_object(str),1,file_text_len,fs->fp);
+	assert(res == file_text_len);
+
+	//fseek(fs->fp,0,old_fp_loc); 
+
+	return str;
+}
+
+
+static
+struct fbgc_object * fbgc_file_print(struct fbgc_cfun_arg * arg){
+	
+	struct fbgc_cstruct_object * so; 
+	struct fbgc_str_object * payload;
+
+	if(parse_tuple_content(arg,".s",&so,&payload) == -1)
+		return NULL;
+	
+	struct file_struct * fs = (struct file_struct *) so->cstruct; 
+	fprintf(fs->fp,"%s", payload->content);
+		
+	return fbgc_nil_object;
+}
+
+
+static
+struct fbgc_object * fbgc_file_printline(struct fbgc_cfun_arg * arg){
+	
+	//Not tested yet..
+
+	struct fbgc_cstruct_object * so; 
+	struct fbgc_int_object * line_no;
+	struct fbgc_str_object * payload;
+
+	if(parse_tuple_content(arg,".is",&so,&line_no,&payload) == -1)
+		return NULL;
+	
+	struct file_struct * fs = (struct file_struct *) so->cstruct; 
+	
+	long old_fp_loc = ftell(fs->fp); //Where are we in the file, hold it in order not to lose it
+
+	rewind(fs->fp); //set the file pointer to start
+	
+	int c = 0;
+	int count_char = 0;
+	int count_line = 1;
+
+	int to_line = line_no->content;
+
+	do{
+		c = fgetc(fs->fp);
+		if(c == '\n'){
+			if(count_line == to_line) break;
+			count_line++;
+			count_char = -1; //eat newline
+		}
+		count_char++;
+	}while(c != EOF);
+
+	if(count_line != to_line){
+		FBGC_LOGE("File contains %d line(s), cannot find %d.line\n",count_line,to_line);
+		return NULL;
+	}
+	fseek(fs->fp,-count_char-1,SEEK_CUR); //Now set the pointer beginning of this line
+	count_char -= length_fbgc_str_object(payload);
+	fprintf(fs->fp,"%s%*s", payload->content,count_char,"");
+	
+	fseek(fs->fp,old_fp_loc,SEEK_SET); //set the file pointer to its old location
+		
+	return fbgc_nil_object;
+}
+
+static
+struct fbgc_object * fbgc_file_readline(struct fbgc_cfun_arg * arg){
+	
+	struct fbgc_cstruct_object * so; 
+	struct fbgc_int_object * line_no;
+
+	if(parse_tuple_content(arg,".i",&so,&line_no) == -1)
+		return NULL;
+		
+	struct file_struct * fs = (struct file_struct *) so->cstruct; 
+
+	if(line_no->content < 0) {
+		FBGC_LOGE("Line no cannot be negative\n");
+		return NULL;
+	}
+
+	long old_fp_loc = ftell(fs->fp); //Where are we in the file, hold it in order not to lose it
+
+	rewind(fs->fp); //set the file pointer to start
+	
+	int c = 0;
+	int count_char = 0;
+	int count_line = 1;
+
+	do{
+		c = fgetc(fs->fp);
+		if(c == '\n'){
+			if(count_line == line_no->content) break;
+			count_line++;
+			count_char = -1; //eat newline
+		}
+		count_char++;
+	}while(c != EOF);
+
+	if(count_line != line_no->content){
+		FBGC_LOGE("File contains %d line(s), cannot find %d.line\n",count_line,line_no->content);
+		return NULL;
 	}
 	
-	cprintf(100,"fopen takes exactly two arguments!\n");
+	fseek(fs->fp,-count_char-1,SEEK_CUR); //Now set the pointer beginning of this line
+	struct fbgc_object * str = new_fbgc_str_object_empty(count_char);
+	
+	size_t res = fread(content_fbgc_str_object(str),1,count_char,fs->fp); //read the whole line
+
+	fseek(fs->fp,old_fp_loc,SEEK_SET); //set the file pointer to its old location
+	if(res == count_char)
+		return str;
+	
 	return NULL;	
 }
-new_fbgc_cfunction(fbgc_fprint,"fprint")
-{
 
-	if(argc == 2){
-		struct fbgc_cstruct_object * so = cast_fbgc_object_as_cstruct(arg[0]);
-		if(so->parent == &fbgc_file_module){
-			struct file_struct * fs = (struct file_struct *) so->cstruct; 
-			fprintf(fs->fp,"%s", content_fbgc_str_object(arg[1]));
-		}
-		return __fbgc_nil;
-	}
-	cprintf(100,"fprint takes exactly two arguments!\n");
-	return NULL;
-}
-
-new_fbgc_cfunction(fbgc_fread,"fread")
-{
-
-	if(argc == 1){
-		struct fbgc_cstruct_object * so = cast_fbgc_object_as_cstruct(arg[0]);
-		if(so->parent == &fbgc_file_module){
-			struct file_struct * fs = (struct file_struct *) so->cstruct; 
-
-			//long old_fp_loc = ftell(fs->fp);
-
-			fseek (fs->fp , 0 , SEEK_END);
-	 		long file_text_len = ftell(fs->fp);
-	  		rewind(fs->fp);
-
-	  		struct fbgc_object * str = new_fbgc_str_object_empty(file_text_len);
-			size_t res = fread(content_fbgc_str_object(str),1,file_text_len,fs->fp);
-			assert(res == file_text_len);
-
-			//fseek(fs->fp,0,old_fp_loc); 
-
-			return str;
-		}		
-	}
-
-	cprintf(100,"fread takes exactly one arguments!\n");
-	return NULL;
-}
-
-new_fbgc_cfunction(fbgc_freadline,"freadline")
-{
-
-	if(argc == 2){
-		struct fbgc_cstruct_object * so = cast_fbgc_object_as_cstruct(arg[0]);
-		if(so->parent == &fbgc_file_module && arg[1]->type == INT){
-			struct file_struct * fs = (struct file_struct *) so->cstruct; 
-
-			int which_line = cast_fbgc_object_as_int(arg[1])->content;
-			if(which_line < 0) {
-				cprintf(100,"Line no cannot be negative\n");
-				return NULL;
-			}
-
-			long old_fp_loc = ftell(fs->fp);
-
-			rewind(fs->fp); //set the file pointer to start
-			
-			int c = 0;
-			int count_char = 0;
-			int count_line = 0;
-
-			do{
-				c = fgetc(fs->fp);
-				if(c == '\n'){
-					if(count_line == which_line) break;
-					count_line++;
-					count_char = -1; //eat newline
-				}
-				count_char++;
-			}while(c != EOF);
-
-			if(count_line != which_line){
-				cprintf(100,"File contains %d line(s), cannot find %d. line\n",count_line,which_line);
-				return NULL;
-			}
-			
-			fseek(fs->fp,-count_char-1,SEEK_CUR);
-			struct fbgc_object * str = new_fbgc_str_object_empty(count_char);
-			//Why do we have this? It causes unused variable error
-			//size_t res = fread(content_fbgc_str_object(str),1,count_char,fs->fp);
-
-			fseek(fs->fp,old_fp_loc,SEEK_SET); //set the file pointer to its old location
-			return str;
-		}		
-	}
+static
+struct fbgc_object * fbgc_file_close(struct fbgc_cfun_arg * arg){
 	
-	cprintf(100,"fread takes exactly two arguments!\n");
-	return NULL;
+	struct fbgc_cstruct_object * so; 
+
+	if(parse_tuple_content(arg,".",&so) == -1)
+		return NULL;
+	
+	struct file_struct * fs = (struct file_struct *) so->cstruct; 
+	fclose(fs->fp);
+		
+	return fbgc_nil_object;
 }
 
 
-new_fbgc_cfunction(fbgc_fclose,"fclose")
-{
 
-	if(argc == 1){
-		struct fbgc_cstruct_object * so = cast_fbgc_object_as_cstruct(arg[0]);
-		if(so->parent == &fbgc_file_module){
-			struct file_struct * fs = (struct file_struct *) so->cstruct; 
-			fclose(fs->fp);
-		}
-		return __fbgc_nil;
+static struct fbgc_object * subscript_operator_fbgc_file(struct fbgc_object * iterable,struct fbgc_object * index_obj){
+	struct fbgc_object * temp[2] = {iterable,index_obj};
+	struct fbgc_cfun_arg arg = {.arg = temp, .argc = 2, .kwargs_flag = 0};
+	return fbgc_file_readline(&arg);
+}
+
+static struct fbgc_object_method _fbgc_file_cstruct_methods = {
+	.len = 5,
+	.method = {
+		{.name = "read", .function = &fbgc_file_read},
+		{.name = "print", .function = &fbgc_file_print},
+		{.name = "readline", .function = &fbgc_file_readline},
+		{.name = "printline", .function = &fbgc_file_printline},
+		{.name = "close", .function = &fbgc_file_close},
 	}
+};
 
 
-	cprintf(100,"fclose takes no arguments!\n");
-	return NULL;
-}
+static struct fbgc_object * fbgc_file_fopen(struct fbgc_cfun_arg * arg){
+	
+	struct fbgc_object * fname;
+	struct fbgc_object * open_type;
+	if(parse_tuple_content(arg,"ss",&fname,&open_type) == -1)
+		return NULL;
 
+	struct fbgc_cstruct_object * so = (struct fbgc_cstruct_object *) new_fbgc_cstruct_object(sizeof(struct file_struct), &_fbgc_file_cstruct_property_holder);
+	struct file_struct * fs = (struct file_struct *) so->cstruct; 		
+	
+	fs->fp = fopen(content_fbgc_str_object(fname),content_fbgc_str_object(open_type));
+	assert(fs->fp != NULL);
 
-const struct fbgc_cfunction fbgc_file_initializer_struct = {"file",fbgc_file_initializer};
-extern struct fbgc_object * fbgc_file_initializer (struct fbgc_object ** arg,int argc){
-	return NULL;
-}
+	return (struct fbgc_object *)so;
+};
 
+static struct fbgc_cfunction _fbgc_file_fopen_struct =  {.name = "fopen", .function = &fbgc_file_fopen};
 
-
-//Work on this, is it possible to cast ?
-const struct fbgc_cmodule fbgc_file_module = 
-{
-	.initializer = &fbgc_file_initializer_struct,
-	.functions = (const struct fbgc_cfunction*[])
-	{
-		&fbgc_fopen_struct,
-		&fbgc_fprint_struct,
-		&fbgc_fread_struct,
-		&fbgc_freadline_struct,
-		&fbgc_fclose_struct,
-		NULL
+const struct fbgc_object_property_holder _fbgc_file_cstruct_property_holder = {
+	.bits = 
+	_BIT_METHODS | 
+	_BIT_SUBSCRIPT_OPERATOR |
+	_BIT_NAME |
+	_BIT_CONSTRUCTOR
+	,
+	.properties ={
+		{.methods = &_fbgc_file_cstruct_methods},
+		{.subscript_operator = &subscript_operator_fbgc_file},
+		{.name = "file"},
+		{.constructor = &_fbgc_file_fopen_struct}
 	}
 };

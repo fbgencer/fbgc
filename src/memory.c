@@ -2,20 +2,48 @@
 
 
 
-struct fbgc_memory_block fbgc_memb = {	.internal_buffer_head = NULL,
-										.internal_buffer_size = 0,
+struct fbgc_memory_block fbgc_memb = {	.raw_buffer_head = NULL,
 										.object_pool_head = NULL,
-										.object_pool_size = 0,
 										.empty_chunk_head = {.type=NIL}
 									};
 
 
+static struct fbgc_memory_pool * new_fbgc_memory_pool(uint8_t tp, size_t pg_size){
+
+	FBGC_LOGD(MEMORY,"New pool request type:%u, size:%lu\n",tp,pg_size);
+
+	struct fbgc_memory_pool * mp = (struct fbgc_memory_pool *) malloc(sizeof(struct fbgc_memory_pool));
+	assert(mp != NULL);
+	mp->type = tp;
+	mp->data =  calloc(pg_size,1);	
+	assert(mp->data != NULL);
+	mp->tptr = mp->data;
+	mp->size = pg_size;
+	mp->next = NULL;	
+
+	return mp;
+}
+
+static void free_fbgc_memory_pool(struct fbgc_memory_pool * mp){
+
+	while(mp != NULL){
+		free(mp->data);
+		struct fbgc_memory_pool * temp = mp->next;
+		free(mp);
+		mp = temp;
+	}	
+}
+
+
 void initialize_fbgc_memory_block(){
 	//first allocate a big chunck that contains both inital buffer and object pool
-	/*fbgc_memb.internal_buffer_head = (void *) calloc(INITIAL_INTERNAL_BUFFER_SIZE,1);
-	assert(fbgc_memb.internal_buffer_head);
-	fbgc_memb.internal_buffer_size = INITIAL_INTERNAL_BUFFER_SIZE;*/
+	fbgc_memb.raw_buffer_head = new_fbgc_memory_pool(MEM_RAW_BUFFER,PAGE_SIZE);
+	fbgc_memb.object_pool_head = new_fbgc_memory_pool(MEM_OBJECT_POOL,PAGE_SIZE);
 
+
+	/*fbgc_memb.raw_buffer_head  =  (struct fbgc_memory_pool *) malloc(sizeof(struct fbgc_memory_pool));	
+	assert(fbgc_memb.raw_buffer_head != NULL);
+	fbgc_memb.raw_buffer_size = 1;
 
 	fbgc_memb.object_pool_head  =  (struct fbgc_memory_pool *) malloc(sizeof(struct fbgc_memory_pool));	
 	assert(fbgc_memb.object_pool_head != NULL);
@@ -25,16 +53,14 @@ void initialize_fbgc_memory_block(){
 	assert(fbgc_memb.object_pool_head->data != NULL);
 	fbgc_memb.object_pool_head->tptr = fbgc_memb.object_pool_head->data;
 	fbgc_memb.object_pool_head->size = PAGE_SIZE;
-	fbgc_memb.object_pool_head->next = NULL;
+	fbgc_memb.object_pool_head->next = NULL;*/
 
 }
 
-void * fbgc_malloc(size_t size){
-	#ifdef MEM_DEBUG
-		cprintf(100,"FBGC_MALLOC IS CALLED size :%d\n",size);
-	#endif
 
-
+static void * _fbgc_malloc(struct fbgc_memory_pool * opool_iter, size_t size){
+	FBGC_LOGV(MEMORY,"FBGC_MALLOC IS CALLED size :%lu\n",size);
+	
 	/*
 		[FBGC Malloc algorithm]
 		
@@ -71,50 +97,280 @@ void * fbgc_malloc(size_t size){
 			New memory is basically another memory pool for the requested size.
 
 	*/
-	struct fbgc_memory_pool * opool_iter = fbgc_memb.object_pool_head;
-
-	char state = 0;
-
-	while(opool_iter != NULL){
-		//check the size
-
-		//work on this
-		if(size > opool_iter->size) state = 1;
-		else state = 0;
-
-		#ifdef MEM_DEBUG
-			cprintf(111,"Requested memory from chunk: %d, total memory : %d,available mem: %d \n",
+	
+	do{
+		//check the size, if it is already too big go to new pool allocation
+		//if(size > opool_iter->size) goto NEW_POOL_ALLOCATION;
+		
+		FBGC_LOGV(MEMORY,"Requested memory from chunk: %lu, total memory : %lu,available mem: %lu \n",
 				size,opool_iter->size,(opool_iter->data + opool_iter->size - opool_iter->tptr));
-		#endif
+		
+		
+		if(opool_iter->type == MEM_RAW_BUFFER){
+			//Before calculating the space also include the byte size of the chunk
+			
+			if( ((uint8_t*)opool_iter->data + opool_iter->size - (uint8_t*)opool_iter->tptr) >= (size+sizeof(long))){
+				FBGC_LOGV(MEMORY,"memory is given from raw buffer\n");
+				long * byte_size =  (long *)opool_iter->tptr;
+				*byte_size = size;
+				opool_iter->tptr += sizeof(long);
+				//memory is available, give it and shift tptr
+				void * ret_ptr = opool_iter->tptr;
+				opool_iter->tptr += size; 	
+				return ret_ptr;	
+			}				
+		}
+		else{
+			if( ((uint8_t*)opool_iter->data + opool_iter->size - (uint8_t*)opool_iter->tptr) >= size){
 
-
-		if( ((uint8_t*)opool_iter->data + opool_iter->size - (uint8_t*)opool_iter->tptr) >= size){
-			#ifdef MEM_DEBUG
-				//cprintf(111,"Requested memory is available\n");
-			#endif
-
-			opool_iter->tptr += size; 	
-			return (opool_iter->tptr - size);		
-		}		
-		//iterate through the chunks
-		//we put this for the next use of opool_iter, we don't want it as NULL
+				//memory is available, give it and shift tptr
+				void * ret_ptr = opool_iter->tptr;
+				opool_iter->tptr += size; 	
+				return ret_ptr;	
+			}	
+		}	
 		if(opool_iter->next == NULL) break;
-
+		//iterate through the chunks
 		opool_iter = opool_iter->next;
-	}
-
-	#ifdef MEM_DEBUG
-	if(state == 1)
-		cprintf(011,"Goto new allocation!");
-	#endif	
-
-	if(state == 1) goto NEW_POOL_ALLOCATION;
-
+	}while(1);
+	
 //#################################################################################################################
 // 
-//	After writing GC algorithm uncomment below!	
+//	After writing GC algorithm uncomment below!	(See end of the file)
 //
 //#################################################################################################################
+
+	//NEW_POOL_ALLOCATION:
+
+	FBGC_LOGV(MEMORY,"There is no enough memory, new allocation opool type :%d\n",opool_iter->type);
+	
+	//if above code did not return succesfully, we need to allocate a new chunk!
+	//Notice that iter shows the end of the chunks, we will use iter
+
+	opool_iter->next  = (struct fbgc_memory_pool *)
+		new_fbgc_memory_pool(opool_iter->type,PAGE_SIZE*((size_t)(size/(PAGE_SIZE*1.0))+1));
+
+	opool_iter = opool_iter->next;
+	
+	//calculate the multiplicity of the new chunk
+	//only allow to allocate integer multiples of the page size
+	//assume size = 111, page_size = 20, new alloceted page size becomes 120, 
+	
+	FBGC_LOGV(MEMORY,"Allocated new pool size :%lu\n",opool_iter->size);
+
+	if(opool_iter->type == MEM_RAW_BUFFER){
+		long * byte_size =  (long *)opool_iter->data;
+		*byte_size = size;
+		opool_iter->tptr = opool_iter->data + size + sizeof(long);
+		return ( opool_iter->data + sizeof(long) );
+	}
+
+	
+	opool_iter->tptr = opool_iter->data + size;
+	return opool_iter->data;
+}
+
+void * fbgc_realloc(void * ptr, size_t size){
+
+/*
+See thread : https://codereview.stackexchange.com/questions/151019/implementing-realloc-in-c
+
+[Realloc requirements]
+>> If the requested block size is smaller than the original size of the block, 
+realloc either frees the unwanted memory at the end of the block and returns
+the input pointer unchanged, or allocates a new block of the appropriate size,
+frees the original block, and returns a pointer to this newly-allocated block.
+
+>> If the requested block size is larger than the original size of the block,
+realloc may allocate an expanded block at a new address and copy the contents of
+the original block into the new location. In this case, a pointer to the expanded
+block is returned, and the extended portion of the block is left uninitialized. Or, if possible,
+it may expand the original block in-place and return the input pointer unchanged.
+
+>>If realloc cannot satisfy a request to expand a block, it returns a null pointer
+and does not free the original block. (realloc will always succeed
+when you request to shrink a block.)
+
+>>If the input pointer is null,
+then realloc behaves exactly as if you had called malloc(size),
+returning a pointer to the newly-allocated block of the requested size,
+or a null pointer if the request could not be satisfied.
+
+>>If the requested size is 0 and the input pointer is non-null,
+then realloc behaves exactly as if you had called free(ptr),
+and always returns a null pointer.
+
+>>If the input pointer is null and the requested size is 0,
+then the result is undefined!
+*/
+	if(ptr == NULL) return fbgc_malloc(size);
+
+	long block_size = capacity_in_bytes_fbgc_raw_memory(ptr);
+
+	
+	FBGC_LOGV(MEMORY,"~~~~~~~Realloc~~~~~~~~\n");
+	FBGC_LOGV(MEMORY,"Requested memory in realloc is %lu, block size : %ld\n",size,block_size);
+	
+
+	if(size > block_size){
+		FBGC_LOGV(MEMORY,"Allocating new block size : %lu and copying\n",size);
+	
+		void * new_mem_ptr = fbgc_malloc(size);
+		if(new_mem_ptr == NULL) return NULL;
+		FBGC_LOGV(MEMORY,"succesfully allocated size : %lu,old address:%p new address:%p\n",size,ptr,new_mem_ptr);
+		memcpy(new_mem_ptr,ptr,block_size);
+		//Do we need it ?
+		fbgc_free(ptr);
+
+		return new_mem_ptr;
+	}
+
+	//if the requested size is smaller than the previous size just decrease the size of the block, let the gc handle later
+
+	long * byte_size =  (long *)((uint8_t*)ptr - sizeof(long));
+	*byte_size = size;
+	
+	return ptr;	
+}
+
+void fbgc_free(void *ptr){
+
+	/*
+		Free function is NOT a c-free function in fbgc.
+		It does not give allocated memory to the system, only clears the object to make it unrecognizable.
+		In order to do that just delete the objects type, make it garbage, so for the later use we can use this empty memory.
+	*/
+
+	//##########################
+	// Make the connections proper for the garbage objects.
+	/*struct fbgc_garbage_object * gb = (struct fbgc_garbage_object *) ptr;
+
+	gb->size =  get_fbgc_object_size(ptr);
+	gb->base.type = GARBAGE;*/
+}
+
+
+
+void * fbgc_malloc_object(size_t sz){
+	return _fbgc_malloc(fbgc_memb.object_pool_head,sz);
+}
+void * fbgc_malloc(size_t sz){
+	return _fbgc_malloc(fbgc_memb.raw_buffer_head,sz);
+}
+
+
+void print_fbgc_memory_object_pool(){
+	cprintf(011,"############[OBJECT POOL]############\n");
+	struct fbgc_memory_pool * iter = fbgc_memb.object_pool_head;
+
+	//just to clear obj locations
+	
+	for(int i = 0; iter != NULL; i++){
+		cprintf(111,"[%d.Chunk] size: %d\n",i,iter->size);
+		size_t obj_start = 0;
+		for(int j = 0; j<iter->size; j++){
+			int val = *( char *)((iter->data)+j); 
+
+			if(j == obj_start && ((char *)iter->data+j) != iter->tptr){
+				struct fbgc_object * dummy = (struct fbgc_object *)((uint8_t*)(iter->data)+j);
+				obj_start += get_fbgc_object_size(dummy);
+				//print the type of the data in the memory
+				cprintf(101,">>[%s] obj size in memory %d\n",object_name_array[0x7F & val],get_fbgc_object_size(dummy));				
+				//print the address and the data in the memory!
+				//cprintf(101,"[%d][%p]:%0x",j,((iter->data)+j),val);
+
+
+			}
+			//else
+			{
+	   			cprintf(010,"[%d][%p]",j,((iter->data)+j));
+	   			cprintf(110,":%0x = %d",val,val);
+	   			
+			}
+			
+
+	   		if(iter->tptr == ((char *)iter->data+j)){
+	   			cprintf(100," <--tptr");
+	   			cprintf(100,"\n");
+	   			break;
+	   		} 	
+
+	   		cprintf(010,"\n");
+		}
+		cprintf(111,"[%d.] Chunk size: %d\n",i,iter->size);
+		iter = iter->next;
+    } 		
+}
+
+void print_fbgc_memory_raw_buffer(){
+	cprintf(011,"############[RAW BUFFER]############\n");
+	struct fbgc_memory_pool * iter = fbgc_memb.raw_buffer_head;
+
+	//just to clear obj locations
+	
+	for(int i = 0; iter != NULL; i++){
+		cprintf(111,"[%d.Chunk] size: %d\n",i,iter->size);
+
+		size_t obj_start = 0;
+		for(size_t j = 0; j<iter->size;){
+	   		if(iter->tptr == ((uint8_t *)iter->data+j)){
+	   			cprintf(100," <--tptr");
+	   			cprintf(100,"\n");
+	   			break;
+	   		}
+			long byte_size = *( (long*)((uint8_t *)iter->data+j) );
+			cprintf(101,"Chunk byte size:%ld\n", byte_size);
+			j += sizeof(long);
+			void * data = ((uint8_t *)iter->data+j);
+			j += byte_size;
+			for(long k = 0; k < byte_size; ++k){
+				int val = *( char *)(data+k); 
+				cprintf(010,"[%d][%p]",j-byte_size+k,data+k);
+	   			cprintf(110,":%0x = %d",val,val);
+	   			cprintf(010,"\n");
+			}
+			
+	   		if(iter->tptr == ((uint8_t *)iter->data+j)){
+	   			cprintf(100," <--tptr");
+	   			cprintf(100,"\n");
+	   			break;
+	   		}
+		}
+		cprintf(111,"[%d.] Chunk size: %d\n",i,iter->size);
+		iter = iter->next;
+    }	
+}
+
+
+void print_fbgc_memory_block(){
+
+	cprintf(010,"############[MEMORY_BLOCK]############\n");
+	
+	print_fbgc_memory_object_pool();
+	print_fbgc_memory_raw_buffer();
+
+	
+	cprintf(010,"############[MEMORY_BLOCK]############\n");
+}
+
+
+void free_fbgc_memory_block(){
+	
+	free_fbgc_memory_pool(fbgc_memb.raw_buffer_head);
+	free_fbgc_memory_pool(fbgc_memb.object_pool_head);
+
+	fbgc_memb.raw_buffer_head = NULL;
+	fbgc_memb.object_pool_head = NULL;
+}
+
+
+
+long capacity_in_bytes_fbgc_raw_memory(void * x){
+	void * ptr  = (uint8_t*)x - sizeof(long);
+	long byte_size = *( (long*)((uint8_t *)ptr) );
+	return byte_size;
+}
+
 
 /*
 	#ifdef MEM_DEBUG
@@ -264,187 +520,3 @@ void * fbgc_malloc(size_t size){
 		chunk_iter = chunk_iter->next;
 	}
 */
-
-
-	NEW_POOL_ALLOCATION:
-
-	#ifdef MEM_DEBUG
-		cprintf(111,"There is no enough memory, new allocation\n");
-	#endif	
-
-	//if above code did not return succesfully, we need to allocate a new chunk!
-	//Notice that iter shows the end of the chunks, we will use iter
-
-	opool_iter->next = (struct fbgc_memory_pool *) malloc(sizeof(struct fbgc_memory_pool));	
-	assert(opool_iter->next != NULL);
-	fbgc_memb.object_pool_size++;
-	opool_iter = opool_iter->next;
-	opool_iter->next = NULL;
-
-	//calculate the multiplicity of the new chunk
-	//only allow to allocate integer multiples of the page size
-	//assume size = 111, page_size = 20, mpage becomes 120, 
-	opool_iter->size =  PAGE_SIZE*((size_t)((size+sizeof(struct fbgc_garbage_object))/(PAGE_SIZE*1.0))+1);
-	#ifdef MEM_DEBUG
-		cprintf(111,"Allocated new pool size :%d\n",opool_iter->size);
-	#endif		
-	opool_iter->data = calloc(opool_iter->size,1);	
-	assert(opool_iter->data != NULL);
-	opool_iter->tptr = opool_iter->data + size;
-	
-	return (opool_iter->tptr - size);	
-}
-
-void * fbgc_realloc(void * ptr, size_t size){
-
-/*
-See thread : https://codereview.stackexchange.com/questions/151019/implementing-realloc-in-c
-
-[Realloc requirements]
->> If the requested block size is smaller than the original size of the block, 
-realloc either frees the unwanted memory at the end of the block and returns
-the input pointer unchanged, or allocates a new block of the appropriate size,
-frees the original block, and returns a pointer to this newly-allocated block.
-
->> If the requested block size is larger than the original size of the block,
-realloc may allocate an expanded block at a new address and copy the contents of
-the original block into the new location. In this case, a pointer to the expanded
-block is returned, and the extended portion of the block is left uninitialized. Or, if possible,
-it may expand the original block in-place and return the input pointer unchanged.
-
->>If realloc cannot satisfy a request to expand a block, it returns a null pointer
-and does not free the original block. (realloc will always succeed
-when you request to shrink a block.)
-
->>If the input pointer is null,
-then realloc behaves exactly as if you had called malloc(size),
-returning a pointer to the newly-allocated block of the requested size,
-or a null pointer if the request could not be satisfied.
-
->>If the requested size is 0 and the input pointer is non-null,
-then realloc behaves exactly as if you had called free(ptr),
-and always returns a null pointer.
-
->>If the input pointer is null and the requested size is 0,
-then the result is undefined!
-*/
-	if(ptr == NULL) return fbgc_malloc(size);
-
-	size_t block_size = get_fbgc_object_size((struct fbgc_object * )ptr);
-
-	#ifdef MEM_DEBUG
-		cprintf(010,"~~~~~~~Realloc~~~~~~~~\n");
-		cprintf(010,"Requested memory in realloc is %d, block size : %d\n",size,block_size);
-	#endif
-
-	if(size > block_size){
-	#ifdef MEM_DEBUG
-		cprintf(010,"Allocating new block size : %d and copying\n",size);
-	#endif
-		void * new_mem_ptr = fbgc_malloc(size);
-		if(new_mem_ptr == NULL) return NULL;
-
-	#ifdef MEM_DEBUG
-		cprintf(010,"succesfully allocated size : %d,old address:%p new address:%p\n",size,ptr,new_mem_ptr);
-	#endif
-
-		memcpy(new_mem_ptr,ptr,block_size);
-		//Do we need it ?
-		fbgc_free(ptr);
-
-		return new_mem_ptr;
-	}
-
-	return ptr;	
-}
-
-void fbgc_free(void *ptr){
-
-	/*
-		Free function is NOT a c-free function in fbgc.
-		It does not give allocated memory to the system, only clears the object to make it unrecognizable.
-		In order to do that just delete the objects type, make it garbage, so for the later use we can use this empty memory.
-	*/
-
-	//##########################
-	// Make the connections proper for the garbage objects.
-	/*struct fbgc_garbage_object * gb = (struct fbgc_garbage_object *) ptr;
-
-	gb->size =  get_fbgc_object_size(ptr);
-	gb->base.type = GARBAGE;*/
-}
-
-
-void print_fbgc_memory_block(){
-
-	cprintf(010,"############[MEMORY_BLOCK]############\n");
-	cprintf(111,"Internal buffer size : %d\n",fbgc_memb.internal_buffer_size);
-    	for(int i = 0; i<fbgc_memb.internal_buffer_size; i++){
-		int val = *( char *)(fbgc_memb.internal_buffer_head+i); 
-	   	cprintf(010,"[%p]:%0x\n",(int *)(fbgc_memb.internal_buffer_head+i),val);
-    	}    
-	cprintf(111,"Object pool size: %d\n",fbgc_memb.object_pool_size );
-
-	cprintf(011,"############[OBJECT POOL]############\n");
-	struct fbgc_memory_pool * iter = fbgc_memb.object_pool_head;
-
-	//just to clear obj locations
-	
-	for(int i = 0; i<fbgc_memb.object_pool_size && iter != NULL; i++){
-		cprintf(111,"[%d.Chunk] size: %d\n",i,iter->size);
-		size_t obj_start = 0;
-		for(int j = 0; j<iter->size; j++){
-			int val = *( char *)((iter->data)+j); 
-
-			if(j == obj_start && ((char *)iter->data+j) != iter->tptr){
-				struct fbgc_object * dummy = (struct fbgc_object *)((uint8_t*)(iter->data)+j);
-				obj_start += get_fbgc_object_size(dummy);
-				//print the type of the data in the memory
-				cprintf(101,">>[%s] obj size in memory %d\n",object_name_array[0x7F & val],get_fbgc_object_size(dummy));				
-				//print the address and the data in the memory!
-				//cprintf(101,"[%d][%p]:%0x",j,((iter->data)+j),val);
-
-
-			}
-			//else
-			{
-	   			cprintf(010,"[%d][%p]",j,((iter->data)+j));
-	   			cprintf(110,":%0x",val);
-	   			
-			}
-			
-
-	   		if(iter->tptr == ((char *)iter->data+j)){
-	   			cprintf(100," <--tptr");
-	   			cprintf(100,"\n");
-	   			break;
-	   		} 	
-
-	   		cprintf(010,"\n");
-		}
-		cprintf(111,"[%d.] Chunk size: %d\n",i,iter->size);
-		iter = iter->next;
-    } 	
-	cprintf(011,"############[OBJECT POOL]############\n");
-	cprintf(111,"Object pool size: %d\n",fbgc_memb.object_pool_size );
-	
-	cprintf(010,"############[MEMORY_BLOCK]############\n");
-}
-
-
-void free_fbgc_memory_block(){
-	free(fbgc_memb.internal_buffer_head);
-	fbgc_memb.internal_buffer_size = 0;
-
-
-	struct fbgc_memory_pool * iter = fbgc_memb.object_pool_head;
-	struct fbgc_memory_pool * temp = iter;
-
-
-	for (size_t i = 0; i < fbgc_memb.object_pool_size; ++i){
-		free(iter->data);
-		temp = iter->next;
-		free(iter);
-		iter = temp;
-	}
-}

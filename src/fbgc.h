@@ -21,6 +21,13 @@ extern "C" {
 #include <signal.h>
 
 
+#ifndef __cplusplus
+typedef uint8_t bool;
+#define true 1
+#define false 0
+#endif
+
+
 #include "headers/tokens.h"
 #include "headers/error.h"
 
@@ -36,6 +43,7 @@ extern "C" {
 #include "headers/logic_object.h"
 #include "headers/complex_object.h"	
 #include "headers/str_object.h"
+#include "headers/map_object.h"
 #include "headers/matrix_object.h"
 #include "headers/tuple_object.h"
 #include "headers/cmodule_object.h"
@@ -58,9 +66,12 @@ extern "C" {
 extern struct fbgc_object * current_field;
 extern struct fbgc_object * __fbgc_nil;
 struct fbgc_object * fbgc_load_module(const char * module_name,const char * fun_name, uint8_t load_key);
-struct fbgc_object * fbgc_load_file(char * file_name,const char * fun_name, uint8_t load_key);
-
+struct fbgc_object * fbgc_load_file(const char * file_name,const char * fun_name, uint8_t load_key);
+int8_t parse_tuple_content(struct fbgc_cfun_arg * cfun_arg, const char * format, ...);
+int8_t parse_keywordargs_content(struct fbgc_cfun_arg * cfun_arg,const char ** keywords, const char * format, ...);
 struct parser_packet;
+
+#define fbgc_nil_object __fbgc_nil
 
 
 #ifdef  __cplusplus

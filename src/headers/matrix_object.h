@@ -18,6 +18,7 @@ struct fbgc_matrix_object{
    	size_t row;
    	size_t column;
 };
+extern const struct fbgc_object_property_holder fbgc_matrix_object_property_holder;
 
 #define cast_fbgc_object_as_matrix(x)(((struct fbgc_matrix_object*) x))
 #define sizeof_fbgc_matrix_object(x)(sizeof(struct fbgc_matrix_object) + sizeof(double) * (cast_fbgc_object_as_matrix(x)->row*cast_fbgc_object_as_matrix(x)->column) )
@@ -43,7 +44,7 @@ struct fbgc_object * fast_multiply_fbgc_matrix_object(struct fbgc_object * mat1,
 
 struct fbgc_object * operator_fbgc_matrix_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op);
 
-void print_fbgc_matrix_object(struct fbgc_object *);
+uint8_t print_fbgc_matrix_object(struct fbgc_object *);
 void free_fbgc_matrix_object(struct fbgc_object * );
 
 

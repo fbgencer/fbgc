@@ -1,7 +1,7 @@
 #include "fbgc.h"
 
 struct fbgc_object * new_fbgc_double_object(double db_content){
-	struct fbgc_double_object *dbo =  (struct fbgc_double_object*) fbgc_malloc(sizeof_fbgc_double_object());
+	struct fbgc_double_object *dbo =  (struct fbgc_double_object*) fbgc_malloc_object(sizeof_fbgc_double_object());
 	dbo->base.type = DOUBLE;
 	//dbo->base.next = NULL;
 	dbo->content = db_content; 
@@ -17,130 +17,15 @@ struct fbgc_object * new_fbgc_double_object_from_substr(const char * db_str_begi
 	return new_fbgc_double_object(strtod (db_str_begin, NULL));
 }
 
-/*
-
 struct fbgc_object * operator_fbgc_double_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op){
-	//you have to check before calling this function, a and b must be int type 
-	double a1 = convert_fbgc_object_to_double(a);
-	double b1 = (b!= NULL) ? convert_fbgc_object_to_double(b) : 0;
-	double c = 0;
 
-	switch(op)
-	{
-		case R_SHIFT:
-		{
-			return NULL;
-			//c = a1>>b1;
-			//break;
-		}
-		case L_SHIFT:
-		{
-			return NULL;
-			//c = a1<<b1;
-			//break;
-		}        
-		case STARSTAR:
-		{
-			c = pow(a1,b1);
-			break;
-		}
-		case SLASHSLASH:
-		{
-			c =  1.0/(1.0/a1 + 1.0/b1); 
-			break;
-		}
-		case PLUS:
-		{
-			c = a1+b1;
-			break;
-		}
-		case MINUS:
-		{
-			c = a1-b1;
-			break;
-		}
-		case STAR:
-		{
-			c = a1*b1;
-			break;
-		}        
-		case SLASH:
-		{
-			c = a1/b1;
-			break;
-		}
-		case CARET:
-		{
-			c = pow(a1,b1);
-			break;
-		}
-		case PERCENT:
-		{
-			//c = a1%b1;
-			return NULL;
-			//break;
-		}                                      
-		case LOEQ:
-		{
-			return new_fbgc_logic_object(a1<=b1);
-		}
-		case GR_EQ:
-		{
-			return new_fbgc_logic_object(a1 >= b1);
-		}
-		case EQ_EQ:
-		{
-			return new_fbgc_logic_object(a1 == b1);
-		}
-		case NOT_EQ:
-		{
-			return new_fbgc_logic_object(a1 != b1);
-		}
-		case LOWER:
-		{
-			return new_fbgc_logic_object(a1 < b1); 
-		}        
-		case GREATER:
-		{
-			return new_fbgc_logic_object(a1 > b1);
-		}        
-		case PIPE:
-		{
-			return new_fbgc_logic_object(a1 || b1);
-		} 
-		case AMPERSAND:
-		{
-			return new_fbgc_logic_object(a1 && b1);
-		}
-		case EXCLAMATION:
-		{
-			return new_fbgc_logic_object(!a1);   
-		}
-		case TILDE:
-		{
-			c = ceil(a1);
-			break;
-		}
-		case UPLUS:
-		{
-			c = a1;
-			break;
-		}
-		case UMINUS:
-		{
-			c = -a1;
-			break;
-		}                
-	}
-	return new_fbgc_double_object(c);
-}
-
-*/
-
-struct fbgc_object * operator_fbgc_double_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op){
 	//you have to check before calling this function, a and b must be int type 
 	double a1 = (a->type != INT) ? cast_fbgc_object_as_double(a)->content : (int)(cast_fbgc_object_as_int(a)->content);	
-	double b1 = (b->type != INT) ? cast_fbgc_object_as_double(b)->content : (int)(cast_fbgc_object_as_int(b)->content);	
+
+	double b1 = 0;
+
+	if(b != NULL)
+		b1 = (b->type != INT) ? cast_fbgc_object_as_double(b)->content : (int)(cast_fbgc_object_as_int(b)->content);	
 	//double a1 = convert_fbgc_object_to_double(a);	
 	//double b1 = (b!= NULL) ? convert_fbgc_object_to_double(b) : 0;
 	struct fbgc_object * cdb = NULL;
@@ -287,8 +172,8 @@ double operator_method_double(double a1, double b1, fbgc_token op, struct fbgc_o
 }
 
 
-void print_fbgc_double_object(struct fbgc_object * obj){
-	cprintf(011,"%f",cast_fbgc_object_as_double(obj)->content);   
+uint8_t print_fbgc_double_object(struct fbgc_object * obj){
+	return printf("%g",cast_fbgc_object_as_double(obj)->content);   
 }
 
 struct fbgc_object * fbgc_double_object_to_str(struct fbgc_object * obj){
@@ -298,3 +183,30 @@ struct fbgc_object * fbgc_double_object_to_str(struct fbgc_object * obj){
 	snprintf(content_fbgc_str_object(s),len+1,format,cast_fbgc_object_as_double(obj)->content);
 	return s;
 }
+
+struct fbgc_object * fbgc_double_object_to_int(struct fbgc_object * obj){
+	return new_fbgc_int_object(cast_fbgc_object_as_double(obj)->content);
+}
+
+struct fbgc_object * abs_operator_fbgc_double_object(struct fbgc_object * self){
+	return new_fbgc_double_object(fabs(cast_fbgc_object_as_double(self)->content));
+}
+
+
+const struct fbgc_object_property_holder fbgc_double_object_property_holder = {
+	.bits = 
+	_BIT_PRINT |
+	_BIT_TO_STR |
+	_BIT_TO_INT |
+	_BIT_BINARY_OPERATOR |
+	_BIT_ABS_OPERATOR
+	,
+	.properties ={
+		{.print = &print_fbgc_double_object},
+		{.binary_operator = &operator_fbgc_double_object},
+		{.abs_operator = &abs_operator_fbgc_double_object},
+		{.to_int = &fbgc_double_object_to_int},
+		{.to_str = &fbgc_double_object_to_str},
+		
+	}
+};

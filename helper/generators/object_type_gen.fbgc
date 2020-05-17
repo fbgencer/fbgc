@@ -1,0 +1,21 @@
+load('./fbgc_lib/string_format.fbgc','*')
+load('file','*')
+
+
+fw = fopen('src/headers/object_types.h','w+')
+fr = fopen('objects.txt','r')
+
+
+obj_tp = fr.read() / "\n"
+
+
+fw.print('//FBGC automatically created object names, see objects.txt\n')
+
+for i = 0:|obj_tp|
+	str = format('#define <> <>\n', obj_tp[i],i )
+	fw.print(str)
+end
+
+fw.close()
+
+fr.close()

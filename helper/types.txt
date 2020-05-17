@@ -7,6 +7,7 @@ DOUBLE $ double class
 COMPLEX $ complex class
 STRING $ string class
 MATRIX $ matrix class
+MAP $ map class
 TUPLE $ tuple class
 INSTANCE
 CSTRING $ raw c strings without length
@@ -81,10 +82,13 @@ LEN
 JUMP
 FOR_BEGIN
 FUN_CALL
+KWFUN_CALL
 BUILD_TUPLE
 BUILD_MATRIX
+BUILD_MAP
 POP_TOP
 ROW
 LOAD_SUBSCRIPT
 CLASS_CALL
 CLASS_SELF
+BUILD_FUN_DEFAULT_ARGS

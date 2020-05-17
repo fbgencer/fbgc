@@ -79,7 +79,7 @@ extern const fbgc_lexer_rule_struct fbgc_lexer_rule_holder[];
 #define RULE_NUMBER sizeof(fbgc_lexer_rule_holder)/sizeof(fbgc_lexer_rule_struct)
 
 
-char * fbgc_getline_from_file(char * s, int n, FILE *fp);
+ssize_t fbgc_getline_from_file(char ** line, FILE * fp);
 void pretty_print_pointer(const char *buffer ,const char * ptr);
 //static const char * rule_reader(rule_flag_struct * rfs,const char * rule_ptr);
 //static uint8_t check_char(rule_flag_struct *rfs,char ** buffer_ptr);

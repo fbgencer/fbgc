@@ -49,3 +49,225 @@
 	--Solved
 
 
+
+#include <stdio.h>
+#include <string.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <assert.h>
+
+typedef struct pair{
+	char * name;
+	int value;
+}pair;
+
+typedef struct hashtable{
+	pair * kv_list;
+	int cap;
+	int len;
+}hashtable;
+
+
+hashtable * new_hashtable(int cap){
+	hashtable * ht = (hashtable * )malloc(sizeof(hashtable));
+	ht->kv_list = (pair *)calloc(cap,sizeof(pair));
+	ht->cap = cap;
+	ht->len = 0;
+
+	return ht;
+}
+
+
+void resize_hashtable(hashtable * ht){
+	ht->cap <<= 1;
+	ht->kv_list = (pair *) realloc(ht->kv_list,sizeof(pair)*ht->cap);
+	assert(ht->kv_list != NULL);
+}
+
+void print_hashtable(hashtable * ht){
+	printf("Table capacity :%d | table->len %d\n",ht->cap,ht->len);
+	for (int i = 0; i < ht->cap; ++i){
+		pair * p = &ht->kv_list[i];
+		if(p->name != NULL)
+			printf("(%d)['%s'] = %d\n",i,p->name,p->value);
+	}
+}
+
+
+size_t hash(const char *str, int bucket_size){
+    unsigned long hash = 5381;
+    int c;
+
+    while (c = *str++)
+        hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+
+    return hash & (bucket_size - 1);
+}
+
+
+
+
+void ht_insert(hashtable * ht, const char * key, int value){
+	
+
+	int index = hash(key,ht->cap);
+	printf("Insertion [%s] location is %d\n",key,index);
+	pair * p = &ht->kv_list[index];
+	if(p->name == NULL){
+		printf("Empty slot found, inserting here\n");
+		p->name = strdup(key);
+		p->value = value;
+	}
+	else{
+		printf("Slot is filled, now probing\n");
+		if(strcmp(key,p->name) == 0){
+			printf("Slot is ours just change the value\n");
+			p->value = value;
+			return;
+		}else{
+
+			//now insertion must be found in another location but first check the size
+			if(ht->len == ht->cap-1){
+				assert(0);
+			}
+
+			int tries = 0;
+			while(p->name != NULL && tries <= 5){
+				index = ++index & (ht->cap-1);
+				p = &ht->kv_list[index];
+				printf("Trying index = %d\n",index);
+				++tries;
+			}
+
+			if(p->name == NULL){
+				printf("Location found at %d, inserting here\n",index);
+				p->name = strdup(key);
+				p->value = value;			
+			}else{
+				printf("\n___Resizing hash table___\n");
+				resize_hashtable(ht);
+				ht_insert(ht,key,value);
+
+				//printf("Resize the hashtable...Exiting! tried %d times\n",tries);
+				//exit(1);
+			}
+		}
+	}
+
+	++(ht->len);
+
+	printf("=============================\n");
+}
+
+void ht_remove_key(hashtable * ht, const char * key){
+	int index = hash(key,ht->cap);
+	printf("Removing [%s] location is %d\n",key,index);
+
+	pair * p = &ht->kv_list[index];
+	if(p->name == NULL) return; //nothing to remove ? is it really ?
+
+	int tries = 0;
+	while(p->name != NULL && tries <= 5 && strcmp(key,p->name) != 0){
+		index = ++index & (ht->cap-1);
+		p = &ht->kv_list[index];
+		printf("Is this our slot given key['%s'] founded ['%s']\n",key,p->name);
+	}
+
+	if(tries <= 5){
+		if(p->name == NULL) return;
+		//so found the string
+		printf("Key is found at %d, removing succesfully\n",index);
+		free(p->name);
+		p->name = NULL;
+	}
+	else{
+		assert(0);
+	}
+}
+
+int ht_lookup(hashtable * ht, const char * key){
+
+	int index = hash(key,ht->cap);
+	printf("Lookup [%s] location is %d\n",key,index);
+
+	pair * p = &ht->kv_list[index];
+	int tries = 0;
+	while(p->name != NULL && tries <= 5 && strcmp(key,p->name) != 0){
+		index = ++index & (ht->cap-1);
+		p = &ht->kv_list[index];
+		printf("Is this our slot given key['%s'] founded ['%s']\n",key,p->name);
+	}
+
+	if(tries <= 5 && p->name != NULL){
+		printf("Key['%s']:%d is founded returning value\n",p->name,p->value);
+		return p->value;
+	}
+	else{
+		printf("Table does not contain this key, raise an error!\n");
+		assert(0);
+	}
+}
+
+
+int main(){
+
+
+	/*const char * names[] = {
+		"hello","basar","x","y","x2","hello1","fbgencer","deneme","fbgc","sublime","python","gcc"
+	};
+
+	int name_len = sizeof(names)/sizeof(names[0]);
+	printf("name_len :%d\n",name_len );
+
+	for (int i = 0; i < name_len; ++i){
+		printf("[%s] = %lu\n",names[i],hash(names[i],32));
+	}*/
+
+
+
+	hashtable * ht = new_hashtable(16);
+
+	FILE * fp = fopen('dictionary.txt','r');
+
+	while(fp != EOF){
+		char buf[100];
+		int sz = 100;
+		getline(buf,&sz,fp);
+		
+	}
+
+
+	/*
+	ht_insert(ht,"fbgencer",8);
+	ht_insert(ht,"Nevsehir",100);
+	ht_insert(ht,"lord of the rings",102);
+	ht_insert(ht,"hello",1);
+	ht_insert(ht,"my name is basar",104214);
+	ht_insert(ht,"x0",0);
+	ht_insert(ht,"x1",-34);
+	ht_insert(ht,"x2",-35);
+	ht_insert(ht,"x3",-36);
+	ht_insert(ht,"x4",-37);
+	ht_insert(ht,"fbgencer",-37);
+	ht_insert(ht,"ahmet",1223);
+	ht_insert(ht,"xxyez",5555);
+	ht_insert(ht,"dodiyez",303);
+	ht_insert(ht,"msi",102);
+	ht_insert(ht,"vatantatatan",10);
+	ht_insert(ht,"holeespanole",0);
+	ht_insert(ht,"fikret",1);
+	ht_insert(ht,"fikret3",3);
+	ht_insert(ht,"neth",885);
+	ht_insert(ht,"the good place",1202);
+	ht_insert(ht,"imdb",12);
+	ht_insert(ht,"twitter",1333);
+	ht_insert(ht,"sokaga cikma yasagi",96749);	
+
+	print_hashtable(ht);
+
+	printf("Lookup %d\n",ht_lookup(ht,"xxyez") );*/
+
+
+
+	return 0;
+}
