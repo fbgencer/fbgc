@@ -436,8 +436,10 @@ int8_t parse_keywordargs_content(struct fbgc_cfun_arg * cfun_arg,const char ** k
     }
     else have_arg = 1;
 
-    
-
+    //XXXXXXXXXXXXXXXXXXXXXXXXX
+    //Give error for undefined keyword entries!
+    //Now it is missing
+    //XXXXXXXXXXXXXXXXXXXXXXXXX
 
 
     uint8_t ok = 0;

@@ -1,5 +1,3 @@
-
-#ifdef OPEMM
 #include "../src/fbgc.h"
 #include "fbgc_io.h"
 
@@ -7,41 +5,29 @@
 
 static struct fbgc_object * fbgc_io_print(struct fbgc_cfun_arg * arg){
 	
-
 	static const char * keywords [] = {"end","sep",NULL};
-	struct fbgc_object * kwargs = NULL;
-	if(arg->kwargs_flag)
-		kwargs = arg->arg[arg->argc];
+	struct fbgc_object * end = NULL, * sep = NULL;
 
+	if(parse_keywordargs_content(arg,keywords,"oo",&end,&sep) == -1){
+		return NULL;
+	}
 
-	uint8_t _argc = arg->argc-1;
 	for(uint8_t i = 0; i<arg->argc; ++i){
 		 
 		printf_fbgc_object(arg->arg[i]);
 		
 		//Change this printing seperator part
-		if(i != _argc){
-			if(kwargs){
-				struct fbgc_object * sepobj = fbgc_map_object_lookup_str(kwargs,keywords[1]);
-				if(sepobj != NULL){
-					printf_fbgc_object(sepobj);
-					continue;
-				}
-
-			}
-			fprintf(stdout," ");
+		if(i != arg->argc-1){
+			if(sep)
+				printf_fbgc_object(sep);
+			else
+				fprintf(stdout," ");
 		}
-		
 	}
-	if(kwargs){
-		struct fbgc_object * endobj = fbgc_map_object_lookup_str(kwargs,keywords[0]);
-		if(endobj != NULL){
-			printf_fbgc_object(endobj);
-			return __fbgc_nil;
-		}
-		
-	}
-	fprintf(stdout,"\n");
+	if(end)
+		printf_fbgc_object(end);
+	else
+		fprintf(stdout,"\n");
 
 	return __fbgc_nil;
 }
@@ -61,15 +47,21 @@ static struct fbgc_object * fbgc_io_read(struct fbgc_cfun_arg * arg){
 	return res;
 }
 
-
-const struct fbgc_cmodule fbgc_io_module = 
-{
-	.initializer = {.name = "io", .function = NULL},
-	.functions = {
+static struct fbgc_object_method _fbgc_io_methods = {
+	.len = 2,
+	.method = {
 		{.name = "print", .function = &fbgc_io_print},
 		{.name = "read", .function = &fbgc_io_read},
-		{NULL,NULL}
 	}
 };
 
-#endif
+const struct fbgc_object_property_holder _fbgc_io_property_holder = {
+	.bits = 
+	_BIT_NAME |
+	_BIT_METHODS
+	,
+	.properties ={
+		{.methods = &_fbgc_io_methods},
+		{.name = "io"}
+	}
+};

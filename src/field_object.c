@@ -26,7 +26,7 @@ struct fbgc_object * new_fbgc_field_object(void){
 	field->locals = new_fbgc_array_object(1,sizeof(struct fbgc_identifier));
 	
 	load_module_in_field_object((struct fbgc_object *)field,&_fbgc_stl_property_holder);
-	//load_module_in_field_object((struct fbgc_object *)field,&fbgc_stl_module);
+	load_module_in_field_object((struct fbgc_object *)field,&_fbgc_io_property_holder);
 	return (struct fbgc_object *) field;
 };
 
