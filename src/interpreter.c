@@ -126,7 +126,7 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 	FBGC_LOGV(INTERPRETER,"################ [%d] = {%s} ########################\n",i++,lltp2str(pc));
 
 	//pc is just mnemonic for program counter, basically it is just an iterator for the code that this function is executing
-	fbgc_token type = get_fbgc_object_type(pc);
+	fbgc_token type = pc->type;
 	switch(type){
 		case CONSTANT:{
 			//Constant means that push the contents of constant into stack
@@ -285,8 +285,8 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 		case AMPERSAND:
 		{
 
-			fbgc_token main_tok = MAX(get_fbgc_object_type(TOP()),get_fbgc_object_type(SECOND()));
-			if(main_tok > INSTANCE && MIN(get_fbgc_object_type(TOP()),get_fbgc_object_type(SECOND())) < LOGIC) 
+			fbgc_token main_tok = MAX((TOP()->type),SECOND()->type);
+			if(main_tok > INSTANCE && MIN(TOP()->type,SECOND()->type) < LOGIC) 
 				goto INTERPRETER_ERROR_LABEL;
 
 			struct fbgc_object * res =  call_fbgc_operator(main_tok,SECOND(),TOP(),type);
@@ -306,7 +306,7 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 		case UPLUS:
 		case UMINUS:{
 			
-			struct fbgc_object * res =  call_fbgc_operator(get_fbgc_object_type(TOP()),TOP(),NULL,type);
+			struct fbgc_object * res =  call_fbgc_operator(TOP()->type,TOP(),NULL,type);
 			if(res == NULL){
 				printf("operator does not supported");
 				return 0;
@@ -364,7 +364,7 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 			{
 				fbgc_token op_type = RSHIFT + type - RSHIFT_ASSIGN;
 
-				fbgc_token main_tok = MAX(get_fbgc_object_type( (*lhs) ),get_fbgc_object_type(rhs));
+				fbgc_token main_tok = MAX((*lhs)->type,rhs->type);
 				rhs = call_fbgc_operator(main_tok,*lhs,rhs,op_type);
 				if(rhs == NULL){
 					printf("assignment does not supported!");

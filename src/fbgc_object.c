@@ -75,7 +75,7 @@ uint8_t print_fbgc_object(struct fbgc_object * self){
 	//We only use this function for debug
 
 	if(self != NULL){ 
-		switch(get_fbgc_object_type(self)){
+		switch(self->type){
 			case LOGIC:
 			{
 				cprintf(110, "%s", (cast_fbgc_object_as_logic(self)->content) ? "true" :"false");
@@ -122,7 +122,7 @@ uint8_t print_fbgc_object(struct fbgc_object * self){
 
 
 size_t get_fbgc_object_size(struct fbgc_object * obj){
-	fbgc_token type = (get_fbgc_object_type(obj));
+	fbgc_token type = obj->type;
 	size_t sz = 0;
 switch(type){
 
@@ -142,8 +142,7 @@ switch(type){
 	case RANGE : sz = sizeof_fbgc_range_object(); break;
 	case ARRAY : sz = sizeof_fbgc_array_object(obj); break; 
 	//case LINKED_LIST : sz = sizeof_fbgc_ll_object(); break; 
-	case CMODULE : sz = sizeof_fbgc_cmodule_object(); break; 
-	case GARBAGE : sz = sizeof_fbgc_garbage_object(obj); break; 
+	case CMODULE : sz = sizeof_fbgc_cmodule_object(); break;
 	case FIELD : sz = sizeof_fbgc_field_object(obj); break; 
 	case END : sz = sizeof_fbgc_object(); break; 
 	case FUN_MAKE : 
@@ -204,7 +203,7 @@ switch(type){
 
 char convert_fbgc_object_to_logic(struct fbgc_object * obj){
 	
-	switch(get_fbgc_object_type(obj)){
+	switch(obj->type){
 		case LOGIC:
 			return cast_fbgc_object_as_logic(obj)->content;
 		case INT:
@@ -222,7 +221,7 @@ char convert_fbgc_object_to_logic(struct fbgc_object * obj){
 
 int convert_fbgc_object_to_int(struct fbgc_object * obj){
 
-	switch(get_fbgc_object_type(obj)){
+	switch(obj->type){
 		case LOGIC:
 			return (int)(cast_fbgc_object_as_logic(obj)->content);
 		case INT:
@@ -240,7 +239,7 @@ int convert_fbgc_object_to_int(struct fbgc_object * obj){
 
 double convert_fbgc_object_to_double(struct fbgc_object * obj){
 
-	switch(get_fbgc_object_type(obj)){
+	switch(obj->type){
 		case LOGIC:
 			return (double)(cast_fbgc_object_as_logic(obj)->content);
 		case INT:
@@ -259,11 +258,11 @@ double convert_fbgc_object_to_double(struct fbgc_object * obj){
 
 
 struct raw_complex convert_fbgc_object_to_complex(struct fbgc_object * obj){
-	if(get_fbgc_object_type(obj) == COMPLEX) return cast_fbgc_object_as_complex(obj)->z;
+	if(obj->type == COMPLEX) return cast_fbgc_object_as_complex(obj)->z;
 	
 	struct raw_complex z = {0,0};
 
-	switch(get_fbgc_object_type(obj)){
+	switch(obj->type){
 		case INT:
 			z.real = (double)(cast_fbgc_object_as_int(obj)->content);
 			break;
@@ -361,10 +360,9 @@ struct fbgc_object * subscript_operator_fbgc_object(struct fbgc_object * iterabl
 	if(w != -1){
 		return p->properties[w].subscript_operator(iterable,index_obj);
 	}
-	else{
-		FBGC_LOGE("%s does not satisfy [] operator\n",objtp2str(iterable));
-		return NULL;
-	}
+	FBGC_LOGE("%s does not satisfy [] operator\n",objtp2str(iterable));
+	return NULL;
+	
 }
 
 
@@ -376,8 +374,30 @@ struct fbgc_object * subscript_assign_operator_fbgc_object(struct fbgc_object * 
 	if(w != -1){
 		return p->properties[w].subscript_assign_operator(iterable,index_obj,rhs);
 	}
-	else{
-		FBGC_LOGE("%s does not satisfy []= operator\n",objtp2str(iterable));
-		return NULL;
+	FBGC_LOGE("%s does not satisfy []= operator\n",objtp2str(iterable));
+	return NULL;
+	
+}
+
+size_t size_of_fbgc_object(struct fbgc_object * obj){
+
+	const struct fbgc_object_property_holder * p = get_fbgc_object_property_holder(obj);
+
+	int8_t w = _find_property(p->bits,_BIT_SIZE_OF);
+	if(w != -1){
+		return p->properties[w].size_of(obj);
+	}
+	FBGC_LOGE("%s does not satisfy []= operator\n",objtp2str(obj));
+	return 0;
+	
+}
+
+void gc_mark_fbgc_object(struct fbgc_object * obj){
+
+	const struct fbgc_object_property_holder * p = get_fbgc_object_property_holder(obj);
+
+	int8_t w = _find_property(p->bits,_BIT_GC_MARK);
+	if(w != -1){
+		p->properties[w].gc_mark(obj);
 	}
 }

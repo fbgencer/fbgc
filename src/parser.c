@@ -701,7 +701,7 @@ uint8_t parse_file(struct fbgc_object ** field_obj, const char * file_name){
 	}
 	if(!is_empty_fbgc_ll(p.op)){
 		//Check the stack and give proper error
-		if(is_fbgc_FUNCTIONABLE(get_fbgc_object_type(TOP_LL(p.op)))){
+		if(is_fbgc_FUNCTIONABLE(TOP_LL(p.op)->type)){
 			FBGC_LOGE("Missing 'end' keyword, '%s' must be finished with 'end'\n",object_type_as_str(TOP_LL(p.op)));
 			return 0;
 		}

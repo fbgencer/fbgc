@@ -185,17 +185,23 @@ struct fbgc_object * abs_operator_fbgc_int_object(struct fbgc_object * self){
 	return new_fbgc_int_object(abs(cast_fbgc_object_as_int(self)->content));
 }
 
+size_t size_of_fbgc_int_object(struct fbgc_object * self){
+	return sizeof(struct fbgc_int_object);
+}
+
 
 const struct fbgc_object_property_holder fbgc_int_object_property_holder = {
 	.bits = _BIT_PRINT | 
 	_BIT_BINARY_OPERATOR |
 	_BIT_TO_STR | 
-	_BIT_ABS_OPERATOR
+	_BIT_ABS_OPERATOR |
+	_BIT_SIZE_OF
 	,
 	.properties ={
 		{.print = &print_fbgc_int_object},
 		{.binary_operator = &operator_fbgc_int_object},
 		{.abs_operator = &abs_operator_fbgc_int_object},
+		{.size_of = &size_of_fbgc_int_object},
 		{.to_str = &fbgc_int_object_to_str},
 	}
 };

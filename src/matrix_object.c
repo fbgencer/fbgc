@@ -58,8 +58,8 @@ struct fbgc_object * new_fbgc_matrix_object_from_range(struct fbgc_object * robj
 
 	#define r cast_fbgc_object_as_range(robj)
 
-	fbgc_token tok = MAX(get_fbgc_object_type(r->start),get_fbgc_object_type(r->end));
-	if(r->step != NULL) tok = MAX(get_fbgc_object_type(r->step),tok);
+	fbgc_token tok = MAX(r->start->type,r->end->type);
+	if(r->step != NULL) tok = MAX(r->step->type,tok);
 
 	if(tok == INT){
 		//if tok is int we are absolutely sure that each element of range object is integer..

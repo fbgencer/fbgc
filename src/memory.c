@@ -70,7 +70,7 @@ static void * _fbgc_malloc(struct fbgc_memory_pool * opool_iter, size_t size){
 
 		Memory structure contains object memory pools which are allocated spaces in the heap
 		fbgc_memory_pool contains *data,*tptr, size and next pointer.
-		Different pools are connected each other like a single linked list with next pointer.
+		Different pools are connected each other like a single linked list with the next pointer.
 		Size holds the size of the memory pool. Each pool creates a single pool which is called as object pool in fbgc.
 
 		This algorithm allocates new spaces, runs gc and so on.
@@ -108,12 +108,12 @@ static void * _fbgc_malloc(struct fbgc_memory_pool * opool_iter, size_t size){
 		
 		if(opool_iter->type == MEM_RAW_BUFFER){
 			//Before calculating the space also include the byte size of the chunk
-			
-			if( ((uint8_t*)opool_iter->data + opool_iter->size - (uint8_t*)opool_iter->tptr) >= (size+sizeof(long))){
+			if( ((uint8_t*)opool_iter->data + opool_iter->size - (uint8_t*)opool_iter->tptr) >= (size+sizeof(struct fbgc_raw_buffer))){
 				FBGC_LOGV(MEMORY,"memory is given from raw buffer\n");
-				long * byte_size =  (long *)opool_iter->tptr;
-				*byte_size = size;
-				opool_iter->tptr += sizeof(long);
+				struct fbgc_raw_buffer * rb =  (struct fbgc_raw_buffer *)opool_iter->tptr;
+				rb->mark_bit = GC_WHITE;
+				rb->capacity = size;
+				opool_iter->tptr += sizeof(struct fbgc_raw_buffer);
 				//memory is available, give it and shift tptr
 				void * ret_ptr = opool_iter->tptr;
 				opool_iter->tptr += size; 	
@@ -159,10 +159,11 @@ static void * _fbgc_malloc(struct fbgc_memory_pool * opool_iter, size_t size){
 	FBGC_LOGV(MEMORY,"Allocated new pool size :%lu\n",opool_iter->size);
 
 	if(opool_iter->type == MEM_RAW_BUFFER){
-		long * byte_size =  (long *)opool_iter->data;
-		*byte_size = size;
-		opool_iter->tptr = opool_iter->data + size + sizeof(long);
-		return ( opool_iter->data + sizeof(long) );
+		struct fbgc_raw_buffer * rb =  (struct fbgc_raw_buffer *)opool_iter->data;
+		rb->mark_bit = GC_WHITE;
+		rb->capacity = size;
+		opool_iter->tptr = opool_iter->data + size + sizeof(struct fbgc_raw_buffer);
+		return ( opool_iter->data + sizeof(struct fbgc_raw_buffer) );
 	}
 
 	
@@ -258,6 +259,15 @@ void * fbgc_malloc(size_t sz){
 	return _fbgc_malloc(fbgc_memb.raw_buffer_head,sz);
 }
 
+void * fbgc_malloc_static(size_t sz){
+	uint8_t * ptr = (uint8_t*)_fbgc_malloc(fbgc_memb.raw_buffer_head,sz);
+	if(ptr){
+		struct fbgc_raw_buffer * rb = (struct fbgc_raw_buffer*)(ptr-sizeof(struct fbgc_raw_buffer));
+		set_gc_dark(rb);
+	}
+	return(void*)ptr;
+}
+
 
 void print_fbgc_memory_object_pool(){
 	cprintf(011,"############[OBJECT POOL]############\n");
@@ -275,7 +285,7 @@ void print_fbgc_memory_object_pool(){
 				struct fbgc_object * dummy = (struct fbgc_object *)((uint8_t*)(iter->data)+j);
 				obj_start += get_fbgc_object_size(dummy);
 				//print the type of the data in the memory
-				cprintf(101,">>[%s] obj size in memory %d\n",object_name_array[0x7F & val],get_fbgc_object_size(dummy));				
+				cprintf(101,">>[%s] obj size in memory %d\n",objtp2str(dummy),get_fbgc_object_size(dummy));				
 				//print the address and the data in the memory!
 				//cprintf(101,"[%d][%p]:%0x",j,((iter->data)+j),val);
 
@@ -284,7 +294,7 @@ void print_fbgc_memory_object_pool(){
 			//else
 			{
 	   			cprintf(010,"[%d][%p]",j,((iter->data)+j));
-	   			cprintf(110,":%0x = %d",val,val);
+	   			cprintf(110,":%0x = %u",(uint8_t)val,(uint8_t)val);
 	   			
 			}
 			
@@ -306,39 +316,39 @@ void print_fbgc_memory_raw_buffer(){
 	cprintf(011,"############[RAW BUFFER]############\n");
 	struct fbgc_memory_pool * iter = fbgc_memb.raw_buffer_head;
 
-	//just to clear obj locations
-	
+
+	//loop for raw buffer pages
 	for(int i = 0; iter != NULL; i++){
 		cprintf(111,"[%d.Chunk] size: %d\n",i,iter->size);
 
+		size_t chunk_filled_size = iter->tptr - iter->data;
+		printf("%ld chunk filled\n",chunk_filled_size );
 		size_t obj_start = 0;
-		for(size_t j = 0; j<iter->size;){
-	   		if(iter->tptr == ((uint8_t *)iter->data+j)){
-	   			cprintf(100," <--tptr");
-	   			cprintf(100,"\n");
-	   			break;
-	   		}
-			long byte_size = *( (long*)((uint8_t *)iter->data+j) );
-			cprintf(101,"Chunk byte size:%ld\n", byte_size);
-			j += sizeof(long);
-			void * data = ((uint8_t *)iter->data+j);
-			j += byte_size;
-			for(long k = 0; k < byte_size; ++k){
-				int val = *( char *)(data+k); 
-				cprintf(010,"[%d][%p]",j-byte_size+k,data+k);
-	   			cprintf(110,":%0x = %d",val,val);
-	   			cprintf(010,"\n");
-			}
+		for(size_t j = 0; j< chunk_filled_size;){
+
+			uint8_t * where = (uint8_t*)(iter->data);
+			where+=j;
+	   		struct fbgc_raw_buffer * ptr = (struct fbgc_raw_buffer*)where;
+
+			cprintf(101,"Chunk byte size:%ld , color:%d\n",ptr->capacity,ptr->mark_bit);
 			
-	   		if(iter->tptr == ((uint8_t *)iter->data+j)){
-	   			cprintf(100," <--tptr");
-	   			cprintf(100,"\n");
-	   			break;
-	   		}
+			long end = ptr->capacity+sizeof(struct fbgc_raw_buffer);
+			long lastj = j;
+			
+
+			uint8_t * data = (uint8_t*)ptr;
+			for(long k = 0; k < end;  ++k){
+				cprintf(010,"[%d][%p]",lastj+k,data);
+	   			cprintf(110,":0x%02x = %02u",(uint8_t)*data,(uint8_t)*data);
+	   			cprintf(010,"\n");
+	   			++data;
+			}
+			j += end;
 		}
+		cprintf(100," <---tptr\n");
 		cprintf(111,"[%d.] Chunk size: %d\n",i,iter->size);
 		iter = iter->next;
-    }	
+    }
 }
 
 
@@ -361,6 +371,8 @@ void free_fbgc_memory_block(){
 
 	fbgc_memb.raw_buffer_head = NULL;
 	fbgc_memb.object_pool_head = NULL;
+
+	free(fbgc_gc.ptr_list.data);
 }
 
 
@@ -369,6 +381,99 @@ long capacity_in_bytes_fbgc_raw_memory(void * x){
 	void * ptr  = (uint8_t*)x - sizeof(long);
 	long byte_size = *( (long*)((uint8_t *)ptr) );
 	return byte_size;
+}
+
+
+
+//####################    Garbage Collector
+
+struct fbgc_garbage_collector fbgc_gc = {
+	.state = GC_STATE_NOT_STARTED,
+	.threshold = 10,
+	.last_location = NULL,
+	.current_raw_buffer = NULL,
+	.current_object_pool = NULL,
+	.ptr_list = {.data = NULL, .size = 0, .capacity = 0}
+};
+
+uint8_t fbgc_gc_register_pointer(void * base_ptr,size_t size, size_t block_size, size_t offset){
+	printf("Registering ptr %p\n",base_ptr);
+
+	struct traceable_pointer_list * list = &fbgc_gc.ptr_list;
+
+	const size_t it = list->size;
+	struct traceable_pointer_entry * tpe = &(list->data[it]);
+	tpe->ptr = base_ptr;
+	tpe->size = size;
+	tpe->block_size = block_size;
+	tpe->offset = offset;
+
+	fbgc_gc.ptr_list.size++;
+
+	if(fbgc_gc.ptr_list.size > fbgc_gc.ptr_list.capacity){
+		//allocate some memory!
+		;
+	}
+
+
+	//Print possible pointers that we are gonna visit
+	uint8_t * base = (uint8_t*)(tpe->ptr) + tpe->offset;
+	for (int i = 0; i < tpe->size; ++i){
+		printf("[%d]:[%p] will be visited \n",i,base);
+		base += tpe->block_size;
+	}
+
+	//Check overflow!
+	return 1;
+}
+
+void fbgc_gc_init(struct fbgc_object * root){
+	
+	//Next pointer of the root in the heap
+	fbgc_gc.last_location = (uint8_t*)root + size_of_fbgc_object(root);
+	fbgc_gc.current_object_pool = fbgc_memb.object_pool_head;
+	fbgc_gc.current_raw_buffer = fbgc_memb.raw_buffer_head;
+
+	set_gc_black(root);
+	gc_mark_fbgc_object(root);
+	fbgc_gc.state = GC_STATE_PAUSED;
+
+	//Later allocate from internal memory not with malloc
+	fbgc_gc.ptr_list.data = (struct traceable_pointer_entry*) malloc(sizeof(struct traceable_pointer_entry)*TRACEABLE_POINTER_LIST_INITIAL_CAPACITY);
+}
+
+
+void fbgc_gc_mark(){
+
+	if(fbgc_gc.state == GC_STATE_NOT_STARTED){
+		FBGC_LOGE("GC not started\n");
+		return;
+	}
+
+	struct fbgc_object * ptr = fbgc_gc.last_location;
+	printf("last loc address :%p\n",ptr );
+
+	fbgc_gc.state = GC_STATE_MARKING;
+
+	for(size_t i = 0; i<fbgc_gc.threshold; ++i){
+		if((void*)ptr >= fbgc_gc.current_object_pool->tptr) break;
+		if(is_gc_gray(ptr)){
+			set_gc_black(ptr);
+			gc_mark_fbgc_object(ptr);
+		}
+		else{
+			FBGC_LOGE("Addd is not gray! :%p\n",ptr );
+		}
+		ptr += size_of_fbgc_object(ptr);
+	}
+
+	fbgc_gc.state = GC_STATE_PAUSED;
+	fbgc_gc.last_location = ptr;
+}
+
+
+void fbgc_gc_sweep(){
+
 }
 
 

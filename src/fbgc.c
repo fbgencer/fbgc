@@ -613,6 +613,10 @@ static unsigned long fhash(const void * keyp,size_t len){
 	return hash;
 }
 
+/*
+	GC 
+
+*/
 
 
 #ifndef MODULE_TEST
@@ -639,9 +643,64 @@ int main(int argc, char **argv){
 
 	cprintf(100,"capacity lol :%ld\n",capacity_fbgc_raw_memory(lol,sizeof(int)));
 	cprintf(100,"capacity lol2 :%ld\n",capacity_fbgc_raw_memory(lol2,sizeof(int)));*/
-	initialize_fbgc_symbol_table();
-	current_field = new_fbgc_field_object();
-		
+	//initialize_fbgc_symbol_table();
+	//current_field = new_fbgc_field_object();
+	
+	
+	//struct fbgc_object * io = new_fbgc_int_object(10);
+	//struct fbgc_object * to = new_fbgc_tuple_object(0);
+	//push_back_fbgc_tuple_object(to,io);
+	//struct fbgc_object * io1 = new_fbgc_int_object(20);
+	//struct fbgc_object * io2 = new_fbgc_int_object(30);
+
+	//printf("sizeof ? %lu\n",size_of_fbgc_object(io));
+
+	fbgc_gc.ptr_list.data = (struct traceable_pointer_entry*) malloc(sizeof(struct traceable_pointer_entry)*TRACEABLE_POINTER_LIST_INITIAL_CAPACITY);
+	typedef struct foo{
+		uint8_t x[2];
+		uint8_t * ptr;
+	}foo;
+
+	foo ** pbuffer = (foo **) fbgc_malloc(sizeof(foo*)*2);
+	fbgc_gc_register_pointer(pbuffer,2,sizeof(foo*),0);
+
+	//struct traceable_pointer_entry * tpe = &(fbgc_gc.ptr_list.data[0]);
+	//printf("tpe ptr %p\n",tpe->ptr );
+
+	pbuffer[0] = (foo *) fbgc_malloc_static(sizeof(foo)*3);
+	pbuffer[1] = NULL;
+
+	pbuffer[0]->x[0] = 0xFB;
+	pbuffer[0]->x[1] = 55;
+	
+	/*
+ 
+	//
+	//fbgc_gc_register_pointer(pbuffer[0],sizeof(foo),3,sizeof(uint8_t)*2);
+
+	uint8_t * b1 = (uint8_t *) fbgc_malloc(sizeof(uint8_t)*5);
+	uint8_t arr[5] = {5,10,15,20,30};
+	memcpy(b1,arr,5);
+
+	foo * fp = pbuffer[0];
+
+	fp[0].ptr = b1;
+	fp[0].x[0] = 10;
+	fp[0].x[1] = 50;
+
+	fp[1].ptr = b1;
+	fp[1].x[0] = 20;
+	fp[1].x[1] = 100;
+
+	fp[2].ptr = b1;
+	fp[2].x[0] = 30;
+	fp[2].x[1] = 250;*/
+
+
+	//fbgc_gc_init(io);
+	//fbgc_gc_mark();
+
+	print_fbgc_memory_block();
 	//parse_string(&main_field,"x = 88\n");
 	//cast_fbgc_object_as_field(main_field)->code;
 
@@ -670,7 +729,7 @@ int main(int argc, char **argv){
 
 	//print_detailed_fbgc_map_object(map);
 
-	if(argc > 1)
+	/*if(argc > 1)
 	{   
 		if(!strcmp(argv[1],"-s")){
 			//compile_one_line(main_field,argv[2]);
@@ -684,7 +743,7 @@ int main(int argc, char **argv){
 	else{
 		compile_file(current_field, "ex.fbgc");
 	   //realtime_fbgc(main_field);
-	}
+	}*/
 
 	free_fbgc_memory_block();
 //******************************************************************
