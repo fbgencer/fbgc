@@ -8,7 +8,7 @@ extern "C" {
 #define KILOBYTE 1024
 
 
-#define PAGE_SIZE  128 * KILOBYTE //[byte]
+#define PAGE_SIZE  1* KILOBYTE //[byte]
 
 
 #define MEM_OBJECT_POOL 0 
@@ -29,12 +29,14 @@ struct fbgc_memory_block{
 	struct fbgc_object empty_chunk_head;
 };
 
-
 struct fbgc_raw_buffer{
 	uint32_t mark_bit : 2;
 	uint32_t capacity : 30;
 	uint8_t data[0];
 };
+
+#define cast_from_raw_buffer_data_to_raw_buffer(x)( (struct fbgc_raw_buffer *)((uint8_t*)x-sizeof(struct fbgc_raw_buffer))   )
+
 
 extern struct fbgc_memory_block fbgc_memb;
 
@@ -46,14 +48,21 @@ void * fbgc_malloc_object(size_t size);
 void * fbgc_malloc_static(size_t size);
 void * fbgc_realloc(void *ptr, size_t size);
 void fbgc_free(void *ptr);
-long capacity_in_bytes_fbgc_raw_memory(void * x);
+
+
+
+
+uint32_t capacity_in_bytes_fbgc_raw_memory(void * x);
+
 #define capacity_fbgc_raw_memory(x,block_size) (capacity_in_bytes_fbgc_raw_memory(x)/block_size)
 
 
 uint8_t fbgc_gc_register_pointer(void * base_ptr,size_t size, size_t block_size, size_t offset);
 
 enum {
-	GC_STATE_NOT_STARTED = 0,
+	GC_STATE_NOT_INITIALIZED = 0,
+	GC_STATE_READY_TO_SWEEP,
+	GC_STATE_INITIALIZED,
 	GC_STATE_PAUSED,
 	GC_STATE_MARKING,
 	GC_STATE_SWEEPING,
@@ -63,7 +72,8 @@ enum {
 #define TRACEABLE_POINTER_LIST_INITIAL_CAPACITY 20
 
 struct traceable_pointer_entry{
-	void * ptr;
+	uint8_t * base_ptr;
+	uint8_t * tptr;
 	size_t size;
 	size_t block_size;
 	size_t offset;
@@ -75,13 +85,23 @@ struct traceable_pointer_list{
 	size_t capacity;
 };
 
+struct pending_request_queue{
+	struct traceable_pointer_entry * data;
+	struct traceable_pointer_entry * front;
+	struct traceable_pointer_entry * back;
+	size_t capacity;
+};
+
+
 struct fbgc_garbage_collector{
 	uint8_t state;
 	size_t threshold;
+	size_t cycle;
+	uint8_t * last_location;
 	struct fbgc_memory_pool * current_raw_buffer;
 	struct fbgc_memory_pool * current_object_pool;
-	void * last_location;
 	struct traceable_pointer_list ptr_list;
+	struct pending_request_queue ptr_queue;
 };
 
 extern struct fbgc_garbage_collector fbgc_gc;
@@ -92,10 +112,10 @@ extern struct fbgc_garbage_collector fbgc_gc;
 #define GC_BLACK 2
 #define GC_DARK 3
 
-#define set_gc_white(x)(x->mark_bit = GC_WHITE)
-#define set_gc_gray(x)(x->mark_bit = GC_GRAY)
-#define set_gc_black(x)(x->mark_bit = GC_BLACK)
-#define set_gc_dark(x)(x->mark_bit = GC_DARK)
+#define set_gc_white(x)	( (x)->mark_bit = GC_WHITE)
+#define set_gc_gray(x)	( (x)->mark_bit = GC_GRAY)
+#define set_gc_black(x)	( (x)->mark_bit = GC_BLACK)
+#define set_gc_dark(x)	( (x)->mark_bit = GC_DARK)
 
 #define is_gc_white(x)(x->mark_bit == GC_WHITE)
 #define is_gc_gray(x)(x->mark_bit == GC_GRAY)
@@ -103,6 +123,9 @@ extern struct fbgc_garbage_collector fbgc_gc;
 #define is_gc_dark(x)(x->mark_bit == GC_DARK)
 
 
+uint8_t fbgc_gc_register_pointer(void * base_ptr,size_t size, size_t block_size, size_t offset);
+void fbgc_gc_mark_object(struct fbgc_object * obj);
+uint8_t fbgc_gc_mark_pointer(void * base_ptr,size_t size, size_t block_size, size_t offset);
 void fbgc_gc_init(struct fbgc_object * root);
 void fbgc_gc_mark();
 void fbgc_gc_sweep();

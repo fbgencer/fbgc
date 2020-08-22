@@ -319,6 +319,15 @@ static struct fbgc_object_method _tuple_methods = {
 };
 
 
+static size_t size_of_fbgc_tuple_object(struct fbgc_object * self){
+    return sizeof(struct fbgc_tuple_object);
+}
+
+static void gc_mark_fbgc_tuple_object(struct fbgc_object * self){
+    fbgc_gc_mark_pointer((cast_fbgc_object_as_tuple(self)->content),capacity_fbgc_tuple_object(self),sizeof(struct fbgc_object *),0);
+}
+
+
 const struct fbgc_object_property_holder fbgc_tuple_object_property_holder = {
     .bits = 
     _BIT_PRINT |
@@ -326,7 +335,9 @@ const struct fbgc_object_property_holder fbgc_tuple_object_property_holder = {
     _BIT_SUBSCRIPT_OPERATOR |
     _BIT_SUBSCRIPT_ASSIGN_OPERATOR |
     _BIT_ABS_OPERATOR | 
-    _BIT_METHODS
+    _BIT_METHODS | 
+    _BIT_SIZE_OF |
+    _BIT_GC_MARK
     ,
     .properties ={
         {.print = &print_fbgc_tuple_object},
@@ -335,5 +346,7 @@ const struct fbgc_object_property_holder fbgc_tuple_object_property_holder = {
         {.subscript_operator = &subscript_operator_fbgc_tuple_object},
         {.subscript_assign_operator = &subscript_assign_operator_fbgc_tuple_object},
         {.abs_operator = &abs_operator_fbgc_tuple_object},
+        {.gc_mark = &gc_mark_fbgc_tuple_object},
+        {.size_of = &size_of_fbgc_tuple_object},
     }
 };

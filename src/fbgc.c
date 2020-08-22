@@ -617,6 +617,49 @@ static unsigned long fhash(const void * keyp,size_t len){
 	GC 
 
 */
+/*
+Senaryolar
+
+struct{
+	struct fbgc_object base;
+	int size;
+	struct fbgc_object ** contents;
+	
+	veya 
+
+	struct fbgc_object * io;
+	struct fbgc_object * do;
+	struct fbgc_object * ao;
+
+} tuple;
+Gc fonksiyonu içinde contents array olarak marklanır, burada contents queue içine atılır ve daha sonra 
+contentin referanslarına gidilerek onların gc fonksiyonları çağırılır.
+
+struct{
+	struct fbgc_object base;
+	int size;
+	int ** contents;
+} int_arrays;
+
+Gc fonksiyonu içinde pointer obje tutmadığı için pointer_register fonksiyonu ile marklanır
+Mark yerine burada register edilen pointer
+
+
+struct{
+	struct fbgc_object base;
+	int size;
+	int * contents;
+} int_arrays2;
+
+struct{
+	int x;
+	int y;
+	double * z;
+}foo;
+
+*/
+
+
 
 
 #ifndef MODULE_TEST
@@ -655,14 +698,37 @@ int main(int argc, char **argv){
 
 	//printf("sizeof ? %lu\n",size_of_fbgc_object(io));
 
-	fbgc_gc.ptr_list.data = (struct traceable_pointer_entry*) malloc(sizeof(struct traceable_pointer_entry)*TRACEABLE_POINTER_LIST_INITIAL_CAPACITY);
+	
 	typedef struct foo{
 		uint8_t x[2];
 		uint8_t * ptr;
 	}foo;
 
-	foo ** pbuffer = (foo **) fbgc_malloc(sizeof(foo*)*2);
+
+	struct fbgc_object * to = new_fbgc_tuple_object(2);
+	struct fbgc_object * io = new_fbgc_int_object(10);
+	struct fbgc_object * io2 = new_fbgc_int_object(11);
+
+	struct fbgc_object * to2 = new_fbgc_tuple_object(2);
+	struct fbgc_object * io3 = new_fbgc_int_object(12);
+
+	push_back_fbgc_tuple_object(to,io);
+	push_back_fbgc_tuple_object(to,to2);
+	push_back_fbgc_tuple_object(to2,io2);
+
+
+	//print_fbgc_memory_block();
+	fbgc_gc_init(to);
+
+	fbgc_gc_mark();
+
+	print_fbgc_memory_block();
+	/*foo ** pbuffer = (foo **) fbgc_malloc(sizeof(foo*)*2);
 	fbgc_gc_register_pointer(pbuffer,2,sizeof(foo*),0);
+
+
+
+
 
 	//struct traceable_pointer_entry * tpe = &(fbgc_gc.ptr_list.data[0]);
 	//printf("tpe ptr %p\n",tpe->ptr );
@@ -671,7 +737,7 @@ int main(int argc, char **argv){
 	pbuffer[1] = NULL;
 
 	pbuffer[0]->x[0] = 0xFB;
-	pbuffer[0]->x[1] = 55;
+	pbuffer[0]->x[1] = 55;*/
 	
 	/*
  
@@ -700,7 +766,7 @@ int main(int argc, char **argv){
 	//fbgc_gc_init(io);
 	//fbgc_gc_mark();
 
-	print_fbgc_memory_block();
+	
 	//parse_string(&main_field,"x = 88\n");
 	//cast_fbgc_object_as_field(main_field)->code;
 
