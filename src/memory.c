@@ -24,6 +24,21 @@ static struct fbgc_memory_pool * new_fbgc_memory_pool(uint8_t tp, size_t pg_size
 	return mp;
 }
 
+
+
+#define is_fbgc_object_pointer(ptr)( check_pointer_is_in_pool(fbgc_memb.object_pool_head,ptr))
+#define is_raw_buffer_pointer(ptr)( check_pointer_is_in_pool(fbgc_memb.raw_buffer_head,ptr))
+
+static uint8_t check_pointer_is_in_pool(struct fbgc_memory_pool * iter, void * ptr){
+	while(iter != NULL){
+		uint8_t * start = (uint8_t*)iter->data;
+		uint8_t * end = (uint8_t*)(iter->data) + iter->size;
+		if((uint8_t*)ptr >= start && (uint8_t*)ptr <= end) return 1;
+		iter = iter->next;
+	}
+	return 0;
+}
+
 static void free_fbgc_memory_pool(struct fbgc_memory_pool * mp){
 
 	while(mp != NULL){
@@ -171,6 +186,24 @@ static void * _fbgc_malloc(struct fbgc_memory_pool * opool_iter, size_t size){
 	return opool_iter->data;
 }
 
+
+
+void * fbgc_malloc_object(size_t sz){
+	return _fbgc_malloc(fbgc_memb.object_pool_head,sz);
+}
+void * fbgc_malloc(size_t sz){
+	return _fbgc_malloc(fbgc_memb.raw_buffer_head,sz);
+}
+
+void * fbgc_malloc_static(size_t sz){
+	uint8_t * ptr = (uint8_t*)_fbgc_malloc(fbgc_memb.raw_buffer_head,sz);
+	if(ptr){
+		struct fbgc_raw_buffer * rb = (struct fbgc_raw_buffer*)(ptr-sizeof(struct fbgc_raw_buffer));
+		set_gc_dark(rb);
+	}
+	return(void*)ptr;
+}
+
 void * fbgc_realloc(void * ptr, size_t size){
 
 /*
@@ -206,21 +239,31 @@ then the result is undefined!
 */
 	if(ptr == NULL) return fbgc_malloc(size);
 
-	long block_size = capacity_in_bytes_fbgc_raw_memory(ptr);
+
+	struct fbgc_raw_buffer * rb_old = cast_from_raw_buffer_data_to_raw_buffer(ptr);
+
+	size_t old_capacity = rb_old->capacity;
 
 	
 	FBGC_LOGV(MEMORY,"~~~~~~~Realloc~~~~~~~~\n");
-	FBGC_LOGV(MEMORY,"Requested memory in realloc is %lu, block size : %ld\n",size,block_size);
+	FBGC_LOGV(MEMORY,"Requested memory in realloc is %lu, block size : %ld\n",size,old_capacity);
 	
-
-	if(size > block_size){
+ 
+	if(size > old_capacity){
 		FBGC_LOGV(MEMORY,"Allocating new block size : %lu and copying\n",size);
 	
 		void * new_mem_ptr = fbgc_malloc(size);
+		struct fbgc_raw_buffer * rb = cast_from_raw_buffer_data_to_raw_buffer(new_mem_ptr);
+
 		if(new_mem_ptr == NULL) return NULL;
-		FBGC_LOGV(MEMORY,"succesfully allocated size : %lu,old address:%p new address:%p\n",size,ptr,new_mem_ptr);
-		memcpy(new_mem_ptr,ptr,block_size);
+		FBGC_LOGV(MEMORY,"succesfully allocated size : %lu,old address:%p new address:%p\n",size,rb_old,rb);
+
+		memcpy(new_mem_ptr,ptr,old_capacity);
+		rb->mark_bit = rb_old->mark_bit;
+		rb_old->mark_bit = GC_WHITE;
+		FBGC_LOGV(MEMORY,"New buffer capacity : %d\n",rb->capacity);
 		//Do we need it ?
+		//MARK TO WHITE
 		fbgc_free(ptr);
 
 		return new_mem_ptr;
@@ -228,8 +271,7 @@ then the result is undefined!
 
 	//if the requested size is smaller than the previous size just decrease the size of the block, let the gc handle later
 
-	long * byte_size =  (long *)((uint8_t*)ptr - sizeof(long));
-	*byte_size = size;
+	rb_old->capacity = size;
 	
 	return ptr;	
 }
@@ -251,22 +293,6 @@ void fbgc_free(void *ptr){
 }
 
 
-
-void * fbgc_malloc_object(size_t sz){
-	return _fbgc_malloc(fbgc_memb.object_pool_head,sz);
-}
-void * fbgc_malloc(size_t sz){
-	return _fbgc_malloc(fbgc_memb.raw_buffer_head,sz);
-}
-
-void * fbgc_malloc_static(size_t sz){
-	uint8_t * ptr = (uint8_t*)_fbgc_malloc(fbgc_memb.raw_buffer_head,sz);
-	if(ptr){
-		struct fbgc_raw_buffer * rb = (struct fbgc_raw_buffer*)(ptr-sizeof(struct fbgc_raw_buffer));
-		set_gc_dark(rb);
-	}
-	return(void*)ptr;
-}
 
 
 void print_fbgc_memory_object_pool(){
@@ -327,7 +353,8 @@ void print_fbgc_memory_raw_buffer(){
 		for(size_t j = 0; j< chunk_filled_size;){
 
 			uint8_t * where = (uint8_t*)(iter->data);
-			where+=j;
+			where += j;
+			
 	   		struct fbgc_raw_buffer * ptr = (struct fbgc_raw_buffer*)where;
 
 			cprintf(101,"Chunk byte size:%ld , color:%d\n",ptr->capacity,ptr->mark_bit);
@@ -373,7 +400,6 @@ void free_fbgc_memory_block(){
 	fbgc_memb.object_pool_head = NULL;
 
 	free(fbgc_gc.ptr_list.data);
-	free(fbgc_gc.ptr_queue.data);
 }
 
 
@@ -383,30 +409,16 @@ uint32_t capacity_in_bytes_fbgc_raw_memory(void * x){
 }
 
 
-#define is_fbgc_object_pointer(ptr)( check_pointer_is_in_pool(fbgc_memb.object_pool_head,ptr))
-#define is_raw_buffer_pointer(ptr)( check_pointer_is_in_pool(fbgc_memb.raw_buffer_head,ptr))
-
-static uint8_t check_pointer_is_in_pool(struct fbgc_memory_pool * iter, void * ptr){
-	while(iter != NULL){
-		uint8_t * start = (uint8_t*)iter->data;
-		uint8_t * end = (uint8_t*)(iter->data) + iter->size;
-		if((uint8_t*)ptr >= start && (uint8_t*)ptr <= end) return 1;
-		iter = iter->next;
-	}
-	return 0;
-}
-
 //####################    Garbage Collector
 
 struct fbgc_garbage_collector fbgc_gc = {
 	.state = GC_STATE_NOT_INITIALIZED,
-	.threshold = 10,
+	.threshold = 100,
 	.cycle = 0,
 	.last_location = NULL,
 	.current_raw_buffer = NULL,
 	.current_object_pool = NULL,
 	.ptr_list = {.data = NULL, .size = 0, .capacity = 0},
-	.ptr_queue = {.data = NULL, .front = NULL, .back = NULL, .capacity = 0}
 };
 
 uint8_t fbgc_gc_register_pointer(void * base_ptr,size_t size, size_t block_size, size_t offset){
@@ -454,28 +466,24 @@ uint8_t fbgc_gc_mark_pointer(void * base_ptr,size_t size, size_t block_size, siz
 	}
 
 
-	FBGC_LOGD(MEMORY,"Base ptr:%p | size:%ld | block_size:%ld | offset:%ld\n",base_ptr,size,block_size,offset);
+	FBGC_LOGD(MEMORY,"Marking new ptr Base ptr:%p | size:%ld | block_size:%ld | offset:%ld\n",base_ptr,size,block_size,offset);
 
 	//First check that can gc mark this right now
 	//For this we will check its threshold value to where we are at the pause, if there is no time to mark all the pointers
 	//We should put this in a queue to make marking at the next stages
 	//Checking gc first is trying not to overflow queue of pending pointers
 
-	struct pending_request_queue * queue = &(fbgc_gc.ptr_queue);
+	struct fbgc_queue * queue = &(fbgc_gc.tpe_queue);
 	
-	struct traceable_pointer_entry * tpe = queue->back++;
+	struct traceable_pointer_entry tpe = {
+		.base_ptr = (uint8_t*)base_ptr,
+		.tptr = base_ptr,
+		.size = size,
+		.block_size = block_size,
+		.offset = offset,
+	};
 
-	tpe->base_ptr = (uint8_t*)base_ptr;
-	tpe->tptr = tpe->base_ptr;
-	tpe->size = size;
-	tpe->block_size = block_size;
-	tpe->offset = offset;
-
-
-	if(queue->back == (queue->data + queue->capacity) ){
-		//Do something to prevent overflow!
-	}
-
+	fbgc_queue_push(queue,&tpe);
 }
 
 
@@ -487,12 +495,13 @@ void fbgc_gc_init(struct fbgc_object * root){
 	fbgc_gc.current_raw_buffer = fbgc_memb.raw_buffer_head;
 
 	
+	init_static_fbgc_queue(&fbgc_gc.tpe_queue, TRACEABLE_POINTER_LIST_INITIAL_CAPACITY,sizeof(struct traceable_pointer_entry));
+	//Is there any easy way to mark this object ?
+	set_gc_dark(cast_from_raw_buffer_data_to_raw_buffer(fbgc_gc.tpe_queue.data));
+
+
 	//Later allocate from internal memory not with malloc
 	fbgc_gc.ptr_list.data = (struct traceable_pointer_entry*) malloc(sizeof(struct traceable_pointer_entry)*TRACEABLE_POINTER_LIST_INITIAL_CAPACITY);
-	fbgc_gc.ptr_queue.data = (struct traceable_pointer_entry*) malloc(sizeof(struct traceable_pointer_entry)*TRACEABLE_POINTER_LIST_INITIAL_CAPACITY);
-	fbgc_gc.ptr_queue.front = fbgc_gc.ptr_queue.data;
-	fbgc_gc.ptr_queue.back = fbgc_gc.ptr_queue.data;
-	fbgc_gc.ptr_queue.capacity = TRACEABLE_POINTER_LIST_INITIAL_CAPACITY;
 
 
 	fbgc_gc.state = GC_STATE_INITIALIZED;
@@ -500,6 +509,7 @@ void fbgc_gc_init(struct fbgc_object * root){
 
 	set_gc_black(root);
 	gc_mark_fbgc_object(root);
+
 }
 
 
@@ -519,13 +529,18 @@ void fbgc_gc_mark(){
 	while(fbgc_gc.cycle < fbgc_gc.threshold){
 		
 		//first check is there any pending request in the queue?
-		struct pending_request_queue * queue = &(fbgc_gc.ptr_queue);
-		while(queue->front != queue->back){
+		struct fbgc_queue * queue = &(fbgc_gc.tpe_queue);
+
+		while(!is_fbgc_queue_empty(queue)){
 			
 			FBGC_LOGD(MEMORY,"Pending queue is not empty!\n");
 
-			struct traceable_pointer_entry * tpe = queue->front;
+			struct traceable_pointer_entry * tpe = (struct traceable_pointer_entry *) fbgc_queue_front(queue);
+			
 			uint8_t * tpe_end = tpe->base_ptr + tpe->size * tpe->block_size;
+			printf("TPE :%p | base :%p | end:%p | at the end:%d\n",tpe,tpe->base_ptr,tpe_end,tpe->tptr == tpe_end);
+			//assert(tpe->tptr != tpe_end);
+
 			struct fbgc_raw_buffer * rb = cast_from_raw_buffer_data_to_raw_buffer(tpe->base_ptr);
 			set_gc_gray(rb);
 			//Can we run all the elements in this array?
@@ -539,12 +554,26 @@ void fbgc_gc_mark(){
 
 				if(is_raw_buffer_pointer(tpe->tptr)){
 					FBGC_LOGV(MEMORY,"Founded ptr %p is in raw buffer pool\n",tpe->tptr);
+					assert(tpe->tptr);
+
 					//allocated with fbgc_malloc
 					struct fbgc_object ** obj = (struct fbgc_object **) tpe->tptr;
-					if(*obj != NULL){
+					FBGC_LOGV(MEMORY,"fbgc_object Address: %p\n",*obj);
+
+					if(*obj && !is_fbgc_object_pointer(*obj)){
+						FBGC_LOGE("Something wrong!\n");
+						return;
+					}
+
+					if(*obj != NULL && is_gc_white(*obj) ){
 						printf("Setting %p to gray\n",*obj );
-						set_gc_gray(*obj);
-						gc_mark_fbgc_object(*obj);	
+						set_gc_black(*obj);
+						gc_mark_fbgc_object(*obj);
+						/*if(gc_mark_fbgc_object(*obj) == 0){
+							if((uint8_t*)(*obj) < fbgc_gc.last_location){
+								set_gc_black(*obj);
+							}
+						}*/
 					}
 					//struct fbgc_raw_buffer * rb = cast_from_raw_buffer_data_to_raw_buffer(tpe->tptr);
 					//
@@ -554,16 +583,18 @@ void fbgc_gc_mark(){
 					//allocated with fbgc_malloc_object
 					//struct fbgc_object * ob = 
 					set_gc_gray( (struct fbgc_object * )tpe->tptr );
-				}
-
-				tpe->tptr += tpe->block_size;
+				}	
 
 				
-				if(tpe->tptr == tpe_end){
+				tpe->tptr += tpe->block_size;
+				printf("TPE tptr :%p\n",tpe->tptr );
+
+				if(tpe->tptr >= tpe_end){
 					FBGC_LOGV(MEMORY,"End of %p, setting to black!\n",tpe->base_ptr);
 					set_gc_black(rb);
+					fbgc_queue_pop(queue);
+					printf("Popped %p\n",tpe );
 					//finished this object, pop it from the queue
-					queue->front++;
 					break;
 				}
 			}
@@ -577,20 +608,17 @@ void fbgc_gc_mark(){
 		
 		if(ptr >= (uint8_t*)(fbgc_gc.current_object_pool->tptr)) break;
 
-		printf("last loc address :%p\n",ptr );
 		//Now queue is somehow finished and there is cycle available to run marking for the objects
 		struct fbgc_object * obj = (struct fbgc_object * ) ptr;
-
-
 
 		if(is_gc_gray(obj)){
 			FBGC_LOGW("Address is GRAY! :%p\n",ptr );
 			set_gc_black(obj);
-			gc_mark_fbgc_object(obj);
-			printf("Setting %p to black\n",ptr );
+
+			FBGC_LOGV(MEMORY,"Setting %p to black\n",ptr );
 		}
 		else{
-			FBGC_LOGW("Address is not gray! :%p\n",ptr );
+			FBGC_LOGW("Address is not gray! :%p | color :%d\n",ptr,obj->mark_bit );
 		}
 
 		ptr += size_of_fbgc_object((struct fbgc_object*)ptr);

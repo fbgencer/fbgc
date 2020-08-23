@@ -69,7 +69,7 @@ enum {
 	GC_STATE_STOPPED
 }GC_STATES;
 
-#define TRACEABLE_POINTER_LIST_INITIAL_CAPACITY 20
+#define TRACEABLE_POINTER_LIST_INITIAL_CAPACITY 2
 
 struct traceable_pointer_entry{
 	uint8_t * base_ptr;
@@ -85,13 +85,6 @@ struct traceable_pointer_list{
 	size_t capacity;
 };
 
-struct pending_request_queue{
-	struct traceable_pointer_entry * data;
-	struct traceable_pointer_entry * front;
-	struct traceable_pointer_entry * back;
-	size_t capacity;
-};
-
 
 struct fbgc_garbage_collector{
 	uint8_t state;
@@ -101,7 +94,7 @@ struct fbgc_garbage_collector{
 	struct fbgc_memory_pool * current_raw_buffer;
 	struct fbgc_memory_pool * current_object_pool;
 	struct traceable_pointer_list ptr_list;
-	struct pending_request_queue ptr_queue;
+	struct fbgc_queue tpe_queue;
 };
 
 extern struct fbgc_garbage_collector fbgc_gc;
@@ -117,10 +110,10 @@ extern struct fbgc_garbage_collector fbgc_gc;
 #define set_gc_black(x)	( (x)->mark_bit = GC_BLACK)
 #define set_gc_dark(x)	( (x)->mark_bit = GC_DARK)
 
-#define is_gc_white(x)(x->mark_bit == GC_WHITE)
-#define is_gc_gray(x)(x->mark_bit == GC_GRAY)
-#define is_gc_black(x)(x->mark_bit == GC_BLACK)
-#define is_gc_dark(x)(x->mark_bit == GC_DARK)
+#define is_gc_white(x)	( (x)->mark_bit == GC_WHITE)
+#define is_gc_gray(x)	( (x)->mark_bit == GC_GRAY)
+#define is_gc_black(x)	( (x)->mark_bit == GC_BLACK)
+#define is_gc_dark(x)	( (x)->mark_bit == GC_DARK)
 
 
 uint8_t fbgc_gc_register_pointer(void * base_ptr,size_t size, size_t block_size, size_t offset);

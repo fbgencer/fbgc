@@ -27,6 +27,9 @@ typedef uint8_t bool;
 #define false 0
 #endif
 
+#include "headers/utility.h"
+
+#include "headers/queue.h"
 
 #include "headers/tokens.h"
 #include "headers/error.h"

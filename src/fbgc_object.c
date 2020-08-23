@@ -392,7 +392,7 @@ size_t size_of_fbgc_object(struct fbgc_object * obj){
 	
 }
 
-void gc_mark_fbgc_object(struct fbgc_object * obj){
+uint8_t gc_mark_fbgc_object(struct fbgc_object * obj){
 
 	const struct fbgc_object_property_holder * p = get_fbgc_object_property_holder(obj);
 
@@ -400,7 +400,8 @@ void gc_mark_fbgc_object(struct fbgc_object * obj){
 	int8_t w = _find_property(p->bits,_BIT_GC_MARK);
 	if(w != -1){
 		p->properties[w].gc_mark(obj);
-		return;
+		return 1;
 	}
+	return 0;
 	FBGC_LOGW("No gc mark available for %s\n",objtp2str(obj));
 }

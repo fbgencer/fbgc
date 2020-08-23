@@ -1,38 +1,9 @@
 #include "fbgc.h"
 
-size_t calculate_new_capacity_from_size(size_t size){
-    /*
-        Below algorithm calculates the capacity for the given size
-        Basically capacity is the closest two's power
-        0,1 : 1
-        2 : 2
-        3,4 : 4
-        5,6,7,8 : 8
-        9,10,11,12,13,14,15 : 16
-        and so on
-
-        Take 5 for example, in binary its 0b00101
-        take z = 1
-        0b0001 <= 0b0101 , shift z left
-        0b0010 <= 0b0101 , (ditto)
-        0b0100 <= 0b0101 , (ditto)
-        0b1000 <= 0b0101 , stop here don't shift, z is 8, the closest two's power for 5
-    */
-    size_t z = 1;
-    while(z < size)
-        z <<= 1;
-
-    #ifdef TUPLE_DEBUG
-    cprintf(011,"For the size %d new capacity is calculated as :%d\n",size,z);
-    #endif
-    return z;
-}
-
-
 struct fbgc_object * new_fbgc_tuple_object(size_t cap){
     //here just allocate a space after to->size, we don't need a pointer we know where we are gonna look.
 
-    cap = calculate_new_capacity_from_size(cap);
+    cap = fbgc_round_to_closest_power_of_two(cap);
 
     struct fbgc_tuple_object *to =  (struct fbgc_tuple_object*) fbgc_malloc_object(sizeof(struct fbgc_tuple_object));
     to->base.type = TUPLE;
@@ -144,7 +115,7 @@ int index_fbgc_tuple_object(struct fbgc_object * self, struct fbgc_object * obj)
 
 struct fbgc_object * copy_fbgc_tuple_object(struct fbgc_object * src){
 
-    size_t cap = calculate_new_capacity_from_size( size_fbgc_tuple_object(src) );
+    size_t cap = fbgc_round_to_closest_power_of_two( size_fbgc_tuple_object(src) );
     size_t sz = sizeof(struct fbgc_tuple_object) + sizeof(struct fbgc_object*)*cap;
 
     struct fbgc_tuple_object * dest =  (struct fbgc_tuple_object*) fbgc_malloc_object(sz);

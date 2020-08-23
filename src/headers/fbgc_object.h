@@ -47,7 +47,7 @@ struct fbgc_object * subscript_assign_operator_fbgc_object(struct fbgc_object * 
 struct fbgc_object * abs_operator_fbgc_object(struct fbgc_object * self);
 
 size_t size_of_fbgc_object(struct fbgc_object * self);
-void gc_mark_fbgc_object(struct fbgc_object * self);
+uint8_t gc_mark_fbgc_object(struct fbgc_object * self);
 
 uint8_t print_fbgc_object(struct fbgc_object *);
 uint8_t myprint_fbgc_object(struct fbgc_object *);

@@ -704,17 +704,58 @@ int main(int argc, char **argv){
 		uint8_t * ptr;
 	}foo;
 
+	// struct fbgc_queue * q = new_fbgc_queue(2,sizeof(int));
+	// int a = 5;
+	// fbgc_queue_push_back(q,&a);
+	// a = 6;
+	// fbgc_queue_push_back(q,&a);
+	// fbgc_queue_pop(q);
+	// a = 7;
+	// fbgc_queue_push_back(q,&a);
+	// fbgc_queue_pop(q);
+	// a = 8;
+	// fbgc_queue_push_back(q,&a);
+	
+	// //a = 9;
+	// //fbgc_queue_push_back(q,&a);
+	// //fbgc_queue_pop(q);
 
-	struct fbgc_object * to = new_fbgc_tuple_object(2);
+
+	// // struct fbgc_raw_buffer * rb = cast_from_raw_buffer_data_to_raw_buffer(q->data);
+	// // printf("rb cap = %d | data p:%p | rb%p\n",rb->capacity,q->data,rb );
+	// // uint8_t * d = (uint8_t*)rb;
+	// // for (int i = 0; i < sizeof(struct fbgc_raw_buffer)+rb->capacity; ++i)
+	// // {	
+	// // 	printf("%p[%d]:%02x|%d\n",d,i,*d,*d );
+	// // 	d++;
+	// // }
+
+	// print_fbgc_memory_block();
+
+	// printf("queue front %p | sz:%ld\n",fbgc_queue_front(q),size_fbgc_queue(q));
+
+
+	struct fbgc_object * to3 = new_fbgc_tuple_object(2);
+
 	struct fbgc_object * io = new_fbgc_int_object(10);
 	struct fbgc_object * io2 = new_fbgc_int_object(11);
-
-	struct fbgc_object * to2 = new_fbgc_tuple_object(2);
 	struct fbgc_object * io3 = new_fbgc_int_object(12);
 
-	push_back_fbgc_tuple_object(to,io);
+		
+
+	struct fbgc_object * to = new_fbgc_tuple_object(2);
+	struct fbgc_object * to2 = new_fbgc_tuple_object(2);
+	
+
+
+
+	//push_back_fbgc_tuple_object(to,io);
 	push_back_fbgc_tuple_object(to,to2);
 	push_back_fbgc_tuple_object(to2,io2);
+	//push_back_fbgc_tuple_object(to2,to3);
+	push_back_fbgc_tuple_object(to3,io3);
+	push_back_fbgc_tuple_object(to3,io);
+
 
 
 	//print_fbgc_memory_block();
@@ -723,10 +764,11 @@ int main(int argc, char **argv){
 	fbgc_gc_mark();
 
 	print_fbgc_memory_block();
+
 	/*foo ** pbuffer = (foo **) fbgc_malloc(sizeof(foo*)*2);
 	fbgc_gc_register_pointer(pbuffer,2,sizeof(foo*),0);
 
-
+	
 
 
 
