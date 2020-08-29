@@ -37,12 +37,20 @@ void fprintf_fbgc_fun_object(struct fbgc_object * obj){
 
 
 
+static inline size_t size_of_fbgc_fun_object(struct fbgc_object * self){
+    return sizeof(struct fbgc_fun_object);
+}
+
+
+
 const struct fbgc_object_property_holder fbgc_fun_object_property_holder = {
   .bits = 
-  _BIT_PRINT
+  _BIT_PRINT |
+  _BIT_SIZE_OF
   ,
   .properties ={
     {.print = &print_fbgc_fun_object},      
+    {.size_of = &size_of_fbgc_fun_object},
   }
 };
 

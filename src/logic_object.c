@@ -109,6 +109,11 @@ uint8_t print_fbgc_logic_object(struct fbgc_object * obj){
 
 
 
+static inline size_t size_of_fbgc_logic_object(struct fbgc_object * self){
+    return sizeof(struct fbgc_logic_object);
+}
+
+
 const struct fbgc_object_property_holder fbgc_logic_object_property_holder = {
     .bits = 
     _BIT_PRINT |
@@ -118,6 +123,7 @@ const struct fbgc_object_property_holder fbgc_logic_object_property_holder = {
     .properties ={
         {.print = &print_fbgc_logic_object},
         {.binary_operator = &operator_fbgc_logic_object},
+        {.size_of = &size_of_fbgc_logic_object},
         {.to_str = &fbgc_logic_object_to_str},       
     }
 };

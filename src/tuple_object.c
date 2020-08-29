@@ -290,12 +290,12 @@ static struct fbgc_object_method _tuple_methods = {
 };
 
 
-static size_t size_of_fbgc_tuple_object(struct fbgc_object * self){
+static inline size_t size_of_fbgc_tuple_object(struct fbgc_object * self){
     return sizeof(struct fbgc_tuple_object);
 }
 
-static void gc_mark_fbgc_tuple_object(struct fbgc_object * self){
-    fbgc_gc_mark_pointer((cast_fbgc_object_as_tuple(self)->content),capacity_fbgc_tuple_object(self),sizeof(struct fbgc_object *),0);
+static inline void gc_mark_fbgc_tuple_object(struct fbgc_object * self){
+    fbgc_gc_mark_pointer((cast_fbgc_object_as_tuple(self)->content),sizeof(struct fbgc_object *));
 }
 
 

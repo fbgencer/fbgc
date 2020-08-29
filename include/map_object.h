@@ -27,7 +27,6 @@ struct fbgc_map_object{
 extern const struct fbgc_object_property_holder fbgc_map_object_property_holder;
 
 #define cast_fbgc_object_as_map(x)(((struct fbgc_map_object*) x))
-#define sizeof_fbgc_map_object()(sizeof(struct fbgc_map_object)) 
 
 #define capacity_fbgc_map_object(x)(capacity_fbgc_raw_memory(cast_fbgc_object_as_map(x)->content,sizeof(struct fbgc_map_pair) ))
 

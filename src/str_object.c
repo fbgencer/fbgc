@@ -478,6 +478,11 @@ struct fbgc_object * abs_operator_fbgc_str_object(struct fbgc_object * self){
     return new_fbgc_int_object(cast_fbgc_object_as_str(self)->len);
 }
 
+
+static inline size_t size_of_fbgc_str_object(struct fbgc_object * self){
+    return sizeof(struct fbgc_str_object) + cast_fbgc_object_as_str(self)->len;
+}
+
 const struct fbgc_object_property_holder fbgc_str_object_property_holder = {
     .bits = 
     _BIT_PRINT |
@@ -485,6 +490,7 @@ const struct fbgc_object_property_holder fbgc_str_object_property_holder = {
     _BIT_SUBSCRIPT_OPERATOR |
     _BIT_SUBSCRIPT_ASSIGN_OPERATOR |
     _BIT_ABS_OPERATOR |
+    _BIT_SIZE_OF |
     _BIT_METHODS
     ,
     .properties ={
@@ -494,6 +500,7 @@ const struct fbgc_object_property_holder fbgc_str_object_property_holder = {
         {.subscript_operator = &subscript_operator_fbgc_str_object},
         {.subscript_assign_operator = &subscript_assign_operator_fbgc_str_object},
         {.abs_operator = &abs_operator_fbgc_str_object},   
+        {.size_of = &size_of_fbgc_str_object},
     }
 };
 

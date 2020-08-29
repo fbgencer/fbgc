@@ -606,15 +606,25 @@ struct fbgc_object * abs_operator_fbgc_matrix_object(struct fbgc_object * self){
 	return sz_tuple;
 }
 
+
+static inline size_t size_of_fbgc_matrix_object(struct fbgc_object * self){
+	return ( sizeof(struct fbgc_matrix_object) + 
+	sizeof(double) * (cast_fbgc_object_as_matrix(self)->row*cast_fbgc_object_as_matrix(self)->column) );
+}
+
+
+
 const struct fbgc_object_property_holder fbgc_matrix_object_property_holder = {
 	.bits = 
 	_BIT_PRINT |
 	_BIT_BINARY_OPERATOR |
-	_BIT_ABS_OPERATOR
+	_BIT_ABS_OPERATOR |
+	_BIT_SIZE_OF
 	,
 	.properties ={
 		{.print = &print_fbgc_matrix_object},
 		{.binary_operator = &operator_fbgc_matrix_object},
 		{.abs_operator = &abs_operator_fbgc_matrix_object},
+		{.size_of = &size_of_fbgc_matrix_object},
 	}
 };

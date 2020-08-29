@@ -7,7 +7,7 @@ extern "C" {
 
 struct fbgc_logic_object{
     struct fbgc_object base;
-    char content;
+    uint8_t content:1;
 };
 extern const struct fbgc_object_property_holder fbgc_logic_object_property_holder;
 

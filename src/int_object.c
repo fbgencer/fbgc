@@ -169,7 +169,6 @@ uint8_t print_fbgc_int_object(struct fbgc_object * obj){
 		return printf("%d",cast_fbgc_object_as_int(obj)->content);  
 }
 
-
 struct fbgc_object * fbgc_int_object_to_str(struct fbgc_object * obj){
 	int len = snprintf( NULL, 0, "%d", cast_fbgc_object_as_int(obj)->content);
 	struct fbgc_object * s = new_fbgc_str_object_empty(len);
@@ -185,8 +184,9 @@ struct fbgc_object * abs_operator_fbgc_int_object(struct fbgc_object * self){
 	return new_fbgc_int_object(abs(cast_fbgc_object_as_int(self)->content));
 }
 
-size_t size_of_fbgc_int_object(struct fbgc_object * self){
-	return sizeof(struct fbgc_int_object);
+
+static inline size_t size_of_fbgc_int_object(struct fbgc_object * self){
+    return sizeof(struct fbgc_int_object);
 }
 
 
@@ -205,6 +205,3 @@ const struct fbgc_object_property_holder fbgc_int_object_property_holder = {
 		{.to_str = &fbgc_int_object_to_str},
 	}
 };
-
-//print_fbgc_int_object,
-	//free_fbgc_int_object

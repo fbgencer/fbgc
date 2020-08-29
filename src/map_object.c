@@ -1,32 +1,5 @@
 #include "fbgc.h"
 
-static size_t map_new_capacity_from_size(size_t size){
-	/*
-		Below algorithm calculates the capacity for the given size
-		Basically capacity is the closest two's power
-		0,1 : 1
-		2 : 2
-		3,4 : 4
-		5,6,7,8 : 8
-		9,10,11,12,13,14,15 : 16
-		and so on
-
-		Take 5 for example, in binary its 0b00101
-		take z = 1
-		0b0001 <= 0b0101 , shift z left
-		0b0010 <= 0b0101 , (ditto)
-		0b0100 <= 0b0101 , (ditto)
-		0b1000 <= 0b0101 , stop here don't shift, z is 8, the closest two's power for 5
-	*/
-	size_t z = 1;
-	while(z < size)
-		z <<= 1;
-
-	return z;
-}
-
-
-
 static struct fbgc_object * _new_fbgc_map_object(size_t cap, uint8_t rlf){
 	
 	struct fbgc_map_object * map =  (struct fbgc_map_object*) fbgc_malloc_object(sizeof(struct fbgc_map_object));
@@ -42,7 +15,7 @@ static struct fbgc_object * _new_fbgc_map_object(size_t cap, uint8_t rlf){
 }
 
 struct fbgc_object * new_fbgc_map_object(size_t cap, uint8_t rlf){
-	return _new_fbgc_map_object(map_new_capacity_from_size(cap), rlf);
+	return _new_fbgc_map_object(fbgc_round_to_closest_power_of_two(cap), rlf);
 }
 
 struct fbgc_object * new_fbgc_map_object_exact(size_t cap, uint8_t rlf){
@@ -516,8 +489,16 @@ struct fbgc_object * subscript_assign_operator_fbgc_map_object(struct fbgc_objec
 }
 
 
-struct fbgc_object * abs_operator_fbgc_map_object(struct fbgc_object * self){
+
+
+
+static struct fbgc_object * abs_operator_fbgc_map_object(struct fbgc_object * self){
 	return new_fbgc_int_object(cast_fbgc_object_as_map(self)->size);
+}
+
+
+static inline size_t size_of_fbgc_map_object(struct fbgc_object * self){
+    return sizeof(struct fbgc_map_object);
 }
 
 const struct fbgc_object_property_holder fbgc_map_object_property_holder = {
@@ -525,12 +506,15 @@ const struct fbgc_object_property_holder fbgc_map_object_property_holder = {
 	_BIT_PRINT |
 	_BIT_SUBSCRIPT_OPERATOR |
 	_BIT_SUBSCRIPT_ASSIGN_OPERATOR |
-	_BIT_ABS_OPERATOR,
+	_BIT_ABS_OPERATOR | 
+	_BIT_SIZE_OF
+	,
 	
 	.properties ={
 		{.print = &print_fbgc_map_object},
 		{.subscript_operator = &subscript_operator_fbgc_map_object},
 		{.subscript_assign_operator = &subscript_assign_operator_fbgc_map_object},
-		{.abs_operator = &abs_operator_fbgc_map_object},   
+		{.abs_operator = &abs_operator_fbgc_map_object},
+		{.size_of = &size_of_fbgc_map_object},
 	}
 };

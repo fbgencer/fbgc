@@ -1,40 +1,13 @@
 #include "fbgc.h"
 
-size_t array_calculate_new_capacity_from_size(size_t size){
-	/*
-		Below algorithm calculates the capacity for the given size
-		Basically capacity is the closest two's power
-		0,1,2 : 2
-		3,4 : 4
-		5,6,7,8 : 8
-		9,10,11,12,13,14,15 : 16
-		and so on
-
-		Take 5 for example, in binary its 0b00101
-		take z = 1
-		0b0001 <= 0b0101 , shift z left
-		0b0010 <= 0b0101 , (ditto)
-		0b0100 <= 0b0101 , (ditto)
-		0b1000 <= 0b0101 , stop here don't shift, z is 8, the closest two's power for 5
-	*/
-	size_t z = 1;
-	while(z < size)
-		z <<= 1;
-
-	FBGC_LOGV(ARRAY_OBJECT,"For the requested size %lu new capacity is calculated as :%lu\n",size,z);
-	//#ifdef ARRAY_DEBUG
-	//#endif
-	return z;
-}
 
 struct fbgc_object * new_fbgc_array_object(size_t cap, size_t bsize){
 	//here just allocate a space after to->size, we don't need a pointer we know where we are gonna look.
 
-	cap = array_calculate_new_capacity_from_size(cap);
+	cap = fbgc_round_to_closest_power_of_two(cap);
 
 	struct fbgc_array_object *ao =  (struct fbgc_array_object*) fbgc_malloc_object(sizeof(struct fbgc_array_object));
     ao->base.type = ARRAY;
-    //ao->base.next = NULL;
     ao->block_size = bsize;
     ao->size = 0;
     

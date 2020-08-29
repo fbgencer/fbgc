@@ -292,7 +292,7 @@ struct fbgc_object * subscript_assign_operator_fbgc_instance_object(struct fbgc_
 	return NULL;
 }
 
-struct fbgc_object * abs_operator_fbgc_instance_object(struct fbgc_object * self){
+static struct fbgc_object * abs_operator_fbgc_instance_object(struct fbgc_object * self){
 	struct fbgc_object * fun = get_overloaded_member(self,"||");
 	if(fun != NULL)
 		fun = call_fun_object(fun);
@@ -313,6 +313,11 @@ uint8_t print_fbgc_instance_object(struct fbgc_object * self){
 }
 
 
+static inline size_t size_of_fbgc_instance_object(struct fbgc_object * self){
+    return sizeof(struct fbgc_instance_object);
+}
+
+
 
 const struct fbgc_object_property_holder fbgc_instance_object_property_holder = {
 	.bits = 
@@ -320,7 +325,8 @@ const struct fbgc_object_property_holder fbgc_instance_object_property_holder = 
 	_BIT_GET_SET_MEMBER |
 	_BIT_SUBSCRIPT_OPERATOR |
 	_BIT_SUBSCRIPT_ASSIGN_OPERATOR |
-	_BIT_ABS_OPERATOR
+	_BIT_ABS_OPERATOR | 
+	_BIT_SIZE_OF
 	,
 	.properties ={
 		{.print = &print_fbgc_instance_object},
@@ -328,5 +334,6 @@ const struct fbgc_object_property_holder fbgc_instance_object_property_holder = 
         {.subscript_operator = &subscript_operator_fbgc_instance_object},
         {.subscript_assign_operator = &subscript_assign_operator_fbgc_instance_object},
         {.abs_operator = &abs_operator_fbgc_instance_object},
+        {.size_of = &size_of_fbgc_instance_object},
 	}
 };

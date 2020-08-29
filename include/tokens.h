@@ -18,103 +18,101 @@ typedef struct {
 #define UNKNOWN 0 // Begin with unknown
 #define NIL 1 // null or none
 #define CONSTANT 2 // did we use?
-#define RAW_MEMORY 3 // c-like buffer class
-#define LOGIC 4 // logical true or false
-#define INT 5 // int class
-#define DOUBLE 6 // double class
-#define COMPLEX 7 // complex class
-#define STRING 8 // string class
-#define MATRIX 9 // matrix class
-#define MAP 10 // map class
-#define TUPLE 11 // tuple class
-#define INSTANCE 12 //
-#define CSTRING 13 // raw c strings without length
-#define CFUN 14 // c function
-#define FUN 15 // builtin fbgc function
-#define CLASS 16 //
-#define CSTRUCT 17 // 
-#define IDENTIFIER 18 // identifiers
-#define RANGE 19 // range obj
-#define ARRAY 20 //
-#define LINKED_LIST 21 //
-#define CMODULE 22 //
-#define GARBAGE 23 //
-#define FIELD 24 //
-#define END 25 // end
-#define FUN_MAKE 26 //
-#define CLASS_MAKE 27 //
-#define ELIF 28 //
-#define ELSE 29 //
-#define WHILE 30 //
-#define FOR 31 //
-#define BREAK 32 //
-#define CONT 33 //
-#define IF 34 //
-#define RETURN 35 //
-#define NEWLINE 36 //
-#define LPARA 37 // (
-#define RPARA 38 // )
-#define LBRACK 39 // [
-#define RBRACK 40 // ]
-#define LBRACE 41 // {
-#define RBRACE 42 // }
-#define COMMA 43 // , -- set1 start
-#define DOT 44 // .
-#define SEMICOLON 45 // ; 
-#define COLON 46 // : set1 finish
-#define RSHIFT 47 // >> assignment and binary operators start from here
-#define LSHIFT 48 // <<
-#define STARSTAR 49 // **
-#define SLASHSLASH 50 // //
-#define PLUS 51 // +
-#define MINUS 52 // -
-#define STAR 53 // *
-#define SLASH 54 // /
-#define CARET 55 // ^
-#define PERCENT 56 // % assignment finish
-#define LOEQ 57 // <=
-#define GREQ 58 // >=
-#define EQEQ 59 // ==
-#define NOTEQ 60 // !=
-#define LOWER 61 // <
-#define GREATER 62 // >
-#define PIPE 63 // |
-#define AMPERSAND 64 // & binary finish
-#define EXCLAMATION 65 // !
-#define TILDE 66 // ~
-#define UPLUS 67 // +
-#define UMINUS 68 // -
-#define ASSIGN 69 // = assignment ops start from here
-#define RSHIFT_ASSIGN 70 // >>=
-#define LSHIFT_ASSIGN 71 // <<=
-#define STARSTAR_ASSIGN 72 // **=
-#define SLASHSLASH_ASSIGN 73 // //=
-#define PLUS_ASSIGN 74 // +=
-#define MINUS_ASSIGN 75 // -=
-#define STAR_ASSIGN 76 // *=
-#define SLASH_ASSIGN 77 // /=
-#define CARET_ASSIGN 78 // ^=
-#define PERCENT_ASSIGN 79 // %=
-#define ASSIGN_SUBSCRIPT 80 //
-#define LEN 81 //
-#define JUMP 82 //
-#define FOR_BEGIN 83 //
-#define FUN_CALL 84 //
-#define KWFUN_CALL 85 //
-#define BUILD_TUPLE 86 //
-#define BUILD_MATRIX 87 //
-#define BUILD_MAP 88 //
-#define POP_TOP 89 //
-#define ROW 90 //
-#define LOAD_SUBSCRIPT 91 //
-#define CLASS_CALL 92 //
-#define CLASS_SELF 93 //
-#define BUILD_FUN_DEFAULT_ARGS 94 //
+#define LOGIC 3 // logical true or false
+#define INT 4 // int class
+#define DOUBLE 5 // double class
+#define COMPLEX 6 // complex class
+#define STRING 7 // string class
+#define MATRIX 8 // matrix class
+#define MAP 9 // map class
+#define TUPLE 10 // tuple class
+#define INSTANCE 11 //
+#define CSTRING 12 // raw c strings without length
+#define CFUN 13 // c function
+#define FUN 14 // builtin fbgc function
+#define CLASS 15 //
+#define CSTRUCT 16 // 
+#define IDENTIFIER 17 // identifiers
+#define RANGE 18 // range obj
+#define ARRAY 19 //
+#define LINKED_LIST 20 //
+#define CMODULE 21 //
+#define GARBAGE 22 //
+#define FIELD 23 //
+#define END 24 // end
+#define FUN_MAKE 25 //
+#define CLASS_MAKE 26 //
+#define ELIF 27 //
+#define ELSE 28 //
+#define WHILE 29 //
+#define FOR 30 //
+#define BREAK 31 //
+#define CONT 32 //
+#define IF 33 //
+#define RETURN 34 //
+#define NEWLINE 35 //
+#define LPARA 36 // (
+#define RPARA 37 // )
+#define LBRACK 38 // [
+#define RBRACK 39 // ]
+#define LBRACE 40 // {
+#define RBRACE 41 // }
+#define COMMA 42 // , -- set1 start
+#define DOT 43 // .
+#define SEMICOLON 44 // ; 
+#define COLON 45 // : set1 finish
+#define RSHIFT 46 // >> assignment and binary operators start from here
+#define LSHIFT 47 // <<
+#define STARSTAR 48 // **
+#define SLASHSLASH 49 // //
+#define PLUS 50 // +
+#define MINUS 51 // -
+#define STAR 52 // *
+#define SLASH 53 // /
+#define CARET 54 // ^
+#define PERCENT 55 // % assignment finish
+#define LOEQ 56 // <=
+#define GREQ 57 // >=
+#define EQEQ 58 // ==
+#define NOTEQ 59 // !=
+#define LOWER 60 // <
+#define GREATER 61 // >
+#define PIPE 62 // |
+#define AMPERSAND 63 // & binary finish
+#define EXCLAMATION 64 // !
+#define TILDE 65 // ~
+#define UPLUS 66 // +
+#define UMINUS 67 // -
+#define ASSIGN 68 // = assignment ops start from here
+#define RSHIFT_ASSIGN 69 // >>=
+#define LSHIFT_ASSIGN 70 // <<=
+#define STARSTAR_ASSIGN 71 // **=
+#define SLASHSLASH_ASSIGN 72 // //=
+#define PLUS_ASSIGN 73 // +=
+#define MINUS_ASSIGN 74 // -=
+#define STAR_ASSIGN 75 // *=
+#define SLASH_ASSIGN 76 // /=
+#define CARET_ASSIGN 77 // ^=
+#define PERCENT_ASSIGN 78 // %=
+#define ASSIGN_SUBSCRIPT 79 //
+#define LEN 80 //
+#define JUMP 81 //
+#define FOR_BEGIN 82 //
+#define FUN_CALL 83 //
+#define KWFUN_CALL 84 //
+#define BUILD_TUPLE 85 //
+#define BUILD_MATRIX 86 //
+#define BUILD_MAP 87 //
+#define POP_TOP 88 //
+#define ROW 89 //
+#define LOAD_SUBSCRIPT 90 //
+#define CLASS_CALL 91 //
+#define CLASS_SELF 92 //
+#define BUILD_FUN_DEFAULT_ARGS 93 //
 #define TOKEN_LIST_AS_STRINGS()\
 "UNKNOWN",\
 "NIL",\
 "CONSTANT",\
-"RAW_MEMORY",\
 "LOGIC",\
 "INT",\
 "DOUBLE",\

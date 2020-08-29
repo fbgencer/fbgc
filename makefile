@@ -3,6 +3,10 @@
 
 SRC = $(shell find src/*.c cmodules/*.c)
 OBJ = ${SRC:.c=.o}
+DEPS = $(OBJ:.o=.d)
+INC = /include #$(shell find include/)
+
+INC_FLAGS := $(addprefix -I,$(INC))
 
 TEST_SRC = $(shell find src/*.c cmodules/*.c module_test/*.c )
 TEST_OBJ = ${TEST_SRC:.c=.o}
@@ -16,12 +20,12 @@ WARNING_FLAG = -Werror -Wno-error=pointer-arith
 DEBUG_FLAG =  
 #-s
 
-CFLAGS = -c
+CFLAGS = -c 
 LDFLAGS += -lm -Wl,--gc-sections -flto
 CFLAGS += $(OPTIMIZATION_FLAG)
 CFLAGS += $(WARNING_FLAG)
 #CFLAGS += $(DEBUG_FLAG)
-
+CFLAGS += $(INC_FLAGS)
 
 #GSL_CFLAG = -I /home/fbgencer/gsl/include
 #GSL_LDFLAG = -L /home/fbgencer/gsl/lib -lgsl -lgslcblas
@@ -52,7 +56,7 @@ CFLAGS += -DLOG_LINKEDLIST_
 CFLAGS += -DLOG_LOGIC_OBJECT_
 CFLAGS += -DLOG_MATRIX_OBJECT_
 CFLAGS += -DLOG_MAP_OBJECT_
-CFLAGS += -DLOG_MEMORY
+CFLAGS += -DLOG_MEMORY_
 CFLAGS += -DLOG_OPERATOR_
 CFLAGS += -DLOG_PARSER
 CFLAGS += -DLOG_RANGE_OBJECT_
@@ -89,7 +93,7 @@ CFLAGS += -DLEXER_DEBUG
 #CFLAGS += -DDEBUG_TO_FILE
 
 %.o:%.c
-	@$(CC) $(CFLAGS) $< -o $@
+	@$(CC) -c -o $@ $< $(CFLAGS)
 
 
 OUT = fbgc

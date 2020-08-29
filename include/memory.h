@@ -12,12 +12,12 @@ extern "C" {
 
 
 #define MEM_OBJECT_POOL 0 
-#define MEM_RAW_BUFFER 1
+#define MEM_RAW_BUFFER_POOL 1
 
 struct fbgc_memory_pool{
 	uint8_t type;
-	void * data;
-	void * tptr;	
+	uint8_t * data;
+	uint8_t * tptr;	
 	size_t size;
 	struct fbgc_memory_pool * next;
 };
@@ -57,7 +57,7 @@ uint32_t capacity_in_bytes_fbgc_raw_memory(void * x);
 #define capacity_fbgc_raw_memory(x,block_size) (capacity_in_bytes_fbgc_raw_memory(x)/block_size)
 
 
-uint8_t fbgc_gc_register_pointer(void * base_ptr,size_t size, size_t block_size, size_t offset);
+uint8_t fbgc_gc_register_pointer(void * base_ptr,uint8_t nested, ...);
 
 enum {
 	GC_STATE_NOT_INITIALIZED = 0,
@@ -72,11 +72,10 @@ enum {
 #define TRACEABLE_POINTER_LIST_INITIAL_CAPACITY 2
 
 struct traceable_pointer_entry{
-	uint8_t * base_ptr;
+	void * base_ptr;
 	uint8_t * tptr;
-	size_t size;
 	size_t block_size;
-	size_t offset;
+	uint8_t which_memory_pool;
 };
 
 struct traceable_pointer_list{
@@ -115,10 +114,14 @@ extern struct fbgc_garbage_collector fbgc_gc;
 #define is_gc_black(x)	( (x)->mark_bit == GC_BLACK)
 #define is_gc_dark(x)	( (x)->mark_bit == GC_DARK)
 
+#define set_raw_buffer_gc_white(x) ( set_gc_white(cast_from_raw_buffer_data_to_raw_buffer(x)) )
+#define set_raw_buffer_gc_gray(x) ( set_gc_gray(cast_from_raw_buffer_data_to_raw_buffer(x)) )
+#define set_raw_buffer_gc_black(x) ( set_gc_black(cast_from_raw_buffer_data_to_raw_buffer(x)) )
+#define set_raw_buffer_gc_dark(x) ( set_gc_dark(cast_from_raw_buffer_data_to_raw_buffer(x)) )
 
-uint8_t fbgc_gc_register_pointer(void * base_ptr,size_t size, size_t block_size, size_t offset);
+
 void fbgc_gc_mark_object(struct fbgc_object * obj);
-uint8_t fbgc_gc_mark_pointer(void * base_ptr,size_t size, size_t block_size, size_t offset);
+uint8_t fbgc_gc_mark_pointer(void * base_ptr, size_t block_size);
 void fbgc_gc_init(struct fbgc_object * root);
 void fbgc_gc_mark();
 void fbgc_gc_sweep();

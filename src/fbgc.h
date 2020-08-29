@@ -27,43 +27,43 @@ typedef uint8_t bool;
 #define false 0
 #endif
 
-#include "headers/utility.h"
+#include "../include/utility.h"
 
-#include "headers/queue.h"
+#include "../include/queue.h"
 
-#include "headers/tokens.h"
-#include "headers/error.h"
+#include "../include/tokens.h"
+#include "../include/error.h"
 
-#include "headers/fbgc_object.h"
+#include "../include/fbgc_object.h"
 
-#include "headers/memory.h"
+#include "../include/memory.h"
 
-#include "headers/linked_list.h"
-#include "headers/array_object.h"
-#include "headers/double_object.h"
-#include "headers/int_object.h"
-#include "headers/logic_object.h"
-#include "headers/complex_object.h"	
-#include "headers/str_object.h"
-#include "headers/map_object.h"
-#include "headers/matrix_object.h"
-#include "headers/tuple_object.h"
-#include "headers/cmodule_object.h"
-#include "headers/fun_object.h"
-#include "headers/range_object.h"
-#include "headers/cstruct_object.h"
-#include "headers/class_object.h"
+#include "../include/linked_list.h"
+#include "../include/array_object.h"
+#include "../include/double_object.h"
+#include "../include/int_object.h"
+#include "../include/logic_object.h"
+#include "../include/complex_object.h"	
+#include "../include/str_object.h"
+#include "../include/map_object.h"
+#include "../include/matrix_object.h"
+#include "../include/tuple_object.h"
+#include "../include/cmodule_object.h"
+#include "../include/fun_object.h"
+#include "../include/range_object.h"
+#include "../include/cstruct_object.h"
+#include "../include/class_object.h"
 
-#include "headers/operator.h"
+#include "../include/operator.h"
 
-#include "headers/symbol_table.h"
-#include "headers/field_object.h"
+#include "../include/symbol_table.h"
+#include "../include/field_object.h"
 
 
-#include "headers/relexer.h"
-#include "headers/grammar.h"
-#include "headers/parser.h"
-#include "headers/interpreter.h"
+#include "../include/relexer.h"
+#include "../include/grammar.h"
+#include "../include/parser.h"
+#include "../include/interpreter.h"
 
 extern struct fbgc_object * current_field;
 extern struct fbgc_object * __fbgc_nil;
