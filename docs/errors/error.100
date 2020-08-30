@@ -1,0 +1,50 @@
+load("file",'*')
+
+token_definition_file = "./helper/new_tokens.txt"
+
+#load('./examples/string_format.fbgc','*')
+
+f = fopen(token_definition_file,'r+')
+s = f.read()
+s = s.split('\n')
+#print(s)
+
+#assert(0,"stopping")
+
+#loop over all lines
+for i = 0:|s|
+	line = s[i]
+	if(|line| == 0)
+		cont
+	end
+
+	if(line[0] == '!')
+		print(i,line)
+	end
+
+end
+
+f.close()
+
+
+Above code generates the following tree
+
+{CFUN}{'file'}{'*'}{FUN_CALL(2)}{POP_TOP}
+
+{'./helper/new_tokens.txt'}{(=)G<0>}
+
+ID{G<2>}ID{G<0>}{'r+'}{FUN_CALL(2)}{(=)G<1>}
+
+ID{G<1>}{'read'}ID{M<5>}{FUN_CALL(1)}{(=)G<3>}
+
+ID{G<3>}{'split'}ID{M<6>}{'\n'}{FUN_CALL(2)}{(=)G<3>}
+
+{0}ID{G<3>}{LEN}{:}{FOR_BEGIN}
+{FOR}{(=)G<4>}
+ID{G<3>}ID{G<4>}{LOAD_SUBSCRIPT(1)}{(=)G<5>}
+ID{G<5>}{LEN}{0}{==}
+{IF:IDENTIFIER}{CONT -> IDENTIFIER}ID{G<5>}{0}{LOAD_SUBSCRIPT(1)}{'!'}{==}
+{IF:JUMP} {CFUN} ID{G<4>}ID{G<5>}{FUN_CALL(2)}{POP_TOP}{JUMP -> FOR}ID{G<1>}{'close'}ID{M<10>}{FUN_CALL(1)}{POP_TOP}
+												^^^
+												|-------- this POP_TOP must be inserted before END token which puts FOR into its place
+													For this case we added handle_statements(p); at END:, search error.100

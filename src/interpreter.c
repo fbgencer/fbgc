@@ -829,6 +829,7 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 			for(int i = index_no-1; i>0; --i){
 				iterable = subscript_operator_fbgc_object(iterable,TOPN(i));
 				if(iterable == NULL){
+					FBGC_LOGE("Iterable is NULL");
 					assert(0);
 				}
 			}

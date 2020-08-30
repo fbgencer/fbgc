@@ -21,6 +21,7 @@ struct parser_packet{
 	size_t line_no;
 	uint8_t error_code;					//!< When an error occurs function assigns error code to this variable
 	fbgc_grammar gm;					//!< State of grammar
+	uint8_t state_pop_top;
 };
 
 

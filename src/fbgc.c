@@ -670,8 +670,21 @@ int main(int argc, char **argv){
 		print_logo();
 	#endif   
 
+
 //******************************************************************
 	initialize_fbgc_memory_block();
+
+
+
+
+	// printf("Insertion test at index 4\n");
+	// insert_fbgc_vector(v,new_data,4,3);	
+
+
+	// for (int i = 0; i < size_fbgc_vector(v); ++i){
+	// 	double * d = (double *) get_item_fbgc_vector(v,i);
+	// 	printf("[%d] = %g\n",i,*d);
+	// }
 
 	/*int * lol = (int * ) fbgc_malloc(sizeof(int)*10);
 	int val[10] = {10,20,30,40,50,60,70,80,90,100};

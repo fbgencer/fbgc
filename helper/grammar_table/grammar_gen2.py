@@ -132,7 +132,6 @@ with open(filepath) as fp:
 		
 		p,a,t,special = '',[],'',[]
 		
-
 		if(line[0] == '!'):
 			#read keywords
 			line = line.strip('!\t\n')

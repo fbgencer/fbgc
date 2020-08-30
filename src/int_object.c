@@ -21,6 +21,43 @@ struct fbgc_object * new_fbgc_int_object_from_substr(const char * int_str_begin,
 	return new_fbgc_int_object(strtol(int_str_begin, NULL,base));
 }
 
+static struct fbgc_object * return_fbgc_object_operator_helper_int(int c,struct fbgc_object * result){
+	
+	if(result == NULL){
+		return new_fbgc_int_object(c);		
+	}
+	else{
+		if(result->type == INT) cast_fbgc_object_as_int(result)->content = c;
+		else if(result->type == DOUBLE) cast_fbgc_object_as_double(result)->content = c;
+		else if(result->type == LOGIC) cast_fbgc_object_as_logic(result)->content = c;
+		return result;
+	}
+}
+static struct fbgc_object * return_fbgc_object_operator_helper_double(double c,struct fbgc_object * result){
+	
+	if(result == NULL){
+		return new_fbgc_double_object(c);		
+	}
+	else{
+		if(result->type == INT) cast_fbgc_object_as_int(result)->content = c;
+		else if(result->type ==DOUBLE) cast_fbgc_object_as_double(result)->content = c;
+		else if(result->type == LOGIC) cast_fbgc_object_as_logic(result)->content = c;
+		return result;
+	}
+}
+static struct fbgc_object * return_fbgc_object_operator_helper_logic(char c,struct fbgc_object * result){
+	
+	if(result == NULL){
+		return new_fbgc_logic_object(c);		
+	}
+	else{
+
+		if(result->type == INT) cast_fbgc_object_as_int(result)->content = c;
+		else if(result->type ==DOUBLE) cast_fbgc_object_as_double(result)->content = c;
+		else if(result->type == LOGIC) cast_fbgc_object_as_logic(result)->content = c;
+		return result;
+	}
+}
 
 struct fbgc_object * operator_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op){
 	//you have to check before calling this function, a and b must be int type 
@@ -126,43 +163,7 @@ switch(op)
 }
 
 
-struct fbgc_object * return_fbgc_object_operator_helper_int(int c,struct fbgc_object * result){
-	
-	if(result == NULL){
-		return new_fbgc_int_object(c);		
-	}
-	else{
-		if(result->type == INT) cast_fbgc_object_as_int(result)->content = c;
-		else if(result->type == DOUBLE) cast_fbgc_object_as_double(result)->content = c;
-		else if(result->type == LOGIC) cast_fbgc_object_as_logic(result)->content = c;
-		return result;
-	}
-}
-struct fbgc_object * return_fbgc_object_operator_helper_double(double c,struct fbgc_object * result){
-	
-	if(result == NULL){
-		return new_fbgc_double_object(c);		
-	}
-	else{
-		if(result->type == INT) cast_fbgc_object_as_int(result)->content = c;
-		else if(result->type ==DOUBLE) cast_fbgc_object_as_double(result)->content = c;
-		else if(result->type == LOGIC) cast_fbgc_object_as_logic(result)->content = c;
-		return result;
-	}
-}
-struct fbgc_object * return_fbgc_object_operator_helper_logic(char c,struct fbgc_object * result){
-	
-	if(result == NULL){
-		return new_fbgc_logic_object(c);		
-	}
-	else{
 
-		if(result->type == INT) cast_fbgc_object_as_int(result)->content = c;
-		else if(result->type ==DOUBLE) cast_fbgc_object_as_double(result)->content = c;
-		else if(result->type == LOGIC) cast_fbgc_object_as_logic(result)->content = c;
-		return result;
-	}
-}
 
 
 uint8_t print_fbgc_int_object(struct fbgc_object * obj){

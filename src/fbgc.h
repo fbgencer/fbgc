@@ -27,9 +27,11 @@ typedef uint8_t bool;
 #define false 0
 #endif
 
+#include "../include/queue.h"
+#include "../include/vector.h"
+
 #include "../include/utility.h"
 
-#include "../include/queue.h"
 
 #include "../include/tokens.h"
 #include "../include/error.h"

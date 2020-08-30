@@ -253,7 +253,6 @@ then the result is undefined!
 		FBGC_LOGV(MEMORY,"Allocating new block size : %lu and copying\n",size);
 		
 		if(fbgc_memb.raw_buffer_head->tptr == (uint8_t*)(ptr)+old_capacity ){
-			cprintf(100,"Just expansion :)\n");	
 			fbgc_memb.raw_buffer_head->tptr += size-old_capacity;
 			struct fbgc_raw_buffer * rb = cast_from_raw_buffer_data_to_raw_buffer(ptr);
 			rb->capacity = size;
@@ -558,7 +557,7 @@ uint8_t fbgc_gc_mark_pointer(void * base_ptr, size_t block_size){
 	//We should put this in a queue to make marking at the next stages
 	//Checking gc first is trying not to overflow queue of pending pointers
 	
-	fbgc_queue_push(&fbgc_gc.tpe_queue,&tpe);
+	push_fbgc_queue(&fbgc_gc.tpe_queue,&tpe);
 }
 
 
@@ -580,7 +579,7 @@ void fbgc_gc_init(struct fbgc_object * root){
 	
 	init_static_fbgc_queue(&fbgc_gc.tpe_queue, TRACEABLE_POINTER_LIST_INITIAL_CAPACITY,sizeof(struct traceable_pointer_entry));
 	//Is there any easy way to mark this object ?
-	set_gc_dark(cast_from_raw_buffer_data_to_raw_buffer(fbgc_gc.tpe_queue.data));
+	set_gc_dark(cast_from_raw_buffer_data_to_raw_buffer(fbgc_gc.tpe_queue.content));
 
 
 	//Later allocate from internal memory not with malloc
@@ -616,11 +615,11 @@ void fbgc_gc_mark(){
 		//first check is there any pending request in the queue?
 		struct fbgc_queue * queue = &(fbgc_gc.tpe_queue);
 
-		while(!is_fbgc_queue_empty(queue)){
+		while(!is_empty_fbgc_queue(queue)){
 			
 			FBGC_LOGD(MEMORY,"Pending queue is not empty!\n");
 
-			struct traceable_pointer_entry * tpe = (struct traceable_pointer_entry *) fbgc_queue_front(queue);
+			struct traceable_pointer_entry * tpe = (struct traceable_pointer_entry *) front_fbgc_queue(queue);
 			uint8_t * tpe_end = NULL;
 			if(is_raw_buffer_pointer(tpe->base_ptr)){
 				
@@ -668,7 +667,7 @@ void fbgc_gc_mark(){
 					if(tpe->tptr >= tpe_end){
 						FBGC_LOGV(MEMORY,"End of %p, setting to black!\n",tpe->base_ptr);
 						set_gc_black(rb);
-						fbgc_queue_pop(queue);
+						pop_fbgc_queue(queue);
 						printf("Popped %p\n",tpe );
 						//finished this object, pop it from the queue
 						break;
@@ -690,7 +689,7 @@ void fbgc_gc_mark(){
 					if(tpe->tptr >= tpe_end){
 						FBGC_LOGV(MEMORY,"End of %p, setting to black!\n",tpe->base_ptr);
 						set_gc_black((struct fbgc_object * )tpe->tptr);
-						fbgc_queue_pop(queue);
+						pop_fbgc_queue(queue);
 						printf("Popped object %p\n",tpe );
 						//finished this object, pop it from the queue
 						break;

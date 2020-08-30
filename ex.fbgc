@@ -1,2 +1,7 @@
-x = 5+22
-print(x)
+for i = 1:10
+	if(i%2 == 0)
+		if( i > 3 & i <7)
+			print(i)
+		end
+	end
+end

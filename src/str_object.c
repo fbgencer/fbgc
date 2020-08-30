@@ -379,15 +379,38 @@ struct fbgc_object * split_fbgc_str_object(struct fbgc_cfun_arg * arg){
     return str_tuple;  
 };
 
-static char * lstrip_internal(char * start){
-    while(*start && isspace(*start))
+static const char * lstrip_internal(const char * start, const char * delimiters){
+  char c;
+  if(delimiters == NULL) delimiters = " \n\r\t";
+  const char * d = delimiters;
+  while(c = *start){
+    if(c == *d){
         ++start;
+        d = delimiters;
+    }
+    else{
+        ++d;
+        if(!(*d)) break;
+    }
+  }
     return start;
 }
-static char * rstrip_internal(char *start ,char * end){
-    while(end >= start && isspace(*end))
+
+static const char * rstrip_internal(const char * start, const char * end, const char * delimiters){
+  char c;
+  if(delimiters == NULL) delimiters = " \n\r\t";
+  const char * d = delimiters;
+  while(end >= start && (c = *end)){
+    if(c == *d){
         --end;
-    return end;
+        d = delimiters;
+    }
+    else{
+        ++d;
+        if(!(*d)) break;
+    }
+  }
+    return ++end;
 }
 
 static
@@ -397,12 +420,14 @@ struct fbgc_object * strip_fbgc_str_object(struct fbgc_cfun_arg * arg){
         return NULL;
 
     struct fbgc_str_object * self = (struct fbgc_str_object *)arg->arg[0];
+    const char * delim = NULL;
+    if(arg->argc > 1) delim = content_fbgc_str_object(arg->arg[1]);
 
-    char * start = self->content;
-    char * end = self->content + length_fbgc_str_object(self)-1;
+    const char * start = self->content;
+    const char * end = self->content + length_fbgc_str_object(self)-1;
     
-    start = lstrip_internal(start);
-    end = rstrip_internal(start,end);
+    start = lstrip_internal(start,delim);
+    end = rstrip_internal(start,end,delim);
     return new_fbgc_str_object_from_substr(start,++end);
 }
 static
@@ -412,11 +437,13 @@ struct fbgc_object * lstrip_fbgc_str_object(struct fbgc_cfun_arg * arg){
         return NULL;
 
     struct fbgc_str_object * self = (struct fbgc_str_object *)arg->arg[0];
+    const char * delim = NULL;
+    if(arg->argc > 1) delim = content_fbgc_str_object(arg->arg[1]);
+
+    const char * start = self->content;
+    const char * end = self->content + length_fbgc_str_object(self);
     
-    char * start = self->content;
-    char * end = self->content + length_fbgc_str_object(self);
-    
-    start = lstrip_internal(start);
+    start = lstrip_internal(start,delim);
     return new_fbgc_str_object_from_substr(start,end);
 }
 static
@@ -426,11 +453,13 @@ struct fbgc_object * rstrip_fbgc_str_object(struct fbgc_cfun_arg * arg){
         return NULL;
 
     struct fbgc_str_object * self = (struct fbgc_str_object *)arg->arg[0];
+    const char * delim = NULL;
+    if(arg->argc > 1) delim = content_fbgc_str_object(arg->arg[1]);    
     
-    char * start = self->content;
-    char * end = self->content + length_fbgc_str_object(self)-1;
+    const char * start = self->content;
+    const char * end = self->content + length_fbgc_str_object(self)-1;
     
-    end = rstrip_internal(start,end);
+    end = rstrip_internal(start,end,delim);
     return new_fbgc_str_object_from_substr(start,++end);
 }
 
@@ -495,7 +524,7 @@ const struct fbgc_object_property_holder fbgc_str_object_property_holder = {
     ,
     .properties ={
         {.print = &print_fbgc_str_object},
-        //{.methods = &_str_methods},
+        {.methods = &_str_methods},
         {.binary_operator = &operator_fbgc_str_object}, 
         {.subscript_operator = &subscript_operator_fbgc_str_object},
         {.subscript_assign_operator = &subscript_assign_operator_fbgc_str_object},

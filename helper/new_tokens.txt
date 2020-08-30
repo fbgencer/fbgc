@@ -1,0 +1,419 @@
+#grammar and token definition file
+# ! is a special keyword character
+# In order to define grammar tokens : !grammar_tokens
+# tokens : !tokens
+# object is the same, !object
+# comments starts with #
+
+#assignments start with dot, .x = something which 'x' replaced by that 
+
+
+!objects
+	NIL # null or none
+	LOGIC # logical true or false
+	INT # int class
+	DOUBLE # double class
+	COMPLEX # complex class
+	STRING # string class
+	MATRIX # matrix class
+	MAP # map class
+	TUPLE # tuple class
+	INSTANCE # instance class 
+	CSTRING # raw c strings without length
+	CFUN # c functions
+	FUN # builtin fbgc functions
+	CLASS # fbgc class class
+	CSTRUCT # c-struct class 
+	RANGE # range class
+	ARRAY # array class
+	LINKED_LIST # linked list class
+	CMODULE # cmodule class
+	GARBAGE # garbage obbjects
+	FIELD # field objects
+
+!tokens
+	END # end token 
+	FUN_MAKE # fun token, when we define function with fun(), 'fun' converted to this token
+	CLASS_MAKE # class token, 'class' converted to CLASS_MAKE
+	ELIF # elif
+	ELSE # else
+	WHILE # while
+	FOR # for
+	BREAK #break
+	CONT # continue
+	IF # if
+	RETURN # return 
+	NEWLINE # newline 
+	LPARA # (
+	RPARA # )
+	LBRACK # [
+	RBRACK # ]
+	LBRACE # {
+	RBRACE # }
+	COMMA # , -- set1 start
+	DOT # .
+	SEMICOLON # ; 
+	COLON # : set1 finish
+	RSHIFT # >> assignment and binary operators start from here
+	LSHIFT # <<
+	STARSTAR # **
+	SLASHSLASH # //
+	PLUS # +
+	MINUS # -
+	STAR # *
+	SLASH # /
+	CARET # ^
+	PERCENT # % assignment finish
+	LOEQ # <=
+	GREQ # >=
+	EQEQ # ==
+	NOTEQ # !=
+	LOWER # <
+	GREATER # >
+	PIPE # |
+	AMPERSAND # & binary finish
+	EXCLAMATION # !
+	TILDE # ~
+	UPLUS # +
+	UMINUS # -
+	ASSIGN # = assignment ops start from here
+	RSHIFT_ASSIGN # >>=
+	LSHIFT_ASSIGN # <<=
+	STARSTAR_ASSIGN # **=
+	SLASHSLASH_ASSIGN # //=
+	PLUS_ASSIGN # +=
+	MINUS_ASSIGN # -=
+	STAR_ASSIGN # *=
+	SLASH_ASSIGN # /=
+	CARET_ASSIGN # ^=
+	PERCENT_ASSIGN # %=
+	AMPERSAND_ASSIGN # &=
+	PIPE_ASSIGN # |=
+	ASSIGN_SUBSCRIPT # not a lexer output but used after parsing as a bytecode
+	CONSTANT # All numbers/strings/tuples etc. defined before compile time are held by constant token
+	IDENTIFIER # Identifier token
+	OPERATORS # operator bytecode
+	LEN # '| |' operator
+	JUMP # generated after parsing
+	FOR_BEGIN # 'for' statement begin, generated after parsing
+	FUN_CALL # function call bytecodes
+	KWFUN_CALL # keyworded function call
+	BUILD_TUPLE # construction of tuples (1,2,3)
+	BUILD_MATRIX # construction of matrices [1,2,3]
+	BUILD_MAP # construction of maps {"fbgc":1,2,3}
+	POP_TOP	# pop top from stack
+	ROW # used for matricec
+	LOAD_SUBSCRIPT # loading x[3] type entries
+	CLASS_CALL # calling class constructors
+	CLASS_SELF # 
+	BUILD_FUN_DEFAULT_ARGS # default arguments
+
+
+!grammar_tokens
+	GM_NEWLINE
+	GM_ATOM
+	GM_IDENTIFIER
+	GM_BINOP
+	GM_UNOP
+	GM_ASSIGNOP
+	GM_EXPRESSION
+	GM_UNBALANCED_LIST
+	GM_BALANCED_LIST
+	GM_LPARA
+	GM_LBRACK
+	GM_LBRACE
+	GM_PIPE
+	GM_FUNCTIONAL
+	GM_MATRIX
+	GM_DOT
+
+
+
+.ATOM = CONSTANT
+
+.EXPRESSION = ATOM | IDENTIFIER | SEMICOLON
+
+#tanimlar bu sekilde de yapilabilir
+#.x = ATOM | UNOPSTATEMENT
+
+
+.BINOP = COLON |
+	RSHIFT |
+	LSHIFT |
+	STARSTAR |
+	SLASHSLASH |
+	PLUS |
+	MINUS |
+	STAR |
+	SLASH |
+	CARET |
+	PERCENT |
+	LOEQ |
+	GREQ |
+	EQEQ |
+	NOTEQ |
+	LOWER |
+	GREATER |
+	PIPE |
+	AMPERSAND
+
+
+.ASSIGNOP = ASSIGN |
+	RSHIFT_ASSIGN |
+	LSHIFT_ASSIGN |
+	STARSTAR_ASSIGN |
+	SLASHSLASH_ASSIGN |
+	PLUS_ASSIGN |
+	MINUS_ASSIGN |
+	STAR_ASSIGN |
+	SLASH_ASSIGN |
+	CARET_ASSIGN |
+	PERCENT_ASSIGN |
+	ASSIGN_SUBSCRIPT
+
+
+.UNOP = EXCLAMATION | TILDE | UPLUS | UMINUS
+
+
+!left
+
+
+GM_ATOM:
+	(GM_NEWLINE) (ATOM)
+	(GM_BINOP | GM_ASSIGNOP | GM_UNOP) (ATOM)
+	(GM_UNBALANCED_LIST | GM_LPARA | GM_LBRACK ) (ATOM)
+	(GM_PIPE | GM_FUNCTIONAL ) (ATOM)
+
+
+GM_IDENTIFIER:
+	(GM_NEWLINE | GM_ASSIGNOP) (IDENTIFIER)
+	(GM_UNBALANCED_LIST | GM_LPARA | GM_LBRACK ) (IDENTIFIER)
+	(GM_PIPE | GM_FUNCTIONAL | GM_BINOP | GM_UNOP) (IDENTIFIER)
+	(GM_DOT) (IDENTIFIER)
+
+#GM_EXPRESSION:
+#	(GM_BINOP | GM_UNOP) (IDENTIFIER)
+
+
+
+
+GM_IDENTIFIER:
+	(GM_NEWLINE) (CFUN)
+	(GM_BINOP | GM_ASSIGNOP | GM_UNOP) (CFUN)
+	(GM_UNBALANCED_LIST | GM_LPARA | GM_LBRACK ) (CFUN)
+	(GM_PIPE ) (CFUN)
+
+GM_LPARA:
+	(GM_NEWLINE) (LPARA)
+	(GM_BINOP | GM_UNOP | GM_ASSIGNOP | GM_FUNCTIONAL) (LPARA)
+	(GM_LPARA | GM_LBRACK | GM_LBRACE) (LPARA)
+	(GM_PIPE | GM_UNBALANCED_LIST | GM_IDENTIFIER | GM_MATRIX) (LPARA)
+
+GM_LPARA:
+	(GM_NEWLINE | GM_DOT) (LBRACE)
+	(GM_BINOP | GM_UNOP | GM_ASSIGNOP | GM_FUNCTIONAL) (LBRACE)
+	(GM_LPARA | GM_LBRACK | GM_LBRACE) (LBRACE)
+	(GM_PIPE | GM_UNBALANCED_LIST | GM_IDENTIFIER | GM_MATRIX) (LBRACE)	
+
+
+GM_EXPRESSION:
+	(GM_IDENTIFIER | GM_ATOM | GM_EXPRESSION | GM_BALANCED_LIST | GM_MATRIX) (RPARA)
+
+GM_EXPRESSION:
+	(GM_IDENTIFIER | GM_ATOM | GM_EXPRESSION | GM_BALANCED_LIST | GM_MATRIX) (RBRACE)	
+
+GM_ATOM:
+	(GM_LPARA) (RPARA)
+
+GM_ATOM:
+	(GM_LBRACK) (RBRACK)
+
+GM_ATOM:
+	(GM_LPARA) (RBRACE)
+
+
+GM_MATRIX:
+	(GM_IDENTIFIER | GM_ATOM | GM_EXPRESSION | GM_BALANCED_LIST) (RBRACK) 
+
+
+GM_LBRACK:
+	(GM_NEWLINE) (LBRACK)
+	(GM_BINOP | GM_UNOP | GM_ASSIGNOP) (LBRACK)
+	(GM_LPARA | GM_LBRACK | GM_LBRACE) (LBRACK)
+	(GM_PIPE | GM_UNBALANCED_LIST | GM_IDENTIFIER | GM_EXPRESSION ) (LBRACK)
+
+GM_BINOP:
+	(GM_IDENTIFIER | GM_ATOM | GM_EXPRESSION | GM_MATRIX) (BINOP)
+
+GM_EXPRESSION:
+	(GM_PIPE) (PIPE)
+
+
+
+GM_ASSIGNOP:
+	(GM_IDENTIFIER | GM_MATRIX) (ASSIGNOP)
+
+
+GM_UNOP:
+	(GM_NEWLINE | GM_BINOP | GM_UNOP | GM_ASSIGNOP | GM_UNBALANCED_LIST | GM_LPARA | GM_LBRACK | GM_LBRACE) (UNOP)
+
+
+GM_UNOP:
+	(GM_NEWLINE | GM_BINOP | GM_UNOP | GM_LPARA | GM_LBRACK | GM_LBRACE | GM_ASSIGNOP | GM_UNBALANCED_LIST) (PLUS)
+	?PLUS -> UPLUS
+
+GM_UNOP:
+	(GM_NEWLINE | GM_BINOP | GM_UNOP | GM_LPARA | GM_LBRACK | GM_LBRACE | GM_ASSIGNOP | GM_UNBALANCED_LIST) (MINUS)
+	?MINUS -> UMINUS
+
+
+
+
+
+GM_UNBALANCED_LIST:
+	(GM_IDENTIFIER | GM_ATOM | GM_EXPRESSION | GM_MATRIX) (COMMA)
+
+GM_EXPRESSION:
+	(GM_IDENTIFIER | GM_ATOM | GM_EXPRESSION | GM_BALANCED_LIST | GM_MATRIX) (NEWLINE)
+
+GM_DOT:
+	(GM_IDENTIFIER | GM_EXPRESSION) (DOT)
+
+GM_DOT:
+	(GM_NEWLINE | GM_ASSIGNOP | GM_BINOP | GM_LPARA | GM_LBRACK | GM_UNBALANCED_LIST | GM_FUNCTIONAL) (DOT)
+	?NEWLINE -> CLASS_SELF
+
+GM_DOT:
+	(GM_NEWLINE | GM_ASSIGNOP | GM_BINOP | GM_LPARA | GM_LBRACK | GM_UNBALANCED_LIST | GM_FUNCTIONAL) (CLASS_SELF)
+
+
+GM_NEWLINE:
+	(GM_NEWLINE | GM_FUNCTIONAL) (NEWLINE)
+
+GM_NEWLINE:
+	(GM_IDENTIFIER | GM_ATOM | GM_EXPRESSION | GM_BALANCED_LIST | GM_MATRIX) (SEMICOLON)
+
+GM_NEWLINE:
+	(GM_NEWLINE) (SEMICOLON)
+
+
+GM_FUNCTIONAL:
+	(GM_NEWLINE | GM_EXPRESSION) (IF)
+
+GM_FUNCTIONAL:
+	(GM_NEWLINE | GM_EXPRESSION) (ELIF)
+
+GM_FUNCTIONAL:
+	(GM_NEWLINE | GM_EXPRESSION) (ELSE)
+
+GM_FUNCTIONAL:
+	(GM_NEWLINE | GM_EXPRESSION) (WHILE)	
+
+GM_FUNCTIONAL:
+	(GM_NEWLINE | GM_EXPRESSION) (FOR)	
+
+GM_FUNCTIONAL:
+	(GM_ASSIGNOP | GM_NEWLINE | GM_LPARA | GM_UNBALANCED_LIST ) (FUN_MAKE)
+
+GM_FUNCTIONAL:
+	(GM_ASSIGNOP | GM_NEWLINE | GM_LPARA | GM_UNBALANCED_LIST ) (CLASS_MAKE)		
+
+#SONRADAN BUNU DEGISTIR
+GM_NEWLINE:
+	(GM_NEWLINE) (RETURN)
+
+GM_NEWLINE:
+	(GM_NEWLINE) (BREAK)
+
+GM_NEWLINE:
+	(GM_NEWLINE) (CONT)
+
+GM_NEWLINE:
+	(GM_NEWLINE | GM_BINOP | GM_UNOP | GM_UNBALANCED_LIST | GM_LPARA | GM_LBRACK) (LEN)
+
+
+GM_EXPRESSION:
+	(GM_NEWLINE) (END)
+
+
+GM_PIPE:
+	(GM_NEWLINE | GM_BINOP | GM_UNOP | GM_ASSIGNOP | GM_LPARA | GM_LBRACK | GM_FUNCTIONAL | GM_UNBALANCED_LIST ) (PIPE)
+	?PIPE -> LEN
+
+
+
+#test icin yaziyoruz, not parser'da kullanilmiyor
+GM_ATOM:
+	(GM_NEWLINE) (POP_TOP)
+
+
+!right
+
+GM_EXPRESSION:
+	(BINOP) (GM_IDENTIFIER | GM_ATOM | GM_EXPRESSION | GM_MATRIX)
+
+GM_EXPRESSION:
+	(ASSIGNOP) (GM_IDENTIFIER | GM_ATOM | GM_EXPRESSION | GM_MATRIX | GM_BALANCED_LIST)
+
+GM_EXPRESSION:
+	(UNOP) (GM_IDENTIFIER | GM_ATOM | GM_EXPRESSION | GM_MATRIX)
+
+GM_EXPRESSION:
+	(ATOM) (GM_NEWLINE)
+
+GM_BALANCED_LIST:
+	(COMMA) (GM_IDENTIFIER | GM_ATOM | GM_EXPRESSION | GM_MATRIX)
+
+
+GM_EXPRESSION:
+	(LPARA) (GM_ATOM | GM_IDENTIFIER | GM_BALANCED_LIST | GM_EXPRESSION)
+
+GM_EXPRESSION:
+	(LBRACK) (GM_ATOM | GM_IDENTIFIER | GM_BALANCED_LIST | GM_EXPRESSION)
+
+GM_EXPRESSION:
+	(LBRACE) (GM_ATOM | GM_IDENTIFIER | GM_BALANCED_LIST | GM_EXPRESSION)
+
+
+GM_EXPRESSION:
+	(IF) (GM_EXPRESSION)
+
+GM_EXPRESSION:
+	(ELIF) (GM_EXPRESSION)
+
+GM_EXPRESSION:
+	(ELSE) (GM_EXPRESSION)
+
+GM_EXPRESSION:
+	(WHILE) (GM_EXPRESSION)
+
+GM_EXPRESSION:
+	(FOR) (GM_EXPRESSION)
+
+GM_EXPRESSION:
+	(FUN_MAKE) (GM_EXPRESSION | GM_ATOM)
+
+GM_EXPRESSION:
+	(CLASS_MAKE) (GM_EXPRESSION | GM_ATOM)
+
+GM_EXPRESSION:
+	(RETURN) (GM_IDENTIFIER | GM_ATOM | GM_EXPRESSION | GM_MATRIX)
+
+GM_PIPE:
+	(LEN) (GM_IDENTIFIER | GM_ATOM | GM_EXPRESSION)
+
+
+
+
+#x = y gibi durumlarda newline soluna bakip y gordugunde gm_exp yaptigi icin id saginda bunu kontrol etmeye calisiyor
+#gm_pass gibi bir durum konulup halledilebilir
+#BURAYI DUZELT! identifier sagina bakmamali ama id op stack icine atildigi icin bakiyor bu yuzden pass atilip her duruma gitmeli 
+$:
+	(IDENTIFIER) ($)
+
+GM_IDENTIFIER:
+	(IDENTIFIER) (GM_MATRIX)
+
+GM_EXPRESSION:
+	(CFUN) (GM_EXPRESSION)
+

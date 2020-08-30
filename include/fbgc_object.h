@@ -31,7 +31,7 @@ size_t get_fbgc_object_size(struct fbgc_object * );
 
 
 
-char convert_fbgc_object_to_logic(struct fbgc_object * );
+uint8_t convert_fbgc_object_to_logic(struct fbgc_object * );
 int convert_fbgc_object_to_int(struct fbgc_object * );
 double convert_fbgc_object_to_double(struct fbgc_object * );
 struct raw_complex convert_fbgc_object_to_complex(struct fbgc_object * obj);

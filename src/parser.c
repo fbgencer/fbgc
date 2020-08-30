@@ -253,6 +253,17 @@ static void handle_statements(struct parser_packet * p){
 	
 	FBGC_LOGV(PARSER,"begin: %s, prev:%s\n",lltp2str(p->statement_begin),lltp2str(p->iter_prev));
 
+
+	if(p->state_pop_top && p->iter_prev->type != POP_TOP){
+		p->iter_prev = _insert_next_fbgc_ll(p->iter_prev,_new_fbgc_ll_base(POP_TOP));
+		FBGC_LOGD(PARSER,">>>>>>>>>>>>>>>>>Adding pop top!\n");
+		return;
+	}
+	else{
+		p->state_pop_top = 1;
+	}
+
+
 	if(is_fbgc_ASSIGNMENT_OPERATOR(TOP_LL(p->op)->type) == 0 && is_fbgc_ASSIGNMENT_OPERATOR(p->iter_prev->type) == 0
 		&& TOP_LL(p->op)->type != LOAD_SUBSCRIPT && TOP_LL(p->op)->type != ASSIGN_SUBSCRIPT 
 		&& p->iter_prev->type != FUN_CALL 
@@ -278,7 +289,9 @@ static void handle_statements(struct parser_packet * p){
 		p->iter_prev->type !=  BREAK && p->iter_prev->type !=  CONT &&
 		TOP_LL(p->op)->type != LPARA && TOP_LL(p->op)->type != LBRACK &&
 		TOP_LL(p->op)->type != IF){
+
 		p->iter_prev = _insert_next_fbgc_ll(p->iter_prev,_new_fbgc_ll_base(POP_TOP));
+		FBGC_LOGD(PARSER,"Adding pop top!\n");
 	}
 	else{
 		FBGC_LOGV(PARSER,"Updating statement\n");					
@@ -301,6 +314,8 @@ static void handle_before_paranthesis(struct parser_packet * p){
 	//	if(p->iter_prev->type == COMMA) state = 2;
 	//	else if(p->gm != GM_ATOM) state = 1;
 	//
+
+	bool already_defined_flag = false;
 
 	//Get the top to decide what are we gonna do
 	switch(TOP_LL(p->op)->type){
@@ -326,7 +341,7 @@ static void handle_before_paranthesis(struct parser_packet * p){
 				p->iter_prev = _insert_next_fbgc_ll(p->iter_prev,kwcall);
 			}
 
-			break;		
+			return;
 		}
 		case FUN_CALL:{
 			FBGC_LOGV(PARSER,"Function call,p->iter_prev:%s\n",lltp2str(p->iter_prev));
@@ -360,14 +375,16 @@ static void handle_before_paranthesis(struct parser_packet * p){
 				//p->statement_begin = p->iter_prev;
 			*/
 
-			break;
+			return;
 		}
 		case FOR:{
 			
 			//Do not try to initialize for loop all the time, this might be the case since we call this function for rpara and newline
 			if(_cast_llbase_as_lljumper(TOP_LL(p->op))->content->type == FOR_BEGIN){
-				handle_statements(p);
-				return;
+				//handle_statements(p);
+				FBGC_LOGV(PARSER,"already defined\n");
+				already_defined_flag = true;
+				break;
 			}
 			
 			FBGC_LOGV(PARSER,"FOR loop definition,p->iter_prev:%s\n",lltp2str(p->iter_prev));
@@ -377,7 +394,7 @@ static void handle_before_paranthesis(struct parser_packet * p){
 			if(p->iter_prev->type != ASSIGN){
 				//This makes sure we have for i = x type of loop definition
 				p->error_code = _FBGC_SYNTAX_ERROR;
-				return;
+				break;
 			}
 
 			//Ok now for loop looks like for i = expression or for ( i = expression)
@@ -411,10 +428,10 @@ static void handle_before_paranthesis(struct parser_packet * p){
 
 			//Is it possible this is not useful*
 			if(is_fbgc_fun_object_defined(fun_obj)){
-
-				handle_statements(p);
+				already_defined_flag = true;
+				//handle_statements(p);
 				//maybe function is already defined before
-				return;
+				break;
 			}
 			//struct fbgc_ll_base * fun_holder,struct fbgc_ll_base * arg_end
 			//fun_holder,p->iter_prev
@@ -447,8 +464,10 @@ static void handle_before_paranthesis(struct parser_packet * p){
 
 			//Maybe class defined before
 			if(_cast_llbase_as_llconstant(TOP_LL(p->scope_list))->content == cls_obj){
-				handle_statements(p);
-				return;
+				FBGC_LOGV(PARSER,"already defined\n");
+				already_defined_flag = true;
+				//handle_statements(p);
+				break;
 			}
 
 			FBGC_LOGV(PARSER,"Class Arg Start:%s\n",lltp2str(cls_holder->next));
@@ -478,7 +497,7 @@ static void handle_before_paranthesis(struct parser_packet * p){
 
 			p->statement_begin = p->iter_prev;
 			
-			return;	
+			return;
 		}
 		case IF:
 		case ELIF:
@@ -491,31 +510,32 @@ static void handle_before_paranthesis(struct parser_packet * p){
 				FBGC_LOGV(PARSER,"If shows %s\n",lltp2str(p->iter_prev->next));
 
 				p->statement_begin = p->iter_prev;
+				return;
 			}
-			else handle_statements(p);
-
-			return;
-		}
-		default:{
-
-			//So we have nothing in op-stack, only thing is left it could be list of items or just nuple e.g tuple with no entry ()
-			//We need to check for two cases and either change comma to tuple or create nuple
-							
-			if(p->iter_prev->type == COMMA){
-				FBGC_LOGV(PARSER,"State number is 2, changing COMMA to BUILD_TUPLE\n");
-				p->iter_prev->type = BUILD_TUPLE;
-			} 
-			else if(p->gm == GM_ATOM){
-				FBGC_LOGV(PARSER,"State number is 0, creating new object BUILD_TUPLE with 0 size\n");
-				p->iter_prev = _insert_next_fbgc_ll(p->iter_prev,_new_fbgc_ll_opcode_int(BUILD_TUPLE,0));
-			}
-			//If nothing than it's a tuple!
-
-			handle_statements(p);
 			
-			return;
+			FBGC_LOGV(PARSER,"already defined");
+			already_defined_flag = true;
+			break;
+			
+			//else handle_statements(p);
 		}
 	}
+
+	//So we have nothing in op-stack, only thing is left it could be list of items or just nuple e.g tuple with no entry ()
+	//We need to check for two cases and either change comma to tuple or create nuple
+
+	if(p->iter_prev->type == COMMA){
+		FBGC_LOGV(PARSER,"State number is 2, changing COMMA to BUILD_TUPLE\n");
+		p->iter_prev->type = BUILD_TUPLE;
+		p->state_pop_top = 0;
+	} 
+	else if(p->gm == GM_ATOM){
+		FBGC_LOGV(PARSER,"State number is 0, creating new object BUILD_TUPLE with 0 size\n");
+		p->iter_prev = _insert_next_fbgc_ll(p->iter_prev,_new_fbgc_ll_opcode_int(BUILD_TUPLE,0));
+		p->state_pop_top = 0;
+	}
+	if(p->iter->type == NEWLINE && already_defined_flag)
+		handle_statements(p);
 
 }
 
@@ -648,6 +668,7 @@ static inline struct parser_packet init_parser_packet(struct fbgc_object * field
 		.line_no = 1,
 		.error_code = _FBGC_NO_ERROR,
 		.gm = GM_NEWLINE,
+		.state_pop_top = 1,
 	};
 
 	_push_front_fbgc_ll(p.scope_list,_new_fbgc_ll_constant(field_obj));
@@ -981,6 +1002,11 @@ static uint8_t parser(struct parser_packet * p){
 		struct fbgc_ll_base * top_obj = _top_and_pop_front_fbgc_ll(p->op);
 		FBGC_LOGV(PARSER,"Top type :%s\n",lltp2str(top_obj));
 		FBGC_LOGV(PARSER,"Iter prev type :%s\n",lltp2str(p->iter_prev));
+
+		//Should we do this all the time ? See error.100
+		//handle_statements(p);
+		p->state_pop_top = 0;
+
 		switch(top_obj->type){
 			case IF:
 			case ELIF:{
@@ -1435,6 +1461,7 @@ static uint8_t parser(struct parser_packet * p){
 		break;
 	}
 	case IF:
+	p->state_pop_top = 0;
 	case RETURN:
 	case NEWLINE:
 	case LPARA:
@@ -1725,6 +1752,9 @@ static uint8_t parser(struct parser_packet * p){
 			TOP_LL(p->op)->type = ASSIGN_SUBSCRIPT;
 		}
 		
+
+		p->state_pop_top = 0;
+
 		break;
 	}
 	default:{

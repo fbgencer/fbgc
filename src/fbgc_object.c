@@ -119,15 +119,15 @@ uint8_t print_fbgc_object(struct fbgc_object * self){
 	return 1;
 }
 
-char convert_fbgc_object_to_logic(struct fbgc_object * obj){
+uint8_t convert_fbgc_object_to_logic(struct fbgc_object * obj){
 	
 	switch(obj->type){
 		case LOGIC:
 			return cast_fbgc_object_as_logic(obj)->content;
 		case INT:
-			return (char)(cast_fbgc_object_as_int(obj)->content);
+			return (uint8_t)(cast_fbgc_object_as_int(obj)->content);
 		case DOUBLE:
-			return (char)(cast_fbgc_object_as_double(obj)->content);
+			return (uint8_t)(cast_fbgc_object_as_double(obj)->content);
 		default :
 			printf_fbgc_object(obj);
 			cprintf(111,"Error at logic conversion! type %s\n",object_name_array[obj->type]);
