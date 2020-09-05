@@ -675,7 +675,35 @@ int main(int argc, char **argv){
 	initialize_fbgc_memory_block();
 
 
+	// struct fbgc_bool_vector bv;
+	// init_static_fbgc_bool_vector(&bv,0);
+	// //printf("Bv size %ld\n",size_fbgc_bool_vector(bv));
+	// //printf("Bv cap  %ld\n",capacity_fbgc_bool_vector(bv));
 
+	// push_back_fbgc_bool_vector(&bv,1);
+	// push_back_fbgc_bool_vector(&bv,1);
+	// //toggle_bit_fbgc_bool_vector(&bv,-1);
+	// //toggle_bit_fbgc_bool_vector(&bv,-1);
+
+	// // set_bit_fbgc_bool_vector(bv,3,1);
+	// // set_bit_fbgc_bool_vector(bv,4,1);
+	// // set_bit_fbgc_bool_vector(bv,5,1);
+	// printf("bef %d\n",bv.content[0]);
+	// pop_back_fbgc_bool_vector(&bv);
+	// push_back_fbgc_bool_vector(&bv,0);
+	// printf("after %d\n",bv.content[0]);
+	// // pop_back_fbgc_bool_vector(&bv);
+	// // pop_back_fbgc_bool_vector(&bv);
+	
+	// printf("Bv size %ld | cap %ld\n",size_fbgc_bool_vector(&bv), capacity_fbgc_bool_vector(&bv));
+	// for (int i = 0; i < size_fbgc_bool_vector(&bv); ++i)
+	// {
+	// 	printf("Bv content[%d]:%d\n",i,get_bit_fbgc_bool_vector(&bv,i));
+	// }
+
+
+
+	//set_bit_fbgc_bool_vector(bv,1,3);
 
 	// printf("Insertion test at index 4\n");
 	// insert_fbgc_vector(v,new_data,4,3);	

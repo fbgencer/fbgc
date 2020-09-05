@@ -143,13 +143,13 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 
 				
 				//If global then ask for field, if it is class then ask for current scope
-				struct fbgc_object * arr = is_id_flag_GLOBAL(pc) ? 
+				struct fbgc_vector * arr = is_id_flag_GLOBAL(pc) ? 
 									cast_fbgc_object_as_field(current_field)->locals :
 									cast_fbgc_object_as_class(current_scope)->locals;
 
 				
 				struct fbgc_identifier * tmp = (struct fbgc_identifier *) 
-						get_address_in_fbgc_array_object(arr,_cast_fbgc_object_as_llidentifier(pc)->loc);
+						get_item_fbgc_vector(arr,_cast_fbgc_object_as_llidentifier(pc)->loc);
 
 				//In parsing phase content of identifiers are set the NULL so it means they did not defined by the user
 				if(tmp->content == NULL){
@@ -333,12 +333,12 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 			if(is_id_flag_array_accessible(pc)){
 
 				//If global then ask for field, if it is class then ask for current scope
-				struct fbgc_object * arr = is_id_flag_GLOBAL(pc) ? 
+				struct fbgc_vector * arr = is_id_flag_GLOBAL(pc) ? 
 									cast_fbgc_object_as_field(current_field)->locals :
 									cast_fbgc_object_as_class(current_scope)->locals;
 
 				struct fbgc_identifier * tmp = (struct fbgc_identifier *)
-												get_address_in_fbgc_array_object(arr,_cast_fbgc_object_as_llidentifier(pc)->loc);
+												get_item_fbgc_vector(arr,_cast_fbgc_object_as_llidentifier(pc)->loc);
 				lhs = &tmp->content;
 			}
 			else if(is_id_flag_LOCAL(pc)){
@@ -897,12 +897,12 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 	FBGC_LOGV(INTERPRETER,"}\n");
 	FBGC_LOGV(INTERPRETER,"~~~~~~Field Globals~~~~~\n");
 
-	struct fbgc_object * globals;
+	struct fbgc_vector * globals;
 	if(current_scope != NULL && current_scope->type == CLASS) globals = cast_fbgc_object_as_class(current_scope)->locals;
 	else globals = cast_fbgc_object_as_field(current_field)->locals;
 
-	for(int i = 0; i<size_fbgc_array_object(globals); i++){
-		struct fbgc_identifier * temp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(globals,i);
+	for(int i = 0; i<size_fbgc_vector(globals); i++){
+		struct fbgc_identifier * temp_id = (struct fbgc_identifier *) get_item_fbgc_vector(globals,i);
 		FBGC_LOGV(INTERPRETER,"%c:",print_fbgc_object(temp_id->name));
 		FBGC_LOGV(INTERPRETER,"%c",print_fbgc_object(temp_id->content));
 		FBGC_LOGV(INTERPRETER,"}");

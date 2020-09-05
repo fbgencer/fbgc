@@ -34,7 +34,9 @@ inline void * front_fbgc_vector(const struct fbgc_vector * vector){
 }
 
 inline void * back_fbgc_vector(const struct fbgc_vector * vector){
-	return vector->content+(vector->size*vector->block_size-1);
+	if(vector->size)
+		return vector->content+(vector->size*vector->block_size-1);
+	return NULL;
 }
 
 void * at_fbgc_vector(const struct fbgc_vector * vector, size_t index){
@@ -60,17 +62,17 @@ void pop_back_fbgc_vector(struct fbgc_vector * vector){
 
 void * get_item_fbgc_vector(const struct fbgc_vector * vector, int index){
 	index = (index < 0) * vector->size +  index;
-	assert( index >= 0 || index < vector->size );
+	assert( index < vector->size && index >= 0 );
 	return at_fbgc_vector(vector,index);
 }
 
-void set_item_fbgc_vector(const struct fbgc_vector * vector, const void * item, int index){
+void set_item_fbgc_vector(const struct fbgc_vector * vector, int index, const void * item){
 	index = (index < 0) * vector->size +  index;
-	assert( index >= 0 || index < vector->size );
+	assert( index < vector->size && index >= 0 );
 	memcpy(at_fbgc_vector(vector,index), item, vector->block_size);
 }
 
-void insert_fbgc_vector(struct fbgc_vector * vector, const void * item, size_t index_start, size_t item_len){
+void insert_fbgc_vector(struct fbgc_vector * vector,size_t index_start,  const void * item, size_t item_len){
 	//Can we do it without allocation new mem ?
 	if((vector->size + item_len) > capacity_fbgc_vector(vector)){
 		size_t cap = fbgc_round_to_closest_power_of_two(vector->size+item_len);
@@ -129,7 +131,7 @@ void test_vector(){
 
 
 	printf("Insertion test zero size vector\n");
-	insert_fbgc_vector(v,arr,0,5);
+	insert_fbgc_vector(v,0,arr,5);
 
 	for (int i = 0; i < size_fbgc_vector(v); ++i){
 		double * d = (double *) get_item_fbgc_vector(v,i);
@@ -138,7 +140,7 @@ void test_vector(){
 
 	printf("Insertion test at index 1\n");
 	double new_data[] = {8,10,13};
-	insert_fbgc_vector(v,new_data,1,3);	
+	insert_fbgc_vector(v,1,new_data,3);	
 
 	for (int i = 0; i < size_fbgc_vector(v); ++i){
 		double * d = (double *) get_item_fbgc_vector(v,i);

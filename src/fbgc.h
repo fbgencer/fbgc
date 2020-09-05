@@ -19,16 +19,11 @@ extern "C" {
 #include <math.h>
 #include <time.h>
 #include <signal.h>
-
-
-#ifndef __cplusplus
-typedef uint8_t bool;
-#define true 1
-#define false 0
-#endif
+#include <stdbool.h>
 
 #include "../include/queue.h"
 #include "../include/vector.h"
+#include "../include/bool_vector.h"
 
 #include "../include/utility.h"
 

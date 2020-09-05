@@ -313,7 +313,7 @@ void print_fbgc_memory_object_pool(){
 
 			if(j == obj_start && ((uint8_t *)iter->data+j) != iter->tptr){
 				struct fbgc_object * dummy = (struct fbgc_object *)((uint8_t*)(iter->data)+j);
-				obj_start += get_fbgc_object_size(dummy);
+				obj_start += size_of_fbgc_object(dummy);
 				//print the type of the data in the memory
 				cprintf(101,">>[%s] obj size in memory %d | color %d\n",objtp2str(dummy),size_of_fbgc_object(dummy),dummy->mark_bit);				
 				//print the address and the data in the memory!

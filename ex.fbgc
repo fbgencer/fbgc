@@ -1,7 +1,2 @@
-for i = 1:10
-	if(i%2 == 0)
-		if( i > 3 & i <7)
-			print(i)
-		end
-	end
-end
+foo = fun(); return [1,2,3]; end
+x = foo()

@@ -9,7 +9,7 @@ struct fbgc_field_object{
 	struct fbgc_object base;
 	struct fbgc_ll_base * head; // main tree list, it's a linked list object
 	struct fbgc_object * modules;
-	struct fbgc_object * locals;
+	struct fbgc_vector * locals;
 };
 extern const struct fbgc_object_property_holder fbgc_field_object_property_holder;
 

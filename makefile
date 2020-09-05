@@ -15,16 +15,16 @@ TEST_OBJ = ${TEST_SRC:.c=.o}
 #-Wno-error=incompatible-pointer-types -Wno-error=discarded-qualifiers
 CC=gcc
 #-Wunused-variable
-OPTIMIZATION_FLAG = -Os -fdata-sections -ffunction-sections -flto
+OPTIMIZATION_FLAG = -Og -fdata-sections -ffunction-sections -flto
 WARNING_FLAG = -Werror -Wno-error=pointer-arith 
-DEBUG_FLAG =  
+DEBUG_FLAG =  -g
 #-s
 
 CFLAGS = -c 
 LDFLAGS += -lm -Wl,--gc-sections -flto
 CFLAGS += $(OPTIMIZATION_FLAG)
 CFLAGS += $(WARNING_FLAG)
-#CFLAGS += $(DEBUG_FLAG)
+CFLAGS += $(DEBUG_FLAG)
 CFLAGS += $(INC_FLAGS)
 
 #GSL_CFLAG = -I /home/fbgencer/gsl/include

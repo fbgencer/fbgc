@@ -20,8 +20,8 @@ struct parser_packet{
 	char * line;
 	size_t line_no;
 	uint8_t error_code;					//!< When an error occurs function assigns error code to this variable
+	struct fbgc_bool_vector bv_stack_pop_top;
 	fbgc_grammar gm;					//!< State of grammar
-	uint8_t state_pop_top;
 };
 
 

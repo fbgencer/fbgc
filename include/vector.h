@@ -30,8 +30,8 @@ void pop_back_fbgc_vector(struct fbgc_vector * vector);
 
 void * at_fbgc_vector(const struct fbgc_vector * vector, size_t index);
 void * get_item_fbgc_vector(const struct fbgc_vector * vector, int index);
-void set_item_fbgc_vector(const struct fbgc_vector * vector, const void * item, int index);
-void insert_fbgc_vector(struct fbgc_vector * vector, const void * item, size_t index_start, size_t item_len);
+void set_item_fbgc_vector(const struct fbgc_vector * vector, int index, const void * item);
+void insert_fbgc_vector(struct fbgc_vector * vector, size_t index_start, const void * item, size_t item_len);
 //void swap_with_another_vector_fbgc_vector(struct fbgc_vector * self,struct fbgc_vector * vector2 );
 
 

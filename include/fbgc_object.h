@@ -27,8 +27,6 @@ get_fbgc_object_type(o2))
 #define sizeof_fbgc_object()(sizeof(struct fbgc_object))
 
 struct fbgc_object * new_fbgc_object(fbgc_token);
-size_t get_fbgc_object_size(struct fbgc_object * );
-
 
 
 uint8_t convert_fbgc_object_to_logic(struct fbgc_object * );

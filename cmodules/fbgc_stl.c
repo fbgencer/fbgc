@@ -231,7 +231,7 @@ static struct fbgc_object_method _fbgc_stl_methods = {
 const struct fbgc_object_property_holder _fbgc_stl_property_holder = {
 	.bits = 
 	_BIT_METHODS |
-	_BIT_NAME
+	_BIT_NAME 
 	,
 	.properties ={
 		{.methods = &_fbgc_stl_methods},

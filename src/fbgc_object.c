@@ -305,6 +305,13 @@ size_t size_of_fbgc_object(struct fbgc_object * obj){
 	if(w != -1){
 		return p->properties[w].size_of(obj);
 	}
+
+	switch(obj->type){
+		case CMODULE:{
+			return sizeof(struct fbgc_cmodule_object);
+		}
+	}
+
 	FBGC_LOGE("%s does not satisfy size_of operator\n",objtp2str(obj));
 	assert(0);
 }

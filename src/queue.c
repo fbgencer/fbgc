@@ -2,6 +2,7 @@
 
 
 void init_static_fbgc_queue(struct fbgc_queue * queue, size_t cap, size_t block_size){
+	assert(queue);
 	queue->content = fbgc_malloc(fbgc_round_to_closest_power_of_two(cap)*block_size);
 	queue->front = queue->content;
 	queue->block_size = block_size;
