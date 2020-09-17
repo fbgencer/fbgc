@@ -51,8 +51,6 @@ extern "C" {
 #include "../include/cstruct_object.h"
 #include "../include/class_object.h"
 
-#include "../include/operator.h"
-
 #include "../include/symbol_table.h"
 #include "../include/field_object.h"
 

@@ -59,7 +59,7 @@ static struct fbgc_object * return_fbgc_object_operator_helper_logic(char c,stru
 	}
 }
 
-struct fbgc_object * operator_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op){
+static struct fbgc_object * binary_operator_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op){
 	//you have to check before calling this function, a and b must be int type 
 
 	//either int-int or logic-int combination can call this function
@@ -141,26 +141,41 @@ switch(op)
 	{
 		return return_fbgc_object_operator_helper_logic(a1&&b1,result);
 	} 
-	case EXCLAMATION:
-	{
-		return return_fbgc_object_operator_helper_logic(!a1,result);
-	}
-	case TILDE:
-	{
-		return return_fbgc_object_operator_helper_logic(~a1,result);
-	}
-	case UPLUS:
-	{
-		return return_fbgc_object_operator_helper_int(a1,result);
-	}
-	case UMINUS:
-	{
-		return return_fbgc_object_operator_helper_int(-a1,result);
-	}
 }	
 
 	return NULL;
 }
+
+
+static struct fbgc_object * unary_operator_fbgc_int_object(struct fbgc_object * a, fbgc_token op){
+	
+	//either int-int or logic-int combination can call this function
+	int a1 = (a->type != LOGIC) ? cast_fbgc_object_as_int(a)->content:(int)(cast_fbgc_object_as_logic(a)->content);	
+	struct fbgc_object * result = NULL;
+
+	switch(op)
+	{
+		case EXCLAMATION:
+		{
+			return return_fbgc_object_operator_helper_logic(!a1,result);
+		}
+		case TILDE:
+		{
+			return return_fbgc_object_operator_helper_logic(~a1,result);
+		}
+		case UPLUS:
+		{
+			return return_fbgc_object_operator_helper_int(a1,result);
+		}
+		case UMINUS:
+		{
+			return return_fbgc_object_operator_helper_int(-a1,result);
+		}		
+	}
+
+	return NULL;
+}
+
 
 
 
@@ -194,13 +209,15 @@ static inline size_t size_of_fbgc_int_object(struct fbgc_object * self){
 const struct fbgc_object_property_holder fbgc_int_object_property_holder = {
 	.bits = _BIT_PRINT | 
 	_BIT_BINARY_OPERATOR |
+	_BIT_UNARY_OPERATOR |
 	_BIT_TO_STR | 
 	_BIT_ABS_OPERATOR |
 	_BIT_SIZE_OF
 	,
 	.properties ={
 		{.print = &print_fbgc_int_object},
-		{.binary_operator = &operator_fbgc_int_object},
+		{.binary_operator = &binary_operator_fbgc_int_object},
+		{.unary_operator = &unary_operator_fbgc_int_object},
 		{.abs_operator = &abs_operator_fbgc_int_object},
 		{.size_of = &size_of_fbgc_int_object},
 		{.to_str = &fbgc_int_object_to_str},

@@ -211,6 +211,35 @@ void printf_fbgc_object(struct fbgc_object * self){
 	}
 }
 
+
+struct fbgc_object * binary_operator_fbgc_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token op){
+
+	struct fbgc_object * x = (a->type > b->type) ? a : b;
+
+	const struct fbgc_object_property_holder * p = get_fbgc_object_property_holder(x);
+	if(x == b){
+		b = a;
+	}
+
+	int8_t w = _find_property(p->bits,_BIT_BINARY_OPERATOR);
+	if(w != -1){
+		return p->properties[w].binary_operator(x,b,op);
+	}
+	return NULL;
+}
+
+struct fbgc_object * unary_operator_fbgc_object(struct fbgc_object * a, fbgc_token op){
+
+	const struct fbgc_object_property_holder * p = get_fbgc_object_property_holder(a);
+
+	int8_t w = _find_property(p->bits,_BIT_UNARY_OPERATOR);
+	if(w != -1){
+		return p->properties[w].unary_operator(a,op);
+	}
+	return NULL;
+}
+
+
 struct fbgc_object * abs_operator_fbgc_object(struct fbgc_object * self){
 
 	const struct fbgc_object_property_holder * p = get_fbgc_object_property_holder(self);

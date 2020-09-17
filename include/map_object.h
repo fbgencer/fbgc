@@ -67,6 +67,8 @@ struct fbgc_object * fbgc_map_object_get_value_by_index(struct fbgc_object * sel
 
 void fbgc_map_object_set_exact_size(struct fbgc_object * self);
 
+struct fbgc_object * operator_fbgc_map_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op);
+
 
 
 uint8_t print_detailed_fbgc_map_object(struct fbgc_object * obj);

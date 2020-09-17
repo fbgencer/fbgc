@@ -22,7 +22,6 @@ struct fbgc_object * new_fbgc_int_object(int x);
 struct fbgc_object * new_fbgc_int_object_from_str(const char *);
 struct fbgc_object * new_fbgc_int_object_from_substr(const char *,const char *,fbgc_token );
 
-struct fbgc_object * operator_fbgc_int_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op);
 
 uint8_t print_fbgc_int_object(struct fbgc_object *);
 struct fbgc_object * fbgc_int_object_to_str(struct fbgc_object * obj);

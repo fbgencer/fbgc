@@ -410,7 +410,7 @@ static const char * rstrip_internal(const char * start, const char * end, const 
         if(!(*d)) break;
     }
   }
-    return ++end;
+    return end;
 }
 
 static
@@ -428,7 +428,8 @@ struct fbgc_object * strip_fbgc_str_object(struct fbgc_cfun_arg * arg){
     
     start = lstrip_internal(start,delim);
     end = rstrip_internal(start,end,delim);
-    return new_fbgc_str_object_from_substr(start,++end);
+    struct fbgc_object * xx = new_fbgc_str_object_from_substr(start,++end);
+    return xx;
 }
 static
 struct fbgc_object * lstrip_fbgc_str_object(struct fbgc_cfun_arg * arg){

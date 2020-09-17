@@ -41,6 +41,8 @@ struct fbgc_object ** get_address_fbgc_object_member(struct fbgc_object * o, con
 struct fbgc_object * subscript_operator_fbgc_object(struct fbgc_object * iterable,struct fbgc_object * index_obj);
 struct fbgc_object * subscript_assign_operator_fbgc_object(struct fbgc_object * iterable,struct fbgc_object * index_obj,struct fbgc_object * rhs);
 
+struct fbgc_object * binary_operator_fbgc_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token op);
+struct fbgc_object * unary_operator_fbgc_object(struct fbgc_object * a, fbgc_token op);
 
 struct fbgc_object * abs_operator_fbgc_object(struct fbgc_object * self);
 

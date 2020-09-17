@@ -127,7 +127,6 @@ struct fbgc_object * copy_fbgc_tuple_object(struct fbgc_object * src){
 
 
 struct fbgc_object * operator_fbgc_tuple_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op){
- 
     if(b == NULL) return NULL;
 
 switch(op)
@@ -168,7 +167,9 @@ switch(op)
     case LSHIFT:
     {   
         //a<<b, b can be anything, a must be tuple.
+        printf("Here\n");
         if(a->type == TUPLE){
+
             struct fbgc_object * t = copy_fbgc_tuple_object(a);
             return push_back_fbgc_tuple_object(t,b);
         }
@@ -270,8 +271,7 @@ struct fbgc_object * find_fbgc_tuple_object(struct fbgc_cfun_arg * arg){
 
     while(sz--){
         struct fbgc_object * current_obj = self->content[sz];
-        fbgc_token main_tok = MAX(current_obj->type,o->type);
-        struct fbgc_object * res = call_fbgc_operator(main_tok,o,current_obj,EQEQ);
+        struct fbgc_object * res = binary_operator_fbgc_object(o,current_obj,EQEQ);
         if(res == NULL) continue;
         if(res->type == LOGIC && cast_fbgc_object_as_logic(res)->content)
             return new_fbgc_int_object(sz);

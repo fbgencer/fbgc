@@ -289,8 +289,8 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 			if(main_tok > INSTANCE && MIN(TOP()->type,SECOND()->type) < LOGIC) 
 				goto INTERPRETER_ERROR_LABEL;
 
-			struct fbgc_object * res =  call_fbgc_operator(main_tok,SECOND(),TOP(),type);
-
+			struct fbgc_object * res = binary_operator_fbgc_object(SECOND(),TOP(),type);
+			//struct fbgc_object * res =  call_fbgc_operator(main_tok,SECOND(),TOP(),type);
 			if(res == NULL){
 				FBGC_LOGE("Object %s does not support operator %s\n",object_name_array[main_tok],object_name_array[type]);
 				return 0;
@@ -306,7 +306,7 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 		case UPLUS:
 		case UMINUS:{
 			
-			struct fbgc_object * res =  call_fbgc_operator(TOP()->type,TOP(),NULL,type);
+			struct fbgc_object * res = unary_operator_fbgc_object(TOP(),type);
 			if(res == NULL){
 				printf("operator does not supported");
 				return 0;
@@ -363,9 +363,8 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 			if(type != ASSIGN)
 			{
 				fbgc_token op_type = RSHIFT + type - RSHIFT_ASSIGN;
-
-				fbgc_token main_tok = MAX((*lhs)->type,rhs->type);
-				rhs = call_fbgc_operator(main_tok,*lhs,rhs,op_type);
+				rhs = binary_operator_fbgc_object(*lhs,rhs,op_type);
+				//rhs = call_fbgc_operator(main_tok,*lhs,rhs,op_type);
 				if(rhs == NULL){
 					printf("assignment does not supported!");
 					return 0;

@@ -258,11 +258,11 @@ static void handle_statements(struct parser_packet * p){
 
 	if(back_fbgc_bool_vector(&p->bv_stack_pop_top)){
 		p->iter_prev = _insert_next_fbgc_ll(p->iter_prev,_new_fbgc_ll_base(POP_TOP));
-		FBGC_LOGE(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Adding pop top!\n");
+		FBGC_LOGV(PARSER,">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Adding pop top!\n");
 		return;
 	}
 	else{
-		FBGC_LOGE(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Toggling bit\n");
+		FBGC_LOGV(PARSER,">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Toggling bit\n");
 		toggle_bit_fbgc_bool_vector(&p->bv_stack_pop_top,-1);
 	}
 
@@ -564,7 +564,7 @@ static void handle_before_paranthesis(struct parser_packet * p){
 		//p->state_pop_top = 0;
 	}
 	if(p->iter->type == NEWLINE || p->iter->type == SEMICOLON || already_defined_flag){
-		FBGC_LOGW("Calling handle statements\n");
+		FBGC_LOGV(PARSER,"Calling handle statements\n");
 		handle_statements(p);
 	}
 

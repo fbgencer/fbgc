@@ -1,2 +1,2 @@
-foo = fun(); return [1,2,3]; end
-x = foo()
+objects = (1,2,3) << 55
+print(!55)

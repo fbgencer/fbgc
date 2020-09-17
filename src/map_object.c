@@ -490,6 +490,10 @@ struct fbgc_object * subscript_assign_operator_fbgc_map_object(struct fbgc_objec
 
 
 
+struct fbgc_object * operator_fbgc_map_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op){
+	assert(0);
+}
+
 
 
 static struct fbgc_object * abs_operator_fbgc_map_object(struct fbgc_object * self){
