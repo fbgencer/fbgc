@@ -9,6 +9,7 @@ struct fbgc_class_object{
 	struct fbgc_object base;
 	struct fbgc_ll_base * code; //class linked list code
 	struct fbgc_vector * locals; // Local array
+	struct fbgc_object * variables;
 };
 extern const struct fbgc_object_property_holder fbgc_class_object_property_holder;
 

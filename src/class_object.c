@@ -5,42 +5,51 @@ struct fbgc_object * new_fbgc_class_object(){
     o->base.type = CLASS;
     o->code = NULL;
 	o->locals = new_fbgc_vector(1,sizeof(struct fbgc_identifier));
+	o->variables = new_fbgc_map_object(1,80);
     return (struct fbgc_object*) o;
 }
 
 
 void inherit_from_another_class(struct fbgc_object * self,struct fbgc_object * father){
 
-	struct fbgc_vector * fao = cast_fbgc_object_as_class(father)->locals;
-	struct fbgc_vector * sao = cast_fbgc_object_as_class(self)->locals;
-	struct fbgc_vector * new_sao = sao;
+	struct fbgc_object * faom = cast_fbgc_object_as_class(father)->variables;
+	struct fbgc_object * saom = cast_fbgc_object_as_class(self)->variables;
+
+	//Now available rn, we need to write merge two maps function
+
+	//allow merge function NOT to update existed keys, because new class defined them for itself
+	fbgc_map_object_merge(saom,faom,false);
+
+	// struct fbgc_vector * fao = cast_fbgc_object_as_class(father)->locals;
+	// struct fbgc_vector * sao = cast_fbgc_object_as_class(self)->locals;
+	// struct fbgc_vector * new_sao = sao;
 
 	
 
-	for(size_t i = 0; i<size_fbgc_vector(fao); ++i){
-		struct fbgc_identifier * fid = (struct fbgc_identifier *) get_item_fbgc_vector(fao,i);
-		uint8_t match = 0;
-		FBGC_LOGV(CLASS_OBJECT,"Father id name:%s",content_fbgc_str_object(fid->name));
+	// for(size_t i = 0; i<size_fbgc_vector(fao); ++i){
+	// 	struct fbgc_identifier * fid = (struct fbgc_identifier *) get_item_fbgc_vector(fao,i);
+	// 	uint8_t match = 0;
+	// 	FBGC_LOGV(CLASS_OBJECT,"Father id name:%s",content_fbgc_str_object(fid->name));
 
-		for(size_t j = 0; j<size_fbgc_vector(sao); ++j){
-			struct fbgc_identifier * sid = (struct fbgc_identifier *) get_item_fbgc_vector(sao,j);
-			FBGC_LOGV(CLASS_OBJECT,"Child id name:%s",content_fbgc_str_object(sid->name));
-			if(!my_strcmp(content_fbgc_str_object(fid->name),content_fbgc_str_object(sid->name))){
-				//If there is a match then write to flag;
-				FBGC_LOGV(CLASS_OBJECT,"Match!");
-				match = 1;
+	// 	for(size_t j = 0; j<size_fbgc_vector(sao); ++j){
+	// 		struct fbgc_identifier * sid = (struct fbgc_identifier *) get_item_fbgc_vector(sao,j);
+	// 		FBGC_LOGV(CLASS_OBJECT,"Child id name:%s",content_fbgc_str_object(sid->name));
+	// 		if(!my_strcmp(content_fbgc_str_object(fid->name),content_fbgc_str_object(sid->name))){
+	// 			//If there is a match then write to flag;
+	// 			FBGC_LOGV(CLASS_OBJECT,"Match!");
+	// 			match = 1;
+	// 			break;
+	// 		}
+	// 	}
 
-			}
-		}
-
-		if(!match){
-			push_back_fbgc_vector(new_sao,fid);
-		}
+	// 	if(!match){
+	// 		push_back_fbgc_vector(new_sao,fid);
+	// 	}
 		
-	}
+	// }
 
 
-	cast_fbgc_object_as_class(self)->locals = new_sao;
+	// cast_fbgc_object_as_class(self)->locals = new_sao;
 }
 
 
@@ -52,14 +61,24 @@ struct fbgc_object * new_fbgc_instance_object(struct fbgc_object * _template){
     o->base.type = INSTANCE;
     o->template_class = _template;
 
-	struct fbgc_vector * ao = cast_fbgc_object_as_class(_template)->locals;
-	o->variables = new_fbgc_tuple_object(size_fbgc_vector(ao));
+	// struct fbgc_vector * ao = cast_fbgc_object_as_class(_template)->locals;
+	// o->variables = new_fbgc_tuple_object(size_fbgc_vector(ao));
+	// size_fbgc_tuple_object(o->variables) = size_fbgc_vector(ao);
+	// for(int i = 0; i<size_fbgc_vector(ao); i++){
+	// 	struct fbgc_identifier * temp_id = (struct fbgc_identifier *) get_item_fbgc_vector(ao,i);
+	// 	set_object_in_fbgc_tuple_object(o->variables,temp_id->content,i);
+	// }
 
-	size_fbgc_tuple_object(o->variables) = size_fbgc_vector(ao);
 
-	for(int i = 0; i<size_fbgc_vector(ao); i++){
-		struct fbgc_identifier * temp_id = (struct fbgc_identifier *) get_item_fbgc_vector(ao,i);
-		set_object_in_fbgc_tuple_object(o->variables,temp_id->content,i);
+	struct fbgc_object * mapo = cast_fbgc_object_as_class(_template)->variables;
+	o->variables = new_fbgc_tuple_object(size_fbgc_map_object(mapo));
+	size_fbgc_tuple_object(o->variables) = size_fbgc_map_object(mapo);
+
+	for(size_t i = 0; i<capacity_fbgc_map_object(mapo); i++){
+		struct fbgc_map_pair * p  = fbgc_map_object_get_pair(mapo,i);
+		if(p->key != NULL){
+			set_object_in_fbgc_tuple_object(o->variables,p->value,i);
+		}
 	}
 
     return (struct fbgc_object*) o;
@@ -209,17 +228,18 @@ struct fbgc_object * get_set_fbgc_class_object_member(struct fbgc_object * o, co
 		//this is for the case if class defined before and user wants to change its definition
 		return NULL;
 	}
-	struct fbgc_vector * ao = cast_fbgc_object_as_class(o)->locals;
-	for(unsigned int i = 0;  i<size_fbgc_vector(ao); ++i){	
-		struct fbgc_identifier * temp_id = (struct fbgc_identifier *) get_item_fbgc_vector(ao,i);
-		//cprintf(111,"temp_idname = %s, str:%s => %d\n",content_fbgc_str_object(temp_id->name),str,my_strcmp(content_fbgc_str_object(temp_id->name),str));
-		if(!my_strcmp(content_fbgc_str_object(temp_id->name),str)){
-			//cprintf(111,"I am returning\n");
-			return temp_id->content;
-		}
-	}
 
-	return NULL;
+	// struct fbgc_vector * ao = cast_fbgc_object_as_class(o)->locals;
+	// for(unsigned int i = 0;  i<size_fbgc_vector(ao); ++i){	
+	// 	struct fbgc_identifier * temp_id = (struct fbgc_identifier *) get_item_fbgc_vector(ao,i);
+	// 	//cprintf(111,"temp_idname = %s, str:%s => %d\n",content_fbgc_str_object(temp_id->name),str,my_strcmp(content_fbgc_str_object(temp_id->name),str));
+	// 	if(!my_strcmp(content_fbgc_str_object(temp_id->name),str)){
+	// 		//cprintf(111,"I am returning\n");
+	// 		return temp_id->content;
+	// 	}
+	// }
+
+	return fbgc_map_object_lookup_str(cast_fbgc_object_as_class(o)->variables,str);
 }
 
 const struct fbgc_object_property_holder fbgc_class_object_property_holder = {
@@ -236,17 +256,27 @@ const struct fbgc_object_property_holder fbgc_class_object_property_holder = {
 
 struct fbgc_object * get_set_fbgc_instance_object_member(struct fbgc_object * o, const char * str, struct fbgc_object * rhs){
 	
-	struct fbgc_vector * ao = cast_fbgc_object_as_class(cast_fbgc_object_as_instance(o)->template_class)->locals;
+	struct fbgc_object * mapo = cast_fbgc_object_as_class(cast_fbgc_object_as_instance(o)->template_class)->variables;
+	ssize_t where = fbgc_map_object_get_key_index_str(mapo,str);
 
-	for(int i = 0; i<size_fbgc_vector(ao); i++){
-		struct fbgc_identifier * temp_id = (struct fbgc_identifier *) get_item_fbgc_vector(ao,i);
+	if(where == -1) return NULL;
+
+	if(rhs == NULL)
+		return content_fbgc_tuple_object(cast_fbgc_object_as_instance(o)->variables)[where];
+	else 
+		set_object_in_fbgc_tuple_object(cast_fbgc_object_as_instance(o)->variables,rhs,where);
+
+	// struct fbgc_vector * ao = cast_fbgc_object_as_class(cast_fbgc_object_as_instance(o)->template_class)->locals;
+
+	// for(int i = 0; i<size_fbgc_vector(ao); i++){
+	// 	struct fbgc_identifier * temp_id = (struct fbgc_identifier *) get_item_fbgc_vector(ao,i);
 		
-		if(!my_strcmp(content_fbgc_str_object(temp_id->name),str)){
-			if(rhs == NULL) return content_fbgc_tuple_object(cast_fbgc_object_as_instance(o)->variables)[i];
-			else set_object_in_fbgc_tuple_object(cast_fbgc_object_as_instance(o)->variables,rhs,i);
-			return o;
-		}
-	}
+	// 	if(!my_strcmp(content_fbgc_str_object(temp_id->name),str)){
+	// 		if(rhs == NULL) return content_fbgc_tuple_object(cast_fbgc_object_as_instance(o)->variables)[i];
+	// 		else set_object_in_fbgc_tuple_object(cast_fbgc_object_as_instance(o)->variables,rhs,i);
+	// 		return o;
+	// 	}
+	// }
 
 
 	return NULL;

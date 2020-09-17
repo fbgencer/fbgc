@@ -154,7 +154,7 @@ static void map_insert_value_on_rehash(struct fbgc_object * self, size_t index,s
 	ssize_t psl_from_ideal = 0;
 	for(;;){
 		if(psl_from_ideal > map_get_psl(self,index)){
-			cprintf(100,"psl_from_ideal : %d\n",psl_from_ideal);
+			//cprintf(100,"psl_from_ideal : %d\n",psl_from_ideal);
 			if(psl_from_ideal > max_psl_fbgc_map_object(self)){
 				cast_fbgc_object_as_map(self)->max_psl = psl_from_ideal;
 			}
@@ -320,6 +320,10 @@ struct fbgc_object * fbgc_map_object_insert_str(struct fbgc_object * self, const
 	return fbgc_map_object_insert(self,new_fbgc_str_object(key),value);
 }
 
+struct fbgc_map_pair * fbgc_map_object_lookup_map_pair(struct fbgc_object * self, struct fbgc_object * key){
+	struct fbgc_map_pair * p  = map_find(self,key);
+	return p;
+}
 
 struct fbgc_object * fbgc_map_object_lookup(struct fbgc_object * self, struct fbgc_object * key){
 	struct fbgc_map_pair * p  = map_find(self,key);
@@ -404,6 +408,24 @@ ssize_t fbgc_map_object_get_key_index_substr(struct fbgc_object * self,const cha
 
 
 
+struct fbgc_map_pair * fbgc_map_object_get_pair(struct fbgc_object * self, size_t index){
+	return &cast_fbgc_object_as_map(self)->content[index];
+}
+
+// struct fbgc_map_pair * fbgc_map_object_iterator_begin(struct fbgc_object * self){
+
+// }
+
+
+// struct fbgc_map_pair * fbgc_map_object_iterator_next(struct fbgc_object * self){
+	
+// }
+
+
+// struct fbgc_map_pair * fbgc_map_object_iterator_end(struct fbgc_object * self){
+// 	//return map_get_pair(obj,capacity_fbgc_map_object(self)-1);
+// }
+
 
 static struct fbgc_object * map_remove(struct fbgc_object * self, const char * key, size_t len){
 	struct fbgc_map_pair * p  = map_find_str(self,key,len);
@@ -438,6 +460,22 @@ void fbgc_map_object_set_exact_size(struct fbgc_object * self){
 	map_rehash(self,current_size);
 }
 
+struct fbgc_object * fbgc_map_object_merge(struct fbgc_object * self, struct fbgc_object * map2, bool update_existed){
+	//if key exist in self, check update_existed. If false we won't change it otherwise value will be changed
+	for(size_t i = 0; i<capacity_fbgc_map_object(map2); i++){
+		struct fbgc_map_pair * p  = map_get_pair(map2,i);
+		if(p->key != NULL){
+			struct fbgc_map_pair * p2 = map_find(self,p->key);
+			if(p2){
+				fbgc_map_object_insert(self,p->key, update_existed ? p->value : p2->value);
+			}
+			else{
+				fbgc_map_object_insert(self,p->key, p->value);
+			}
+		}
+	}
+	return self;
+}
 
 
 

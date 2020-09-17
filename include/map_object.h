@@ -39,19 +39,22 @@ struct fbgc_object * new_fbgc_map_object(size_t cap,uint8_t rlf);
 struct fbgc_object * new_fbgc_map_object_exact(size_t cap, uint8_t rlf);
 
 struct fbgc_object * fbgc_map_object_insert(struct fbgc_object * self_adr, struct fbgc_object * key, struct fbgc_object * value);
-
-
+struct fbgc_object * fbgc_map_object_insert_str(struct fbgc_object * self_adr, const char * key, struct fbgc_object * value);
 
 struct fbgc_object * fbgc_map_object_remove(struct fbgc_object * self, struct fbgc_object * key);
 struct fbgc_object * fbgc_map_object_remove_str(struct fbgc_object * self, const char * key);
 struct fbgc_object * fbgc_map_object_remove_substr(struct fbgc_object * self, const char * key1,const char * key2);
+
+struct fbgc_object * fbgc_map_object_merge(struct fbgc_object * self, struct fbgc_object * map2, bool update_existed);
 
 
 ssize_t fbgc_map_object_get_key_index(struct fbgc_object * self, struct fbgc_object * key);
 ssize_t fbgc_map_object_get_key_index_str(struct fbgc_object * self, const char * key);
 ssize_t fbgc_map_object_get_key_index_substr(struct fbgc_object * self,const char *key1, const char *key2);
 
+struct fbgc_map_pair * fbgc_map_object_get_pair(struct fbgc_object * self, size_t index);
 
+struct fbgc_map_pair * fbgc_map_object_lookup_map_pair(struct fbgc_object * self, struct fbgc_object * key);
 struct fbgc_object * fbgc_map_object_lookup(struct fbgc_object * self, struct fbgc_object * key);
 struct fbgc_object * fbgc_map_object_lookup_str(struct fbgc_object * self, const char * key);
 struct fbgc_object * fbgc_map_object_lookup_substr(struct fbgc_object * self, const char * key1,const char * key2);

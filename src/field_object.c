@@ -24,9 +24,11 @@ struct fbgc_object * new_fbgc_field_object(void){
 	field->head = _new_fbgc_ll();
 	field->modules = new_fbgc_tuple_object(2); 
 	field->locals = new_fbgc_vector(1,sizeof(struct fbgc_identifier));
+	field->variables = new_fbgc_map_object(2,80);
 	
 	load_module_in_field_object((struct fbgc_object *)field,&_fbgc_stl_property_holder);
 	load_module_in_field_object((struct fbgc_object *)field,&_fbgc_io_property_holder);
+	
 	return (struct fbgc_object *) field;
 };
 

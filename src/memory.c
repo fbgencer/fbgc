@@ -424,21 +424,7 @@ struct fbgc_garbage_collector fbgc_gc = {
 	.ptr_list = {.data = NULL, .size = 0, .capacity = 0},
 };
 
-int
-add_em_up (int count,...)
-{
-  va_list ap;
-  int i, sum;
 
-  va_start (ap, count);         /* Initialize the argument list. */
-
-  sum = 0;
-  for (i = 0; i < count; i++)
-    sum += va_arg (ap, int);    /* Get the next argument value. */
-
-  va_end (ap);                  /* Clean up. */
-  return sum;
-}
 
 uint8_t fbgc_gc_register_pointer(void * base_ptr,uint8_t nested, ...){
 	
@@ -566,7 +552,6 @@ void fbgc_gc_init(struct fbgc_object * root){
 	//Next pointer of the root in the heap
 	if(root){
 		fbgc_gc.last_location = (uint8_t*)root + size_of_fbgc_object(root);	
-		
 	}
 	else{
 		fbgc_gc.last_location = fbgc_memb.object_pool_head->data;

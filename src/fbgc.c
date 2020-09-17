@@ -874,21 +874,38 @@ int main(int argc, char **argv){
 	//parse_string(&main_field,"x = 88\n");
 	//cast_fbgc_object_as_field(main_field)->code;
 
-	/*cprintf(100,"sizeof :%lu\n",sizeof(struct fbgc_map_object));
+	//cprintf(100,"sizeof :%lu\n",sizeof(struct fbgc_map_object));
 
-	struct fbgc_object * map = new_fbgc_map_object(2,50);
-	fbgc_map_object_insert(map,new_fbgc_str_object("end"),new_fbgc_int_object(333));
-	fbgc_map_object_insert(map,new_fbgc_str_object("sep"),new_fbgc_int_object(553));
+	// struct fbgc_object * map = new_fbgc_map_object(2,50);
+	// struct fbgc_object * map2 = new_fbgc_map_object(2,50);
+
+	// fbgc_map_object_insert_str(map2,"a",new_fbgc_int_object(1));
+	// fbgc_map_object_insert_str(map2,"b",new_fbgc_int_object(2));
+	// fbgc_map_object_insert_str(map2,"c",new_fbgc_int_object(3));
+	// fbgc_map_object_insert_str(map2,"d",new_fbgc_int_object(4));
+	// fbgc_map_object_insert_str(map2,"e",new_fbgc_int_object(5));
+	// fbgc_map_object_insert_str(map2,"end",new_fbgc_int_object(6));
+	// fbgc_map_object_insert_str(map2,"sep",new_fbgc_int_object(7));
+
+
+	// fbgc_map_object_insert(map,new_fbgc_str_object("end"),new_fbgc_int_object(333));
+	// fbgc_map_object_insert(map,new_fbgc_str_object("sep"),new_fbgc_int_object(553));
+	// fbgc_map_object_insert(map,new_fbgc_str_object("b"),new_fbgc_int_object(553));
+
+	// fbgc_map_object_merge(map,map2,false);
+	// //fbgc_map_object_remove_str(map,"sep");
 	
-	cprintf(110,"CHECK sep: %d\n",fbgc_map_object_does_key_exist_str(map,"sep"));
+	// //cprintf(110,"CHECK sep: %d\n",fbgc_map_object_does_key_exist_str(map,"sep"));
 
-	print_detailed_fbgc_map_object(map);
-	printf("\n");
+	// print_fbgc_map_object(map);
+	// printf("\n");
+	// print_fbgc_map_object(map2);
+	// printf("\n");
 
-	int x = -123;
-	int y = -123;
-	for(double i = -20; i< 20; ++i)
-		printf("Hash val '%g' = %ld\n",i,fhash(&i,sizeof(i))%40);*/
+	// int x = -123;
+	// int y = -123;
+	// for(double i = -20; i< 20; ++i)
+	// 	printf("Hash val '%g' = %ld\n",i,fhash(&i,sizeof(i))%40);
 
 	//fbgc_map_object_remove_str(map,"fbgencer");
 	//cprintf(100,"fbgencer found at index :%ld\n",fbgc_map_object_get_key_index_str(map,"samsung"));
