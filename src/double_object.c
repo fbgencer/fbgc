@@ -3,7 +3,6 @@
 struct fbgc_object * new_fbgc_double_object(double db_content){
 	struct fbgc_double_object *dbo =  (struct fbgc_double_object*) fbgc_malloc_object(sizeof_fbgc_double_object());
 	dbo->base.type = DOUBLE;
-	//dbo->base.next = NULL;
 	dbo->content = db_content; 
 	return (struct fbgc_object*) dbo;
 }
@@ -176,7 +175,7 @@ uint8_t print_fbgc_double_object(struct fbgc_object * obj){
 	return printf("%g",cast_fbgc_object_as_double(obj)->content);   
 }
 
-struct fbgc_object * fbgc_double_object_to_str(struct fbgc_object * obj){
+static struct fbgc_object * fbgc_double_object_to_str(struct fbgc_object * obj){
 	const char * format = "%.10g";
 	int len = snprintf( NULL,0,format, cast_fbgc_object_as_double(obj)->content);
 	struct fbgc_object * s = new_fbgc_str_object_empty(len);
@@ -184,12 +183,17 @@ struct fbgc_object * fbgc_double_object_to_str(struct fbgc_object * obj){
 	return s;
 }
 
-struct fbgc_object * fbgc_double_object_to_int(struct fbgc_object * obj){
+static struct fbgc_object * fbgc_double_object_to_int(struct fbgc_object * obj){
 	return new_fbgc_int_object(cast_fbgc_object_as_double(obj)->content);
 }
 
-struct fbgc_object * abs_operator_fbgc_double_object(struct fbgc_object * self){
+static struct fbgc_object * abs_operator_fbgc_double_object(struct fbgc_object * self){
 	return new_fbgc_double_object(fabs(cast_fbgc_object_as_double(self)->content));
+}
+
+
+static inline size_t size_of_fbgc_double_object(struct fbgc_object * self){
+    return sizeof(struct fbgc_double_object);
 }
 
 
@@ -199,12 +203,14 @@ const struct fbgc_object_property_holder fbgc_double_object_property_holder = {
 	_BIT_TO_STR |
 	_BIT_TO_INT |
 	_BIT_BINARY_OPERATOR |
-	_BIT_ABS_OPERATOR
+	_BIT_ABS_OPERATOR |
+	_BIT_SIZE_OF
 	,
 	.properties ={
 		{.print = &print_fbgc_double_object},
 		{.binary_operator = &operator_fbgc_double_object},
 		{.abs_operator = &abs_operator_fbgc_double_object},
+		{.size_of = &size_of_fbgc_double_object},
 		{.to_int = &fbgc_double_object_to_int},
 		{.to_str = &fbgc_double_object_to_str},
 		

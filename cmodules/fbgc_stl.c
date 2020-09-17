@@ -11,12 +11,12 @@ static int8_t _verify_one_arg(struct fbgc_cfun_arg * arg,struct fbgc_object ** o
 static
 struct fbgc_object * fbgc_stl_assert(struct fbgc_cfun_arg * arg){
 
-	if(parse_tuple_content(arg,"!b|bs") == -1){
+	if(parse_tuple_content(arg,"!b|bs|i|is|d|ds") == -1){
 		return NULL;
 	}
 
 
-	if(!cast_fbgc_object_as_logic(arg->arg[0])->content){
+	if(!convert_fbgc_object_to_logic(arg->arg[0])){
 		if(arg->argc>1){
 			FBGC_LOGE("%s\n",content_fbgc_str_object(arg->arg[1]) );
 		}
@@ -231,7 +231,7 @@ static struct fbgc_object_method _fbgc_stl_methods = {
 const struct fbgc_object_property_holder _fbgc_stl_property_holder = {
 	.bits = 
 	_BIT_METHODS |
-	_BIT_NAME
+	_BIT_NAME 
 	,
 	.properties ={
 		{.methods = &_fbgc_stl_methods},

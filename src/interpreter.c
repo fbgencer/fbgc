@@ -126,7 +126,7 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 	FBGC_LOGV(INTERPRETER,"################ [%d] = {%s} ########################\n",i++,lltp2str(pc));
 
 	//pc is just mnemonic for program counter, basically it is just an iterator for the code that this function is executing
-	fbgc_token type = get_fbgc_object_type(pc);
+	fbgc_token type = pc->type;
 	switch(type){
 		case CONSTANT:{
 			//Constant means that push the contents of constant into stack
@@ -143,13 +143,13 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 
 				
 				//If global then ask for field, if it is class then ask for current scope
-				struct fbgc_object * arr = is_id_flag_GLOBAL(pc) ? 
+				struct fbgc_vector * arr = is_id_flag_GLOBAL(pc) ? 
 									cast_fbgc_object_as_field(current_field)->locals :
 									cast_fbgc_object_as_class(current_scope)->locals;
 
 				
 				struct fbgc_identifier * tmp = (struct fbgc_identifier *) 
-						get_address_in_fbgc_array_object(arr,_cast_fbgc_object_as_llidentifier(pc)->loc);
+						get_item_fbgc_vector(arr,_cast_fbgc_object_as_llidentifier(pc)->loc);
 
 				//In parsing phase content of identifiers are set the NULL so it means they did not defined by the user
 				if(tmp->content == NULL){
@@ -285,12 +285,12 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 		case AMPERSAND:
 		{
 
-			fbgc_token main_tok = MAX(get_fbgc_object_type(TOP()),get_fbgc_object_type(SECOND()));
-			if(main_tok > INSTANCE && MIN(get_fbgc_object_type(TOP()),get_fbgc_object_type(SECOND())) < LOGIC) 
+			fbgc_token main_tok = MAX((TOP()->type),SECOND()->type);
+			if(main_tok > INSTANCE && MIN(TOP()->type,SECOND()->type) < LOGIC) 
 				goto INTERPRETER_ERROR_LABEL;
 
-			struct fbgc_object * res =  call_fbgc_operator(main_tok,SECOND(),TOP(),type);
-
+			struct fbgc_object * res = binary_operator_fbgc_object(SECOND(),TOP(),type);
+			//struct fbgc_object * res =  call_fbgc_operator(main_tok,SECOND(),TOP(),type);
 			if(res == NULL){
 				FBGC_LOGE("Object %s does not support operator %s\n",object_name_array[main_tok],object_name_array[type]);
 				return 0;
@@ -306,7 +306,7 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 		case UPLUS:
 		case UMINUS:{
 			
-			struct fbgc_object * res =  call_fbgc_operator(get_fbgc_object_type(TOP()),TOP(),NULL,type);
+			struct fbgc_object * res = unary_operator_fbgc_object(TOP(),type);
 			if(res == NULL){
 				printf("operator does not supported");
 				return 0;
@@ -333,12 +333,12 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 			if(is_id_flag_array_accessible(pc)){
 
 				//If global then ask for field, if it is class then ask for current scope
-				struct fbgc_object * arr = is_id_flag_GLOBAL(pc) ? 
+				struct fbgc_vector * arr = is_id_flag_GLOBAL(pc) ? 
 									cast_fbgc_object_as_field(current_field)->locals :
 									cast_fbgc_object_as_class(current_scope)->locals;
 
 				struct fbgc_identifier * tmp = (struct fbgc_identifier *)
-												get_address_in_fbgc_array_object(arr,_cast_fbgc_object_as_llidentifier(pc)->loc);
+												get_item_fbgc_vector(arr,_cast_fbgc_object_as_llidentifier(pc)->loc);
 				lhs = &tmp->content;
 			}
 			else if(is_id_flag_LOCAL(pc)){
@@ -363,9 +363,8 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 			if(type != ASSIGN)
 			{
 				fbgc_token op_type = RSHIFT + type - RSHIFT_ASSIGN;
-
-				fbgc_token main_tok = MAX(get_fbgc_object_type( (*lhs) ),get_fbgc_object_type(rhs));
-				rhs = call_fbgc_operator(main_tok,*lhs,rhs,op_type);
+				rhs = binary_operator_fbgc_object(*lhs,rhs,op_type);
+				//rhs = call_fbgc_operator(main_tok,*lhs,rhs,op_type);
 				if(rhs == NULL){
 					printf("assignment does not supported!");
 					return 0;
@@ -829,6 +828,7 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 			for(int i = index_no-1; i>0; --i){
 				iterable = subscript_operator_fbgc_object(iterable,TOPN(i));
 				if(iterable == NULL){
+					FBGC_LOGE("Iterable is NULL");
 					assert(0);
 				}
 			}
@@ -896,12 +896,12 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 	FBGC_LOGV(INTERPRETER,"}\n");
 	FBGC_LOGV(INTERPRETER,"~~~~~~Field Globals~~~~~\n");
 
-	struct fbgc_object * globals;
+	struct fbgc_vector * globals;
 	if(current_scope != NULL && current_scope->type == CLASS) globals = cast_fbgc_object_as_class(current_scope)->locals;
 	else globals = cast_fbgc_object_as_field(current_field)->locals;
 
-	for(int i = 0; i<size_fbgc_array_object(globals); i++){
-		struct fbgc_identifier * temp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(globals,i);
+	for(int i = 0; i<size_fbgc_vector(globals); i++){
+		struct fbgc_identifier * temp_id = (struct fbgc_identifier *) get_item_fbgc_vector(globals,i);
 		FBGC_LOGV(INTERPRETER,"%c:",print_fbgc_object(temp_id->name));
 		FBGC_LOGV(INTERPRETER,"%c",print_fbgc_object(temp_id->content));
 		FBGC_LOGV(INTERPRETER,"}");

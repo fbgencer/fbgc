@@ -1,38 +1,9 @@
 #include "fbgc.h"
 
-size_t calculate_new_capacity_from_size(size_t size){
-    /*
-        Below algorithm calculates the capacity for the given size
-        Basically capacity is the closest two's power
-        0,1 : 1
-        2 : 2
-        3,4 : 4
-        5,6,7,8 : 8
-        9,10,11,12,13,14,15 : 16
-        and so on
-
-        Take 5 for example, in binary its 0b00101
-        take z = 1
-        0b0001 <= 0b0101 , shift z left
-        0b0010 <= 0b0101 , (ditto)
-        0b0100 <= 0b0101 , (ditto)
-        0b1000 <= 0b0101 , stop here don't shift, z is 8, the closest two's power for 5
-    */
-    size_t z = 1;
-    while(z < size)
-        z <<= 1;
-
-    #ifdef TUPLE_DEBUG
-    cprintf(011,"For the size %d new capacity is calculated as :%d\n",size,z);
-    #endif
-    return z;
-}
-
-
 struct fbgc_object * new_fbgc_tuple_object(size_t cap){
     //here just allocate a space after to->size, we don't need a pointer we know where we are gonna look.
 
-    cap = calculate_new_capacity_from_size(cap);
+    cap = fbgc_round_to_closest_power_of_two(cap);
 
     struct fbgc_tuple_object *to =  (struct fbgc_tuple_object*) fbgc_malloc_object(sizeof(struct fbgc_tuple_object));
     to->base.type = TUPLE;
@@ -144,7 +115,7 @@ int index_fbgc_tuple_object(struct fbgc_object * self, struct fbgc_object * obj)
 
 struct fbgc_object * copy_fbgc_tuple_object(struct fbgc_object * src){
 
-    size_t cap = calculate_new_capacity_from_size( size_fbgc_tuple_object(src) );
+    size_t cap = fbgc_round_to_closest_power_of_two( size_fbgc_tuple_object(src) );
     size_t sz = sizeof(struct fbgc_tuple_object) + sizeof(struct fbgc_object*)*cap;
 
     struct fbgc_tuple_object * dest =  (struct fbgc_tuple_object*) fbgc_malloc_object(sz);
@@ -156,7 +127,6 @@ struct fbgc_object * copy_fbgc_tuple_object(struct fbgc_object * src){
 
 
 struct fbgc_object * operator_fbgc_tuple_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op){
- 
     if(b == NULL) return NULL;
 
 switch(op)
@@ -197,7 +167,9 @@ switch(op)
     case LSHIFT:
     {   
         //a<<b, b can be anything, a must be tuple.
+        printf("Here\n");
         if(a->type == TUPLE){
+
             struct fbgc_object * t = copy_fbgc_tuple_object(a);
             return push_back_fbgc_tuple_object(t,b);
         }
@@ -299,8 +271,7 @@ struct fbgc_object * find_fbgc_tuple_object(struct fbgc_cfun_arg * arg){
 
     while(sz--){
         struct fbgc_object * current_obj = self->content[sz];
-        fbgc_token main_tok = MAX(current_obj->type,o->type);
-        struct fbgc_object * res = call_fbgc_operator(main_tok,o,current_obj,EQEQ);
+        struct fbgc_object * res = binary_operator_fbgc_object(o,current_obj,EQEQ);
         if(res == NULL) continue;
         if(res->type == LOGIC && cast_fbgc_object_as_logic(res)->content)
             return new_fbgc_int_object(sz);
@@ -319,6 +290,15 @@ static struct fbgc_object_method _tuple_methods = {
 };
 
 
+static inline size_t size_of_fbgc_tuple_object(struct fbgc_object * self){
+    return sizeof(struct fbgc_tuple_object);
+}
+
+static inline void gc_mark_fbgc_tuple_object(struct fbgc_object * self){
+    fbgc_gc_mark_pointer((cast_fbgc_object_as_tuple(self)->content),sizeof(struct fbgc_object *));
+}
+
+
 const struct fbgc_object_property_holder fbgc_tuple_object_property_holder = {
     .bits = 
     _BIT_PRINT |
@@ -326,7 +306,9 @@ const struct fbgc_object_property_holder fbgc_tuple_object_property_holder = {
     _BIT_SUBSCRIPT_OPERATOR |
     _BIT_SUBSCRIPT_ASSIGN_OPERATOR |
     _BIT_ABS_OPERATOR | 
-    _BIT_METHODS
+    _BIT_METHODS | 
+    _BIT_SIZE_OF |
+    _BIT_GC_MARK
     ,
     .properties ={
         {.print = &print_fbgc_tuple_object},
@@ -335,5 +317,7 @@ const struct fbgc_object_property_holder fbgc_tuple_object_property_holder = {
         {.subscript_operator = &subscript_operator_fbgc_tuple_object},
         {.subscript_assign_operator = &subscript_assign_operator_fbgc_tuple_object},
         {.abs_operator = &abs_operator_fbgc_tuple_object},
+        {.gc_mark = &gc_mark_fbgc_tuple_object},
+        {.size_of = &size_of_fbgc_tuple_object},
     }
 };

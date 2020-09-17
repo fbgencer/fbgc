@@ -4,26 +4,26 @@ struct fbgc_object * new_fbgc_class_object(){
   struct fbgc_class_object * o = (struct fbgc_class_object*) fbgc_malloc_object(sizeof_fbgc_class_object());
     o->base.type = CLASS;
     o->code = NULL;
-	o->locals = new_fbgc_array_object(1,sizeof(struct fbgc_identifier));
+	o->locals = new_fbgc_vector(1,sizeof(struct fbgc_identifier));
     return (struct fbgc_object*) o;
 }
 
 
 void inherit_from_another_class(struct fbgc_object * self,struct fbgc_object * father){
 
-	struct fbgc_object * fao = cast_fbgc_object_as_class(father)->locals;
-	struct fbgc_object * sao = cast_fbgc_object_as_class(self)->locals;
-	struct fbgc_object * new_sao = sao;
+	struct fbgc_vector * fao = cast_fbgc_object_as_class(father)->locals;
+	struct fbgc_vector * sao = cast_fbgc_object_as_class(self)->locals;
+	struct fbgc_vector * new_sao = sao;
 
 	
 
-	for(size_t i = 0; i<size_fbgc_array_object(fao); ++i){
-		struct fbgc_identifier * fid = (struct fbgc_identifier *) get_address_in_fbgc_array_object(fao,i);
+	for(size_t i = 0; i<size_fbgc_vector(fao); ++i){
+		struct fbgc_identifier * fid = (struct fbgc_identifier *) get_item_fbgc_vector(fao,i);
 		uint8_t match = 0;
 		FBGC_LOGV(CLASS_OBJECT,"Father id name:%s",content_fbgc_str_object(fid->name));
 
-		for(size_t j = 0; j<size_fbgc_array_object(sao); ++j){
-			struct fbgc_identifier * sid = (struct fbgc_identifier *) get_address_in_fbgc_array_object(sao,j);
+		for(size_t j = 0; j<size_fbgc_vector(sao); ++j){
+			struct fbgc_identifier * sid = (struct fbgc_identifier *) get_item_fbgc_vector(sao,j);
 			FBGC_LOGV(CLASS_OBJECT,"Child id name:%s",content_fbgc_str_object(sid->name));
 			if(!my_strcmp(content_fbgc_str_object(fid->name),content_fbgc_str_object(sid->name))){
 				//If there is a match then write to flag;
@@ -34,7 +34,7 @@ void inherit_from_another_class(struct fbgc_object * self,struct fbgc_object * f
 		}
 
 		if(!match){
-			new_sao = push_back_fbgc_array_object(new_sao,fid);
+			push_back_fbgc_vector(new_sao,fid);
 		}
 		
 	}
@@ -52,13 +52,13 @@ struct fbgc_object * new_fbgc_instance_object(struct fbgc_object * _template){
     o->base.type = INSTANCE;
     o->template_class = _template;
 
-	struct fbgc_object * ao = cast_fbgc_object_as_class(_template)->locals;
-	o->variables = new_fbgc_tuple_object(size_fbgc_array_object(ao));
+	struct fbgc_vector * ao = cast_fbgc_object_as_class(_template)->locals;
+	o->variables = new_fbgc_tuple_object(size_fbgc_vector(ao));
 
-	size_fbgc_tuple_object(o->variables) = size_fbgc_array_object(ao);
+	size_fbgc_tuple_object(o->variables) = size_fbgc_vector(ao);
 
-	for(int i = 0; i<size_fbgc_array_object(ao); i++){
-		struct fbgc_identifier * temp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(ao,i);
+	for(int i = 0; i<size_fbgc_vector(ao); i++){
+		struct fbgc_identifier * temp_id = (struct fbgc_identifier *) get_item_fbgc_vector(ao,i);
 		set_object_in_fbgc_tuple_object(o->variables,temp_id->content,i);
 	}
 
@@ -191,7 +191,7 @@ void print_fbgc_class_object(struct fbgc_object * obj){
     struct fbgc_class_object * cls = cast_fbgc_object_as_class(obj);
   
     if(cls->code != NULL && !is_constant_and_token(cls->code,CLASS) && _cast_llbase_as_llconstant(cls->code)->content != obj ){
-      cprintf(010,"CLASS[Local#:%d|",size_fbgc_array_object(cls->locals));
+      cprintf(010,"CLASS[Local#:%d|",size_fbgc_vector(cls->locals));
       _print_fbgc_ll_code(cls->code,NULL);
       cprintf(010,"]");
     }
@@ -209,9 +209,9 @@ struct fbgc_object * get_set_fbgc_class_object_member(struct fbgc_object * o, co
 		//this is for the case if class defined before and user wants to change its definition
 		return NULL;
 	}
-	struct fbgc_object * ao = cast_fbgc_object_as_class(o)->locals;
-	for(unsigned int i = 0;  i<size_fbgc_array_object(ao); ++i){	
-		struct fbgc_identifier * temp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(ao,i);
+	struct fbgc_vector * ao = cast_fbgc_object_as_class(o)->locals;
+	for(unsigned int i = 0;  i<size_fbgc_vector(ao); ++i){	
+		struct fbgc_identifier * temp_id = (struct fbgc_identifier *) get_item_fbgc_vector(ao,i);
 		//cprintf(111,"temp_idname = %s, str:%s => %d\n",content_fbgc_str_object(temp_id->name),str,my_strcmp(content_fbgc_str_object(temp_id->name),str));
 		if(!my_strcmp(content_fbgc_str_object(temp_id->name),str)){
 			//cprintf(111,"I am returning\n");
@@ -236,10 +236,10 @@ const struct fbgc_object_property_holder fbgc_class_object_property_holder = {
 
 struct fbgc_object * get_set_fbgc_instance_object_member(struct fbgc_object * o, const char * str, struct fbgc_object * rhs){
 	
-	struct fbgc_object * ao = cast_fbgc_object_as_class(cast_fbgc_object_as_instance(o)->template_class)->locals;
+	struct fbgc_vector * ao = cast_fbgc_object_as_class(cast_fbgc_object_as_instance(o)->template_class)->locals;
 
-	for(int i = 0; i<size_fbgc_array_object(ao); i++){
-		struct fbgc_identifier * temp_id = (struct fbgc_identifier *) get_address_in_fbgc_array_object(ao,i);
+	for(int i = 0; i<size_fbgc_vector(ao); i++){
+		struct fbgc_identifier * temp_id = (struct fbgc_identifier *) get_item_fbgc_vector(ao,i);
 		
 		if(!my_strcmp(content_fbgc_str_object(temp_id->name),str)){
 			if(rhs == NULL) return content_fbgc_tuple_object(cast_fbgc_object_as_instance(o)->variables)[i];
@@ -292,7 +292,7 @@ struct fbgc_object * subscript_assign_operator_fbgc_instance_object(struct fbgc_
 	return NULL;
 }
 
-struct fbgc_object * abs_operator_fbgc_instance_object(struct fbgc_object * self){
+static struct fbgc_object * abs_operator_fbgc_instance_object(struct fbgc_object * self){
 	struct fbgc_object * fun = get_overloaded_member(self,"||");
 	if(fun != NULL)
 		fun = call_fun_object(fun);
@@ -313,6 +313,11 @@ uint8_t print_fbgc_instance_object(struct fbgc_object * self){
 }
 
 
+static inline size_t size_of_fbgc_instance_object(struct fbgc_object * self){
+    return sizeof(struct fbgc_instance_object);
+}
+
+
 
 const struct fbgc_object_property_holder fbgc_instance_object_property_holder = {
 	.bits = 
@@ -320,7 +325,8 @@ const struct fbgc_object_property_holder fbgc_instance_object_property_holder = 
 	_BIT_GET_SET_MEMBER |
 	_BIT_SUBSCRIPT_OPERATOR |
 	_BIT_SUBSCRIPT_ASSIGN_OPERATOR |
-	_BIT_ABS_OPERATOR
+	_BIT_ABS_OPERATOR | 
+	_BIT_SIZE_OF
 	,
 	.properties ={
 		{.print = &print_fbgc_instance_object},
@@ -328,5 +334,6 @@ const struct fbgc_object_property_holder fbgc_instance_object_property_holder = 
         {.subscript_operator = &subscript_operator_fbgc_instance_object},
         {.subscript_assign_operator = &subscript_assign_operator_fbgc_instance_object},
         {.abs_operator = &abs_operator_fbgc_instance_object},
+        {.size_of = &size_of_fbgc_instance_object},
 	}
 };

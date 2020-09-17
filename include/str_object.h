@@ -14,7 +14,7 @@ extern const struct fbgc_object_property_holder fbgc_str_object_property_holder;
 
 
 #define cast_fbgc_object_as_str(x)(((struct fbgc_str_object*) x))
-#define sizeof_fbgc_str_object(x) ( sizeof(struct fbgc_str_object)+cast_fbgc_object_as_str(x)->len)
+
 
 #define length_fbgc_str_object(x)(cast_fbgc_object_as_str(x)->len)
 #define content_fbgc_str_object(x)(cast_fbgc_object_as_str(x)->content)

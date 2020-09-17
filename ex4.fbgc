@@ -59,3 +59,45 @@ print(a3)
 
 print(c[-1,-2],a3.z)
 print(|a3|)
+
+
+load("file",'*')
+
+token_definition_file = "./helper/new_tokens.txt"
+
+#load('./examples/string_format.fbgc','*')
+
+f = fopen(token_definition_file,'r+')
+s = f.read()
+s = s.split('\n')
+#print(s)
+
+#assert(0,"stopping")
+
+
+objects = ()
+objects = objects << 55
+print(objects)
+
+#loop over all lines
+for i = 0:|s|
+	line = s[i]
+	if(line == "" | line == '\n')
+		cont
+	end
+
+	if(line[0] == '!')
+
+		line = line.strip('!\t\n')
+		#read keywords
+		if(line == "objects")
+			print("Found !objects:",i,line)
+			state = line
+
+		end
+	end
+
+end
+
+f.close()
+

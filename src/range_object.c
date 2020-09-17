@@ -149,12 +149,28 @@ uint8_t print_fbgc_range_object(struct fbgc_object * self){
     return 1;
 }
 
+
+static inline size_t size_of_fbgc_range_object(struct fbgc_object * self){
+    return sizeof(struct fbgc_range_object);
+}
+
+static inline void gc_mark_fbgc_range_object(struct fbgc_object * self){
+    fbgc_gc_mark_pointer(cast_fbgc_object_as_range(self)->start,1);
+    fbgc_gc_mark_pointer(cast_fbgc_object_as_range(self)->step,1);
+    fbgc_gc_mark_pointer(cast_fbgc_object_as_range(self)->end,1);
+}
+
+
 const struct fbgc_object_property_holder fbgc_range_object_property_holder = {
     .bits = 
-    _BIT_PRINT
+    _BIT_PRINT |
+    _BIT_SIZE_OF |
+    _BIT_GC_MARK
     ,
     .properties ={
         {.print = &print_fbgc_range_object},
+        {.gc_mark = &gc_mark_fbgc_range_object},
+        {.size_of = &size_of_fbgc_range_object},
         
     }
 };

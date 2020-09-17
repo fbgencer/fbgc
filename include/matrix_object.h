@@ -21,7 +21,7 @@ struct fbgc_matrix_object{
 extern const struct fbgc_object_property_holder fbgc_matrix_object_property_holder;
 
 #define cast_fbgc_object_as_matrix(x)(((struct fbgc_matrix_object*) x))
-#define sizeof_fbgc_matrix_object(x)(sizeof(struct fbgc_matrix_object) + sizeof(double) * (cast_fbgc_object_as_matrix(x)->row*cast_fbgc_object_as_matrix(x)->column) )
+
 
 #define content_fbgc_matrix_object(x) ((double *) ( (char*)(&cast_fbgc_object_as_matrix(x)->column) + sizeof(size_t) ))
 #define complex_content_fbgc_matrix_object(x) ( content_fbgc_matrix_object(x) + 1)

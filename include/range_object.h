@@ -25,7 +25,7 @@ struct fbgc_object * get_int_element_in_fbgc_range_object(struct fbgc_object * r
 struct fbgc_object * get_double_element_in_fbgc_range_object(struct fbgc_object * robj,int index,struct fbgc_object * result);
 
 #define get_fbgc_range_object_iter_type(x)\
-(MAX(MAX(get_fbgc_object_type(cast_fbgc_object_as_range(x)->start),get_fbgc_object_type(cast_fbgc_object_as_range(x)->step)),get_fbgc_object_type(cast_fbgc_object_as_range(x)->end))) 
+(MAX(MAX(cast_fbgc_object_as_range(x)->start->type,cast_fbgc_object_as_range(x)->step->type),cast_fbgc_object_as_range(x)->end->type)) 
 
 uint8_t print_fbgc_range_object(struct fbgc_object * obj);
 

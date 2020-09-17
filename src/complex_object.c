@@ -257,8 +257,13 @@ static struct fbgc_object * subscript_operator_fbgc_complex_object(struct fbgc_o
 //{.get_set_member = &get_set_fbgc_complex_object_member},
 
 
-struct fbgc_object * abs_fbgc_complex_object(struct fbgc_object * a){
+static struct fbgc_object * abs_fbgc_complex_object(struct fbgc_object * a){
 	return new_fbgc_double_object(hypot(cast_fbgc_object_as_complex(a)->z.real,cast_fbgc_object_as_complex(a)->z.imag));
+}
+
+
+static inline size_t size_of_fbgc_complex_object(struct fbgc_object * self){
+    return sizeof(struct fbgc_complex_object);
 }
 
 const struct fbgc_object_property_holder fbgc_complex_object_property_holder = {
@@ -269,7 +274,8 @@ const struct fbgc_object_property_holder fbgc_complex_object_property_holder = {
 	_BIT_SUBSCRIPT_OPERATOR |
 	_BIT_MEMBERS |
 	_BIT_METHODS |
-	_BIT_ABS_OPERATOR
+	_BIT_ABS_OPERATOR |
+	_BIT_SIZE_OF 
 	,
 	.properties ={
 		{.print = &print_fbgc_complex_object},
@@ -278,6 +284,7 @@ const struct fbgc_object_property_holder fbgc_complex_object_property_holder = {
 		{.binary_operator = &operator_fbgc_complex_object},
 		{.subscript_operator = &subscript_operator_fbgc_complex_object},
 		{.abs_operator = &abs_fbgc_complex_object},
+		{.size_of = &size_of_fbgc_complex_object},
 		{.to_str = &fbgc_complex_object_to_str},
 		
 	}

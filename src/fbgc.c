@@ -17,6 +17,7 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
 	clock_t begin,end;
 	double parser_time,interpreter_time;
 
+	assert(main_field);
 
 	begin = clock();
 	 
@@ -613,6 +614,53 @@ static unsigned long fhash(const void * keyp,size_t len){
 	return hash;
 }
 
+/*
+	GC 
+
+*/
+/*
+Senaryolar
+
+struct{
+	struct fbgc_object base;
+	int size;
+	struct fbgc_object ** contents;
+	
+	veya 
+
+	struct fbgc_object * io;
+	struct fbgc_object * do;
+	struct fbgc_object * ao;
+
+} tuple;
+Gc fonksiyonu içinde contents array olarak marklanır, burada contents queue içine atılır ve daha sonra 
+contentin referanslarına gidilerek onların gc fonksiyonları çağırılır.
+
+struct{
+	struct fbgc_object base;
+	int size;
+	int ** contents;
+} int_arrays;
+
+Gc fonksiyonu içinde pointer obje tutmadığı için pointer_register fonksiyonu ile marklanır
+Mark yerine burada register edilen pointer
+
+
+struct{
+	struct fbgc_object base;
+	int size;
+	int * contents;
+} int_arrays2;
+
+struct{
+	int x;
+	int y;
+	double * z;
+}foo;
+
+*/
+
+
 
 
 #ifndef MODULE_TEST
@@ -622,8 +670,49 @@ int main(int argc, char **argv){
 		print_logo();
 	#endif   
 
+
 //******************************************************************
 	initialize_fbgc_memory_block();
+
+
+	// struct fbgc_bool_vector bv;
+	// init_static_fbgc_bool_vector(&bv,0);
+	// //printf("Bv size %ld\n",size_fbgc_bool_vector(bv));
+	// //printf("Bv cap  %ld\n",capacity_fbgc_bool_vector(bv));
+
+	// push_back_fbgc_bool_vector(&bv,1);
+	// push_back_fbgc_bool_vector(&bv,1);
+	// //toggle_bit_fbgc_bool_vector(&bv,-1);
+	// //toggle_bit_fbgc_bool_vector(&bv,-1);
+
+	// // set_bit_fbgc_bool_vector(bv,3,1);
+	// // set_bit_fbgc_bool_vector(bv,4,1);
+	// // set_bit_fbgc_bool_vector(bv,5,1);
+	// printf("bef %d\n",bv.content[0]);
+	// pop_back_fbgc_bool_vector(&bv);
+	// push_back_fbgc_bool_vector(&bv,0);
+	// printf("after %d\n",bv.content[0]);
+	// // pop_back_fbgc_bool_vector(&bv);
+	// // pop_back_fbgc_bool_vector(&bv);
+	
+	// printf("Bv size %ld | cap %ld\n",size_fbgc_bool_vector(&bv), capacity_fbgc_bool_vector(&bv));
+	// for (int i = 0; i < size_fbgc_bool_vector(&bv); ++i)
+	// {
+	// 	printf("Bv content[%d]:%d\n",i,get_bit_fbgc_bool_vector(&bv,i));
+	// }
+
+
+
+	//set_bit_fbgc_bool_vector(bv,1,3);
+
+	// printf("Insertion test at index 4\n");
+	// insert_fbgc_vector(v,new_data,4,3);	
+
+
+	// for (int i = 0; i < size_fbgc_vector(v); ++i){
+	// 	double * d = (double *) get_item_fbgc_vector(v,i);
+	// 	printf("[%d] = %g\n",i,*d);
+	// }
 
 	/*int * lol = (int * ) fbgc_malloc(sizeof(int)*10);
 	int val[10] = {10,20,30,40,50,60,70,80,90,100};
@@ -639,9 +728,149 @@ int main(int argc, char **argv){
 
 	cprintf(100,"capacity lol :%ld\n",capacity_fbgc_raw_memory(lol,sizeof(int)));
 	cprintf(100,"capacity lol2 :%ld\n",capacity_fbgc_raw_memory(lol2,sizeof(int)));*/
-	initialize_fbgc_symbol_table();
-	current_field = new_fbgc_field_object();
+	
+	
+	
+	//struct fbgc_object * io = new_fbgc_int_object(10);
+	//struct fbgc_object * to = new_fbgc_tuple_object(0);
+	//push_back_fbgc_tuple_object(to,io);
+	//struct fbgc_object * io1 = new_fbgc_int_object(20);
+	//struct fbgc_object * io2 = new_fbgc_int_object(30);
+
+	//printf("sizeof ? %lu\n",size_of_fbgc_object(io));
+
+
+	// struct fbgc_queue * q = new_fbgc_queue(2,sizeof(int));
+	// int a = 5;
+	// fbgc_queue_push_back(q,&a);
+	// a = 6;
+	// fbgc_queue_push_back(q,&a);
+	// fbgc_queue_pop(q);
+	// a = 7;
+	// fbgc_queue_push_back(q,&a);
+	// fbgc_queue_pop(q);
+	// a = 8;
+	// fbgc_queue_push_back(q,&a);
+	
+	// //a = 9;
+	// //fbgc_queue_push_back(q,&a);
+	// //fbgc_queue_pop(q);
+
+
+	// // struct fbgc_raw_buffer * rb = cast_from_raw_buffer_data_to_raw_buffer(q->data);
+	// // printf("rb cap = %d | data p:%p | rb%p\n",rb->capacity,q->data,rb );
+	// // uint8_t * d = (uint8_t*)rb;
+	// // for (int i = 0; i < sizeof(struct fbgc_raw_buffer)+rb->capacity; ++i)
+	// // {	
+	// // 	printf("%p[%d]:%02x|%d\n",d,i,*d,*d );
+	// // 	d++;
+	// // }
+
+	// print_fbgc_memory_block();
+
+	// printf("queue front %p | sz:%ld\n",fbgc_queue_front(q),size_fbgc_queue(q));
+
+	//printf("sctr : %d\n",global_interpreter_packet->sctr );
+
+	//struct fbgc_object * to = new_fbgc_tuple_object(0);
+
+	// struct fbgc_object * to3 = new_fbgc_tuple_object(2);
+
+	// struct fbgc_object * io = new_fbgc_int_object(10);
+	// struct fbgc_object * io2 = new_fbgc_int_object(11);
+	// struct fbgc_object * io3 = new_fbgc_int_object(12);
 		
+
+	
+	// struct fbgc_object * to2 = new_fbgc_tuple_object(2);
+	
+	// push_back_fbgc_tuple_object(to,io);
+	// push_back_fbgc_tuple_object(to,io2);
+	// push_back_fbgc_tuple_object(to,io3);
+	// push_back_fbgc_tuple_object(to,to2);
+	// push_back_fbgc_tuple_object(to2,io2);
+	// push_back_fbgc_tuple_object(to2,to3);
+	// push_back_fbgc_tuple_object(to3,io3);
+	// push_back_fbgc_tuple_object(to3,io);
+
+
+	/*struct fbgc_object * s = new_fbgc_int_object(0);
+	struct fbgc_object * e = new_fbgc_int_object(10);
+	struct fbgc_object * ro = new_fbgc_range_object(s,e);
+
+	push_back_fbgc_tuple_object(to,ro);*/
+
+	
+	// typedef struct foo{
+	// 	uint8_t x;
+	// 	uint8_t * ptr;
+	// }foo;
+
+	// foo pp;
+	// pp.x = 55;
+	//pp.ptr = (uint8_t *)fbgc_malloc(10);
+	
+	// struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc_object(sizeof_fbgc_int_object()*3);
+	// for(int i = 0; i<3; ++i){
+	// 	into[i].base.type = INT;
+	// 	into[i].content = 10*i; 
+	// }
+	
+
+	// //set_raw_buffer_gc_dark(pp.ptr);
+
+	// //fbgc_gc_register_pointer(&pp.ptr,pp.ptr,sizeof(foo*),sizeof(foo));
+
+	// //print_fbgc_memory_block();
+	// fbgc_gc_init(NULL);
+	// fbgc_gc_mark_pointer(into,3);
+
+	// fbgc_gc_mark();
+
+	// print_fbgc_memory_block();
+
+	/*foo ** pbuffer = (foo **) fbgc_malloc(sizeof(foo*)*2);
+	fbgc_gc_register_pointer(pbuffer,2,sizeof(foo*),0);
+
+	
+
+	//struct traceable_pointer_entry * tpe = &(fbgc_gc.ptr_list.data[0]);
+	//printf("tpe ptr %p\n",tpe->ptr );
+
+	pbuffer[0] = (foo *) fbgc_malloc_static(sizeof(foo)*3);
+	pbuffer[1] = NULL;
+
+	pbuffer[0]->x[0] = 0xFB;
+	pbuffer[0]->x[1] = 55;*/
+	
+	/*
+ 
+	//
+	//fbgc_gc_register_pointer(pbuffer[0],sizeof(foo),3,sizeof(uint8_t)*2);
+
+	uint8_t * b1 = (uint8_t *) fbgc_malloc(sizeof(uint8_t)*5);
+	uint8_t arr[5] = {5,10,15,20,30};
+	memcpy(b1,arr,5);
+
+	foo * fp = pbuffer[0];
+
+	fp[0].ptr = b1;
+	fp[0].x[0] = 10;
+	fp[0].x[1] = 50;
+
+	fp[1].ptr = b1;
+	fp[1].x[0] = 20;
+	fp[1].x[1] = 100;
+
+	fp[2].ptr = b1;
+	fp[2].x[0] = 30;
+	fp[2].x[1] = 250;*/
+
+
+	//fbgc_gc_init(io);
+	//fbgc_gc_mark();
+
+	
 	//parse_string(&main_field,"x = 88\n");
 	//cast_fbgc_object_as_field(main_field)->code;
 
@@ -670,6 +899,8 @@ int main(int argc, char **argv){
 
 	//print_detailed_fbgc_map_object(map);
 
+	initialize_fbgc_symbol_table();
+	current_field = new_fbgc_field_object();
 	if(argc > 1)
 	{   
 		if(!strcmp(argv[1],"-s")){
