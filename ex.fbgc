@@ -1,13 +1,1 @@
-x = 34
-x = 88
-y = 10
-x = y
-z = 55
-z = y +  233
-x = "fbge"
-
-f = fun()
-	x = 11
-end
-
-f()
+print("hello")

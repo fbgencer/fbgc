@@ -8,15 +8,14 @@ extern "C" {
 struct fbgc_class_object{ 
 	struct fbgc_object base;
 	struct fbgc_ll_base * code; //class linked list code
-	struct fbgc_vector * locals; // Local array
-	struct fbgc_object * variables;
+	struct fbgc_object * variables; // class variable map
 };
 extern const struct fbgc_object_property_holder fbgc_class_object_property_holder;
 
 struct fbgc_instance_object{
 	struct fbgc_object base;
 	struct fbgc_object * template_class; //The class which creates this instance
-	struct fbgc_object * variables; //tuple from class, only variables not the namespace
+	struct fbgc_object * variables; //tuple from class variable map-values, does not contain keys we will find with indexes
 };
 
 extern const struct fbgc_object_property_holder fbgc_instance_object_property_holder;

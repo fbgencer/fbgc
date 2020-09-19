@@ -5,7 +5,7 @@
 struct fbgc_object * new_fbgc_int_object(int int_content){
 	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc_object(sizeof_fbgc_int_object());
 	into->base.type = INT;
-	into->content = int_content; 
+	into->content = int_content;
 	return (struct fbgc_object*) into;
 }
 

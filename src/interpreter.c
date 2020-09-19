@@ -42,7 +42,7 @@ struct interpreter_packet * global_interpreter_packet = NULL;
 
 uint8_t interpreter(struct fbgc_object ** field_obj){
 	current_field = * field_obj;
-	struct fbgc_ll * head = _cast_llbase_as_ll( cast_fbgc_object_as_field(*field_obj)->head );
+	struct fbgc_ll * head = _cast_llbase_as_ll( cast_fbgc_object_as_field(*field_obj)->code );
 
 	//Drop the tail object, make it null so if we want to run a function we can just use this
 	head->tail->next->next = NULL; 
@@ -220,7 +220,6 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 			break;
 		}
 		case BREAK:{
-
 			struct fbgc_ll_base * loop_obj =  _cast_llbase_as_lljumper(pc)->content;
 			if(loop_obj->type == FOR) {
 				STACK_GOTO(-4); //clean the for loop remainders
@@ -229,12 +228,10 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 			break;
 		}
 		case CONT:{
-
 			pc = _cast_llbase_as_lljumper(pc)->content;
 			continue;
 		}				
 		case RETURN:{
-
 
 			struct fbgc_object * ret = POP();
 			struct fun_call_packet * fcp = (struct fun_call_packet *) cast_fbgc_object_as_cstruct(POP())->cstruct;
@@ -524,7 +521,7 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 
 			
 
-			FBGC_LOGV(INTERPRETER,"Fun call arg no :%d || call type :%s\n",arg_no,objtp2str(funo));
+			FBGC_LOGV(INTERPRETER,"Fun call arg no :%d || call type :%s \n",arg_no,objtp2str(funo));
 			
 			if(funo->type == FIELD || funo->type == CMODULE){
 				//Call the second, pop the field
@@ -599,11 +596,13 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 
 			int8_t funo_no_arg = cast_fbgc_object_as_fun(funo)->no_arg;
 
-			cprintf(111,"funo no arg: %d\n",funo_no_arg);
+			cprintf(111,"funo no arg: %d | locals:%d\n",funo_no_arg,cast_fbgc_object_as_fun(funo)->no_locals);
 
 			struct fbgc_ll_base * code_start = cast_fbgc_object_as_fun(funo)->code;
 
-			if(funo_no_arg < 0){
+			if(cast_fbgc_object_as_fun(funo)->flag_variadic){
+
+				funo_no_arg *= -1;
 
 				int pos_arg_no = -funo_no_arg-1;
 

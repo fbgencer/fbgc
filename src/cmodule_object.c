@@ -27,10 +27,11 @@ void print_fbgc_cfun_object(const struct fbgc_cmodule_object * obj){
 
 
 struct fbgc_object * new_cfun_object_from_str(struct fbgc_object * field_obj, const char * str){
+	
+	struct fbgc_tuple_object * _lib_tuple = cast_fbgc_object_as_tuple(get_fbgc_field_object_cmodules(field_obj));
 
-	struct fbgc_tuple_object * tp = cast_fbgc_object_as_tuple(cast_fbgc_object_as_field(field_obj)->modules);
-	for(uint8_t i = 0; i<size_fbgc_tuple_object(tp); ++i){
-		const struct fbgc_object_property_holder * p = get_fbgc_object_property_holder(tp->content[i]);
+	for(uint8_t i = 0; i<size_fbgc_tuple_object(_lib_tuple); ++i){
+		const struct fbgc_object_property_holder * p = get_fbgc_object_property_holder(_lib_tuple->content[i]);
 	
 		int8_t w = _find_property(p->bits,_BIT_METHODS);
 		if(w != -1){

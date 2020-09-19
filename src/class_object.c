@@ -4,7 +4,6 @@ struct fbgc_object * new_fbgc_class_object(){
   struct fbgc_class_object * o = (struct fbgc_class_object*) fbgc_malloc_object(sizeof_fbgc_class_object());
     o->base.type = CLASS;
     o->code = NULL;
-	o->locals = new_fbgc_vector(1,sizeof(struct fbgc_identifier));
 	o->variables = new_fbgc_map_object(1,80);
     return (struct fbgc_object*) o;
 }
@@ -210,7 +209,7 @@ void print_fbgc_class_object(struct fbgc_object * obj){
     struct fbgc_class_object * cls = cast_fbgc_object_as_class(obj);
   
     if(cls->code != NULL && !is_constant_and_token(cls->code,CLASS) && _cast_llbase_as_llconstant(cls->code)->content != obj ){
-      cprintf(010,"CLASS[Local#:%d|",size_fbgc_vector(cls->locals));
+      cprintf(010,"CLASS[Local#:%d|",size_fbgc_map_object(cls->variables));
       _print_fbgc_ll_code(cls->code,NULL);
       cprintf(010,"]");
     }
@@ -229,16 +228,6 @@ struct fbgc_object * get_set_fbgc_class_object_member(struct fbgc_object * o, co
 		return NULL;
 	}
 
-	// struct fbgc_vector * ao = cast_fbgc_object_as_class(o)->locals;
-	// for(unsigned int i = 0;  i<size_fbgc_vector(ao); ++i){	
-	// 	struct fbgc_identifier * temp_id = (struct fbgc_identifier *) get_item_fbgc_vector(ao,i);
-	// 	//cprintf(111,"temp_idname = %s, str:%s => %d\n",content_fbgc_str_object(temp_id->name),str,my_strcmp(content_fbgc_str_object(temp_id->name),str));
-	// 	if(!my_strcmp(content_fbgc_str_object(temp_id->name),str)){
-	// 		//cprintf(111,"I am returning\n");
-	// 		return temp_id->content;
-	// 	}
-	// }
-
 	return fbgc_map_object_lookup_str(cast_fbgc_object_as_class(o)->variables,str);
 }
 
@@ -251,6 +240,7 @@ const struct fbgc_object_property_holder fbgc_class_object_property_holder = {
 	}
 };
 
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 
 
