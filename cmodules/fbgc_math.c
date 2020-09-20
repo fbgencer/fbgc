@@ -463,8 +463,8 @@ struct raw_complex c_cos(struct raw_complex z){
 static
 struct fbgc_object * fbgc_math_init(struct fbgc_object ** arg, int argc){
 	//cprintf(111,"Called math initializer!\n");
-	add_variable_in_field_object(arg[0],"pi",new_fbgc_double_object(FBGC_MATH_PI));
-	add_variable_in_field_object(arg[0],"e",new_fbgc_double_object(FBGC_MATH_E));
+	add_variable_in_field(arg[0],"pi",new_fbgc_double_object(FBGC_MATH_PI));
+	add_variable_in_field(arg[0],"e",new_fbgc_double_object(FBGC_MATH_E));
 
 	return NULL;
 }

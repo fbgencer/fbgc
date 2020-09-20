@@ -768,7 +768,7 @@ uint8_t parse_file(struct fbgc_object ** field_obj, const char * file_name){
 	FBGC_LOGV(PARSER,"==========================\nParser finished, defined symbols:");
 	FBGC_LOGV(PARSER,"%c\n",print_fbgc_object(fbgc_symbols));
 	FBGC_LOGV(PARSER,"Global field locals:");
-	FBGC_LOGV(PARSER,"%c\n",print_field_object_locals(*field_obj));
+	FBGC_LOGV(PARSER,"%c\n",print_field_locals(*field_obj));
 	FBGC_LOGV(PARSER,"==========================\n");
 
 	return 1;
@@ -802,7 +802,7 @@ uint8_t parse_string(struct fbgc_object ** field_obj, char * str ){
 	FBGC_LOGV(PARSER,"==========================\nParser finished, defined symbols:");
 	FBGC_LOGV(PARSER,"%c\n",print_fbgc_object(fbgc_symbols));
 	FBGC_LOGV(PARSER,"Global field locals:");
-	FBGC_LOGV(PARSER,"%c\n",print_field_object_locals(*field_obj));
+	FBGC_LOGV(PARSER,"%c\n",print_field_locals(*field_obj));
 	FBGC_LOGV(PARSER,"==========================\n");
 	return 1;
 }
@@ -902,7 +902,6 @@ static uint8_t parser(struct parser_packet * p){
 
 			//This do-while(0) loop is used instead of using goto, because if scope is fun we do not want to go through below field variable
 			//registeration, the whole point is reducing the code size not when we break, we jump at the end of do-while loop so which is what we wanted
-			
 			bool found = false;
 			do{
 			struct fbgc_object * symbol_map = NULL;
@@ -915,6 +914,7 @@ static uint8_t parser(struct parser_packet * p){
 				//Ask for this pointer, notice that this is different than array object because tuple only holds fbgc_object pointers
 				//So we are basically asking does your contents contain this ?
 				ssize_t where = index_fbgc_tuple_object(fun_stack,cstr_obj);
+				cprintf(100,"found it! where %d\n",where);
 				if(where != -1){
 					//Most likely we will call our previous definitions
 					//We already set flag to local, so just break do-while loop to go at the end of case IDENTIFIER
@@ -924,9 +924,11 @@ static uint8_t parser(struct parser_packet * p){
 						FBGC_LOGE("Function arguments must have unique names\n");
 						return p->error_code = _FBGC_SYNTAX_ERROR;
 					}
+					set_ll_identifier_loc(p->iter,where);
 					break;
 				}
 				else{ 
+					
 					if(p->iter->next->type == ASSIGN  || (!is_fbgc_fun_object_defined(current_scope) && TOP_LL(p->op)->type != ASSIGN)){
 					//Now ask for is this a new definition ? if it is not, it will leave as where = -1
 						FBGC_LOGD(PARSER,"First time defining IDENTIFIER inside function\n");
@@ -940,19 +942,20 @@ static uint8_t parser(struct parser_packet * p){
 						set_ll_identifier_loc(p->iter,where);
 						break;//Break do-while loop to go to at the end of case IDENTIFIER
 					}
+
 				}
 				FBGC_LOGV(PARSER,"Identifier could be global, searching in global fields.\n");
 				//Now change current locals to field object locals because we do not allow to get variables defined in classes, 
 				//only field  is allowed
 
-				symbol_map = cast_fbgc_object_as_field(current_scope)->variables;
+				symbol_map = cast_fbgc_object_as_field(current_field)->variables;
 				set_id_flag_GLOBAL(p->iter);
 
 			}else{
 				//If we are here we sure that current scope either field or class no need to check
 				//get the local array of field/class objects
 
-				if(current_scope->type == FIELD){
+				if(current_scope == current_field){
 					set_id_flag_GLOBAL(p->iter);
 					symbol_map = cast_fbgc_object_as_field(current_scope)->variables;
 				}

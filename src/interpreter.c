@@ -141,16 +141,14 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 
 			if(is_id_flag_array_accessible(pc)){
 				//If global then ask for field, if it is class then ask for current scope
-				/*struct fbgc_vector * arr = is_id_flag_GLOBAL(pc) ? 
-									cast_fbgc_object_as_field(current_field)->locals :
-									cast_fbgc_object_as_class(current_scope)->locals;
+				struct fbgc_object * variable_map = is_id_flag_GLOBAL(pc) ? 
+									cast_fbgc_object_as_field(current_field)->variables:
+									cast_fbgc_object_as_class(current_scope)->variables;
 
 				
-				struct fbgc_identifier * tmp = (struct fbgc_identifier *) 
-						get_item_fbgc_vector(arr,_cast_fbgc_object_as_llidentifier(pc)->loc);*/
 
 				struct fbgc_object * key = get_object_in_fbgc_tuple_object(fbgc_symbols,_cast_fbgc_object_as_llidentifier(pc)->loc);
-				struct fbgc_object * value = fbgc_map_object_lookup(cast_fbgc_object_as_field(current_field)->variables,key);
+				struct fbgc_object * value = fbgc_map_object_lookup(variable_map,key);
 
 				//In parsing phase content of identifiers are set the NULL so it means they did not defined by the user
 				if(value == NULL){
@@ -200,7 +198,7 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 						goto INTERPRETER_ERROR_LABEL;
 					}
 
-					if(self->type != CMODULE && self->type != FIELD){
+					if(self->type != CMODULE){
 						PUSH(object);
 						PUSH(self);
 					}
@@ -331,16 +329,16 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 			if(is_id_flag_array_accessible(pc)){
 
 				//If global then ask for field, if it is class then ask for current scope
-				// struct fbgc_vector * arr = is_id_flag_GLOBAL(pc) ? 
-				// 					cast_fbgc_object_as_field(current_field)->locals :
-				// 					cast_fbgc_object_as_class(current_scope)->locals;
+				struct fbgc_object * variable_map = is_id_flag_GLOBAL(pc) ? 
+									cast_fbgc_object_as_field(current_field)->variables:
+									cast_fbgc_object_as_class(current_scope)->variables;
 
 				// struct fbgc_identifier * tmp = (struct fbgc_identifier *)
 				// 								get_item_fbgc_vector(arr,_cast_fbgc_object_as_llidentifier(pc)->loc);
 				// lhs = &tmp->content;
 
 				struct fbgc_object * key = get_object_in_fbgc_tuple_object(fbgc_symbols,_cast_fbgc_object_as_llidentifier(pc)->loc);
-				struct fbgc_map_pair * mp = fbgc_map_object_lookup_map_pair(cast_fbgc_object_as_field(current_field)->variables,key);
+				struct fbgc_map_pair * mp = fbgc_map_object_lookup_map_pair(variable_map,key);
 				
 				lhs = &mp->value;
 			}
@@ -523,7 +521,7 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 
 			FBGC_LOGV(INTERPRETER,"Fun call arg no :%d || call type :%s \n",arg_no,objtp2str(funo));
 			
-			if(funo->type == FIELD || funo->type == CMODULE){
+			if(funo->type == CMODULE){
 				//Call the second, pop the field
 				funo = TOPN(arg_no--);
 				--pop_number; 

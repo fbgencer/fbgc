@@ -28,7 +28,7 @@ void print_fbgc_cfun_object(const struct fbgc_cmodule_object * obj){
 
 struct fbgc_object * new_cfun_object_from_str(struct fbgc_object * field_obj, const char * str){
 	
-	struct fbgc_tuple_object * _lib_tuple = cast_fbgc_object_as_tuple(get_fbgc_field_object_cmodules(field_obj));
+	struct fbgc_tuple_object * _lib_tuple = cast_fbgc_object_as_tuple(get_fbgc_field_cmodules(field_obj));
 
 	for(uint8_t i = 0; i<size_fbgc_tuple_object(_lib_tuple); ++i){
 		const struct fbgc_object_property_holder * p = get_fbgc_object_property_holder(_lib_tuple->content[i]);

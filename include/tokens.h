@@ -38,77 +38,76 @@ typedef struct {
 #define LINKED_LIST 20 //
 #define CMODULE 21 //
 #define GARBAGE 22 //
-#define FIELD 23 //
-#define END 24 // end
-#define FUN_MAKE 25 //
-#define CLASS_MAKE 26 //
-#define ELIF 27 //
-#define ELSE 28 //
-#define WHILE 29 //
-#define FOR 30 //
-#define BREAK 31 //
-#define CONT 32 //
-#define IF 33 //
-#define RETURN 34 //
-#define NEWLINE 35 //
-#define LPARA 36 // (
-#define RPARA 37 // )
-#define LBRACK 38 // [
-#define RBRACK 39 // ]
-#define LBRACE 40 // {
-#define RBRACE 41 // }
-#define COMMA 42 // , -- set1 start
-#define DOT 43 // .
-#define SEMICOLON 44 // ; 
-#define COLON 45 // : set1 finish
-#define RSHIFT 46 // >> assignment and binary operators start from here
-#define LSHIFT 47 // <<
-#define STARSTAR 48 // **
-#define SLASHSLASH 49 // //
-#define PLUS 50 // +
-#define MINUS 51 // -
-#define STAR 52 // *
-#define SLASH 53 // /
-#define CARET 54 // ^
-#define PERCENT 55 // % assignment finish
-#define LOEQ 56 // <=
-#define GREQ 57 // >=
-#define EQEQ 58 // ==
-#define NOTEQ 59 // !=
-#define LOWER 60 // <
-#define GREATER 61 // >
-#define PIPE 62 // |
-#define AMPERSAND 63 // & binary finish
-#define EXCLAMATION 64 // !
-#define TILDE 65 // ~
-#define UPLUS 66 // +
-#define UMINUS 67 // -
-#define ASSIGN 68 // = assignment ops start from here
-#define RSHIFT_ASSIGN 69 // >>=
-#define LSHIFT_ASSIGN 70 // <<=
-#define STARSTAR_ASSIGN 71 // **=
-#define SLASHSLASH_ASSIGN 72 // //=
-#define PLUS_ASSIGN 73 // +=
-#define MINUS_ASSIGN 74 // -=
-#define STAR_ASSIGN 75 // *=
-#define SLASH_ASSIGN 76 // /=
-#define CARET_ASSIGN 77 // ^=
-#define PERCENT_ASSIGN 78 // %=
-#define ASSIGN_SUBSCRIPT 79 //
-#define LEN 80 //
-#define JUMP 81 //
-#define FOR_BEGIN 82 //
-#define FUN_CALL 83 //
-#define KWFUN_CALL 84 //
-#define BUILD_TUPLE 85 //
-#define BUILD_MATRIX 86 //
-#define BUILD_MAP 87 //
-#define POP_TOP 88 //
-#define ROW 89 //
-#define LOAD_SUBSCRIPT 90 //
-#define CLASS_CALL 91 //
-#define CLASS_SELF 92 //
-#define BUILD_FUN_DEFAULT_ARGS 93 //
+#define END 23 // end
+#define FUN_MAKE 24 //
+#define CLASS_MAKE 25 //
+#define ELIF 26 //
+#define ELSE 27 //
+#define WHILE 28 //
+#define FOR 29 //
+#define BREAK 30 //
+#define CONT 31 //
+#define IF 32 //
+#define RETURN 33 //
+#define NEWLINE 34 //
+#define LPARA 35 // (
+#define RPARA 36 // )
+#define LBRACK 37 // [
+#define RBRACK 38 // ]
+#define LBRACE 39 // {
+#define RBRACE 40 // }
+#define COMMA 41 // , -- set1 start
+#define DOT 42 // .
+#define SEMICOLON 43 // ; 
+#define COLON 44 // : set1 finish
+#define RSHIFT 45 // >> assignment and binary operators start from here
+#define LSHIFT 46 // <<
+#define STARSTAR 47 // **
+#define SLASHSLASH 48 // //
+#define PLUS 49 // +
+#define MINUS 50 // -
+#define STAR 51 // *
+#define SLASH 52 // /
+#define CARET 53 // ^
+#define PERCENT 54 // % assignment finish
+#define LOEQ 55 // <=
+#define GREQ 56 // >=
+#define EQEQ 57 // ==
+#define NOTEQ 58 // !=
+#define LOWER 59 // <
+#define GREATER 60 // >
+#define PIPE 61 // |
+#define AMPERSAND 62 // & binary finish
+#define EXCLAMATION 63 // !
+#define TILDE 64 // ~
+#define UPLUS 65 // +
+#define UMINUS 66 // -
+#define ASSIGN 67 // = assignment ops start from here
+#define RSHIFT_ASSIGN 68 // >>=
+#define LSHIFT_ASSIGN 69 // <<=
+#define STARSTAR_ASSIGN 70 // **=
+#define SLASHSLASH_ASSIGN 71 // //=
+#define PLUS_ASSIGN 72 // +=
+#define MINUS_ASSIGN 73 // -=
+#define STAR_ASSIGN 74 // *=
+#define SLASH_ASSIGN 75 // /=
+#define CARET_ASSIGN 76 // ^=
+#define PERCENT_ASSIGN 77 // %=
+#define ASSIGN_SUBSCRIPT 78 //
+#define LEN 79 //
+#define JUMP 80 //
+#define FOR_BEGIN 81 //
+#define FUN_CALL 82 //
+#define KWFUN_CALL 83 //
+#define BUILD_TUPLE 84 //
+#define BUILD_MATRIX 85 //
+#define BUILD_MAP 86 //
+#define POP_TOP 87 //
+#define ROW 88 //
+#define LOAD_SUBSCRIPT 89 //
+#define CLASS_CALL 90 //
+#define CLASS_SELF 91 //
+#define BUILD_FUN_DEFAULT_ARGS 92 //
 #define TOKEN_LIST_AS_STRINGS()\
 "UNKNOWN",\
 "NIL",\
@@ -133,7 +132,6 @@ typedef struct {
 "LINKED_LIST",\
 "CMODULE",\
 "GARBAGE",\
-"FIELD",\
 "END",\
 "FUN_MAKE",\
 "CLASS_MAKE",\

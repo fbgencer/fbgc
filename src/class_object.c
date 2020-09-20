@@ -1,5 +1,7 @@
 #include "fbgc.h"
 
+
+
 struct fbgc_object * new_fbgc_class_object(){ 
   struct fbgc_class_object * o = (struct fbgc_class_object*) fbgc_malloc_object(sizeof_fbgc_class_object());
     o->base.type = CLASS;
@@ -253,23 +255,10 @@ struct fbgc_object * get_set_fbgc_instance_object_member(struct fbgc_object * o,
 
 	if(rhs == NULL)
 		return content_fbgc_tuple_object(cast_fbgc_object_as_instance(o)->variables)[where];
-	else 
-		set_object_in_fbgc_tuple_object(cast_fbgc_object_as_instance(o)->variables,rhs,where);
-
-	// struct fbgc_vector * ao = cast_fbgc_object_as_class(cast_fbgc_object_as_instance(o)->template_class)->locals;
-
-	// for(int i = 0; i<size_fbgc_vector(ao); i++){
-	// 	struct fbgc_identifier * temp_id = (struct fbgc_identifier *) get_item_fbgc_vector(ao,i);
-		
-	// 	if(!my_strcmp(content_fbgc_str_object(temp_id->name),str)){
-	// 		if(rhs == NULL) return content_fbgc_tuple_object(cast_fbgc_object_as_instance(o)->variables)[i];
-	// 		else set_object_in_fbgc_tuple_object(cast_fbgc_object_as_instance(o)->variables,rhs,i);
-	// 		return o;
-	// 	}
-	// }
-
-
-	return NULL;
+	
+	
+	set_object_in_fbgc_tuple_object(cast_fbgc_object_as_instance(o)->variables,rhs,where);
+	return o;
 }
 
 struct fbgc_object * subscript_operator_fbgc_instance_object(struct fbgc_object * iterable,struct fbgc_object * index_obj){

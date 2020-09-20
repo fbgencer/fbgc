@@ -28,7 +28,6 @@ const struct fbgc_object_property_holder * get_fbgc_object_property_holder(struc
 		case CSTRUCT: return cast_fbgc_object_as_cstruct(o)->properties;
 		case FUN : return &fbgc_fun_object_property_holder;
 		case CLASS : return &fbgc_class_object_property_holder;
-		case FIELD : return &fbgc_field_object_property_holder;
 		
 
 	}

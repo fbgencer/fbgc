@@ -52,7 +52,7 @@ extern "C" {
 #include "../include/class_object.h"
 
 #include "../include/symbol_table.h"
-#include "../include/field_object.h"
+#include "../include/field.h"
 
 
 #include "../include/relexer.h"

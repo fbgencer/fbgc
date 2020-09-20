@@ -91,7 +91,7 @@ struct fbgc_object * fbgc_load_module(const char * module_name,const char * fun_
 			}
 
 			//if load key == 1 or == 2, it does not matter we checked name of the constructor
-			add_variable_in_field_object(current_field,cc->name,new_fbgc_cfun_object(cc->function));
+			add_variable_in_field(current_field,cc->name,new_fbgc_cfun_object(cc->function));
 		}
 		else{
 
@@ -106,7 +106,7 @@ struct fbgc_object * fbgc_load_module(const char * module_name,const char * fun_
 					if(load_key == 2 && strcmp(str,fun_name) != 0){
 						continue; //No match continue, if load_key is not 2 then we will add everything
 					}
-					add_variable_in_field_object(current_field,str,new_fbgc_cfun_object(methods->method[len].function));
+					add_variable_in_field(current_field,str,new_fbgc_cfun_object(methods->method[len].function));
 				}
 			}
 			w = _find_property(p->bits,_BIT_MEMBERS);
@@ -122,7 +122,7 @@ struct fbgc_object * fbgc_load_module(const char * module_name,const char * fun_
 					}
 
 					//No self is provided, user must know this
-					add_variable_in_field_object(current_field,str,members->member[len].function(NULL,NULL));
+					add_variable_in_field(current_field,str,members->member[len].function(NULL,NULL));
 				}
 			}				
 		}
@@ -661,8 +661,6 @@ struct{
 */
 
 
-
-
 #ifndef MODULE_TEST
 int main(int argc, char **argv){
 
@@ -673,6 +671,8 @@ int main(int argc, char **argv){
 
 //******************************************************************
 	initialize_fbgc_memory_block();
+
+
 
 
 	// struct fbgc_bool_vector bv;
@@ -917,7 +917,7 @@ int main(int argc, char **argv){
 	//print_detailed_fbgc_map_object(map);
 
 	initialize_fbgc_symbol_table();
-	current_field = new_fbgc_field_object();
+	current_field = new_fbgc_field(2,&_fbgc_io_property_holder,&_fbgc_stl_property_holder);
 	if(argc > 1)
 	{   
 		if(!strcmp(argv[1],"-s")){
@@ -930,7 +930,7 @@ int main(int argc, char **argv){
 		
 	}
 	else{
-		compile_file(current_field, "ex.fbgc");
+		//compile_file(current_field, "ex.fbgc");
 	   //realtime_fbgc(main_field);
 	}
 
