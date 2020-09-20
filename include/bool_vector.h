@@ -23,6 +23,7 @@ bool front_fbgc_bool_vector(const struct fbgc_bool_vector * bv);
 bool back_fbgc_bool_vector(const struct fbgc_bool_vector * bv);
 void push_back_fbgc_bool_vector(struct fbgc_bool_vector * bv, bool value);
 void pop_back_fbgc_bool_vector(struct fbgc_bool_vector * bv);
+void shrink_fbgc_bool_vector(struct fbgc_bool_vector * bv, size_t cap);
 
 bool at_fbgc_bool_vector(const struct fbgc_bool_vector * bv, size_t index);
 bool get_bit_fbgc_bool_vector(const struct fbgc_bool_vector * bv, int index);

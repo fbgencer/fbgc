@@ -115,12 +115,17 @@ void push_back_fbgc_bool_vector(struct fbgc_bool_vector * bv, bool value){
 }
 void pop_back_fbgc_bool_vector(struct fbgc_bool_vector * bv){
 	--bv->size;
-	if(capacity_fbgc_bool_vector(bv) / bv->size >= 2){
-		//Shrink
-		bv->content = fbgc_realloc(bv->content,(byte_capacity_fbgc_bool_vector(bv)-1) );
-	}
+	shrink_fbgc_bool_vector(bv,bv->size);
 }
 
+void shrink_fbgc_bool_vector(struct fbgc_bool_vector * bv, size_t cap){
+	//Find the closes power of 8 
+	cap = ceil(cap/8.0) + (cap == 0);
+	if(cap < byte_capacity_fbgc_bool_vector(bv)){
+		bv->content = fbgc_realloc(bv->content,cap);	
+	}
+	
+}
 
 
 

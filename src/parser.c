@@ -914,7 +914,7 @@ static uint8_t parser(struct parser_packet * p){
 				//Ask for this pointer, notice that this is different than array object because tuple only holds fbgc_object pointers
 				//So we are basically asking does your contents contain this ?
 				ssize_t where = index_fbgc_tuple_object(fun_stack,cstr_obj);
-				cprintf(100,"found it! where %d\n",where);
+				
 				if(where != -1){
 					//Most likely we will call our previous definitions
 					//We already set flag to local, so just break do-while loop to go at the end of case IDENTIFIER
@@ -967,7 +967,6 @@ static uint8_t parser(struct parser_packet * p){
 			while(1){
 
 				if(fbgc_map_object_does_key_exist(symbol_map,cstr_obj)){
-					cprintf(100,"already defined in your map \n");
 					found = true;
 					//where = get_ll_identifier_loc(p->iter);
 				}

@@ -27,11 +27,17 @@ void * front_fbgc_vector(const struct fbgc_vector * vector);
 void * back_fbgc_vector(const struct fbgc_vector * vector);
 void push_back_fbgc_vector(struct fbgc_vector * vector, const void * item);
 void pop_back_fbgc_vector(struct fbgc_vector * vector);
+void erase_fbgc_vector(struct fbgc_vector * vector);
+void reserve_fbgc_vector(struct fbgc_vector * vector, size_t new_cap);
+void shrink_fbgc_vector(struct fbgc_vector * vector, size_t new_cap);
+void shrink_to_fit_fbgc_vector(struct fbgc_vector * vector);
+void hard_shrink_to_fit_fbgc_vector(struct fbgc_vector * vector);
 
 void * at_fbgc_vector(const struct fbgc_vector * vector, size_t index);
 void * get_item_fbgc_vector(const struct fbgc_vector * vector, int index);
 void set_item_fbgc_vector(const struct fbgc_vector * vector, int index, const void * item);
 void insert_fbgc_vector(struct fbgc_vector * vector, size_t index_start, const void * item, size_t item_len);
+void sort_fbgc_vector(struct fbgc_vector * vector, int (*compare_function)(const void *, const void *) );
 //void swap_with_another_vector_fbgc_vector(struct fbgc_vector * self,struct fbgc_vector * vector2 );
 
 

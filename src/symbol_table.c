@@ -6,7 +6,10 @@ struct fbgc_object * initialize_fbgc_symbol_table(){
     //struct fbgc_tuple_object * table = (struct fbgc_tuple_object*) new_fbgc_tuple_object(INITIAL_SYMBOL_TABLE_SIZE);
    	fbgc_symbols = new_fbgc_tuple_object(INITIAL_SYMBOL_TABLE_SIZE);
 
-    return NULL;
+   	set_gc_black(fbgc_symbols);
+	gc_mark_fbgc_object(fbgc_symbols);
+	
+    return fbgc_symbols;
 }
 struct fbgc_ll_base * new_fbgc_symbol_from_substr(const char * str1,const char * str2){
 	

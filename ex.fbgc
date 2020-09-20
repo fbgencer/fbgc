@@ -1,7 +1,7 @@
 mom = class()
 	
 	love = fun(x)
-		print("Hello from my love ",x,glo)
+		print("Hello from my love:",x,glo)
 	end
 
 end
@@ -16,4 +16,3 @@ y.x = "fbge"
 a = mom()
 a.love("A")
 y.love("Y")
-

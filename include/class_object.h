@@ -20,8 +20,6 @@ struct fbgc_instance_object{
 
 
 
-
-
 extern const struct fbgc_object_property_holder fbgc_instance_object_property_holder;
 
 #define cast_fbgc_object_as_class(x)(((struct fbgc_class_object*) x))
@@ -34,7 +32,6 @@ void fprintf_fbgc_class_object(struct fbgc_object *);
 
 struct fbgc_object * new_fbgc_class_object();
 void inherit_from_another_class(struct fbgc_object * self,struct fbgc_object * father);
-struct fbgc_object * get_set_fbgc_class_object_member(struct fbgc_object * o, const char * str, struct fbgc_object * nm);
 
 
 struct fbgc_object * new_fbgc_instance_object(struct fbgc_object * _template);

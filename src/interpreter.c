@@ -517,8 +517,6 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 				--pop_number;
 			}
 
-			
-
 			FBGC_LOGV(INTERPRETER,"Fun call arg no :%d || call type :%s \n",arg_no,objtp2str(funo));
 			
 			if(funo->type == CMODULE){
@@ -593,8 +591,6 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 			}
 
 			int8_t funo_no_arg = cast_fbgc_object_as_fun(funo)->no_arg;
-
-			cprintf(111,"funo no arg: %d | locals:%d\n",funo_no_arg,cast_fbgc_object_as_fun(funo)->no_locals);
 
 			struct fbgc_ll_base * code_start = cast_fbgc_object_as_fun(funo)->code;
 
@@ -898,8 +894,7 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 	}
 	FBGC_LOGV(INTERPRETER,"}\n");
 	FBGC_LOGV(INTERPRETER,"~~~~~~Field Globals~~~~~\n");
-
-	print_fbgc_map_object(cast_fbgc_object_as_field(current_field)->variables);
+	FBGC_LOGV(INTERPRETER,"%d",print_fbgc_map_object(cast_fbgc_object_as_field(current_field)->variables));
 
 	// struct fbgc_vector * globals;
 	// if(current_scope != NULL && current_scope->type == CLASS) globals = cast_fbgc_object_as_class(current_scope)->locals;

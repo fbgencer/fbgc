@@ -33,7 +33,6 @@ struct fbgc_ll_identifier{
 };
 
 
-
 struct fbgc_ll_opcode_int{
     struct fbgc_ll_base base;
     int content;

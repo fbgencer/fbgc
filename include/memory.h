@@ -8,7 +8,7 @@ extern "C" {
 #define KILOBYTE 1024
 
 
-#define PAGE_SIZE  10* KILOBYTE //[byte]
+#define PAGE_SIZE  10*KILOBYTE //[byte]
 
 
 #define MEM_OBJECT_POOL 0 
@@ -26,7 +26,7 @@ struct fbgc_memory_pool{
 struct fbgc_memory_block{
 	struct fbgc_memory_pool * raw_buffer_head;
 	struct fbgc_memory_pool * object_pool_head;
-	struct fbgc_object empty_chunk_head;
+	struct fbgc_vector free_list;
 };
 
 struct fbgc_raw_buffer{
@@ -125,6 +125,7 @@ uint8_t fbgc_gc_mark_pointer(void * base_ptr, size_t block_size);
 void fbgc_gc_init(struct fbgc_object * root);
 void fbgc_gc_mark();
 void fbgc_gc_sweep();
+void fbgc_gc_run();
 
 
 #ifdef LOG_MEMORY

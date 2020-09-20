@@ -211,18 +211,18 @@ struct fbgc_object * fbgc_load_file(const char * file_name,const char * fun_name
 
 void printBits(size_t const size, void const * const ptr)
 {
-    unsigned char *b = (unsigned char*) ptr;
-    unsigned char byte;
-    int i, j;
+	unsigned char *b = (unsigned char*) ptr;
+	unsigned char byte;
+	int i, j;
 
-    for (i=size-1;i>=0;i--)
-    {
-        for (j=7;j>=0;j--)
-        {
-            byte = (b[i] >> j) & 1;
-            printf("%u", byte);
-        }
-    }
+	for (i=size-1;i>=0;i--)
+	{
+		for (j=7;j>=0;j--)
+		{
+			byte = (b[i] >> j) & 1;
+			printf("%u", byte);
+		}
+	}
 }
 
 
@@ -240,25 +240,25 @@ int8_t parse_tuple_content(struct fbgc_cfun_arg * cfun_arg,const char * format, 
 	struct fbgc_object ** c = cfun_arg->arg;
 	int sz = cfun_arg->argc;
 
-    va_list args;
-    va_start(args, format);
-    
-    uint8_t have_arg = 0;
-    if(*format == '!'){
-    	//so only verification, assuming no arg is passed
-    	//cprintf(110,"Not assignment, only verification\n");
-    	++format;
-    }
-    else have_arg = 1;
+	va_list args;
+	va_start(args, format);
+	
+	uint8_t have_arg = 0;
+	if(*format == '!'){
+		//so only verification, assuming no arg is passed
+		//cprintf(110,"Not assignment, only verification\n");
+		++format;
+	}
+	else have_arg = 1;
 
 
-    uint8_t ok = 0;
-    int8_t level = 0;
+	uint8_t ok = 0;
+	int8_t level = 0;
 
-    const char * level_start = format;
+	const char * level_start = format;
 
-    uint8_t count_match = 0;
-    
+	uint8_t count_match = 0;
+	
 	for(int i = 0; i<sz; ++i){
 		struct fbgc_object * co = c[i];
 		//cprintf(111,"Current[%d] type :%s | format:%c\n",i,objtp2str(co),*format);
@@ -426,37 +426,37 @@ int8_t parse_keywordargs_content(struct fbgc_cfun_arg * cfun_arg,const char ** k
 	struct fbgc_object ** c = cfun_arg->arg;
 	size_t sz = size_fbgc_map_object(kwargs);
 
-    va_list args;
-    va_start(args, format);
-    
-    uint8_t have_arg = 0;
-    if(*format == '!'){
-    	//so only verification, assuming no arg is passed
-    	//cprintf(110,"Not assignment, only verification\n");
-    	++format;
-    }
-    else have_arg = 1;
+	va_list args;
+	va_start(args, format);
+	
+	uint8_t have_arg = 0;
+	if(*format == '!'){
+		//so only verification, assuming no arg is passed
+		//cprintf(110,"Not assignment, only verification\n");
+		++format;
+	}
+	else have_arg = 1;
 
-    //XXXXXXXXXXXXXXXXXXXXXXXXX
-    //Give error for undefined keyword entries!
-    //Now it is missing
-    //XXXXXXXXXXXXXXXXXXXXXXXXX
+	//XXXXXXXXXXXXXXXXXXXXXXXXX
+	//Give error for undefined keyword entries!
+	//Now it is missing
+	//XXXXXXXXXXXXXXXXXXXXXXXXX
 
 
-    uint8_t ok = 0;
-    int8_t level = 0;
+	uint8_t ok = 0;
+	int8_t level = 0;
 
-    const char * level_start = format;
+	const char * level_start = format;
 
-    uint8_t count_match = 0;
-    
-    for(const char * ckw = keywords[0]; ckw != NULL; ckw = *(++keywords)){
-    	struct fbgc_object * co = fbgc_map_object_lookup_str(kwargs,ckw);
-    	if(co == NULL){
+	uint8_t count_match = 0;
+	
+	for(const char * ckw = keywords[0]; ckw != NULL; ckw = *(++keywords)){
+		struct fbgc_object * co = fbgc_map_object_lookup_str(kwargs,ckw);
+		if(co == NULL){
 			struct fbgc_object ** o = va_arg(args, struct fbgc_object **);
 			*o = NULL;
-    		continue; 		
-    	}
+			continue; 		
+		}
 
 	switch(*format){
 		case 'b':{
@@ -661,6 +661,16 @@ struct{
 */
 
 
+int values[] = { 40, 10, 100, 90, 20, 25 };
+double dvalues[] = { 0,0.001, 0.0001,40, 10, 100, 90, 20, 25, 3.312,-55.123,100.22 };
+
+int compare (const void * a, const void * b)
+{
+  return ( *(int*)a - *(int*)b );
+}
+
+
+
 #ifndef MODULE_TEST
 int main(int argc, char **argv){
 
@@ -672,252 +682,31 @@ int main(int argc, char **argv){
 //******************************************************************
 	initialize_fbgc_memory_block();
 
+	initialize_fbgc_symbol_table();
+	current_field = new_fbgc_field(2,&_fbgc_io_property_holder,&_fbgc_stl_property_holder);
 
+	//fbgc_gc_init(current_field);
 
+	//fbgc_gc_run();
 
-	// struct fbgc_bool_vector bv;
-	// init_static_fbgc_bool_vector(&bv,0);
-	// //printf("Bv size %ld\n",size_fbgc_bool_vector(bv));
-	// //printf("Bv cap  %ld\n",capacity_fbgc_bool_vector(bv));
-
-	// push_back_fbgc_bool_vector(&bv,1);
-	// push_back_fbgc_bool_vector(&bv,1);
-	// //toggle_bit_fbgc_bool_vector(&bv,-1);
-	// //toggle_bit_fbgc_bool_vector(&bv,-1);
-
-	// // set_bit_fbgc_bool_vector(bv,3,1);
-	// // set_bit_fbgc_bool_vector(bv,4,1);
-	// // set_bit_fbgc_bool_vector(bv,5,1);
-	// printf("bef %d\n",bv.content[0]);
-	// pop_back_fbgc_bool_vector(&bv);
-	// push_back_fbgc_bool_vector(&bv,0);
-	// printf("after %d\n",bv.content[0]);
-	// // pop_back_fbgc_bool_vector(&bv);
-	// // pop_back_fbgc_bool_vector(&bv);
-	
-	// printf("Bv size %ld | cap %ld\n",size_fbgc_bool_vector(&bv), capacity_fbgc_bool_vector(&bv));
-	// for (int i = 0; i < size_fbgc_bool_vector(&bv); ++i)
-	// {
-	// 	printf("Bv content[%d]:%d\n",i,get_bit_fbgc_bool_vector(&bv,i));
-	// }
-
-
-
-	//set_bit_fbgc_bool_vector(bv,1,3);
-
-	// printf("Insertion test at index 4\n");
-	// insert_fbgc_vector(v,new_data,4,3);	
-
-
-	// for (int i = 0; i < size_fbgc_vector(v); ++i){
-	// 	double * d = (double *) get_item_fbgc_vector(v,i);
-	// 	printf("[%d] = %g\n",i,*d);
-	// }
-
-	/*int * lol = (int * ) fbgc_malloc(sizeof(int)*10);
-	int val[10] = {10,20,30,40,50,60,70,80,90,100};
-	memcpy(lol,val,sizeof(int)*10);
-
-
-	int val2[10] = {1,2,3,4,5,6,7,8,9,10};
-	int * lol2 = (int * ) fbgc_malloc(sizeof(int)*20);
-	memcpy(lol2,val2,sizeof(int)*10);
-
-	print_fbgc_memory_block();
-	
-
-	cprintf(100,"capacity lol :%ld\n",capacity_fbgc_raw_memory(lol,sizeof(int)));
-	cprintf(100,"capacity lol2 :%ld\n",capacity_fbgc_raw_memory(lol2,sizeof(int)));*/
-	
-	
-	
-	//struct fbgc_object * io = new_fbgc_int_object(10);
-	//struct fbgc_object * to = new_fbgc_tuple_object(0);
-	//push_back_fbgc_tuple_object(to,io);
-	//struct fbgc_object * io1 = new_fbgc_int_object(20);
-	//struct fbgc_object * io2 = new_fbgc_int_object(30);
-
-	//printf("sizeof ? %lu\n",size_of_fbgc_object(io));
-
-
-	// struct fbgc_queue * q = new_fbgc_queue(2,sizeof(int));
-	// int a = 5;
-	// fbgc_queue_push_back(q,&a);
-	// a = 6;
-	// fbgc_queue_push_back(q,&a);
-	// fbgc_queue_pop(q);
-	// a = 7;
-	// fbgc_queue_push_back(q,&a);
-	// fbgc_queue_pop(q);
-	// a = 8;
-	// fbgc_queue_push_back(q,&a);
-	
-	// //a = 9;
-	// //fbgc_queue_push_back(q,&a);
-	// //fbgc_queue_pop(q);
-
-
-	// // struct fbgc_raw_buffer * rb = cast_from_raw_buffer_data_to_raw_buffer(q->data);
-	// // printf("rb cap = %d | data p:%p | rb%p\n",rb->capacity,q->data,rb );
-	// // uint8_t * d = (uint8_t*)rb;
-	// // for (int i = 0; i < sizeof(struct fbgc_raw_buffer)+rb->capacity; ++i)
-	// // {	
-	// // 	printf("%p[%d]:%02x|%d\n",d,i,*d,*d );
-	// // 	d++;
-	// // }
-
-	// print_fbgc_memory_block();
-
-	// printf("queue front %p | sz:%ld\n",fbgc_queue_front(q),size_fbgc_queue(q));
-
-	//printf("sctr : %d\n",global_interpreter_packet->sctr );
-
-	//struct fbgc_object * to = new_fbgc_tuple_object(0);
-
-	// struct fbgc_object * to3 = new_fbgc_tuple_object(2);
-
-	// struct fbgc_object * io = new_fbgc_int_object(10);
-	// struct fbgc_object * io2 = new_fbgc_int_object(11);
-	// struct fbgc_object * io3 = new_fbgc_int_object(12);
-		
-
-	
-	// struct fbgc_object * to2 = new_fbgc_tuple_object(2);
-	
-	// push_back_fbgc_tuple_object(to,io);
-	// push_back_fbgc_tuple_object(to,io2);
-	// push_back_fbgc_tuple_object(to,io3);
-	// push_back_fbgc_tuple_object(to,to2);
-	// push_back_fbgc_tuple_object(to2,io2);
-	// push_back_fbgc_tuple_object(to2,to3);
-	// push_back_fbgc_tuple_object(to3,io3);
-	// push_back_fbgc_tuple_object(to3,io);
-
-
-	/*struct fbgc_object * s = new_fbgc_int_object(0);
-	struct fbgc_object * e = new_fbgc_int_object(10);
-	struct fbgc_object * ro = new_fbgc_range_object(s,e);
-
-	push_back_fbgc_tuple_object(to,ro);*/
-
-	
-	// typedef struct foo{
-	// 	uint8_t x;
-	// 	uint8_t * ptr;
-	// }foo;
-
-	// foo pp;
-	// pp.x = 55;
-	//pp.ptr = (uint8_t *)fbgc_malloc(10);
-	
-	// struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc_object(sizeof_fbgc_int_object()*3);
-	// for(int i = 0; i<3; ++i){
-	// 	into[i].base.type = INT;
-	// 	into[i].content = 10*i; 
-	// }
-	
-
-	// //set_raw_buffer_gc_dark(pp.ptr);
-
-	// //fbgc_gc_register_pointer(&pp.ptr,pp.ptr,sizeof(foo*),sizeof(foo));
-
-	// //print_fbgc_memory_block();
-	// fbgc_gc_init(NULL);
-	// fbgc_gc_mark_pointer(into,3);
-
-	// fbgc_gc_mark();
-
-	// print_fbgc_memory_block();
-
-	/*foo ** pbuffer = (foo **) fbgc_malloc(sizeof(foo*)*2);
-	fbgc_gc_register_pointer(pbuffer,2,sizeof(foo*),0);
-
-	
-
-	//struct traceable_pointer_entry * tpe = &(fbgc_gc.ptr_list.data[0]);
-	//printf("tpe ptr %p\n",tpe->ptr );
-
-	pbuffer[0] = (foo *) fbgc_malloc_static(sizeof(foo)*3);
-	pbuffer[1] = NULL;
-
-	pbuffer[0]->x[0] = 0xFB;
-	pbuffer[0]->x[1] = 55;*/
-	
-	/*
- 
-	//
-	//fbgc_gc_register_pointer(pbuffer[0],sizeof(foo),3,sizeof(uint8_t)*2);
-
-	uint8_t * b1 = (uint8_t *) fbgc_malloc(sizeof(uint8_t)*5);
-	uint8_t arr[5] = {5,10,15,20,30};
-	memcpy(b1,arr,5);
-
-	foo * fp = pbuffer[0];
-
-	fp[0].ptr = b1;
-	fp[0].x[0] = 10;
-	fp[0].x[1] = 50;
-
-	fp[1].ptr = b1;
-	fp[1].x[0] = 20;
-	fp[1].x[1] = 100;
-
-	fp[2].ptr = b1;
-	fp[2].x[0] = 30;
-	fp[2].x[1] = 250;*/
-
-
-	//fbgc_gc_init(io);
-	//fbgc_gc_mark();
-
-	
-	//parse_string(&main_field,"x = 88\n");
-	//cast_fbgc_object_as_field(main_field)->code;
-
-	//cprintf(100,"sizeof :%lu\n",sizeof(struct fbgc_map_object));
-
-	// struct fbgc_object * map = new_fbgc_map_object(2,50);
-	// struct fbgc_object * map2 = new_fbgc_map_object(2,50);
+	//struct fbgc_object * map2 = new_fbgc_map_object(4,100);
 
 	// fbgc_map_object_insert_str(map2,"a",new_fbgc_int_object(1));
 	// fbgc_map_object_insert_str(map2,"b",new_fbgc_int_object(2));
 	// fbgc_map_object_insert_str(map2,"c",new_fbgc_int_object(3));
 	// fbgc_map_object_insert_str(map2,"d",new_fbgc_int_object(4));
-	// fbgc_map_object_insert_str(map2,"e",new_fbgc_int_object(5));
-	// fbgc_map_object_insert_str(map2,"end",new_fbgc_int_object(6));
-	// fbgc_map_object_insert_str(map2,"sep",new_fbgc_int_object(7));
 
 
-	// fbgc_map_object_insert(map,new_fbgc_str_object("end"),new_fbgc_int_object(333));
-	// fbgc_map_object_insert(map,new_fbgc_str_object("sep"),new_fbgc_int_object(553));
-	// fbgc_map_object_insert(map,new_fbgc_str_object("b"),new_fbgc_int_object(553));
+	// struct fbgc_object * x = new_fbgc_int_object(8);
+	// fbgc_free(x);
+	// x = new_fbgc_int_object(16);
 
-	// fbgc_map_object_merge(map,map2,false);
-	// //fbgc_map_object_remove_str(map,"sep");
-	
-	// //cprintf(110,"CHECK sep: %d\n",fbgc_map_object_does_key_exist_str(map,"sep"));
+	// //fbgc_gc_init(NULL);
+	// //fbgc_gc_run();
 
-	// print_fbgc_map_object(map);
-	// printf("\n");
-	// print_fbgc_map_object(map2);
-	// printf("\n");
+	// print_fbgc_memory_block();
 
-	// int x = -123;
-	// int y = -123;
-	// for(double i = -20; i< 20; ++i)
-	// 	printf("Hash val '%g' = %ld\n",i,fhash(&i,sizeof(i))%40);
 
-	//fbgc_map_object_remove_str(map,"fbgencer");
-	//cprintf(100,"fbgencer found at index :%ld\n",fbgc_map_object_get_key_index_str(map,"samsung"));
-
-	//fbgc_map_object_set_exact_size(map);
-	
-	//fbgc_map_object_insert(map,new_fbgc_str_object("floler4"),new_fbgc_int_object(553));
-
-	//print_detailed_fbgc_map_object(map);
-
-	initialize_fbgc_symbol_table();
-	current_field = new_fbgc_field(2,&_fbgc_io_property_holder,&_fbgc_stl_property_holder);
 	if(argc > 1)
 	{   
 		if(!strcmp(argv[1],"-s")){

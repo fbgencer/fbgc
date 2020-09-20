@@ -6,7 +6,7 @@ struct fbgc_object * new_fbgc_class_object(){
   struct fbgc_class_object * o = (struct fbgc_class_object*) fbgc_malloc_object(sizeof_fbgc_class_object());
     o->base.type = CLASS;
     o->code = NULL;
-	o->variables = new_fbgc_map_object(1,80);
+	o->variables = new_fbgc_map_object(1,100);
     return (struct fbgc_object*) o;
 }
 
@@ -222,7 +222,7 @@ void fprintf_fbgc_class_object(struct fbgc_object * obj){
 }
 
 
-struct fbgc_object * get_set_fbgc_class_object_member(struct fbgc_object * o, const char * str, struct fbgc_object * nm){
+static struct fbgc_object * get_set_fbgc_class_object_member(struct fbgc_object * o, const char * str, struct fbgc_object * nm){
 
 	if(nm != NULL){
 		//printf("Class variables cannot be changed!\n");
@@ -233,12 +233,25 @@ struct fbgc_object * get_set_fbgc_class_object_member(struct fbgc_object * o, co
 	return fbgc_map_object_lookup_str(cast_fbgc_object_as_class(o)->variables,str);
 }
 
+static inline size_t size_of_fbgc_class_object(struct fbgc_object * self){
+    return sizeof(struct fbgc_class_object);
+}
+
+static inline void gc_mark_fbgc_class_object(struct fbgc_object * self){
+    fbgc_gc_mark_pointer(cast_fbgc_object_as_class(self)->variables,1);
+}
+
+
 const struct fbgc_object_property_holder fbgc_class_object_property_holder = {
 	.bits = 
-	_BIT_GET_SET_MEMBER
+	_BIT_GET_SET_MEMBER |
+	_BIT_SIZE_OF |
+    _BIT_GC_MARK
 	,
 	.properties ={
-		{.get_set_member = &get_set_fbgc_class_object_member},			
+		{.get_set_member = &get_set_fbgc_class_object_member},
+		{.gc_mark = &gc_mark_fbgc_class_object},
+		{.size_of = &size_of_fbgc_class_object},		
 	}
 };
 

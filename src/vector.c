@@ -13,6 +13,14 @@ struct fbgc_vector * new_fbgc_vector(size_t cap, size_t block_size){
 	return vector;
 }
 
+struct fbgc_vector * from_array_new_fbgc_vector(const void * array_ptr, size_t array_len, size_t block_size){
+	struct fbgc_vector * vector = new_fbgc_vector(array_len,block_size);
+	vector->size = array_len;
+	memcpy(vector->content,array_ptr,array_len*block_size);
+	return vector;
+}
+
+
 size_t capacity_fbgc_vector(const struct fbgc_vector * vector){
 	return capacity_fbgc_raw_memory(vector->content,vector->block_size);
 }
@@ -47,8 +55,14 @@ void push_back_fbgc_vector(struct fbgc_vector * vector, const void * item){
 	
 	//	Check the capacity, if there is enough space push back the obj
 	if(is_full_fbgc_vector(vector)){
-		//request change for the capacity of the vector
-		vector->content = fbgc_realloc(vector->content,(capacity_fbgc_vector(vector) <<1) * vector->block_size );
+		size_t cap = fbgc_round_to_closest_power_of_two(capacity_fbgc_vector(vector));
+		if(vector->size == cap){
+			//request change for the capacity of the vector
+			vector->content = fbgc_realloc(vector->content,(cap <<1) * vector->block_size );
+		}
+		else{
+			vector->content = fbgc_realloc(vector->content,cap * vector->block_size );	
+		}
 	}
 	memcpy(at_fbgc_vector(vector,vector->size), item, vector->block_size);
 	++vector->size;
@@ -57,6 +71,42 @@ void push_back_fbgc_vector(struct fbgc_vector * vector, const void * item){
 void pop_back_fbgc_vector(struct fbgc_vector * vector){
 	assert(vector->size);
 	--vector->size;
+	shrink_to_fit_fbgc_vector(vector);
+}
+
+void erase_fbgc_vector(struct fbgc_vector * vector){
+	vector->size = 0;
+	shrink_fbgc_vector(vector,0);
+}
+
+
+void reserve_fbgc_vector(struct fbgc_vector * vector, size_t new_cap){
+	//if given cap is bigger than the current capacity
+	new_cap = fbgc_round_to_closest_power_of_two(new_cap);
+	if(new_cap > capacity_fbgc_vector(vector)){
+		//grow
+		vector->content = fbgc_realloc(vector->content,new_cap*vector->block_size);
+	}	
+}
+
+void shrink_fbgc_vector(struct fbgc_vector * vector, size_t new_cap){
+	//if given cap is smaller than the current capacity
+	new_cap = fbgc_round_to_closest_power_of_two(new_cap);
+	if(new_cap < capacity_fbgc_vector(vector)){
+		//grow
+		vector->content = fbgc_realloc(vector->content,new_cap*vector->block_size);
+	}	
+}
+void hard_shrink_to_fit_fbgc_vector(struct fbgc_vector * vector){
+	size_t new_cap = vector->size;
+	if(new_cap < capacity_fbgc_vector(vector)){
+		//grow
+		vector->content = fbgc_realloc(vector->content,new_cap*vector->block_size);
+	}	
+}
+
+void shrink_to_fit_fbgc_vector(struct fbgc_vector * vector){
+	shrink_fbgc_vector(vector,vector->size);
 }
 
 
@@ -95,6 +145,12 @@ void insert_fbgc_vector(struct fbgc_vector * vector,size_t index_start,  const v
 	memcpy(at_fbgc_vector(vector,index_start),item,item_len*vector->block_size);
 
 	vector->size += item_len;
+}
+
+
+
+void sort_fbgc_vector(struct fbgc_vector * vector, int (*compare_function)(const void *,const void *) ){
+	qsort(vector->content, vector->size, vector->block_size, compare_function);
 }
 
 
@@ -153,4 +209,41 @@ void test_vector(){
 // 	memcpy(&temp,vector,sizeof(struct fbgc_vector));
 // 	memcpy(vector,vector2,sizeof(struct fbgc_vector));
 // 	memcpy(vector2,&temp,sizeof(struct fbgc_vector));
+// }
+
+
+// int compare_int(const void * a, const void * b)
+// {
+//   return ( *(int*)a - *(int*)b );
+// }
+
+// int compare_db(const void * a, const void * b){
+	
+//   if (*(double*)a > *(double*)b)
+// 	return 1;
+//   else if (*(double*)a < *(double*)b)
+// 	return -1;
+  
+// 	return 0;  
+// }
+
+// void comparison_test(){
+// 	struct fbgc_vector * iv = from_array_new_fbgc_vector(values,6,sizeof(int));
+
+// 	for (int i = 0; i < size_fbgc_vector(iv); ++i){
+// 		cprintf(110,"[%d] : %d\n",i,*(int*)at_fbgc_vector(iv,i));
+// 	}
+
+// 	sort_fbgc_vector(iv,compare_int);
+// 	for (int i = 0; i < size_fbgc_vector(iv); ++i){
+// 		cprintf(111,"[%d] : %d\n",i,*(int*)at_fbgc_vector(iv,i));
+// 	}
+
+// 	struct fbgc_vector * dv = from_array_new_fbgc_vector(dvalues,12,sizeof(double));
+
+// 	sort_fbgc_vector(dv,compare_db);
+// 	for (int i = 0; i < size_fbgc_vector(dv); ++i){
+// 		cprintf(111,"[%d] : %g\n",i,*(double*)at_fbgc_vector(dv,i));
+// 	}
+
 // }
