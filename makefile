@@ -20,12 +20,8 @@ WARNING_FLAG = -Werror -Wno-error=pointer-arith
 DEBUG_FLAG =  -g
 #-s
 
-CFLAGS = -c 
+CFLAGS = -c $(OPTIMIZATION_FLAG) $(WARNING_FLAG) $(DEBUG_FLAG) $(INC_FLAGS)
 LDFLAGS += -lm -Wl,--gc-sections -flto
-CFLAGS += $(OPTIMIZATION_FLAG)
-CFLAGS += $(WARNING_FLAG)
-CFLAGS += $(DEBUG_FLAG)
-CFLAGS += $(INC_FLAGS)
 
 #GSL_CFLAG = -I /home/fbgencer/gsl/include
 #GSL_LDFLAG = -L /home/fbgencer/gsl/lib -lgsl -lgslcblas
