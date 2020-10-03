@@ -1,17 +1,19 @@
 <map id="/home/fbgencer/fbgc/src/str_object.c" name="/home/fbgencer/fbgc/src/str_object.c">
-<area shape="rect" id="node2" href="$fbgc_8h.html" title="fbgc.h" alt="" coords="1188,95,1247,121"/>
-<area shape="rect" id="node15" href="$tokens_8h.html" title="headers/tokens.h" alt="" coords="1087,169,1209,196"/>
-<area shape="rect" id="node16" href="$error_8h.html" title="headers/error.h" alt="" coords="1233,169,1343,196"/>
-<area shape="rect" id="node17" href="$fbgc__object_8h.html" title="headers/fbgc_object.h" alt="" coords="1367,169,1518,196"/>
-<area shape="rect" id="node18" href="$memory_8h.html" title="headers/memory.h" alt="" coords="1543,169,1673,196"/>
-<area shape="rect" id="node19" href="$garbage__collector_8h.html" title="headers/garbage_collector.h" alt="" coords="1698,169,1883,196"/>
-<area shape="rect" id="node20" href="$linked__list_8h.html" title="headers/linked_list.h" alt="" coords="1908,169,2049,196"/>
-<area shape="rect" id="node21" href="$array__object_8h.html" title="headers/array_object.h" alt="" coords="2073,169,2228,196"/>
-<area shape="rect" id="node22" href="$double__object_8h.html" title="headers/double_object.h" alt="" coords="2252,169,2415,196"/>
-<area shape="rect" id="node23" href="$int__object_8h.html" title="headers/int_object.h" alt="" coords="2439,169,2577,196"/>
-<area shape="rect" id="node24" href="$logic__object_8h.html" title="headers/logic_object.h" alt="" coords="2601,169,2753,196"/>
-<area shape="rect" id="node25" href="$complex__object_8h.html" title="headers/complex_object.h" alt="" coords="2778,169,2953,196"/>
-<area shape="rect" id="node26" href="$str__object_8h.html" title="headers/str_object.h" alt="" coords="2977,169,3117,196"/>
-<area shape="rect" id="node27" href="$matrix__object_8h.html" title="headers/matrix_object.h" alt="" coords="3141,169,3302,196"/>
-<area shape="rect" id="node28" href="$tuple__object_8h.html" title="headers/tuple_object.h" alt="" coords="3326,169,3479,196"/>
+<area shape="rect" id="node2" href="$fbgc_8h.html" title="fbgc.h" alt="" coords="1369,95,1428,121"/>
+<area shape="rect" id="node16" href="$queue_8h.html" title="../include/queue.h" alt="" coords="1185,177,1311,203"/>
+<area shape="rect" id="node17" href="$vector_8h.html" title="../include/vector.h" alt="" coords="1335,177,1462,203"/>
+<area shape="rect" id="node18" href="$bool__vector_8h.html" title="../include/bool_vector.h" alt="" coords="1487,177,1644,203"/>
+<area shape="rect" id="node19" href="$utility_8h.html" title="../include/utility.h" alt="" coords="1669,177,1790,203"/>
+<area shape="rect" id="node20" href="$tokens_8h.html" title="../include/tokens.h" alt="" coords="1814,177,1943,203"/>
+<area shape="rect" id="node21" href="$error_8h.html" title="../include/error.h" alt="" coords="1967,177,2083,203"/>
+<area shape="rect" id="node22" href="$fbgc__object_8h.html" title="../include/fbgc_object.h" alt="" coords="2108,177,2265,203"/>
+<area shape="rect" id="node23" href="$memory_8h.html" title="../include/memory.h" alt="" coords="2290,177,2427,203"/>
+<area shape="rect" id="node24" href="$linked__list_8h.html" title="../include/linked_list.h" alt="" coords="2451,177,2599,203"/>
+<area shape="rect" id="node25" href="$array__object_8h.html" title="../include/array_object.h" alt="" coords="2623,177,2785,203"/>
+<area shape="rect" id="node26" href="$double__object_8h.html" title="../include/double_object.h" alt="" coords="2809,177,2980,203"/>
+<area shape="rect" id="node27" href="$int__object_8h.html" title="../include/int_object.h" alt="" coords="3004,177,3151,203"/>
+<area shape="rect" id="node28" href="$logic__object_8h.html" title="../include/logic_object.h" alt="" coords="3175,177,3334,203"/>
+<area shape="rect" id="node29" href="$complex__object_8h.html" title="../include/complex\l_object.h" alt="" coords="3359,169,3487,211"/>
+<area shape="rect" id="node30" href="$str__object_8h.html" title="../include/str_object.h" alt="" coords="3511,177,3657,203"/>
+<area shape="rect" id="node31" href="$map__object_8h.html" title="../include/map_object.h" alt="" coords="3681,177,3839,203"/>
 </map>

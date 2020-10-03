@@ -1,4 +1,9 @@
 <map id="print_fbgc_memory_block" name="print_fbgc_memory_block">
-<area shape="rect" id="node2" href="$error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="267,5,326,32"/>
-<area shape="rect" id="node3" href="$fbgc__object_8c.html#a1ba6a6b09db0e6c3a6ac6f6cfc0266de" title="get_fbgc_object_size" alt="" coords="224,56,369,83"/>
+<area shape="rect" id="node2" href="$error_8c.html#adc20185f5574cf02856d5b7372d40f62" title="cprintf" alt="" coords="519,42,577,69"/>
+<area shape="rect" id="node3" href="$memory_8c.html#abefa277cbdedf0015e3b990f18602f6f" title="print_fbgc_memory_object_pool" alt="" coords="224,101,431,127"/>
+<area shape="rect" id="node8" href="$memory_8c.html#a4c05eb3722213e24251e836af1d1f2ae" title="print_fbgc_memory_raw\l_memory" alt="" coords="247,35,408,76"/>
+<area shape="rect" id="node4" href="$fbgc__object_8c.html#a7685f994a3356f2446d8c707a556a3c2" title="size_of_fbgc_object" alt="" coords="479,97,617,123"/>
+<area shape="rect" id="node6" href="$fbgc__object_8c.html#ab6746edc57eb290c36fbf1ffeecf792c" title="objtp2str" alt="" coords="881,71,953,98"/>
+<area shape="rect" id="node5" href="$fbgc__object_8c.html#ae62584eb36a8207152e121a4edc116ea" title="get_fbgc_object_property\l_holder" alt="" coords="665,5,833,47"/>
+<area shape="rect" id="node7" href="$fbgc__object_8c.html#afab5dfe891e5e6372e8bc3b3436ea5a0" title="_find_property" alt="" coords="697,122,801,149"/>
 </map>

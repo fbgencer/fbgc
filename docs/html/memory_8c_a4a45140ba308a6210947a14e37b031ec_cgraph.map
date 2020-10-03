@@ -1,0 +1,11 @@
+<map id="fbgc_gc_mark" name="fbgc_gc_mark">
+<area shape="rect" id="node2" href="$queue_8c.html#a19ef024e74bbfd4d0e29e49f837028bd" title="is_empty_fbgc_queue" alt="" coords="157,5,307,32"/>
+<area shape="rect" id="node3" href="$queue_8c.html#a46951ebba5df4befcc4636d466be74fc" title="front_fbgc_queue" alt="" coords="171,56,293,83"/>
+<area shape="rect" id="node4" href="$fbgc__object_8c.html#a656b56d9ec14cbd1886ae2f2b3971add" title="gc_mark_fbgc_object" alt="" coords="159,157,305,184"/>
+<area shape="rect" id="node8" href="$queue_8c.html#a94b0597efd4a51b6c415a1dcad3bd62e" title="pop_fbgc_queue" alt="" coords="173,233,291,260"/>
+<area shape="rect" id="node10" href="$fbgc__object_8c.html#a7685f994a3356f2446d8c707a556a3c2" title="size_of_fbgc_object" alt="" coords="163,107,301,133"/>
+<area shape="rect" id="node5" href="$fbgc__object_8c.html#ae62584eb36a8207152e121a4edc116ea" title="get_fbgc_object_property\l_holder" alt="" coords="355,91,523,133"/>
+<area shape="rect" id="node6" href="$fbgc__object_8c.html#ab6746edc57eb290c36fbf1ffeecf792c" title="objtp2str" alt="" coords="571,99,643,125"/>
+<area shape="rect" id="node7" href="$fbgc__object_8c.html#afab5dfe891e5e6372e8bc3b3436ea5a0" title="_find_property" alt="" coords="387,157,491,184"/>
+<area shape="rect" id="node9" href="$queue_8c.html#a85e1cf455d62855a8e368aec62220910" title="pop_front_fbgc_queue" alt="" coords="363,259,514,285"/>
+</map>

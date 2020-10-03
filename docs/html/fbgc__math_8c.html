@@ -66,6 +66,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
@@ -75,78 +76,68 @@ $(function() {
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="fbgc_8h_source.html">../src/fbgc.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="fbgc__math_8h_source.html">fbgc_math.h</a>&quot;</code><br />
-<code>#include &lt;math.h&gt;</code><br />
-<code>#include &lt;cblas.h&gt;</code><br />
-</div><div class="textblock"><div class="dynheader">
-Include dependency graph for fbgc_math.c:</div>
-<div class="dyncontent">
-<div class="center"><img src="fbgc__math_8c__incl.png" border="0" usemap="#_2home_2fbgencer_2fbgc_2cmodules_2fbgc__math_8c" alt=""/></div>
-<map name="_2home_2fbgencer_2fbgc_2cmodules_2fbgc__math_8c" id="_2home_2fbgencer_2fbgc_2cmodules_2fbgc__math_8c">
-<area shape="rect" id="node2" href="fbgc_8h.html" title="../src/fbgc.h" alt="" coords="1103,95,1195,121"/>
-<area shape="rect" id="node29" href="fbgc__math_8h.html" title="fbgc_math.h" alt="" coords="1219,95,1313,121"/>
-<area shape="rect" id="node15" href="tokens_8h.html" title="headers/tokens.h" alt="" coords="1087,169,1210,196"/>
-<area shape="rect" id="node16" href="error_8h.html" title="headers/error.h" alt="" coords="1234,169,1343,196"/>
-<area shape="rect" id="node17" href="fbgc__object_8h.html" title="headers/fbgc_object.h" alt="" coords="1368,169,1519,196"/>
-<area shape="rect" id="node18" href="memory_8h.html" title="headers/memory.h" alt="" coords="1543,169,1674,196"/>
-<area shape="rect" id="node19" href="garbage__collector_8h.html" title="headers/garbage_collector.h" alt="" coords="1699,169,1884,196"/>
-<area shape="rect" id="node20" href="linked__list_8h.html" title="headers/linked_list.h" alt="" coords="1909,169,2050,196"/>
-<area shape="rect" id="node21" href="array__object_8h.html" title="headers/array_object.h" alt="" coords="2074,169,2229,196"/>
-<area shape="rect" id="node22" href="double__object_8h.html" title="headers/double_object.h" alt="" coords="2253,169,2415,196"/>
-<area shape="rect" id="node23" href="int__object_8h.html" title="headers/int_object.h" alt="" coords="2439,169,2578,196"/>
-<area shape="rect" id="node24" href="logic__object_8h.html" title="headers/logic_object.h" alt="" coords="2602,169,2754,196"/>
-<area shape="rect" id="node25" href="complex__object_8h.html" title="headers/complex_object.h" alt="" coords="2779,169,2953,196"/>
-<area shape="rect" id="node26" href="str__object_8h.html" title="headers/str_object.h" alt="" coords="2977,169,3117,196"/>
-<area shape="rect" id="node27" href="matrix__object_8h.html" title="headers/matrix_object.h" alt="" coords="3141,169,3303,196"/>
-<area shape="rect" id="node28" href="tuple__object_8h.html" title="headers/tuple_object.h" alt="" coords="3327,169,3480,196"/>
-</map>
-</div>
+<code>#include &lt;tgmath.h&gt;</code><br />
+<code>#include &lt;complex.h&gt;</code><br />
 </div>
 <p><a href="fbgc__math_8c_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfbgc__math__constants.html">fbgc_math_constants</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a36d3f68672ec96efcd172c680da64577"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fbgc__math_8c.html#a36d3f68672ec96efcd172c680da64577">new_fbgc_one_arg_math</a>(fun_str,  func_ptr,  complex_func_ptr)</td></tr>
-<tr class="separator:a36d3f68672ec96efcd172c680da64577"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88e1c89d227853a47efd2a5ad9d8dbe5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fbgc__math_8c.html#a88e1c89d227853a47efd2a5ad9d8dbe5">new_fbgc_one_arg_math</a>(func_ptr,  complex_func_ptr)</td></tr>
+<tr class="separator:a88e1c89d227853a47efd2a5ad9d8dbe5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a1da63ee12e1b6a2456f2bf0a0d176d9c"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structraw__complex.html">raw_complex</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fbgc__math_8c.html#a1da63ee12e1b6a2456f2bf0a0d176d9c">c_exp</a> (struct <a class="el" href="structraw__complex.html">raw_complex</a> z)</td></tr>
-<tr class="separator:a1da63ee12e1b6a2456f2bf0a0d176d9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac905d4a49d52f4c455f650bd65256fae"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structraw__complex.html">raw_complex</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fbgc__math_8c.html#ac905d4a49d52f4c455f650bd65256fae">c_cos</a> (struct <a class="el" href="structraw__complex.html">raw_complex</a> z)</td></tr>
-<tr class="separator:ac905d4a49d52f4c455f650bd65256fae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa6e10b1ad6ff2f812aec975bf195c447"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fbgc__math_8c.html#aa6e10b1ad6ff2f812aec975bf195c447">one_arg_math</a> (struct <a class="el" href="structfbgc__object.html">fbgc_object</a> **arg, int argc, double(*fun)(double), struct <a class="el" href="structraw__complex.html">raw_complex</a>(*zfun)(struct <a class="el" href="structraw__complex.html">raw_complex</a>))</td></tr>
-<tr class="separator:aa6e10b1ad6ff2f812aec975bf195c447"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a02d23371b1deb22ee44c53c2c45fad5f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fbgc__math_8c.html#a02d23371b1deb22ee44c53c2c45fad5f">new_fbgc_one_arg_math</a> (&quot;sin&quot;, sin, NULL)</td></tr>
-<tr class="separator:a02d23371b1deb22ee44c53c2c45fad5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a68940d41a5d6c839ba6ff0cef86000d2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fbgc__math_8c.html#a68940d41a5d6c839ba6ff0cef86000d2">new_fbgc_one_arg_math</a> (&quot;cos&quot;, cos, <a class="el" href="fbgc__math_8c.html#ac905d4a49d52f4c455f650bd65256fae">c_cos</a>)</td></tr>
-<tr class="separator:a68940d41a5d6c839ba6ff0cef86000d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af081a51903c8e6ab8b012e89ace49309"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fbgc__math_8c.html#af081a51903c8e6ab8b012e89ace49309">new_fbgc_one_arg_math</a> (&quot;tan&quot;, tan, NULL)</td></tr>
-<tr class="separator:af081a51903c8e6ab8b012e89ace49309"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aec4dcde635d4d9efca0e380f02c17ad4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fbgc__math_8c.html#aec4dcde635d4d9efca0e380f02c17ad4">new_fbgc_one_arg_math</a> (&quot;exp&quot;, exp, <a class="el" href="fbgc__math_8c.html#a1da63ee12e1b6a2456f2bf0a0d176d9c">c_exp</a>)</td></tr>
-<tr class="separator:aec4dcde635d4d9efca0e380f02c17ad4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a870c4dbd277420595e90d2b02850a6f7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fbgc__math_8c.html#a870c4dbd277420595e90d2b02850a6f7">new_fbgc_one_arg_math</a> (&quot;sqrt&quot;, sqrt, NULL)</td></tr>
-<tr class="separator:a870c4dbd277420595e90d2b02850a6f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9eb1700a5bd425c10311d25a941c3f38"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fbgc__math_8c.html#a9eb1700a5bd425c10311d25a941c3f38">new_fbgc_cfunction</a> (fbgc_math_initializer,&quot;math&quot;)</td></tr>
-<tr class="separator:a9eb1700a5bd425c10311d25a941c3f38"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acae2e33558ec38d07e79b30d9dedd266"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fbgc__math_8c.html#acae2e33558ec38d07e79b30d9dedd266">new_fbgc_cfunction</a> (fbgc_gsl,&quot;gsl&quot;)</td></tr>
-<tr class="separator:acae2e33558ec38d07e79b30d9dedd266"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a257fff332d372d7335e4a7ea95350a18"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fbgc__math_8c.html#a257fff332d372d7335e4a7ea95350a18">new_fbgc_cfunction</a> (fbgc_randint,&quot;randint&quot;)</td></tr>
-<tr class="separator:a257fff332d372d7335e4a7ea95350a18"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5961f35a1081f12e716de9fe5351dd93"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fbgc__math_8c.html#a5961f35a1081f12e716de9fe5351dd93">new_fbgc_cfunction</a> (fbgc_random,&quot;random&quot;)</td></tr>
-<tr class="separator:a5961f35a1081f12e716de9fe5351dd93"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a31213c396b9fe11344b76eed17716404"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fbgc__math_8c.html#a31213c396b9fe11344b76eed17716404">new_fbgc_cfunction</a> (fbgc_rand,&quot;rand&quot;)</td></tr>
-<tr class="separator:a31213c396b9fe11344b76eed17716404"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab343b5abf6018e1d7337bc70b049e40"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fbgc__math_8c.html#aab343b5abf6018e1d7337bc70b049e40">new_fbgc_cfunction</a> (fbgc_randj,&quot;randj&quot;)</td></tr>
-<tr class="separator:aab343b5abf6018e1d7337bc70b049e40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac74f03a2063441d4d9c6f872d586b90a"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fbgc__math_8c.html#ac74f03a2063441d4d9c6f872d586b90a">one_arg_math</a> (struct <a class="el" href="structfbgc__cfun__arg.html">fbgc_cfun_arg</a> *arg, double(*fun)(double), struct <a class="el" href="structraw__complex.html">raw_complex</a>(*zfun)(struct <a class="el" href="structraw__complex.html">raw_complex</a>))</td></tr>
+<tr class="separator:ac74f03a2063441d4d9c6f872d586b90a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef1d04402d9e6a3c3a812ec130894fa6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fbgc__math_8c.html#aef1d04402d9e6a3c3a812ec130894fa6">new_fbgc_one_arg_math</a> (cos, NULL)</td></tr>
+<tr class="separator:aef1d04402d9e6a3c3a812ec130894fa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af841eef196615e701d56d91b8c9fcd4e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fbgc__math_8c.html#af841eef196615e701d56d91b8c9fcd4e">new_fbgc_one_arg_math</a> (sin, NULL)</td></tr>
+<tr class="separator:af841eef196615e701d56d91b8c9fcd4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad63362cc39f897a24964c36dab7db173"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fbgc__math_8c.html#ad63362cc39f897a24964c36dab7db173">new_fbgc_one_arg_math</a> (tan, NULL)</td></tr>
+<tr class="separator:ad63362cc39f897a24964c36dab7db173"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2cdb09ca68e0934a8a7a9544d298bc8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fbgc__math_8c.html#ab2cdb09ca68e0934a8a7a9544d298bc8">new_fbgc_one_arg_math</a> (acos, NULL)</td></tr>
+<tr class="separator:ab2cdb09ca68e0934a8a7a9544d298bc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13a4e9219aca2b68ab7b83f963f3996e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fbgc__math_8c.html#a13a4e9219aca2b68ab7b83f963f3996e">new_fbgc_one_arg_math</a> (asin, NULL)</td></tr>
+<tr class="separator:a13a4e9219aca2b68ab7b83f963f3996e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05b3f0b4874c72342f2e198ef4d3526a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fbgc__math_8c.html#a05b3f0b4874c72342f2e198ef4d3526a">new_fbgc_one_arg_math</a> (atan, NULL)</td></tr>
+<tr class="separator:a05b3f0b4874c72342f2e198ef4d3526a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9fb535e367d9c6bbb74bd195688db15"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fbgc__math_8c.html#ab9fb535e367d9c6bbb74bd195688db15">new_fbgc_one_arg_math</a> (cosh, NULL)</td></tr>
+<tr class="separator:ab9fb535e367d9c6bbb74bd195688db15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e8c8c6c1eb2fda4199040439bce5211"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fbgc__math_8c.html#a4e8c8c6c1eb2fda4199040439bce5211">new_fbgc_one_arg_math</a> (sinh, NULL)</td></tr>
+<tr class="separator:a4e8c8c6c1eb2fda4199040439bce5211"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23c63bd7ed7833497563dbc77aee9135"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fbgc__math_8c.html#a23c63bd7ed7833497563dbc77aee9135">new_fbgc_one_arg_math</a> (tanh, NULL)</td></tr>
+<tr class="separator:a23c63bd7ed7833497563dbc77aee9135"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed282349626903d7a16793cfe5999e41"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fbgc__math_8c.html#aed282349626903d7a16793cfe5999e41">new_fbgc_one_arg_math</a> (acosh, NULL)</td></tr>
+<tr class="separator:aed282349626903d7a16793cfe5999e41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7591966494e023a7d522fbd14adc925"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fbgc__math_8c.html#ab7591966494e023a7d522fbd14adc925">new_fbgc_one_arg_math</a> (asinh, NULL)</td></tr>
+<tr class="separator:ab7591966494e023a7d522fbd14adc925"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a063bd94cd49c3078667185b4ae236752"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fbgc__math_8c.html#a063bd94cd49c3078667185b4ae236752">new_fbgc_one_arg_math</a> (atanh, NULL)</td></tr>
+<tr class="separator:a063bd94cd49c3078667185b4ae236752"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afbbee84f045d236cfb8a9d9b32030e80"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fbgc__math_8c.html#afbbee84f045d236cfb8a9d9b32030e80">new_fbgc_one_arg_math</a> (exp, NULL)</td></tr>
+<tr class="separator:afbbee84f045d236cfb8a9d9b32030e80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae431205e1166373ee7bd743fa8134f91"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fbgc__math_8c.html#ae431205e1166373ee7bd743fa8134f91">new_fbgc_one_arg_math</a> (sqrt, NULL)</td></tr>
+<tr class="separator:ae431205e1166373ee7bd743fa8134f91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7487a0e531f9a7bb708a3fd5983466b"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fbgc__math_8c.html#ab7487a0e531f9a7bb708a3fd5983466b">fbgc_math_pi_member</a> (struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *self, struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *rhs)</td></tr>
+<tr class="separator:ab7487a0e531f9a7bb708a3fd5983466b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45767a1146f938e1de1f52ea5e6a786c"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fbgc__math_8c.html#a45767a1146f938e1de1f52ea5e6a786c">fbgc_math_e_member</a> (struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *self, struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *rhs)</td></tr>
+<tr class="separator:a45767a1146f938e1de1f52ea5e6a786c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24d7c62ad207f6ba11d6a49af6d56bca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fbgc__math_8c.html#a24d7c62ad207f6ba11d6a49af6d56bca">fbgc_math_initializer</a> (void)</td></tr>
+<tr class="separator:a24d7c62ad207f6ba11d6a49af6d56bca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a0e21a6913dcdb97c9dc7893fcde44fe4"><td class="memItemLeft" align="right" valign="top">const struct <a class="el" href="structfbgc__cmodule.html">fbgc_cmodule</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fbgc__math_8c.html#a0e21a6913dcdb97c9dc7893fcde44fe4">fbgc_math_module</a></td></tr>
-<tr class="separator:a0e21a6913dcdb97c9dc7893fcde44fe4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a811804ee2230d0049b558920ef3f5141"><td class="memItemLeft" align="right" valign="top">const struct <a class="el" href="structfbgc__object__property__holder.html">fbgc_object_property_holder</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fbgc__math_8c.html#a811804ee2230d0049b558920ef3f5141">_fbgc_math_property_holder</a></td></tr>
+<tr class="separator:a811804ee2230d0049b558920ef3f5141"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a36d3f68672ec96efcd172c680da64577"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a36d3f68672ec96efcd172c680da64577">&#9670;&nbsp;</a></span>new_fbgc_one_arg_math</h2>
+<a id="a88e1c89d227853a47efd2a5ad9d8dbe5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88e1c89d227853a47efd2a5ad9d8dbe5">&#9670;&nbsp;</a></span>new_fbgc_one_arg_math</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -154,12 +145,6 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">#define new_fbgc_one_arg_math</td>
           <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">fun_str, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">func_ptr, </td>
         </tr>
@@ -176,88 +161,32 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">const</span> <span class="keyword">struct </span><a class="code" href="structfbgc__cfunction.html">fbgc_cfunction</a> fbgc_##func_ptr##_struct = {fun_str,fbgc_##func_ptr};\</div><div class="line">extern <span class="keyword">struct </span><a class="code" href="structfbgc__object.html">fbgc_object</a> * fbgc_##func_ptr(<span class="keyword">struct</span> <a class="code" href="structfbgc__object.html">fbgc_object</a> ** arg, <span class="keywordtype">int</span> argc) {\</div><div class="line">return (argc == 1) ? <a class="code" href="fbgc__math_8c.html#aa6e10b1ad6ff2f812aec975bf195c447">one_arg_math</a>(arg,argc,func_ptr,complex_func_ptr) : NULL ;}\</div><div class="ttc" id="structfbgc__cfunction_html"><div class="ttname"><a href="structfbgc__cfunction.html">fbgc_cfunction</a></div><div class="ttdef"><b>Definition:</b> <a href="cmodule__object_8h_source.html#l00020">cmodule_object.h:20</a></div></div>
-<div class="ttc" id="fbgc__math_8c_html_aa6e10b1ad6ff2f812aec975bf195c447"><div class="ttname"><a href="fbgc__math_8c.html#aa6e10b1ad6ff2f812aec975bf195c447">one_arg_math</a></div><div class="ttdeci">struct fbgc_object * one_arg_math(struct fbgc_object **arg, int argc, double(*fun)(double), struct raw_complex(*zfun)(struct raw_complex))</div><div class="ttdef"><b>Definition:</b> <a href="fbgc__math_8c_source.html#l00055">fbgc_math.c:55</a></div></div>
+<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">static</span> <span class="keyword">struct </span><a class="code" href="structfbgc__object.html">fbgc_object</a> * fbgc_math_##func_ptr(<span class="keyword">struct</span> <a class="code" href="structfbgc__cfun__arg.html">fbgc_cfun_arg</a> * arg){\</div><div class="line">return <a class="code" href="fbgc__math_8c.html#ac74f03a2063441d4d9c6f872d586b90a">one_arg_math</a>(arg,func_ptr,complex_func_ptr);}\</div><div class="ttc" id="fbgc__math_8c_html_ac74f03a2063441d4d9c6f872d586b90a"><div class="ttname"><a href="fbgc__math_8c.html#ac74f03a2063441d4d9c6f872d586b90a">one_arg_math</a></div><div class="ttdeci">struct fbgc_object * one_arg_math(struct fbgc_cfun_arg *arg, double(*fun)(double), struct raw_complex(*zfun)(struct raw_complex))</div><div class="ttdef"><b>Definition:</b> <a href="fbgc__math_8c_source.html#l00015">fbgc_math.c:15</a></div></div>
 <div class="ttc" id="structfbgc__object_html"><div class="ttname"><a href="structfbgc__object.html">fbgc_object</a></div><div class="ttdef"><b>Definition:</b> <a href="fbgc__object_8h_source.html#l00008">fbgc_object.h:8</a></div></div>
+<div class="ttc" id="structfbgc__cfun__arg_html"><div class="ttname"><a href="structfbgc__cfun__arg.html">fbgc_cfun_arg</a></div><div class="ttdef"><b>Definition:</b> <a href="fbgc__object_8h_source.html#l00077">fbgc_object.h:77</a></div></div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="fbgc__math_8c_source.html#l00119">119</a> of file <a class="el" href="fbgc__math_8c_source.html">fbgc_math.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fbgc__math_8c_source.html#l00078">78</a> of file <a class="el" href="fbgc__math_8c_source.html">fbgc_math.c</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="ac905d4a49d52f4c455f650bd65256fae"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac905d4a49d52f4c455f650bd65256fae">&#9670;&nbsp;</a></span>c_cos()</h2>
+<a id="a45767a1146f938e1de1f52ea5e6a786c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45767a1146f938e1de1f52ea5e6a786c">&#9670;&nbsp;</a></span>fbgc_math_e_member()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct <a class="el" href="structraw__complex.html">raw_complex</a> c_cos </td>
+          <td class="memname">struct <a class="el" href="structfbgc__object.html">fbgc_object</a>* fbgc_math_e_member </td>
           <td>(</td>
-          <td class="paramtype">struct <a class="el" href="structraw__complex.html">raw_complex</a>&#160;</td>
-          <td class="paramname"><em>z</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="fbgc__math_8c_source.html#l00036">36</a> of file <a class="el" href="fbgc__math_8c_source.html">fbgc_math.c</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="fbgc__math_8c_ac905d4a49d52f4c455f650bd65256fae_cgraph.png" border="0" usemap="#fbgc__math_8c_ac905d4a49d52f4c455f650bd65256fae_cgraph" alt=""/></div>
-<map name="fbgc__math_8c_ac905d4a49d52f4c455f650bd65256fae_cgraph" id="fbgc__math_8c_ac905d4a49d52f4c455f650bd65256fae_cgraph">
-<area shape="rect" id="node2" href="fbgc__math_8c.html#a1da63ee12e1b6a2456f2bf0a0d176d9c" title="c_exp" alt="" coords="111,5,168,32"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a1da63ee12e1b6a2456f2bf0a0d176d9c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1da63ee12e1b6a2456f2bf0a0d176d9c">&#9670;&nbsp;</a></span>c_exp()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">struct <a class="el" href="structraw__complex.html">raw_complex</a> c_exp </td>
-          <td>(</td>
-          <td class="paramtype">struct <a class="el" href="structraw__complex.html">raw_complex</a>&#160;</td>
-          <td class="paramname"><em>z</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="fbgc__math_8c_source.html#l00027">27</a> of file <a class="el" href="fbgc__math_8c_source.html">fbgc_math.c</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="fbgc__math_8c_a1da63ee12e1b6a2456f2bf0a0d176d9c_icgraph.png" border="0" usemap="#fbgc__math_8c_a1da63ee12e1b6a2456f2bf0a0d176d9c_icgraph" alt=""/></div>
-<map name="fbgc__math_8c_a1da63ee12e1b6a2456f2bf0a0d176d9c_icgraph" id="fbgc__math_8c_a1da63ee12e1b6a2456f2bf0a0d176d9c_icgraph">
-<area shape="rect" id="node2" href="fbgc__math_8c.html#ac905d4a49d52f4c455f650bd65256fae" title="c_cos" alt="" coords="111,5,168,32"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a9eb1700a5bd425c10311d25a941c3f38"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9eb1700a5bd425c10311d25a941c3f38">&#9670;&nbsp;</a></span>new_fbgc_cfunction() <span class="overload">[1/6]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">new_fbgc_cfunction </td>
-          <td>(</td>
-          <td class="paramtype">fbgc_math_initializer&#160;</td>
-          <td class="paramname">, </td>
+          <td class="paramtype">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">&quot;math&quot;&#160;</td>
-          <td class="paramname">&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td>
+          <td class="paramname"><em>rhs</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -267,62 +196,47 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fbgc__math_8c_source.html#l00141">141</a> of file <a class="el" href="fbgc__math_8c_source.html">fbgc_math.c</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="fbgc__math_8c_a9eb1700a5bd425c10311d25a941c3f38_cgraph.png" border="0" usemap="#fbgc__math_8c_a9eb1700a5bd425c10311d25a941c3f38_cgraph" alt=""/></div>
-<map name="fbgc__math_8c_a9eb1700a5bd425c10311d25a941c3f38_cgraph" id="fbgc__math_8c_a9eb1700a5bd425c10311d25a941c3f38_cgraph">
-<area shape="rect" id="node2" href="field__object_8c.html#a72a879327492fbbc87302acca2de4e5a" title="add_variable_in_field\l_object" alt="" coords="203,295,346,337"/>
-<area shape="rect" id="node29" href="double__object_8c.html#a08dd93b8f6c56cf7cb6210b63c29dbaf" title="new_fbgc_double_object" alt="" coords="192,393,357,420"/>
-<area shape="rect" id="node3" href="symbol__table_8c.html#ac2d095c327888530304e422bd1641baf" title="new_fbgc_symbol_from\l_substr" alt="" coords="405,230,565,271"/>
-<area shape="rect" id="node26" href="tuple__object_8c.html#a96fd24de0c1307cc509c25394219f0a6" title="get_object_in_fbgc\l_tuple_object" alt="" coords="420,295,551,337"/>
-<area shape="rect" id="node27" href="array__object_8h.html#a3c9207f63947e85c34b80a0b880f22c6" title="Get the address of a variable inside an array object. " alt="" coords="414,361,557,402"/>
-<area shape="rect" id="node28" href="array__object_8h.html#a285cc536b0a1723f3d718aac41ef4f26" title="Pushes from back to given object into the array object. " alt="" coords="409,165,562,206"/>
-<area shape="rect" id="node4" href="error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="1436,704,1495,731"/>
-<area shape="rect" id="node5" href="str__object_8c.html#a16ebc36056959ecb94a9d02820f640a4" title="my_strncmp" alt="" coords="643,208,738,235"/>
-<area shape="rect" id="node6" href="linked__list_8c.html#a879f3ec7d202dfa3b85d979e5a6aef37" title="_new_fbgc_ll_identifier" alt="" coords="613,259,768,285"/>
-<area shape="rect" id="node8" href="str__object_8c.html#ab37046d06d1ced789068bf70e37b7ed1" title="new_fbgc_cstr_object\l_from_substr" alt="" coords="616,310,765,351"/>
-<area shape="rect" id="node9" href="fbgc__object_8c.html#a692d3bb2e230f23caf8a28a250f7ef48" title="print_fbgc_object" alt="" coords="630,780,751,807"/>
-<area shape="rect" id="node14" href="str__object_8c.html#af6c5743192c678d8081aef62a95b26c0" title="print_fbgc_cstr_object" alt="" coords="1229,451,1380,477"/>
-<area shape="rect" id="node22" href="tuple__object_8c.html#a0b406898ce0f388a06bbf0cdd3b5b8d5" title="push_back_fbgc_tuple\l_object" alt="" coords="615,91,767,133"/>
-<area shape="rect" id="node7" href="memory_8c.html#a41dd65ee24d51160659bf94bed90e998" title="fbgc_malloc" alt="" coords="1055,317,1147,344"/>
-<area shape="rect" id="node10" href="int__object_8c.html#a0062dc9607e1f9bdf4fc960f981bb592" title="print_fbgc_int_object" alt="" coords="1029,907,1172,933"/>
-<area shape="rect" id="node11" href="double__object_8c.html#a4872de0b7e3482c3414635499574c3a2" title="print_fbgc_double_object" alt="" coords="1221,957,1388,984"/>
-<area shape="rect" id="node12" href="complex__object_8c.html#a48882c21f5d339b41807108958456809" title="print_fbgc_complex\l_object" alt="" coords="1033,1009,1168,1050"/>
-<area shape="rect" id="node13" href="str__object_8c.html#a66e47da312848322ec0f6c783c8afd84" title="print_fbgc_str_object" alt="" coords="827,1071,969,1097"/>
-<area shape="rect" id="node15" href="tuple__object_8c.html#a80ba9373477760391033dc0cdea35a6e" title="print_fbgc_tuple_object" alt="" coords="1227,501,1383,528"/>
-<area shape="rect" id="node16" href="matrix__object_8c.html#a024f1c29208bf2fe7425896d1eb055e0" title="print_fbgc_matrix_object" alt="" coords="816,628,980,655"/>
-<area shape="rect" id="node17" href="fun__object_8c.html#a3e96dc0c25688e38eb2149d647dbbe0c" title="print_fbgc_fun_object" alt="" coords="825,755,971,781"/>
-<area shape="rect" id="node21" href="range__object_8c.html#ab8138fb21f5d4098f82847b2354af837" title="print_fbgc_range_object" alt="" coords="818,805,978,832"/>
-<area shape="rect" id="node18" href="linked__list_8c.html#a84527cb003478dd4a3d0427586c2d843" title="_print_fbgc_ll_code" alt="" coords="1033,653,1168,680"/>
-<area shape="rect" id="node19" href="tokens_8c.html#aa377532036ed71b823522a0122f7562c" title="get_token_as_str" alt="" coords="1243,603,1366,629"/>
-<area shape="rect" id="node20" href="linked__list_8c.html#adf5d9a585d48523587ecad0495f80d52" title="_print_fbgc_ll_base" alt="" coords="1237,704,1372,731"/>
-<area shape="rect" id="node23" href="memory_8c.html#a46dcfb44df5cac4f04145f1aa208fb9f" title="fbgc_realloc" alt="" coords="852,99,944,125"/>
-<area shape="rect" id="node24" href="fbgc__object_8c.html#a1ba6a6b09db0e6c3a6ac6f6cfc0266de" title="get_fbgc_object_size" alt="" coords="1028,5,1173,32"/>
-<area shape="rect" id="node25" href="memory_8c.html#a45d076e11af8d11bd73f6529582edbef" title="fbgc_free" alt="" coords="1063,56,1139,83"/>
-</map>
-</div>
+<p class="definition">Definition at line <a class="el" href="fbgc__math_8c_source.html#l00119">119</a> of file <a class="el" href="fbgc__math_8c_source.html">fbgc_math.c</a>.</p>
 
 </div>
 </div>
-<a id="acae2e33558ec38d07e79b30d9dedd266"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acae2e33558ec38d07e79b30d9dedd266">&#9670;&nbsp;</a></span>new_fbgc_cfunction() <span class="overload">[2/6]</span></h2>
+<a id="a24d7c62ad207f6ba11d6a49af6d56bca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24d7c62ad207f6ba11d6a49af6d56bca">&#9670;&nbsp;</a></span>fbgc_math_initializer()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">new_fbgc_cfunction </td>
+          <td class="memname">void fbgc_math_initializer </td>
           <td>(</td>
-          <td class="paramtype">fbgc_gsl&#160;</td>
-          <td class="paramname">, </td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="fbgc__math_8c_source.html#l00132">132</a> of file <a class="el" href="fbgc__math_8c_source.html">fbgc_math.c</a>.</p>
+
+</div>
+</div>
+<a id="ab7487a0e531f9a7bb708a3fd5983466b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7487a0e531f9a7bb708a3fd5983466b">&#9670;&nbsp;</a></span>fbgc_math_pi_member()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structfbgc__object.html">fbgc_object</a>* fbgc_math_pi_member </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">&quot;gsl&quot;&#160;</td>
-          <td class="paramname">&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td>
+          <td class="paramname"><em>rhs</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -332,186 +246,12 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fbgc__math_8c_source.html#l00150">150</a> of file <a class="el" href="fbgc__math_8c_source.html">fbgc_math.c</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="fbgc__math_8c_acae2e33558ec38d07e79b30d9dedd266_cgraph.png" border="0" usemap="#fbgc__math_8c_acae2e33558ec38d07e79b30d9dedd266_cgraph" alt=""/></div>
-<map name="fbgc__math_8c_acae2e33558ec38d07e79b30d9dedd266_cgraph" id="fbgc__math_8c_acae2e33558ec38d07e79b30d9dedd266_cgraph">
-<area shape="rect" id="node2" href="matrix__object_8c.html#aa855543d4a0b84619248fdce7dc1c763" title="new_fbgc_matrix_object" alt="" coords="192,5,355,32"/>
-<area shape="rect" id="node3" href="memory_8c.html#a41dd65ee24d51160659bf94bed90e998" title="fbgc_malloc" alt="" coords="403,5,495,32"/>
-<area shape="rect" id="node4" href="error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="543,5,601,32"/>
-</map>
-</div>
+<p class="definition">Definition at line <a class="el" href="fbgc__math_8c_source.html#l00115">115</a> of file <a class="el" href="fbgc__math_8c_source.html">fbgc_math.c</a>.</p>
 
 </div>
 </div>
-<a id="a257fff332d372d7335e4a7ea95350a18"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a257fff332d372d7335e4a7ea95350a18">&#9670;&nbsp;</a></span>new_fbgc_cfunction() <span class="overload">[3/6]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">new_fbgc_cfunction </td>
-          <td>(</td>
-          <td class="paramtype">fbgc_randint&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&quot;randint&quot;&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="fbgc__math_8c_source.html#l00272">272</a> of file <a class="el" href="fbgc__math_8c_source.html">fbgc_math.c</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="fbgc__math_8c_a257fff332d372d7335e4a7ea95350a18_cgraph.png" border="0" usemap="#fbgc__math_8c_a257fff332d372d7335e4a7ea95350a18_cgraph" alt=""/></div>
-<map name="fbgc__math_8c_a257fff332d372d7335e4a7ea95350a18_cgraph" id="fbgc__math_8c_a257fff332d372d7335e4a7ea95350a18_cgraph">
-<area shape="rect" id="node2" href="fbgc__object_8c.html#acf2ffa8ce326979fc952be642213461a" title="convert_fbgc_object\l_to_int" alt="" coords="381,5,520,47"/>
-<area shape="rect" id="node3" href="error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="568,71,627,98"/>
-<area shape="rect" id="node4" href="int__object_8c.html#a330313f82de7af3f3801d6c366d6c4b1" title="new_fbgc_int_object" alt="" coords="192,122,333,149"/>
-<area shape="rect" id="node5" href="memory_8c.html#a41dd65ee24d51160659bf94bed90e998" title="fbgc_malloc" alt="" coords="405,122,497,149"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a5961f35a1081f12e716de9fe5351dd93"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5961f35a1081f12e716de9fe5351dd93">&#9670;&nbsp;</a></span>new_fbgc_cfunction() <span class="overload">[4/6]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">new_fbgc_cfunction </td>
-          <td>(</td>
-          <td class="paramtype">fbgc_random&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&quot;random&quot;&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="fbgc__math_8c_source.html#l00295">295</a> of file <a class="el" href="fbgc__math_8c_source.html">fbgc_math.c</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="fbgc__math_8c_a5961f35a1081f12e716de9fe5351dd93_cgraph.png" border="0" usemap="#fbgc__math_8c_a5961f35a1081f12e716de9fe5351dd93_cgraph" alt=""/></div>
-<map name="fbgc__math_8c_a5961f35a1081f12e716de9fe5351dd93_cgraph" id="fbgc__math_8c_a5961f35a1081f12e716de9fe5351dd93_cgraph">
-<area shape="rect" id="node2" href="fbgc__object_8c.html#a3bb27f7967c007951389378fc9f358e3" title="convert_fbgc_object\l_to_double" alt="" coords="405,5,544,47"/>
-<area shape="rect" id="node4" href="double__object_8c.html#a08dd93b8f6c56cf7cb6210b63c29dbaf" title="new_fbgc_double_object" alt="" coords="192,67,357,94"/>
-<area shape="rect" id="node3" href="error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="592,42,651,69"/>
-<area shape="rect" id="node5" href="memory_8c.html#a41dd65ee24d51160659bf94bed90e998" title="fbgc_malloc" alt="" coords="429,71,521,98"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a31213c396b9fe11344b76eed17716404"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a31213c396b9fe11344b76eed17716404">&#9670;&nbsp;</a></span>new_fbgc_cfunction() <span class="overload">[5/6]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">new_fbgc_cfunction </td>
-          <td>(</td>
-          <td class="paramtype">fbgc_rand&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&quot;rand&quot;&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="fbgc__math_8c_source.html#l00317">317</a> of file <a class="el" href="fbgc__math_8c_source.html">fbgc_math.c</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="fbgc__math_8c_a31213c396b9fe11344b76eed17716404_cgraph.png" border="0" usemap="#fbgc__math_8c_a31213c396b9fe11344b76eed17716404_cgraph" alt=""/></div>
-<map name="fbgc__math_8c_a31213c396b9fe11344b76eed17716404_cgraph" id="fbgc__math_8c_a31213c396b9fe11344b76eed17716404_cgraph">
-<area shape="rect" id="node2" href="fbgc__object_8c.html#acf2ffa8ce326979fc952be642213461a" title="convert_fbgc_object\l_to_int" alt="" coords="403,5,541,47"/>
-<area shape="rect" id="node4" href="matrix__object_8c.html#aa855543d4a0b84619248fdce7dc1c763" title="new_fbgc_matrix_object" alt="" coords="192,67,355,94"/>
-<area shape="rect" id="node3" href="error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="589,42,648,69"/>
-<area shape="rect" id="node5" href="memory_8c.html#a41dd65ee24d51160659bf94bed90e998" title="fbgc_malloc" alt="" coords="426,71,518,98"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="aab343b5abf6018e1d7337bc70b049e40"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aab343b5abf6018e1d7337bc70b049e40">&#9670;&nbsp;</a></span>new_fbgc_cfunction() <span class="overload">[6/6]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">new_fbgc_cfunction </td>
-          <td>(</td>
-          <td class="paramtype">fbgc_randj&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&quot;randj&quot;&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="fbgc__math_8c_source.html#l00341">341</a> of file <a class="el" href="fbgc__math_8c_source.html">fbgc_math.c</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="fbgc__math_8c_aab343b5abf6018e1d7337bc70b049e40_cgraph.png" border="0" usemap="#fbgc__math_8c_aab343b5abf6018e1d7337bc70b049e40_cgraph" alt=""/></div>
-<map name="fbgc__math_8c_aab343b5abf6018e1d7337bc70b049e40_cgraph" id="fbgc__math_8c_aab343b5abf6018e1d7337bc70b049e40_cgraph">
-<area shape="rect" id="node2" href="fbgc__object_8c.html#acf2ffa8ce326979fc952be642213461a" title="convert_fbgc_object\l_to_int" alt="" coords="403,5,541,47"/>
-<area shape="rect" id="node4" href="matrix__object_8c.html#aa855543d4a0b84619248fdce7dc1c763" title="new_fbgc_matrix_object" alt="" coords="192,67,355,94"/>
-<area shape="rect" id="node3" href="error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="589,42,648,69"/>
-<area shape="rect" id="node5" href="memory_8c.html#a41dd65ee24d51160659bf94bed90e998" title="fbgc_malloc" alt="" coords="426,71,518,98"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a02d23371b1deb22ee44c53c2c45fad5f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a02d23371b1deb22ee44c53c2c45fad5f">&#9670;&nbsp;</a></span>new_fbgc_one_arg_math() <span class="overload">[1/5]</span></h2>
+<a id="aef1d04402d9e6a3c3a812ec130894fa6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef1d04402d9e6a3c3a812ec130894fa6">&#9670;&nbsp;</a></span>new_fbgc_one_arg_math() <span class="overload">[1/14]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -519,12 +259,34 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="memname">new_fbgc_one_arg_math </td>
           <td>(</td>
-          <td class="paramtype">&quot;sin&quot;&#160;</td>
+          <td class="paramtype">cos&#160;</td>
           <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">NULL&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af841eef196615e701d56d91b8c9fcd4e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af841eef196615e701d56d91b8c9fcd4e">&#9670;&nbsp;</a></span>new_fbgc_one_arg_math() <span class="overload">[2/14]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">new_fbgc_one_arg_math </td>
+          <td>(</td>
           <td class="paramtype">sin&#160;</td>
           <td class="paramname">, </td>
         </tr>
@@ -544,8 +306,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a68940d41a5d6c839ba6ff0cef86000d2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a68940d41a5d6c839ba6ff0cef86000d2">&#9670;&nbsp;</a></span>new_fbgc_one_arg_math() <span class="overload">[2/5]</span></h2>
+<a id="ad63362cc39f897a24964c36dab7db173"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad63362cc39f897a24964c36dab7db173">&#9670;&nbsp;</a></span>new_fbgc_one_arg_math() <span class="overload">[3/14]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -553,46 +315,6 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="memname">new_fbgc_one_arg_math </td>
           <td>(</td>
-          <td class="paramtype">&quot;cos&quot;&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">cos&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="fbgc__math_8c.html#ac905d4a49d52f4c455f650bd65256fae">c_cos</a>&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="af081a51903c8e6ab8b012e89ace49309"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af081a51903c8e6ab8b012e89ace49309">&#9670;&nbsp;</a></span>new_fbgc_one_arg_math() <span class="overload">[3/5]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">new_fbgc_one_arg_math </td>
-          <td>(</td>
-          <td class="paramtype">&quot;tan&quot;&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">tan&#160;</td>
           <td class="paramname">, </td>
         </tr>
@@ -612,8 +334,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="aec4dcde635d4d9efca0e380f02c17ad4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aec4dcde635d4d9efca0e380f02c17ad4">&#9670;&nbsp;</a></span>new_fbgc_one_arg_math() <span class="overload">[4/5]</span></h2>
+<a id="ab2cdb09ca68e0934a8a7a9544d298bc8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2cdb09ca68e0934a8a7a9544d298bc8">&#9670;&nbsp;</a></span>new_fbgc_one_arg_math() <span class="overload">[4/14]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -621,19 +343,13 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="memname">new_fbgc_one_arg_math </td>
           <td>(</td>
-          <td class="paramtype">&quot;exp&quot;&#160;</td>
+          <td class="paramtype">acos&#160;</td>
           <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">exp&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="fbgc__math_8c.html#a1da63ee12e1b6a2456f2bf0a0d176d9c">c_exp</a>&#160;</td>
+          <td class="paramtype">NULL&#160;</td>
           <td class="paramname">&#160;</td>
         </tr>
         <tr>
@@ -646,8 +362,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a870c4dbd277420595e90d2b02850a6f7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a870c4dbd277420595e90d2b02850a6f7">&#9670;&nbsp;</a></span>new_fbgc_one_arg_math() <span class="overload">[5/5]</span></h2>
+<a id="a13a4e9219aca2b68ab7b83f963f3996e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13a4e9219aca2b68ab7b83f963f3996e">&#9670;&nbsp;</a></span>new_fbgc_one_arg_math() <span class="overload">[5/14]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -655,12 +371,258 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="memname">new_fbgc_one_arg_math </td>
           <td>(</td>
-          <td class="paramtype">&quot;sqrt&quot;&#160;</td>
+          <td class="paramtype">asin&#160;</td>
           <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">NULL&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a05b3f0b4874c72342f2e198ef4d3526a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05b3f0b4874c72342f2e198ef4d3526a">&#9670;&nbsp;</a></span>new_fbgc_one_arg_math() <span class="overload">[6/14]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">new_fbgc_one_arg_math </td>
+          <td>(</td>
+          <td class="paramtype">atan&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">NULL&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab9fb535e367d9c6bbb74bd195688db15"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab9fb535e367d9c6bbb74bd195688db15">&#9670;&nbsp;</a></span>new_fbgc_one_arg_math() <span class="overload">[7/14]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">new_fbgc_one_arg_math </td>
+          <td>(</td>
+          <td class="paramtype">cosh&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">NULL&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4e8c8c6c1eb2fda4199040439bce5211"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e8c8c6c1eb2fda4199040439bce5211">&#9670;&nbsp;</a></span>new_fbgc_one_arg_math() <span class="overload">[8/14]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">new_fbgc_one_arg_math </td>
+          <td>(</td>
+          <td class="paramtype">sinh&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">NULL&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a23c63bd7ed7833497563dbc77aee9135"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23c63bd7ed7833497563dbc77aee9135">&#9670;&nbsp;</a></span>new_fbgc_one_arg_math() <span class="overload">[9/14]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">new_fbgc_one_arg_math </td>
+          <td>(</td>
+          <td class="paramtype">tanh&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">NULL&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aed282349626903d7a16793cfe5999e41"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed282349626903d7a16793cfe5999e41">&#9670;&nbsp;</a></span>new_fbgc_one_arg_math() <span class="overload">[10/14]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">new_fbgc_one_arg_math </td>
+          <td>(</td>
+          <td class="paramtype">acosh&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">NULL&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab7591966494e023a7d522fbd14adc925"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7591966494e023a7d522fbd14adc925">&#9670;&nbsp;</a></span>new_fbgc_one_arg_math() <span class="overload">[11/14]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">new_fbgc_one_arg_math </td>
+          <td>(</td>
+          <td class="paramtype">asinh&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">NULL&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a063bd94cd49c3078667185b4ae236752"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a063bd94cd49c3078667185b4ae236752">&#9670;&nbsp;</a></span>new_fbgc_one_arg_math() <span class="overload">[12/14]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">new_fbgc_one_arg_math </td>
+          <td>(</td>
+          <td class="paramtype">atanh&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">NULL&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afbbee84f045d236cfb8a9d9b32030e80"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afbbee84f045d236cfb8a9d9b32030e80">&#9670;&nbsp;</a></span>new_fbgc_one_arg_math() <span class="overload">[13/14]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">new_fbgc_one_arg_math </td>
+          <td>(</td>
+          <td class="paramtype">exp&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">NULL&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae431205e1166373ee7bd743fa8134f91"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae431205e1166373ee7bd743fa8134f91">&#9670;&nbsp;</a></span>new_fbgc_one_arg_math() <span class="overload">[14/14]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">new_fbgc_one_arg_math </td>
+          <td>(</td>
           <td class="paramtype">sqrt&#160;</td>
           <td class="paramname">, </td>
         </tr>
@@ -680,8 +642,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="aa6e10b1ad6ff2f812aec975bf195c447"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa6e10b1ad6ff2f812aec975bf195c447">&#9670;&nbsp;</a></span>one_arg_math()</h2>
+<a id="ac74f03a2063441d4d9c6f872d586b90a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac74f03a2063441d4d9c6f872d586b90a">&#9670;&nbsp;</a></span>one_arg_math()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -689,14 +651,8 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="memname">struct <a class="el" href="structfbgc__object.html">fbgc_object</a>* one_arg_math </td>
           <td>(</td>
-          <td class="paramtype">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> **&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structfbgc__cfun__arg.html">fbgc_cfun_arg</a> *&#160;</td>
           <td class="paramname"><em>arg</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>argc</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -718,42 +674,29 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fbgc__math_8c_source.html#l00055">55</a> of file <a class="el" href="fbgc__math_8c_source.html">fbgc_math.c</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="fbgc__math_8c_aa6e10b1ad6ff2f812aec975bf195c447_cgraph.png" border="0" usemap="#fbgc__math_8c_aa6e10b1ad6ff2f812aec975bf195c447_cgraph" alt=""/></div>
-<map name="fbgc__math_8c_aa6e10b1ad6ff2f812aec975bf195c447_cgraph" id="fbgc__math_8c_aa6e10b1ad6ff2f812aec975bf195c447_cgraph">
-<area shape="rect" id="node2" href="fbgc__object_8c.html#a3bb27f7967c007951389378fc9f358e3" title="convert_fbgc_object\l_to_double" alt="" coords="393,19,531,61"/>
-<area shape="rect" id="node4" href="double__object_8c.html#a08dd93b8f6c56cf7cb6210b63c29dbaf" title="new_fbgc_double_object" alt="" coords="163,41,328,68"/>
-<area shape="rect" id="node6" href="fbgc__object_8c.html#a5a9cf786785f00ec159d2845dc49f99c" title="convert_fbgc_object\l_to_complex" alt="" coords="393,237,531,278"/>
-<area shape="rect" id="node7" href="complex__object_8c.html#aaa211012c5583b4c23ebcc4824fbc504" title="new_fbgc_complex_object" alt="" coords="157,92,333,119"/>
-<area shape="rect" id="node8" href="tuple__object_8c.html#aea5f2cac3a39a11b2c17445654538710" title="new_fbgc_tuple_object" alt="" coords="168,193,323,220"/>
-<area shape="rect" id="node10" href="tuple__object_8c.html#a7ed1f5099ffc3fb0aeb688d8a4e4ef7e" title="set_object_in_fbgc\l_tuple_object" alt="" coords="180,295,311,337"/>
-<area shape="rect" id="node11" href="matrix__object_8c.html#aa855543d4a0b84619248fdce7dc1c763" title="new_fbgc_matrix_object" alt="" coords="164,143,327,169"/>
-<area shape="rect" id="node3" href="error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="591,149,649,176"/>
-<area shape="rect" id="node5" href="memory_8c.html#a41dd65ee24d51160659bf94bed90e998" title="fbgc_malloc" alt="" coords="416,120,508,147"/>
-<area shape="rect" id="node9" href="tuple__object_8c.html#af0a95832bdbe0ec168e2a1e8407cc9c9" title="calculate_new_capacity\l_from_size" alt="" coords="381,171,543,213"/>
-</map>
-</div>
+<p class="definition">Definition at line <a class="el" href="fbgc__math_8c_source.html#l00015">15</a> of file <a class="el" href="fbgc__math_8c_source.html">fbgc_math.c</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a id="a0e21a6913dcdb97c9dc7893fcde44fe4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0e21a6913dcdb97c9dc7893fcde44fe4">&#9670;&nbsp;</a></span>fbgc_math_module</h2>
+<a id="a811804ee2230d0049b558920ef3f5141"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a811804ee2230d0049b558920ef3f5141">&#9670;&nbsp;</a></span>_fbgc_math_property_holder</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const struct <a class="el" href="structfbgc__cmodule.html">fbgc_cmodule</a> fbgc_math_module</td>
+          <td class="memname">const struct <a class="el" href="structfbgc__object__property__holder.html">fbgc_object_property_holder</a> _fbgc_math_property_holder</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= </div><div class="line">{</div><div class="line">    </div><div class="line">    .initializer = &amp;fbgc_math_initializer_struct,</div><div class="line">    .functions = (<span class="keyword">const</span> <span class="keyword">struct </span><a class="code" href="structfbgc__cfunction.html">fbgc_cfunction</a>*[])</div><div class="line">    {   </div><div class="line">        &amp;fbgc_sin_struct,</div><div class="line">        &amp;fbgc_cos_struct,</div><div class="line">        &amp;fbgc_tan_struct,</div><div class="line">        &amp;fbgc_exp_struct,</div><div class="line">        &amp;fbgc_sqrt_struct,</div><div class="line">        &amp;fbgc_gsl_struct,</div><div class="line">        &amp;fbgc_random_struct,</div><div class="line">        &amp;fbgc_randint_struct,</div><div class="line">        &amp;fbgc_rand_struct,</div><div class="line">        &amp;fbgc_randj_struct,     </div><div class="line">        NULL</div><div class="line">    }</div><div class="line">}</div><div class="ttc" id="structfbgc__cfunction_html"><div class="ttname"><a href="structfbgc__cfunction.html">fbgc_cfunction</a></div><div class="ttdef"><b>Definition:</b> <a href="cmodule__object_8h_source.html#l00020">cmodule_object.h:20</a></div></div>
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">    .bits = </div><div class="line">    <a class="code" href="fbgc__object_8h.html#af1d6b81cfdbdaa547eaa7eaacec236ac">_BIT_NAME</a> |</div><div class="line">    <a class="code" href="fbgc__object_8h.html#ad9fdfb8f2fc7b9029fc544d7a3ad5e74">_BIT_INITIALIZER</a> |</div><div class="line">    <a class="code" href="fbgc__object_8h.html#a3e3b983dc9e71b2a490faa3af81ec745">_BIT_METHODS</a> |</div><div class="line">    <a class="code" href="fbgc__object_8h.html#a6e41b1fb33eafc642e6ba8a5f59e863b">_BIT_MEMBERS</a></div><div class="line">    ,</div><div class="line">    .properties ={</div><div class="line">        {.members = &amp;_fbgc_math_members},</div><div class="line">        {.methods = &amp;_fbgc_math_methods},</div><div class="line">        {.name = <span class="stringliteral">&quot;math&quot;</span>},</div><div class="line">        {.initializer = <a class="code" href="fbgc__math_8c.html#a24d7c62ad207f6ba11d6a49af6d56bca">fbgc_math_initializer</a>}</div><div class="line">    }</div><div class="line">}</div><div class="ttc" id="fbgc__object_8h_html_a6e41b1fb33eafc642e6ba8a5f59e863b"><div class="ttname"><a href="fbgc__object_8h.html#a6e41b1fb33eafc642e6ba8a5f59e863b">_BIT_MEMBERS</a></div><div class="ttdeci">#define _BIT_MEMBERS</div><div class="ttdef"><b>Definition:</b> <a href="fbgc__object_8h_source.html#l00120">fbgc_object.h:120</a></div></div>
+<div class="ttc" id="fbgc__math_8c_html_a24d7c62ad207f6ba11d6a49af6d56bca"><div class="ttname"><a href="fbgc__math_8c.html#a24d7c62ad207f6ba11d6a49af6d56bca">fbgc_math_initializer</a></div><div class="ttdeci">void fbgc_math_initializer(void)</div><div class="ttdef"><b>Definition:</b> <a href="fbgc__math_8c_source.html#l00132">fbgc_math.c:132</a></div></div>
+<div class="ttc" id="fbgc__object_8h_html_ad9fdfb8f2fc7b9029fc544d7a3ad5e74"><div class="ttname"><a href="fbgc__object_8h.html#ad9fdfb8f2fc7b9029fc544d7a3ad5e74">_BIT_INITIALIZER</a></div><div class="ttdeci">#define _BIT_INITIALIZER</div><div class="ttdef"><b>Definition:</b> <a href="fbgc__object_8h_source.html#l00137">fbgc_object.h:137</a></div></div>
+<div class="ttc" id="fbgc__object_8h_html_a3e3b983dc9e71b2a490faa3af81ec745"><div class="ttname"><a href="fbgc__object_8h.html#a3e3b983dc9e71b2a490faa3af81ec745">_BIT_METHODS</a></div><div class="ttdeci">#define _BIT_METHODS</div><div class="ttdef"><b>Definition:</b> <a href="fbgc__object_8h_source.html#l00121">fbgc_object.h:121</a></div></div>
+<div class="ttc" id="fbgc__object_8h_html_af1d6b81cfdbdaa547eaa7eaacec236ac"><div class="ttname"><a href="fbgc__object_8h.html#af1d6b81cfdbdaa547eaa7eaacec236ac">_BIT_NAME</a></div><div class="ttdeci">#define _BIT_NAME</div><div class="ttdef"><b>Definition:</b> <a href="fbgc__object_8h_source.html#l00135">fbgc_object.h:135</a></div></div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="fbgc__math_8c_source.html#l00365">365</a> of file <a class="el" href="fbgc__math_8c_source.html">fbgc_math.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fbgc__math_8c_source.html#l00138">138</a> of file <a class="el" href="fbgc__math_8c_source.html">fbgc_math.c</a>.</p>
 
 </div>
 </div>

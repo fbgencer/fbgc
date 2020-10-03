@@ -1,0 +1,8 @@
+<map id="size_of_fbgc_object" name="size_of_fbgc_object">
+<area shape="rect" id="node2" href="$memory_8c.html#a4e4389eb30327879df1eaf1033810316" title="fbgc_gc_init" alt="" coords="249,5,341,32"/>
+<area shape="rect" id="node3" href="$memory_8c.html#a4a45140ba308a6210947a14e37b031ec" title="fbgc_gc_mark" alt="" coords="243,56,347,83"/>
+<area shape="rect" id="node5" href="$memory_8c.html#ad03c3957bb9f8d5c30faf0c2f8c01a29" title="fbgc_gc_sweep" alt="" coords="239,107,352,133"/>
+<area shape="rect" id="node6" href="$memory_8c.html#abefa277cbdedf0015e3b990f18602f6f" title="print_fbgc_memory_object_pool" alt="" coords="192,157,399,184"/>
+<area shape="rect" id="node4" href="$memory_8c.html#a7a8918367899ad99cdd2de865fb88c51" title="fbgc_gc_run" alt="" coords="485,81,579,108"/>
+<area shape="rect" id="node7" href="$memory_8c.html#ac7afb05d80ef3b09468f8317180f236c" title="print_fbgc_memory_block" alt="" coords="447,157,617,184"/>
+</map>

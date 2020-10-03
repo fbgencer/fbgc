@@ -1,14 +1,15 @@
 <map id="new_fbgc_matrix_object" name="new_fbgc_matrix_object">
-<area shape="rect" id="node2" href="$fbgc__math_8c.html#aa6e10b1ad6ff2f812aec975bf195c447" title="one_arg_math" alt="" coords="245,5,349,32"/>
-<area shape="rect" id="node3" href="$fbgc__math_8c.html#acae2e33558ec38d07e79b30d9dedd266" title="new_fbgc_cfunction" alt="" coords="228,56,367,83"/>
-<area shape="rect" id="node4" href="$matrix__object_8h.html#a898bc860356435a55913e279efdfd8c9" title="new_fbgc_matrix_object\l_from_range" alt="" coords="216,107,379,149"/>
-<area shape="rect" id="node9" href="$matrix__object_8h.html#a4345ce34b5ddb080cccb6b385db33eda" title="matrix_creation_from\l_stack" alt="" coords="225,173,369,214"/>
-<area shape="rect" id="node10" href="$matrix__object_8h.html#a03ace62514dbe5863895e476bedf4f52" title="multiply_fbgc_matrix\l_object" alt="" coords="603,315,745,357"/>
-<area shape="rect" id="node11" href="$matrix__object_8h.html#acd9358a8cf3ef246db381503466b8c0e" title="operator_fbgc_matrix\l_object" alt="" coords="793,370,937,411"/>
-<area shape="rect" id="node12" href="$matrix__object_8h.html#a1dd528ec788f99a46eedcbd5523865dc" title="fast_multiply_fbgc\l_matrix_object" alt="" coords="427,315,555,357"/>
-<area shape="rect" id="node13" href="$matrix__object_8h.html#a3b38131de55f1ba36877d8118c0e6e6a" title="transpose_fbgc_matrix\l_object" alt="" coords="220,341,375,382"/>
-<area shape="rect" id="node5" href="$interpreter_8h.html#acdb0cb340501af8374de73b627b6e26a" title="run_code" alt="" coords="453,148,528,175"/>
-<area shape="rect" id="node6" href="$interpreter_8h.html#acb0454b55a53dfb587644f66848a0646" title="interpreter" alt="" coords="634,148,714,175"/>
-<area shape="rect" id="node7" href="$fbgc_8c.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="814,148,917,175"/>
-<area shape="rect" id="node8" href="$fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c" title="new_fbgc_cfunction" alt="" coords="985,148,1124,175"/>
+<area shape="rect" id="node2" href="$matrix__object_8c.html#a898bc860356435a55913e279efdfd8c9" title="new_fbgc_matrix_object\l_from_range" alt="" coords="216,76,379,117"/>
+<area shape="rect" id="node10" href="$matrix__object_8c.html#a0d2319772e0649f96eb59192e4b4d813" title="matrix_creation_from\l_stack" alt="" coords="225,141,369,183"/>
+<area shape="rect" id="node11" href="$matrix__object_8c.html#a03ace62514dbe5863895e476bedf4f52" title="multiply_fbgc_matrix\l_object" alt="" coords="603,284,745,325"/>
+<area shape="rect" id="node12" href="$matrix__object_8c.html#acd9358a8cf3ef246db381503466b8c0e" title="operator_fbgc_matrix\l_object" alt="" coords="809,315,953,356"/>
+<area shape="rect" id="node13" href="$matrix__object_8c.html#a1dd528ec788f99a46eedcbd5523865dc" title="fast_multiply_fbgc\l_matrix_object" alt="" coords="427,284,555,325"/>
+<area shape="rect" id="node14" href="$matrix__object_8c.html#a3b38131de55f1ba36877d8118c0e6e6a" title="transpose_fbgc_matrix\l_object" alt="" coords="220,309,375,351"/>
+<area shape="rect" id="node3" href="$interpreter_8c.html#a9258c216ff44c3e528b11c40bb008408" title="run_code" alt="" coords="453,119,528,146"/>
+<area shape="rect" id="node4" href="$interpreter_8c.html#acb0454b55a53dfb587644f66848a0646" title="interpreter" alt="" coords="634,69,714,95"/>
+<area shape="rect" id="node5" href="$interpreter_8c.html#a4f89f3bcab3bcea69d82ae01a7197bd8" title="call_fun_object" alt="" coords="619,119,729,146"/>
+<area shape="rect" id="node6" href="$class__object_8c.html#a9e16ab772b9f1e0e9b201c7ae7975ee4" title="operator_fbgc_instance\l_object" alt="" coords="802,71,959,112"/>
+<area shape="rect" id="node7" href="$class__object_8c.html#ab5ab4859ce82fab98281a60feae683cf" title="subscript_operator\l_fbgc_instance_object" alt="" coords="805,136,957,177"/>
+<area shape="rect" id="node8" href="$class__object_8c.html#aaaf99e7bf52215f441cf0071bc7614b0" title="subscript_assign_operator\l_fbgc_instance_object" alt="" coords="793,201,968,243"/>
+<area shape="rect" id="node9" href="$class__object_8c.html#ac4a3f951a94ea6c43c0c9d463a469f5c" title="print_fbgc_instance\l_object" alt="" coords="813,5,948,47"/>
 </map>

@@ -1,3 +1,17 @@
+// This file is part of fbgc
+
+// fbgc is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+
+// fbgc is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// You should have received a copy of the GNU General Public License
+// along with fbgc.  If not, see <https://www.gnu.org/licenses/>.
 #include "fbgc.h"
 
 
@@ -58,10 +72,10 @@ void push_back_fbgc_vector(struct fbgc_vector * vector, const void * item){
 		size_t cap = fbgc_round_to_closest_power_of_two(capacity_fbgc_vector(vector));
 		if(vector->size == cap){
 			//request change for the capacity of the vector
-			vector->content = fbgc_realloc(vector->content,(cap <<1) * vector->block_size );
+			vector->content = (uint8_t*)fbgc_realloc(vector->content,(cap <<1) * vector->block_size );
 		}
 		else{
-			vector->content = fbgc_realloc(vector->content,cap * vector->block_size );	
+			vector->content = (uint8_t*)fbgc_realloc(vector->content,cap * vector->block_size );	
 		}
 	}
 	memcpy(at_fbgc_vector(vector,vector->size), item, vector->block_size);
@@ -85,7 +99,7 @@ void reserve_fbgc_vector(struct fbgc_vector * vector, size_t new_cap){
 	new_cap = fbgc_round_to_closest_power_of_two(new_cap);
 	if(new_cap > capacity_fbgc_vector(vector)){
 		//grow
-		vector->content = fbgc_realloc(vector->content,new_cap*vector->block_size);
+		vector->content = (uint8_t*)fbgc_realloc(vector->content,new_cap*vector->block_size);
 	}	
 }
 
@@ -94,14 +108,14 @@ void shrink_fbgc_vector(struct fbgc_vector * vector, size_t new_cap){
 	new_cap = fbgc_round_to_closest_power_of_two(new_cap);
 	if(new_cap < capacity_fbgc_vector(vector)){
 		//grow
-		vector->content = fbgc_realloc(vector->content,new_cap*vector->block_size);
+		vector->content = (uint8_t*)fbgc_realloc(vector->content,new_cap*vector->block_size);
 	}	
 }
 void hard_shrink_to_fit_fbgc_vector(struct fbgc_vector * vector){
 	size_t new_cap = vector->size;
 	if(new_cap < capacity_fbgc_vector(vector)){
 		//grow
-		vector->content = fbgc_realloc(vector->content,new_cap*vector->block_size);
+		vector->content = (uint8_t*)fbgc_realloc(vector->content,new_cap*vector->block_size);
 	}	
 }
 
@@ -126,7 +140,7 @@ void insert_fbgc_vector(struct fbgc_vector * vector,size_t index_start,  const v
 	//Can we do it without allocation new mem ?
 	if((vector->size + item_len) > capacity_fbgc_vector(vector)){
 		size_t cap = fbgc_round_to_closest_power_of_two(vector->size+item_len);
-		vector->content = fbgc_realloc(vector->content,cap*vector->block_size );
+		vector->content = (uint8_t*)fbgc_realloc(vector->content,cap*vector->block_size );
 	}
 	//So we can just shift the data from reverse!
 	//How many data that we need to shift ? 
@@ -136,7 +150,7 @@ void insert_fbgc_vector(struct fbgc_vector * vector,size_t index_start,  const v
 	//There should be an efficient way to copy all the data by just calling one or two memcpy
 	if(vector->size > 0){
 		for(size_t i = vector->size-1; i >= index_start; --i){
-			uint8_t * pold = at_fbgc_vector(vector,i);
+			uint8_t * pold = (uint8_t*)at_fbgc_vector(vector,i);
 			uint8_t * pshifted = pold + (vector->block_size * item_len);
 			memcpy(pshifted,pold,vector->block_size);
 		}

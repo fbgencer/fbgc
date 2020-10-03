@@ -1,9 +1,12 @@
+i = 0
+while(i<1000)
+	i += 1
+end
+print("bitti")
 mom = class()
-	
 	love = fun(x)
 		print("Hello from my love:",x,glo)
 	end
-
 end
 
 obj = class(mom)
@@ -16,3 +19,6 @@ y.x = "fbge"
 a = mom()
 a.love("A")
 y.love("Y")
+
+
+print()

@@ -1,3 +1,17 @@
+// This file is part of fbgc
+
+// fbgc is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+
+// fbgc is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// You should have received a copy of the GNU General Public License
+// along with fbgc.  If not, see <https://www.gnu.org/licenses/>.
 #include "fbgc.h"
 
 
@@ -28,8 +42,6 @@ const struct fbgc_object_property_holder * get_fbgc_object_property_holder(struc
 		case CSTRUCT: return cast_fbgc_object_as_cstruct(o)->properties;
 		case FUN : return &fbgc_fun_object_property_holder;
 		case CLASS : return &fbgc_class_object_property_holder;
-		
-
 	}
 	FBGC_LOGE("Type %s does not have property holder\n",objtp2str(o));
 	assert(0);
@@ -41,7 +53,6 @@ uint32_t swar(uint32_t i) {
   i = (i & 0x33333333) + ((i >> 2) & 0x33333333);
   return (((i + (i >> 4)) & 0x0F0F0F0F) * 0x01010101) >> 24;
 }
-
 
 int8_t _find_property(uint32_t bit, uint32_t bit_conf){
 	if( (bit & bit_conf) == 0) return -1;
@@ -213,7 +224,7 @@ void printf_fbgc_object(struct fbgc_object * self){
 
 struct fbgc_object * binary_operator_fbgc_object(struct fbgc_object * a,struct fbgc_object * b, fbgc_token op){
 
-	struct fbgc_object * x = (a->type > b->type) ? a : b;
+	struct fbgc_object * x = (a->type >= b->type) ? a : b;
 
 	const struct fbgc_object_property_holder * p = get_fbgc_object_property_holder(x);
 	if(x == b){
@@ -308,7 +319,6 @@ struct fbgc_object * subscript_operator_fbgc_object(struct fbgc_object * iterabl
 	}
 	FBGC_LOGE("%s does not satisfy [] operator\n",objtp2str(iterable));
 	return NULL;
-	
 }
 
 
@@ -321,8 +331,7 @@ struct fbgc_object * subscript_assign_operator_fbgc_object(struct fbgc_object * 
 		return p->properties[w].subscript_assign_operator(iterable,index_obj,rhs);
 	}
 	FBGC_LOGE("%s does not satisfy []= operator\n",objtp2str(iterable));
-	return NULL;
-	
+	return NULL;	
 }
 
 size_t size_of_fbgc_object(struct fbgc_object * obj){
@@ -339,7 +348,6 @@ size_t size_of_fbgc_object(struct fbgc_object * obj){
 			return sizeof(struct fbgc_cmodule_object);
 		}
 	}
-
 	FBGC_LOGE("%s does not satisfy size_of operator\n",objtp2str(obj));
 	assert(0);
 }

@@ -78,10 +78,14 @@ Collaboration diagram for fbgc_memory_pool:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a090e06aafc9cdc78140b19391f6ee3a3"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfbgc__memory__pool.html#a090e06aafc9cdc78140b19391f6ee3a3">data</a></td></tr>
-<tr class="separator:a090e06aafc9cdc78140b19391f6ee3a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acef6b14cab29711ac7d0736c9e33662b"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfbgc__memory__pool.html#acef6b14cab29711ac7d0736c9e33662b">tptr</a></td></tr>
-<tr class="separator:acef6b14cab29711ac7d0736c9e33662b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1c0b0b4a91143dcc30e6ed59947ca34"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfbgc__memory__pool.html#ae1c0b0b4a91143dcc30e6ed59947ca34">type</a></td></tr>
+<tr class="separator:ae1c0b0b4a91143dcc30e6ed59947ca34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1198150e3481eb11f3eb5efb78e54f98"><td class="memItemLeft" align="right" valign="top">uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfbgc__memory__pool.html#a1198150e3481eb11f3eb5efb78e54f98">data</a></td></tr>
+<tr class="separator:a1198150e3481eb11f3eb5efb78e54f98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1449dbab6879dac547cbad5e446d31a4"><td class="memItemLeft" align="right" valign="top">uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfbgc__memory__pool.html#a1449dbab6879dac547cbad5e446d31a4">tptr</a></td></tr>
+<tr class="separator:a1449dbab6879dac547cbad5e446d31a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4186010e813b97c5821a0627329dfd46"><td class="memItemLeft" align="right" valign="top">uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfbgc__memory__pool.html#a4186010e813b97c5821a0627329dfd46">end</a></td></tr>
+<tr class="separator:a4186010e813b97c5821a0627329dfd46"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9ed0b42e3a4c3c2022e21f7e84b5afc0"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfbgc__memory__pool.html#a9ed0b42e3a4c3c2022e21f7e84b5afc0">size</a></td></tr>
 <tr class="separator:a9ed0b42e3a4c3c2022e21f7e84b5afc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ffafbe2e1fd8d773d8e2130cdf7a36c"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__memory__pool.html">fbgc_memory_pool</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfbgc__memory__pool.html#a6ffafbe2e1fd8d773d8e2130cdf7a36c">next</a></td></tr>
@@ -89,21 +93,37 @@ Public Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="memory_8h_source.html#l00014">14</a> of file <a class="el" href="memory_8h_source.html">memory.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="memory_8h_source.html#l00019">19</a> of file <a class="el" href="memory_8h_source.html">memory.h</a>.</p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="a090e06aafc9cdc78140b19391f6ee3a3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a090e06aafc9cdc78140b19391f6ee3a3">&#9670;&nbsp;</a></span>data</h2>
+<a id="a1198150e3481eb11f3eb5efb78e54f98"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1198150e3481eb11f3eb5efb78e54f98">&#9670;&nbsp;</a></span>data</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void* fbgc_memory_pool::data</td>
+          <td class="memname">uint8_t* fbgc_memory_pool::data</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="memory_8h_source.html#l00015">15</a> of file <a class="el" href="memory_8h_source.html">memory.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="memory_8h_source.html#l00021">21</a> of file <a class="el" href="memory_8h_source.html">memory.h</a>.</p>
+
+</div>
+</div>
+<a id="a4186010e813b97c5821a0627329dfd46"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4186010e813b97c5821a0627329dfd46">&#9670;&nbsp;</a></span>end</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t* fbgc_memory_pool::end</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="memory_8h_source.html#l00023">23</a> of file <a class="el" href="memory_8h_source.html">memory.h</a>.</p>
 
 </div>
 </div>
@@ -119,7 +139,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="memory_8h_source.html#l00018">18</a> of file <a class="el" href="memory_8h_source.html">memory.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="memory_8h_source.html#l00025">25</a> of file <a class="el" href="memory_8h_source.html">memory.h</a>.</p>
 
 </div>
 </div>
@@ -135,28 +155,44 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="memory_8h_source.html#l00017">17</a> of file <a class="el" href="memory_8h_source.html">memory.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="memory_8h_source.html#l00024">24</a> of file <a class="el" href="memory_8h_source.html">memory.h</a>.</p>
 
 </div>
 </div>
-<a id="acef6b14cab29711ac7d0736c9e33662b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acef6b14cab29711ac7d0736c9e33662b">&#9670;&nbsp;</a></span>tptr</h2>
+<a id="a1449dbab6879dac547cbad5e446d31a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1449dbab6879dac547cbad5e446d31a4">&#9670;&nbsp;</a></span>tptr</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void* fbgc_memory_pool::tptr</td>
+          <td class="memname">uint8_t* fbgc_memory_pool::tptr</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="memory_8h_source.html#l00016">16</a> of file <a class="el" href="memory_8h_source.html">memory.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="memory_8h_source.html#l00022">22</a> of file <a class="el" href="memory_8h_source.html">memory.h</a>.</p>
+
+</div>
+</div>
+<a id="ae1c0b0b4a91143dcc30e6ed59947ca34"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1c0b0b4a91143dcc30e6ed59947ca34">&#9670;&nbsp;</a></span>type</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t fbgc_memory_pool::type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="memory_8h_source.html#l00020">20</a> of file <a class="el" href="memory_8h_source.html">memory.h</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>/home/fbgencer/fbgc/src/headers/<a class="el" href="memory_8h_source.html">memory.h</a></li>
+<li>/home/fbgencer/fbgc/include/<a class="el" href="memory_8h_source.html">memory.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

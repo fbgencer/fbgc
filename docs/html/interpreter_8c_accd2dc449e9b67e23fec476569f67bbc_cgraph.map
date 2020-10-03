@@ -1,0 +1,5 @@
+<map id="prepare_fun_call_packet" name="prepare_fun_call_packet">
+<area shape="rect" id="node2" href="$cstruct__object_8c.html#abd25408397a1cae752c5108124b33048" title="new_fbgc_cstruct_object" alt="" coords="216,31,383,57"/>
+<area shape="rect" id="node3" href="$memory_8c.html#aa844eac7bc0bc2ffa7f4a41e710e3b7d" title="fbgc_malloc_object" alt="" coords="431,5,565,32"/>
+<area shape="rect" id="node4" href="$memory_8c.html#a76a1e9664316b52338491e7b3c1d58dd" title="fbgc_malloc" alt="" coords="452,56,544,83"/>
+</map>

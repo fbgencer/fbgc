@@ -1,6 +1,3 @@
 <map id="inherit_from_another_class" name="inherit_from_another_class">
-<area shape="rect" id="node2" href="$array__object_8h.html#a3c9207f63947e85c34b80a0b880f22c6" title="Get the address of a variable inside an array object. " alt="" coords="199,5,341,47"/>
-<area shape="rect" id="node3" href="$relexer_8h.html#a2cd16265d56dd7298a746fed3d0772ec" title="match" alt="" coords="241,71,299,98"/>
-<area shape="rect" id="node4" href="$str__object_8c.html#a5aaf56c2518080d35d4feaaeeb3fba65" title="my_strcmp" alt="" coords="227,122,313,149"/>
-<area shape="rect" id="node5" href="$array__object_8h.html#a285cc536b0a1723f3d718aac41ef4f26" title="Pushes from back to given object into the array object. " alt="" coords="193,173,347,215"/>
+<area shape="rect" id="node2" href="$map__object_8c.html#aa28fd10f115f9a1f7c15c96a35d0f265" title="fbgc_map_object_merge" alt="" coords="193,13,357,39"/>
 </map>

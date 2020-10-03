@@ -1,9 +1,23 @@
+// This file is part of fbgc
+
+// fbgc is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+
+// fbgc is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// You should have received a copy of the GNU General Public License
+// along with fbgc.  If not, see <https://www.gnu.org/licenses/>.
 #include "fbgc.h"
 
 
 void init_static_fbgc_queue(struct fbgc_queue * queue, size_t cap, size_t block_size){
 	assert(queue);
-	queue->content = fbgc_malloc(fbgc_round_to_closest_power_of_two(cap)*block_size);
+	queue->content =(uint8_t*)fbgc_malloc(fbgc_round_to_closest_power_of_two(cap)*block_size);
 	queue->front = queue->content;
 	queue->block_size = block_size;
 	queue->size = 0;
@@ -67,7 +81,7 @@ void push_back_fbgc_queue(struct fbgc_queue * queue, const void * item){
 	if(is_full_fbgc_queue(queue)){
 		//Queue is full, capacity is already power of two,just shift it
 		size_t dist = queue->content - (uint8_t*)queue->front;
-		queue->content = fbgc_realloc(queue->content,queue->block_size*(capacity_fbgc_queue(queue)<<1));
+		queue->content = (uint8_t*)fbgc_realloc(queue->content,queue->block_size*(capacity_fbgc_queue(queue)<<1));
 		queue->front = queue->content + dist; 
 	}
 	//printf("++PUSHBACK Data:%p, old back:%p\n",queue->content,fbgc_queue_back(queue) );

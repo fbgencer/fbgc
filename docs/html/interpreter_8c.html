@@ -68,34 +68,13 @@ $(function() {
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#define-members">Macros</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">interpreter.c File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="fbgc_8h_source.html">fbgc.h</a>&quot;</code><br />
-</div><div class="textblock"><div class="dynheader">
-Include dependency graph for interpreter.c:</div>
-<div class="dyncontent">
-<div class="center"><img src="interpreter_8c__incl.png" border="0" usemap="#_2home_2fbgencer_2fbgc_2src_2interpreter_8c" alt=""/></div>
-<map name="_2home_2fbgencer_2fbgc_2src_2interpreter_8c" id="_2home_2fbgencer_2fbgc_2src_2interpreter_8c">
-<area shape="rect" id="node2" href="fbgc_8h.html" title="fbgc.h" alt="" coords="1188,95,1247,121"/>
-<area shape="rect" id="node15" href="tokens_8h.html" title="headers/tokens.h" alt="" coords="1087,169,1209,196"/>
-<area shape="rect" id="node16" href="error_8h.html" title="headers/error.h" alt="" coords="1233,169,1343,196"/>
-<area shape="rect" id="node17" href="fbgc__object_8h.html" title="headers/fbgc_object.h" alt="" coords="1367,169,1518,196"/>
-<area shape="rect" id="node18" href="memory_8h.html" title="headers/memory.h" alt="" coords="1543,169,1673,196"/>
-<area shape="rect" id="node19" href="garbage__collector_8h.html" title="headers/garbage_collector.h" alt="" coords="1698,169,1883,196"/>
-<area shape="rect" id="node20" href="linked__list_8h.html" title="headers/linked_list.h" alt="" coords="1908,169,2049,196"/>
-<area shape="rect" id="node21" href="array__object_8h.html" title="headers/array_object.h" alt="" coords="2073,169,2228,196"/>
-<area shape="rect" id="node22" href="double__object_8h.html" title="headers/double_object.h" alt="" coords="2252,169,2415,196"/>
-<area shape="rect" id="node23" href="int__object_8h.html" title="headers/int_object.h" alt="" coords="2439,169,2577,196"/>
-<area shape="rect" id="node24" href="logic__object_8h.html" title="headers/logic_object.h" alt="" coords="2601,169,2753,196"/>
-<area shape="rect" id="node25" href="complex__object_8h.html" title="headers/complex_object.h" alt="" coords="2778,169,2953,196"/>
-<area shape="rect" id="node26" href="str__object_8h.html" title="headers/str_object.h" alt="" coords="2977,169,3117,196"/>
-<area shape="rect" id="node27" href="matrix__object_8h.html" title="headers/matrix_object.h" alt="" coords="3141,169,3302,196"/>
-<area shape="rect" id="node28" href="tuple__object_8h.html" title="headers/tuple_object.h" alt="" coords="3326,169,3479,196"/>
-</map>
-</div>
 </div>
 <p><a href="interpreter_8c_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -103,52 +82,69 @@ Include dependency graph for interpreter.c:</div>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiter__function__ptr__struct.html">iter_function_ptr_struct</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfun__call__packet.html">fun_call_packet</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:ab5e3f783e2fc2b2c594813ee4dafb8c4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#ab5e3f783e2fc2b2c594813ee4dafb8c4">PROGRAM_STACK_SIZE</a>&#160;&#160;&#160;100</td></tr>
 <tr class="separator:ab5e3f783e2fc2b2c594813ee4dafb8c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac779b4effea095a94a334e519aee39e4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#ac779b4effea095a94a334e519aee39e4">update_globals</a>()</td></tr>
-<tr class="separator:ac779b4effea095a94a334e519aee39e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a472718a31a3bb7e628dd516048e6beed"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#a472718a31a3bb7e628dd516048e6beed">STACK_GOTO</a>(i)&#160;&#160;&#160;(sctr += i)</td></tr>
+<tr class="memitem:a988d2b14c075f2ffb456b56fb5ba0f24"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#a988d2b14c075f2ffb456b56fb5ba0f24">sctr</a>&#160;&#160;&#160;ip-&gt;sctr</td></tr>
+<tr class="separator:a988d2b14c075f2ffb456b56fb5ba0f24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff44bd93b0af4b5cba8d56bcf5a4ee4b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#aff44bd93b0af4b5cba8d56bcf5a4ee4b">fctr</a>&#160;&#160;&#160;ip-&gt;fctr</td></tr>
+<tr class="separator:aff44bd93b0af4b5cba8d56bcf5a4ee4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f03b14a71de24f7c904d4ce6d26d7f5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#a2f03b14a71de24f7c904d4ce6d26d7f5">pc</a>&#160;&#160;&#160;(ip-&gt;pc)</td></tr>
+<tr class="separator:a2f03b14a71de24f7c904d4ce6d26d7f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d40798874dab99986478ef00ff3e297"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#a8d40798874dab99986478ef00ff3e297">sp</a>&#160;&#160;&#160;(ip-&gt;sp)</td></tr>
+<tr class="separator:a8d40798874dab99986478ef00ff3e297"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a472718a31a3bb7e628dd516048e6beed"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#a472718a31a3bb7e628dd516048e6beed">STACK_GOTO</a>(i)&#160;&#160;&#160;(<a class="el" href="interpreter_8c.html#a988d2b14c075f2ffb456b56fb5ba0f24">sctr</a> += i)</td></tr>
 <tr class="separator:a472718a31a3bb7e628dd516048e6beed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a070409486cc2c3c246d56a4c0db26185"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#a070409486cc2c3c246d56a4c0db26185">PUSH</a>(x)&#160;&#160;&#160;(*(sp+ sctr++ ) = (x))</td></tr>
+<tr class="memitem:a070409486cc2c3c246d56a4c0db26185"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#a070409486cc2c3c246d56a4c0db26185">PUSH</a>(x)&#160;&#160;&#160;(*(<a class="el" href="interpreter_8c.html#a8d40798874dab99986478ef00ff3e297">sp</a>+ <a class="el" href="interpreter_8c.html#a988d2b14c075f2ffb456b56fb5ba0f24">sctr</a>++ ) = (x))</td></tr>
 <tr class="separator:a070409486cc2c3c246d56a4c0db26185"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2106695e949772f765546777ef34690e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#a2106695e949772f765546777ef34690e">POP</a>()&#160;&#160;&#160;(sp[--sctr])</td></tr>
+<tr class="memitem:a2106695e949772f765546777ef34690e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#a2106695e949772f765546777ef34690e">POP</a>()&#160;&#160;&#160;(<a class="el" href="interpreter_8c.html#a8d40798874dab99986478ef00ff3e297">sp</a>[--<a class="el" href="interpreter_8c.html#a988d2b14c075f2ffb456b56fb5ba0f24">sctr</a>])</td></tr>
 <tr class="separator:a2106695e949772f765546777ef34690e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f8e4d8a751c586409715e99b85505ff"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#a2f8e4d8a751c586409715e99b85505ff">_POP</a>()&#160;&#160;&#160;(--sctr)</td></tr>
+<tr class="memitem:a2f8e4d8a751c586409715e99b85505ff"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#a2f8e4d8a751c586409715e99b85505ff">_POP</a>()&#160;&#160;&#160;(--<a class="el" href="interpreter_8c.html#a988d2b14c075f2ffb456b56fb5ba0f24">sctr</a>)</td></tr>
 <tr class="separator:a2f8e4d8a751c586409715e99b85505ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a609a4645111a9e6fc4af0e187add8743"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#a609a4645111a9e6fc4af0e187add8743">TOP</a>()&#160;&#160;&#160;(sp[sctr-1])</td></tr>
+<tr class="memitem:a609a4645111a9e6fc4af0e187add8743"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#a609a4645111a9e6fc4af0e187add8743">TOP</a>()&#160;&#160;&#160;(<a class="el" href="interpreter_8c.html#a8d40798874dab99986478ef00ff3e297">sp</a>[<a class="el" href="interpreter_8c.html#a988d2b14c075f2ffb456b56fb5ba0f24">sctr</a>-1])</td></tr>
 <tr class="separator:a609a4645111a9e6fc4af0e187add8743"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a50a8f33633f743897234868a94553bf4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#a50a8f33633f743897234868a94553bf4">SECOND</a>()&#160;&#160;&#160;(sp[sctr-2])</td></tr>
+<tr class="memitem:a50a8f33633f743897234868a94553bf4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#a50a8f33633f743897234868a94553bf4">SECOND</a>()&#160;&#160;&#160;(<a class="el" href="interpreter_8c.html#a8d40798874dab99986478ef00ff3e297">sp</a>[<a class="el" href="interpreter_8c.html#a988d2b14c075f2ffb456b56fb5ba0f24">sctr</a>-2])</td></tr>
 <tr class="separator:a50a8f33633f743897234868a94553bf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a52b24b66a362439c42612769f5e76a7c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#a52b24b66a362439c42612769f5e76a7c">THIRD</a>()&#160;&#160;&#160;(sp[sctr-3])</td></tr>
+<tr class="memitem:a52b24b66a362439c42612769f5e76a7c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#a52b24b66a362439c42612769f5e76a7c">THIRD</a>()&#160;&#160;&#160;(<a class="el" href="interpreter_8c.html#a8d40798874dab99986478ef00ff3e297">sp</a>[<a class="el" href="interpreter_8c.html#a988d2b14c075f2ffb456b56fb5ba0f24">sctr</a>-3])</td></tr>
 <tr class="separator:a52b24b66a362439c42612769f5e76a7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a23dee8a25b2819c86d76334f50e26d02"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#a23dee8a25b2819c86d76334f50e26d02">TOPN</a>(i)&#160;&#160;&#160;(sp[sctr-(i)])</td></tr>
+<tr class="memitem:a23dee8a25b2819c86d76334f50e26d02"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#a23dee8a25b2819c86d76334f50e26d02">TOPN</a>(i)&#160;&#160;&#160;(<a class="el" href="interpreter_8c.html#a8d40798874dab99986478ef00ff3e297">sp</a>[<a class="el" href="interpreter_8c.html#a988d2b14c075f2ffb456b56fb5ba0f24">sctr</a>-(i)])</td></tr>
 <tr class="separator:a23dee8a25b2819c86d76334f50e26d02"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a09296d985213e655f62e529549c87519"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#a09296d985213e655f62e529549c87519">SET_TOP</a>(x)&#160;&#160;&#160;(sp[sctr-1] = (x))</td></tr>
+<tr class="memitem:a09296d985213e655f62e529549c87519"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#a09296d985213e655f62e529549c87519">SET_TOP</a>(x)&#160;&#160;&#160;(<a class="el" href="interpreter_8c.html#a8d40798874dab99986478ef00ff3e297">sp</a>[<a class="el" href="interpreter_8c.html#a988d2b14c075f2ffb456b56fb5ba0f24">sctr</a>-1] = (x))</td></tr>
 <tr class="separator:a09296d985213e655f62e529549c87519"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9a3f41ccf2700f63c8e344e0ac523ac7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#a9a3f41ccf2700f63c8e344e0ac523ac7">SET_SECOND</a>(x)&#160;&#160;&#160;(sp[sctr-2] = (x))</td></tr>
+<tr class="memitem:a9a3f41ccf2700f63c8e344e0ac523ac7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#a9a3f41ccf2700f63c8e344e0ac523ac7">SET_SECOND</a>(x)&#160;&#160;&#160;(<a class="el" href="interpreter_8c.html#a8d40798874dab99986478ef00ff3e297">sp</a>[<a class="el" href="interpreter_8c.html#a988d2b14c075f2ffb456b56fb5ba0f24">sctr</a>-2] = (x))</td></tr>
 <tr class="separator:a9a3f41ccf2700f63c8e344e0ac523ac7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aea6ef13a30083fc8acdacb523a3c28fc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#aea6ef13a30083fc8acdacb523a3c28fc">SET_THIRD</a>(x)&#160;&#160;&#160;(sp[sctr-3] = (x))</td></tr>
+<tr class="memitem:aea6ef13a30083fc8acdacb523a3c28fc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#aea6ef13a30083fc8acdacb523a3c28fc">SET_THIRD</a>(x)&#160;&#160;&#160;(<a class="el" href="interpreter_8c.html#a8d40798874dab99986478ef00ff3e297">sp</a>[<a class="el" href="interpreter_8c.html#a988d2b14c075f2ffb456b56fb5ba0f24">sctr</a>-3] = (x))</td></tr>
 <tr class="separator:aea6ef13a30083fc8acdacb523a3c28fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9a1bca69f88726183a66d776807b41d7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#a9a1bca69f88726183a66d776807b41d7">SET_TOPN</a>(i,  x)&#160;&#160;&#160;(sp[sctr-(i)] = (x))</td></tr>
+<tr class="memitem:a9a1bca69f88726183a66d776807b41d7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#a9a1bca69f88726183a66d776807b41d7">SET_TOPN</a>(i,  x)&#160;&#160;&#160;(<a class="el" href="interpreter_8c.html#a8d40798874dab99986478ef00ff3e297">sp</a>[<a class="el" href="interpreter_8c.html#a988d2b14c075f2ffb456b56fb5ba0f24">sctr</a>-(i)] = (x))</td></tr>
 <tr class="separator:a9a1bca69f88726183a66d776807b41d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5ce12f831bea06c3f53efb4a82b47e34"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#a5ce12f831bea06c3f53efb4a82b47e34">GET_AT_FP</a>(n)&#160;&#160;&#160;(sp[fctr+(n)])</td></tr>
+<tr class="memitem:a5ce12f831bea06c3f53efb4a82b47e34"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#a5ce12f831bea06c3f53efb4a82b47e34">GET_AT_FP</a>(n)&#160;&#160;&#160;(<a class="el" href="interpreter_8c.html#a8d40798874dab99986478ef00ff3e297">sp</a>[<a class="el" href="interpreter_8c.html#aff44bd93b0af4b5cba8d56bcf5a4ee4b">fctr</a>+(n)])</td></tr>
 <tr class="separator:a5ce12f831bea06c3f53efb4a82b47e34"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afac031ab795f7cd185d5a936a5c7c38f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#afac031ab795f7cd185d5a936a5c7c38f">SET_AT_FP</a>(n,  x)&#160;&#160;&#160;(sp[fctr+(n)] = (x))</td></tr>
+<tr class="memitem:afac031ab795f7cd185d5a936a5c7c38f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#afac031ab795f7cd185d5a936a5c7c38f">SET_AT_FP</a>(n,  x)&#160;&#160;&#160;(<a class="el" href="interpreter_8c.html#a8d40798874dab99986478ef00ff3e297">sp</a>[<a class="el" href="interpreter_8c.html#aff44bd93b0af4b5cba8d56bcf5a4ee4b">fctr</a>+(n)] = (x))</td></tr>
 <tr class="separator:afac031ab795f7cd185d5a936a5c7c38f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a792a2bc0514a9201f09599414635acbe"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#a792a2bc0514a9201f09599414635acbe">FETCH_NEXT</a>()&#160;&#160;&#160;(pc = pc-&gt;next)</td></tr>
+<tr class="memitem:a792a2bc0514a9201f09599414635acbe"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#a792a2bc0514a9201f09599414635acbe">FETCH_NEXT</a>()&#160;&#160;&#160;(<a class="el" href="interpreter_8c.html#a2f03b14a71de24f7c904d4ce6d26d7f5">pc</a> = <a class="el" href="interpreter_8c.html#a2f03b14a71de24f7c904d4ce6d26d7f5">pc</a>-&gt;next)</td></tr>
 <tr class="separator:a792a2bc0514a9201f09599414635acbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac26d346d3e46a480b11a906af2df3ed9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#ac26d346d3e46a480b11a906af2df3ed9">RECURSION_LIMIT</a>&#160;&#160;&#160;1000</td></tr>
 <tr class="separator:ac26d346d3e46a480b11a906af2df3ed9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:accd2dc449e9b67e23fec476569f67bbc"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#accd2dc449e9b67e23fec476569f67bbc">prepare_fun_call_packet</a> (struct <a class="el" href="structfbgc__ll__base.html">fbgc_ll_base</a> *_pc, struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *_last_scope, int _frame_ctr, uint8_t _pop_number)</td></tr>
+<tr class="separator:accd2dc449e9b67e23fec476569f67bbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acb0454b55a53dfb587644f66848a0646"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#acb0454b55a53dfb587644f66848a0646">interpreter</a> (struct <a class="el" href="structfbgc__object.html">fbgc_object</a> **field_obj)</td></tr>
 <tr class="separator:acb0454b55a53dfb587644f66848a0646"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af5b0643e22d61a9ebfa0e121614a50af"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#af5b0643e22d61a9ebfa0e121614a50af">run_code</a> (struct <a class="el" href="structfbgc__ll__base.html">fbgc_ll_base</a> *pc, struct <a class="el" href="structfbgc__object.html">fbgc_object</a> **sp, int sctr, int fctr)</td></tr>
-<tr class="separator:af5b0643e22d61a9ebfa0e121614a50af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9258c216ff44c3e528b11c40bb008408"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#a9258c216ff44c3e528b11c40bb008408">run_code</a> (struct <a class="el" href="structinterpreter__packet.html">interpreter_packet</a> *ip)</td></tr>
+<tr class="separator:a9258c216ff44c3e528b11c40bb008408"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f89f3bcab3bcea69d82ae01a7197bd8"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#a4f89f3bcab3bcea69d82ae01a7197bd8">call_fun_object</a> (struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *fun)</td></tr>
+<tr class="separator:a4f89f3bcab3bcea69d82ae01a7197bd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:ac7bde5684328eca104949384007eedaf"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structinterpreter__packet.html">interpreter_packet</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interpreter_8c.html#ac7bde5684328eca104949384007eedaf">global_interpreter_packet</a> = NULL</td></tr>
+<tr class="separator:ac7bde5684328eca104949384007eedaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a2f8e4d8a751c586409715e99b85505ff"></a>
@@ -161,7 +157,21 @@ Functions</h2></td></tr>
           <td class="memname">#define _POP</td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td>&#160;&#160;&#160;(--sctr)</td>
+          <td>&#160;&#160;&#160;(--<a class="el" href="interpreter_8c.html#a988d2b14c075f2ffb456b56fb5ba0f24">sctr</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aff44bd93b0af4b5cba8d56bcf5a4ee4b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff44bd93b0af4b5cba8d56bcf5a4ee4b">&#9670;&nbsp;</a></span>fctr</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define fctr&#160;&#160;&#160;ip-&gt;fctr</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -178,7 +188,7 @@ Functions</h2></td></tr>
           <td class="memname">#define FETCH_NEXT</td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td>&#160;&#160;&#160;(pc = pc-&gt;next)</td>
+          <td>&#160;&#160;&#160;(<a class="el" href="interpreter_8c.html#a2f03b14a71de24f7c904d4ce6d26d7f5">pc</a> = <a class="el" href="interpreter_8c.html#a2f03b14a71de24f7c904d4ce6d26d7f5">pc</a>-&gt;next)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -196,7 +206,21 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">n</td><td>)</td>
-          <td>&#160;&#160;&#160;(sp[fctr+(n)])</td>
+          <td>&#160;&#160;&#160;(<a class="el" href="interpreter_8c.html#a8d40798874dab99986478ef00ff3e297">sp</a>[<a class="el" href="interpreter_8c.html#aff44bd93b0af4b5cba8d56bcf5a4ee4b">fctr</a>+(n)])</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2f03b14a71de24f7c904d4ce6d26d7f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f03b14a71de24f7c904d4ce6d26d7f5">&#9670;&nbsp;</a></span>pc</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define pc&#160;&#160;&#160;(ip-&gt;pc)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -213,7 +237,7 @@ Functions</h2></td></tr>
           <td class="memname">#define POP</td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td>&#160;&#160;&#160;(sp[--sctr])</td>
+          <td>&#160;&#160;&#160;(<a class="el" href="interpreter_8c.html#a8d40798874dab99986478ef00ff3e297">sp</a>[--<a class="el" href="interpreter_8c.html#a988d2b14c075f2ffb456b56fb5ba0f24">sctr</a>])</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -232,7 +256,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="interpreter_8c_source.html#l00009">9</a> of file <a class="el" href="interpreter_8c_source.html">interpreter.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="interpreter_8c_source.html#l00012">12</a> of file <a class="el" href="interpreter_8c_source.html">interpreter.c</a>.</p>
 
 </div>
 </div>
@@ -247,7 +271,7 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">x</td><td>)</td>
-          <td>&#160;&#160;&#160;(*(sp+ sctr++ ) = (x))</td>
+          <td>&#160;&#160;&#160;(*(<a class="el" href="interpreter_8c.html#a8d40798874dab99986478ef00ff3e297">sp</a>+ <a class="el" href="interpreter_8c.html#a988d2b14c075f2ffb456b56fb5ba0f24">sctr</a>++ ) = (x))</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -268,6 +292,20 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a988d2b14c075f2ffb456b56fb5ba0f24"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a988d2b14c075f2ffb456b56fb5ba0f24">&#9670;&nbsp;</a></span>sctr</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define sctr&#160;&#160;&#160;ip-&gt;sctr</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a50a8f33633f743897234868a94553bf4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a50a8f33633f743897234868a94553bf4">&#9670;&nbsp;</a></span>SECOND</h2>
 
@@ -278,7 +316,7 @@ Functions</h2></td></tr>
           <td class="memname">#define SECOND</td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td>&#160;&#160;&#160;(sp[sctr-2])</td>
+          <td>&#160;&#160;&#160;(<a class="el" href="interpreter_8c.html#a8d40798874dab99986478ef00ff3e297">sp</a>[<a class="el" href="interpreter_8c.html#a988d2b14c075f2ffb456b56fb5ba0f24">sctr</a>-2])</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -306,7 +344,7 @@ Functions</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;(sp[fctr+(n)] = (x))</td>
+          <td></td><td>&#160;&#160;&#160;(<a class="el" href="interpreter_8c.html#a8d40798874dab99986478ef00ff3e297">sp</a>[<a class="el" href="interpreter_8c.html#aff44bd93b0af4b5cba8d56bcf5a4ee4b">fctr</a>+(n)] = (x))</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -324,7 +362,7 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">x</td><td>)</td>
-          <td>&#160;&#160;&#160;(sp[sctr-2] = (x))</td>
+          <td>&#160;&#160;&#160;(<a class="el" href="interpreter_8c.html#a8d40798874dab99986478ef00ff3e297">sp</a>[<a class="el" href="interpreter_8c.html#a988d2b14c075f2ffb456b56fb5ba0f24">sctr</a>-2] = (x))</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -342,7 +380,7 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">x</td><td>)</td>
-          <td>&#160;&#160;&#160;(sp[sctr-3] = (x))</td>
+          <td>&#160;&#160;&#160;(<a class="el" href="interpreter_8c.html#a8d40798874dab99986478ef00ff3e297">sp</a>[<a class="el" href="interpreter_8c.html#a988d2b14c075f2ffb456b56fb5ba0f24">sctr</a>-3] = (x))</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -360,7 +398,7 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">x</td><td>)</td>
-          <td>&#160;&#160;&#160;(sp[sctr-1] = (x))</td>
+          <td>&#160;&#160;&#160;(<a class="el" href="interpreter_8c.html#a8d40798874dab99986478ef00ff3e297">sp</a>[<a class="el" href="interpreter_8c.html#a988d2b14c075f2ffb456b56fb5ba0f24">sctr</a>-1] = (x))</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -388,7 +426,21 @@ Functions</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;(sp[sctr-(i)] = (x))</td>
+          <td></td><td>&#160;&#160;&#160;(<a class="el" href="interpreter_8c.html#a8d40798874dab99986478ef00ff3e297">sp</a>[<a class="el" href="interpreter_8c.html#a988d2b14c075f2ffb456b56fb5ba0f24">sctr</a>-(i)] = (x))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8d40798874dab99986478ef00ff3e297"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d40798874dab99986478ef00ff3e297">&#9670;&nbsp;</a></span>sp</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define sp&#160;&#160;&#160;(ip-&gt;sp)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -406,7 +458,7 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">i</td><td>)</td>
-          <td>&#160;&#160;&#160;(sctr += i)</td>
+          <td>&#160;&#160;&#160;(<a class="el" href="interpreter_8c.html#a988d2b14c075f2ffb456b56fb5ba0f24">sctr</a> += i)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -423,7 +475,7 @@ Functions</h2></td></tr>
           <td class="memname">#define THIRD</td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td>&#160;&#160;&#160;(sp[sctr-3])</td>
+          <td>&#160;&#160;&#160;(<a class="el" href="interpreter_8c.html#a8d40798874dab99986478ef00ff3e297">sp</a>[<a class="el" href="interpreter_8c.html#a988d2b14c075f2ffb456b56fb5ba0f24">sctr</a>-3])</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -440,7 +492,7 @@ Functions</h2></td></tr>
           <td class="memname">#define TOP</td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td>&#160;&#160;&#160;(sp[sctr-1])</td>
+          <td>&#160;&#160;&#160;(<a class="el" href="interpreter_8c.html#a8d40798874dab99986478ef00ff3e297">sp</a>[<a class="el" href="interpreter_8c.html#a988d2b14c075f2ffb456b56fb5ba0f24">sctr</a>-1])</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -458,35 +510,34 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">i</td><td>)</td>
-          <td>&#160;&#160;&#160;(sp[sctr-(i)])</td>
+          <td>&#160;&#160;&#160;(<a class="el" href="interpreter_8c.html#a8d40798874dab99986478ef00ff3e297">sp</a>[<a class="el" href="interpreter_8c.html#a988d2b14c075f2ffb456b56fb5ba0f24">sctr</a>-(i)])</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="ac779b4effea095a94a334e519aee39e4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac779b4effea095a94a334e519aee39e4">&#9670;&nbsp;</a></span>update_globals</h2>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a4f89f3bcab3bcea69d82ae01a7197bd8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4f89f3bcab3bcea69d82ae01a7197bd8">&#9670;&nbsp;</a></span>call_fun_object()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define update_globals</td>
+          <td class="memname">struct <a class="el" href="structfbgc__object.html">fbgc_object</a>* call_fun_object </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td>
+          <td class="paramname"><em>fun</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">(globals = (<a class="code" href="parser_8c.html#aa8705750e41c536c94062135985eeaed">current_scope</a>-&gt;type == <a class="code" href="tokens_8h.html#abbab477a47201196b8e02020a1c022a1">FIELD</a>) ?\</div><div class="line">    <a class="code" href="field__object_8h.html#a1dbb3d24b1535ae90019228659b4c2e6">cast_fbgc_object_as_field</a>(<a class="code" href="parser_8c.html#aa8705750e41c536c94062135985eeaed">current_scope</a>)-&gt;locals:<a class="code" href="class__object_8h.html#a9c2e031e646aa3dd20a951dce5a24568">cast_fbgc_object_as_class</a>(<a class="code" href="parser_8c.html#aa8705750e41c536c94062135985eeaed">current_scope</a>)-&gt;locals)</div><div class="ttc" id="tokens_8h_html_abbab477a47201196b8e02020a1c022a1"><div class="ttname"><a href="tokens_8h.html#abbab477a47201196b8e02020a1c022a1">FIELD</a></div><div class="ttdeci">#define FIELD</div><div class="ttdef"><b>Definition:</b> <a href="tokens_8h_source.html#l00040">tokens.h:40</a></div></div>
-<div class="ttc" id="class__object_8h_html_a9c2e031e646aa3dd20a951dce5a24568"><div class="ttname"><a href="class__object_8h.html#a9c2e031e646aa3dd20a951dce5a24568">cast_fbgc_object_as_class</a></div><div class="ttdeci">#define cast_fbgc_object_as_class(x)</div><div class="ttdef"><b>Definition:</b> <a href="class__object_8h_source.html#l00021">class_object.h:21</a></div></div>
-<div class="ttc" id="parser_8c_html_aa8705750e41c536c94062135985eeaed"><div class="ttname"><a href="parser_8c.html#aa8705750e41c536c94062135985eeaed">current_scope</a></div><div class="ttdeci">#define current_scope</div></div>
-<div class="ttc" id="field__object_8h_html_a1dbb3d24b1535ae90019228659b4c2e6"><div class="ttname"><a href="field__object_8h.html#a1dbb3d24b1535ae90019228659b4c2e6">cast_fbgc_object_as_field</a></div><div class="ttdeci">#define cast_fbgc_object_as_field(x)</div><div class="ttdef"><b>Definition:</b> <a href="field__object_8h_source.html#l00015">field_object.h:15</a></div></div>
-</div><!-- fragment -->
+
+<p class="definition">Definition at line <a class="el" href="interpreter_8c_source.html#l00932">932</a> of file <a class="el" href="interpreter_8c_source.html">interpreter.c</a>.</p>
+
 </div>
 </div>
-<h2 class="groupheader">Function Documentation</h2>
 <a id="acb0454b55a53dfb587644f66848a0646"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acb0454b55a53dfb587644f66848a0646">&#9670;&nbsp;</a></span>interpreter()</h2>
 
@@ -502,105 +553,46 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">field</td><td>: The corresponding field object to interpret </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p class="definition">Definition at line <a class="el" href="interpreter_8c_source.html#l00010">10</a> of file <a class="el" href="interpreter_8c_source.html">interpreter.c</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="interpreter_8c_acb0454b55a53dfb587644f66848a0646_cgraph.png" border="0" usemap="#interpreter_8c_acb0454b55a53dfb587644f66848a0646_cgraph" alt=""/></div>
-<map name="interpreter_8c_acb0454b55a53dfb587644f66848a0646_cgraph" id="interpreter_8c_acb0454b55a53dfb587644f66848a0646_cgraph">
-<area shape="rect" id="node2" href="tuple__object_8c.html#aea5f2cac3a39a11b2c17445654538710" title="new_fbgc_tuple_object" alt="" coords="705,552,860,579"/>
-<area shape="rect" id="node6" href="interpreter_8c.html#af5b0643e22d61a9ebfa0e121614a50af" title="run_code" alt="" coords="133,1233,208,1260"/>
-<area shape="rect" id="node3" href="tuple__object_8c.html#af0a95832bdbe0ec168e2a1e8407cc9c9" title="calculate_new_capacity\l_from_size" alt="" coords="921,539,1083,581"/>
-<area shape="rect" id="node5" href="memory_8c.html#a41dd65ee24d51160659bf94bed90e998" title="fbgc_malloc" alt="" coords="956,1509,1048,1536"/>
-<area shape="rect" id="node4" href="error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="1133,427,1192,453"/>
-<area shape="rect" id="node7" href="linked__list_8c.html#a873b1fc3c20ade7b36c33a48e09f52a9" title="_new_fbgc_ll_base" alt="" coords="273,1829,406,1856"/>
-<area shape="rect" id="node8" href="array__object_8h.html#a3c9207f63947e85c34b80a0b880f22c6" title="Get the address of a variable inside an array object. " alt="" coords="711,697,854,738"/>
-<area shape="rect" id="node9" href="fbgc__object_8c.html#a6b179b77e73ea2031e250652bb83c1cf" title="get_set_fbgc_object\l_member" alt="" coords="270,843,409,885"/>
-<area shape="rect" id="node12" href="double__object_8c.html#a08dd93b8f6c56cf7cb6210b63c29dbaf" title="new_fbgc_double_object" alt="" coords="700,1408,865,1435"/>
-<area shape="rect" id="node16" href="tuple__object_8c.html#a96fd24de0c1307cc509c25394219f0a6" title="get_object_in_fbgc\l_tuple_object" alt="" coords="717,1033,848,1074"/>
-<area shape="rect" id="node17" href="tuple__object_8c.html#a7ed1f5099ffc3fb0aeb688d8a4e4ef7e" title="set_object_in_fbgc\l_tuple_object" alt="" coords="717,873,848,914"/>
-<area shape="rect" id="node18" href="range__object_8c.html#a1277a78796cbce063e7a051a68435fc4" title="new_fbgc_range_object" alt="" coords="479,1485,638,1512"/>
-<area shape="rect" id="node19" href="int__object_8c.html#a330313f82de7af3f3801d6c366d6c4b1" title="new_fbgc_int_object" alt="" coords="712,1459,853,1485"/>
-<area shape="rect" id="node20" href="tuple__object_8c.html#ae58efc36e5210948a0c9705d21915b69" title="get_object_address\l_in_fbgc_tuple_object" alt="" coords="265,1077,413,1118"/>
-<area shape="rect" id="node21" href="matrix__object_8c.html#af8449277f3a9657627663beec19de337" title="set_object_in_fbgc\l_matrix_object" alt="" coords="493,2055,624,2097"/>
-<area shape="rect" id="node23" href="fbgc__object_8c.html#aeec13cdc2fafc31865faab1b7e6585d7" title="get_length_fbgc_object" alt="" coords="481,1141,637,1168"/>
-<area shape="rect" id="node24" href="fbgc__object_8c.html#ab7645e47ea5bc76becee75d7d94da62d" title="convert_fbgc_object\l_to_logic" alt="" coords="270,1194,409,1235"/>
-<area shape="rect" id="node26" href="cstruct__object_8c.html#a1ae331347f94bd7d06e4de962438f5a4" title="new_fbgc_cstruct_object" alt="" coords="256,1728,423,1755"/>
-<area shape="rect" id="node27" href="range__object_8c.html#a7dc9e8004189b4f7f0695fd79f971749" title="get_int_element_in\l_fbgc_range_object" alt="" coords="272,1377,407,1418"/>
-<area shape="rect" id="node28" href="range__object_8c.html#ae466c47ec6f542fe7597dd48add223d0" title="get_double_element\l_in_fbgc_range_object" alt="" coords="263,1993,415,2034"/>
-<area shape="rect" id="node29" href="str__object_8c.html#adfa784fb626df781848ec722eea7b875" title="get_char_from_fbgc\l_str_object" alt="" coords="271,1494,408,1535"/>
-<area shape="rect" id="node30" href="str__object_8c.html#aa3676319615cda5eb7d09bb7e99837bf" title="new_fbgc_str_object" alt="" coords="268,1779,411,1805"/>
-<area shape="rect" id="node31" href="tuple__object_8c.html#a3075d57bd5d3d29e481ae8da843f0de2" title="__get_object_in_fbgc\l_tuple_object" alt="" coords="267,1011,412,1053"/>
-<area shape="rect" id="node32" href="class__object_8c.html#a805cce8d5534d762df764dca6951457a" title="new_fbgc_instance_object" alt="" coords="471,603,647,629"/>
-<area shape="rect" id="node33" href="tuple__object_8c.html#a66b1e12d5d7445cd5ede10a93f6da6de" title="new_fbgc_tuple_object\l_from_tuple_content" alt="" coords="262,486,417,527"/>
-<area shape="rect" id="node34" href="matrix__object_8c.html#a898bc860356435a55913e279efdfd8c9" title="new_fbgc_matrix_object\l_from_range" alt="" coords="477,1873,640,1914"/>
-<area shape="rect" id="node36" href="matrix__object_8c.html#a0d2319772e0649f96eb59192e4b4d813" title="matrix_creation_from\l_stack" alt="" coords="487,1938,631,1979"/>
-<area shape="rect" id="node37" href="complex__object_8c.html#a35a6de78c0508d9a546bdc03b4005380" title="subscript_fbgc_complex\l_object" alt="" coords="258,1259,421,1301"/>
-<area shape="rect" id="node38" href="str__object_8c.html#af886cfee3c447e670e742651e20a87e0" title="get_object_in_fbgc\l_str_object" alt="" coords="274,1662,405,1703"/>
-<area shape="rect" id="node40" href="matrix__object_8c.html#a92e7b77821f11133fa4d72341d1d29c7" title="get_object_in_fbgc\l_matrix_object" alt="" coords="493,1537,624,1578"/>
-<area shape="rect" id="node42" href="fbgc__object_8c.html#a692d3bb2e230f23caf8a28a250f7ef48" title="print_fbgc_object" alt="" coords="722,245,843,272"/>
-<area shape="rect" id="node50" href="class__object_8c.html#ac87ee1f4c137d56abfe3990e6da7aa61" title="inherit_from_another\l_class" alt="" coords="489,755,629,797"/>
-<area shape="rect" id="node10" href="complex__object_8c.html#afd6f961ecc276511678208d7726452ca" title="get_set_fbgc_complex\l_object_member" alt="" coords="482,1243,635,1285"/>
-<area shape="rect" id="node11" href="cmodule__object_8c.html#a2772285a9de527a525825b3575453288" title="new_fbgc_cfun_object" alt="" coords="707,1251,859,1277"/>
-<area shape="rect" id="node14" href="str__object_8c.html#a5aaf56c2518080d35d4feaaeeb3fba65" title="my_strcmp" alt="" coords="739,821,826,848"/>
-<area shape="rect" id="node15" href="class__object_8c.html#a0d3ce61103075e16f719b4d0b5abd98a" title="get_set_fbgc_instance\l_object_member" alt="" coords="482,873,635,914"/>
-<area shape="rect" id="node13" href="fbgc__object_8c.html#a3bb27f7967c007951389378fc9f358e3" title="convert_fbgc_object\l_to_double" alt="" coords="713,1974,852,2015"/>
-<area shape="rect" id="node22" href="fbgc__object_8c.html#a5a9cf786785f00ec159d2845dc49f99c" title="convert_fbgc_object\l_to_complex" alt="" coords="713,2039,852,2081"/>
-<area shape="rect" id="node25" href="fbgc__object_8c.html#a79b110ee419e38013556f4379e724da8" title="printf_fbgc_object" alt="" coords="496,1333,621,1360"/>
-<area shape="rect" id="node35" href="matrix__object_8c.html#aa855543d4a0b84619248fdce7dc1c763" title="new_fbgc_matrix_object" alt="" coords="701,1923,864,1949"/>
-<area shape="rect" id="node39" href="str__object_8c.html#acb52d0d5127ded9fbb7718d6b6d13d28" title="new_fbgc_str_object\l_from_substr" alt="" coords="487,1654,630,1695"/>
-<area shape="rect" id="node41" href="complex__object_8c.html#aaa211012c5583b4c23ebcc4824fbc504" title="new_fbgc_complex_object" alt="" coords="695,1560,871,1587"/>
-<area shape="rect" id="node43" href="int__object_8c.html#a0062dc9607e1f9bdf4fc960f981bb592" title="print_fbgc_int_object" alt="" coords="931,107,1073,133"/>
-<area shape="rect" id="node44" href="double__object_8c.html#a4872de0b7e3482c3414635499574c3a2" title="print_fbgc_double_object" alt="" coords="919,157,1085,184"/>
-<area shape="rect" id="node45" href="complex__object_8c.html#a48882c21f5d339b41807108958456809" title="print_fbgc_complex\l_object" alt="" coords="935,209,1069,250"/>
-<area shape="rect" id="node46" href="str__object_8c.html#a66e47da312848322ec0f6c783c8afd84" title="print_fbgc_str_object" alt="" coords="931,275,1073,301"/>
-<area shape="rect" id="node47" href="str__object_8c.html#af6c5743192c678d8081aef62a95b26c0" title="print_fbgc_cstr_object" alt="" coords="927,325,1077,352"/>
-<area shape="rect" id="node48" href="tuple__object_8c.html#a80ba9373477760391033dc0cdea35a6e" title="print_fbgc_tuple_object" alt="" coords="924,376,1080,403"/>
-<area shape="rect" id="node49" href="matrix__object_8c.html#a024f1c29208bf2fe7425896d1eb055e0" title="print_fbgc_matrix_object" alt="" coords="920,5,1084,32"/>
-</map>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="interpreter_8c_acb0454b55a53dfb587644f66848a0646_icgraph.png" border="0" usemap="#interpreter_8c_acb0454b55a53dfb587644f66848a0646_icgraph" alt=""/></div>
-<map name="interpreter_8c_acb0454b55a53dfb587644f66848a0646_icgraph" id="interpreter_8c_acb0454b55a53dfb587644f66848a0646_icgraph">
-<area shape="rect" id="node2" href="fbgc_8c.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="133,5,236,32"/>
-<area shape="rect" id="node3" href="fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c" title="new_fbgc_cfunction" alt="" coords="284,5,423,32"/>
-</map>
-</div>
+<p class="definition">Definition at line <a class="el" href="interpreter_8c_source.html#l00043">43</a> of file <a class="el" href="interpreter_8c_source.html">interpreter.c</a>.</p>
 
 </div>
 </div>
-<a id="af5b0643e22d61a9ebfa0e121614a50af"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af5b0643e22d61a9ebfa0e121614a50af">&#9670;&nbsp;</a></span>run_code()</h2>
+<a id="accd2dc449e9b67e23fec476569f67bbc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#accd2dc449e9b67e23fec476569f67bbc">&#9670;&nbsp;</a></span>prepare_fun_call_packet()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct <a class="el" href="structfbgc__object.html">fbgc_object</a>* run_code </td>
+          <td class="memname">struct <a class="el" href="structfbgc__object.html">fbgc_object</a>* prepare_fun_call_packet </td>
           <td>(</td>
           <td class="paramtype">struct <a class="el" href="structfbgc__ll__base.html">fbgc_ll_base</a> *&#160;</td>
-          <td class="paramname"><em>pc</em>, </td>
+          <td class="paramname"><em>_pc</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> **&#160;</td>
-          <td class="paramname"><em>sp</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>sctr</em>, </td>
+          <td class="paramtype">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td>
+          <td class="paramname"><em>_last_scope</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>fctr</em>&#160;</td>
+          <td class="paramname"><em>_frame_ctr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>_pop_number</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -610,74 +602,47 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="interpreter_8c_source.html#l00025">25</a> of file <a class="el" href="interpreter_8c_source.html">interpreter.c</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="interpreter_8c_af5b0643e22d61a9ebfa0e121614a50af_cgraph.png" border="0" usemap="#interpreter_8c_af5b0643e22d61a9ebfa0e121614a50af_cgraph" alt=""/></div>
-<map name="interpreter_8c_af5b0643e22d61a9ebfa0e121614a50af_cgraph" id="interpreter_8c_af5b0643e22d61a9ebfa0e121614a50af_cgraph">
-<area shape="rect" id="node2" href="linked__list_8c.html#a873b1fc3c20ade7b36c33a48e09f52a9" title="_new_fbgc_ll_base" alt="" coords="143,225,276,252"/>
-<area shape="rect" id="node4" href="error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="1001,1392,1060,1418"/>
-<area shape="rect" id="node5" href="array__object_8h.html#a3c9207f63947e85c34b80a0b880f22c6" title="Get the address of a variable inside an array object. " alt="" coords="579,1219,722,1260"/>
-<area shape="rect" id="node6" href="fbgc__object_8c.html#a6b179b77e73ea2031e250652bb83c1cf" title="get_set_fbgc_object\l_member" alt="" coords="140,1219,279,1260"/>
-<area shape="rect" id="node9" href="double__object_8c.html#a08dd93b8f6c56cf7cb6210b63c29dbaf" title="new_fbgc_double_object" alt="" coords="568,424,733,450"/>
-<area shape="rect" id="node13" href="tuple__object_8c.html#a96fd24de0c1307cc509c25394219f0a6" title="get_object_in_fbgc\l_tuple_object" alt="" coords="585,1687,716,1728"/>
-<area shape="rect" id="node14" href="tuple__object_8c.html#a7ed1f5099ffc3fb0aeb688d8a4e4ef7e" title="set_object_in_fbgc\l_tuple_object" alt="" coords="585,860,716,902"/>
-<area shape="rect" id="node15" href="range__object_8c.html#a1277a78796cbce063e7a051a68435fc4" title="new_fbgc_range_object" alt="" coords="347,322,506,349"/>
-<area shape="rect" id="node16" href="int__object_8c.html#a330313f82de7af3f3801d6c366d6c4b1" title="new_fbgc_int_object" alt="" coords="580,297,721,324"/>
-<area shape="rect" id="node17" href="tuple__object_8c.html#ae58efc36e5210948a0c9705d21915b69" title="get_object_address\l_in_fbgc_tuple_object" alt="" coords="135,1788,283,1830"/>
-<area shape="rect" id="node18" href="matrix__object_8c.html#af8449277f3a9657627663beec19de337" title="set_object_in_fbgc\l_matrix_object" alt="" coords="361,942,492,983"/>
-<area shape="rect" id="node20" href="fbgc__object_8c.html#aeec13cdc2fafc31865faab1b7e6585d7" title="get_length_fbgc_object" alt="" coords="349,170,505,197"/>
-<area shape="rect" id="node21" href="tuple__object_8c.html#aea5f2cac3a39a11b2c17445654538710" title="new_fbgc_tuple_object" alt="" coords="573,120,728,146"/>
-<area shape="rect" id="node23" href="fbgc__object_8c.html#ab7645e47ea5bc76becee75d7d94da62d" title="convert_fbgc_object\l_to_logic" alt="" coords="140,1527,279,1568"/>
-<area shape="rect" id="node25" href="cstruct__object_8c.html#a1ae331347f94bd7d06e4de962438f5a4" title="new_fbgc_cstruct_object" alt="" coords="343,606,510,633"/>
-<area shape="rect" id="node26" href="range__object_8c.html#a7dc9e8004189b4f7f0695fd79f971749" title="get_int_element_in\l_fbgc_range_object" alt="" coords="142,1854,277,1895"/>
-<area shape="rect" id="node27" href="range__object_8c.html#ae466c47ec6f542fe7597dd48add223d0" title="get_double_element\l_in_fbgc_range_object" alt="" coords="133,996,285,1038"/>
-<area shape="rect" id="node28" href="str__object_8c.html#adfa784fb626df781848ec722eea7b875" title="get_char_from_fbgc\l_str_object" alt="" coords="141,1919,278,1960"/>
-<area shape="rect" id="node29" href="str__object_8c.html#aa3676319615cda5eb7d09bb7e99837bf" title="new_fbgc_str_object" alt="" coords="138,665,281,692"/>
-<area shape="rect" id="node30" href="tuple__object_8c.html#a3075d57bd5d3d29e481ae8da843f0de2" title="__get_object_in_fbgc\l_tuple_object" alt="" coords="137,1671,282,1712"/>
-<area shape="rect" id="node31" href="class__object_8c.html#a805cce8d5534d762df764dca6951457a" title="new_fbgc_instance_object" alt="" coords="339,774,515,801"/>
-<area shape="rect" id="node32" href="tuple__object_8c.html#a66b1e12d5d7445cd5ede10a93f6da6de" title="new_fbgc_tuple_object\l_from_tuple_content" alt="" coords="132,108,287,150"/>
-<area shape="rect" id="node33" href="matrix__object_8c.html#a898bc860356435a55913e279efdfd8c9" title="new_fbgc_matrix_object\l_from_range" alt="" coords="345,708,508,750"/>
-<area shape="rect" id="node35" href="matrix__object_8c.html#a0d2319772e0649f96eb59192e4b4d813" title="matrix_creation_from\l_stack" alt="" coords="355,876,499,918"/>
-<area shape="rect" id="node36" href="complex__object_8c.html#a35a6de78c0508d9a546bdc03b4005380" title="subscript_fbgc_complex\l_object" alt="" coords="128,378,291,419"/>
-<area shape="rect" id="node37" href="str__object_8c.html#af886cfee3c447e670e742651e20a87e0" title="get_object_in_fbgc\l_str_object" alt="" coords="144,546,275,587"/>
-<area shape="rect" id="node39" href="matrix__object_8c.html#a92e7b77821f11133fa4d72341d1d29c7" title="get_object_in_fbgc\l_matrix_object" alt="" coords="361,475,492,516"/>
-<area shape="rect" id="node41" href="fbgc__object_8c.html#a692d3bb2e230f23caf8a28a250f7ef48" title="print_fbgc_object" alt="" coords="590,1636,711,1662"/>
-<area shape="rect" id="node50" href="class__object_8c.html#ac87ee1f4c137d56abfe3990e6da7aa61" title="inherit_from_another\l_class" alt="" coords="357,1343,497,1384"/>
-<area shape="rect" id="node3" href="memory_8c.html#a41dd65ee24d51160659bf94bed90e998" title="fbgc_malloc" alt="" coords="824,548,916,574"/>
-<area shape="rect" id="node7" href="complex__object_8c.html#afd6f961ecc276511678208d7726452ca" title="get_set_fbgc_complex\l_object_member" alt="" coords="350,1059,503,1100"/>
-<area shape="rect" id="node8" href="cmodule__object_8c.html#a2772285a9de527a525825b3575453288" title="new_fbgc_cfun_object" alt="" coords="575,1066,727,1093"/>
-<area shape="rect" id="node11" href="str__object_8c.html#a5aaf56c2518080d35d4feaaeeb3fba65" title="my_strcmp" alt="" coords="607,1350,694,1377"/>
-<area shape="rect" id="node12" href="class__object_8c.html#a0d3ce61103075e16f719b4d0b5abd98a" title="get_set_fbgc_instance\l_object_member" alt="" coords="350,1278,503,1319"/>
-<area shape="rect" id="node10" href="fbgc__object_8c.html#a3bb27f7967c007951389378fc9f358e3" title="convert_fbgc_object\l_to_double" alt="" coords="581,1000,720,1042"/>
-<area shape="rect" id="node19" href="fbgc__object_8c.html#a5a9cf786785f00ec159d2845dc49f99c" title="convert_fbgc_object\l_to_complex" alt="" coords="581,935,720,976"/>
-<area shape="rect" id="node22" href="tuple__object_8c.html#af0a95832bdbe0ec168e2a1e8407cc9c9" title="calculate_new_capacity\l_from_size" alt="" coords="789,104,951,146"/>
-<area shape="rect" id="node24" href="fbgc__object_8c.html#a79b110ee419e38013556f4379e724da8" title="printf_fbgc_object" alt="" coords="364,1534,489,1561"/>
-<area shape="rect" id="node34" href="matrix__object_8c.html#aa855543d4a0b84619248fdce7dc1c763" title="new_fbgc_matrix_object" alt="" coords="569,708,732,734"/>
-<area shape="rect" id="node38" href="str__object_8c.html#acb52d0d5127ded9fbb7718d6b6d13d28" title="new_fbgc_str_object\l_from_substr" alt="" coords="355,540,498,582"/>
-<area shape="rect" id="node40" href="complex__object_8c.html#aaa211012c5583b4c23ebcc4824fbc504" title="new_fbgc_complex_object" alt="" coords="563,490,739,517"/>
-<area shape="rect" id="node42" href="int__object_8c.html#a0062dc9607e1f9bdf4fc960f981bb592" title="print_fbgc_int_object" alt="" coords="799,1468,941,1494"/>
-<area shape="rect" id="node43" href="double__object_8c.html#a4872de0b7e3482c3414635499574c3a2" title="print_fbgc_double_object" alt="" coords="787,1518,953,1545"/>
-<area shape="rect" id="node44" href="complex__object_8c.html#a48882c21f5d339b41807108958456809" title="print_fbgc_complex\l_object" alt="" coords="803,1570,937,1611"/>
-<area shape="rect" id="node45" href="str__object_8c.html#a66e47da312848322ec0f6c783c8afd84" title="print_fbgc_str_object" alt="" coords="799,1636,941,1662"/>
-<area shape="rect" id="node46" href="str__object_8c.html#af6c5743192c678d8081aef62a95b26c0" title="print_fbgc_cstr_object" alt="" coords="795,1686,945,1713"/>
-<area shape="rect" id="node47" href="tuple__object_8c.html#a80ba9373477760391033dc0cdea35a6e" title="print_fbgc_tuple_object" alt="" coords="792,1737,948,1764"/>
-<area shape="rect" id="node48" href="matrix__object_8c.html#a024f1c29208bf2fe7425896d1eb055e0" title="print_fbgc_matrix_object" alt="" coords="788,1788,952,1814"/>
-<area shape="rect" id="node49" href="fun__object_8c.html#a3e96dc0c25688e38eb2149d647dbbe0c" title="print_fbgc_fun_object" alt="" coords="797,1838,943,1865"/>
-</map>
+<p class="definition">Definition at line <a class="el" href="interpreter_8c_source.html#l00023">23</a> of file <a class="el" href="interpreter_8c_source.html">interpreter.c</a>.</p>
+
 </div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="interpreter_8c_af5b0643e22d61a9ebfa0e121614a50af_icgraph.png" border="0" usemap="#interpreter_8c_af5b0643e22d61a9ebfa0e121614a50af_icgraph" alt=""/></div>
-<map name="interpreter_8c_af5b0643e22d61a9ebfa0e121614a50af_icgraph" id="interpreter_8c_af5b0643e22d61a9ebfa0e121614a50af_icgraph">
-<area shape="rect" id="node2" href="interpreter_8h.html#acb0454b55a53dfb587644f66848a0646" title="interpreter" alt="" coords="251,6,331,33"/>
-<area shape="rect" id="node5" href="interpreter_8h.html#acdb0cb340501af8374de73b627b6e26a" title="run_code" alt="" coords="128,44,203,70"/>
-<area shape="rect" id="node3" href="fbgc_8c.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="379,6,481,33"/>
-<area shape="rect" id="node4" href="fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c" title="new_fbgc_cfunction" alt="" coords="529,6,668,33"/>
-</map>
 </div>
+<a id="a9258c216ff44c3e528b11c40bb008408"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9258c216ff44c3e528b11c40bb008408">&#9670;&nbsp;</a></span>run_code()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structfbgc__object.html">fbgc_object</a>* run_code </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structinterpreter__packet.html">interpreter_packet</a> *&#160;</td>
+          <td class="paramname"><em>ip</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>more meaningfull error messages </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000002">Todo:</a></b></dt><dd>more meaningfull error messages </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000003">Todo:</a></b></dt><dd>there is no need to put this in identifier, instead making new opcode is necessary </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="interpreter_8c_source.html#l00068">68</a> of file <a class="el" href="interpreter_8c_source.html">interpreter.c</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="ac7bde5684328eca104949384007eedaf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7bde5684328eca104949384007eedaf">&#9670;&nbsp;</a></span>global_interpreter_packet</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structinterpreter__packet.html">interpreter_packet</a>* global_interpreter_packet = NULL</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="interpreter_8c_source.html#l00039">39</a> of file <a class="el" href="interpreter_8c_source.html">interpreter.c</a>.</p>
 
 </div>
 </div>

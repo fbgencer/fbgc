@@ -1,0 +1,6 @@
+<map id="handle_str_index" name="handle_str_index">
+<area shape="rect" id="node2" href="$str__object_8c.html#a25ed7e6d59b07ed525bac0f2730caf8b" title="get_object_in_fbgc\l_str_object" alt="" coords="173,5,304,47"/>
+<area shape="rect" id="node4" href="$str__object_8c.html#a1745266ec976736c1fe3a35351888ed4" title="set_object_in_fbgc\l_str_object" alt="" coords="173,71,304,112"/>
+<area shape="rect" id="node3" href="$str__object_8c.html#a3039e44c6c6418fa83de05a767b03c86" title="subscript_operator\l_fbgc_str_object" alt="" coords="375,5,504,47"/>
+<area shape="rect" id="node5" href="$str__object_8c.html#ab70624e495ffc8bd6ad0c88913cc54d8" title="subscript_assign_operator\l_fbgc_str_object" alt="" coords="352,71,527,112"/>
+</map>

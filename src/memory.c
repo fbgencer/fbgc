@@ -1,32 +1,123 @@
+// This file is part of fbgc
+
+// fbgc is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+
+// fbgc is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// You should have received a copy of the GNU General Public License
+// along with fbgc.  If not, see <https://www.gnu.org/licenses/>.
 #include "fbgc.h"
 
+struct fbgc_memory_pool{
+	uint8_t * data; 	//<! Actual data pointer which holds the pool buffer, all allocated objects live in this buffer
+	uint8_t * tptr;		//<! Traveler pointer which moves only forward in the data buffer
+	uint8_t * end; 		//<! Pointer holds the end of the pool, pool size can be extracted from pool_end - data
+	size_t size;    	//<! Size of the pool
+	struct fbgc_memory_pool * next; //<! Pools are connected to each other via linked list, this holds the next pool
+};
+
+struct fbgc_memory_block{
+	struct fbgc_memory_pool * raw_memory_head; 	//<! Raw memory pools are held by this pointer as a linked list data structure
+	struct fbgc_memory_pool * object_pool_head; //<! Object memory pools are held by this pointer as a linked list data structure
+	struct fbgc_vector raw_memory_free_list;	//<! Raw memory free list as fbgc_vector
+	struct fbgc_vector object_free_list; 		//<! Object free list as fbgc_vector
+};
+
+// /*! @details externed memory block and can only be defined once
+static struct fbgc_memory_block fbgc_memb = {
+	.raw_memory_head = NULL,
+	.object_pool_head = NULL,
+};
+
+struct fbgc_static_memory_pool{
+	uint8_t data [FBGC_STATIC_INTERNAL_MEMORY_SIZE];  //<! fbgc static memory in bytes
+	uint8_t * tptr;	//<! Traveler pointer for new allocations
+	uint8_t * end; 	//<! End of the static buffer which is the same data + FBGC_STATIC_INTERNAL_MEMORY_SIZE
+};
+
+// /*! @details fbgc internal memory holder, defined as a static variable and lives for the entire life cycle of the fbgc
+static struct fbgc_static_memory_pool __fbgc_static_internal_memory = {
+	.data = {0},
+	.tptr = __fbgc_static_internal_memory.data,
+	.end = __fbgc_static_internal_memory.data + FBGC_STATIC_INTERNAL_MEMORY_SIZE
+};
+
+struct fbgc_raw_memory{
+	uint32_t mark_bit : 2;
+	uint32_t capacity : 30;
+	uint8_t data[0];
+};
+
+#define cast_from_raw_memory_data_to_raw_memory(x)( (struct fbgc_raw_memory *)((uint8_t*)x-sizeof(struct fbgc_raw_memory))   )
 
 
-struct fbgc_memory_block fbgc_memb = {	.raw_buffer_head = NULL,
-										.object_pool_head = NULL,
-									};
 
 
-static struct fbgc_memory_pool * new_fbgc_memory_pool(uint8_t tp, size_t pg_size){
+/*! @fn static void * _fbgc_malloc_from_object_pool(size_t size)
+    \brief Allocates the requested size from object pool
+    \details Only the allocation of fbgc_objects must be called with this function
+    \param size : Requested size in bytes
+    \return Allocated address of the requested bytes
+*/
+static void * _fbgc_malloc_from_object_pool(size_t size);
+
+/*! @fn static void * _fbgc_malloc_from_raw_memory_pool(size_t size)
+    \brief Allocates the requested size from raw memory pool
+    \details Similar to c-malloc function
+    \param size : Requested size in bytes
+    \return Allocated address of the requested bytes
+*/
+static void * _fbgc_malloc_from_raw_memory_pool(size_t size);
+
+
+struct fbgc_object * fbgc_malloc_object(size_t sz){
+	return (struct fbgc_object *)_fbgc_malloc_from_object_pool(sz);
+}
+void * fbgc_malloc(size_t sz){
+	return _fbgc_malloc_from_raw_memory_pool(sz);
+}
+
+/*! @def is_fbgc_object_pointer(ptr)
+    \brief Checks the given pointer lies in object pool or not
+    \param ptr : Void pointer
+*/
+#define is_fbgc_object_pointer(ptr)( check_pointer_is_in_pool(fbgc_memb.object_pool_head,ptr))
+
+/*! @def is_raw_memory_pointer(ptr)
+    \brief Checks the given pointer lies in raw memory pool or not
+    \param ptr : Void pointer
+*/
+#define is_raw_memory_pointer(ptr)( check_pointer_is_in_pool(fbgc_memb.raw_memory_head,ptr))
+
+
+/*! @fn static struct fbgc_memory_pool * new_fbgc_memory_pool(size_t pg_size)
+    \brief Allocated a new pool by using c-malloc
+    \param size : Requested pool size in bytes
+    \return Allocated pool address
+*/
+static struct fbgc_memory_pool * new_fbgc_memory_pool(size_t pg_size){
 
 	FBGC_LOGD(MEMORY,"New pool request type:%u, size:%lu\n",tp,pg_size);
 
 	struct fbgc_memory_pool * mp = (struct fbgc_memory_pool *) malloc(sizeof(struct fbgc_memory_pool));
 	assert(mp != NULL);
-	mp->type = tp;
-	mp->data =  calloc(pg_size,1);	
+	mp->data = (uint8_t*)calloc(pg_size,1);	
 	assert(mp->data != NULL);
 	mp->tptr = mp->data;
 	mp->size = pg_size;
-	mp->next = NULL;	
-
+	mp->end = mp->data + pg_size;
+	mp->next = NULL;
 	return mp;
 }
 
 
 
-#define is_fbgc_object_pointer(ptr)( check_pointer_is_in_pool(fbgc_memb.object_pool_head,ptr))
-#define is_raw_buffer_pointer(ptr)( check_pointer_is_in_pool(fbgc_memb.raw_buffer_head,ptr))
 
 static uint8_t check_pointer_is_in_pool(const struct fbgc_memory_pool * iter, const void * ptr){
 	while(iter != NULL){
@@ -63,126 +154,98 @@ static int _fbgc_object_comparison(const void * a, const void * b){
 
 void initialize_fbgc_memory_block(){
 	//first allocate a big chunck that contains both inital buffer and object pool
-	fbgc_memb.raw_buffer_head = new_fbgc_memory_pool(MEM_RAW_BUFFER_POOL,PAGE_SIZE);
-	fbgc_memb.object_pool_head = new_fbgc_memory_pool(MEM_OBJECT_POOL,PAGE_SIZE);
+	fbgc_memb.raw_memory_head = new_fbgc_memory_pool(FBGC_DEFAULT_POOL_SIZE);
+	fbgc_memb.object_pool_head = new_fbgc_memory_pool(FBGC_DEFAULT_POOL_SIZE);
 
 
-	init_static_fbgc_vector(&fbgc_memb.free_list,2,sizeof(struct fbgc_object *));
-	set_gc_dark(cast_from_raw_buffer_data_to_raw_buffer(fbgc_memb.free_list.content));
+	//init_static_fbgc_vector(&fbgc_memb.free_list,32,sizeof(struct __free_list_entry));
+	//set_gc_dark(cast_from_raw_memory_data_to_raw_memory(fbgc_memb.free_list.content));
 	
 	fbgc_gc.current_object_pool = fbgc_memb.object_pool_head;
-	fbgc_gc.current_raw_buffer = fbgc_memb.raw_buffer_head;
+	fbgc_gc.current_raw_memory = fbgc_memb.raw_memory_head;
 
 	
 	init_static_fbgc_queue(&fbgc_gc.tpe_queue, TRACEABLE_POINTER_LIST_INITIAL_CAPACITY,sizeof(struct traceable_pointer_entry));
 	//Is there any easy way to mark this object ?
-	set_gc_dark(cast_from_raw_buffer_data_to_raw_buffer(fbgc_gc.tpe_queue.content));
+	set_gc_dark(cast_from_raw_memory_data_to_raw_memory(fbgc_gc.tpe_queue.content));
 
 
 	//Later allocate from internal memory not with malloc
 	fbgc_gc.ptr_list.data = (struct traceable_pointer_entry*) malloc(sizeof(struct traceable_pointer_entry)*TRACEABLE_POINTER_LIST_INITIAL_CAPACITY);
 
 
+	//fbgc_memb.free_list
+
 	fbgc_gc.state = GC_STATE_INITIALIZED;
 	FBGC_LOGD(MEMORY,"Garbage collector initialized!\n");
+}
 
-	//struct fbgc_object * c = new_fbgc_tuple_object(16);
+static void * _fbgc_malloc_from_object_pool(size_t size){
+	FBGC_LOGV(MEMORY,"FBGC_MALLOC IS CALLED from object pool size :%lu\n",size);
 
-	/*fbgc_memb.raw_buffer_head  =  (struct fbgc_memory_pool *) malloc(sizeof(struct fbgc_memory_pool));	
-	assert(fbgc_memb.raw_buffer_head != NULL);
-	fbgc_memb.raw_buffer_size = 1;
+	struct fbgc_memory_pool * pool = fbgc_memb.object_pool_head;
+	
+	do{
+		FBGC_LOGV(MEMORY,"Requested memory from chunk: %lu, total memory : %lu,available mem: %lu \n",
+				size,iter->size,(pool->end - pool->tptr));
+		if( (pool->end - pool->tptr) >= size){
+			//memory is available, give it and shift tptr
+			void * ret_ptr = pool->tptr;
+			pool->tptr += size; 	
+			return ret_ptr;	
+		}
+		if(pool->next == NULL) break;
+		//iterate through the chunks
+		pool = pool->next;
+	}while(1);
+	
+//#################################################################################################################
+// Seek in object free list!!
+//#################################################################################################################
 
-	fbgc_memb.object_pool_head  =  (struct fbgc_memory_pool *) malloc(sizeof(struct fbgc_memory_pool));	
-	assert(fbgc_memb.object_pool_head != NULL);
-	fbgc_memb.object_pool_size = 1;
+	FBGC_LOGV(MEMORY,"There is no enough memory, new object pool allocation:\n");
+	
+	//if above code did not return succesfully, we need to allocate a new chunk!
+	//Notice that iter shows the end of the chunks, we will use iter
 
-	fbgc_memb.object_pool_head->data =  calloc(PAGE_SIZE,1);	
-	assert(fbgc_memb.object_pool_head->data != NULL);
-	fbgc_memb.object_pool_head->tptr = fbgc_memb.object_pool_head->data;
-	fbgc_memb.object_pool_head->size = PAGE_SIZE;
-	fbgc_memb.object_pool_head->next = NULL;*/
-
+	pool->next  = (struct fbgc_memory_pool *) new_fbgc_memory_pool(FBGC_DEFAULT_POOL_SIZE*((size_t)(size/(FBGC_DEFAULT_POOL_SIZE*1.0))+1));
+	pool = pool->next;
+	//calculate the multiplicity of the new chunk
+	//only allow to allocate integer multiples of the page size
+	//assume size = 111, FBGC_DEFAULT_POOL_SIZE = 20, new alloceted page size becomes 120, 
+	FBGC_LOGV(MEMORY,"Allocated new pool size :%lu\n",pool_iter->end - pool_iter->data);
+	pool->tptr = pool->data + size;
+	//Just return the beginning of the pool
+	return pool->data;
 }
 
 
-static void * _fbgc_malloc(struct fbgc_memory_pool * opool_iter, size_t size){
-	FBGC_LOGV(MEMORY,"FBGC_MALLOC IS CALLED size :%lu\n",size);
+static void * _fbgc_malloc_from_raw_memory_pool(size_t size){
+	FBGC_LOGV(MEMORY,"FBGC_MALLOC IS CALLED RAW MEMORY pool size :%lu\n",size);
 	
-	/*
-		[FBGC Malloc algorithm]
-		
-		In this section, there are different situations to allocate memory efficiently.
+	struct fbgc_memory_pool * pool = fbgc_memb.raw_memory_head;
 
-		Requested size : size, available size will be asize 
+	size_t requested_size = size+sizeof(struct fbgc_raw_memory);
 
-		Memory structure contains object memory pools which are allocated spaces in the heap
-		fbgc_memory_pool contains *data,*tptr, size and next pointer.
-		Different pools are connected each other like a single linked list with the next pointer.
-		Size holds the size of the memory pool. Each pool creates a single pool which is called as object pool in fbgc.
-
-		This algorithm allocates new spaces, runs gc and so on.
-
-		1.Start iterating inside memory pools. Check their size and compare it with the requested size.
-			While iterating in each list we will check the following condition.			
-			o) Requested size is smaller than the object pool, 
-				Calculate the empty space that we have by using tptr(traverser)
-				if we have enough space return the pointer of this space	
-					[---------------------------------|                  ]
-					^						    ^			   ^
-				memory_pool_data                memory_pool_tptr    memory_pool_data + memory_pool_size 
-
-			o) We iterated in each memory pools and requested size is bigger than any of them.
-			Here new allocation takes place and due to the state we directly use goto for allocation.
-
-			o) Requested size is not bigger than the memory pools. However, there is no enough space to give the requsted.
-			We will check our empty lists, which is the list from previous garbage collection running. If there is enough space in there 
-			no need to run gc in this moment.
-			If this also fails, the worst case scenario happens for this function: running garbage collector!
-			Garbage collector will run, basically it will tell all the variables to mark their objects
-			We will sweep in each part of the memory pools one by one to create empty memory lists.
-			Again empty memory list will be searched and if there is NO space we will allocate new memory.
-			New memory is basically another memory pool for the requested size.
-
-	*/
-	
 	do{
-		//check the size, if it is already too big go to new pool allocation
-		//if(size > opool_iter->size) goto NEW_POOL_ALLOCATION;
-		
 		FBGC_LOGV(MEMORY,"Requested memory from chunk: %lu, total memory : %lu,available mem: %lu \n",
-				size,opool_iter->size,(opool_iter->data + opool_iter->size - opool_iter->tptr));
+				size,pool->size,(pool->end - opool_iter->tptr));
 		
-		if(opool_iter->type == MEM_RAW_BUFFER_POOL){
-			//Before calculating the space also include the byte size of the chunk
-			if( (opool_iter->data + opool_iter->size - opool_iter->tptr) >= (size+sizeof(struct fbgc_raw_buffer))){
-				FBGC_LOGV(MEMORY,"memory is given from raw buffer\n");
-				struct fbgc_raw_buffer * rb =  (struct fbgc_raw_buffer *)opool_iter->tptr;
-				rb->mark_bit = GC_WHITE;
-				rb->capacity = size;
-				opool_iter->tptr += sizeof(struct fbgc_raw_buffer);
-				//memory is available, give it and shift tptr
-				void * ret_ptr = opool_iter->tptr;
-				opool_iter->tptr += size;	
-				return ret_ptr;	
-			}				
-		}
-		else{
-
-			// if(size_fbgc_vector(&fbgc_memb.free_list)){
-			// 	sort_fbgc_vector(&fbgc_memb.free_list,_fbgc_object_comparison);
-
-			// }
-
-			if( (opool_iter->data + opool_iter->size - opool_iter->tptr) >= size){
-				//memory is available, give it and shift tptr
-				void * ret_ptr = opool_iter->tptr;
-				opool_iter->tptr += size; 	
-				return ret_ptr;	
-			}	
-		}	
-		if(opool_iter->next == NULL) break;
+		//Before calculating the space also include the byte size of the chunk
+		if( (pool->end - pool->tptr) >= requested_size){
+			
+			struct fbgc_raw_memory * rb =  (struct fbgc_raw_memory *)pool->tptr;
+			rb->mark_bit = GC_WHITE;
+			rb->capacity = size;
+			pool->tptr += sizeof(struct fbgc_raw_memory);
+			//memory is available, give it and shift tptr
+			void * ret_ptr = pool->tptr;
+			pool->tptr += size;	
+			return ret_ptr;	
+		}				
+		if(pool->next == NULL) break;
 		//iterate through the chunks
-		opool_iter = opool_iter->next;
+		pool = pool->next;
 	}while(1);
 	
 //#################################################################################################################
@@ -198,46 +261,49 @@ static void * _fbgc_malloc(struct fbgc_memory_pool * opool_iter, size_t size){
 	//if above code did not return succesfully, we need to allocate a new chunk!
 	//Notice that iter shows the end of the chunks, we will use iter
 
-	opool_iter->next  = (struct fbgc_memory_pool *)
-		new_fbgc_memory_pool(opool_iter->type,PAGE_SIZE*((size_t)(size/(PAGE_SIZE*1.0))+1));
-
-	opool_iter = opool_iter->next;
+	pool->next  = (struct fbgc_memory_pool *)new_fbgc_memory_pool(FBGC_DEFAULT_POOL_SIZE*((size_t)(size/(FBGC_DEFAULT_POOL_SIZE*1.0))+1));
+	pool = pool->next;
 	
 	//calculate the multiplicity of the new chunk
 	//only allow to allocate integer multiples of the page size
-	//assume size = 111, page_size = 20, new alloceted page size becomes 120, 
+	//assume size = 111, FBGC_DEFAULT_POOL_SIZE = 20, new alloceted page size becomes 120, 
 	
-	FBGC_LOGV(MEMORY,"Allocated new pool size :%lu\n",opool_iter->size);
+	FBGC_LOGV(MEMORY,"Allocated new pool size :%lu\n",pool->size);
 
-	if(opool_iter->type == MEM_RAW_BUFFER_POOL){
-		struct fbgc_raw_buffer * rb =  (struct fbgc_raw_buffer *)opool_iter->data;
-		rb->mark_bit = GC_WHITE;
-		rb->capacity = size;
-		opool_iter->tptr = opool_iter->data + size + sizeof(struct fbgc_raw_buffer);
-		return ( opool_iter->data + sizeof(struct fbgc_raw_buffer) );
+	struct fbgc_raw_memory * rb =  (struct fbgc_raw_memory *)pool->data;
+	rb->mark_bit = GC_WHITE;
+	rb->capacity = size;
+	pool->tptr = pool->data + requested_size;
+	return ( pool->data + sizeof(struct fbgc_raw_memory) );
+}
+
+
+void * fbgc_malloc_static(size_t size, bool is_raw_memory){
+
+	size_t requested_size = size;
+	if(is_raw_memory){
+		requested_size += sizeof(struct fbgc_raw_memory);
 	}
-
+	if( (__fbgc_static_internal_memory.end - __fbgc_static_internal_memory.tptr) >= requested_size){
+		if(is_raw_memory){
+			struct fbgc_raw_memory * rb =  (struct fbgc_raw_memory *)__fbgc_static_internal_memory.tptr;
+			rb->capacity = size;
+			__fbgc_static_internal_memory.tptr += sizeof(struct fbgc_raw_memory);
+			//memory is available, give it and shift tptr
+			void * ret_ptr = __fbgc_static_internal_memory.tptr;
+			__fbgc_static_internal_memory.tptr += size;	
+			return ret_ptr;	
+		}
+		else{
+			//memory is available, give it and shift tptr
+			void * ret_ptr = __fbgc_static_internal_memory.tptr;
+			__fbgc_static_internal_memory.tptr += size; 	
+			return ret_ptr;	
+		}
+	}
 	
-	opool_iter->tptr = opool_iter->data + size;
-	return opool_iter->data;
-}
-
-
-
-void * fbgc_malloc_object(size_t sz){
-	return _fbgc_malloc(fbgc_memb.object_pool_head,sz);
-}
-void * fbgc_malloc(size_t sz){
-	return _fbgc_malloc(fbgc_memb.raw_buffer_head,sz);
-}
-
-void * fbgc_malloc_static(size_t sz){
-	uint8_t * ptr = (uint8_t*)_fbgc_malloc(fbgc_memb.raw_buffer_head,sz);
-	if(ptr){
-		struct fbgc_raw_buffer * rb = (struct fbgc_raw_buffer*)(ptr-sizeof(struct fbgc_raw_buffer));
-		set_gc_dark(rb);
-	}
-	return(void*)ptr;
+	//We shouldn't be here, if we are then we need to increase our static size
+	assert(0);
 }
 
 void * fbgc_realloc(void * ptr, size_t size){
@@ -273,32 +339,32 @@ and always returns a null pointer.
 >>If the input pointer is null and the requested size is 0,
 then the result is undefined!
 */
+	if(ptr != NULL && is_fbgc_object_pointer(ptr)){
+		assert(0); //This is a programmer error not from fbgc side!
+	}
+
 	if(ptr == NULL) return fbgc_malloc(size);
 	else if(size == 0) return NULL;
 
+	//Realloc cannot be call for objects we need to make sure it must be come from raw memory pointer
 
-	struct fbgc_raw_buffer * rb_old = cast_from_raw_buffer_data_to_raw_buffer(ptr);
+	struct fbgc_raw_memory * rb_old = cast_from_raw_memory_data_to_raw_memory(ptr);
 
 	size_t old_capacity = rb_old->capacity;
 
 	
-	FBGC_LOGV(MEMORY,"~~~~~~~Realloc~~~~~~~~\n");
 	FBGC_LOGV(MEMORY,"Requested memory in realloc is %lu, block size : %ld\n",size,old_capacity);
-	
- 
 	if(size > old_capacity){
 		FBGC_LOGV(MEMORY,"Allocating new block size : %lu and copying\n",size);
 		
-		if(fbgc_memb.raw_buffer_head->tptr == (uint8_t*)(ptr)+old_capacity ){
-			fbgc_memb.raw_buffer_head->tptr += size-old_capacity;
-			struct fbgc_raw_buffer * rb = cast_from_raw_buffer_data_to_raw_buffer(ptr);
+		if(fbgc_memb.raw_memory_head->tptr == (uint8_t*)(ptr)+old_capacity ){
+			fbgc_memb.raw_memory_head->tptr += size-old_capacity;
+			struct fbgc_raw_memory * rb = cast_from_raw_memory_data_to_raw_memory(ptr);
 			rb->capacity = size;
 			return ptr;
 		}
-		
-
 		void * new_mem_ptr = fbgc_malloc(size);
-		struct fbgc_raw_buffer * rb = cast_from_raw_buffer_data_to_raw_buffer(new_mem_ptr);
+		struct fbgc_raw_memory * rb = cast_from_raw_memory_data_to_raw_memory(new_mem_ptr);
 
 		if(new_mem_ptr == NULL) return NULL;
 		FBGC_LOGV(MEMORY,"succesfully allocated size : %lu,old address:%p new address:%p\n",size,rb_old,rb);
@@ -310,155 +376,53 @@ then the result is undefined!
 		//Do we need it ?
 		//MARK TO WHITE
 		fbgc_free(ptr);
-
 		return new_mem_ptr;
 	}
 
 	//if the requested size is smaller than the previous size just decrease the size of the block, let the gc handle later
-	
 	rb_old->capacity = size;
-	
 	return ptr;	
 }
 
 void fbgc_free(void *ptr){
-	
 	if(!ptr) return;
 
-	if(is_raw_buffer_pointer(ptr)){
-		set_raw_buffer_gc_white(ptr);
+	if(is_raw_memory_pointer(ptr)){
+		set_raw_memory_gc_white(ptr);
 		//add to free list
 		return;
 	}
 	set_gc_white((struct fbgc_object*)ptr);
-	push_back_fbgc_vector(&fbgc_memb.free_list,ptr);
-
+	//push_back_fbgc_vector(&fbgc_memb.free_list,ptr);
 }
 
 
-
-
-void print_fbgc_memory_object_pool(){
-	cprintf(011,"############[OBJECT POOL]############\n");
-	struct fbgc_memory_pool * iter = fbgc_memb.object_pool_head;
-
-	//just to clear obj locations
-	
-	for(int i = 0; iter != NULL; i++){
-		cprintf(111,"[%d.Chunk] size: %d\n",i,iter->size);
-		size_t obj_start = 0;
-		for(int j = 0; j<iter->size; j++){
-			int val = *( uint8_t *)((iter->data)+j); 
-
-			if(j == obj_start && ((uint8_t *)iter->data+j) != iter->tptr){
-				struct fbgc_object * dummy = (struct fbgc_object *)((uint8_t*)(iter->data)+j);
-				obj_start += size_of_fbgc_object(dummy);
-				//print the type of the data in the memory
-				cprintf(101,">>[%s] obj size in memory %d | color %d\n",objtp2str(dummy),size_of_fbgc_object(dummy),dummy->mark_bit);				
-				//print the address and the data in the memory!
-				//cprintf(101,"[%d][%p]:%0x",j,((iter->data)+j),val);
-
-			}
-			//else
-			{
-	   			cprintf(010,"[%d][%p]",j,((iter->data)+j));
-	   			cprintf(110,":%0x = %u",(uint8_t)val,(uint8_t)val);
-	   			
-			}
-			
-
-	   		if(iter->tptr == iter->data+j){
-	   			cprintf(100," <--tptr");
-	   			cprintf(100,"\n");
-	   			break;
-	   		} 	
-
-	   		cprintf(010,"\n");
-		}
-		cprintf(111,"[%d.] Chunk size: %d\n",i,iter->size);
-		iter = iter->next;
-    } 		
-}
-
-void print_fbgc_memory_raw_buffer(){
-	cprintf(011,"############[RAW BUFFER]############\n");
-	struct fbgc_memory_pool * iter = fbgc_memb.raw_buffer_head;
-
-
-	//loop for raw buffer pages
-	for(int i = 0; iter != NULL; i++){
-		cprintf(111,"[%d.Chunk] size: %d\n",i,iter->size);
-
-		size_t chunk_filled_size = iter->tptr - iter->data;
-		printf("%ld chunk filled\n",chunk_filled_size );
-		size_t obj_start = 0;
-		for(size_t j = 0; j< chunk_filled_size;){
-
-			uint8_t * where = (uint8_t*)(iter->data);
-			where += j;
-			
-	   		struct fbgc_raw_buffer * ptr = (struct fbgc_raw_buffer*)where;
-
-			cprintf(101,"Chunk byte size:%ld , color:%d\n",ptr->capacity,ptr->mark_bit);
-			
-			long end = ptr->capacity+sizeof(struct fbgc_raw_buffer);
-			long lastj = j;
-			
-
-			uint8_t * data = (uint8_t*)ptr;
-			for(long k = 0; k < end;  ++k){
-				cprintf(010,"[%d][%p]",lastj+k,data);
-	   			cprintf(110,":0x%02x = %02u",(uint8_t)*data,(uint8_t)*data);
-	   			cprintf(010,"\n");
-	   			++data;
-			}
-			j += end;
-		}
-		cprintf(100," <---tptr\n");
-		cprintf(111,"[%d.] Chunk size: %d\n",i,iter->size);
-		iter = iter->next;
-    }
-}
-
-
-void print_fbgc_memory_block(){
-
-	cprintf(010,"############[MEMORY_BLOCK]############\n");
-	
-	print_fbgc_memory_object_pool();
-	print_fbgc_memory_raw_buffer();
-
-	
-	cprintf(010,"############[MEMORY_BLOCK]############\n");
-}
-
-
-void free_fbgc_memory_block(){
-	
-	free_fbgc_memory_pool(fbgc_memb.raw_buffer_head);
+void free_fbgc_memory_block(){	
+	//Clean up evertyhing we have, give it to the system
+	free_fbgc_memory_pool(fbgc_memb.raw_memory_head);
 	free_fbgc_memory_pool(fbgc_memb.object_pool_head);
 
-	fbgc_memb.raw_buffer_head = NULL;
+	fbgc_memb.raw_memory_head = NULL;
 	fbgc_memb.object_pool_head = NULL;
-
 	free(fbgc_gc.ptr_list.data);
 }
 
 
 
 uint32_t capacity_in_bytes_fbgc_raw_memory(void * x){
-	return cast_from_raw_buffer_data_to_raw_buffer(x)->capacity;
+	return cast_from_raw_memory_data_to_raw_memory(x)->capacity;
 }
 
 
 //####################    Garbage Collector
+
 
 struct fbgc_garbage_collector fbgc_gc = {
 	.state = GC_STATE_NOT_INITIALIZED,
 	.threshold = 100,
 	.cycle = 0,
 	.last_location = NULL,
-	.current_raw_buffer = NULL,
+	.current_raw_memory = NULL,
 	.current_object_pool = NULL,
 	.ptr_list = {.data = NULL, .size = 0, .capacity = 0},
 };
@@ -489,7 +453,7 @@ uint8_t fbgc_gc_register_pointer(void * base_ptr,uint8_t nested, ...){
 	printf("Registering ptr %p\n",base_ptr);
 
 	void * dummy = base_ptr;
-	struct fbgc_raw_buffer * rb = cast_from_raw_buffer_data_to_raw_buffer(dummy);
+	struct fbgc_raw_memory * rb = cast_from_raw_memory_data_to_raw_memory(dummy);
 
 	rb->mark_bit = GC_BLACK;
 	uint8_t * ptr;
@@ -562,19 +526,19 @@ uint8_t fbgc_gc_mark_pointer(void * base_ptr, size_t block_size){
 
 	struct traceable_pointer_entry tpe;
 
-	if(is_raw_buffer_pointer(base_ptr)){
-		tpe.base_ptr = cast_from_raw_buffer_data_to_raw_buffer(base_ptr);
+	if(is_raw_memory_pointer(base_ptr)){
+		tpe.base_ptr = cast_from_raw_memory_data_to_raw_memory(base_ptr);
 		tpe.tptr = (uint8_t*)base_ptr;
 		tpe.block_size = block_size;
-		tpe.which_memory_pool = MEM_RAW_BUFFER_POOL;
- 		FBGC_LOGD(MEMORY,"Marking new ptr Base ptr:%p | block_size:%ld | capacity:%d \n",base_ptr,block_size,((struct fbgc_raw_buffer*)tpe.base_ptr)->capacity);
+		//tpe.which_memory_pool = MEM_RAW_MEMORY_POOL;
+ 		FBGC_LOGD(MEMORY,"Marking new ptr Base ptr:%p | block_size:%ld | capacity:%d \n",base_ptr,block_size,((struct fbgc_raw_memory*)tpe.base_ptr)->capacity);
 	}
 	else{
 
 		tpe.base_ptr = base_ptr;
 		tpe.tptr = (uint8_t*)base_ptr;
 		tpe.block_size = block_size; // !!!! not a block size anymore, this is array length
-		tpe.which_memory_pool = MEM_OBJECT_POOL;
+		//tpe.which_memory_pool = MEM_OBJECT_POOL;
 	}
 	
 	//First check that can gc mark this right now
@@ -583,6 +547,7 @@ uint8_t fbgc_gc_mark_pointer(void * base_ptr, size_t block_size){
 	//Checking gc first is trying not to overflow queue of pending pointers
 	
 	push_fbgc_queue(&fbgc_gc.tpe_queue,&tpe);
+	return 1;
 }
 
 
@@ -602,6 +567,11 @@ void fbgc_gc_init(struct fbgc_object * root){
 	}
 
 }
+
+void gc_update_free_list(struct fbgc_object ** obj){
+	struct fbgc_memory_pool * mp = fbgc_gc.current_object_pool;
+}
+
 
 
 void fbgc_gc_mark(){
@@ -628,9 +598,9 @@ void fbgc_gc_mark(){
 
 			struct traceable_pointer_entry * tpe = (struct traceable_pointer_entry *) front_fbgc_queue(queue);
 			uint8_t * tpe_end = NULL;
-			if(is_raw_buffer_pointer(tpe->base_ptr)){
+			if(is_raw_memory_pointer(tpe->base_ptr)){
 				
-				struct fbgc_raw_buffer * rb = (struct fbgc_raw_buffer *)tpe->base_ptr;
+				struct fbgc_raw_memory * rb = (struct fbgc_raw_memory *)tpe->base_ptr;
 				tpe_end = (uint8_t*)tpe->base_ptr + rb->capacity;
 				set_gc_gray(rb);
 
@@ -661,6 +631,9 @@ void fbgc_gc_mark(){
 						printf("Setting %p to gray\n",*obj );
 						set_gc_black(*obj);
 						gc_mark_fbgc_object(*obj);
+						
+						//gc_update_free_list(obj);
+
 						/*if(gc_mark_fbgc_object(*obj) == 0){
 							if((uint8_t*)(*obj) < fbgc_gc.last_location){
 								set_gc_black(*obj);
@@ -749,15 +722,15 @@ void fbgc_gc_sweep(){
 	if(fbgc_gc.state == GC_STATE_READY_TO_SWEEP){
 		struct fbgc_memory_pool * iter = fbgc_memb.object_pool_head;
 
-		set_gc_white(cast_from_raw_buffer_data_to_raw_buffer(fbgc_memb.free_list.content));
-		erase_fbgc_vector(&fbgc_memb.free_list);
+		//set_gc_white(cast_from_raw_memory_data_to_raw_memory(fbgc_memb.free_list.content));
+		//erase_fbgc_vector(&fbgc_memb.free_list);
 
 		while(iter != NULL){
 			uint8_t * ptr = (uint8_t*)iter->data;
 			while(ptr != iter->tptr){
 				struct fbgc_object * obj = (struct fbgc_object*)ptr;
 				if(is_gc_white(obj)){
-					push_back_fbgc_vector(&fbgc_memb.free_list,obj);
+					//push_back_fbgc_vector(&fbgc_memb.free_list,obj);
 				}
 				ptr += size_of_fbgc_object((struct fbgc_object*)ptr);
 			}
@@ -772,6 +745,102 @@ void fbgc_gc_run(){
 	fbgc_gc_mark();
 	fbgc_gc_sweep();
 }
+
+
+void print_fbgc_memory_object_pool(){
+	cprintf(011,"############[OBJECT POOL]############\n");
+	struct fbgc_memory_pool * iter = fbgc_memb.object_pool_head;
+
+	//just to clear obj locations
+	
+	for(int i = 0; iter != NULL; i++){
+		cprintf(111,"[%d.Chunk] size: %d\n",i,iter->size);
+		size_t obj_start = 0;
+		for(int j = 0; j<iter->size; j++){
+			int val = *( uint8_t *)((iter->data)+j); 
+
+			if(j == obj_start && ((uint8_t *)iter->data+j) != iter->tptr){
+				struct fbgc_object * dummy = (struct fbgc_object *)((uint8_t*)(iter->data)+j);
+				obj_start += size_of_fbgc_object(dummy);
+				//print the type of the data in the memory
+				cprintf(101,">>[%s] obj size in memory %d | color %d\n",objtp2str(dummy),size_of_fbgc_object(dummy),dummy->mark_bit);				
+				//print the address and the data in the memory!
+				//cprintf(101,"[%d][%p]:%0x",j,((iter->data)+j),val);
+
+			}
+			//else
+			{
+	   			cprintf(010,"[%d][%p]",j,((iter->data)+j));
+	   			cprintf(110,":%0x = %u",(uint8_t)val,(uint8_t)val);
+	   			
+			}
+			
+
+	   		if(iter->tptr == iter->data+j){
+	   			cprintf(100," <--tptr");
+	   			cprintf(100,"\n");
+	   			break;
+	   		} 	
+
+	   		cprintf(010,"\n");
+		}
+		cprintf(111,"[%d.] Chunk size: %d\n",i,iter->size);
+		iter = iter->next;
+    } 		
+}
+
+void print_fbgc_memory_raw_memory(){
+	cprintf(011,"############[RAW BUFFER]############\n");
+	struct fbgc_memory_pool * iter = fbgc_memb.raw_memory_head;
+
+
+	//loop for raw buffer pages
+	for(int i = 0; iter != NULL; i++){
+		cprintf(111,"[%d.Chunk] size: %d\n",i,iter->size);
+
+		size_t chunk_filled_size = iter->tptr - iter->data;
+		printf("%ld chunk filled\n",chunk_filled_size );
+		size_t obj_start = 0;
+		for(size_t j = 0; j< chunk_filled_size;){
+
+			uint8_t * where = (uint8_t*)(iter->data);
+			where += j;
+			
+	   		struct fbgc_raw_memory * ptr = (struct fbgc_raw_memory*)where;
+
+			cprintf(101,"Chunk byte size:%ld , color:%d\n",ptr->capacity,ptr->mark_bit);
+			
+			long end = ptr->capacity+sizeof(struct fbgc_raw_memory);
+			long lastj = j;
+			
+
+			uint8_t * data = (uint8_t*)ptr;
+			for(long k = 0; k < end;  ++k){
+				cprintf(010,"[%d][%p]",lastj+k,data);
+	   			cprintf(110,":0x%02x = %02u",(uint8_t)*data,(uint8_t)*data);
+	   			cprintf(010,"\n");
+	   			++data;
+			}
+			j += end;
+		}
+		cprintf(100," <---tptr\n");
+		cprintf(111,"[%d.] Chunk size: %d\n",i,iter->size);
+		iter = iter->next;
+    }
+}
+
+
+void print_fbgc_memory_block(){
+
+	cprintf(010,"############[MEMORY_BLOCK]############\n");
+	
+	print_fbgc_memory_object_pool();
+	print_fbgc_memory_raw_memory();
+
+	
+	cprintf(010,"############[MEMORY_BLOCK]############\n");
+}
+
 
 /*
 	#ifdef MEM_DEBUG
@@ -921,3 +990,40 @@ void fbgc_gc_run(){
 		chunk_iter = chunk_iter->next;
 	}
 */
+
+/*
+		[FBGC Malloc algorithm]
+		
+		In this section, there are different situations to allocate memory efficiently.
+
+		Requested size : size, available size will be asize 
+
+		Memory structure contains object memory pools which are allocated spaces in the heap
+		fbgc_memory_pool contains *data,*tptr, size and next pointer.
+		Different pools are connected each other like a single linked list with the next pointer.
+		Size holds the size of the memory pool. Each pool creates a single pool which is called as object pool in fbgc.
+
+		This algorithm allocates new spaces, runs gc and so on.
+
+		1.Start iterating inside memory pools. Check their size and compare it with the requested size.
+			While iterating in each list we will check the following condition.			
+			o) Requested size is smaller than the object pool, 
+				Calculate the empty space that we have by using tptr(traveler)
+				if we have enough space return the pointer of this space	
+					[---------------------------------|                  ]
+					^						    ^			   ^
+				memory_pool_data                memory_pool_tptr    memory_pool_data + memory_pool_size 
+
+			o) We iterated in each memory pools and requested size is bigger than any of them.
+			Here new allocation takes place and due to the state we directly use goto for allocation.
+
+			o) Requested size is not bigger than the memory pools. However, there is no enough space to give the requsted.
+			We will check our empty lists, which is the list from previous garbage collection running. If there is enough space in there 
+			no need to run gc in this moment.
+			If this also fails, the worst case scenario happens for this function: running garbage collector!
+			Garbage collector will run, basically it will tell all the variables to mark their objects
+			We will sweep in each part of the memory pools one by one to create empty memory lists.
+			Again empty memory list will be searched and if there is NO space we will allocate new memory.
+			New memory is basically another memory pool for the requested size.
+
+	*/

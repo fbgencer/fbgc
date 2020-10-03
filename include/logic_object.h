@@ -1,3 +1,17 @@
+// This file is part of fbgc
+
+// fbgc is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+
+// fbgc is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// You should have received a copy of the GNU General Public License
+// along with fbgc.  If not, see <https://www.gnu.org/licenses/>.
 #ifndef FBGC_LOGIC_OBJECTH
 #define FBGC_LOGIC_OBJECTH
 
@@ -9,6 +23,11 @@ struct fbgc_logic_object{
     struct fbgc_object base;
     uint8_t content:1;
 };
+
+extern struct fbgc_logic_object fbgc_logic_true;
+extern struct fbgc_logic_object fbgc_logic_false;
+
+
 extern const struct fbgc_object_property_holder fbgc_logic_object_property_holder;
 
 #define cast_fbgc_object_as_logic(x)(((struct fbgc_logic_object*) x))

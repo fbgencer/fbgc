@@ -1,3 +1,17 @@
+// This file is part of fbgc
+
+// fbgc is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+
+// fbgc is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// You should have received a copy of the GNU General Public License
+// along with fbgc.  If not, see <https://www.gnu.org/licenses/>.
 #ifndef FBGC_H
 #define FBGC_H
 
@@ -69,6 +83,11 @@ int8_t parse_keywordargs_content(struct fbgc_cfun_arg * cfun_arg,const char ** k
 struct parser_packet;
 
 #define fbgc_nil_object __fbgc_nil
+
+struct fbgc_runtime{
+	struct fbgc_class_object main_field;
+	struct fbgc_vector x;
+};
 
 
 #ifdef  __cplusplus
