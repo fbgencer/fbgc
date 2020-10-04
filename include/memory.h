@@ -22,12 +22,20 @@ extern "C" {
 #endif
 
 #define KILOBYTE 1024
+#define MEGABYTE 1024*KILOBYTE
 
-/*! @def FBGC_DEFAULT_POOL_SIZE
-    \brief fbgc default pool size in terms of bytes before compilation of the program, this parameter must be changed for different platforms depends on the memory of the system
+
+/*! @def FBGC_DEFAULT_OBJECT_POOL_SIZE
+    \brief fbgc default object pool size in terms of bytes before compilation of the program, this parameter must be changed for different platforms depends on the memory of the system
 	\details If the requested memory is bigger than the default pool size, new pools have size by the integer multiplication of the default pool size
 */
-#define FBGC_DEFAULT_POOL_SIZE  10*KILOBYTE
+#define FBGC_DEFAULT_OBJECT_POOL_SIZE  2*KILOBYTE
+
+/*! @def FBGC_DEFAULT_RAW_MEMORY_POOL_SIZE
+    \brief fbgc default object pool size in terms of bytes before compilation of the program, this parameter must be changed for different platforms depends on the memory of the system
+	\details If the requested memory is bigger than the default pool size, new pools have size by the integer multiplication of the default pool size
+*/
+#define FBGC_DEFAULT_RAW_MEMORY_POOL_SIZE  8*KILOBYTE
 
 /*! @def FBGC_STATIC_INTERNAL_MEMORY_SIZE
     \brief fbgc static internal memory size in bytes. 
@@ -40,20 +48,16 @@ extern "C" {
     \brief fbgc tries to increase its memory sizes unless if hits the max memory size, it is directive to hold memory not grow too much
 	\details Maximum size value can be changed depends on the platform memory, if it is an embedded system this value could be useful for a reliable run time
 */
-#define FBGC_MAX_MEMORY_SIZE -1
+#define FBGC_MAX_MEMORY_SIZE (size_t) 0
 
 
-/*! @fn void * fbgc_malloc(size_t size)
-    \brief Similar to c-malloc function
-    \param size : Requested size in bytes
-    \return Allocated address of the requested bytes
+/*! @fn void initialize_fbgc_memory_block()
+    \brief Initialize memory enviroenment for the program
 */
 void initialize_fbgc_memory_block();
 
-/*! @fn void * fbgc_malloc(size_t size)
-    \brief Similar to c-malloc function
-    \param size : Requested size in bytes
-    \return Allocated address of the requested bytes
+/*! @fn free_fbgc_memory_block()
+    \brief Gives all the allocated pools to the system and clears everything about fbgc
 */
 void free_fbgc_memory_block();
 
@@ -73,22 +77,26 @@ void * fbgc_malloc(size_t size);
 struct fbgc_object * fbgc_malloc_object(size_t size);
 
 
-/*! @fn void * fbgc_malloc_static(size_t size, bool is_raw_memory)
+/*! @fn void * fbgc_malloc_static(size_t size)
     \brief Allocated from fbgc internal static buffer
-	\details fbgc_object or any other data type can be allocated with this function. 
-		These object never collected by the garbage collector nor they die. They live until the end of the program
+	\details Raw data types can be allocated in the internal buffer with this allocator. These object never collected by the garbage collector nor they die. They live until the end of the program
     \param size : Requested size in bytes
-	\param is_raw_memory : If the requested byte is not for fbgc_object types then this parameter must be true, otherwise it must be false
-    \return Allocated address of the requested bytes
 */
-void * fbgc_malloc_static(size_t size, bool is_raw_memory);
+void * fbgc_malloc_static(size_t size);
+
+/*! @fn void * fbgc_malloc_static(size_t size)
+    \brief Allocated from fbgc internal static buffer
+	\details fbgc object types can be allocated in the internal buffer with this allocator. These object never collected by the garbage collector nor they die. They live until the end of the program
+    \param size : Requested size in bytes
+*/
+void * fbgc_malloc_object_static(size_t size);
 
 /*! @fn void * fbgc_realloc(void *ptr, size_t size)
     \brief Similar to c-realloc function
 	\details fbgc_objects pointers are immutable so they cannot be reallocated because (most of the time) 
 		they hold another data structure that lives in raw memory pool (such as tuples, matrices etc..). Only the object are allocated by fbgc_malloc can be reallocated.
 		Otherwise function asserts and close the program because it is a programmer error
-	\details 
+	\param ptr : Old address of the allocated memory
     \param size : Requested size in bytes
     \return Allocated address of the requested bytes (It may be new address or returns the old address if there is enough space to grow)
 */
@@ -98,8 +106,8 @@ void * fbgc_realloc(void *ptr, size_t size);
     \brief Adds pointer to the free list, for the next allocation this given memory can help allocater function to not grow its memory (if there is no space).
 	\details If allocated object (can be allocated any allocater function, see fbgc_malloc and fbgc_malloc_object) is really not need for the next cycle of the program, then giving
 		pointer to fbgc memory api can help to not allocate new variables all the time. This given pointer will be added to free list and for the next allocation it may be used because
-		fbgc memory try to minimize fragmentation in its internal memory pools
-    \param size : Address of the garbage memory
+		fbgc memory try to minimize fragmentation in its internal memory pools. Given 
+    \param ptr : Address of the garbage memory (can be NULL)
 */
 void fbgc_free(void *ptr);
 
@@ -109,26 +117,22 @@ void fbgc_free(void *ptr);
 void print_fbgc_memory_block();
 
 
-uint32_t capacity_in_bytes_fbgc_raw_memory(void * x);
+/*! @fn uint32_t capacity_fbgc_raw_memory(void * ptr,size_t block_size)
+    \brief Returns the capacity of the allocated memory from checking the internal memory
+	\details If a data block is allocated by fbgc_malloc, fbgc_memory adds capacity tag to this pointer and user does not need to specify capacity in its own data structure
+		memory api can check the capacity and returns it.
+	\param ptr : Allocated data pointer returned by fbgc_malloc allocater
+	\param block_size : Block size of the allocated content. For example if ptr is an integer array then block size is simply sizeof(int)
+	\return Capacity in bytes
+*/
+uint32_t capacity_fbgc_raw_memory(void * ptr,size_t block_size);
 
-#define capacity_fbgc_raw_memory(x,block_size) (capacity_in_bytes_fbgc_raw_memory(x)/block_size)
+
+
 
 
 uint8_t fbgc_gc_register_pointer(void * base_ptr,uint8_t nested, ...);
 
-
-/**
- * @brief fbgc Garbage collector states
- */
-typedef enum {
-	GC_STATE_NOT_INITIALIZED = 0,
-	GC_STATE_READY_TO_SWEEP,
-	GC_STATE_INITIALIZED,
-	GC_STATE_PAUSED,
-	GC_STATE_MARKING,
-	GC_STATE_SWEEPING,
-	GC_STATE_STOPPED
-}GC_STATES;
 
 #define TRACEABLE_POINTER_LIST_INITIAL_CAPACITY 2
 

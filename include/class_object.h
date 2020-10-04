@@ -44,6 +44,7 @@ extern const struct fbgc_object_property_holder fbgc_instance_object_property_ho
 void print_fbgc_class_object(struct fbgc_object *);
 void fprintf_fbgc_class_object(struct fbgc_object *);
 
+void initialize_static_fbgc_class_object(struct fbgc_class_object * clso);
 struct fbgc_object * new_fbgc_class_object();
 void inherit_from_another_class(struct fbgc_object * self,struct fbgc_object * father);
 
@@ -52,7 +53,6 @@ struct fbgc_object * new_fbgc_instance_object(struct fbgc_object * _template);
 struct fbgc_object * get_set_fbgc_instance_object_member(struct fbgc_object * o, const char * str, struct fbgc_object * nm);
 struct fbgc_object ** get_set_fbgc_instance_object_member_address(struct fbgc_object * o, const char * str);
 struct fbgc_object * operator_fbgc_instance_object(struct fbgc_object * a,struct fbgc_object * b,fbgc_token op);
-struct fbgc_object * get_overloaded_member(struct fbgc_object * o, const char * str);
 
 #ifdef LOG_CLASS_OBJECT
 #define CLASS_OBJECT_LOGV(format,...) LOGV(format,##__VA_ARGS__)

@@ -15,6 +15,12 @@
 #include "fbgc.h"
 
 
+void init_static_fbgc_vector_with_allocater(struct fbgc_vector * vector, size_t cap, size_t block_size, void * (*allocator)(size_t )){
+	vector->content = (uint8_t*)allocator(fbgc_round_to_closest_power_of_two(cap)*block_size);
+	vector->block_size = block_size;
+	vector->size = 0;
+}
+
 void init_static_fbgc_vector(struct fbgc_vector * vector, size_t cap, size_t block_size){
 	vector->content = (uint8_t*)fbgc_malloc(fbgc_round_to_closest_power_of_two(cap)*block_size);
 	vector->block_size = block_size;

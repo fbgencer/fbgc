@@ -36,8 +36,6 @@ static void load_module_in_field(struct fbgc_object * fobj,const struct fbgc_obj
 	}
 }
 
-
-
 struct fbgc_object * new_fbgc_field(uint8_t no_module, ...){
 
 	struct fbgc_class_object * field = cast_fbgc_object_as_class(new_fbgc_class_object());
@@ -46,7 +44,6 @@ struct fbgc_object * new_fbgc_field(uint8_t no_module, ...){
 	//library map size is constant(or will not contain so much data) so making its rlf 100 is not a bad idea
 	fbgc_map_object_insert_str(field->variables,"_cmodules",new_fbgc_tuple_object(2));
 	
-
 	va_list modules;
   	va_start( modules,no_module);
   	while(no_module--){

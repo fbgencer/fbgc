@@ -33,6 +33,7 @@ struct fbgc_vector * copy_vector_fbgc_vector(struct fbgc_vector * self);
 
 
 void init_static_fbgc_vector(struct fbgc_vector * vector,size_t cap, size_t block_size);
+void init_static_fbgc_vector_with_allocater(struct fbgc_vector * vector, size_t cap, size_t block_size, void * (*allocator)(size_t ));
 size_t size_fbgc_vector(const struct fbgc_vector * vector);
 size_t capacity_fbgc_vector(const struct fbgc_vector * vector);
 bool is_full_fbgc_vector(const struct fbgc_vector * vector);

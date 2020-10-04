@@ -1,8 +1,10 @@
 #fbgc makefile, written by fbgencer
 #In order to compile normal fbgc just write "make"
 
-SRC = $(shell find src/*.c cmodules/*.c)
+SRC = $(shell find src/*.c cmodules/*.c cmodules/*.cpp)
 OBJ = ${SRC:.c=.o}
+CPPOBJ = ${SRC:.cpp=.o}
+OBJ += CPPOBJ
 DEPS = $(OBJ:.o=.d)
 INC = /include #$(shell find include/)
 
@@ -13,7 +15,7 @@ TEST_OBJ = ${TEST_SRC:.c=.o}
 
 #put -g in order to see good assembly output
 #-Wno-error=incompatible-pointer-types -Wno-error=discarded-qualifiers
-CC=gcc
+CC=g++
 #-Wunused-variable
 OPTIMIZATION_FLAG = -Og -fdata-sections -ffunction-sections -flto
 WARNING_FLAG = -Werror -Wno-error=pointer-arith 

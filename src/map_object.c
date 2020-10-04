@@ -494,7 +494,7 @@ struct fbgc_object * fbgc_map_object_merge(struct fbgc_object * self, struct fbg
 
 
 uint8_t print_detailed_fbgc_map_object(struct fbgc_object * obj){
-	printf("Capacity : %lu, size:%lu, max_psl:%d\n",capacity_fbgc_map_object(obj),size_fbgc_map_object(obj),max_psl_fbgc_map_object(obj));
+	printf("Capacity : %u, size:%lu, max_psl:%d\n",capacity_fbgc_map_object(obj),size_fbgc_map_object(obj),max_psl_fbgc_map_object(obj));
 	printf("{");
 	for(size_t i = 0; i<capacity_fbgc_map_object(obj); i++){
 		struct fbgc_map_pair * p  = map_get_pair(obj,i);

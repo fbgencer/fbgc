@@ -24,6 +24,7 @@ extern "C" {
 #include <stdlib.h>
 #include <inttypes.h>
 #include <stdint.h>
+#include <stddef.h>
 #include <string.h>
 #include <stdio.h>
 #include <assert.h>

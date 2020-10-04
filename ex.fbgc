@@ -1,7 +1,7 @@
 i = 0
-while(i<1000)
-	i += 1
-end
+#while(i<1000)
+#	i += 1
+#end
 print("bitti")
 mom = class()
 	love = fun(x)
