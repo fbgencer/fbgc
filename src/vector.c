@@ -62,8 +62,9 @@ inline void * front_fbgc_vector(const struct fbgc_vector * vector){
 }
 
 inline void * back_fbgc_vector(const struct fbgc_vector * vector){
-	if(vector->size)
-		return vector->content+(vector->size*vector->block_size-1);
+	if(vector->size){
+		return vector->content+((vector->size-1)*vector->block_size);
+	}
 	return NULL;
 }
 
@@ -232,38 +233,39 @@ void test_vector(){
 // }
 
 
-// int compare_int(const void * a, const void * b)
-// {
-//   return ( *(int*)a - *(int*)b );
-// }
+int compare_int(const void * a, const void * b)
+{
+  return ( *(int*)a - *(int*)b );
+}
 
-// int compare_db(const void * a, const void * b){
+int compare_db(const void * a, const void * b){
 	
-//   if (*(double*)a > *(double*)b)
-// 	return 1;
-//   else if (*(double*)a < *(double*)b)
-// 	return -1;
+  if (*(double*)a > *(double*)b)
+	return 1;
+  else if (*(double*)a < *(double*)b)
+	return -1;
   
-// 	return 0;  
-// }
+	return 0;  
+}
 
-// void comparison_test(){
-// 	struct fbgc_vector * iv = from_array_new_fbgc_vector(values,6,sizeof(int));
+void comparison_test(){
+	int values[6] = {1033,-32,22,0,-55,10000};
+	struct fbgc_vector * iv = from_array_new_fbgc_vector(values,6,sizeof(int));
 
-// 	for (int i = 0; i < size_fbgc_vector(iv); ++i){
-// 		cprintf(110,"[%d] : %d\n",i,*(int*)at_fbgc_vector(iv,i));
-// 	}
+	for (int i = 0; i < size_fbgc_vector(iv); ++i){
+		cprintf(110,"[%d] : %d\n",i,*(int*)at_fbgc_vector(iv,i));
+	}
 
-// 	sort_fbgc_vector(iv,compare_int);
-// 	for (int i = 0; i < size_fbgc_vector(iv); ++i){
-// 		cprintf(111,"[%d] : %d\n",i,*(int*)at_fbgc_vector(iv,i));
-// 	}
+	sort_fbgc_vector(iv,compare_int);
+	for (int i = 0; i < size_fbgc_vector(iv); ++i){
+		cprintf(111,"[%d] : %d\n",i,*(int*)at_fbgc_vector(iv,i));
+	}
+	double dvalues[12] = {10.23,-23.231,-55.2333,100,200,3.14159,2.71};
+	struct fbgc_vector * dv = from_array_new_fbgc_vector(dvalues,sizeof(dvalues)/sizeof(double),sizeof(double));
 
-// 	struct fbgc_vector * dv = from_array_new_fbgc_vector(dvalues,12,sizeof(double));
+	sort_fbgc_vector(dv,compare_db);
+	for (int i = 0; i < size_fbgc_vector(dv); ++i){
+		cprintf(111,"[%d] : %g\n",i,*(double*)at_fbgc_vector(dv,i));
+	}
 
-// 	sort_fbgc_vector(dv,compare_db);
-// 	for (int i = 0; i < size_fbgc_vector(dv); ++i){
-// 		cprintf(111,"[%d] : %g\n",i,*(double*)at_fbgc_vector(dv,i));
-// 	}
-
-// }
+}

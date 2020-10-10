@@ -683,19 +683,58 @@ int compare (const void * a, const void * b)
   return ( *(int*)a - *(int*)b );
 }
 
+#define pointer_list_size 5
+int is_in_pointer_list(void ** pointer_list,void * ptr){
+    for(int i = 0; i<pointer_list_size; ++i){
+        if(pointer_list[i] == ptr){
+            return 1;
+        }
+    }
+    return 0;
+}
+
 #ifndef MODULE_TEST
-int main(int argc, char **argv){
+int main(int argc, char const *argv[]){
 
 	#ifdef FBGC_LOGO
 		print_logo();
 	#endif   
 
+	void * bos = __builtin_frame_address(0);
 
 //******************************************************************
 	initialize_fbgc_memory_block();
 
-	initialize_fbgc_symbol_table();
-	current_field = new_fbgc_field(2,&_fbgc_io_property_holder,&_fbgc_stl_property_holder);
+	//initialize_fbgc_symbol_table();
+	//current_field = new_fbgc_field(2,&_fbgc_io_property_holder,&_fbgc_stl_property_holder);
+
+	struct fbgc_object * a1 = new_fbgc_int_object(0);
+	struct fbgc_object * a2 = new_fbgc_int_object(10);
+	struct fbgc_object * a3 = new_fbgc_int_object(20);
+	struct fbgc_object * a4 = new_fbgc_int_object(30);
+	struct fbgc_object * a5 = new_fbgc_int_object(40);
+	struct fbgc_object * a6 = new_fbgc_int_object(50);
+	struct fbgc_object * a7 = new_fbgc_str_object_empty(3);
+	
+	fbgc_gc_init(NULL,__builtin_frame_address(0));
+
+
+	// push_into_object_free_list(a1);
+	// push_into_object_free_list(a3);
+	// push_into_object_free_list(a5);
+	fbgc_gc_run();
+
+	printf_fbgc_object(a1); printf("\n");
+	printf_fbgc_object(a2); printf("\n");
+	//printf_fbgc_object(a3); printf("\n");
+	printf_fbgc_object(a4); printf("\n");
+	printf_fbgc_object(a5); printf("\n");
+	//printf_fbgc_object(a6); printf("\n");
+	printf_fbgc_object(a7); printf("\n");
+	
+
+	print_fbgc_memory_block();
+	//print_object_free_list();
 
 
 	//fbgc_gc_init(current_field);

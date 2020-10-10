@@ -356,7 +356,6 @@ uint8_t gc_mark_fbgc_object(struct fbgc_object * obj){
 
 	const struct fbgc_object_property_holder * p = get_fbgc_object_property_holder(obj);
 
-
 	int8_t w = _find_property(p->bits,_BIT_GC_MARK);
 	if(w != -1){
 		p->properties[w].gc_mark(obj);

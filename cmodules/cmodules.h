@@ -22,10 +22,12 @@
 #include "../cmodules/fbgc_math.h"
 #include "../cmodules/fbgc_file.h"
 #include "../cmodules/fbgc_time.h"
-#include "../cmodules/example_cpp.h"
+
 
 #ifdef __cplusplus
 extern "C" {
+
+#include "../cmodules/example_cpp.h"
 #endif
 
 
@@ -34,7 +36,6 @@ const struct fbgc_object_property_holder  * __property_holders[] =
 {
 	&_fbgc_math_property_holder,
 	&_fbgc_file_cstruct_property_holder,
-	&_example_cpp_cstruct_property_holder,
 	//&fbgc_time_module			
 };
 

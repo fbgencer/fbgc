@@ -41,7 +41,7 @@ extern "C" {
     \brief fbgc static internal memory size in bytes. 
 	\details Size value can be changed depends on the platform memory
 */
-#define FBGC_STATIC_INTERNAL_MEMORY_SIZE 2*KILOBYTE
+#define FBGC_STATIC_INTERNAL_MEMORY_SIZE 10*KILOBYTE
 
 
 /*! @def FBGC_MAX_MEMORY_SIZE 
@@ -134,6 +134,9 @@ uint32_t capacity_fbgc_raw_memory(void * ptr,size_t block_size);
 uint8_t fbgc_gc_register_pointer(void * base_ptr,uint8_t nested, ...);
 
 
+void push_into_object_free_list(struct fbgc_object * ptr);
+void print_object_free_list();
+
 #define TRACEABLE_POINTER_LIST_INITIAL_CAPACITY 2
 
 struct traceable_pointer_entry{
@@ -155,6 +158,7 @@ struct fbgc_garbage_collector{
 	size_t threshold;
 	size_t cycle;
 	uint8_t * last_location;
+	void * stack_bottom;
 	struct fbgc_memory_pool * current_raw_memory;
 	struct fbgc_memory_pool * current_object_pool;
 	struct traceable_pointer_list ptr_list;
@@ -187,7 +191,7 @@ extern struct fbgc_garbage_collector fbgc_gc;
 
 void fbgc_gc_mark_object(struct fbgc_object * obj);
 uint8_t fbgc_gc_mark_pointer(void * base_ptr, size_t block_size);
-void fbgc_gc_init(struct fbgc_object * root);
+void fbgc_gc_init(struct fbgc_object * root,void * stack_bottom);
 void fbgc_gc_mark();
 void fbgc_gc_sweep();
 void fbgc_gc_run();

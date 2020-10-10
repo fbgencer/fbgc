@@ -35,6 +35,7 @@ extern "C" {
 #include <time.h>
 #include <signal.h>
 #include <stdbool.h>
+#include <setjmp.h>
 
 #include "../include/queue.h"
 #include "../include/vector.h"
