@@ -700,13 +700,17 @@ int main(int argc, char const *argv[]){
 		print_logo();
 	#endif   
 
-	void * bos = __builtin_frame_address(0);
-
 //******************************************************************
 	initialize_fbgc_memory_block();
+	struct fbgc_object * tuple = new_fbgc_tuple_object(4);
+	fbgc_gc_init(NULL,__builtin_frame_address(0));
 
 	//initialize_fbgc_symbol_table();
 	//current_field = new_fbgc_field(2,&_fbgc_io_property_holder,&_fbgc_stl_property_holder);
+
+	push_back_fbgc_tuple_object(tuple,new_fbgc_int_object(100));
+	push_back_fbgc_tuple_object(tuple,new_fbgc_int_object(200));
+	push_back_fbgc_tuple_object(tuple,new_fbgc_int_object(300));
 
 	struct fbgc_object * a1 = new_fbgc_int_object(0);
 	struct fbgc_object * a2 = new_fbgc_int_object(10);
@@ -714,9 +718,22 @@ int main(int argc, char const *argv[]){
 	struct fbgc_object * a4 = new_fbgc_int_object(30);
 	struct fbgc_object * a5 = new_fbgc_int_object(40);
 	struct fbgc_object * a6 = new_fbgc_int_object(50);
-	struct fbgc_object * a7 = new_fbgc_str_object_empty(3);
+	struct fbgc_object * a7 = new_fbgc_str_object("fbgencer :)");
+
+	// int * myptr = fbgc_malloc(sizeof(int)*10);
+	// int * i1 = fbgc_malloc(sizeof(int));	*i1 = 10;
+	// int * i2 = fbgc_malloc(sizeof(int));	*i2 = -230;
+	// int * i3 = fbgc_malloc(sizeof(int));	*i3 = 0xFB6C;
+	// int * i4 = fbgc_malloc(sizeof(int));	*i4 = 0xFB62;
+	// int * i5 = fbgc_malloc(sizeof(int)*5);
+	// for (size_t i = 0; i < 10; i++){
+	// 	myptr[i] = i*2;
+	// }
 	
-	fbgc_gc_init(NULL,__builtin_frame_address(0));
+
+	push_back_fbgc_tuple_object(tuple,a7);
+	
+	print_fbgc_memory_block();
 
 
 	// push_into_object_free_list(a1);
@@ -725,15 +742,25 @@ int main(int argc, char const *argv[]){
 	fbgc_gc_run();
 
 	printf_fbgc_object(a1); printf("\n");
-	printf_fbgc_object(a2); printf("\n");
+	//printf_fbgc_object(a2); printf("\n");
 	//printf_fbgc_object(a3); printf("\n");
 	printf_fbgc_object(a4); printf("\n");
 	printf_fbgc_object(a5); printf("\n");
 	//printf_fbgc_object(a6); printf("\n");
-	printf_fbgc_object(a7); printf("\n");
+	//printf_fbgc_object(a7); printf("\n");
+	//printf("i1:%d\n",*i1);
+	//printf("i3:%d\n",*i3);
+
+
+	// for (size_t i = 0; i < 10; i++){
+	// 	printf("myptr[%ld]:%d\n",i,myptr[i]);
+	// }
+	
+	printf_fbgc_object(tuple); printf("\n");
+	
 	
 
-	print_fbgc_memory_block();
+	
 	//print_object_free_list();
 
 

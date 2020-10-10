@@ -45,7 +45,7 @@ extern "C" {
 
 
 #define FBGC_LOGFORMATSIMPLE(color,format) color "" format "" ANSI_COLOR_RESET 
-#define FBGC_LOGFORMATDETAILED(color,format) color "%s function:%s at line %u: " format "\n" ANSI_COLOR_RESET ,__FILE__,__FUNCTION__,  __LINE__
+#define FBGC_LOGFORMATDETAILED(color,format) color "%s/%s[%u]: " format "" ANSI_COLOR_RESET ,__FILE__,__FUNCTION__,  __LINE__
 
 //These loge and logw are for compiler not for users or developers
 

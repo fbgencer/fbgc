@@ -15,6 +15,13 @@
 #include "fbgc.h"
 
 
+void init_static_fbgc_queue_with_allocater(struct fbgc_queue * queue, size_t cap, size_t block_size, void * (*allocator)(size_t )){
+	queue->content =(uint8_t*)allocator(fbgc_round_to_closest_power_of_two(cap)*block_size);
+	queue->front = queue->content;
+	queue->block_size = block_size;
+	queue->size = 0;
+}
+
 void init_static_fbgc_queue(struct fbgc_queue * queue, size_t cap, size_t block_size){
 	assert(queue);
 	queue->content =(uint8_t*)fbgc_malloc(fbgc_round_to_closest_power_of_two(cap)*block_size);

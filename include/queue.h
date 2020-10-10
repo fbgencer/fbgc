@@ -33,6 +33,7 @@ struct fbgc_queue * from_array_new_fbgc_queue(const void * array_ptr, size_t arr
 struct fbgc_queue * copy_queue_fbgc_queue(struct fbgc_queue * self);
 
 
+void init_static_fbgc_queue_with_allocater(struct fbgc_queue * queue, size_t cap, size_t block_size, void * (*allocator)(size_t ));
 void init_static_fbgc_queue(struct fbgc_queue * queue,size_t cap, size_t block_size);
 size_t size_fbgc_queue(const struct fbgc_queue * queue);
 size_t capacity_fbgc_queue(const struct fbgc_queue * queue);

@@ -35,7 +35,7 @@ extern "C" {
     \brief fbgc default object pool size in terms of bytes before compilation of the program, this parameter must be changed for different platforms depends on the memory of the system
 	\details If the requested memory is bigger than the default pool size, new pools have size by the integer multiplication of the default pool size
 */
-#define FBGC_DEFAULT_RAW_MEMORY_POOL_SIZE  8*KILOBYTE
+#define FBGC_DEFAULT_RAW_MEMORY_POOL_SIZE  2*KILOBYTE
 
 /*! @def FBGC_STATIC_INTERNAL_MEMORY_SIZE
     \brief fbgc static internal memory size in bytes. 
@@ -50,6 +50,27 @@ extern "C" {
 */
 #define FBGC_MAX_MEMORY_SIZE (size_t) 0
 
+struct fbgc_memory_pool{
+	uint8_t * data; 	//<! Actual data pointer which holds the pool buffer, all allocated objects live in this buffer
+	uint8_t * tptr;		//<! Traveler pointer which moves only forward in the data buffer
+	uint8_t * end; 		//<! Pointer holds the end of the pool, pool size can be extracted from pool_end - data
+	size_t size;    	//<! Size of the pool
+	struct fbgc_memory_pool * next; //<! Pools are connected to each other via linked list, each pool holds the next pool till NULL
+};
+
+struct fbgc_memory_block{
+	struct fbgc_memory_pool * raw_memory_head; 	//<! Raw memory pools are held by this pointer as a linked list data structure
+	struct fbgc_memory_pool * object_pool_head; //<! Object memory pools are held by this pointer as a linked list data structure
+	struct fbgc_vector raw_memory_free_list;	//<! Raw memory free list as fbgc_vector
+	struct fbgc_vector object_free_list; 		//<! Object free list as fbgc_vector
+	size_t total_allocated_size;				//<! Total allocated size from the system heap, used to check condition for FBGC_MAX_MEMORY_SIZE
+};
+
+struct fbgc_static_memory_pool{
+	uint8_t data [FBGC_STATIC_INTERNAL_MEMORY_SIZE];  //<! fbgc static memory in bytes
+	uint8_t * tptr;	//<! Traveler pointer for new allocations
+	uint8_t * end; 	//<! End of the static buffer which is the same data + FBGC_STATIC_INTERNAL_MEMORY_SIZE
+};
 
 /*! @fn void initialize_fbgc_memory_block()
     \brief Initialize memory enviroenment for the program
@@ -128,44 +149,52 @@ void print_fbgc_memory_block();
 uint32_t capacity_fbgc_raw_memory(void * ptr,size_t block_size);
 
 
-
-
-
-uint8_t fbgc_gc_register_pointer(void * base_ptr,uint8_t nested, ...);
-
-
-void push_into_object_free_list(struct fbgc_object * ptr);
-void print_object_free_list();
-
-#define TRACEABLE_POINTER_LIST_INITIAL_CAPACITY 2
-
-struct traceable_pointer_entry{
-	void * base_ptr;
-	uint8_t * tptr;
-	size_t block_size;
-	uint8_t which_memory_pool;
-};
-
-struct traceable_pointer_list{
-	struct traceable_pointer_entry * data;
+struct __fbgc_mem_free_list_entry{
+	void * start;
+	void * end;
 	size_t size;
-	size_t capacity;
 };
 
+#define TRACEABLE_POINTER_LIST_INITIAL_CAPACITY 16
+
+/*! @def struct traceable_pointer_entry 
+    \brief fbgc.
+*/
+struct traceable_pointer_entry{
+	void * base_ptr; 		//<! Base pointer of the memory which is claimed by an owner from the program
+	uint8_t * tptr;			//<! Traveler pointer to scan all the array based on base_ptr
+	size_t block_size;		//<! In order to find new object tptr must be shifted by block_size, total size is know from base_ptr(either fbgc_object or fbgc_raw_memory)
+};
+
+/**
+ * @brief fbgc Garbage collector states
+ */
+typedef enum {
+	GC_STATE_NOT_INITIALIZED = 0,
+	GC_STATE_READY_TO_SWEEP,
+	GC_STATE_INITIALIZED,
+	GC_STATE_PAUSED,
+	GC_STATE_SCANNING_POOLS,
+	GC_STATE_SCANNING_CSTACK,
+	GC_STATE_FREE_LIST_READY,
+	GC_STATE_STOPPED
+}GC_STATES;
 
 struct fbgc_garbage_collector{
-	uint8_t state;
 	size_t threshold;
 	size_t cycle;
-	uint8_t * last_location;
+	//uint8_t * last_location;
 	void * stack_bottom;
-	struct fbgc_memory_pool * current_raw_memory;
-	struct fbgc_memory_pool * current_object_pool;
-	struct traceable_pointer_list ptr_list;
+	//struct fbgc_memory_pool * current_raw_memory;
+	//struct fbgc_memory_pool * current_object_pool;
+	//struct traceable_pointer_list ptr_list;
 	struct fbgc_queue tpe_queue;
+	uint8_t state;
+	uint8_t pools_scan_finished:1;
+	uint8_t cstack_scan_finished:1;
+	uint8_t free_list_is_ready:1;
 };
 
-extern struct fbgc_garbage_collector fbgc_gc;
 
 
 #define GC_WHITE 0
@@ -189,11 +218,8 @@ extern struct fbgc_garbage_collector fbgc_gc;
 #define set_raw_memory_gc_dark(x) ( set_gc_dark(cast_from_raw_memory_data_to_raw_memory(x)) )
 
 
-void fbgc_gc_mark_object(struct fbgc_object * obj);
-uint8_t fbgc_gc_mark_pointer(void * base_ptr, size_t block_size);
+void fbgc_gc_mark_pointer(void * base_ptr, size_t block_size);
 void fbgc_gc_init(struct fbgc_object * root,void * stack_bottom);
-void fbgc_gc_mark();
-void fbgc_gc_sweep();
 void fbgc_gc_run();
 
 
