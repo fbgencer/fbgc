@@ -14,6 +14,8 @@
 // along with fbgc.  If not, see <https://www.gnu.org/licenses/>.
 #include "fbgc.h"
 
+#define FBGC_MALLOC_OPTIMIZATION FBGC_MALLOC_OPTIMIZATION_NONE
+
 // /*! @details fbgc memory block and can only be defined once
 static struct fbgc_memory_block fbgc_memb = {
 	.raw_memory_head = NULL,
@@ -36,8 +38,7 @@ static struct fbgc_static_memory_pool __fbgc_static_internal_memory = {
 	must be cast by using (struct fbgc_raw_memory *)((uint8_t*)data - sizeof(struct fbgc_raw_memory))
 */
 struct fbgc_raw_memory{
-	uint32_t mark_bit : 2;
-	uint32_t capacity : 30;
+	uint32_t capacity;
 	uint8_t data[0];
 };
 
@@ -68,7 +69,7 @@ static void * _fbgc_malloc_from_raw_memory_pool(size_t size);
     \param size : Requested size in bytes
     \return Allocated address of the requested bytes
 */
-struct fbgc_object * fbgc_malloc_object(size_t sz){
+inline struct fbgc_object * fbgc_malloc_object(size_t sz){
 	return (struct fbgc_object *)_fbgc_malloc_from_object_pool(sz);
 }
 
@@ -78,7 +79,7 @@ struct fbgc_object * fbgc_malloc_object(size_t sz){
     \param size : Requested size in bytes
     \return Allocated address of the requested bytes
 */
-void * fbgc_malloc(size_t sz){
+inline void * fbgc_malloc(size_t sz){
 	return _fbgc_malloc_from_raw_memory_pool(sz);
 }
 
@@ -94,6 +95,19 @@ void * fbgc_malloc(size_t sz){
 */
 #define is_fbgc_raw_memory_pointer(ptr)( check_pointer_is_in_pool(fbgc_memb.raw_memory_head,ptr))
 
+static void claim_pointer_and_arrange_free_list(struct fbgc_vector * v, void * ptr, size_t size);
+
+static struct fbgc_garbage_collector fbgc_gc = {
+	.max_cycle = FBGC_GC_MAXIMUM_CYCLE,
+	.cycle = 0,
+	.stack_bottom = NULL,
+	.state = GC_STATE_NOT_INITIALIZED,
+	.pools_scan_finished = false,
+	.cstack_scan_finished = false,
+	.free_list_is_ready = false,
+};
+
+static void print_free_list(struct fbgc_vector * v);
 
 /*! @fn static struct fbgc_memory_pool * new_fbgc_memory_pool(size_t pg_size)
     \brief Allocated a new pool by using c-malloc
@@ -167,6 +181,47 @@ static uint8_t check_pointer_is_in_pool(const struct fbgc_memory_pool * iter, co
 	return 0;
 }
 
+//Do not use this function unless it is a debug.
+static uint8_t check_pointer_align_in_object_pool(const void * ptr){
+	const struct fbgc_memory_pool * iter = fbgc_memb.object_pool_head;
+	while(iter != NULL){
+		const uint8_t * const start = (uint8_t*)iter->data;
+		const uint8_t * const end = (uint8_t*)(iter->tptr);
+		if((uint8_t*)ptr >= start && (uint8_t*)ptr <= end){
+			//Ok ptr is in the pool, scan from the beginning (so exhausting)
+			for(const uint8_t * it = start; it <= end;){
+				if(it == NULL)	
+					break;
+				if(it == ptr) return 1;	
+				it += size_of_fbgc_object((struct fbgc_object*)it);
+			}
+		};
+		iter = iter->next;
+	}
+	return 0;
+}
+//Do not use this function unless it is a debug.
+static uint8_t check_pointer_align_in_raw_memory_pool(const void * ptr){
+	const struct fbgc_memory_pool * iter = fbgc_memb.raw_memory_head;
+	while(iter != NULL){
+		const uint8_t * const start = (uint8_t*)iter->data;
+		const uint8_t * const end = (uint8_t*)(iter->tptr);
+		if((uint8_t*)ptr >= start && (uint8_t*)ptr <= end){
+			//Ok ptr is in the pool, scan from the beginning (so exhausting)
+			for(const uint8_t * it = start; it <= end;){
+				if(it == NULL)	
+					break;
+				struct fbgc_raw_memory * rb = (struct fbgc_raw_memory *) it;
+				if(rb->data == ptr) return 1;
+				it += (rb->capacity + sizeof(struct fbgc_raw_memory));
+			}
+		};
+		iter = iter->next;
+	}
+	return 0;
+}
+
+
 #define OBJECT_FREE_LIST_INITIAL_SIZE 32
 #define RAW_MEMORY_FREE_LIST_INITIAL_SIZE 64
 
@@ -197,6 +252,28 @@ static void * _fbgc_malloc_from_object_pool(size_t size){
 
 	struct fbgc_memory_pool * pool = fbgc_memb.object_pool_head;
 	
+	#if FBGC_MALLOC_OPTIMIZATION == FBGC_MALLOC_OPTIMIZATION_FOR_MEMORY
+		if(fbgc_gc.free_list_is_ready){
+			struct fbgc_vector * v = &fbgc_memb.object_free_list;
+			//Traverse back
+			for (int i = size_fbgc_vector(v)-1; i>=0; --i){
+				struct __fbgc_mem_free_list_entry * fle = (struct __fbgc_mem_free_list_entry *) at_fbgc_vector(v,i);
+				int32_t diff = (fle->size - size);
+				FBGC_LOGV(MEMORY,"checking fle->size :%ld,diff:%d\n",fle->size,diff);
+				//Do not divide if divided space is too small to fit at least one int object, or already smaller than the size
+				if(diff == 0 || diff >= (int32_t)sizeof(struct fbgc_int_object)){
+					FBGC_LOGV(MEMORY,"Requested memory found in the free list size:%ld | ptr:%p\n", size,fle->start);
+					//exact match or a good match so we can divide easily this portion
+					void * return_ptr = fle->start;
+					claim_pointer_and_arrange_free_list(v,return_ptr,size);
+					print_free_list(v);
+					return return_ptr;;
+				}
+			}
+		}
+	#endif
+
+
 	do{
 		FBGC_LOGV(MEMORY,"Requested memory from chunk: %lu, total memory : %lu,available mem: %lu \n", size, pool->size,(pool->end - pool->tptr));
 
@@ -207,7 +284,10 @@ static void * _fbgc_malloc_from_object_pool(size_t size){
 			return ret_ptr;	
 		}
 		//iterate through the chunks
-	}while(pool->next != NULL && (pool = pool->next) );
+		if(pool->next == NULL)
+			break;
+		pool = pool->next;
+	}while(1);
 	
 //#################################################################################################################
 // Seek in object free list!!
@@ -244,16 +324,18 @@ static void * _fbgc_malloc_from_raw_memory_pool(size_t size){
 		if( (ptrdiff_t)(pool->end - pool->tptr) >= (ptrdiff_t)requested_size){
 			
 			struct fbgc_raw_memory * rb =  (struct fbgc_raw_memory *)pool->tptr;
-			rb->mark_bit = GC_WHITE;
 			rb->capacity = size;
-			pool->tptr += sizeof(struct fbgc_raw_memory);
 			//memory is available, give it and shift tptr
-			void * ret_ptr = pool->tptr;
-			pool->tptr += size;	
-			return ret_ptr;	
+			pool->tptr += requested_size;
+			_FBGC_LOGV(MEMORY,"Returning raw memory :%p",rb->data);
+			return rb->data;
 		}
 		//iterate through the chunks
-	}while(pool->next != NULL && (pool = pool->next) );
+		if(pool->next == NULL)
+			break;
+
+		pool = pool->next;
+	}while(1);
 	
 //#################################################################################################################
 // 
@@ -278,7 +360,6 @@ static void * _fbgc_malloc_from_raw_memory_pool(size_t size){
 	FBGC_LOGV(MEMORY,"Allocated new pool size :%lu\n",pool->size);
 
 	struct fbgc_raw_memory * rb =  (struct fbgc_raw_memory *)pool->data;
-	rb->mark_bit = GC_WHITE;
 	rb->capacity = size;
 	pool->tptr = pool->data + requested_size;
 	return ( pool->data + sizeof(struct fbgc_raw_memory) );
@@ -319,8 +400,6 @@ void * fbgc_realloc(void * ptr, size_t size){
 		FBGC_LOGV(MEMORY,"succesfully allocated size : %lu,old address:%p new address:%p\n",size,rb_old,rb);
 
 		memcpy(new_mem_ptr,ptr,old_capacity);
-		rb->mark_bit = rb_old->mark_bit;
-		rb_old->mark_bit = GC_WHITE;
 		FBGC_LOGV(MEMORY,"New buffer capacity : %d\n",rb->capacity);
 		//Do we need it ?
 		//MARK TO WHITE
@@ -336,12 +415,12 @@ void * fbgc_realloc(void * ptr, size_t size){
 void fbgc_free(void *ptr){
 	if(!ptr) return;
 
-	if(is_fbgc_raw_memory_pointer(ptr)){
-		set_raw_memory_gc_white(ptr);
-		//add to free list
-		return;
-	}
-	set_gc_white((struct fbgc_object*)ptr);
+	// if(is_fbgc_raw_memory_pointer(ptr)){
+	// 	set_raw_memory_gc_white(ptr);
+	// 	//add to free list
+	// 	return;
+	// }
+	//set_gc_white((struct fbgc_object*)ptr);
 	//push_back_fbgc_vector(&fbgc_memb.free_list,ptr);
 }
 
@@ -398,16 +477,6 @@ uint32_t capacity_fbgc_raw_memory(void * ptr,size_t block_size){
 
 
 //####################    Garbage Collector   ####################################
-
-static struct fbgc_garbage_collector fbgc_gc = {
-	.threshold = 1000,
-	.cycle = 0,
-	.stack_bottom = NULL,
-	.state = GC_STATE_NOT_INITIALIZED,
-	.pools_scan_finished = false,
-	.cstack_scan_finished = false,
-	.free_list_is_ready = false,
-};
 
 static void claim_fbgc_object_and_arrange_free_list(struct fbgc_object * ptr);
 static void claim_fbgc_raw_memory_and_arrange_free_list(struct fbgc_raw_memory * rb);
@@ -514,15 +583,22 @@ static void internal_fbgc_gc_trace_stack(void){
 		bos = tos;
 		tos = temp;
 	}
-    for(char * p = (char*) tos ; p <= (char*) bos - sizeof(void*); ) {
+	char * p = (char*) tos;
+	while(p <= ((char*) bos - sizeof(void*))){
         //printf("Data adr : maybe %p\n",p);
         void * data_maybe = *(void **)p;
         if(data_maybe) {
 			//cprintf(011,"Data maybe %p \n",data_maybe);
 			if(is_fbgc_raw_memory_pointer(data_maybe)){
 				FBGC_LOGV(MEMORY,"Raw memory found :%p\n",data_maybe);
-				struct fbgc_raw_memory * rb = cast_from_raw_memory_data_to_raw_memory(data_maybe);
-				claim_fbgc_raw_memory_and_arrange_free_list(rb);
+				if(check_pointer_align_in_raw_memory_pool(data_maybe)){
+					struct fbgc_raw_memory * rb = cast_from_raw_memory_data_to_raw_memory(data_maybe);
+					claim_fbgc_raw_memory_and_arrange_free_list(rb);
+				}
+				else{
+					FBGC_LOGV(MEMORY,"Alignment problem, this is a bug!!\n");
+				}
+				
 			}
 			else if(is_fbgc_object_pointer(data_maybe)){
 				FBGC_LOGV(MEMORY,"Object found :%p\n",data_maybe);
@@ -532,6 +608,7 @@ static void internal_fbgc_gc_trace_stack(void){
 			//Most of the time we have the else situation
         }
 		++p;
+		//p += sizeof(void*);
     }
 	fbgc_gc.cstack_scan_finished = true;
 }
@@ -540,9 +617,9 @@ static void fbgc_gc_trace_cstack(){
 	//Dump registers into stack
 	void (*volatile _mark_stack)(void) = internal_fbgc_gc_trace_stack;
 	// Dumping registers creates bugs in the memory..
-    jmp_buf ctx;
-    memset(&ctx, 0, sizeof(jmp_buf));
-    setjmp(ctx);
+    jmp_buf myjump;
+    memset(&myjump, 0, sizeof(jmp_buf));
+    setjmp(myjump);
     _mark_stack();	
 }
 
@@ -574,10 +651,10 @@ static void fbgc_gc_trace_pools(){
 	struct fbgc_queue * queue = &(fbgc_gc.tpe_queue);
 
 	while(!is_empty_fbgc_queue(queue)){
-		if(fbgc_gc.cycle >= fbgc_gc.threshold){
-			//set cycle to zero, we finished this marking phase, next phase will start where we left from
-			FBGC_LOGD(MEMORY,"Phase is finished, erasing GC cycle\n");
-			fbgc_gc.cycle = 0;
+		if(fbgc_gc.cycle == 0){
+			//This scan phase is finished because of the cycle counter, we just return and wait for the next run
+			FBGC_LOGD(MEMORY,"Phase is finished, gc cycle is zero\n");
+			FBGC_LOGD(MEMORY,"Pending queue size %ld\n",size_fbgc_queue(queue));
 			break; //Break the queue loop we just finished this phase of scanning traces
 		}
 		FBGC_LOGD(MEMORY,"Pending queue is not empty!\n");
@@ -591,7 +668,7 @@ static void fbgc_gc_trace_pools(){
 			tpe_end = (uint8_t*)tpe->base_ptr + size_of_fbgc_object(obj) * tpe->block_size;
 			FBGC_LOGV(MEMORY,"Founded ptr %p is in object pool\n",tpe->tptr);
 			do{
-				++fbgc_gc.cycle;
+				--fbgc_gc.cycle;
 				//Instead of calling gc_gray(obj) claim object as owned by root and let the free list be changed
 				claim_fbgc_object_and_arrange_free_list(obj);
 				gc_mark_fbgc_object(obj); //Allow object to put its own references to the queue (if object has no mark function throws no error!)
@@ -602,7 +679,7 @@ static void fbgc_gc_trace_pools(){
 					pop_fbgc_queue(queue); 
 					break; //Break the cycle loop and check for a new queue item
 				}
-			}while(fbgc_gc.cycle < fbgc_gc.threshold);
+			}while(fbgc_gc.cycle);
 		}
 		else if(is_fbgc_raw_memory_pointer(tpe->base_ptr)){
 			struct fbgc_raw_memory * rb = (struct fbgc_raw_memory *)tpe->base_ptr;
@@ -611,7 +688,7 @@ static void fbgc_gc_trace_pools(){
 			do{
 				//That is OK, pointer could be NULL, just shift and look for the new references
 				if(tpe->tptr != NULL){
-					++fbgc_gc.cycle;
+					--fbgc_gc.cycle;
 					claim_fbgc_raw_memory_and_arrange_free_list(rb);
 					
 					void * ptr = *(void **)tpe->tptr; //We will dereference this pointer and check its location
@@ -640,7 +717,7 @@ static void fbgc_gc_trace_pools(){
 					pop_fbgc_queue(queue);
 					break; //Break the cycle loop and check for a new queue item
 				}
-			}while(fbgc_gc.cycle < fbgc_gc.threshold);
+			}while(fbgc_gc.cycle);
 		}
 	}
 
@@ -702,17 +779,20 @@ void fbgc_gc_mark_pointer(void * base_ptr, size_t block_size){
 // }
 
 
-void fbgc_gc_run(){
-	
+void fbgc_gc_run(size_t run_cycle){
+
+	if(!fbgc_gc.cstack_scan_finished){
+		FBGC_LOGD(MEMORY,"Starting ctack scanning.\n");
+		fbgc_gc_trace_cstack();
+	}	
 	if(!fbgc_gc.pools_scan_finished){
 		FBGC_LOGD(MEMORY,"Starting pool scanning.\n");
+		if(run_cycle > fbgc_gc.max_cycle)
+			run_cycle = fbgc_gc.max_cycle;
+		fbgc_gc.cycle = run_cycle;
 		fbgc_gc_trace_pools();
 	}
-	if(fbgc_gc.pools_scan_finished){
-		FBGC_LOGD(MEMORY,"Starting ctack scanning.\n");
-		fbgc_gc.cstack_scan_finished = false;
-		fbgc_gc_trace_cstack();
-	}
+
 	if(fbgc_gc.pools_scan_finished && fbgc_gc.cstack_scan_finished){
 		fbgc_gc.free_list_is_ready = true;
 		FBGC_LOGV(MEMORY,"Dumping info of free lists\n");
@@ -785,7 +865,7 @@ void print_fbgc_memory_raw_memory(){
 			
 	   		struct fbgc_raw_memory * ptr = (struct fbgc_raw_memory*)where;
 
-			cprintf(101,"Chunk byte size:%ld , color:%d\n",ptr->capacity,ptr->mark_bit);
+			cprintf(101,"Chunk byte size:%ld\n",ptr->capacity);
 			
 			long end = ptr->capacity+sizeof(struct fbgc_raw_memory);
 			long lastj = j;

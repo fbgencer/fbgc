@@ -720,16 +720,22 @@ int main(int argc, char const *argv[]){
 	struct fbgc_object * a6 = new_fbgc_int_object(50);
 	struct fbgc_object * a7 = new_fbgc_str_object("fbgencer :)");
 
-	// int * myptr = fbgc_malloc(sizeof(int)*10);
-	// int * i1 = fbgc_malloc(sizeof(int));	*i1 = 10;
-	// int * i2 = fbgc_malloc(sizeof(int));	*i2 = -230;
-	// int * i3 = fbgc_malloc(sizeof(int));	*i3 = 0xFB6C;
-	// int * i4 = fbgc_malloc(sizeof(int));	*i4 = 0xFB62;
-	// int * i5 = fbgc_malloc(sizeof(int)*5);
-	// for (size_t i = 0; i < 10; i++){
-	// 	myptr[i] = i*2;
-	// }
+	int * myptr = fbgc_malloc(sizeof(int)*10);
+	int * i1 = fbgc_malloc(sizeof(int));	*i1 = 10;
+	int * i2 = fbgc_malloc(sizeof(int));	*i2 = -230;
+	int * i3 = fbgc_malloc(sizeof(int));	*i3 = 0xFB6C;
+	int * i4 = fbgc_malloc(sizeof(int));	*i4 = 0xFB62;
+	//int * i5 = fbgc_malloc(sizeof(int)*5);
+	for (size_t i = 0; i < 10; i++){
+		myptr[i] = i*2;
+	}
 	
+	printf("myptr %p\n",myptr);
+	printf("i1 %p\n",i1);
+	printf("i2 %p\n",i2);
+	printf("i3 %p\n",i3);
+	printf("i4 %p\n",i4);
+
 
 	push_back_fbgc_tuple_object(tuple,a7);
 	
@@ -739,7 +745,10 @@ int main(int argc, char const *argv[]){
 	// push_into_object_free_list(a1);
 	// push_into_object_free_list(a3);
 	// push_into_object_free_list(a5);
-	fbgc_gc_run();
+	fbgc_gc_run(3);
+	fbgc_gc_run(3);
+	fbgc_gc_run(3);
+	fbgc_gc_run(3);
 
 	printf_fbgc_object(a1); printf("\n");
 	//printf_fbgc_object(a2); printf("\n");
@@ -748,8 +757,9 @@ int main(int argc, char const *argv[]){
 	printf_fbgc_object(a5); printf("\n");
 	//printf_fbgc_object(a6); printf("\n");
 	//printf_fbgc_object(a7); printf("\n");
-	//printf("i1:%d\n",*i1);
-	//printf("i3:%d\n",*i3);
+	printf("i1:%d\n",*i1);
+	printf("i3:%d\n",*i3);
+
 
 
 	// for (size_t i = 0; i < 10; i++){
@@ -757,7 +767,17 @@ int main(int argc, char const *argv[]){
 	// }
 	
 	printf_fbgc_object(tuple); printf("\n");
-	
+	// print_fbgc_memory_block();
+	// struct fbgc_object * den = new_fbgc_int_object(255);
+	// struct fbgc_object * den2 = new_fbgc_int_object(254);
+	// struct fbgc_object * den3 = new_fbgc_int_object(253);
+	// struct fbgc_object * st = new_fbgc_str_object("fbge");
+	// printf_fbgc_object(den); printf("\n");
+	// printf_fbgc_object(den2); printf("\n");
+	// printf_fbgc_object(den3); printf("\n");
+	// printf_fbgc_object(st); printf("\n");
+	// print_fbgc_memory_block();
+
 	
 
 	

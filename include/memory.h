@@ -35,7 +35,7 @@ extern "C" {
     \brief fbgc default object pool size in terms of bytes before compilation of the program, this parameter must be changed for different platforms depends on the memory of the system
 	\details If the requested memory is bigger than the default pool size, new pools have size by the integer multiplication of the default pool size
 */
-#define FBGC_DEFAULT_RAW_MEMORY_POOL_SIZE  2*KILOBYTE
+#define FBGC_DEFAULT_RAW_MEMORY_POOL_SIZE  10*KILOBYTE
 
 /*! @def FBGC_STATIC_INTERNAL_MEMORY_SIZE
     \brief fbgc static internal memory size in bytes. 
@@ -149,6 +149,12 @@ void print_fbgc_memory_block();
 uint32_t capacity_fbgc_raw_memory(void * ptr,size_t block_size);
 
 
+#define	FBGC_MALLOC_OPTIMIZATION_NONE 	0x00
+#define	FBGC_MALLOC_OPTIMIZATION_FOR_MEMORY 0x01
+#define	FBGC_MALLOC_OPTIMIZATION_FOR_SPEED 	0x02
+#define	FBGC_MALLOC_OPTIMIZATION_MEMORY_AND_SPEED 0x01 | 0x02
+
+
 struct __fbgc_mem_free_list_entry{
 	void * start;
 	void * end;
@@ -180,8 +186,10 @@ typedef enum {
 	GC_STATE_STOPPED
 }GC_STATES;
 
+#define FBGC_GC_MAXIMUM_CYCLE 100
+
 struct fbgc_garbage_collector{
-	size_t threshold;
+	size_t max_cycle;
 	size_t cycle;
 	//uint8_t * last_location;
 	void * stack_bottom;
@@ -220,7 +228,7 @@ struct fbgc_garbage_collector{
 
 void fbgc_gc_mark_pointer(void * base_ptr, size_t block_size);
 void fbgc_gc_init(struct fbgc_object * root,void * stack_bottom);
-void fbgc_gc_run();
+void fbgc_gc_run(size_t run_cycle);
 
 
 #ifdef LOG_MEMORY
