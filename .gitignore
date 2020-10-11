@@ -45,7 +45,8 @@
 *.idb
 *.pdb
 
-*.vscode
+.vscode/
+settings.json
 
 # Kernel Module Compile Results
 *.mod*
@@ -59,14 +60,14 @@ dkms.conf
 
 fbgc
 
-*CMakeLists.txt.user
-*CMakeCache.txt
-*CMakeFiles
-*CMakeScripts
-*Testing
-*Makefile
-*cmake_install.cmake
-*install_manifest.txt
-*compile_commands.json
-*CTestTestfile.cmake
-*_deps
+CMakeLists.txt.user
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Testing
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps
