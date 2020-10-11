@@ -327,7 +327,6 @@ static void * _fbgc_malloc_from_raw_memory_pool(size_t size){
 			rb->capacity = size;
 			//memory is available, give it and shift tptr
 			pool->tptr += requested_size;
-			_FBGC_LOGV(MEMORY,"Returning raw memory :%p",rb->data);
 			return rb->data;
 		}
 		//iterate through the chunks
@@ -506,8 +505,7 @@ static void claim_pointer_and_arrange_free_list(struct fbgc_vector * v, void * p
 
 	//@TODO if free list_entry size is zero we cannot remove it..
 	uint8_t * p1 = (uint8_t*)ptr, * p2 = (uint8_t*) ptr+size;
-	_FBGC_LOGV(MEMORY,"Incoming p1:%p|p2:%p|sz:%ld\n",p1,p2,size);
-	FBGC_LOGV(MEMORY,"Free list size :%ld\n",size_fbgc_vector(v));
+	FBGC_LOGV(MEMORY,"Claimed pointer{%p:%p}:%ld\n",p1,p2,size);
 
 
 	for(size_t i = 0; i<size_fbgc_vector(v); ++i){
@@ -515,7 +513,7 @@ static void claim_pointer_and_arrange_free_list(struct fbgc_vector * v, void * p
 		if(fle->size == 0) continue; //Remove this we do not need to check size==0, they must be removed!!!
 		
 		bool add_sector = ((uint8_t*)fle->start < p1) && ((uint8_t*)fle->end>p2);
-		FBGC_LOGD(MEMORY,"[%lu] fle->start:%p, fle->end:%p,add_sector = %d\n",i,fle->start,fle->end,add_sector);
+		//FBGC_LOGD(MEMORY,"[%lu] fle->start:%p, fle->end:%p,add_sector = %d\n",i,fle->start,fle->end,add_sector);
 		if(add_sector){
 			void * old_fle_end = fle->end;
 			fle->end = p1;
@@ -533,13 +531,13 @@ static void claim_pointer_and_arrange_free_list(struct fbgc_vector * v, void * p
 		else if(fle->start == p1){
 			fle->start = p2;
 			fle->size = (uint8_t*)fle->end-(uint8_t*)fle->start;
-			printf("Updating sector to p2 size %lu\n",fle->size);
+			cprintf(010,"Updating sector to p2 size %lu\n",fle->size);
 			break;
 		}
 		else if(fle->end == p2){
 			fle->end = p1;
 			fle->size = (uint8_t*)fle->end-(uint8_t*)fle->start;
-			printf("Updating sector to p1 size %lu\n",fle->size);
+			cprintf(010,"Updating sector to p1 size %lu\n",fle->size);
 			break;
 		}
 	}
@@ -668,13 +666,13 @@ static void fbgc_gc_trace_pools(){
 			tpe_end = (uint8_t*)tpe->base_ptr + size_of_fbgc_object(obj) * tpe->block_size;
 			FBGC_LOGV(MEMORY,"Founded ptr %p is in object pool\n",tpe->tptr);
 			do{
-				--fbgc_gc.cycle;
+				--fbgc_gc.cycle; _FBGC_LOGV(MEMORY,"--cycle\n");
 				//Instead of calling gc_gray(obj) claim object as owned by root and let the free list be changed
 				claim_fbgc_object_and_arrange_free_list(obj);
 				gc_mark_fbgc_object(obj); //Allow object to put its own references to the queue (if object has no mark function throws no error!)
 				tpe->tptr += size_of_fbgc_object(obj);
 				if(tpe->tptr >= tpe_end){
-					FBGC_LOGV(MEMORY,"End of object:%p\n",tpe->base_ptr);
+					FBGC_LOGV(MEMORY,"End of object:%p, popping from the queue\n",tpe->base_ptr);
 					//We have finished this object remove the object from the queue
 					pop_fbgc_queue(queue); 
 					break; //Break the cycle loop and check for a new queue item
@@ -683,18 +681,19 @@ static void fbgc_gc_trace_pools(){
 		}
 		else if(is_fbgc_raw_memory_pointer(tpe->base_ptr)){
 			struct fbgc_raw_memory * rb = (struct fbgc_raw_memory *)tpe->base_ptr;
-			tpe_end = (uint8_t*)tpe->base_ptr + rb->capacity;
-			FBGC_LOGV(MEMORY,"Founded ptr %p is in raw_memory pool\n",tpe->tptr);
+			FBGC_LOGV(MEMORY,"Founded ptr %p is in raw_memory pool | finishes at %p\n",tpe->base_ptr,tpe_end);
+			tpe_end = (uint8_t*)tpe->base_ptr + rb->capacity + sizeof(struct fbgc_raw_memory);
+			claim_fbgc_raw_memory_and_arrange_free_list(rb);
 			do{
+				FBGC_LOGV(MEMORY,"Traveler ptr %p | %p\n",tpe->tptr,tpe_end);
 				//That is OK, pointer could be NULL, just shift and look for the new references
 				if(tpe->tptr != NULL){
-					--fbgc_gc.cycle;
-					claim_fbgc_raw_memory_and_arrange_free_list(rb);
-					
+					--fbgc_gc.cycle; _FBGC_LOGV(MEMORY,"--cycle\n");
 					void * ptr = *(void **)tpe->tptr; //We will dereference this pointer and check its location
 					FBGC_LOGV(MEMORY,"Dereferencing tpe ptr : %p, to %p\n",tpe->tptr,ptr);
 					//So this pointer where does it live ?
 					if(is_fbgc_object_pointer(ptr)){
+						FBGC_LOGV(MEMORY,"Raw buffer has reference to fbgc_object %p\n",ptr);
 						//So situation 3) arises here, internal buffer holds reference to fbgc object
 						struct fbgc_object * object = (struct fbgc_object *) ptr;
 						if(object != NULL){
@@ -703,6 +702,7 @@ static void fbgc_gc_trace_pools(){
 						}
 					}
 					else if(is_fbgc_raw_memory_pointer(ptr)){
+						FBGC_LOGV(MEMORY,"Raw buffer has reference to raw_buffer %p\n",ptr);
 						//So situation 4) arises here, internal buffer holds reference to another pointer
 						//HOWEVER this could be a misunderstanding and we just referenced a data : conservative gc approach
 						//Not implemented yet!
@@ -711,8 +711,9 @@ static void fbgc_gc_trace_pools(){
 					}
 				}
 				tpe->tptr += tpe->block_size;
+				FBGC_LOGV(MEMORY,"Traveler ptr %p is iterated\n",tpe->tptr);
 				if(tpe->tptr >= tpe_end){
-					FBGC_LOGV(MEMORY,"End of object:%p\n",tpe->base_ptr);
+					FBGC_LOGV(MEMORY,"End of object:%p, popping from the queue\n",tpe->base_ptr);
 					//We have finished this buffer remove the buffer from the queue
 					pop_fbgc_queue(queue);
 					break; //Break the cycle loop and check for a new queue item
@@ -724,6 +725,7 @@ static void fbgc_gc_trace_pools(){
 	if(is_empty_fbgc_queue(queue)){
 		//So we scanned everything in the pools
 		fbgc_gc.pools_scan_finished = true;
+		FBGC_LOGV(MEMORY,"Left cycle %ld\n",fbgc_gc.cycle);
 	}
 }
 
@@ -733,6 +735,7 @@ void fbgc_gc_mark_pointer(void * base_ptr, size_t block_size){
 		FBGC_LOGE("GC not started\n");
 	}
 	struct traceable_pointer_entry tpe;
+
 	if(is_fbgc_raw_memory_pointer(base_ptr)){
 		tpe.base_ptr = cast_from_raw_memory_data_to_raw_memory(base_ptr);
 		tpe.tptr = (uint8_t*)base_ptr;
@@ -750,6 +753,13 @@ void fbgc_gc_mark_pointer(void * base_ptr, size_t block_size){
 	//We should put this in a queue to make marking at the next stages
 	//Checking gc first is trying not to overflow queue of pending pointers
 	
+
+	struct traceable_pointer_entry * tpe_front = front_fbgc_queue(&fbgc_gc.tpe_queue);
+	while(tpe_front != back_fbgc_queue(&fbgc_gc.tpe_queue)){
+		if(tpe_front->base_ptr == tpe.base_ptr) return;
+
+	}
+
 	push_fbgc_queue(&fbgc_gc.tpe_queue,&tpe);
 }
 
@@ -781,19 +791,24 @@ void fbgc_gc_mark_pointer(void * base_ptr, size_t block_size){
 
 void fbgc_gc_run(size_t run_cycle){
 
-	if(!fbgc_gc.cstack_scan_finished){
-		FBGC_LOGD(MEMORY,"Starting ctack scanning.\n");
-		fbgc_gc_trace_cstack();
-	}	
+	FBGC_LOGV(MEMORY,"---------Garbage collector will start scanning cycle:%ld--------\n\n",run_cycle);
+
+	// if(!fbgc_gc.cstack_scan_finished){
+	// 	FBGC_LOGD(MEMORY,"Starting ctack scanning.\n");
+	// 	fbgc_gc_trace_cstack();
+	// }	
 	if(!fbgc_gc.pools_scan_finished){
-		FBGC_LOGD(MEMORY,"Starting pool scanning.\n");
+		FBGC_LOGD(MEMORY,"\n........Starting ctack scanning.........\n");
+		fbgc_gc_trace_cstack();
+		FBGC_LOGD(MEMORY,"\n........Starting pool scanning.........\n");
 		if(run_cycle > fbgc_gc.max_cycle)
 			run_cycle = fbgc_gc.max_cycle;
 		fbgc_gc.cycle = run_cycle;
 		fbgc_gc_trace_pools();
+		//If we cannot finish the scanning of heap we cannot trust old stack scan, we need to scan it always
 	}
-
-	if(fbgc_gc.pools_scan_finished && fbgc_gc.cstack_scan_finished){
+	//&& fbgc_gc.cstack_scan_finished
+	if(fbgc_gc.pools_scan_finished){
 		fbgc_gc.free_list_is_ready = true;
 		FBGC_LOGV(MEMORY,"Dumping info of free lists\n");
 		FBGC_LOGV(MEMORY,"Object list\n");

@@ -47,6 +47,7 @@ void pop_fbgc_queue(struct fbgc_queue * queue);
 void pop_front_fbgc_queue(struct fbgc_queue * queue);
 void swap_with_another_queue_fbgc_queue(struct fbgc_queue * self,struct fbgc_queue * queue2 );
 
+bool iterator_fbgc_queue_front_to_back(struct fbgc_queue * queue, void ** it);
 
 #ifdef  __cplusplus
 }

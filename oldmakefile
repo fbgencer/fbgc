@@ -1,7 +1,7 @@
 #fbgc makefile, written by fbgencer
 #In order to compile normal fbgc just write "make"
 
-SRC = $(shell find src/*.c cmodules/*.c)
+SRC = $(shell find ./*.c src/*.c cmodules/*.c)
 OBJ = ${SRC:.c=.o}
 DEPS = $(OBJ:.o=.d)
 INC = /include #$(shell find include/)
@@ -56,7 +56,7 @@ CFLAGS += -DLOG_LINKEDLIST_
 CFLAGS += -DLOG_LOGIC_OBJECT_
 CFLAGS += -DLOG_MATRIX_OBJECT_
 CFLAGS += -DLOG_MAP_OBJECT_
-CFLAGS += -DLOG_MEMORY
+CFLAGS += -DLOG_MEMORY_
 CFLAGS += -DLOG_OPERATOR_
 CFLAGS += -DLOG_PARSER_
 CFLAGS += -DLOG_RANGE_OBJECT_

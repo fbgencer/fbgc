@@ -129,6 +129,31 @@ struct fbgc_queue * copy_queue_fbgc_queue(struct fbgc_queue * self){
 	return ret;
 }
 
+bool iterator_fbgc_queue_front_to_back(struct fbgc_queue * queue, void ** it){
+
+	printf("f:%p b:%p|*it:%p\n",front_fbgc_queue(queue),back_fbgc_queue(queue),*it);
+
+	if(it == NULL) return 0;
+	if(*it == NULL){
+		*it = queue->front;
+		return 1;
+	}
+	if(*it == back_fbgc_queue(queue))
+		return 0;
+
+	//Assuming it is already assigned
+	*it = (uint8_t*)*it + queue->block_size;
+	if(*it == get_queue_end(queue)){
+		*it = queue->content;
+	}
+
+	if(*it == back_fbgc_queue(queue))
+		return 0;
+	
+	return 1;
+}
+
+
 void queue_test(){
 
 	double arr[] = {3.123,50.23,20,30,40};

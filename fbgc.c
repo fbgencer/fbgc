@@ -12,9 +12,9 @@
 
 // You should have received a copy of the GNU General Public License
 // along with fbgc.  If not, see <https://www.gnu.org/licenses/>.
-#include "fbgc.h"
 
-#include "../cmodules/cmodules.h"
+#include "fbgc.h"
+#include "cmodules.h"
 
 //Forward declarations
 void print_logo();
@@ -704,6 +704,7 @@ int main(int argc, char const *argv[]){
 	initialize_fbgc_memory_block();
 	struct fbgc_object * tuple = new_fbgc_tuple_object(4);
 	fbgc_gc_init(NULL,__builtin_frame_address(0));
+	
 
 	//initialize_fbgc_symbol_table();
 	//current_field = new_fbgc_field(2,&_fbgc_io_property_holder,&_fbgc_stl_property_holder);
@@ -746,9 +747,7 @@ int main(int argc, char const *argv[]){
 	// push_into_object_free_list(a3);
 	// push_into_object_free_list(a5);
 	fbgc_gc_run(3);
-	fbgc_gc_run(3);
-	fbgc_gc_run(3);
-	fbgc_gc_run(3);
+	fbgc_gc_run(2);
 
 	printf_fbgc_object(a1); printf("\n");
 	//printf_fbgc_object(a2); printf("\n");
@@ -762,11 +761,11 @@ int main(int argc, char const *argv[]){
 
 
 
-	// for (size_t i = 0; i < 10; i++){
-	// 	printf("myptr[%ld]:%d\n",i,myptr[i]);
-	// }
+	// // for (size_t i = 0; i < 10; i++){
+	// // 	printf("myptr[%ld]:%d\n",i,myptr[i]);
+	// // }
 	
-	printf_fbgc_object(tuple); printf("\n");
+	// printf_fbgc_object(tuple); printf("\n");
 	// print_fbgc_memory_block();
 	// struct fbgc_object * den = new_fbgc_int_object(255);
 	// struct fbgc_object * den2 = new_fbgc_int_object(254);
