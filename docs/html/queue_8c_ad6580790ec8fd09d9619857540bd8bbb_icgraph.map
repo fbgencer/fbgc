@@ -1,6 +1,0 @@
-<map id="is_full_fbgc_queue" name="is_full_fbgc_queue">
-<area shape="rect" id="node2" href="$queue_8c.html#a5f7328e47a0fe74bd39b7c5922f12587" title="push_back_fbgc_queue" alt="" coords="184,31,343,57"/>
-<area shape="rect" id="node3" href="$queue_8c.html#ab37cb1f9e74ba89d507258e1948b7f07" title="push_fbgc_queue" alt="" coords="391,31,515,57"/>
-<area shape="rect" id="node4" href="$memory_8c.html#af42994e853e4792f2a4bfe9a92e709d0" title="fbgc_gc_mark_pointer" alt="" coords="563,5,713,32"/>
-<area shape="rect" id="node5" href="$queue_8c.html#a831ded10ecad88c14a8e22b96f4c1863" title="queue_test" alt="" coords="595,56,681,83"/>
-</map>

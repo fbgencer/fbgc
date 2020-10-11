@@ -1,5 +1,0 @@
-<map id="return_fbgc_object_operator_helper_logic" name="return_fbgc_object_operator_helper_logic">
-<area shape="rect" id="node2" href="$logic__object_8c.html#a11def1f376b697a7229879ad4222afab" title="new_fbgc_logic_object" alt="" coords="205,13,360,39"/>
-<area shape="rect" id="node3" href="$memory_8c.html#a41dd65ee24d51160659bf94bed90e998" title="fbgc_malloc" alt="" coords="408,13,500,39"/>
-<area shape="rect" id="node4" href="$error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="548,13,607,39"/>
-</map>

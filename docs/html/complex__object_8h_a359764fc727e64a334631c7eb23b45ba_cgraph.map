@@ -1,8 +1,0 @@
-<map id="operator_fbgc_complex_object" name="operator_fbgc_complex_object">
-<area shape="rect" id="node2" href="$fbgc__object_8c.html#a5a9cf786785f00ec159d2845dc49f99c" title="convert_fbgc_object\l_to_complex" alt="" coords="629,5,768,47"/>
-<area shape="rect" id="node4" href="$complex__object_8c.html#a0944ac45cebf69162b5664a88bd9caef" title="operator_method_raw\l_complex" alt="" coords="211,64,357,105"/>
-<area shape="rect" id="node3" href="$error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="816,42,875,69"/>
-<area shape="rect" id="node5" href="$logic__object_8c.html#a11def1f376b697a7229879ad4222afab" title="new_fbgc_logic_object" alt="" coords="416,67,571,94"/>
-<area shape="rect" id="node7" href="$complex__object_8c.html#aaa211012c5583b4c23ebcc4824fbc504" title="new_fbgc_complex_object" alt="" coords="405,118,581,145"/>
-<area shape="rect" id="node6" href="$memory_8c.html#a41dd65ee24d51160659bf94bed90e998" title="fbgc_malloc" alt="" coords="653,71,745,98"/>
-</map>

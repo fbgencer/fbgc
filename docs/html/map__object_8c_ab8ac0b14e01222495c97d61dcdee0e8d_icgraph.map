@@ -1,8 +1,0 @@
-<map id="fbgc_map_object_get_key_index_str" name="fbgc_map_object_get_key_index_str">
-<area shape="rect" id="node2" href="$class__object_8c.html#aa9a032f084d8000eaa242d8fac058b46" title="get_set_fbgc_instance\l_object_member" alt="" coords="200,104,353,145"/>
-<area shape="rect" id="node3" href="$class__object_8c.html#a209f1bed3d35dc6a56f929191bab6baf" title="get_overloaded_member" alt="" coords="401,111,565,138"/>
-<area shape="rect" id="node4" href="$class__object_8c.html#a9e16ab772b9f1e0e9b201c7ae7975ee4" title="operator_fbgc_instance\l_object" alt="" coords="622,5,779,47"/>
-<area shape="rect" id="node5" href="$class__object_8c.html#ab5ab4859ce82fab98281a60feae683cf" title="subscript_operator\l_fbgc_instance_object" alt="" coords="625,71,777,112"/>
-<area shape="rect" id="node6" href="$class__object_8c.html#aaaf99e7bf52215f441cf0071bc7614b0" title="subscript_assign_operator\l_fbgc_instance_object" alt="" coords="613,136,788,177"/>
-<area shape="rect" id="node7" href="$class__object_8c.html#ac4a3f951a94ea6c43c0c9d463a469f5c" title="print_fbgc_instance\l_object" alt="" coords="633,201,768,243"/>
-</map>

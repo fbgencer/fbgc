@@ -1,6 +1,0 @@
-<map id="hard_shrink_to_fit_fbgc_vector" name="hard_shrink_to_fit_fbgc_vector">
-<area shape="rect" id="node2" href="$vector_8c.html#aff953799eeca61908193cb16af528bc3" title="capacity_fbgc_vector" alt="" coords="179,5,325,32"/>
-<area shape="rect" id="node3" href="$memory_8c.html#a46dcfb44df5cac4f04145f1aa208fb9f" title="fbgc_realloc" alt="" coords="206,56,298,83"/>
-<area shape="rect" id="node4" href="$memory_8c.html#a76a1e9664316b52338491e7b3c1d58dd" title="fbgc_malloc" alt="" coords="373,31,465,57"/>
-<area shape="rect" id="node5" href="$memory_8c.html#a45d076e11af8d11bd73f6529582edbef" title="fbgc_free" alt="" coords="381,81,457,108"/>
-</map>

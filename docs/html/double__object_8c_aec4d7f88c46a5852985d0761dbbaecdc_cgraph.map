@@ -1,5 +1,0 @@
-<map id="operator_method_double" name="operator_method_double">
-<area shape="rect" id="node2" href="$logic__object_8c.html#a11def1f376b697a7229879ad4222afab" title="new_fbgc_logic_object" alt="" coords="223,5,377,32"/>
-<area shape="rect" id="node3" href="$double__object_8c.html#a08dd93b8f6c56cf7cb6210b63c29dbaf" title="new_fbgc_double_object" alt="" coords="217,56,383,83"/>
-<area shape="rect" id="node4" href="$memory_8c.html#aa844eac7bc0bc2ffa7f4a41e710e3b7d" title="fbgc_malloc_object" alt="" coords="431,56,565,83"/>
-</map>

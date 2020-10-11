@@ -1,6 +1,0 @@
-<map id="init_static_fbgc_queue" name="init_static_fbgc_queue">
-<area shape="rect" id="node2" href="$queue_8c.html#a3981e03384062180a3ff231bd1d0178e" title="new_fbgc_queue" alt="" coords="219,5,339,32"/>
-<area shape="rect" id="node4" href="$queue_8c.html#ab93359c6f855edfb80c19ee466a577ac" title="from_array_new_fbgc\l_queue" alt="" coords="205,57,352,98"/>
-<area shape="rect" id="node3" href="$queue_8c.html#acab32db01004f523b9c4d2a42056e735" title="copy_queue_fbgc_queue" alt="" coords="400,5,567,32"/>
-<area shape="rect" id="node5" href="$queue_8c.html#a831ded10ecad88c14a8e22b96f4c1863" title="queue_test" alt="" coords="440,64,527,91"/>
-</map>

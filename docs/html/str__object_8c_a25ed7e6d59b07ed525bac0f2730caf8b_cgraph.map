@@ -1,5 +1,0 @@
-<map id="get_object_in_fbgc_str_object" name="get_object_in_fbgc_str_object">
-<area shape="rect" id="node2" href="$str__object_8c.html#a10dc328b6c0acce9d2c416eeffd521db" title="handle_str_index" alt="" coords="195,5,315,32"/>
-<area shape="rect" id="node3" href="$str__object_8c.html#acb52d0d5127ded9fbb7718d6b6d13d28" title="new_fbgc_str_object\l_from_substr" alt="" coords="184,57,327,98"/>
-<area shape="rect" id="node4" href="$memory_8c.html#aa844eac7bc0bc2ffa7f4a41e710e3b7d" title="fbgc_malloc_object" alt="" coords="375,64,509,91"/>
-</map>

@@ -1,6 +1,0 @@
-<map id="fast_multiply_fbgc_matrix_object" name="fast_multiply_fbgc_matrix_object">
-<area shape="rect" id="node2" href="$error_8c.html#adc20185f5574cf02856d5b7372d40f62" title="cprintf" alt="" coords="229,5,288,32"/>
-<area shape="rect" id="node3" href="$matrix__object_8c.html#aa855543d4a0b84619248fdce7dc1c763" title="new_fbgc_matrix_object" alt="" coords="384,85,547,112"/>
-<area shape="rect" id="node5" href="$matrix__object_8c.html#a3b38131de55f1ba36877d8118c0e6e6a" title="transpose_fbgc_matrix\l_object" alt="" coords="181,107,336,149"/>
-<area shape="rect" id="node4" href="$memory_8c.html#aa844eac7bc0bc2ffa7f4a41e710e3b7d" title="fbgc_malloc_object" alt="" coords="595,85,729,112"/>
-</map>

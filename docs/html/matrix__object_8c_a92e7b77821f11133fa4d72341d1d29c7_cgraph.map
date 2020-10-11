@@ -1,5 +1,0 @@
-<map id="get_object_in_fbgc_matrix_object" name="get_object_in_fbgc_matrix_object">
-<area shape="rect" id="node2" href="$complex__object_8c.html#aaa211012c5583b4c23ebcc4824fbc504" title="new_fbgc_complex_object" alt="" coords="184,5,360,32"/>
-<area shape="rect" id="node4" href="$double__object_8c.html#a08dd93b8f6c56cf7cb6210b63c29dbaf" title="new_fbgc_double_object" alt="" coords="189,56,355,83"/>
-<area shape="rect" id="node3" href="$memory_8c.html#aa844eac7bc0bc2ffa7f4a41e710e3b7d" title="fbgc_malloc_object" alt="" coords="408,31,543,57"/>
-</map>

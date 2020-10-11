@@ -1,9 +1,0 @@
-<map id="one_arg_math" name="one_arg_math">
-<area shape="rect" id="node2" href="$fbgc_8c.html#aea79adfa28834b981f1ca6ad13acebf2" title="parse_tuple_content" alt="" coords="176,5,315,32"/>
-<area shape="rect" id="node3" href="$fbgc__object_8c.html#a3bb27f7967c007951389378fc9f358e3" title="convert_fbgc_object\l_to_double" alt="" coords="176,57,315,98"/>
-<area shape="rect" id="node5" href="$double__object_8c.html#a08dd93b8f6c56cf7cb6210b63c29dbaf" title="new_fbgc_double_object" alt="" coords="163,188,328,215"/>
-<area shape="rect" id="node7" href="$fbgc__object_8c.html#a5a9cf786785f00ec159d2845dc49f99c" title="convert_fbgc_object\l_to_complex" alt="" coords="176,122,315,163"/>
-<area shape="rect" id="node8" href="$complex__object_8c.html#aaa211012c5583b4c23ebcc4824fbc504" title="new_fbgc_complex_object" alt="" coords="157,239,333,265"/>
-<area shape="rect" id="node4" href="$error_8c.html#adc20185f5574cf02856d5b7372d40f62" title="cprintf" alt="" coords="419,97,478,124"/>
-<area shape="rect" id="node6" href="$memory_8c.html#aa844eac7bc0bc2ffa7f4a41e710e3b7d" title="fbgc_malloc_object" alt="" coords="381,213,516,240"/>
-</map>
