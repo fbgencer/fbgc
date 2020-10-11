@@ -83,12 +83,10 @@ Collaboration diagram for fbgc_tuple_object:</div>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a3ea3c5e7f8102e8b0bda00e0931e5fe8"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__object.html">fbgc_object</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfbgc__tuple__object.html#a3ea3c5e7f8102e8b0bda00e0931e5fe8">base</a></td></tr>
 <tr class="separator:a3ea3c5e7f8102e8b0bda00e0931e5fe8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a216ec53e33e224f0c2aa1b0e0b7ed714"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfbgc__tuple__object.html#a216ec53e33e224f0c2aa1b0e0b7ed714">capacity</a></td></tr>
-<tr class="separator:a216ec53e33e224f0c2aa1b0e0b7ed714"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af01be64362503bcfe1d7e9c3fc779723"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfbgc__tuple__object.html#af01be64362503bcfe1d7e9c3fc779723">size</a></td></tr>
 <tr class="separator:af01be64362503bcfe1d7e9c3fc779723"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac5777932c938768141bb19c073c4f84a"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfbgc__tuple__object.html#ac5777932c938768141bb19c073c4f84a">content</a> [0]</td></tr>
-<tr class="separator:ac5777932c938768141bb19c073c4f84a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9848e93739df30922da6aa6bf37e9503"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfbgc__tuple__object.html#a9848e93739df30922da6aa6bf37e9503">content</a></td></tr>
+<tr class="separator:a9848e93739df30922da6aa6bf37e9503"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
@@ -110,35 +108,19 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a216ec53e33e224f0c2aa1b0e0b7ed714"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a216ec53e33e224f0c2aa1b0e0b7ed714">&#9670;&nbsp;</a></span>capacity</h2>
+<a id="a9848e93739df30922da6aa6bf37e9503"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9848e93739df30922da6aa6bf37e9503">&#9670;&nbsp;</a></span>content</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">size_t fbgc_tuple_object::capacity</td>
+          <td class="memname">struct <a class="el" href="structfbgc__object.html">fbgc_object</a>** fbgc_tuple_object::content</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tuple__object_8h_source.html#l00011">11</a> of file <a class="el" href="tuple__object_8h_source.html">tuple_object.h</a>.</p>
-
-</div>
-</div>
-<a id="ac5777932c938768141bb19c073c4f84a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac5777932c938768141bb19c073c4f84a">&#9670;&nbsp;</a></span>content</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">struct <a class="el" href="structfbgc__object.html">fbgc_object</a>* fbgc_tuple_object::content[0]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="tuple__object_8h_source.html#l00013">13</a> of file <a class="el" href="tuple__object_8h_source.html">tuple_object.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tuple__object_8h_source.html#l00012">12</a> of file <a class="el" href="tuple__object_8h_source.html">tuple_object.h</a>.</p>
 
 </div>
 </div>
@@ -154,12 +136,12 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tuple__object_8h_source.html#l00012">12</a> of file <a class="el" href="tuple__object_8h_source.html">tuple_object.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tuple__object_8h_source.html#l00011">11</a> of file <a class="el" href="tuple__object_8h_source.html">tuple_object.h</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>/home/fbgencer/fbgc/src/headers/<a class="el" href="tuple__object_8h_source.html">tuple_object.h</a></li>
+<li>/home/fbgencer/fbgc/include/<a class="el" href="tuple__object_8h_source.html">tuple_object.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

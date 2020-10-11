@@ -1,8 +1,13 @@
 var searchData=
 [
-  ['absolute_5ffbgc_5fcomplex_5fobject',['absolute_fbgc_complex_object',['../complex__object_8c.html#a2b095f2ea1da8b586a240853825b2dad',1,'complex_object.c']]],
+  ['abs_5foperator',['abs_operator',['../unionfbgc__object__property__holder_1_1__properties.html#ab744574e4d7e4056ba67f5a68c940afc',1,'fbgc_object_property_holder::_properties']]],
+  ['abs_5foperator_5ffbgc_5fint_5fobject',['abs_operator_fbgc_int_object',['../int__object_8c.html#ae0ff0ea3c5d1726e3c681582b86f2f49',1,'int_object.c']]],
+  ['abs_5foperator_5ffbgc_5fmatrix_5fobject',['abs_operator_fbgc_matrix_object',['../matrix__object_8c.html#ad9a177c9f6dd1b50fc1bd125f29306ef',1,'matrix_object.c']]],
+  ['abs_5foperator_5ffbgc_5fobject',['abs_operator_fbgc_object',['../fbgc__object_8c.html#a2bbda7a52d16a4bb5b579bb14e555dc7',1,'abs_operator_fbgc_object(struct fbgc_object *self):&#160;fbgc_object.c'],['../fbgc__object_8h.html#a2bbda7a52d16a4bb5b579bb14e555dc7',1,'abs_operator_fbgc_object(struct fbgc_object *self):&#160;fbgc_object.c']]],
+  ['abs_5foperator_5ffbgc_5fstr_5fobject',['abs_operator_fbgc_str_object',['../str__object_8c.html#afe6126b3b4860ce1c7b7aac9efc19bbd',1,'str_object.c']]],
+  ['abs_5foperator_5ffbgc_5ftuple_5fobject',['abs_operator_fbgc_tuple_object',['../tuple__object_8c.html#a8712ad96b903d3a47ee3a34f9157e50b',1,'tuple_object.c']]],
   ['add_5ffbgc_5ftuple_5fobject',['add_fbgc_tuple_object',['../tuple__object_8h.html#aa9f3fa07e94195a0b8bddb46d81bfd77',1,'tuple_object.h']]],
-  ['add_5fvariable_5fin_5ffield_5fobject',['add_variable_in_field_object',['../field__object_8c.html#a72a879327492fbbc87302acca2de4e5a',1,'add_variable_in_field_object(struct fbgc_object *field_obj, const char *var_name, struct fbgc_object *rhs):&#160;field_object.c'],['../field__object_8h.html#a72a879327492fbbc87302acca2de4e5a',1,'add_variable_in_field_object(struct fbgc_object *field_obj, const char *var_name, struct fbgc_object *rhs):&#160;field_object.c']]],
+  ['add_5fvariable_5fin_5ffield',['add_variable_in_field',['../field_8c.html#adfb9f29c382337902456f6c2bbc9b90c',1,'add_variable_in_field(struct fbgc_object *fobj, const char *var_name, struct fbgc_object *rhs):&#160;field.c'],['../field_8h.html#adfb9f29c382337902456f6c2bbc9b90c',1,'add_variable_in_field(struct fbgc_object *fobj, const char *var_name, struct fbgc_object *rhs):&#160;field.c']]],
   ['ampersand',['AMPERSAND',['../tokens_8h.html#a9722083131fd092341a2e456269319e5',1,'tokens.h']]],
   ['ansi_5fcolor_5fblack',['ANSI_COLOR_BLACK',['../error_8h.html#af5204e182e074b4c840671043c845e53',1,'error.h']]],
   ['ansi_5fcolor_5fblue',['ANSI_COLOR_BLUE',['../error_8h.html#aca16e6a49eb51333c5fd3eee19487315',1,'error.h']]],
@@ -14,11 +19,13 @@ var searchData=
   ['ansi_5fcolor_5freset',['ANSI_COLOR_RESET',['../error_8h.html#a92a364c2b863dde1a024a77eac2a5b3b',1,'error.h']]],
   ['ansi_5fcolor_5fwhite',['ANSI_COLOR_WHITE',['../error_8h.html#ab126a29a20ee0fe9ada8269c91edb753',1,'error.h']]],
   ['ansi_5fcolor_5fyellow',['ANSI_COLOR_YELLOW',['../error_8h.html#a5a123b382640b3aa65dd5db386002fbc',1,'error.h']]],
-  ['arg_5ffbgc_5fcomplex_5fobject',['arg_fbgc_complex_object',['../complex__object_8c.html#ad8d5d1dac85375583ca61282d529a382',1,'complex_object.c']]],
-  ['array',['ARRAY',['../tokens_8h.html#af579248b8d4c16c0aeba3dff9ee8b10a',1,'tokens.h']]],
+  ['arg',['arg',['../structfbgc__cfun__arg.html#a7885645fc17301a4d2e94e705e4984f8',1,'fbgc_cfun_arg']]],
+  ['argc',['argc',['../structfbgc__cfun__arg.html#a0dc5620bbf8d5233cccb216a4096cf1f',1,'fbgc_cfun_arg']]],
+  ['array',['ARRAY',['../object__types_8h.html#af579248b8d4c16c0aeba3dff9ee8b10a',1,'ARRAY():&#160;object_types.h'],['../tokens_8h.html#af579248b8d4c16c0aeba3dff9ee8b10a',1,'ARRAY():&#160;tokens.h']]],
   ['array_5fobject_2ec',['array_object.c',['../array__object_8c.html',1,'']]],
   ['array_5fobject_2eh',['array_object.h',['../array__object_8h.html',1,'']]],
-  ['array_5fobject_5fat',['array_object_at',['../array__object_8h.html#ac4e194da0e5569f17f40e4c8939ad384',1,'array_object.h']]],
   ['assign',['ASSIGN',['../tokens_8h.html#a507a000ab685ee51fa68ac8c35833efe',1,'tokens.h']]],
-  ['assign_5fsubscript',['ASSIGN_SUBSCRIPT',['../tokens_8h.html#aaa67bb027b245fc2f302db3b2a81b14b',1,'tokens.h']]]
+  ['assign_5fsubscript',['ASSIGN_SUBSCRIPT',['../tokens_8h.html#aaa67bb027b245fc2f302db3b2a81b14b',1,'tokens.h']]],
+  ['at_5ffbgc_5fbool_5fvector',['at_fbgc_bool_vector',['../bool__vector_8h.html#a0bea66ef6b31bd2b556ef9accaf9fa1c',1,'bool_vector.h']]],
+  ['at_5ffbgc_5fvector',['at_fbgc_vector',['../vector_8c.html#a5a6e45e53fe93ab3e4cf66df1dc79c11',1,'at_fbgc_vector(const struct fbgc_vector *vector, size_t index):&#160;vector.c'],['../vector_8h.html#a5a6e45e53fe93ab3e4cf66df1dc79c11',1,'at_fbgc_vector(const struct fbgc_vector *vector, size_t index):&#160;vector.c']]]
 ];

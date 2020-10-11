@@ -1,0 +1,7 @@
+<map id="fbgc_gc_init" name="fbgc_gc_init">
+<area shape="rect" id="node2" href="$fbgc__object_8c.html#a7685f994a3356f2446d8c707a556a3c2" title="size_of_fbgc_object" alt="" coords="149,89,288,116"/>
+<area shape="rect" id="node6" href="$fbgc__object_8c.html#a656b56d9ec14cbd1886ae2f2b3971add" title="gc_mark_fbgc_object" alt="" coords="145,37,292,64"/>
+<area shape="rect" id="node3" href="$fbgc__object_8c.html#ae62584eb36a8207152e121a4edc116ea" title="get_fbgc_object_property\l_holder" alt="" coords="340,86,508,127"/>
+<area shape="rect" id="node4" href="$fbgc__object_8c.html#ab6746edc57eb290c36fbf1ffeecf792c" title="objtp2str" alt="" coords="556,93,628,120"/>
+<area shape="rect" id="node5" href="$fbgc__object_8c.html#afab5dfe891e5e6372e8bc3b3436ea5a0" title="_find_property" alt="" coords="372,35,476,61"/>
+</map>

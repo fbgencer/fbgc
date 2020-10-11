@@ -1,3 +1,17 @@
+// This file is part of fbgc
+
+// fbgc is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+
+// fbgc is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// You should have received a copy of the GNU General Public License
+// along with fbgc.  If not, see <https://www.gnu.org/licenses/>.
 #include "fbgc.h"
 
 //below bit operations are defined for 1byte values
@@ -104,7 +118,7 @@ void push_back_fbgc_bool_vector(struct fbgc_bool_vector * bv, bool value){
 	//	Check the capacity, if there is enough space push back the obj	
 	if(is_full_fbgc_bool_vector(bv)){
 		//request change for the capacity of the vector
-		bv->content = fbgc_realloc(bv->content,((byte_capacity_fbgc_bool_vector(bv))+1) );
+		bv->content = (uint8_t*)fbgc_realloc(bv->content,((byte_capacity_fbgc_bool_vector(bv))+1) );
 	}
 	size_t index = bv->size;
 	uint8_t * byte_addr = from_bit_index_get_byte_address(bv,&index);
@@ -115,12 +129,17 @@ void push_back_fbgc_bool_vector(struct fbgc_bool_vector * bv, bool value){
 }
 void pop_back_fbgc_bool_vector(struct fbgc_bool_vector * bv){
 	--bv->size;
-	if(capacity_fbgc_bool_vector(bv) / bv->size >= 2){
-		//Shrink
-		bv->content = fbgc_realloc(bv->content,(byte_capacity_fbgc_bool_vector(bv)-1) );
-	}
+	shrink_fbgc_bool_vector(bv,bv->size);
 }
 
+void shrink_fbgc_bool_vector(struct fbgc_bool_vector * bv, size_t cap){
+	//Find the closes power of 8 
+	cap = ceil(cap/8.0) + (cap == 0);
+	if(cap < byte_capacity_fbgc_bool_vector(bv)){
+		bv->content = (uint8_t*)fbgc_realloc(bv->content,cap);	
+	}
+	
+}
 
 
 

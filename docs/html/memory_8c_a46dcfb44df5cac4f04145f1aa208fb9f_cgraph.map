@@ -1,6 +1,4 @@
 <map id="fbgc_realloc" name="fbgc_realloc">
-<area shape="rect" id="node2" href="$memory_8c.html#a41dd65ee24d51160659bf94bed90e998" title="fbgc_malloc" alt="" coords="172,5,264,32"/>
-<area shape="rect" id="node3" href="$error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="339,31,397,57"/>
-<area shape="rect" id="node4" href="$fbgc__object_8c.html#a1ba6a6b09db0e6c3a6ac6f6cfc0266de" title="get_fbgc_object_size" alt="" coords="145,107,291,133"/>
-<area shape="rect" id="node5" href="$memory_8c.html#a45d076e11af8d11bd73f6529582edbef" title="fbgc_free" alt="" coords="180,157,256,184"/>
+<area shape="rect" id="node2" href="$memory_8c.html#a76a1e9664316b52338491e7b3c1d58dd" title="fbgc_malloc" alt="" coords="145,5,237,32"/>
+<area shape="rect" id="node3" href="$memory_8c.html#a45d076e11af8d11bd73f6529582edbef" title="fbgc_free" alt="" coords="153,56,229,83"/>
 </map>

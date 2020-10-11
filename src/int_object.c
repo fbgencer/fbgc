@@ -1,3 +1,17 @@
+// This file is part of fbgc
+
+// fbgc is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+
+// fbgc is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// You should have received a copy of the GNU General Public License
+// along with fbgc.  If not, see <https://www.gnu.org/licenses/>.
 #include "fbgc.h"
 
 
@@ -5,7 +19,7 @@
 struct fbgc_object * new_fbgc_int_object(int int_content){
 	struct fbgc_int_object *into =  (struct fbgc_int_object*) fbgc_malloc_object(sizeof_fbgc_int_object());
 	into->base.type = INT;
-	into->content = int_content; 
+	into->content = int_content;
 	return (struct fbgc_object*) into;
 }
 
@@ -67,6 +81,7 @@ static struct fbgc_object * binary_operator_fbgc_int_object(struct fbgc_object *
 	int b1;
 	if(b != NULL) b1 = (b->type != LOGIC) ? cast_fbgc_object_as_int(b)->content:(int)(cast_fbgc_object_as_logic(b)->content);
 	struct fbgc_object * result = NULL;
+
 switch(op)
 {
 	case RSHIFT:

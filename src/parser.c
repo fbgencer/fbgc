@@ -1,3 +1,17 @@
+// This file is part of fbgc
+
+// fbgc is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+
+// fbgc is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// You should have received a copy of the GNU General Public License
+// along with fbgc.  If not, see <https://www.gnu.org/licenses/>.
 #include "fbgc.h"
 
 #define RIGHT_ASSOC 0b10000000
@@ -121,7 +135,7 @@ static void handle_function_args(struct parser_packet * p){
 	uint8_t count_id = 0;
 
 	struct fbgc_ll_base * iter_next = iter->next;
-	FBGC_LOGE("===================================================================================\n");
+	
 	int i = 0;
 	while(iter != arg_end){
 		if(++i>20) break;
@@ -214,7 +228,8 @@ static void handle_function_args(struct parser_packet * p){
 					return;	
 				}
 				//Make arg_no negative so we will understand that it has the variadic template
-				cast_fbgc_object_as_fun(fun_obj)->no_arg *= -1;
+				//cast_fbgc_object_as_fun(fun_obj)->no_arg *= -1;
+				cast_fbgc_object_as_fun(fun_obj)->flag_variadic = 1;
 			}
 			else arg_finished_ok = false;		
 
@@ -244,8 +259,6 @@ static void handle_function_args(struct parser_packet * p){
 	p->iter_prev = fun_holder;
 
 	FBGC_LOGV(PARSER,"Handling function args, # of args:%d\n",cast_fbgc_object_as_fun(fun_obj)->no_arg);
-
-	FBGC_LOGE("===================================================================================\n");	
 }
 
 
@@ -440,12 +453,9 @@ static void handle_before_paranthesis(struct parser_packet * p){
 			//FBGC_LOGV(PARSER,"%c",_print_fbgc_ll((struct fbgc_ll_base *)p->op,"Op"));
 			
 			//print_fbgc_memory_block();
-			printf("Address of fun_holder %p\n",_cast_llbase_as_lljumper(TOP_LL(p->op))->content );
 
 			struct fbgc_ll_base * fun_holder =  _cast_llbase_as_lljumper(TOP_LL(p->op))->content;
 			struct fbgc_object * fun_obj = _cast_llbase_as_llconstant(fun_holder)->content;	
-			
-			printf("Not herE!\n");
 			
 			if(is_fbgc_fun_object_defined(fun_obj)){
 				already_defined_flag = true;
@@ -460,11 +470,13 @@ static void handle_before_paranthesis(struct parser_packet * p){
 			//fun_holder,p->iter_prev
 			//Do not call for zero args
 			FBGC_LOGV(PARSER,"Function arguments starts(%s) & ends(%s):\n",lltp2str(fun_holder->next),lltp2str(p->iter_prev));
-			if(cast_fbgc_object_as_fun(fun_obj)->no_arg != 0 && cast_fbgc_object_as_fun(fun_obj)->no_arg != 65){
-				//For zero arg functions calling args may cause infinite loop
-				//Just for the debug case nothing important
-				FBGC_LOGV(PARSER,"%c\n",_print_fbgc_ll_code(fun_holder->next,p->iter_prev));
-			}
+
+
+			// if(cast_fbgc_object_as_fun(fun_obj)->no_arg != 0 && cast_fbgc_object_as_fun(fun_obj)->no_arg != 65){
+			// 	//For zero arg functions calling args may cause infinite loop
+			// 	//Just for the debug case nothing important
+			// 	FBGC_LOGV(PARSER,"%c\n",_print_fbgc_ll_code(fun_holder->next,p->iter_prev));
+			// }
 			
 			handle_function_args(p);
 			if(p->error_code != _FBGC_NO_ERROR) return;
@@ -691,7 +703,7 @@ static uint8_t parser(struct parser_packet * p);
 
 static inline struct parser_packet init_parser_packet(struct fbgc_object * field_obj, char * s){
 	struct parser_packet p = {
-		.head = _cast_llbase_as_ll( cast_fbgc_object_as_field(field_obj)->head ),
+		.head = _cast_llbase_as_ll( cast_fbgc_object_as_field(field_obj)->code),
 		.iter = p.head->base.next,
 		.iter_prev = (struct fbgc_ll_base *)p.head, //note that p->iter_prev->next is p->iter, always this is the case!
 		.op = _new_fbgc_ll(),
@@ -770,7 +782,7 @@ uint8_t parse_file(struct fbgc_object ** field_obj, const char * file_name){
 	FBGC_LOGV(PARSER,"==========================\nParser finished, defined symbols:");
 	FBGC_LOGV(PARSER,"%c\n",print_fbgc_object(fbgc_symbols));
 	FBGC_LOGV(PARSER,"Global field locals:");
-	FBGC_LOGV(PARSER,"%c\n",print_field_object_locals(*field_obj));
+	FBGC_LOGV(PARSER,"%c\n",print_field_locals(*field_obj));
 	FBGC_LOGV(PARSER,"==========================\n");
 
 	return 1;
@@ -796,7 +808,6 @@ uint8_t parse_string(struct fbgc_object ** field_obj, char * str ){
 			FBGC_LOGE("Missing <END> keyword at %ld : <%s>\n",p.line_no,object_type_as_str(TOP_LL(p.op)));
 			return 0;
 		}
-
 		cprintf(100,"Syntax error in line %d, Non-empty operator stack!\n",p.line_no);
 		_print_fbgc_ll(p.op,"O");
 		return 0;
@@ -805,7 +816,7 @@ uint8_t parse_string(struct fbgc_object ** field_obj, char * str ){
 	FBGC_LOGV(PARSER,"==========================\nParser finished, defined symbols:");
 	FBGC_LOGV(PARSER,"%c\n",print_fbgc_object(fbgc_symbols));
 	FBGC_LOGV(PARSER,"Global field locals:");
-	FBGC_LOGV(PARSER,"%c\n",print_field_object_locals(*field_obj));
+	FBGC_LOGV(PARSER,"%c\n",print_field_locals(*field_obj));
 	FBGC_LOGV(PARSER,"==========================\n");
 	return 1;
 }
@@ -895,7 +906,7 @@ static uint8_t parser(struct parser_packet * p){
 			}
 		}
 		else if( ( cf = new_cfun_object_from_str(current_field,content_fbgc_str_object(cstr_obj)) ) != NULL){
-			//Identifier can be cfun object, if it is not above condition returns null
+			//Identifier can be cfun object! if it is not, above condition returns null
 			FBGC_LOGD(PARSER,"Symbol is a CFUN, inserting cfun into list\n");
 			//We don't need iter anymore skip it and insert cfun
 			p->iter_prev = _insert_fbgc_ll(p->iter_prev,p->iter,_new_fbgc_ll_constant(cf));
@@ -905,19 +916,19 @@ static uint8_t parser(struct parser_packet * p){
 
 			//This do-while(0) loop is used instead of using goto, because if scope is fun we do not want to go through below field variable
 			//registeration, the whole point is reducing the code size not when we break, we jump at the end of do-while loop so which is what we wanted
-			ssize_t where = -1;
+			bool found = false;
 			do{
-			void * current_locals = NULL;
-
+			struct fbgc_object * symbol_map = NULL;
 			if(current_scope->type == FUN){
 				//function have local tuple that is defined when FUN_MAKE first creates this function			
-				current_locals = &(_cast_llbase_as_llconstant(cast_fbgc_object_as_fun(current_scope)->code)->content);
+				struct fbgc_object * fun_stack = _cast_llbase_as_llconstant(cast_fbgc_object_as_fun(current_scope)->code)->content;
 				
 				set_id_flag_LOCAL(p->iter); //make it local, if it is not it will be changed
 
 				//Ask for this pointer, notice that this is different than array object because tuple only holds fbgc_object pointers
 				//So we are basically asking does your contents contain this ?
-				where = index_fbgc_tuple_object(*(struct fbgc_object **)current_locals,cstr_obj);
+				ssize_t where = index_fbgc_tuple_object(fun_stack,cstr_obj);
+				
 				if(where != -1){
 					//Most likely we will call our previous definitions
 					//We already set flag to local, so just break do-while loop to go at the end of case IDENTIFIER
@@ -927,68 +938,59 @@ static uint8_t parser(struct parser_packet * p){
 						FBGC_LOGE("Function arguments must have unique names\n");
 						return p->error_code = _FBGC_SYNTAX_ERROR;
 					}
-
-
+					set_ll_identifier_loc(p->iter,where);
 					break;
 				}
 				else{ 
+					
 					if(p->iter->next->type == ASSIGN  || (!is_fbgc_fun_object_defined(current_scope) && TOP_LL(p->op)->type != ASSIGN)){
 					//Now ask for is this a new definition ? if it is not, it will leave as where = -1
-			
 						FBGC_LOGD(PARSER,"First time defining IDENTIFIER inside function\n");
-
-						push_back_fbgc_tuple_object(*(struct fbgc_object **)current_locals,cstr_obj);
-						where = size_fbgc_tuple_object(*(struct fbgc_object **)current_locals)-1;
+						push_back_fbgc_tuple_object(fun_stack,cstr_obj);
+						where = size_fbgc_tuple_object(fun_stack)-1;
 						//_cast_llbase_as_llconstant(cast_fbgc_object_as_fun(current_scope)->code)->content = current_locals;
 						
 						FBGC_LOGD(PARSER,"Function local tuple:");
-						FBGC_LOGD(PARSER,"%c\n",print_fbgc_object(*(struct fbgc_object **)current_locals));
+						FBGC_LOGD(PARSER,"%c\n",print_fbgc_object(fun_stack));
+						FBGC_LOGD(PARSER,"Symbol is created @ [%ld]\n",where);
+						set_ll_identifier_loc(p->iter,where);
 						break;//Break do-while loop to go to at the end of case IDENTIFIER
 					}
+
 				}
-				
 				FBGC_LOGV(PARSER,"Identifier could be global, searching in global fields.\n");
 				//Now change current locals to field object locals because we do not allow to get variables defined in classes, 
 				//only field  is allowed
 
-				current_locals = &(cast_fbgc_object_as_field(current_field)->locals);
+				symbol_map = cast_fbgc_object_as_field(current_field)->variables;
 				set_id_flag_GLOBAL(p->iter);
 
 			}else{
 				//If we are here we sure that current scope either field or class no need to check
 				//get the local array of field/class objects
 
-				if(current_scope->type == FIELD){
+				if(current_scope == current_field){
 					set_id_flag_GLOBAL(p->iter);
-					current_locals = &(cast_fbgc_object_as_field(current_scope)->locals);
+					symbol_map = cast_fbgc_object_as_field(current_scope)->variables;
 				}
 				else{
 					set_id_flag_CLASS(p->iter);
-					current_locals = &(cast_fbgc_object_as_class(current_scope)->locals);
+					symbol_map = cast_fbgc_object_as_class(current_scope)->variables;
 				}
-
-				
 			}
-			
-
 			while(1){
-				//@TODO instead of for loop can we use c++ like iterators here ?
-				//Maybe this variable is defined before, lets check first
-				for(size_t i = 0; i<size_fbgc_vector(*(struct fbgc_vector **)current_locals); ++i){
-					struct fbgc_identifier * temp_id = (struct fbgc_identifier *) get_item_fbgc_vector(*(struct fbgc_vector **)current_locals,i);
-					if(temp_id->name == cstr_obj){  //Notice that this is not a string comparison because we use same symbols for each occurence of a symbol
-						where = i;
-						break;
-					} 
+
+				if(fbgc_map_object_does_key_exist(symbol_map,cstr_obj)){
+					found = true;
+					//where = get_ll_identifier_loc(p->iter);
 				}
 
 				//If it is not a class definition then change the locals and search it again maybe it is defined in global scope
 				//This is why we have a loop here
 				//if it is NOT then always breaks the loop so it is going to be defined.
-				if(where == -1 && current_scope->type == CLASS && p->iter->next->type != ASSIGN && is_id_flag_GLOBAL(p->iter) == 0){
-
+				if(!found && current_scope->type == CLASS && p->iter->next->type != ASSIGN && is_id_flag_GLOBAL(p->iter) == 0){
 					FBGC_LOGD(PARSER,"Could not find in CLASS, assuming it is defined in global scope\n");
-					current_locals = &(cast_fbgc_object_as_field(current_field)->locals);
+					symbol_map = cast_fbgc_object_as_field(current_scope)->variables;
 					set_id_flag_GLOBAL(p->iter);
 				}
 				else 
@@ -996,28 +998,23 @@ static uint8_t parser(struct parser_packet * p){
 			}
 
 			//New definition of our symbol
-			if(where == -1) {
+			if(!found) {
 				FBGC_LOGD(PARSER,"Creating a variable inside a field obj\n");
-				struct fbgc_identifier temp_id;
-				temp_id.name = cstr_obj; temp_id.content = NULL;
-				//Now array will make copy of this id object in our array so we can pass its address
-				push_back_fbgc_vector(*(struct fbgc_vector **)current_locals,&temp_id);
-				//Now we now the location in globals
-				where = size_fbgc_vector(*(struct fbgc_vector **)current_locals)-1;
+				fbgc_map_object_insert(symbol_map,cstr_obj,NULL);
+				//FBGC_LOGD(PARSER,"Symbol is created @ [%ld]\n",where);
+			}
 
-				//else if(current_scope->type == FIELD) cast_fbgc_object_as_field(current_scope)->locals = current_locals;
-				//else cast_fbgc_object_as_class(current_scope)->locals = current_locals;
-				
-				FBGC_LOGD(PARSER,"Symbol is created @ [%ld]\n",where);
-			}
-			else{
-				FBGC_LOGD(PARSER,"Symbol is already defined @ [%ld]\n",where);
-			}
+			//else{
+			//	FBGC_LOGD(PARSER,"Symbol is already defined @ [%ld]\n",where);
+			//}
 
 			}while(0);
+
+
+			//where = get_ll_identifier_loc(p->iter);
 			
 			//Now current identifier object needs know the location of its definition
-			set_ll_identifier_loc(p->iter,where);
+			//set_ll_identifier_loc(p->iter,where);
 		}
 
 		//Connect the list and insert current identifier
@@ -1169,7 +1166,6 @@ static uint8_t parser(struct parser_packet * p){
 				
 				//We are gonna push this function into stack
 				pop_back_fbgc_bool_vector(&p->bv_stack_pop_top);
-				printf("popping back.. now top%d\n",back_fbgc_bool_vector(&p->bv_stack_pop_top));
 				
 				break;
 
@@ -1300,7 +1296,7 @@ static uint8_t parser(struct parser_packet * p){
 		cast_fbgc_object_as_fun(fun_obj)->code = _new_fbgc_ll_constant(new_fbgc_tuple_object(0));
 
 		if(current_scope->type == CLASS){
-			struct fbgc_object ** tp =&(_cast_llbase_as_llconstant(cast_fbgc_object_as_fun(fun_obj)->code)->content);
+			struct fbgc_object ** tp = &(_cast_llbase_as_llconstant(cast_fbgc_object_as_fun(fun_obj)->code)->content);
 			push_back_fbgc_tuple_object(*tp,new_fbgc_str_object("."));
 		}
 
@@ -1780,12 +1776,10 @@ static uint8_t parser(struct parser_packet * p){
 		
 		//There is a problem with assignment operator and grammar rules, in order not to blow up below code we need to check
 		//by hand top value types must be identifier or load subscript
-		/* Now grammar checks these 
 		if(TOP_LL(p->op)->type != IDENTIFIER && TOP_LL(p->op)->type != LOAD_SUBSCRIPT){
 			p->error_code = _FBGC_SYNTAX_ERROR;
-			goto PARSER_ERROR_LABEL;
+			PARSER_CHECK_ERROR(p->error_code);
 		}
-		*/
 
 		if(current_scope->type == FUN && !is_fbgc_fun_object_defined(current_scope)){
 			//is this default argument entry ?

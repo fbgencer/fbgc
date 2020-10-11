@@ -1,0 +1,7 @@
+<map id="reserve_fbgc_vector" name="reserve_fbgc_vector">
+<area shape="rect" id="node2" href="$utility_8c.html#ad5f1765c83e207a5c91f54e651fd4b49" title="fbgc_round_to_closest\l_power_of_two" alt="" coords="193,5,347,47"/>
+<area shape="rect" id="node3" href="$vector_8c.html#aff953799eeca61908193cb16af528bc3" title="capacity_fbgc_vector" alt="" coords="197,71,343,98"/>
+<area shape="rect" id="node4" href="$memory_8c.html#a46dcfb44df5cac4f04145f1aa208fb9f" title="fbgc_realloc" alt="" coords="224,122,316,149"/>
+<area shape="rect" id="node5" href="$memory_8c.html#a76a1e9664316b52338491e7b3c1d58dd" title="fbgc_malloc" alt="" coords="395,97,487,123"/>
+<area shape="rect" id="node6" href="$memory_8c.html#a45d076e11af8d11bd73f6529582edbef" title="fbgc_free" alt="" coords="403,147,479,174"/>
+</map>

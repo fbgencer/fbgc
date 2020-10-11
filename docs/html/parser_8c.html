@@ -74,129 +74,35 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="fbgc_8h_source.html">fbgc.h</a>&quot;</code><br />
-</div><div class="textblock"><div class="dynheader">
-Include dependency graph for parser.c:</div>
-<div class="dyncontent">
-<div class="center"><img src="parser_8c__incl.png" border="0" usemap="#_2home_2fbgencer_2fbgc_2src_2parser_8c" alt=""/></div>
-<map name="_2home_2fbgencer_2fbgc_2src_2parser_8c" id="_2home_2fbgencer_2fbgc_2src_2parser_8c">
-<area shape="rect" id="node2" href="fbgc_8h.html" title="fbgc.h" alt="" coords="1188,95,1247,121"/>
-<area shape="rect" id="node15" href="tokens_8h.html" title="headers/tokens.h" alt="" coords="1087,169,1209,196"/>
-<area shape="rect" id="node16" href="error_8h.html" title="headers/error.h" alt="" coords="1233,169,1343,196"/>
-<area shape="rect" id="node17" href="fbgc__object_8h.html" title="headers/fbgc_object.h" alt="" coords="1367,169,1518,196"/>
-<area shape="rect" id="node18" href="memory_8h.html" title="headers/memory.h" alt="" coords="1543,169,1673,196"/>
-<area shape="rect" id="node19" href="garbage__collector_8h.html" title="headers/garbage_collector.h" alt="" coords="1698,169,1883,196"/>
-<area shape="rect" id="node20" href="linked__list_8h.html" title="headers/linked_list.h" alt="" coords="1908,169,2049,196"/>
-<area shape="rect" id="node21" href="array__object_8h.html" title="headers/array_object.h" alt="" coords="2073,169,2228,196"/>
-<area shape="rect" id="node22" href="double__object_8h.html" title="headers/double_object.h" alt="" coords="2252,169,2415,196"/>
-<area shape="rect" id="node23" href="int__object_8h.html" title="headers/int_object.h" alt="" coords="2439,169,2577,196"/>
-<area shape="rect" id="node24" href="logic__object_8h.html" title="headers/logic_object.h" alt="" coords="2601,169,2753,196"/>
-<area shape="rect" id="node25" href="complex__object_8h.html" title="headers/complex_object.h" alt="" coords="2778,169,2953,196"/>
-<area shape="rect" id="node26" href="str__object_8h.html" title="headers/str_object.h" alt="" coords="2977,169,3117,196"/>
-<area shape="rect" id="node27" href="matrix__object_8h.html" title="headers/matrix_object.h" alt="" coords="3141,169,3302,196"/>
-<area shape="rect" id="node28" href="tuple__object_8h.html" title="headers/tuple_object.h" alt="" coords="3326,169,3479,196"/>
-</map>
-</div>
 </div>
 <p><a href="parser_8c_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:abc2cbb6f1fece12fb19bebefa567d56e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parser_8c.html#abc2cbb6f1fece12fb19bebefa567d56e">_print_main_list</a>()</td></tr>
-<tr class="separator:abc2cbb6f1fece12fb19bebefa567d56e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa96eb03aa4d85816891efc8323b3afb7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parser_8c.html#aa96eb03aa4d85816891efc8323b3afb7">_print_op_stack</a>()</td></tr>
-<tr class="separator:aa96eb03aa4d85816891efc8323b3afb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaa39f0ee0e1ff05fdeddd3a6303df83e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parser_8c.html#aaa39f0ee0e1ff05fdeddd3a6303df83e">_print_field_locals</a>(x)</td></tr>
-<tr class="separator:aaa39f0ee0e1ff05fdeddd3a6303df83e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0bb4409acda8b7c75cd3f534c7e11f5d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parser_8c.html#a0bb4409acda8b7c75cd3f534c7e11f5d">is_pushable_in_main</a>(x)&#160;&#160;&#160;(!<a class="el" href="tokens_8h.html#aed1eb863fb6046c5714cbf9738c806bb">is_fbgc_PARA</a>(x) &amp;&amp; x != <a class="el" href="tokens_8h.html#a05b49c662c073f89e86804f7856622a0">LEN</a>)</td></tr>
-<tr class="separator:a0bb4409acda8b7c75cd3f534c7e11f5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8edb85881eb55b6a00cfd8697c51cab6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parser_8c.html#a8edb85881eb55b6a00cfd8697c51cab6">is_constant_and_token</a>(x,  y)&#160;&#160;&#160;( ((x-&gt;type == <a class="el" href="tokens_8h.html#aa07f83a2de5a158b8643cdc36541b711">CONSTANT</a> &amp;&amp; <a class="el" href="linked__list_8h.html#aa1836e98792011c26ca719f53b75bc56">_cast_llbase_as_llconstant</a>(x)-&gt;content-&gt;type == y)) )</td></tr>
-<tr class="separator:a8edb85881eb55b6a00cfd8697c51cab6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1a01070ef7d79f1845252e33a2b4f1b9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parser_8c.html#a1a01070ef7d79f1845252e33a2b4f1b9">RIGHT_ASSOC</a>&#160;&#160;&#160;0b10000000</td></tr>
 <tr class="separator:a1a01070ef7d79f1845252e33a2b4f1b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5fb69b7bf4364ee4abc01f5f5502d1d1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parser_8c.html#a5fb69b7bf4364ee4abc01f5f5502d1d1">LEFT_ASSOC</a>&#160;&#160;&#160;0</td></tr>
 <tr class="separator:a5fb69b7bf4364ee4abc01f5f5502d1d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa8705750e41c536c94062135985eeaed"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parser_8c.html#aa8705750e41c536c94062135985eeaed">current_scope</a>&#160;&#160;&#160;<a class="el" href="linked__list_8h.html#aa1836e98792011c26ca719f53b75bc56">_cast_llbase_as_llconstant</a>(<a class="el" href="linked__list_8h.html#a5283b2b546543db2ed0d4111147af781">TOP_LL</a>(p.scope_list))-&gt;content</td></tr>
+<tr class="memitem:a2c40e2f5f6e38ca0ae5138913d3674e8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parser_8c.html#a2c40e2f5f6e38ca0ae5138913d3674e8">PARSER_CHECK_ERROR</a>(p_error_code)&#160;&#160;&#160;( {if(p_error_code != <a class="el" href="error_8h.html#a11cba5aa70edeb03ef1a2bd8509bb52f">_FBGC_NO_ERROR</a>) return p_error_code;} )</td></tr>
+<tr class="separator:a2c40e2f5f6e38ca0ae5138913d3674e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8705750e41c536c94062135985eeaed"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parser_8c.html#aa8705750e41c536c94062135985eeaed">current_scope</a>&#160;&#160;&#160;<a class="el" href="linked__list_8h.html#aa1836e98792011c26ca719f53b75bc56">_cast_llbase_as_llconstant</a>(<a class="el" href="linked__list_8h.html#a5283b2b546543db2ed0d4111147af781">TOP_LL</a>(p-&gt;scope_list))-&gt;content</td></tr>
 <tr class="separator:aa8705750e41c536c94062135985eeaed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5996cc6a6321e90241dbfbe1b6255e5b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parser_8c.html#a5996cc6a6321e90241dbfbe1b6255e5b">previous_scope</a>&#160;&#160;&#160;<a class="el" href="linked__list_8h.html#aa1836e98792011c26ca719f53b75bc56">_cast_llbase_as_llconstant</a>(<a class="el" href="linked__list_8h.html#a5283b2b546543db2ed0d4111147af781">TOP_LL</a>(p.scope_list)-&gt;next)-&gt;content</td></tr>
-<tr class="separator:a5996cc6a6321e90241dbfbe1b6255e5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0bb4409acda8b7c75cd3f534c7e11f5d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parser_8c.html#a0bb4409acda8b7c75cd3f534c7e11f5d">is_pushable_in_main</a>(x)&#160;&#160;&#160;(!<a class="el" href="tokens_8h.html#aed1eb863fb6046c5714cbf9738c806bb">is_fbgc_PARA</a>(x) &amp;&amp; x != <a class="el" href="tokens_8h.html#a05b49c662c073f89e86804f7856622a0">LEN</a>)</td></tr>
+<tr class="separator:a0bb4409acda8b7c75cd3f534c7e11f5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a1fa0c56a480647d9b34eb4bf6d452826"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parser_8c.html#a1fa0c56a480647d9b34eb4bf6d452826">compare_operators</a> (<a class="el" href="tokens_8h.html#a9d21ebbf42e602eb0cf502c867d20a7e">fbgc_token</a> stack_top, <a class="el" href="tokens_8h.html#a9d21ebbf42e602eb0cf502c867d20a7e">fbgc_token</a> obj_type)</td></tr>
-<tr class="separator:a1fa0c56a480647d9b34eb4bf6d452826"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af2585ff4a8c8f97ca3b8427c557c9d81"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parser_8c.html#af2585ff4a8c8f97ca3b8427c557c9d81">handle_function_args</a> (struct <a class="el" href="structfbgc__ll__base.html">fbgc_ll_base</a> *fun_holder, struct <a class="el" href="structfbgc__ll__base.html">fbgc_ll_base</a> *arg_end)</td></tr>
-<tr class="separator:af2585ff4a8c8f97ca3b8427c557c9d81"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8bc68ce2b13120de2f50d21decaff47d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parser_8c.html#a8bc68ce2b13120de2f50d21decaff47d">handle_before_paranthesis</a> (struct <a class="el" href="structparser__packet.html">parser_packet</a> *p)</td></tr>
-<tr class="separator:a8bc68ce2b13120de2f50d21decaff47d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af0b346c8081c6dafa5903540788fb180"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parser_8c.html#af0b346c8081c6dafa5903540788fb180">handle_before_brackets</a> (struct <a class="el" href="structparser__packet.html">parser_packet</a> *p)</td></tr>
-<tr class="separator:af0b346c8081c6dafa5903540788fb180"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af53387481fe0a341640ef993cd0c1c40"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parser_8c.html#af53387481fe0a341640ef993cd0c1c40">parser</a> (struct <a class="el" href="structfbgc__object.html">fbgc_object</a> **field_obj, FILE *input_file)</td></tr>
-<tr class="separator:af53387481fe0a341640ef993cd0c1c40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa984329f0b2954c86eb6b1aa827f15f4"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parser_8c.html#aa984329f0b2954c86eb6b1aa827f15f4">parse_file</a> (struct <a class="el" href="structfbgc__object.html">fbgc_object</a> **field_obj, const char *file_name)</td></tr>
+<tr class="separator:aa984329f0b2954c86eb6b1aa827f15f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c385c9561eaae01d3796197116399dc"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parser_8c.html#a3c385c9561eaae01d3796197116399dc">parse_string</a> (struct <a class="el" href="structfbgc__object.html">fbgc_object</a> **field_obj, char *str)</td></tr>
+<tr class="separator:a3c385c9561eaae01d3796197116399dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:ae6ec875cf89f20bd431d17cfe8a63441"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="tokens_8h.html#a9d21ebbf42e602eb0cf502c867d20a7e">fbgc_token</a> const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parser_8c.html#ae6ec875cf89f20bd431d17cfe8a63441">precedence_table</a> []</td></tr>
-<tr class="separator:ae6ec875cf89f20bd431d17cfe8a63441"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e8ad734fecf1589e2c613508a2c4567"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="tokens_8h.html#a9d21ebbf42e602eb0cf502c867d20a7e">fbgc_token</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parser_8c.html#a8e8ad734fecf1589e2c613508a2c4567">precedence_table</a> []</td></tr>
+<tr class="separator:a8e8ad734fecf1589e2c613508a2c4567"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="aaa39f0ee0e1ff05fdeddd3a6303df83e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaa39f0ee0e1ff05fdeddd3a6303df83e">&#9670;&nbsp;</a></span>_print_field_locals</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define _print_field_locals</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">x</td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="parser_8c_source.html#l00010">10</a> of file <a class="el" href="parser_8c_source.html">parser.c</a>.</p>
-
-</div>
-</div>
-<a id="abc2cbb6f1fece12fb19bebefa567d56e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abc2cbb6f1fece12fb19bebefa567d56e">&#9670;&nbsp;</a></span>_print_main_list</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define _print_main_list</td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="parser_8c_source.html#l00008">8</a> of file <a class="el" href="parser_8c_source.html">parser.c</a>.</p>
-
-</div>
-</div>
-<a id="aa96eb03aa4d85816891efc8323b3afb7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa96eb03aa4d85816891efc8323b3afb7">&#9670;&nbsp;</a></span>_print_op_stack</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define _print_op_stack</td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="parser_8c_source.html#l00009">9</a> of file <a class="el" href="parser_8c_source.html">parser.c</a>.</p>
-
-</div>
-</div>
 <a id="aa8705750e41c536c94062135985eeaed"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa8705750e41c536c94062135985eeaed">&#9670;&nbsp;</a></span>current_scope</h2>
 
@@ -204,40 +110,10 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define current_scope&#160;&#160;&#160;<a class="el" href="linked__list_8h.html#aa1836e98792011c26ca719f53b75bc56">_cast_llbase_as_llconstant</a>(<a class="el" href="linked__list_8h.html#a5283b2b546543db2ed0d4111147af781">TOP_LL</a>(p.scope_list))-&gt;content</td>
+          <td class="memname">#define current_scope&#160;&#160;&#160;<a class="el" href="linked__list_8h.html#aa1836e98792011c26ca719f53b75bc56">_cast_llbase_as_llconstant</a>(<a class="el" href="linked__list_8h.html#a5283b2b546543db2ed0d4111147af781">TOP_LL</a>(p-&gt;scope_list))-&gt;content</td>
         </tr>
       </table>
 </div><div class="memdoc">
-
-</div>
-</div>
-<a id="a8edb85881eb55b6a00cfd8697c51cab6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8edb85881eb55b6a00cfd8697c51cab6">&#9670;&nbsp;</a></span>is_constant_and_token</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define is_constant_and_token</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">x, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">y&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td>&#160;&#160;&#160;( ((x-&gt;type == <a class="el" href="tokens_8h.html#aa07f83a2de5a158b8643cdc36541b711">CONSTANT</a> &amp;&amp; <a class="el" href="linked__list_8h.html#aa1836e98792011c26ca719f53b75bc56">_cast_llbase_as_llconstant</a>(x)-&gt;content-&gt;type == y)) )</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="parser_8c_source.html#l00016">16</a> of file <a class="el" href="parser_8c_source.html">parser.c</a>.</p>
 
 </div>
 </div>
@@ -257,8 +133,6 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="parser_8c_source.html#l00014">14</a> of file <a class="el" href="parser_8c_source.html">parser.c</a>.</p>
-
 </div>
 </div>
 <a id="a5fb69b7bf4364ee4abc01f5f5502d1d1"></a>
@@ -273,21 +147,27 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="parser_8c_source.html#l00020">20</a> of file <a class="el" href="parser_8c_source.html">parser.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="parser_8c_source.html#l00004">4</a> of file <a class="el" href="parser_8c_source.html">parser.c</a>.</p>
 
 </div>
 </div>
-<a id="a5996cc6a6321e90241dbfbe1b6255e5b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5996cc6a6321e90241dbfbe1b6255e5b">&#9670;&nbsp;</a></span>previous_scope</h2>
+<a id="a2c40e2f5f6e38ca0ae5138913d3674e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c40e2f5f6e38ca0ae5138913d3674e8">&#9670;&nbsp;</a></span>PARSER_CHECK_ERROR</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define previous_scope&#160;&#160;&#160;<a class="el" href="linked__list_8h.html#aa1836e98792011c26ca719f53b75bc56">_cast_llbase_as_llconstant</a>(<a class="el" href="linked__list_8h.html#a5283b2b546543db2ed0d4111147af781">TOP_LL</a>(p.scope_list)-&gt;next)-&gt;content</td>
+          <td class="memname">#define PARSER_CHECK_ERROR</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">p_error_code</td><td>)</td>
+          <td>&#160;&#160;&#160;( {if(p_error_code != <a class="el" href="error_8h.html#a11cba5aa70edeb03ef1a2bd8509bb52f">_FBGC_NO_ERROR</a>) return p_error_code;} )</td>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="parser_8c_source.html#l00810">810</a> of file <a class="el" href="parser_8c_source.html">parser.c</a>.</p>
 
 </div>
 </div>
@@ -303,208 +183,28 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="parser_8c_source.html#l00019">19</a> of file <a class="el" href="parser_8c_source.html">parser.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="parser_8c_source.html#l00003">3</a> of file <a class="el" href="parser_8c_source.html">parser.c</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a1fa0c56a480647d9b34eb4bf6d452826"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1fa0c56a480647d9b34eb4bf6d452826">&#9670;&nbsp;</a></span>compare_operators()</h2>
+<a id="aa984329f0b2954c86eb6b1aa827f15f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa984329f0b2954c86eb6b1aa827f15f4">&#9670;&nbsp;</a></span>parse_file()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t compare_operators </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="tokens_8h.html#a9d21ebbf42e602eb0cf502c867d20a7e">fbgc_token</a>&#160;</td>
-          <td class="paramname"><em>stack_top</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="tokens_8h.html#a9d21ebbf42e602eb0cf502c867d20a7e">fbgc_token</a>&#160;</td>
-          <td class="paramname"><em>obj_type</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="parser_8c_source.html#l00073">73</a> of file <a class="el" href="parser_8c_source.html">parser.c</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="parser_8c_a1fa0c56a480647d9b34eb4bf6d452826_icgraph.png" border="0" usemap="#parser_8c_a1fa0c56a480647d9b34eb4bf6d452826_icgraph" alt=""/></div>
-<map name="parser_8c_a1fa0c56a480647d9b34eb4bf6d452826_icgraph" id="parser_8c_a1fa0c56a480647d9b34eb4bf6d452826_icgraph">
-<area shape="rect" id="node2" href="parser_8h.html#a9128876c7bafe4207a35d10f2c7f12a8" title="parser" alt="" coords="187,5,245,32"/>
-<area shape="rect" id="node3" href="fbgc_8c.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="293,5,396,32"/>
-<area shape="rect" id="node4" href="fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c" title="new_fbgc_cfunction" alt="" coords="444,5,583,32"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="af0b346c8081c6dafa5903540788fb180"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af0b346c8081c6dafa5903540788fb180">&#9670;&nbsp;</a></span>handle_before_brackets()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void handle_before_brackets </td>
-          <td>(</td>
-          <td class="paramtype">struct <a class="el" href="structparser__packet.html">parser_packet</a> *&#160;</td>
-          <td class="paramname"><em>p</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="parser_8c_source.html#l00325">325</a> of file <a class="el" href="parser_8c_source.html">parser.c</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="parser_8c_af0b346c8081c6dafa5903540788fb180_cgraph.png" border="0" usemap="#parser_8c_af0b346c8081c6dafa5903540788fb180_cgraph" alt=""/></div>
-<map name="parser_8c_af0b346c8081c6dafa5903540788fb180_cgraph" id="parser_8c_af0b346c8081c6dafa5903540788fb180_cgraph">
-<area shape="rect" id="node2" href="linked__list_8c.html#a5e35d470641cd7ffdf7379f6054b3ef6" title="lltp2str" alt="" coords="267,5,328,32"/>
-<area shape="rect" id="node3" href="linked__list_8c.html#aad0f2c0f01721933141f1980b4a3421f" title="_new_fbgc_ll_opcode_int" alt="" coords="213,56,381,83"/>
-<area shape="rect" id="node4" href="memory_8c.html#a41dd65ee24d51160659bf94bed90e998" title="fbgc_malloc" alt="" coords="429,56,521,83"/>
-<area shape="rect" id="node5" href="error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="569,56,628,83"/>
-</map>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="parser_8c_af0b346c8081c6dafa5903540788fb180_icgraph.png" border="0" usemap="#parser_8c_af0b346c8081c6dafa5903540788fb180_icgraph" alt=""/></div>
-<map name="parser_8c_af0b346c8081c6dafa5903540788fb180_icgraph" id="parser_8c_af0b346c8081c6dafa5903540788fb180_icgraph">
-<area shape="rect" id="node2" href="parser_8h.html#a9128876c7bafe4207a35d10f2c7f12a8" title="parser" alt="" coords="213,5,272,32"/>
-<area shape="rect" id="node3" href="fbgc_8c.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="320,5,423,32"/>
-<area shape="rect" id="node4" href="fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c" title="new_fbgc_cfunction" alt="" coords="471,5,609,32"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a8bc68ce2b13120de2f50d21decaff47d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8bc68ce2b13120de2f50d21decaff47d">&#9670;&nbsp;</a></span>handle_before_paranthesis()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void handle_before_paranthesis </td>
-          <td>(</td>
-          <td class="paramtype">struct <a class="el" href="structparser__packet.html">parser_packet</a> *&#160;</td>
-          <td class="paramname"><em>p</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="parser_8c_source.html#l00162">162</a> of file <a class="el" href="parser_8c_source.html">parser.c</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="parser_8c_a8bc68ce2b13120de2f50d21decaff47d_cgraph.png" border="0" usemap="#parser_8c_a8bc68ce2b13120de2f50d21decaff47d_cgraph" alt=""/></div>
-<map name="parser_8c_a8bc68ce2b13120de2f50d21decaff47d_cgraph" id="parser_8c_a8bc68ce2b13120de2f50d21decaff47d_cgraph">
-<area shape="rect" id="node2" href="linked__list_8c.html#a5e35d470641cd7ffdf7379f6054b3ef6" title="lltp2str" alt="" coords="284,5,345,32"/>
-<area shape="rect" id="node3" href="linked__list_8c.html#aad0f2c0f01721933141f1980b4a3421f" title="_new_fbgc_ll_opcode_int" alt="" coords="231,56,399,83"/>
-<area shape="rect" id="node6" href="linked__list_8c.html#a873b1fc3c20ade7b36c33a48e09f52a9" title="_new_fbgc_ll_base" alt="" coords="248,107,381,133"/>
-<area shape="rect" id="node7" href="linked__list_8c.html#a84527cb003478dd4a3d0427586c2d843" title="_print_fbgc_ll_code" alt="" coords="247,208,382,235"/>
-<area shape="rect" id="node20" href="parser_8c.html#af2585ff4a8c8f97ca3b8427c557c9d81" title="handle_function_args" alt="" coords="242,259,387,285"/>
-<area shape="rect" id="node21" href="linked__list_8c.html#a5eb811929c2ab49d6fdca1d5e1426ba6" title="_push_front_fbgc_ll" alt="" coords="247,309,382,336"/>
-<area shape="rect" id="node22" href="linked__list_8c.html#af7c55666ca4f4ce11b4d2420ff32a5bb" title="_new_fbgc_ll_constant" alt="" coords="237,157,392,184"/>
-<area shape="rect" id="node4" href="memory_8c.html#a41dd65ee24d51160659bf94bed90e998" title="fbgc_malloc" alt="" coords="479,56,571,83"/>
-<area shape="rect" id="node5" href="error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="1035,360,1093,387"/>
-<area shape="rect" id="node8" href="str__object_8c.html#af6c5743192c678d8081aef62a95b26c0" title="print_fbgc_cstr_object" alt="" coords="828,680,979,707"/>
-<area shape="rect" id="node9" href="tuple__object_8c.html#a80ba9373477760391033dc0cdea35a6e" title="print_fbgc_tuple_object" alt="" coords="447,360,603,387"/>
-<area shape="rect" id="node18" href="tokens_8c.html#aa377532036ed71b823522a0122f7562c" title="get_token_as_str" alt="" coords="463,208,586,235"/>
-<area shape="rect" id="node19" href="linked__list_8c.html#adf5d9a585d48523587ecad0495f80d52" title="_print_fbgc_ll_base" alt="" coords="457,259,592,285"/>
-<area shape="rect" id="node10" href="fbgc__object_8c.html#a692d3bb2e230f23caf8a28a250f7ef48" title="print_fbgc_object" alt="" coords="651,360,772,387"/>
-<area shape="rect" id="node11" href="int__object_8c.html#a0062dc9607e1f9bdf4fc960f981bb592" title="print_fbgc_int_object" alt="" coords="832,411,975,437"/>
-<area shape="rect" id="node12" href="double__object_8c.html#a4872de0b7e3482c3414635499574c3a2" title="print_fbgc_double_object" alt="" coords="820,461,987,488"/>
-<area shape="rect" id="node13" href="complex__object_8c.html#a48882c21f5d339b41807108958456809" title="print_fbgc_complex\l_object" alt="" coords="836,513,971,554"/>
-<area shape="rect" id="node14" href="str__object_8c.html#a66e47da312848322ec0f6c783c8afd84" title="print_fbgc_str_object" alt="" coords="832,579,975,605"/>
-<area shape="rect" id="node15" href="matrix__object_8c.html#a024f1c29208bf2fe7425896d1eb055e0" title="print_fbgc_matrix_object" alt="" coords="821,259,985,285"/>
-<area shape="rect" id="node16" href="fun__object_8c.html#a3e96dc0c25688e38eb2149d647dbbe0c" title="print_fbgc_fun_object" alt="" coords="830,157,977,184"/>
-<area shape="rect" id="node17" href="range__object_8c.html#ab8138fb21f5d4098f82847b2354af837" title="print_fbgc_range_object" alt="" coords="823,309,983,336"/>
-</map>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="parser_8c_a8bc68ce2b13120de2f50d21decaff47d_icgraph.png" border="0" usemap="#parser_8c_a8bc68ce2b13120de2f50d21decaff47d_icgraph" alt=""/></div>
-<map name="parser_8c_a8bc68ce2b13120de2f50d21decaff47d_icgraph" id="parser_8c_a8bc68ce2b13120de2f50d21decaff47d_icgraph">
-<area shape="rect" id="node2" href="parser_8h.html#a9128876c7bafe4207a35d10f2c7f12a8" title="parser" alt="" coords="231,5,289,32"/>
-<area shape="rect" id="node3" href="fbgc_8c.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="337,5,440,32"/>
-<area shape="rect" id="node4" href="fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c" title="new_fbgc_cfunction" alt="" coords="488,5,627,32"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="af2585ff4a8c8f97ca3b8427c557c9d81"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af2585ff4a8c8f97ca3b8427c557c9d81">&#9670;&nbsp;</a></span>handle_function_args()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void handle_function_args </td>
-          <td>(</td>
-          <td class="paramtype">struct <a class="el" href="structfbgc__ll__base.html">fbgc_ll_base</a> *&#160;</td>
-          <td class="paramname"><em>fun_holder</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">struct <a class="el" href="structfbgc__ll__base.html">fbgc_ll_base</a> *&#160;</td>
-          <td class="paramname"><em>arg_end</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="parser_8c_source.html#l00107">107</a> of file <a class="el" href="parser_8c_source.html">parser.c</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="parser_8c_af2585ff4a8c8f97ca3b8427c557c9d81_icgraph.png" border="0" usemap="#parser_8c_af2585ff4a8c8f97ca3b8427c557c9d81_icgraph" alt=""/></div>
-<map name="parser_8c_af2585ff4a8c8f97ca3b8427c557c9d81_icgraph" id="parser_8c_af2585ff4a8c8f97ca3b8427c557c9d81_icgraph">
-<area shape="rect" id="node2" href="parser_8c.html#a8bc68ce2b13120de2f50d21decaff47d" title="handle_before_paranthesis" alt="" coords="199,5,376,32"/>
-<area shape="rect" id="node3" href="parser_8h.html#a9128876c7bafe4207a35d10f2c7f12a8" title="parser" alt="" coords="424,5,483,32"/>
-<area shape="rect" id="node4" href="fbgc_8c.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="531,5,633,32"/>
-<area shape="rect" id="node5" href="fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c" title="new_fbgc_cfunction" alt="" coords="681,5,820,32"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="af53387481fe0a341640ef993cd0c1c40"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af53387481fe0a341640ef993cd0c1c40">&#9670;&nbsp;</a></span>parser()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t parser </td>
+          <td class="memname">uint8_t parse_file </td>
           <td>(</td>
           <td class="paramtype">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> **&#160;</td>
-          <td class="paramname"><em>field</em>, </td>
+          <td class="paramname"><em>field_obj</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">FILE *&#160;</td>
-          <td class="paramname"><em>fp</em>&#160;</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>file_name</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -513,98 +213,55 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">field</td><td>: The corresponding field object to parse </td></tr>
-    <tr><td class="paramname">fp</td><td>: c file pointer </td></tr>
-  </table>
-  </dd>
-</dl>
-<p>Brief description. </p>
 
-<p class="definition">Definition at line <a class="el" href="parser_8c_source.html#l00360">360</a> of file <a class="el" href="parser_8c_source.html">parser.c</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="parser_8c_af53387481fe0a341640ef993cd0c1c40_cgraph.png" border="0" usemap="#parser_8c_af53387481fe0a341640ef993cd0c1c40_cgraph" alt=""/></div>
-<map name="parser_8c_af53387481fe0a341640ef993cd0c1c40_cgraph" id="parser_8c_af53387481fe0a341640ef993cd0c1c40_cgraph">
-<area shape="rect" id="node2" href="linked__list_8c.html#a0d9111f39bddfd9533487858459663d2" title="_new_fbgc_ll" alt="" coords="151,655,250,682"/>
-<area shape="rect" id="node4" href="error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="1181,567,1240,594"/>
-<area shape="rect" id="node5" href="linked__list_8c.html#a873b1fc3c20ade7b36c33a48e09f52a9" title="_new_fbgc_ll_base" alt="" coords="355,605,488,631"/>
-<area shape="rect" id="node6" href="linked__list_8c.html#a5eb811929c2ab49d6fdca1d5e1426ba6" title="_push_front_fbgc_ll" alt="" coords="354,554,489,581"/>
-<area shape="rect" id="node7" href="linked__list_8c.html#af7c55666ca4f4ce11b4d2420ff32a5bb" title="_new_fbgc_ll_constant" alt="" coords="344,453,499,479"/>
-<area shape="rect" id="node8" href="error_8c.html#abcffe295b9d0c2b1e3257c410a83441f" title="fbgc_error" alt="" coords="798,997,878,1023"/>
-<area shape="rect" id="node9" href="relexer_8c.html#a02a4067461e7100597464c6a36ffe4b1" title="fbgc_getline_from_file" alt="" coords="126,975,275,1002"/>
-<area shape="rect" id="node10" href="relexer_8c.html#a460e2e4340ffdb31408e2df7374c4900" title="regex_lexer" alt="" coords="156,925,245,951"/>
-<area shape="rect" id="node12" href="linked__list_8c.html#a5e35d470641cd7ffdf7379f6054b3ef6" title="lltp2str" alt="" coords="391,402,452,429"/>
-<area shape="rect" id="node13" href="grammar_8c.html#ae4bc6a07ccf2a3e97acab1c8600bd905" title="gm_seek_left" alt="" coords="151,1026,251,1053"/>
-<area shape="rect" id="node14" href="fbgc__object_8c.html#ab6746edc57eb290c36fbf1ffeecf792c" title="objtp2str" alt="" coords="165,1077,237,1103"/>
-<area shape="rect" id="node15" href="tuple__object_8c.html#a96fd24de0c1307cc509c25394219f0a6" title="get_object_in_fbgc\l_tuple_object" alt="" coords="135,1128,266,1169"/>
-<area shape="rect" id="node16" href="cmodule__object_8c.html#a78b98728bafb17115fa26b483d600ef1" title="new_cfun_object_from_str" alt="" coords="113,98,288,125"/>
-<area shape="rect" id="node19" href="array__object_8h.html#a3c9207f63947e85c34b80a0b880f22c6" title="Get the address of a variable inside an array object. " alt="" coords="129,1193,272,1235"/>
-<area shape="rect" id="node20" href="array__object_8h.html#a285cc536b0a1723f3d718aac41ef4f26" title="Pushes from back to given object into the array object. " alt="" coords="124,1259,277,1300"/>
-<area shape="rect" id="node21" href="tuple__object_8c.html#a8892d801f00f72a7360db595ca646727" title="index_fbgc_tuple_object" alt="" coords="119,1325,282,1351"/>
-<area shape="rect" id="node22" href="tuple__object_8c.html#a0b406898ce0f388a06bbf0cdd3b5b8d5" title="push_back_fbgc_tuple\l_object" alt="" coords="125,808,277,849"/>
-<area shape="rect" id="node26" href="linked__list_8c.html#aad0f2c0f01721933141f1980b4a3421f" title="_new_fbgc_ll_opcode_int" alt="" coords="337,351,505,378"/>
-<area shape="rect" id="node27" href="fun__object_8c.html#ad373ce21484b9de2cb1ff11f9d8736fa" title="new_fbgc_fun_object" alt="" coords="349,149,494,175"/>
-<area shape="rect" id="node28" href="tuple__object_8c.html#aea5f2cac3a39a11b2c17445654538710" title="new_fbgc_tuple_object" alt="" coords="344,706,499,733"/>
-<area shape="rect" id="node30" href="class__object_8c.html#a713aa7c51b78181d9d2789d144d94a9f" title="new_fbgc_class_object" alt="" coords="121,199,280,226"/>
-<area shape="rect" id="node32" href="linked__list_8c.html#ab22bc6bb43e4e70889191c02848928bb" title="_new_fbgc_ll_jumper" alt="" coords="349,301,493,327"/>
-<area shape="rect" id="node33" href="parser_8c.html#a1fa0c56a480647d9b34eb4bf6d452826" title="compare_operators" alt="" coords="134,1375,267,1402"/>
-<area shape="rect" id="node34" href="grammar_8c.html#a5db65f9c77760b72176eb83172166d72" title="gm_seek_right" alt="" coords="147,1426,254,1453"/>
-<area shape="rect" id="node35" href="grammar_8c.html#aba0184322fa2f9c18073000fa7fc5ff7" title="gm2str" alt="" coords="169,1477,232,1503"/>
-<area shape="rect" id="node36" href="linked__list_8c.html#acfce84cc2f3d36624af6bfb509d50ec1" title="_pop_front_fbgc_ll" alt="" coords="137,1527,265,1554"/>
-<area shape="rect" id="node37" href="parser_8c.html#af0b346c8081c6dafa5903540788fb180" title="handle_before_brackets" alt="" coords="121,351,281,378"/>
-<area shape="rect" id="node38" href="parser_8c.html#a8bc68ce2b13120de2f50d21decaff47d" title="handle_before_paranthesis" alt="" coords="112,503,289,530"/>
-<area shape="rect" id="node50" href="linked__list_8c.html#ae21d5595eb9b9019456b3f93627dbc24" title="_print_fbgc_ll" alt="" coords="151,757,250,783"/>
-<area shape="rect" id="node3" href="memory_8c.html#a41dd65ee24d51160659bf94bed90e998" title="fbgc_malloc" alt="" coords="585,351,677,378"/>
-<area shape="rect" id="node11" href="relexer_8h.html#af8df2179d7329c1f4683d91d4b26606d" title="pretty_print_pointer" alt="" coords="355,1111,488,1138"/>
-<area shape="rect" id="node17" href="str__object_8c.html#a5aaf56c2518080d35d4feaaeeb3fba65" title="my_strcmp" alt="" coords="378,98,465,125"/>
-<area shape="rect" id="node18" href="cmodule__object_8c.html#a2772285a9de527a525825b3575453288" title="new_fbgc_cfun_object" alt="" coords="345,47,497,74"/>
-<area shape="rect" id="node23" href="memory_8c.html#a46dcfb44df5cac4f04145f1aa208fb9f" title="fbgc_realloc" alt="" coords="375,858,467,885"/>
-<area shape="rect" id="node24" href="fbgc__object_8c.html#a1ba6a6b09db0e6c3a6ac6f6cfc0266de" title="get_fbgc_object_size" alt="" coords="559,959,704,986"/>
-<area shape="rect" id="node25" href="memory_8c.html#a45d076e11af8d11bd73f6529582edbef" title="fbgc_free" alt="" coords="593,858,669,885"/>
-<area shape="rect" id="node29" href="tuple__object_8c.html#af0a95832bdbe0ec168e2a1e8407cc9c9" title="calculate_new_capacity\l_from_size" alt="" coords="757,691,919,732"/>
-<area shape="rect" id="node31" href="array__object_8h.html#a89312617da8a648e3c3c8b8bcace5dde" title="Returns a new array object for a requested size of capacity and block size. " alt="" coords="343,199,499,226"/>
-<area shape="rect" id="node39" href="linked__list_8c.html#a84527cb003478dd4a3d0427586c2d843" title="_print_fbgc_ll_code" alt="" coords="354,757,489,783"/>
-<area shape="rect" id="node49" href="parser_8c.html#af2585ff4a8c8f97ca3b8427c557c9d81" title="handle_function_args" alt="" coords="349,503,494,530"/>
-<area shape="rect" id="node40" href="str__object_8c.html#af6c5743192c678d8081aef62a95b26c0" title="print_fbgc_cstr_object" alt="" coords="975,335,1125,362"/>
-<area shape="rect" id="node41" href="tuple__object_8c.html#a80ba9373477760391033dc0cdea35a6e" title="print_fbgc_tuple_object" alt="" coords="553,639,709,666"/>
-<area shape="rect" id="node47" href="tokens_8c.html#aa377532036ed71b823522a0122f7562c" title="get_token_as_str" alt="" coords="570,589,693,615"/>
-<area shape="rect" id="node48" href="linked__list_8c.html#adf5d9a585d48523587ecad0495f80d52" title="_print_fbgc_ll_base" alt="" coords="564,419,699,446"/>
-<area shape="rect" id="node42" href="fbgc__object_8c.html#a692d3bb2e230f23caf8a28a250f7ef48" title="print_fbgc_object" alt="" coords="777,521,899,547"/>
-<area shape="rect" id="node43" href="int__object_8c.html#a0062dc9607e1f9bdf4fc960f981bb592" title="print_fbgc_int_object" alt="" coords="979,487,1121,514"/>
-<area shape="rect" id="node44" href="double__object_8c.html#a4872de0b7e3482c3414635499574c3a2" title="print_fbgc_double_object" alt="" coords="967,538,1133,565"/>
-<area shape="rect" id="node45" href="complex__object_8c.html#a48882c21f5d339b41807108958456809" title="print_fbgc_complex\l_object" alt="" coords="983,589,1117,631"/>
-<area shape="rect" id="node46" href="str__object_8c.html#a66e47da312848322ec0f6c783c8afd84" title="print_fbgc_str_object" alt="" coords="979,386,1121,413"/>
-</map>
+<p class="definition">Definition at line <a class="el" href="parser_8c_source.html#l00714">714</a> of file <a class="el" href="parser_8c_source.html">parser.c</a>.</p>
+
 </div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="parser_8c_af53387481fe0a341640ef993cd0c1c40_icgraph.png" border="0" usemap="#parser_8c_af53387481fe0a341640ef993cd0c1c40_icgraph" alt=""/></div>
-<map name="parser_8c_af53387481fe0a341640ef993cd0c1c40_icgraph" id="parser_8c_af53387481fe0a341640ef993cd0c1c40_icgraph">
-<area shape="rect" id="node2" href="fbgc_8c.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="112,5,215,32"/>
-<area shape="rect" id="node3" href="fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c" title="new_fbgc_cfunction" alt="" coords="263,5,401,32"/>
-</map>
 </div>
+<a id="a3c385c9561eaae01d3796197116399dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c385c9561eaae01d3796197116399dc">&#9670;&nbsp;</a></span>parse_string()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t parse_string </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> **&#160;</td>
+          <td class="paramname"><em>field_obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>str</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="parser_8c_source.html#l00778">778</a> of file <a class="el" href="parser_8c_source.html">parser.c</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a id="ae6ec875cf89f20bd431d17cfe8a63441"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae6ec875cf89f20bd431d17cfe8a63441">&#9670;&nbsp;</a></span>precedence_table</h2>
+<a id="a8e8ad734fecf1589e2c613508a2c4567"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e8ad734fecf1589e2c613508a2c4567">&#9670;&nbsp;</a></span>precedence_table</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="tokens_8h.html#a9d21ebbf42e602eb0cf502c867d20a7e">fbgc_token</a> const precedence_table[]</td>
+          <td class="memname">const <a class="el" href="tokens_8h.html#a9d21ebbf42e602eb0cf502c867d20a7e">fbgc_token</a> precedence_table[]</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="parser_8c_source.html#l00021">21</a> of file <a class="el" href="parser_8c_source.html">parser.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="parser_8c_source.html#l00005">5</a> of file <a class="el" href="parser_8c_source.html">parser.c</a>.</p>
 
 </div>
 </div>

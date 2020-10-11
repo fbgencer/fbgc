@@ -1,8 +1,6 @@
 <map id="_new_fbgc_ll_identifier" name="_new_fbgc_ll_identifier">
 <area shape="rect" id="node2" href="$relexer_8c.html#a4e800df9ae16f96fc5517262d24aa91e" title="_tokenize_substr" alt="" coords="427,5,548,32"/>
-<area shape="rect" id="node3" href="$symbol__table_8h.html#ac2d095c327888530304e422bd1641baf" title="new_fbgc_symbol_from\l_substr" alt="" coords="208,57,368,98"/>
-<area shape="rect" id="node4" href="$field__object_8h.html#a72a879327492fbbc87302acca2de4e5a" title="add_variable_in_field\l_object" alt="" coords="416,57,559,98"/>
-<area shape="rect" id="node5" href="$fbgc__math_8c.html#a9eb1700a5bd425c10311d25a941c3f38" title="new_fbgc_cfunction" alt="" coords="607,39,745,65"/>
-<area shape="rect" id="node6" href="$fbgc_8c.html#a028d4bd3c990b0410fe7e03543a8ed60" title="fbgc_load_module" alt="" coords="613,89,739,116"/>
-<area shape="rect" id="node7" href="$fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c" title="new_fbgc_cfunction" alt="" coords="793,89,932,116"/>
+<area shape="rect" id="node3" href="$symbol__table_8c.html#ac2d095c327888530304e422bd1641baf" title="new_fbgc_symbol_from\l_substr" alt="" coords="208,53,368,94"/>
+<area shape="rect" id="node4" href="$field_8c.html#adfb9f29c382337902456f6c2bbc9b90c" title="add_variable_in_field" alt="" coords="416,60,559,87"/>
+<area shape="rect" id="node5" href="$fbgc_8c.html#a028d4bd3c990b0410fe7e03543a8ed60" title="fbgc_load_module" alt="" coords="607,60,733,87"/>
 </map>

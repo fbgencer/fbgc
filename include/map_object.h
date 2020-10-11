@@ -1,3 +1,17 @@
+// This file is part of fbgc
+
+// fbgc is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+
+// fbgc is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// You should have received a copy of the GNU General Public License
+// along with fbgc.  If not, see <https://www.gnu.org/licenses/>.
 #ifndef MAP_H
 #define MAP_H
 
@@ -39,19 +53,22 @@ struct fbgc_object * new_fbgc_map_object(size_t cap,uint8_t rlf);
 struct fbgc_object * new_fbgc_map_object_exact(size_t cap, uint8_t rlf);
 
 struct fbgc_object * fbgc_map_object_insert(struct fbgc_object * self_adr, struct fbgc_object * key, struct fbgc_object * value);
-
-
+struct fbgc_object * fbgc_map_object_insert_str(struct fbgc_object * self_adr, const char * key, struct fbgc_object * value);
 
 struct fbgc_object * fbgc_map_object_remove(struct fbgc_object * self, struct fbgc_object * key);
 struct fbgc_object * fbgc_map_object_remove_str(struct fbgc_object * self, const char * key);
 struct fbgc_object * fbgc_map_object_remove_substr(struct fbgc_object * self, const char * key1,const char * key2);
+
+struct fbgc_object * fbgc_map_object_merge(struct fbgc_object * self, struct fbgc_object * map2, bool update_existed);
 
 
 ssize_t fbgc_map_object_get_key_index(struct fbgc_object * self, struct fbgc_object * key);
 ssize_t fbgc_map_object_get_key_index_str(struct fbgc_object * self, const char * key);
 ssize_t fbgc_map_object_get_key_index_substr(struct fbgc_object * self,const char *key1, const char *key2);
 
+struct fbgc_map_pair * fbgc_map_object_get_pair(struct fbgc_object * self, size_t index);
 
+struct fbgc_map_pair * fbgc_map_object_lookup_map_pair(struct fbgc_object * self, struct fbgc_object * key);
 struct fbgc_object * fbgc_map_object_lookup(struct fbgc_object * self, struct fbgc_object * key);
 struct fbgc_object * fbgc_map_object_lookup_str(struct fbgc_object * self, const char * key);
 struct fbgc_object * fbgc_map_object_lookup_substr(struct fbgc_object * self, const char * key1,const char * key2);

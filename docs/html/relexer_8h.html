@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>fbgc: /home/fbgencer/fbgc/src/headers/relexer.h File Reference</title>
+<title>fbgc: /home/fbgencer/fbgc/include/relexer.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -61,7 +61,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_d0381950fc41278198232cb047ffc1f9.html">headers</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -217,8 +217,8 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a02a4067461e7100597464c6a36ffe4b1"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="relexer_8h.html#a02a4067461e7100597464c6a36ffe4b1">fbgc_getline_from_file</a> (char *s, int n, FILE *fp)</td></tr>
-<tr class="separator:a02a4067461e7100597464c6a36ffe4b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45e543a6f72c07674402bfdd203b358c"><td class="memItemLeft" align="right" valign="top">ssize_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="relexer_8h.html#a45e543a6f72c07674402bfdd203b358c">fbgc_getline_from_file</a> (char **line, FILE *fp)</td></tr>
+<tr class="separator:a45e543a6f72c07674402bfdd203b358c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af8df2179d7329c1f4683d91d4b26606d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="relexer_8h.html#af8df2179d7329c1f4683d91d4b26606d">pretty_print_pointer</a> (const char *buffer, const char *ptr)</td></tr>
 <tr class="separator:af8df2179d7329c1f4683d91d4b26606d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aacd115c61c8beb2b4546bc97ae9edad8"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="relexer_8h.html#aacd115c61c8beb2b4546bc97ae9edad8">regex_lexer</a> (struct <a class="el" href="structfbgc__object.html">fbgc_object</a> **head_obj, char *first_ptr)</td></tr>
@@ -1294,23 +1294,17 @@ Variables</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a02a4067461e7100597464c6a36ffe4b1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a02a4067461e7100597464c6a36ffe4b1">&#9670;&nbsp;</a></span>fbgc_getline_from_file()</h2>
+<a id="a45e543a6f72c07674402bfdd203b358c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45e543a6f72c07674402bfdd203b358c">&#9670;&nbsp;</a></span>fbgc_getline_from_file()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">char* fbgc_getline_from_file </td>
+          <td class="memname">ssize_t fbgc_getline_from_file </td>
           <td>(</td>
-          <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>s</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>n</em>, </td>
+          <td class="paramtype">char **&#160;</td>
+          <td class="paramname"><em>line</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -1326,17 +1320,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="relexer_8c_source.html#l00273">273</a> of file <a class="el" href="relexer_8c_source.html">relexer.c</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="relexer_8h_a02a4067461e7100597464c6a36ffe4b1_icgraph.png" border="0" usemap="#relexer_8h_a02a4067461e7100597464c6a36ffe4b1_icgraph" alt=""/></div>
-<map name="relexer_8h_a02a4067461e7100597464c6a36ffe4b1_icgraph" id="relexer_8h_a02a4067461e7100597464c6a36ffe4b1_icgraph">
-<area shape="rect" id="node2" href="parser_8h.html#a9128876c7bafe4207a35d10f2c7f12a8" title="parser" alt="" coords="203,5,261,32"/>
-<area shape="rect" id="node3" href="fbgc_8c.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="309,5,412,32"/>
-<area shape="rect" id="node4" href="fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c" title="new_fbgc_cfunction" alt="" coords="460,5,599,32"/>
-</map>
-</div>
+<p class="definition">Definition at line <a class="el" href="relexer_8c_source.html#l00278">278</a> of file <a class="el" href="relexer_8c_source.html">relexer.c</a>.</p>
 
 </div>
 </div>
@@ -1371,18 +1355,6 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="relexer_8h_a2cd16265d56dd7298a746fed3d0772ec_icgraph.png" border="0" usemap="#relexer_8h_a2cd16265d56dd7298a746fed3d0772ec_icgraph" alt=""/></div>
-<map name="relexer_8h_a2cd16265d56dd7298a746fed3d0772ec_icgraph" id="relexer_8h_a2cd16265d56dd7298a746fed3d0772ec_icgraph">
-<area shape="rect" id="node2" href="class__object_8h.html#ac87ee1f4c137d56abfe3990e6da7aa61" title="inherit_from_another\l_class" alt="" coords="112,22,252,63"/>
-<area shape="rect" id="node3" href="interpreter_8h.html#acdb0cb340501af8374de73b627b6e26a" title="run_code" alt="" coords="300,29,375,56"/>
-<area shape="rect" id="node4" href="interpreter_8h.html#acb0454b55a53dfb587644f66848a0646" title="interpreter" alt="" coords="423,29,503,56"/>
-<area shape="rect" id="node5" href="fbgc_8c.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="551,29,653,56"/>
-<area shape="rect" id="node6" href="fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c" title="new_fbgc_cfunction" alt="" coords="701,29,840,56"/>
-</map>
-</div>
 
 </div>
 </div>
@@ -1445,18 +1417,6 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="relexer_8h_af8df2179d7329c1f4683d91d4b26606d_icgraph.png" border="0" usemap="#relexer_8h_af8df2179d7329c1f4683d91d4b26606d_icgraph" alt=""/></div>
-<map name="relexer_8h_af8df2179d7329c1f4683d91d4b26606d_icgraph" id="relexer_8h_af8df2179d7329c1f4683d91d4b26606d_icgraph">
-<area shape="rect" id="node2" href="relexer_8c.html#a4e800df9ae16f96fc5517262d24aa91e" title="_tokenize_substr" alt="" coords="187,5,308,32"/>
-<area shape="rect" id="node3" href="relexer_8h.html#aacd115c61c8beb2b4546bc97ae9edad8" title="regex_lexer" alt="" coords="203,56,292,83"/>
-<area shape="rect" id="node4" href="parser_8h.html#a9128876c7bafe4207a35d10f2c7f12a8" title="parser" alt="" coords="356,56,415,83"/>
-<area shape="rect" id="node5" href="fbgc_8c.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="463,56,565,83"/>
-<area shape="rect" id="node6" href="fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c" title="new_fbgc_cfunction" alt="" coords="613,56,752,83"/>
-</map>
-</div>
 
 </div>
 </div>
@@ -1486,26 +1446,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="relexer_8c_source.html#l00485">485</a> of file <a class="el" href="relexer_8c_source.html">relexer.c</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="relexer_8h_aacd115c61c8beb2b4546bc97ae9edad8_cgraph.png" border="0" usemap="#relexer_8h_aacd115c61c8beb2b4546bc97ae9edad8_cgraph" alt=""/></div>
-<map name="relexer_8h_aacd115c61c8beb2b4546bc97ae9edad8_cgraph" id="relexer_8h_aacd115c61c8beb2b4546bc97ae9edad8_cgraph">
-<area shape="rect" id="node2" href="error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="180,5,239,32"/>
-<area shape="rect" id="node3" href="relexer_8h.html#af8df2179d7329c1f4683d91d4b26606d" title="pretty_print_pointer" alt="" coords="143,56,276,83"/>
-</map>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="relexer_8h_aacd115c61c8beb2b4546bc97ae9edad8_icgraph.png" border="0" usemap="#relexer_8h_aacd115c61c8beb2b4546bc97ae9edad8_icgraph" alt=""/></div>
-<map name="relexer_8h_aacd115c61c8beb2b4546bc97ae9edad8_icgraph" id="relexer_8h_aacd115c61c8beb2b4546bc97ae9edad8_icgraph">
-<area shape="rect" id="node2" href="parser_8h.html#a9128876c7bafe4207a35d10f2c7f12a8" title="parser" alt="" coords="143,5,201,32"/>
-<area shape="rect" id="node3" href="fbgc_8c.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="249,5,352,32"/>
-<area shape="rect" id="node4" href="fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c" title="new_fbgc_cfunction" alt="" coords="400,5,539,32"/>
-</map>
-</div>
+<p class="definition">Definition at line <a class="el" href="relexer_8c_source.html#l00612">612</a> of file <a class="el" href="relexer_8c_source.html">relexer.c</a>.</p>
 
 </div>
 </div>

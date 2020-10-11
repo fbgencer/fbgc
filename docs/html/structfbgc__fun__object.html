@@ -86,10 +86,16 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a0e114d117a48fc528c425a4349c129c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa4c357029d4620cb046e185357db3582"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__ll__base.html">fbgc_ll_base</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfbgc__fun__object.html#aa4c357029d4620cb046e185357db3582">code</a></td></tr>
 <tr class="separator:aa4c357029d4620cb046e185357db3582"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af106fb302ed3e6c52cee66d9788a6d47"><td class="memItemLeft" align="right" valign="top">int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfbgc__fun__object.html#af106fb302ed3e6c52cee66d9788a6d47">no_arg</a></td></tr>
-<tr class="separator:af106fb302ed3e6c52cee66d9788a6d47"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aede4839acfb9685972872af368c22a40"><td class="memItemLeft" align="right" valign="top">int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfbgc__fun__object.html#aede4839acfb9685972872af368c22a40">no_locals</a></td></tr>
-<tr class="separator:aede4839acfb9685972872af368c22a40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6faebcf78caac26d0e62b757eda3f693"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfbgc__fun__object.html#a6faebcf78caac26d0e62b757eda3f693">no_locals</a></td></tr>
+<tr class="separator:a6faebcf78caac26d0e62b757eda3f693"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6576cf11c41c76c0733ad47a2aa9e021"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfbgc__fun__object.html#a6576cf11c41c76c0733ad47a2aa9e021">no_arg</a>: 5</td></tr>
+<tr class="separator:a6576cf11c41c76c0733ad47a2aa9e021"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1451705bb78ff2891d6f6881397eace1"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfbgc__fun__object.html#a1451705bb78ff2891d6f6881397eace1">flag_variadic</a>: 1</td></tr>
+<tr class="separator:a1451705bb78ff2891d6f6881397eace1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abdfd615e05126e49725aad9173743950"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfbgc__fun__object.html#abdfd615e05126e49725aad9173743950">flag_default_args</a>: 1</td></tr>
+<tr class="separator:abdfd615e05126e49725aad9173743950"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a579f21d1c0696a72500fa88735b75513"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfbgc__fun__object.html#a579f21d1c0696a72500fa88735b75513">flag_kwargs</a>: 1</td></tr>
+<tr class="separator:a579f21d1c0696a72500fa88735b75513"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
@@ -127,30 +133,46 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="af106fb302ed3e6c52cee66d9788a6d47"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af106fb302ed3e6c52cee66d9788a6d47">&#9670;&nbsp;</a></span>no_arg</h2>
+<a id="abdfd615e05126e49725aad9173743950"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abdfd615e05126e49725aad9173743950">&#9670;&nbsp;</a></span>flag_default_args</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int8_t fbgc_fun_object::no_arg</td>
+          <td class="memname">uint8_t fbgc_fun_object::flag_default_args</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fun__object_8h_source.html#l00012">12</a> of file <a class="el" href="fun__object_8h_source.html">fun_object.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fun__object_8h_source.html#l00014">14</a> of file <a class="el" href="fun__object_8h_source.html">fun_object.h</a>.</p>
 
 </div>
 </div>
-<a id="aede4839acfb9685972872af368c22a40"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aede4839acfb9685972872af368c22a40">&#9670;&nbsp;</a></span>no_locals</h2>
+<a id="a579f21d1c0696a72500fa88735b75513"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a579f21d1c0696a72500fa88735b75513">&#9670;&nbsp;</a></span>flag_kwargs</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int8_t fbgc_fun_object::no_locals</td>
+          <td class="memname">uint8_t fbgc_fun_object::flag_kwargs</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="fun__object_8h_source.html#l00015">15</a> of file <a class="el" href="fun__object_8h_source.html">fun_object.h</a>.</p>
+
+</div>
+</div>
+<a id="a1451705bb78ff2891d6f6881397eace1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1451705bb78ff2891d6f6881397eace1">&#9670;&nbsp;</a></span>flag_variadic</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t fbgc_fun_object::flag_variadic</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -159,8 +181,40 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a6576cf11c41c76c0733ad47a2aa9e021"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6576cf11c41c76c0733ad47a2aa9e021">&#9670;&nbsp;</a></span>no_arg</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t fbgc_fun_object::no_arg</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="fun__object_8h_source.html#l00012">12</a> of file <a class="el" href="fun__object_8h_source.html">fun_object.h</a>.</p>
+
+</div>
+</div>
+<a id="a6faebcf78caac26d0e62b757eda3f693"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6faebcf78caac26d0e62b757eda3f693">&#9670;&nbsp;</a></span>no_locals</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t fbgc_fun_object::no_locals</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="fun__object_8h_source.html#l00011">11</a> of file <a class="el" href="fun__object_8h_source.html">fun_object.h</a>.</p>
+
+</div>
+</div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>/home/fbgencer/fbgc/src/headers/<a class="el" href="fun__object_8h_source.html">fun_object.h</a></li>
+<li>/home/fbgencer/fbgc/include/<a class="el" href="fun__object_8h_source.html">fun_object.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

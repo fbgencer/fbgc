@@ -66,53 +66,163 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#define-members">Macros</a> &#124;
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">memory.c File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="fbgc_8h_source.html">fbgc.h</a>&quot;</code><br />
-</div><div class="textblock"><div class="dynheader">
-Include dependency graph for memory.c:</div>
-<div class="dyncontent">
-<div class="center"><img src="memory_8c__incl.png" border="0" usemap="#_2home_2fbgencer_2fbgc_2src_2memory_8c" alt=""/></div>
-<map name="_2home_2fbgencer_2fbgc_2src_2memory_8c" id="_2home_2fbgencer_2fbgc_2src_2memory_8c">
-<area shape="rect" id="node2" href="fbgc_8h.html" title="fbgc.h" alt="" coords="1188,95,1247,121"/>
-<area shape="rect" id="node15" href="tokens_8h.html" title="headers/tokens.h" alt="" coords="1087,169,1209,196"/>
-<area shape="rect" id="node16" href="error_8h.html" title="headers/error.h" alt="" coords="1233,169,1343,196"/>
-<area shape="rect" id="node17" href="fbgc__object_8h.html" title="headers/fbgc_object.h" alt="" coords="1367,169,1518,196"/>
-<area shape="rect" id="node18" href="memory_8h.html" title="headers/memory.h" alt="" coords="1543,169,1673,196"/>
-<area shape="rect" id="node19" href="garbage__collector_8h.html" title="headers/garbage_collector.h" alt="" coords="1698,169,1883,196"/>
-<area shape="rect" id="node20" href="linked__list_8h.html" title="headers/linked_list.h" alt="" coords="1908,169,2049,196"/>
-<area shape="rect" id="node21" href="array__object_8h.html" title="headers/array_object.h" alt="" coords="2073,169,2228,196"/>
-<area shape="rect" id="node22" href="double__object_8h.html" title="headers/double_object.h" alt="" coords="2252,169,2415,196"/>
-<area shape="rect" id="node23" href="int__object_8h.html" title="headers/int_object.h" alt="" coords="2439,169,2577,196"/>
-<area shape="rect" id="node24" href="logic__object_8h.html" title="headers/logic_object.h" alt="" coords="2601,169,2753,196"/>
-<area shape="rect" id="node25" href="complex__object_8h.html" title="headers/complex_object.h" alt="" coords="2778,169,2953,196"/>
-<area shape="rect" id="node26" href="str__object_8h.html" title="headers/str_object.h" alt="" coords="2977,169,3117,196"/>
-<area shape="rect" id="node27" href="matrix__object_8h.html" title="headers/matrix_object.h" alt="" coords="3141,169,3302,196"/>
-<area shape="rect" id="node28" href="tuple__object_8h.html" title="headers/tuple_object.h" alt="" coords="3326,169,3479,196"/>
-</map>
-</div>
 </div>
 <p><a href="memory_8c_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfbgc__static__memory__pool.html">fbgc_static_memory_pool</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a23ff1dcd68321daa39bd6ab034b93f7b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8c.html#a23ff1dcd68321daa39bd6ab034b93f7b">is_fbgc_object_pointer</a>(ptr)&#160;&#160;&#160;( check_pointer_is_in_pool(fbgc_memb.object_pool_head,ptr))</td></tr>
+<tr class="memdesc:a23ff1dcd68321daa39bd6ab034b93f7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks the given pointer lies in object pool or not.  <a href="#a23ff1dcd68321daa39bd6ab034b93f7b">More...</a><br /></td></tr>
+<tr class="separator:a23ff1dcd68321daa39bd6ab034b93f7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36ed7cdab6963ecb6d9e731c744a1169"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8c.html#a36ed7cdab6963ecb6d9e731c744a1169">is_raw_memory_pointer</a>(ptr)&#160;&#160;&#160;( check_pointer_is_in_pool(fbgc_memb.raw_memory_head,ptr))</td></tr>
+<tr class="memdesc:a36ed7cdab6963ecb6d9e731c744a1169"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks the given pointer lies in raw memory pool or not.  <a href="#a36ed7cdab6963ecb6d9e731c744a1169">More...</a><br /></td></tr>
+<tr class="separator:a36ed7cdab6963ecb6d9e731c744a1169"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:af9b7242f4d16263673cada1065098389"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8c.html#af9b7242f4d16263673cada1065098389">fbgc_malloc_object</a> (size_t sz)</td></tr>
+<tr class="memdesc:af9b7242f4d16263673cada1065098389"><td class="mdescLeft">&#160;</td><td class="mdescRight">Similar to c-malloc function but only for <a class="el" href="structfbgc__object.html">fbgc_object</a> types.  <a href="#af9b7242f4d16263673cada1065098389">More...</a><br /></td></tr>
+<tr class="separator:af9b7242f4d16263673cada1065098389"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7efe049adedb061a74156918349f5e7f"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8c.html#a7efe049adedb061a74156918349f5e7f">fbgc_malloc</a> (size_t sz)</td></tr>
+<tr class="memdesc:a7efe049adedb061a74156918349f5e7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Similar to c-malloc function.  <a href="#a7efe049adedb061a74156918349f5e7f">More...</a><br /></td></tr>
+<tr class="separator:a7efe049adedb061a74156918349f5e7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4208947661ce41e5ce8c43f21b6ad631"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8c.html#a4208947661ce41e5ce8c43f21b6ad631">initialize_fbgc_memory_block</a> ()</td></tr>
 <tr class="separator:a4208947661ce41e5ce8c43f21b6ad631"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a41dd65ee24d51160659bf94bed90e998"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8c.html#a41dd65ee24d51160659bf94bed90e998">fbgc_malloc</a> (size_t size)</td></tr>
-<tr class="separator:a41dd65ee24d51160659bf94bed90e998"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a46dcfb44df5cac4f04145f1aa208fb9f"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8c.html#a46dcfb44df5cac4f04145f1aa208fb9f">fbgc_realloc</a> (void *ptr, size_t size)</td></tr>
-<tr class="separator:a46dcfb44df5cac4f04145f1aa208fb9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9a280bc3246b0c5d9214aba140ad5d4"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8c.html#ac9a280bc3246b0c5d9214aba140ad5d4">fbgc_malloc_static</a> (size_t size, bool is_raw_memory)</td></tr>
+<tr class="memdesc:ac9a280bc3246b0c5d9214aba140ad5d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocated from fbgc internal static buffer.  <a href="#ac9a280bc3246b0c5d9214aba140ad5d4">More...</a><br /></td></tr>
+<tr class="separator:ac9a280bc3246b0c5d9214aba140ad5d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a222f26661e47df6adc1964346980057d"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8c.html#a222f26661e47df6adc1964346980057d">fbgc_realloc</a> (void *ptr, size_t size)</td></tr>
+<tr class="memdesc:a222f26661e47df6adc1964346980057d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Similar to c-realloc function.  <a href="#a222f26661e47df6adc1964346980057d">More...</a><br /></td></tr>
+<tr class="separator:a222f26661e47df6adc1964346980057d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a45d076e11af8d11bd73f6529582edbef"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8c.html#a45d076e11af8d11bd73f6529582edbef">fbgc_free</a> (void *ptr)</td></tr>
+<tr class="memdesc:a45d076e11af8d11bd73f6529582edbef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds pointer to the free list, for the next allocation this given memory can help allocater function to not grow its memory (if there is no space).  <a href="#a45d076e11af8d11bd73f6529582edbef">More...</a><br /></td></tr>
 <tr class="separator:a45d076e11af8d11bd73f6529582edbef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac7afb05d80ef3b09468f8317180f236c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8c.html#ac7afb05d80ef3b09468f8317180f236c">print_fbgc_memory_block</a> ()</td></tr>
-<tr class="separator:ac7afb05d80ef3b09468f8317180f236c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1b08de929c185673e3f924e7a98c1da2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8c.html#a1b08de929c185673e3f924e7a98c1da2">free_fbgc_memory_block</a> ()</td></tr>
 <tr class="separator:a1b08de929c185673e3f924e7a98c1da2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6d4dd55270f3944fde94e83a96577d7"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8c.html#ac6d4dd55270f3944fde94e83a96577d7">capacity_in_bytes_fbgc_raw_memory</a> (void *x)</td></tr>
+<tr class="separator:ac6d4dd55270f3944fde94e83a96577d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec1d7567b1a711c33d129e2a77244e18"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8c.html#aec1d7567b1a711c33d129e2a77244e18">fbgc_gc_register_pointer</a> (void *base_ptr, uint8_t nested,...)</td></tr>
+<tr class="separator:aec1d7567b1a711c33d129e2a77244e18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ef1a06c1ad54b5494b12d6911bea51f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8c.html#a3ef1a06c1ad54b5494b12d6911bea51f">fbgc_gc_mark_object</a> (struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *<a class="el" href="grammar_8c.html#a2860d074fd2d86b8826bef4be8e71cd0">obj</a>)</td></tr>
+<tr class="separator:a3ef1a06c1ad54b5494b12d6911bea51f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af42994e853e4792f2a4bfe9a92e709d0"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8c.html#af42994e853e4792f2a4bfe9a92e709d0">fbgc_gc_mark_pointer</a> (void *base_ptr, size_t block_size)</td></tr>
+<tr class="separator:af42994e853e4792f2a4bfe9a92e709d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e4389eb30327879df1eaf1033810316"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8c.html#a4e4389eb30327879df1eaf1033810316">fbgc_gc_init</a> (struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *root)</td></tr>
+<tr class="separator:a4e4389eb30327879df1eaf1033810316"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89286e3b2f46ee7df86e350b35f50320"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8c.html#a89286e3b2f46ee7df86e350b35f50320">gc_update_free_list</a> (struct <a class="el" href="structfbgc__object.html">fbgc_object</a> **<a class="el" href="grammar_8c.html#a2860d074fd2d86b8826bef4be8e71cd0">obj</a>)</td></tr>
+<tr class="separator:a89286e3b2f46ee7df86e350b35f50320"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a45140ba308a6210947a14e37b031ec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8c.html#a4a45140ba308a6210947a14e37b031ec">fbgc_gc_mark</a> ()</td></tr>
+<tr class="separator:a4a45140ba308a6210947a14e37b031ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad03c3957bb9f8d5c30faf0c2f8c01a29"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8c.html#ad03c3957bb9f8d5c30faf0c2f8c01a29">fbgc_gc_sweep</a> ()</td></tr>
+<tr class="separator:ad03c3957bb9f8d5c30faf0c2f8c01a29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a8918367899ad99cdd2de865fb88c51"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8c.html#a7a8918367899ad99cdd2de865fb88c51">fbgc_gc_run</a> ()</td></tr>
+<tr class="separator:a7a8918367899ad99cdd2de865fb88c51"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abefa277cbdedf0015e3b990f18602f6f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8c.html#abefa277cbdedf0015e3b990f18602f6f">print_fbgc_memory_object_pool</a> ()</td></tr>
+<tr class="separator:abefa277cbdedf0015e3b990f18602f6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c05eb3722213e24251e836af1d1f2ae"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8c.html#a4c05eb3722213e24251e836af1d1f2ae">print_fbgc_memory_raw_memory</a> ()</td></tr>
+<tr class="separator:a4c05eb3722213e24251e836af1d1f2ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7afb05d80ef3b09468f8317180f236c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8c.html#ac7afb05d80ef3b09468f8317180f236c">print_fbgc_memory_block</a> ()</td></tr>
+<tr class="separator:ac7afb05d80ef3b09468f8317180f236c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:ae52373521b3bcccea540099a454c0fc3"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__memory__block.html">fbgc_memory_block</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8c.html#ae52373521b3bcccea540099a454c0fc3">fbgc_memb</a></td></tr>
+<tr class="separator:ae52373521b3bcccea540099a454c0fc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c971f136d83527416bddb3b30fd75e3"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__garbage__collector.html">fbgc_garbage_collector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8c.html#a8c971f136d83527416bddb3b30fd75e3">fbgc_gc</a></td></tr>
+<tr class="separator:a8c971f136d83527416bddb3b30fd75e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a23ff1dcd68321daa39bd6ab034b93f7b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23ff1dcd68321daa39bd6ab034b93f7b">&#9670;&nbsp;</a></span>is_fbgc_object_pointer</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define is_fbgc_object_pointer</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">ptr</td><td>)</td>
+          <td>&#160;&#160;&#160;( check_pointer_is_in_pool(fbgc_memb.object_pool_head,ptr))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks the given pointer lies in object pool or not. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ptr</td><td>: Void pointer </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="memory_8c_source.html#l00051">51</a> of file <a class="el" href="memory_8c_source.html">memory.c</a>.</p>
+
+</div>
+</div>
+<a id="a36ed7cdab6963ecb6d9e731c744a1169"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a36ed7cdab6963ecb6d9e731c744a1169">&#9670;&nbsp;</a></span>is_raw_memory_pointer</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define is_raw_memory_pointer</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">ptr</td><td>)</td>
+          <td>&#160;&#160;&#160;( check_pointer_is_in_pool(fbgc_memb.raw_memory_head,ptr))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks the given pointer lies in raw memory pool or not. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ptr</td><td>: Void pointer </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="memory_8c_source.html#l00057">57</a> of file <a class="el" href="memory_8c_source.html">memory.c</a>.</p>
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="ac6d4dd55270f3944fde94e83a96577d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6d4dd55270f3944fde94e83a96577d7">&#9670;&nbsp;</a></span>capacity_in_bytes_fbgc_raw_memory()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t capacity_in_bytes_fbgc_raw_memory </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>x</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="memory_8c_source.html#l00377">377</a> of file <a class="el" href="memory_8c_source.html">memory.c</a>.</p>
+
+</div>
+</div>
 <a id="a45d076e11af8d11bd73f6529582edbef"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a45d076e11af8d11bd73f6529582edbef">&#9670;&nbsp;</a></span>fbgc_free()</h2>
 
@@ -129,37 +239,189 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="memory_8c_source.html#l00353">353</a> of file <a class="el" href="memory_8c_source.html">memory.c</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="memory_8c_a45d076e11af8d11bd73f6529582edbef_icgraph.png" border="0" usemap="#memory_8c_a45d076e11af8d11bd73f6529582edbef_icgraph" alt=""/></div>
-<map name="memory_8c_a45d076e11af8d11bd73f6529582edbef_icgraph" id="memory_8c_a45d076e11af8d11bd73f6529582edbef_icgraph">
-<area shape="rect" id="node2" href="memory_8h.html#a46dcfb44df5cac4f04145f1aa208fb9f" title="fbgc_realloc" alt="" coords="129,85,221,112"/>
-<area shape="rect" id="node3" href="tuple__object_8h.html#a0b406898ce0f388a06bbf0cdd3b5b8d5" title="push_back_fbgc_tuple\l_object" alt="" coords="269,78,421,119"/>
-<area shape="rect" id="node4" href="parser_8h.html#a9128876c7bafe4207a35d10f2c7f12a8" title="parser" alt="" coords="523,5,581,32"/>
-<area shape="rect" id="node7" href="str__object_8h.html#aa52ba68bd74a0ee1167ab4483fec93a3" title="operator_fbgc_str_object" alt="" coords="469,56,635,83"/>
-<area shape="rect" id="node8" href="symbol__table_8h.html#ac2d095c327888530304e422bd1641baf" title="new_fbgc_symbol_from\l_substr" alt="" coords="472,107,632,149"/>
-<area shape="rect" id="node13" href="tuple__object_8h.html#a2109ecc7ada3494d38d605cabaaa3424" title="operator_fbgc_tuple\l_object" alt="" coords="484,173,620,214"/>
-<area shape="rect" id="node5" href="fbgc_8c.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="891,5,994,32"/>
-<area shape="rect" id="node6" href="fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c" title="new_fbgc_cfunction" alt="" coords="1060,56,1199,83"/>
-<area shape="rect" id="node9" href="field__object_8h.html#a72a879327492fbbc87302acca2de4e5a" title="add_variable_in_field\l_object" alt="" coords="683,78,825,119"/>
-<area shape="rect" id="node12" href="relexer_8c.html#a4e800df9ae16f96fc5517262d24aa91e" title="_tokenize_substr" alt="" coords="693,144,815,171"/>
-<area shape="rect" id="node10" href="fbgc__math_8c.html#a9eb1700a5bd425c10311d25a941c3f38" title="new_fbgc_cfunction" alt="" coords="873,56,1012,83"/>
-<area shape="rect" id="node11" href="fbgc_8c.html#a028d4bd3c990b0410fe7e03543a8ed60" title="fbgc_load_module" alt="" coords="879,107,1006,133"/>
-</map>
-</div>
+<p>Adds pointer to the free list, for the next allocation this given memory can help allocater function to not grow its memory (if there is no space). </p>
+<p>If allocated object (can be allocated any allocater function, see fbgc_malloc and fbgc_malloc_object) is really not need for the next cycle of the program, then giving pointer to fbgc memory api can help to not allocate new variables all the time. This given pointer will be added to free list and for the next allocation it may be used because fbgc memory try to minimize fragmentation in its internal memory pools </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">size</td><td>: Address of the garbage memory </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="memory_8c_source.html#l00345">345</a> of file <a class="el" href="memory_8c_source.html">memory.c</a>.</p>
 
 </div>
 </div>
-<a id="a41dd65ee24d51160659bf94bed90e998"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a41dd65ee24d51160659bf94bed90e998">&#9670;&nbsp;</a></span>fbgc_malloc()</h2>
+<a id="a4e4389eb30327879df1eaf1033810316"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e4389eb30327879df1eaf1033810316">&#9670;&nbsp;</a></span>fbgc_gc_init()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void* fbgc_malloc </td>
+          <td class="memname">void fbgc_gc_init </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td>
+          <td class="paramname"><em>root</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="memory_8c_source.html#l00517">517</a> of file <a class="el" href="memory_8c_source.html">memory.c</a>.</p>
+
+</div>
+</div>
+<a id="a4a45140ba308a6210947a14e37b031ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a45140ba308a6210947a14e37b031ec">&#9670;&nbsp;</a></span>fbgc_gc_mark()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void fbgc_gc_mark </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="memory_8c_source.html#l00540">540</a> of file <a class="el" href="memory_8c_source.html">memory.c</a>.</p>
+
+</div>
+</div>
+<a id="a3ef1a06c1ad54b5494b12d6911bea51f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ef1a06c1ad54b5494b12d6911bea51f">&#9670;&nbsp;</a></span>fbgc_gc_mark_object()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void fbgc_gc_mark_object </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td>
+          <td class="paramname"><em>obj</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="memory_8c_source.html#l00480">480</a> of file <a class="el" href="memory_8c_source.html">memory.c</a>.</p>
+
+</div>
+</div>
+<a id="af42994e853e4792f2a4bfe9a92e709d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af42994e853e4792f2a4bfe9a92e709d0">&#9670;&nbsp;</a></span>fbgc_gc_mark_pointer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t fbgc_gc_mark_pointer </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>base_ptr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>block_size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="memory_8c_source.html#l00484">484</a> of file <a class="el" href="memory_8c_source.html">memory.c</a>.</p>
+
+</div>
+</div>
+<a id="aec1d7567b1a711c33d129e2a77244e18"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec1d7567b1a711c33d129e2a77244e18">&#9670;&nbsp;</a></span>fbgc_gc_register_pointer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t fbgc_gc_register_pointer </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>base_ptr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>nested</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="memory_8c_source.html#l00396">396</a> of file <a class="el" href="memory_8c_source.html">memory.c</a>.</p>
+
+</div>
+</div>
+<a id="a7a8918367899ad99cdd2de865fb88c51"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a8918367899ad99cdd2de865fb88c51">&#9670;&nbsp;</a></span>fbgc_gc_run()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void fbgc_gc_run </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="memory_8c_source.html#l00707">707</a> of file <a class="el" href="memory_8c_source.html">memory.c</a>.</p>
+
+</div>
+</div>
+<a id="ad03c3957bb9f8d5c30faf0c2f8c01a29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad03c3957bb9f8d5c30faf0c2f8c01a29">&#9670;&nbsp;</a></span>fbgc_gc_sweep()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void fbgc_gc_sweep </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="memory_8c_source.html#l00684">684</a> of file <a class="el" href="memory_8c_source.html">memory.c</a>.</p>
+
+</div>
+</div>
+<a id="a7efe049adedb061a74156918349f5e7f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7efe049adedb061a74156918349f5e7f">&#9670;&nbsp;</a></span>fbgc_malloc()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void * fbgc_malloc </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>size</em></td><td>)</td>
@@ -168,82 +430,96 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="memory_8c_source.html#l00024">24</a> of file <a class="el" href="memory_8c_source.html">memory.c</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="memory_8c_a41dd65ee24d51160659bf94bed90e998_cgraph.png" border="0" usemap="#memory_8c_a41dd65ee24d51160659bf94bed90e998_cgraph" alt=""/></div>
-<map name="memory_8c_a41dd65ee24d51160659bf94bed90e998_cgraph" id="memory_8c_a41dd65ee24d51160659bf94bed90e998_cgraph">
-<area shape="rect" id="node2" href="error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="145,5,204,32"/>
-</map>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="memory_8c_a41dd65ee24d51160659bf94bed90e998_icgraph.png" border="0" usemap="#memory_8c_a41dd65ee24d51160659bf94bed90e998_icgraph" alt=""/></div>
-<map name="memory_8c_a41dd65ee24d51160659bf94bed90e998_icgraph" id="memory_8c_a41dd65ee24d51160659bf94bed90e998_icgraph">
-<area shape="rect" id="node2" href="class__object_8h.html#a713aa7c51b78181d9d2789d144d94a9f" title="new_fbgc_class_object" alt="" coords="378,1257,537,1283"/>
-<area shape="rect" id="node4" href="class__object_8h.html#a805cce8d5534d762df764dca6951457a" title="new_fbgc_instance_object" alt="" coords="595,1358,771,1385"/>
-<area shape="rect" id="node6" href="cmodule__object_8c.html#a2772285a9de527a525825b3575453288" title="new_fbgc_cfun_object" alt="" coords="157,63,309,90"/>
-<area shape="rect" id="node11" href="cmodule__object_8h.html#aa628de8f9db7d40012fa5760b8656c8a" title="new_fbgc_cmodule_object" alt="" coords="145,183,321,210"/>
-<area shape="rect" id="node12" href="complex__object_8h.html#aaa211012c5583b4c23ebcc4824fbc504" title="new_fbgc_complex_object" alt="" coords="145,305,321,331"/>
-<area shape="rect" id="node19" href="cstruct__object_8h.html#a1ae331347f94bd7d06e4de962438f5a4" title="new_fbgc_cstruct_object" alt="" coords="150,734,317,761"/>
-<area shape="rect" id="node21" href="double__object_8h.html#a2889f75bba14b0bdb26739c43ba8141e" title="new_fbgc_double_object" alt="" coords="375,363,540,390"/>
-<area shape="rect" id="node28" href="range__object_8h.html#a1277a78796cbce063e7a051a68435fc4" title="new_fbgc_range_object" alt="" coords="604,633,763,659"/>
-<area shape="rect" id="node29" href="fbgc__object_8h.html#a00357955c871aebe1ccb6fb0caecb290" title="new_fbgc_object" alt="" coords="173,683,293,710"/>
-<area shape="rect" id="node30" href="field__object_8h.html#a28800156fc2d609a3625834282b1b94e" title="new_fbgc_field_object" alt="" coords="608,894,759,921"/>
-<area shape="rect" id="node31" href="field__object_8h.html#a51210a1608ab1b46f9d2bb1b0f2925eb" title="load_module_in_field\l_object" alt="" coords="386,887,529,928"/>
-<area shape="rect" id="node32" href="fun__object_8h.html#ad373ce21484b9de2cb1ff11f9d8736fa" title="new_fbgc_fun_object" alt="" coords="385,1206,530,1233"/>
-<area shape="rect" id="node33" href="int__object_8h.html#ab3d5f595f3b289027ef01cfbef9bd06d" title="new_fbgc_int_object" alt="" coords="387,633,528,659"/>
-<area shape="rect" id="node34" href="int__object_8h.html#a1d84fd5066bc87f808091d2581b8077e" title="derive_from_new_int\l_object" alt="" coords="162,937,305,979"/>
-<area shape="rect" id="node35" href="linked__list_8h.html#a873b1fc3c20ade7b36c33a48e09f52a9" title="_new_fbgc_ll_base" alt="" coords="167,1054,300,1081"/>
-<area shape="rect" id="node36" href="linked__list_8h.html#a0d9111f39bddfd9533487858459663d2" title="_new_fbgc_ll" alt="" coords="408,953,507,979"/>
-<area shape="rect" id="node37" href="linked__list_8h.html#af7c55666ca4f4ce11b4d2420ff32a5bb" title="_new_fbgc_ll_constant" alt="" coords="156,1003,311,1030"/>
-<area shape="rect" id="node38" href="linked__list_8h.html#ab22bc6bb43e4e70889191c02848928bb" title="_new_fbgc_ll_jumper" alt="" coords="385,1155,529,1182"/>
-<area shape="rect" id="node39" href="linked__list_8h.html#a879f3ec7d202dfa3b85d979e5a6aef37" title="_new_fbgc_ll_identifier" alt="" coords="156,1206,311,1233"/>
-<area shape="rect" id="node40" href="linked__list_8h.html#aad0f2c0f01721933141f1980b4a3421f" title="_new_fbgc_ll_opcode_int" alt="" coords="373,1307,541,1334"/>
-<area shape="rect" id="node41" href="logic__object_8h.html#a8cd28a3ac114a01bfd03defff3409eb3" title="new_fbgc_logic_object" alt="" coords="156,477,311,503"/>
-<area shape="rect" id="node42" href="matrix__object_8h.html#a4614d7be1ee0da300551b89ed0e2a1d4" title="new_fbgc_matrix_object" alt="" coords="376,531,539,558"/>
-<area shape="rect" id="node43" href="memory_8h.html#a46dcfb44df5cac4f04145f1aa208fb9f" title="fbgc_realloc" alt="" coords="187,1409,279,1435"/>
-<area shape="rect" id="node44" href="str__object_8h.html#ab7113129345d6c0be86d06312b0816af" title="new_fbgc_str_object" alt="" coords="831,1609,974,1635"/>
-<area shape="rect" id="node45" href="str__object_8h.html#acb52d0d5127ded9fbb7718d6b6d13d28" title="new_fbgc_str_object\l_from_substr" alt="" coords="162,1511,305,1552"/>
-<area shape="rect" id="node46" href="str__object_8h.html#a7dd90bab7f0bbd8ce46b5630a48dd428" title="new_fbgc_str_object\l_empty" alt="" coords="162,1576,305,1617"/>
-<area shape="rect" id="node47" href="str__object_8h.html#a9962c161ae9be8aa10a8950c980ed2d9" title="new_fbgc_cstr_object" alt="" coords="159,1642,308,1669"/>
-<area shape="rect" id="node48" href="str__object_8h.html#ab37046d06d1ced789068bf70e37b7ed1" title="new_fbgc_cstr_object\l_from_substr" alt="" coords="159,1693,308,1735"/>
-<area shape="rect" id="node49" href="tuple__object_8h.html#a36c894d467dae65689e3644a0de712de" title="new_fbgc_tuple_object" alt="" coords="380,1358,535,1385"/>
-<area shape="rect" id="node50" href="tuple__object_8c.html#aa73a33e3ceeba7ec53c8d96483263649" title="copy_fbgc_tuple_object" alt="" coords="154,1810,313,1837"/>
-<area shape="rect" id="node3" href="parser_8h.html#a9128876c7bafe4207a35d10f2c7f12a8" title="parser" alt="" coords="654,1155,713,1182"/>
-<area shape="rect" id="node5" href="interpreter_8h.html#acdb0cb340501af8374de73b627b6e26a" title="run_code" alt="" coords="1032,683,1107,710"/>
-<area shape="rect" id="node7" href="cmodule__object_8h.html#a78b98728bafb17115fa26b483d600ef1" title="new_cfun_object_from_str" alt="" coords="370,683,545,710"/>
-<area shape="rect" id="node8" href="complex__object_8h.html#ac8bdb069f27acd1aa7143ed97fa21e7c" title="get_set_fbgc_complex\l_object_member" alt="" coords="607,35,760,76"/>
-<area shape="rect" id="node9" href="fbgc__object_8h.html#a6b179b77e73ea2031e250652bb83c1cf" title="get_set_fbgc_object\l_member" alt="" coords="833,35,972,76"/>
-<area shape="rect" id="node10" href="fbgc_8c.html#a028d4bd3c990b0410fe7e03543a8ed60" title="fbgc_load_module" alt="" coords="394,63,521,90"/>
-<area shape="rect" id="node13" href="fbgc__math_8c.html#aa6e10b1ad6ff2f812aec975bf195c447" title="one_arg_math" alt="" coords="631,582,735,609"/>
-<area shape="rect" id="node14" href="complex__object_8h.html#a7434c65ebf39068726576a0a6ad30c47" title="new_fbgc_complex_object\l_from_str" alt="" coords="369,232,545,273"/>
-<area shape="rect" id="node15" href="complex__object_8h.html#a4e45b488d3b31e778f6de1d9ac4f9597" title="new_fbgc_complex_object\l_from_substr" alt="" coords="369,297,545,339"/>
-<area shape="rect" id="node16" href="complex__object_8h.html#a7b0492b9fa54e6303c27881d96ad6af9" title="conjugate_fbgc_complex\l_object" alt="" coords="374,115,541,156"/>
-<area shape="rect" id="node17" href="complex__object_8h.html#a0944ac45cebf69162b5664a88bd9caef" title="operator_method_raw\l_complex" alt="" coords="384,465,531,507"/>
-<area shape="rect" id="node18" href="matrix__object_8h.html#a92e7b77821f11133fa4d72341d1d29c7" title="get_object_in_fbgc\l_matrix_object" alt="" coords="618,100,749,141"/>
-<area shape="rect" id="node20" href="fbgc__file_8c.html#a051ea1321712bbc1770c17359177681d" title="new_fbgc_cfunction" alt="" coords="388,785,527,811"/>
-<area shape="rect" id="node22" href="fbgc__math_8c.html#a9eb1700a5bd425c10311d25a941c3f38" title="new_fbgc_cfunction" alt="" coords="614,399,753,426"/>
-<area shape="rect" id="node23" href="complex__object_8h.html#aa0b1f545b62fd633eec818519a96cb35" title="real_fbgc_complex_object\l_to_double" alt="" coords="597,451,770,492"/>
-<area shape="rect" id="node24" href="complex__object_8h.html#a3df0e995980f4c10aba246d9e1f31a79" title="imag_fbgc_complex_object\l_to_double" alt="" coords="593,516,773,557"/>
-<area shape="rect" id="node25" href="complex__object_8h.html#a35a6de78c0508d9a546bdc03b4005380" title="subscript_fbgc_complex\l_object" alt="" coords="821,251,984,292"/>
-<area shape="rect" id="node26" href="double__object_8h.html#a0d68517888c5189911c0928b7545f85d" title="new_fbgc_double_object\l_from_str" alt="" coords="601,217,766,259"/>
-<area shape="rect" id="node27" href="double__object_8h.html#a5aea10e1753a8a1fec5a3daafadc6631" title="new_fbgc_double_object\l_from_substr" alt="" coords="601,283,766,324"/>
-</map>
-</div>
+<p>Similar to c-malloc function. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">size</td><td>: Requested size in bytes </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Allocated address of the requested bytes </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="memory_8c_source.html#l00043">43</a> of file <a class="el" href="memory_8c_source.html">memory.c</a>.</p>
 
 </div>
 </div>
-<a id="a46dcfb44df5cac4f04145f1aa208fb9f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a46dcfb44df5cac4f04145f1aa208fb9f">&#9670;&nbsp;</a></span>fbgc_realloc()</h2>
+<a id="af9b7242f4d16263673cada1065098389"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9b7242f4d16263673cada1065098389">&#9670;&nbsp;</a></span>fbgc_malloc_object()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void* fbgc_realloc </td>
+          <td class="memname">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> * fbgc_malloc_object </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Similar to c-malloc function but only for <a class="el" href="structfbgc__object.html">fbgc_object</a> types. </p>
+<p>Other than fbgc_objects, allocation must be performed by fbgc_malloc function </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">size</td><td>: Requested size in bytes </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Allocated address of the requested bytes </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="memory_8c_source.html#l00040">40</a> of file <a class="el" href="memory_8c_source.html">memory.c</a>.</p>
+
+</div>
+</div>
+<a id="ac9a280bc3246b0c5d9214aba140ad5d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac9a280bc3246b0c5d9214aba140ad5d4">&#9670;&nbsp;</a></span>fbgc_malloc_static()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void * fbgc_malloc_static </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>is_raw_memory</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Allocated from fbgc internal static buffer. </p>
+<p><a class="el" href="structfbgc__object.html">fbgc_object</a> or any other data type can be allocated with this function. These object never collected by the garbage collector nor they die. They live until the end of the program </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">size</td><td>: Requested size in bytes </td></tr>
+    <tr><td class="paramname">is_raw_memory</td><td>: If the requested byte is not for <a class="el" href="structfbgc__object.html">fbgc_object</a> types then this parameter must be true, otherwise it must be false </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Allocated address of the requested bytes </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="memory_8c_source.html#l00239">239</a> of file <a class="el" href="memory_8c_source.html">memory.c</a>.</p>
+
+</div>
+</div>
+<a id="a222f26661e47df6adc1964346980057d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a222f26661e47df6adc1964346980057d">&#9670;&nbsp;</a></span>fbgc_realloc()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void * fbgc_realloc </td>
           <td>(</td>
           <td class="paramtype">void *&#160;</td>
           <td class="paramname"><em>ptr</em>, </td>
@@ -262,36 +538,17 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="memory_8c_source.html#l00290">290</a> of file <a class="el" href="memory_8c_source.html">memory.c</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="memory_8c_a46dcfb44df5cac4f04145f1aa208fb9f_cgraph.png" border="0" usemap="#memory_8c_a46dcfb44df5cac4f04145f1aa208fb9f_cgraph" alt=""/></div>
-<map name="memory_8c_a46dcfb44df5cac4f04145f1aa208fb9f_cgraph" id="memory_8c_a46dcfb44df5cac4f04145f1aa208fb9f_cgraph">
-<area shape="rect" id="node2" href="memory_8c.html#a41dd65ee24d51160659bf94bed90e998" title="fbgc_malloc" alt="" coords="172,5,264,32"/>
-<area shape="rect" id="node3" href="error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="339,31,397,57"/>
-<area shape="rect" id="node4" href="fbgc__object_8c.html#a1ba6a6b09db0e6c3a6ac6f6cfc0266de" title="get_fbgc_object_size" alt="" coords="145,107,291,133"/>
-<area shape="rect" id="node5" href="memory_8c.html#a45d076e11af8d11bd73f6529582edbef" title="fbgc_free" alt="" coords="180,157,256,184"/>
-</map>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="memory_8c_a46dcfb44df5cac4f04145f1aa208fb9f_icgraph.png" border="0" usemap="#memory_8c_a46dcfb44df5cac4f04145f1aa208fb9f_icgraph" alt=""/></div>
-<map name="memory_8c_a46dcfb44df5cac4f04145f1aa208fb9f_icgraph" id="memory_8c_a46dcfb44df5cac4f04145f1aa208fb9f_icgraph">
-<area shape="rect" id="node2" href="tuple__object_8h.html#a0b406898ce0f388a06bbf0cdd3b5b8d5" title="push_back_fbgc_tuple\l_object" alt="" coords="145,78,297,119"/>
-<area shape="rect" id="node3" href="parser_8h.html#a9128876c7bafe4207a35d10f2c7f12a8" title="parser" alt="" coords="399,5,457,32"/>
-<area shape="rect" id="node6" href="str__object_8h.html#aa52ba68bd74a0ee1167ab4483fec93a3" title="operator_fbgc_str_object" alt="" coords="345,56,511,83"/>
-<area shape="rect" id="node7" href="symbol__table_8h.html#ac2d095c327888530304e422bd1641baf" title="new_fbgc_symbol_from\l_substr" alt="" coords="348,107,508,149"/>
-<area shape="rect" id="node12" href="tuple__object_8h.html#a2109ecc7ada3494d38d605cabaaa3424" title="operator_fbgc_tuple\l_object" alt="" coords="360,173,496,214"/>
-<area shape="rect" id="node4" href="fbgc_8c.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="767,5,870,32"/>
-<area shape="rect" id="node5" href="fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c" title="new_fbgc_cfunction" alt="" coords="936,56,1075,83"/>
-<area shape="rect" id="node8" href="field__object_8h.html#a72a879327492fbbc87302acca2de4e5a" title="add_variable_in_field\l_object" alt="" coords="559,78,701,119"/>
-<area shape="rect" id="node11" href="relexer_8c.html#a4e800df9ae16f96fc5517262d24aa91e" title="_tokenize_substr" alt="" coords="569,144,691,171"/>
-<area shape="rect" id="node9" href="fbgc__math_8c.html#a9eb1700a5bd425c10311d25a941c3f38" title="new_fbgc_cfunction" alt="" coords="749,56,888,83"/>
-<area shape="rect" id="node10" href="fbgc_8c.html#a028d4bd3c990b0410fe7e03543a8ed60" title="fbgc_load_module" alt="" coords="755,107,882,133"/>
-</map>
-</div>
+<p>Similar to c-realloc function. </p>
+<p>fbgc_objects pointers are immutable so they cannot be reallocated because (most of the time) they hold another data structure that lives in raw memory pool (such as tuples, matrices etc..). Only the object are allocated by fbgc_malloc can be reallocated. Otherwise function asserts and close the program because it is a programmer error</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">size</td><td>: Requested size in bytes </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Allocated address of the requested bytes (It may be new address or returns the old address if there is enough space to grow) </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="memory_8c_source.html#l00267">267</a> of file <a class="el" href="memory_8c_source.html">memory.c</a>.</p>
 
 </div>
 </div>
@@ -310,7 +567,27 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="memory_8c_source.html#l00427">427</a> of file <a class="el" href="memory_8c_source.html">memory.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="memory_8c_source.html#l00364">364</a> of file <a class="el" href="memory_8c_source.html">memory.c</a>.</p>
+
+</div>
+</div>
+<a id="a89286e3b2f46ee7df86e350b35f50320"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a89286e3b2f46ee7df86e350b35f50320">&#9670;&nbsp;</a></span>gc_update_free_list()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gc_update_free_list </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> **&#160;</td>
+          <td class="paramname"><em>obj</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="memory_8c_source.html#l00534">534</a> of file <a class="el" href="memory_8c_source.html">memory.c</a>.</p>
 
 </div>
 </div>
@@ -329,15 +606,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="memory_8c_source.html#l00005">5</a> of file <a class="el" href="memory_8c_source.html">memory.c</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="memory_8c_a4208947661ce41e5ce8c43f21b6ad631_icgraph.png" border="0" usemap="#memory_8c_a4208947661ce41e5ce8c43f21b6ad631_icgraph" alt=""/></div>
-<map name="memory_8c_a4208947661ce41e5ce8c43f21b6ad631_icgraph" id="memory_8c_a4208947661ce41e5ce8c43f21b6ad631_icgraph">
-<area shape="rect" id="node2" href="fbgc_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="208,13,259,39"/>
-</map>
-</div>
+<p class="definition">Definition at line <a class="el" href="memory_8c_source.html#l00113">113</a> of file <a class="el" href="memory_8c_source.html">memory.c</a>.</p>
 
 </div>
 </div>
@@ -356,24 +625,79 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="memory_8c_source.html#l00370">370</a> of file <a class="el" href="memory_8c_source.html">memory.c</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="memory_8c_ac7afb05d80ef3b09468f8317180f236c_cgraph.png" border="0" usemap="#memory_8c_ac7afb05d80ef3b09468f8317180f236c_cgraph" alt=""/></div>
-<map name="memory_8c_ac7afb05d80ef3b09468f8317180f236c_cgraph" id="memory_8c_ac7afb05d80ef3b09468f8317180f236c_cgraph">
-<area shape="rect" id="node2" href="error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="267,5,326,32"/>
-<area shape="rect" id="node3" href="fbgc__object_8c.html#a1ba6a6b09db0e6c3a6ac6f6cfc0266de" title="get_fbgc_object_size" alt="" coords="224,56,369,83"/>
-</map>
+<p class="definition">Definition at line <a class="el" href="memory_8c_source.html#l00796">796</a> of file <a class="el" href="memory_8c_source.html">memory.c</a>.</p>
+
 </div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="memory_8c_ac7afb05d80ef3b09468f8317180f236c_icgraph.png" border="0" usemap="#memory_8c_ac7afb05d80ef3b09468f8317180f236c_icgraph" alt=""/></div>
-<map name="memory_8c_ac7afb05d80ef3b09468f8317180f236c_icgraph" id="memory_8c_ac7afb05d80ef3b09468f8317180f236c_icgraph">
-<area shape="rect" id="node2" href="fbgc__stl_8c.html#ae2af832a56a286379063687e2aafcd25" title="new_fbgc_cfunction" alt="" coords="224,5,363,32"/>
-</map>
 </div>
+<a id="abefa277cbdedf0015e3b990f18602f6f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abefa277cbdedf0015e3b990f18602f6f">&#9670;&nbsp;</a></span>print_fbgc_memory_object_pool()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void print_fbgc_memory_object_pool </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="memory_8c_source.html#l00713">713</a> of file <a class="el" href="memory_8c_source.html">memory.c</a>.</p>
+
+</div>
+</div>
+<a id="a4c05eb3722213e24251e836af1d1f2ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c05eb3722213e24251e836af1d1f2ae">&#9670;&nbsp;</a></span>print_fbgc_memory_raw_memory()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void print_fbgc_memory_raw_memory </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="memory_8c_source.html#l00755">755</a> of file <a class="el" href="memory_8c_source.html">memory.c</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a8c971f136d83527416bddb3b30fd75e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c971f136d83527416bddb3b30fd75e3">&#9670;&nbsp;</a></span>fbgc_gc</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structfbgc__garbage__collector.html">fbgc_garbage_collector</a> fbgc_gc</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">    .state = <a class="code" href="memory_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba3d558d928b613ed5fd5fedc958fcb50c">GC_STATE_NOT_INITIALIZED</a>,</div><div class="line">    .threshold = 100,</div><div class="line">    .cycle = 0,</div><div class="line">    .last_location = NULL,</div><div class="line">    .current_raw_memory = NULL,</div><div class="line">    .current_object_pool = NULL,</div><div class="line">    .ptr_list = {.data = NULL, .size = 0, .capacity = 0},</div><div class="line">}</div><div class="ttc" id="memory_8h_html_a06fc87d81c62e9abb8790b6e5713c55ba3d558d928b613ed5fd5fedc958fcb50c"><div class="ttname"><a href="memory_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba3d558d928b613ed5fd5fedc958fcb50c">GC_STATE_NOT_INITIALIZED</a></div><div class="ttdef"><b>Definition:</b> <a href="memory_8h_source.html#l00130">memory.h:130</a></div></div>
+</div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="memory_8c_source.html#l00384">384</a> of file <a class="el" href="memory_8c_source.html">memory.c</a>.</p>
+
+</div>
+</div>
+<a id="ae52373521b3bcccea540099a454c0fc3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae52373521b3bcccea540099a454c0fc3">&#9670;&nbsp;</a></span>fbgc_memb</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structfbgc__memory__block.html">fbgc_memory_block</a> fbgc_memb</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">    .raw_memory_head = NULL,</div><div class="line">    .object_pool_head = NULL,</div><div class="line">}</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="memory_8c_source.html#l00005">5</a> of file <a class="el" href="memory_8c_source.html">memory.c</a>.</p>
 
 </div>
 </div>

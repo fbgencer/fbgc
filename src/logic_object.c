@@ -1,13 +1,24 @@
+// This file is part of fbgc
+
+// fbgc is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+
+// fbgc is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// You should have received a copy of the GNU General Public License
+// along with fbgc.  If not, see <https://www.gnu.org/licenses/>.
 #include "fbgc.h"
 
+struct fbgc_logic_object fbgc_logic_true =  {.base = {.mark_bit = 0, .type = LOGIC}, .content = 1};
+struct fbgc_logic_object fbgc_logic_false = {.base = {.mark_bit = 0, .type = LOGIC}, .content = 0};
 
 struct fbgc_object  * new_fbgc_logic_object(int i){
-
-	struct fbgc_logic_object * lo = (struct fbgc_logic_object *)fbgc_malloc_object(sizeof(struct fbgc_logic_object));
-	lo->base.type = LOGIC;
-	lo->content = (char) i == 1;
-
-	return (struct fbgc_object * )lo;
+    return (struct fbgc_object * )((i) ? &fbgc_logic_true : &fbgc_logic_false);
 }
 
 

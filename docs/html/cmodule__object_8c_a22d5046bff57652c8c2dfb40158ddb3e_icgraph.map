@@ -1,0 +1,12 @@
+<map id="new_fbgc_cfun_object" name="new_fbgc_cfun_object">
+<area shape="rect" id="node2" href="$cmodule__object_8c.html#a78b98728bafb17115fa26b483d600ef1" title="new_cfun_object_from_str" alt="" coords="205,10,380,37"/>
+<area shape="rect" id="node3" href="$fbgc_8c.html#a028d4bd3c990b0410fe7e03543a8ed60" title="fbgc_load_module" alt="" coords="229,61,356,87"/>
+<area shape="rect" id="node4" href="$fbgc__object_8c.html#a78d2efd62983c816ed421605f09de71e" title="get_fbgc_object_method" alt="" coords="211,111,375,138"/>
+<area shape="rect" id="node5" href="$interpreter_8c.html#a9258c216ff44c3e528b11c40bb008408" title="run_code" alt="" coords="428,111,503,138"/>
+<area shape="rect" id="node6" href="$interpreter_8c.html#acb0454b55a53dfb587644f66848a0646" title="interpreter" alt="" coords="565,61,645,87"/>
+<area shape="rect" id="node7" href="$interpreter_8c.html#a4f89f3bcab3bcea69d82ae01a7197bd8" title="call_fun_object" alt="" coords="551,111,660,138"/>
+<area shape="rect" id="node8" href="$class__object_8c.html#a9e16ab772b9f1e0e9b201c7ae7975ee4" title="operator_fbgc_instance\l_object" alt="" coords="717,5,874,47"/>
+<area shape="rect" id="node9" href="$class__object_8c.html#ab5ab4859ce82fab98281a60feae683cf" title="subscript_operator\l_fbgc_instance_object" alt="" coords="719,71,871,112"/>
+<area shape="rect" id="node10" href="$class__object_8c.html#aaaf99e7bf52215f441cf0071bc7614b0" title="subscript_assign_operator\l_fbgc_instance_object" alt="" coords="708,136,883,177"/>
+<area shape="rect" id="node11" href="$class__object_8c.html#ac4a3f951a94ea6c43c0c9d463a469f5c" title="print_fbgc_instance\l_object" alt="" coords="728,201,863,243"/>
+</map>

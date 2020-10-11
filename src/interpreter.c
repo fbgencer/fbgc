@@ -1,3 +1,17 @@
+// This file is part of fbgc
+
+// fbgc is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+
+// fbgc is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// You should have received a copy of the GNU General Public License
+// along with fbgc.  If not, see <https://www.gnu.org/licenses/>.
 #include "fbgc.h"
 
 
@@ -42,7 +56,7 @@ struct interpreter_packet * global_interpreter_packet = NULL;
 
 uint8_t interpreter(struct fbgc_object ** field_obj){
 	current_field = * field_obj;
-	struct fbgc_ll * head = _cast_llbase_as_ll( cast_fbgc_object_as_field(*field_obj)->head );
+	struct fbgc_ll * head = _cast_llbase_as_ll( cast_fbgc_object_as_field(*field_obj)->code );
 
 	//Drop the tail object, make it null so if we want to run a function we can just use this
 	head->tail->next->next = NULL; 
@@ -140,25 +154,24 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 		case IDENTIFIER:{	
 
 			if(is_id_flag_array_accessible(pc)){
-
-				
 				//If global then ask for field, if it is class then ask for current scope
-				struct fbgc_vector * arr = is_id_flag_GLOBAL(pc) ? 
-									cast_fbgc_object_as_field(current_field)->locals :
-									cast_fbgc_object_as_class(current_scope)->locals;
+				struct fbgc_object * variable_map = is_id_flag_GLOBAL(pc) ? 
+									cast_fbgc_object_as_field(current_field)->variables:
+									cast_fbgc_object_as_class(current_scope)->variables;
 
 				
-				struct fbgc_identifier * tmp = (struct fbgc_identifier *) 
-						get_item_fbgc_vector(arr,_cast_fbgc_object_as_llidentifier(pc)->loc);
+
+				struct fbgc_object * key = get_object_in_fbgc_tuple_object(fbgc_symbols,_cast_fbgc_object_as_llidentifier(pc)->loc);
+				struct fbgc_object * value = fbgc_map_object_lookup(variable_map,key);
 
 				//In parsing phase content of identifiers are set the NULL so it means they did not defined by the user
-				if(tmp->content == NULL){
-					printf("Undefined variable '%s'\n",content_fbgc_str_object(tmp->name));
+				if(value == NULL){
+					printf("Undefined variable '%s'\n",content_fbgc_str_object(key));
 					//fbgc_error(_FBGC_UNDEFINED_IDENTIFIER_ERROR,-1);
 					return 0;
 				}
 								
-				PUSH(tmp->content);
+				PUSH(value);
 			} 
 
 			else if(is_id_flag_LOCAL(pc)){
@@ -199,7 +212,7 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 						goto INTERPRETER_ERROR_LABEL;
 					}
 
-					if(self->type != CMODULE && self->type != FIELD){
+					if(self->type != CMODULE){
 						PUSH(object);
 						PUSH(self);
 					}
@@ -219,7 +232,6 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 			break;
 		}
 		case BREAK:{
-
 			struct fbgc_ll_base * loop_obj =  _cast_llbase_as_lljumper(pc)->content;
 			if(loop_obj->type == FOR) {
 				STACK_GOTO(-4); //clean the for loop remainders
@@ -228,12 +240,10 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 			break;
 		}
 		case CONT:{
-
 			pc = _cast_llbase_as_lljumper(pc)->content;
 			continue;
 		}				
 		case RETURN:{
-
 
 			struct fbgc_object * ret = POP();
 			struct fun_call_packet * fcp = (struct fun_call_packet *) cast_fbgc_object_as_cstruct(POP())->cstruct;
@@ -333,13 +343,18 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 			if(is_id_flag_array_accessible(pc)){
 
 				//If global then ask for field, if it is class then ask for current scope
-				struct fbgc_vector * arr = is_id_flag_GLOBAL(pc) ? 
-									cast_fbgc_object_as_field(current_field)->locals :
-									cast_fbgc_object_as_class(current_scope)->locals;
+				struct fbgc_object * variable_map = is_id_flag_GLOBAL(pc) ? 
+									cast_fbgc_object_as_field(current_field)->variables:
+									cast_fbgc_object_as_class(current_scope)->variables;
 
-				struct fbgc_identifier * tmp = (struct fbgc_identifier *)
-												get_item_fbgc_vector(arr,_cast_fbgc_object_as_llidentifier(pc)->loc);
-				lhs = &tmp->content;
+				// struct fbgc_identifier * tmp = (struct fbgc_identifier *)
+				// 								get_item_fbgc_vector(arr,_cast_fbgc_object_as_llidentifier(pc)->loc);
+				// lhs = &tmp->content;
+
+				struct fbgc_object * key = get_object_in_fbgc_tuple_object(fbgc_symbols,_cast_fbgc_object_as_llidentifier(pc)->loc);
+				struct fbgc_map_pair * mp = fbgc_map_object_lookup_map_pair(variable_map,key);
+				
+				lhs = &mp->value;
 			}
 			else if(is_id_flag_LOCAL(pc)){
 				lhs = &(GET_AT_FP(_cast_fbgc_object_as_llidentifier(pc)->loc));
@@ -516,11 +531,9 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 				--pop_number;
 			}
 
+			FBGC_LOGV(INTERPRETER,"Fun call arg no :%d || call type :%s \n",arg_no,objtp2str(funo));
 			
-
-			FBGC_LOGV(INTERPRETER,"Fun call arg no :%d || call type :%s\n",arg_no,objtp2str(funo));
-			
-			if(funo->type == FIELD || funo->type == CMODULE){
+			if(funo->type == CMODULE){
 				//Call the second, pop the field
 				funo = TOPN(arg_no--);
 				--pop_number; 
@@ -529,7 +542,7 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 
 			if(funo->type == CFUN){
 				STACK_GOTO(-arg_no - kwargs_flag);
-				struct fbgc_cfun_arg cfarg = {.arg =sp+sctr, .argc = arg_no, .kwargs_flag = kwargs_flag };
+				struct fbgc_cfun_arg cfarg = {.arg =sp+sctr, .argc = (uint8_t)arg_no, .kwargs_flag = kwargs_flag };
 				struct fbgc_object * res = cast_fbgc_object_as_cfun(funo)->function(&cfarg);
 				
 				--pop_number;
@@ -593,11 +606,11 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 
 			int8_t funo_no_arg = cast_fbgc_object_as_fun(funo)->no_arg;
 
-			cprintf(111,"funo no arg: %d\n",funo_no_arg);
-
 			struct fbgc_ll_base * code_start = cast_fbgc_object_as_fun(funo)->code;
 
-			if(funo_no_arg < 0){
+			if(cast_fbgc_object_as_fun(funo)->flag_variadic){
+
+				funo_no_arg *= -1;
 
 				int pos_arg_no = -funo_no_arg-1;
 
@@ -895,17 +908,18 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 	}
 	FBGC_LOGV(INTERPRETER,"}\n");
 	FBGC_LOGV(INTERPRETER,"~~~~~~Field Globals~~~~~\n");
+	FBGC_LOGV(INTERPRETER,"%d",print_fbgc_map_object(cast_fbgc_object_as_field(current_field)->variables));
 
-	struct fbgc_vector * globals;
-	if(current_scope != NULL && current_scope->type == CLASS) globals = cast_fbgc_object_as_class(current_scope)->locals;
-	else globals = cast_fbgc_object_as_field(current_field)->locals;
+	// struct fbgc_vector * globals;
+	// if(current_scope != NULL && current_scope->type == CLASS) globals = cast_fbgc_object_as_class(current_scope)->locals;
+	// else globals = cast_fbgc_object_as_field(current_field)->locals;
 
-	for(int i = 0; i<size_fbgc_vector(globals); i++){
-		struct fbgc_identifier * temp_id = (struct fbgc_identifier *) get_item_fbgc_vector(globals,i);
-		FBGC_LOGV(INTERPRETER,"%c:",print_fbgc_object(temp_id->name));
-		FBGC_LOGV(INTERPRETER,"%c",print_fbgc_object(temp_id->content));
-		FBGC_LOGV(INTERPRETER,"}");
-	}
+	// for(int i = 0; i<size_fbgc_vector(globals); i++){
+	// 	struct fbgc_identifier * temp_id = (struct fbgc_identifier *) get_item_fbgc_vector(globals,i);
+	// 	FBGC_LOGV(INTERPRETER,"%c:",print_fbgc_object(temp_id->name));
+	// 	FBGC_LOGV(INTERPRETER,"%c",print_fbgc_object(temp_id->content));
+	// 	FBGC_LOGV(INTERPRETER,"}");
+	// }
 	FBGC_LOGV(INTERPRETER,"\n==============================================\n\n\n");
 	
 

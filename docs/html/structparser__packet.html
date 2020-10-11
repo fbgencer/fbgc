@@ -75,8 +75,9 @@ Collaboration diagram for parser_packet:</div>
 <div class="dyncontent">
 <div class="center"><img src="structparser__packet__coll__graph.png" border="0" usemap="#parser__packet_coll__map" alt="Collaboration graph"/></div>
 <map name="parser__packet_coll__map" id="parser__packet_coll__map">
-<area shape="rect" id="node2" href="structfbgc__ll.html" title="fbgc_ll" alt="" coords="116,125,176,152"/>
+<area shape="rect" id="node2" href="structfbgc__ll.html" title="fbgc_ll" alt="" coords="153,133,213,159"/>
 <area shape="rect" id="node3" href="structfbgc__ll__base.html" title="fbgc_ll_base" alt="" coords="5,5,100,32"/>
+<area shape="rect" id="node4" href="structfbgc__bool__vector.html" title="fbgc_bool_vector" alt="" coords="237,133,359,159"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -97,9 +98,17 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a8ccb0e29b9f49f2f8b733218444735f7"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__ll__base.html">fbgc_ll_base</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structparser__packet.html#a8ccb0e29b9f49f2f8b733218444735f7">scope_list</a></td></tr>
 <tr class="memdesc:a8ccb0e29b9f49f2f8b733218444735f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Field,class and function scope list, we use it as a stack.  <a href="#a8ccb0e29b9f49f2f8b733218444735f7">More...</a><br /></td></tr>
 <tr class="separator:a8ccb0e29b9f49f2f8b733218444735f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a3064bbc3d3473ddbd1b7eb911f0ec6"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__ll__base.html">fbgc_ll_base</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structparser__packet.html#a0a3064bbc3d3473ddbd1b7eb911f0ec6">statement_begin</a></td></tr>
+<tr class="separator:a0a3064bbc3d3473ddbd1b7eb911f0ec6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a665407ad04298fd20becf12132bab4a5"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structparser__packet.html#a665407ad04298fd20becf12132bab4a5">line</a></td></tr>
+<tr class="separator:a665407ad04298fd20becf12132bab4a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0c40a8e1397e4c59a0cc0ff822e8727"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structparser__packet.html#ae0c40a8e1397e4c59a0cc0ff822e8727">line_no</a></td></tr>
+<tr class="separator:ae0c40a8e1397e4c59a0cc0ff822e8727"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9357b360d7b3aa489183dd1e29051997"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structparser__packet.html#a9357b360d7b3aa489183dd1e29051997">error_code</a></td></tr>
 <tr class="memdesc:a9357b360d7b3aa489183dd1e29051997"><td class="mdescLeft">&#160;</td><td class="mdescRight">When an error occurs function assigns error code to this variable.  <a href="#a9357b360d7b3aa489183dd1e29051997">More...</a><br /></td></tr>
 <tr class="separator:a9357b360d7b3aa489183dd1e29051997"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a7eb25733706e4b33953bf1b2ab9202"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__bool__vector.html">fbgc_bool_vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structparser__packet.html#a2a7eb25733706e4b33953bf1b2ab9202">bv_stack_pop_top</a></td></tr>
+<tr class="separator:a2a7eb25733706e4b33953bf1b2ab9202"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad66e0641a13d52fb68bffecb325c5031"><td class="memItemLeft" align="right" valign="top"><a class="el" href="grammar_8h.html#ac2cf9fd4056b7742d4ddff35d6776fbf">fbgc_grammar</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structparser__packet.html#ad66e0641a13d52fb68bffecb325c5031">gm</a></td></tr>
 <tr class="memdesc:ad66e0641a13d52fb68bffecb325c5031"><td class="mdescLeft">&#160;</td><td class="mdescRight">State of grammar.  <a href="#ad66e0641a13d52fb68bffecb325c5031">More...</a><br /></td></tr>
 <tr class="separator:ad66e0641a13d52fb68bffecb325c5031"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -109,6 +118,22 @@ Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="parser_8h_source.html#l00013">13</a> of file <a class="el" href="parser_8h_source.html">parser.h</a>.</p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
+<a id="a2a7eb25733706e4b33953bf1b2ab9202"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a7eb25733706e4b33953bf1b2ab9202">&#9670;&nbsp;</a></span>bv_stack_pop_top</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structfbgc__bool__vector.html">fbgc_bool_vector</a> parser_packet::bv_stack_pop_top</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="parser_8h_source.html#l00023">23</a> of file <a class="el" href="parser_8h_source.html">parser.h</a>.</p>
+
+</div>
+</div>
 <a id="a9357b360d7b3aa489183dd1e29051997"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9357b360d7b3aa489183dd1e29051997">&#9670;&nbsp;</a></span>error_code</h2>
 
@@ -123,7 +148,7 @@ Public Attributes</h2></td></tr>
 
 <p>When an error occurs function assigns error code to this variable. </p>
 
-<p class="definition">Definition at line <a class="el" href="parser_8h_source.html#l00019">19</a> of file <a class="el" href="parser_8h_source.html">parser.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="parser_8h_source.html#l00022">22</a> of file <a class="el" href="parser_8h_source.html">parser.h</a>.</p>
 
 </div>
 </div>
@@ -141,7 +166,7 @@ Public Attributes</h2></td></tr>
 
 <p>State of grammar. </p>
 
-<p class="definition">Definition at line <a class="el" href="parser_8h_source.html#l00020">20</a> of file <a class="el" href="parser_8h_source.html">parser.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="parser_8h_source.html#l00024">24</a> of file <a class="el" href="parser_8h_source.html">parser.h</a>.</p>
 
 </div>
 </div>
@@ -199,6 +224,38 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a665407ad04298fd20becf12132bab4a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a665407ad04298fd20becf12132bab4a5">&#9670;&nbsp;</a></span>line</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char* parser_packet::line</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="parser_8h_source.html#l00020">20</a> of file <a class="el" href="parser_8h_source.html">parser.h</a>.</p>
+
+</div>
+</div>
+<a id="ae0c40a8e1397e4c59a0cc0ff822e8727"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0c40a8e1397e4c59a0cc0ff822e8727">&#9670;&nbsp;</a></span>line_no</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t parser_packet::line_no</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="parser_8h_source.html#l00021">21</a> of file <a class="el" href="parser_8h_source.html">parser.h</a>.</p>
+
+</div>
+</div>
 <a id="a6f0eee1a750ec2b19f62dfc67425424c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6f0eee1a750ec2b19f62dfc67425424c">&#9670;&nbsp;</a></span>op</h2>
 
@@ -235,8 +292,24 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a0a3064bbc3d3473ddbd1b7eb911f0ec6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a3064bbc3d3473ddbd1b7eb911f0ec6">&#9670;&nbsp;</a></span>statement_begin</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structfbgc__ll__base.html">fbgc_ll_base</a>* parser_packet::statement_begin</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="parser_8h_source.html#l00019">19</a> of file <a class="el" href="parser_8h_source.html">parser.h</a>.</p>
+
+</div>
+</div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>/home/fbgencer/fbgc/src/headers/<a class="el" href="parser_8h_source.html">parser.h</a></li>
+<li>/home/fbgencer/fbgc/include/<a class="el" href="parser_8h_source.html">parser.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

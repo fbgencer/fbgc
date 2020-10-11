@@ -1,3 +1,17 @@
+// This file is part of fbgc
+
+// fbgc is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+
+// fbgc is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// You should have received a copy of the GNU General Public License
+// along with fbgc.  If not, see <https://www.gnu.org/licenses/>.
 #include "fbgc.h"
 
 
@@ -27,10 +41,11 @@ void print_fbgc_cfun_object(const struct fbgc_cmodule_object * obj){
 
 
 struct fbgc_object * new_cfun_object_from_str(struct fbgc_object * field_obj, const char * str){
+	
+	struct fbgc_tuple_object * _lib_tuple = cast_fbgc_object_as_tuple(get_fbgc_field_cmodules(field_obj));
 
-	struct fbgc_tuple_object * tp = cast_fbgc_object_as_tuple(cast_fbgc_object_as_field(field_obj)->modules);
-	for(uint8_t i = 0; i<size_fbgc_tuple_object(tp); ++i){
-		const struct fbgc_object_property_holder * p = get_fbgc_object_property_holder(tp->content[i]);
+	for(uint8_t i = 0; i<size_fbgc_tuple_object(_lib_tuple); ++i){
+		const struct fbgc_object_property_holder * p = get_fbgc_object_property_holder(_lib_tuple->content[i]);
 	
 		int8_t w = _find_property(p->bits,_BIT_METHODS);
 		if(w != -1){

@@ -34,7 +34,7 @@ for i in range(len(lines)):
 
 
 
-cfile = "../src/headers/tokens.h"
+cfile = "../include/tokens.h"
 
 lines = [line.rstrip('\n') for line in open(cfile)]
 

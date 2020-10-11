@@ -1,3 +1,17 @@
+// This file is part of fbgc
+
+// fbgc is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+
+// fbgc is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// You should have received a copy of the GNU General Public License
+// along with fbgc.  If not, see <https://www.gnu.org/licenses/>.
 #ifndef ERROR_H
 #define ERROR_H
 
@@ -31,7 +45,7 @@ extern "C" {
 
 
 #define FBGC_LOGFORMATSIMPLE(color,format) color "" format "" ANSI_COLOR_RESET 
-#define FBGC_LOGFORMATDETAILED(color,format) color "%s function:%s at line %u: " format "\n" ANSI_COLOR_RESET ,__FILE__,__FUNCTION__,  __LINE__
+#define FBGC_LOGFORMATDETAILED(color,format) color "%s/%s[%u]: " format "" ANSI_COLOR_RESET ,__FILE__,__FUNCTION__,  __LINE__
 
 //These loge and logw are for compiler not for users or developers
 

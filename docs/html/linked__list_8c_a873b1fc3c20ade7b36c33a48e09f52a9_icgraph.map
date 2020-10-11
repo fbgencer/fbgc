@@ -1,12 +1,6 @@
 <map id="_new_fbgc_ll_base" name="_new_fbgc_ll_base">
-<area shape="rect" id="node2" href="$interpreter_8h.html#acdb0cb340501af8374de73b627b6e26a" title="run_code" alt="" coords="238,29,313,56"/>
-<area shape="rect" id="node6" href="$linked__list_8h.html#a0d9111f39bddfd9533487858459663d2" title="_new_fbgc_ll" alt="" coords="226,181,325,208"/>
-<area shape="rect" id="node9" href="$parser_8h.html#a9128876c7bafe4207a35d10f2c7f12a8" title="parser" alt="" coords="458,131,517,157"/>
-<area shape="rect" id="node10" href="$parser_8c.html#a8bc68ce2b13120de2f50d21decaff47d" title="handle_before_paranthesis" alt="" coords="187,80,364,107"/>
-<area shape="rect" id="node11" href="$relexer_8c.html#a4e800df9ae16f96fc5517262d24aa91e" title="_tokenize_substr" alt="" coords="215,232,336,259"/>
-<area shape="rect" id="node3" href="$interpreter_8h.html#acb0454b55a53dfb587644f66848a0646" title="interpreter" alt="" coords="447,55,527,81"/>
-<area shape="rect" id="node4" href="$fbgc_8c.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="611,131,713,157"/>
-<area shape="rect" id="node5" href="$fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c" title="new_fbgc_cfunction" alt="" coords="761,131,900,157"/>
-<area shape="rect" id="node7" href="$field__object_8h.html#a28800156fc2d609a3625834282b1b94e" title="new_fbgc_field_object" alt="" coords="412,181,563,208"/>
-<area shape="rect" id="node8" href="$fbgc_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="637,181,687,208"/>
+<area shape="rect" id="node2" href="$linked__list_8c.html#a0d9111f39bddfd9533487858459663d2" title="_new_fbgc_ll" alt="" coords="198,5,297,32"/>
+<area shape="rect" id="node5" href="$relexer_8c.html#a4e800df9ae16f96fc5517262d24aa91e" title="_tokenize_substr" alt="" coords="187,56,308,83"/>
+<area shape="rect" id="node3" href="$field_8c.html#a910d65ad6e35683b9e826077fcc60d97" title="new_fbgc_field" alt="" coords="356,5,465,32"/>
+<area shape="rect" id="node4" href="$fbgc_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="513,5,564,32"/>
 </map>

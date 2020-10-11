@@ -1,2 +1,24 @@
-objects = (1,2,3) << 55
-print(!55)
+i = 0
+#while(i<1000)
+#	i += 1
+#end
+print("bitti")
+mom = class()
+	love = fun(x)
+		print("Hello from my love:",x,glo)
+	end
+end
+
+obj = class(mom)
+	x = 5
+end
+glo = 55
+
+y = obj()
+y.x = "fbge"
+a = mom()
+a.love("A")
+y.love("Y")
+
+
+print()

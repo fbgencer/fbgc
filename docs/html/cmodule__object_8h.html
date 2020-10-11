@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>fbgc: /home/fbgencer/fbgc/src/headers/cmodule_object.h File Reference</title>
+<title>fbgc: /home/fbgencer/fbgc/include/cmodule_object.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -61,14 +61,15 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_d0381950fc41278198232cb047ffc1f9.html">headers</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#define-members">Macros</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">cmodule_object.h File Reference</div>  </div>
 </div><!--header-->
@@ -78,8 +79,6 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfbgc__cfunction.html">fbgc_cfunction</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfbgc__cmodule.html">fbgc_cmodule</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfbgc__cmodule__object.html">fbgc_cmodule_object</a></td></tr>
@@ -97,25 +96,26 @@ Macros</h2></td></tr>
 <tr class="separator:ab8960260a30590f677f834a63ee4ffa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae655b371539c60aad3f825c8565fa899"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cmodule__object_8h.html#ae655b371539c60aad3f825c8565fa899">cast_fbgc_object_as_cmodule</a>(x)&#160;&#160;&#160;(((struct <a class="el" href="structfbgc__cmodule__object.html">fbgc_cmodule_object</a>*) x))</td></tr>
 <tr class="separator:ae655b371539c60aad3f825c8565fa899"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a044db0c997114689a0d4b5973537fd3a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cmodule__object_8h.html#a044db0c997114689a0d4b5973537fd3a">declare_new_fbgc_cfunction</a>(fun_name)</td></tr>
-<tr class="separator:a044db0c997114689a0d4b5973537fd3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adba2083cfd69fbd833ef1f66ca105883"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cmodule__object_8h.html#adba2083cfd69fbd833ef1f66ca105883">new_fbgc_cfunction</a>(fun_name,  str_fun_name)</td></tr>
-<tr class="separator:adba2083cfd69fbd833ef1f66ca105883"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa9f74312c8364e6d5f48110b5515ea8f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cmodule__object_8h.html#aa9f74312c8364e6d5f48110b5515ea8f">cfun_object_call</a>(cfuno,  args,  argc)&#160;&#160;&#160;(<a class="el" href="cmodule__object_8h.html#ab8960260a30590f677f834a63ee4ffa6">cast_fbgc_object_as_cfun</a>(cfuno)-&gt;function(args,argc))</td></tr>
-<tr class="separator:aa9f74312c8364e6d5f48110b5515ea8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a84c9b988baf1df794e6e9e4396a4708f"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cmodule__object_8h.html#a84c9b988baf1df794e6e9e4396a4708f">new_fbgc_cfun_object</a> (struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *(*function_obj)(struct <a class="el" href="structfbgc__object.html">fbgc_object</a> **, int argc))</td></tr>
-<tr class="separator:a84c9b988baf1df794e6e9e4396a4708f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa628de8f9db7d40012fa5760b8656c8a"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cmodule__object_8h.html#aa628de8f9db7d40012fa5760b8656c8a">new_fbgc_cmodule_object</a> (const struct <a class="el" href="structfbgc__cmodule.html">fbgc_cmodule</a> *cm)</td></tr>
-<tr class="separator:aa628de8f9db7d40012fa5760b8656c8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22d5046bff57652c8c2dfb40158ddb3e"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cmodule__object_8h.html#a22d5046bff57652c8c2dfb40158ddb3e">new_fbgc_cfun_object</a> (struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *(*function_obj)(struct <a class="el" href="structfbgc__cfun__arg.html">fbgc_cfun_arg</a> *))</td></tr>
+<tr class="separator:a22d5046bff57652c8c2dfb40158ddb3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16688d5ac07b6048fdb356705a1d5d74"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cmodule__object_8h.html#a16688d5ac07b6048fdb356705a1d5d74">new_fbgc_cmodule_object</a> (const struct <a class="el" href="structfbgc__object__property__holder.html">fbgc_object_property_holder</a> *p)</td></tr>
+<tr class="separator:a16688d5ac07b6048fdb356705a1d5d74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1b2641d42a9e0496aae36c5ee13493a4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cmodule__object_8h.html#a1b2641d42a9e0496aae36c5ee13493a4">print_fbgc_cmodule</a> (const struct <a class="el" href="structfbgc__cmodule.html">fbgc_cmodule</a> *)</td></tr>
 <tr class="separator:a1b2641d42a9e0496aae36c5ee13493a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade9cbc7dba745b9d6c5802b5078a623e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cmodule__object_8h.html#ade9cbc7dba745b9d6c5802b5078a623e">free_fbgc_cfun_object</a> (struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *<a class="el" href="grammar_8c.html#a2860d074fd2d86b8826bef4be8e71cd0">obj</a>)</td></tr>
 <tr class="separator:ade9cbc7dba745b9d6c5802b5078a623e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a678952572a02b02674d268cca25593b0"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cmodule__object_8h.html#a678952572a02b02674d268cca25593b0">get_set_fbgc_cmodule_object_member</a> (struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *o, const char *str, struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *rhs)</td></tr>
+<tr class="separator:a678952572a02b02674d268cca25593b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a78b98728bafb17115fa26b483d600ef1"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cmodule__object_8h.html#a78b98728bafb17115fa26b483d600ef1">new_cfun_object_from_str</a> (struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *field_obj, const char *str)</td></tr>
 <tr class="separator:a78b98728bafb17115fa26b483d600ef1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:ad19ce72d7517d187a3d70d200fe3532c"><td class="memItemLeft" align="right" valign="top">const struct <a class="el" href="structfbgc__object__property__holder.html">fbgc_object_property_holder</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cmodule__object_8h.html#ad19ce72d7517d187a3d70d200fe3532c">fbgc_cfun_object_property_holder</a></td></tr>
+<tr class="separator:ad19ce72d7517d187a3d70d200fe3532c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="ab8960260a30590f677f834a63ee4ffa6"></a>
@@ -134,7 +134,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="cmodule__object_8h_source.html#l00048">48</a> of file <a class="el" href="cmodule__object_8h_source.html">cmodule_object.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="cmodule__object_8h_source.html#l00043">43</a> of file <a class="el" href="cmodule__object_8h_source.html">cmodule_object.h</a>.</p>
 
 </div>
 </div>
@@ -154,97 +154,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="cmodule__object_8h_source.html#l00049">49</a> of file <a class="el" href="cmodule__object_8h_source.html">cmodule_object.h</a>.</p>
-
-</div>
-</div>
-<a id="aa9f74312c8364e6d5f48110b5515ea8f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa9f74312c8364e6d5f48110b5515ea8f">&#9670;&nbsp;</a></span>cfun_object_call</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define cfun_object_call</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">cfuno, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">args, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">argc&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td>&#160;&#160;&#160;(<a class="el" href="cmodule__object_8h.html#ab8960260a30590f677f834a63ee4ffa6">cast_fbgc_object_as_cfun</a>(cfuno)-&gt;function(args,argc))</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="cmodule__object_8h_source.html#l00071">71</a> of file <a class="el" href="cmodule__object_8h_source.html">cmodule_object.h</a>.</p>
-
-</div>
-</div>
-<a id="a044db0c997114689a0d4b5973537fd3a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a044db0c997114689a0d4b5973537fd3a">&#9670;&nbsp;</a></span>declare_new_fbgc_cfunction</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define declare_new_fbgc_cfunction</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">fun_name</td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">struct </span><a class="code" href="structfbgc__object.html">fbgc_object</a> * fun_name(<span class="keyword">struct</span> <a class="code" href="structfbgc__object.html">fbgc_object</a> ** arg, <span class="keywordtype">int</span> argc);\</div><div class="line">extern <span class="keyword">const</span> <span class="keyword">struct </span><a class="code" href="structfbgc__cfunction.html">fbgc_cfunction</a> fun_name##_struct</div><div class="ttc" id="structfbgc__cfunction_html"><div class="ttname"><a href="structfbgc__cfunction.html">fbgc_cfunction</a></div><div class="ttdef"><b>Definition:</b> <a href="cmodule__object_8h_source.html#l00020">cmodule_object.h:20</a></div></div>
-<div class="ttc" id="structfbgc__object_html"><div class="ttname"><a href="structfbgc__object.html">fbgc_object</a></div><div class="ttdef"><b>Definition:</b> <a href="fbgc__object_8h_source.html#l00008">fbgc_object.h:8</a></div></div>
-</div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="cmodule__object_8h_source.html#l00053">53</a> of file <a class="el" href="cmodule__object_8h_source.html">cmodule_object.h</a>.</p>
-
-</div>
-</div>
-<a id="adba2083cfd69fbd833ef1f66ca105883"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adba2083cfd69fbd833ef1f66ca105883">&#9670;&nbsp;</a></span>new_fbgc_cfunction</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define new_fbgc_cfunction</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">fun_name, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">str_fun_name&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">const</span> <span class="keyword">struct </span><a class="code" href="structfbgc__cfunction.html">fbgc_cfunction</a> fun_name##_struct  = {str_fun_name,fun_name};\</div><div class="line">extern <span class="keyword">struct </span><a class="code" href="structfbgc__object.html">fbgc_object</a> * fun_name(<span class="keyword">struct</span> <a class="code" href="structfbgc__object.html">fbgc_object</a> ** arg, <span class="keywordtype">int</span> argc)\</div><div class="ttc" id="structfbgc__cfunction_html"><div class="ttname"><a href="structfbgc__cfunction.html">fbgc_cfunction</a></div><div class="ttdef"><b>Definition:</b> <a href="cmodule__object_8h_source.html#l00020">cmodule_object.h:20</a></div></div>
-<div class="ttc" id="structfbgc__object_html"><div class="ttname"><a href="structfbgc__object.html">fbgc_object</a></div><div class="ttdef"><b>Definition:</b> <a href="fbgc__object_8h_source.html#l00008">fbgc_object.h:8</a></div></div>
-</div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="cmodule__object_8h_source.html#l00057">57</a> of file <a class="el" href="cmodule__object_8h_source.html">cmodule_object.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="cmodule__object_8h_source.html#l00044">44</a> of file <a class="el" href="cmodule__object_8h_source.html">cmodule_object.h</a>.</p>
 
 </div>
 </div>
@@ -263,7 +173,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="cmodule__object_8h_source.html#l00045">45</a> of file <a class="el" href="cmodule__object_8h_source.html">cmodule_object.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="cmodule__object_8h_source.html#l00040">40</a> of file <a class="el" href="cmodule__object_8h_source.html">cmodule_object.h</a>.</p>
 
 </div>
 </div>
@@ -282,7 +192,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="cmodule__object_8h_source.html#l00038">38</a> of file <a class="el" href="cmodule__object_8h_source.html">cmodule_object.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="cmodule__object_8h_source.html#l00031">31</a> of file <a class="el" href="cmodule__object_8h_source.html">cmodule_object.h</a>.</p>
 
 </div>
 </div>
@@ -303,7 +213,39 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="cmodule__object_8c_source.html#l00069">69</a> of file <a class="el" href="cmodule__object_8c_source.html">cmodule_object.c</a>.</p>
+</div>
+</div>
+<a id="a678952572a02b02674d268cca25593b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a678952572a02b02674d268cca25593b0">&#9670;&nbsp;</a></span>get_set_fbgc_cmodule_object_member()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structfbgc__object.html">fbgc_object</a>* get_set_fbgc_cmodule_object_member </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td>
+          <td class="paramname"><em>o</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>str</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *&#160;</td>
+          <td class="paramname"><em>rhs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -333,33 +275,12 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="cmodule__object_8c_source.html#l00030">30</a> of file <a class="el" href="cmodule__object_8c_source.html">cmodule_object.c</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="cmodule__object_8h_a78b98728bafb17115fa26b483d600ef1_cgraph.png" border="0" usemap="#cmodule__object_8h_a78b98728bafb17115fa26b483d600ef1_cgraph" alt=""/></div>
-<map name="cmodule__object_8h_a78b98728bafb17115fa26b483d600ef1_cgraph" id="cmodule__object_8h_a78b98728bafb17115fa26b483d600ef1_cgraph">
-<area shape="rect" id="node2" href="str__object_8c.html#a5aaf56c2518080d35d4feaaeeb3fba65" title="my_strcmp" alt="" coords="261,5,347,32"/>
-<area shape="rect" id="node3" href="cmodule__object_8c.html#a2772285a9de527a525825b3575453288" title="new_fbgc_cfun_object" alt="" coords="228,56,380,83"/>
-<area shape="rect" id="node4" href="memory_8c.html#a41dd65ee24d51160659bf94bed90e998" title="fbgc_malloc" alt="" coords="428,56,520,83"/>
-<area shape="rect" id="node5" href="error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="568,56,627,83"/>
-</map>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="cmodule__object_8h_a78b98728bafb17115fa26b483d600ef1_icgraph.png" border="0" usemap="#cmodule__object_8h_a78b98728bafb17115fa26b483d600ef1_icgraph" alt=""/></div>
-<map name="cmodule__object_8h_a78b98728bafb17115fa26b483d600ef1_icgraph" id="cmodule__object_8h_a78b98728bafb17115fa26b483d600ef1_icgraph">
-<area shape="rect" id="node2" href="parser_8h.html#a9128876c7bafe4207a35d10f2c7f12a8" title="parser" alt="" coords="228,5,287,32"/>
-<area shape="rect" id="node3" href="fbgc_8c.html#a2aeeff0403205e54bd0dd187e4337b4a" title="fbgc_load_file" alt="" coords="335,5,437,32"/>
-<area shape="rect" id="node4" href="fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c" title="new_fbgc_cfunction" alt="" coords="485,5,624,32"/>
-</map>
-</div>
+<p class="definition">Definition at line <a class="el" href="cmodule__object_8c_source.html#l00029">29</a> of file <a class="el" href="cmodule__object_8c_source.html">cmodule_object.c</a>.</p>
 
 </div>
 </div>
-<a id="a84c9b988baf1df794e6e9e4396a4708f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a84c9b988baf1df794e6e9e4396a4708f">&#9670;&nbsp;</a></span>new_fbgc_cfun_object()</h2>
+<a id="a22d5046bff57652c8c2dfb40158ddb3e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22d5046bff57652c8c2dfb40158ddb3e">&#9670;&nbsp;</a></span>new_fbgc_cfun_object()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -367,17 +288,19 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">struct <a class="el" href="structfbgc__object.html">fbgc_object</a>* new_fbgc_cfun_object </td>
           <td>(</td>
-          <td class="paramtype">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *(*)(struct <a class="el" href="structfbgc__object.html">fbgc_object</a> **, int argc)&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structfbgc__object.html">fbgc_object</a> *(*)(struct <a class="el" href="structfbgc__cfun__arg.html">fbgc_cfun_arg</a> *)&#160;</td>
           <td class="paramname"><em>function_obj</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p class="definition">Definition at line <a class="el" href="cmodule__object_8c_source.html#l00005">5</a> of file <a class="el" href="cmodule__object_8c_source.html">cmodule_object.c</a>.</p>
+
 </div>
 </div>
-<a id="aa628de8f9db7d40012fa5760b8656c8a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa628de8f9db7d40012fa5760b8656c8a">&#9670;&nbsp;</a></span>new_fbgc_cmodule_object()</h2>
+<a id="a16688d5ac07b6048fdb356705a1d5d74"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a16688d5ac07b6048fdb356705a1d5d74">&#9670;&nbsp;</a></span>new_fbgc_cmodule_object()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -385,32 +308,14 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">struct <a class="el" href="structfbgc__object.html">fbgc_object</a>* new_fbgc_cmodule_object </td>
           <td>(</td>
-          <td class="paramtype">const struct <a class="el" href="structfbgc__cmodule.html">fbgc_cmodule</a> *&#160;</td>
-          <td class="paramname"><em>cm</em></td><td>)</td>
+          <td class="paramtype">const struct <a class="el" href="structfbgc__object__property__holder.html">fbgc_object_property_holder</a> *&#160;</td>
+          <td class="paramname"><em>p</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="cmodule__object_8c_source.html#l00014">14</a> of file <a class="el" href="cmodule__object_8c_source.html">cmodule_object.c</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="cmodule__object_8h_aa628de8f9db7d40012fa5760b8656c8a_cgraph.png" border="0" usemap="#cmodule__object_8h_aa628de8f9db7d40012fa5760b8656c8a_cgraph" alt=""/></div>
-<map name="cmodule__object_8h_aa628de8f9db7d40012fa5760b8656c8a_cgraph" id="cmodule__object_8h_aa628de8f9db7d40012fa5760b8656c8a_cgraph">
-<area shape="rect" id="node2" href="memory_8c.html#a41dd65ee24d51160659bf94bed90e998" title="fbgc_malloc" alt="" coords="229,5,321,32"/>
-<area shape="rect" id="node3" href="error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="369,5,428,32"/>
-</map>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="cmodule__object_8h_aa628de8f9db7d40012fa5760b8656c8a_icgraph.png" border="0" usemap="#cmodule__object_8h_aa628de8f9db7d40012fa5760b8656c8a_icgraph" alt=""/></div>
-<map name="cmodule__object_8h_aa628de8f9db7d40012fa5760b8656c8a_icgraph" id="cmodule__object_8h_aa628de8f9db7d40012fa5760b8656c8a_icgraph">
-<area shape="rect" id="node2" href="fbgc_8c.html#a028d4bd3c990b0410fe7e03543a8ed60" title="fbgc_load_module" alt="" coords="229,5,356,32"/>
-<area shape="rect" id="node3" href="fbgc__stl_8c.html#a23883ffe16d0cfdc1f70f3c31b650d2c" title="new_fbgc_cfunction" alt="" coords="404,5,543,32"/>
-</map>
-</div>
+<p class="definition">Definition at line <a class="el" href="cmodule__object_8c_source.html#l00013">13</a> of file <a class="el" href="cmodule__object_8c_source.html">cmodule_object.c</a>.</p>
 
 </div>
 </div>
@@ -430,15 +335,22 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="cmodule__object_8c_source.html#l00057">57</a> of file <a class="el" href="cmodule__object_8c_source.html">cmodule_object.c</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="cmodule__object_8h_a1b2641d42a9e0496aae36c5ee13493a4_cgraph.png" border="0" usemap="#cmodule__object_8h_a1b2641d42a9e0496aae36c5ee13493a4_cgraph" alt=""/></div>
-<map name="cmodule__object_8h_a1b2641d42a9e0496aae36c5ee13493a4_cgraph" id="cmodule__object_8h_a1b2641d42a9e0496aae36c5ee13493a4_cgraph">
-<area shape="rect" id="node2" href="error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="188,5,247,32"/>
-</map>
+<p class="definition">Definition at line <a class="el" href="cmodule__object_8c_source.html#l00064">64</a> of file <a class="el" href="cmodule__object_8c_source.html">cmodule_object.c</a>.</p>
+
 </div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="ad19ce72d7517d187a3d70d200fe3532c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad19ce72d7517d187a3d70d200fe3532c">&#9670;&nbsp;</a></span>fbgc_cfun_object_property_holder</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const struct <a class="el" href="structfbgc__object__property__holder.html">fbgc_object_property_holder</a> fbgc_cfun_object_property_holder</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>

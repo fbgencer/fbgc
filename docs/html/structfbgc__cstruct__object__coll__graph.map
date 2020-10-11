@@ -1,5 +1,9 @@
 <map id="fbgc_cstruct_object" name="fbgc_cstruct_object">
-<area shape="rect" id="node2" href="$structfbgc__object.html" title="fbgc_object" alt="" coords="29,5,118,32"/>
-<area shape="rect" id="node4" href="$structfbgc__cfunction.html" title="fbgc_cfunction" alt="" coords="89,95,196,121"/>
-<area shape="rect" id="node3" href="$structfbgc__cmodule.html" title="fbgc_cmodule" alt="" coords="90,199,193,225"/>
+<area shape="rect" id="node2" href="$structfbgc__object.html" title="fbgc_object" alt="" coords="82,5,171,32"/>
+<area shape="rect" id="node4" href="$unionfbgc__object__property__holder_1_1__properties.html" title="fbgc_object_property\l_holder::_properties" alt="" coords="143,449,286,491"/>
+<area shape="rect" id="node6" href="$structfbgc__object__member_1_1__member.html" title="fbgc_object_member\l::_member" alt="" coords="143,95,286,136"/>
+<area shape="rect" id="node8" href="$structfbgc__cfunction.html" title="fbgc_cfunction" alt="" coords="311,102,417,129"/>
+<area shape="rect" id="node3" href="$structfbgc__object__property__holder.html" title="fbgc_object_property\l_holder" alt="" coords="117,553,259,595"/>
+<area shape="rect" id="node5" href="$structfbgc__object__member.html" title="fbgc_object_member" alt="" coords="143,360,286,387"/>
+<area shape="rect" id="node7" href="$structfbgc__object__method.html" title="fbgc_object_method" alt="" coords="428,360,567,387"/>
 </map>

@@ -1,3 +1,17 @@
+// This file is part of fbgc
+
+// fbgc is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+
+// fbgc is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// You should have received a copy of the GNU General Public License
+// along with fbgc.  If not, see <https://www.gnu.org/licenses/>.
 #include "../src/fbgc.h"
 #include "fbgc_math.h"
 #include <tgmath.h>
@@ -463,8 +477,8 @@ struct raw_complex c_cos(struct raw_complex z){
 static
 struct fbgc_object * fbgc_math_init(struct fbgc_object ** arg, int argc){
 	//cprintf(111,"Called math initializer!\n");
-	add_variable_in_field_object(arg[0],"pi",new_fbgc_double_object(FBGC_MATH_PI));
-	add_variable_in_field_object(arg[0],"e",new_fbgc_double_object(FBGC_MATH_E));
+	add_variable_in_field(arg[0],"pi",new_fbgc_double_object(FBGC_MATH_PI));
+	add_variable_in_field(arg[0],"e",new_fbgc_double_object(FBGC_MATH_E));
 
 	return NULL;
 }

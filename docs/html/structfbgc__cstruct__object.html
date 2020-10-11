@@ -75,9 +75,13 @@ Collaboration diagram for fbgc_cstruct_object:</div>
 <div class="dyncontent">
 <div class="center"><img src="structfbgc__cstruct__object__coll__graph.png" border="0" usemap="#fbgc__cstruct__object_coll__map" alt="Collaboration graph"/></div>
 <map name="fbgc__cstruct__object_coll__map" id="fbgc__cstruct__object_coll__map">
-<area shape="rect" id="node2" href="structfbgc__object.html" title="fbgc_object" alt="" coords="29,5,118,32"/>
-<area shape="rect" id="node4" href="structfbgc__cfunction.html" title="fbgc_cfunction" alt="" coords="89,95,196,121"/>
-<area shape="rect" id="node3" href="structfbgc__cmodule.html" title="fbgc_cmodule" alt="" coords="90,199,193,225"/>
+<area shape="rect" id="node2" href="structfbgc__object.html" title="fbgc_object" alt="" coords="82,5,171,32"/>
+<area shape="rect" id="node4" href="unionfbgc__object__property__holder_1_1__properties.html" title="fbgc_object_property\l_holder::_properties" alt="" coords="143,449,286,491"/>
+<area shape="rect" id="node6" href="structfbgc__object__member_1_1__member.html" title="fbgc_object_member\l::_member" alt="" coords="143,95,286,136"/>
+<area shape="rect" id="node8" href="structfbgc__cfunction.html" title="fbgc_cfunction" alt="" coords="311,102,417,129"/>
+<area shape="rect" id="node3" href="structfbgc__object__property__holder.html" title="fbgc_object_property\l_holder" alt="" coords="117,553,259,595"/>
+<area shape="rect" id="node5" href="structfbgc__object__member.html" title="fbgc_object_member" alt="" coords="143,360,286,387"/>
+<area shape="rect" id="node7" href="structfbgc__object__method.html" title="fbgc_object_method" alt="" coords="428,360,567,387"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -85,16 +89,14 @@ Collaboration diagram for fbgc_cstruct_object:</div>
 Public Attributes</h2></td></tr>
 <tr class="memitem:adab81d777a6b3fb10c6359121a054fe9"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structfbgc__object.html">fbgc_object</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfbgc__cstruct__object.html#adab81d777a6b3fb10c6359121a054fe9">base</a></td></tr>
 <tr class="separator:adab81d777a6b3fb10c6359121a054fe9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6246dee94eecb694e50cbb196f234523"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfbgc__cstruct__object.html#a6246dee94eecb694e50cbb196f234523">block_size</a></td></tr>
-<tr class="separator:a6246dee94eecb694e50cbb196f234523"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b5d0862bce151a1e64f5efd63a6c789"><td class="memItemLeft" align="right" valign="top">const struct <a class="el" href="structfbgc__cmodule.html">fbgc_cmodule</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfbgc__cstruct__object.html#a2b5d0862bce151a1e64f5efd63a6c789">parent</a></td></tr>
-<tr class="separator:a2b5d0862bce151a1e64f5efd63a6c789"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d6b52fea72292b2c213d7c1ce933434"><td class="memItemLeft" align="right" valign="top">const struct <a class="el" href="structfbgc__object__property__holder.html">fbgc_object_property_holder</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfbgc__cstruct__object.html#a9d6b52fea72292b2c213d7c1ce933434">properties</a></td></tr>
+<tr class="separator:a9d6b52fea72292b2c213d7c1ce933434"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a04ff6121d5b752d186800c1631771588"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfbgc__cstruct__object.html#a04ff6121d5b752d186800c1631771588">cstruct</a></td></tr>
 <tr class="separator:a04ff6121d5b752d186800c1631771588"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="cstruct__object_8h_source.html#l00012">12</a> of file <a class="el" href="cstruct__object_8h_source.html">cstruct_object.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="cstruct__object_8h_source.html#l00009">9</a> of file <a class="el" href="cstruct__object_8h_source.html">cstruct_object.h</a>.</p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
 <a id="adab81d777a6b3fb10c6359121a054fe9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adab81d777a6b3fb10c6359121a054fe9">&#9670;&nbsp;</a></span>base</h2>
@@ -108,23 +110,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="cstruct__object_8h_source.html#l00013">13</a> of file <a class="el" href="cstruct__object_8h_source.html">cstruct_object.h</a>.</p>
-
-</div>
-</div>
-<a id="a6246dee94eecb694e50cbb196f234523"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6246dee94eecb694e50cbb196f234523">&#9670;&nbsp;</a></span>block_size</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t fbgc_cstruct_object::block_size</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="cstruct__object_8h_source.html#l00014">14</a> of file <a class="el" href="cstruct__object_8h_source.html">cstruct_object.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="cstruct__object_8h_source.html#l00010">10</a> of file <a class="el" href="cstruct__object_8h_source.html">cstruct_object.h</a>.</p>
 
 </div>
 </div>
@@ -140,28 +126,28 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="cstruct__object_8h_source.html#l00016">16</a> of file <a class="el" href="cstruct__object_8h_source.html">cstruct_object.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="cstruct__object_8h_source.html#l00012">12</a> of file <a class="el" href="cstruct__object_8h_source.html">cstruct_object.h</a>.</p>
 
 </div>
 </div>
-<a id="a2b5d0862bce151a1e64f5efd63a6c789"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2b5d0862bce151a1e64f5efd63a6c789">&#9670;&nbsp;</a></span>parent</h2>
+<a id="a9d6b52fea72292b2c213d7c1ce933434"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d6b52fea72292b2c213d7c1ce933434">&#9670;&nbsp;</a></span>properties</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const struct <a class="el" href="structfbgc__cmodule.html">fbgc_cmodule</a>* fbgc_cstruct_object::parent</td>
+          <td class="memname">const struct <a class="el" href="structfbgc__object__property__holder.html">fbgc_object_property_holder</a>* fbgc_cstruct_object::properties</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="cstruct__object_8h_source.html#l00015">15</a> of file <a class="el" href="cstruct__object_8h_source.html">cstruct_object.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="cstruct__object_8h_source.html#l00011">11</a> of file <a class="el" href="cstruct__object_8h_source.html">cstruct_object.h</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>/home/fbgencer/fbgc/src/headers/<a class="el" href="cstruct__object_8h_source.html">cstruct_object.h</a></li>
+<li>/home/fbgencer/fbgc/include/<a class="el" href="cstruct__object_8h_source.html">cstruct_object.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

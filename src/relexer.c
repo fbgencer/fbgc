@@ -1,3 +1,17 @@
+// This file is part of fbgc
+
+// fbgc is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+
+// fbgc is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// You should have received a copy of the GNU General Public License
+// along with fbgc.  If not, see <https://www.gnu.org/licenses/>.
 #include "fbgc.h"
 /*
 	d: digit [0-9]
@@ -697,7 +711,7 @@ uint8_t regex_lexer(struct fbgc_object ** field_obj,char * first_ptr){
 						//push_back_fbgc_ll_object( (cast_fbgc_object_as_field(*field_obj)->head),tokenize_substr(first_ptr,mobile_ptr,current_token,check-1) );
 						//print_fbgc_ll_object((cast_fbgc_object_as_field(*field_obj)->head),"FBG");
 						//cprintf(100,"previous type %s\n",lltp2str(BACK_LL(cast_fbgc_object_as_field(*field_obj)->head)));
-						_push_back_fbgc_ll( (cast_fbgc_object_as_field(*field_obj)->head),_tokenize_substr(first_ptr,mobile_ptr,current_token,check-1) );
+						_push_back_fbgc_ll( (cast_fbgc_object_as_field(*field_obj)->code),_tokenize_substr(first_ptr,mobile_ptr,current_token,check-1) );
 						//_print_fbgc_ll((cast_fbgc_object_as_field(*field_obj)->head),"XXX");						
 					//#endif
 					} 

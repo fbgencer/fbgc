@@ -1,4 +1,16 @@
 var searchData=
 [
-  ['data',['data',['../structfbgc__memory__pool.html#a090e06aafc9cdc78140b19391f6ee3a3',1,'fbgc_memory_pool']]]
+  ['capacity',['capacity',['../structfbgc__raw__memory.html#a85ae2dcc54a009f163633571e20267f9',1,'fbgc_raw_memory::capacity()'],['../structtraceable__pointer__list.html#a2219fbb1addc8c229e07c8ef0597fae8',1,'traceable_pointer_list::capacity()']]],
+  ['char_5fmatch_5fbegin',['char_match_begin',['../structrule__flag__struct.html#ad7c23cb8598d6dee994bf35fa99d12a0',1,'rule_flag_struct']]],
+  ['char_5fmatch_5fend',['char_match_end',['../structrule__flag__struct.html#a274a201cd01397f7f076be900ac98f49',1,'rule_flag_struct']]],
+  ['code',['code',['../structfbgc__class__object.html#a546a0b0816c790dde713f2dc0bc7ecef',1,'fbgc_class_object::code()'],['../structfbgc__fun__object.html#aa4c357029d4620cb046e185357db3582',1,'fbgc_fun_object::code()']]],
+  ['column',['column',['../structfbgc__matrix__object.html#a7c2a97b51968eebb093c6f658edc7f7d',1,'fbgc_matrix_object']]],
+  ['constructor',['constructor',['../unionfbgc__object__property__holder_1_1__properties.html#afc957e099529dbd4cc79a884c020ed0e',1,'fbgc_object_property_holder::_properties']]],
+  ['content',['content',['../structfbgc__bool__vector.html#a62fad80bb76d40bc28f51d7abaa4585d',1,'fbgc_bool_vector::content()'],['../structfbgc__double__object.html#a839dc9f0b67fc0e959e909111fd7d35c',1,'fbgc_double_object::content()'],['../structfbgc__int__object.html#a79d3de9dbff05bbda39e3a5a7440151e',1,'fbgc_int_object::content()'],['../structfbgc__ll__constant.html#aaee991f0c8f78f6ea87e90d03884f574',1,'fbgc_ll_constant::content()'],['../structfbgc__ll__jumper.html#afe87e78b1772a3c4db5308784c7861ce',1,'fbgc_ll_jumper::content()'],['../structfbgc__ll__opcode__int.html#a35404ecc7d7a6ae2733d63c29a339483',1,'fbgc_ll_opcode_int::content()'],['../structfbgc__logic__object.html#a76f298d97fb50af35e76a74e149fc0f5',1,'fbgc_logic_object::content()'],['../structfbgc__map__object.html#a92e0e5af2361ed56d5cbf223d846c30c',1,'fbgc_map_object::content()'],['../structfbgc__queue.html#a948f42c24eeba24a5647b80204027a96',1,'fbgc_queue::content()'],['../structfbgc__str__object.html#ae53e11499edb8eec54e95929fa281511',1,'fbgc_str_object::content()'],['../structfbgc__identifier.html#ada2251c9a8032c1c764c040ee7991236',1,'fbgc_identifier::content()'],['../structfbgc__tuple__object.html#a9848e93739df30922da6aa6bf37e9503',1,'fbgc_tuple_object::content()'],['../structfbgc__vector.html#a3bce5b5fc4bb126f4cfc0e170618e65f',1,'fbgc_vector::content()']]],
+  ['cstruct',['cstruct',['../structfbgc__cstruct__object.html#a04ff6121d5b752d186800c1631771588',1,'fbgc_cstruct_object']]],
+  ['current_5ffield',['current_field',['../fbgc_8c.html#a53dc02c343db1a90b4bc6ced5d757740',1,'fbgc.c']]],
+  ['current_5fobject_5fpool',['current_object_pool',['../structfbgc__garbage__collector.html#a2b93b41af5560ff7967931f4b369b26a',1,'fbgc_garbage_collector']]],
+  ['current_5fraw_5fmemory',['current_raw_memory',['../structfbgc__garbage__collector.html#a5c03b968d2d03fa7c74b5cc2be844ace',1,'fbgc_garbage_collector']]],
+  ['current_5fscope',['current_scope',['../structinterpreter__packet.html#a85b7470e831f42be41f945feabeda725',1,'interpreter_packet']]],
+  ['cycle',['cycle',['../structfbgc__garbage__collector.html#a4bbf0188a8af2eee1b6e23d281461311',1,'fbgc_garbage_collector']]]
 ];
