@@ -62,7 +62,7 @@ bool is_empty_fbgc_queue(const struct fbgc_queue * queue){
 }
 
 static void * get_queue_end(const struct fbgc_queue * queue){
-	return queue->content + (capacity_fbgc_queue(queue)*queue->block_size);
+	return queue->content + capacity_fbgc_raw_memory(queue->content,1);
 }
 
 
@@ -70,10 +70,12 @@ void * front_fbgc_queue(const struct fbgc_queue * queue){
 	return queue->front;
 }
 
-void * back_fbgc_queue(const struct fbgc_queue * queue){	
-	void * back =  (uint8_t*)queue->front + ((queue->size%capacity_fbgc_queue(queue))*queue->block_size);
-	if(back == get_queue_end(queue)){
-		return queue->content;
+void * back_fbgc_queue(const struct fbgc_queue * queue){
+	void * back =  (uint8_t*)queue->front + queue->size*queue->block_size;
+	//printf("Queue front :%p, back:%p\n",queue->front,back);
+	if(back > get_queue_end(queue)){
+		//printf("back is bigger than end returning %p\n",queue->content);
+		return queue->content + (back - get_queue_end(queue));
 	}
 	return back;
 }
@@ -130,23 +132,28 @@ struct fbgc_queue * copy_queue_fbgc_queue(struct fbgc_queue * self){
 }
 
 bool iterator_fbgc_queue_front_to_back(struct fbgc_queue * queue, void ** it){
-
-	printf("f:%p b:%p|*it:%p\n",front_fbgc_queue(queue),back_fbgc_queue(queue),*it);
-
-	if(it == NULL) return 0;
+	
+	if(it == NULL || queue->size == 0) return 0;
 	if(*it == NULL){
+		//delete_me = queue->size;
+		//printf("I am here :)\n");
+		//printf("queue cap %lu | %lu\n",capacity_fbgc_raw_memory(queue->content,queue->block_size),queue->size);
 		*it = queue->front;
 		return 1;
 	}
-	if(*it == back_fbgc_queue(queue))
-		return 0;
 
 	//Assuming it is already assigned
 	*it = (uint8_t*)*it + queue->block_size;
+	
+	if(*it == back_fbgc_queue(queue))
+		return 0;
+
+	//cprintf(110,"*it increased:%p | queue content:%p | queue end :%p\n",*it,queue->content,get_queue_end(queue));
+	//cprintf(100,"back:%p\n",back_fbgc_queue(queue));
+	
 	if(*it == get_queue_end(queue)){
 		*it = queue->content;
 	}
-
 	if(*it == back_fbgc_queue(queue))
 		return 0;
 	
