@@ -29,19 +29,19 @@ extern "C" {
     \brief fbgc default object pool size in terms of bytes before compilation of the program, this parameter must be changed for different platforms depends on the memory of the system
 	\details If the requested memory is bigger than the default pool size, new pools have size by the integer multiplication of the default pool size
 */
-#define FBGC_DEFAULT_OBJECT_POOL_SIZE  2*KILOBYTE
+#define FBGC_DEFAULT_OBJECT_POOL_SIZE  (size_t)1*KILOBYTE
 
 /*! @def FBGC_DEFAULT_RAW_MEMORY_POOL_SIZE
     \brief fbgc default object pool size in terms of bytes before compilation of the program, this parameter must be changed for different platforms depends on the memory of the system
 	\details If the requested memory is bigger than the default pool size, new pools have size by the integer multiplication of the default pool size
 */
-#define FBGC_DEFAULT_RAW_MEMORY_POOL_SIZE  10*KILOBYTE
+#define FBGC_DEFAULT_RAW_MEMORY_POOL_SIZE  (size_t)1024*1024*KILOBYTE
 
 /*! @def FBGC_STATIC_INTERNAL_MEMORY_SIZE
     \brief fbgc static internal memory size in bytes. 
 	\details Size value can be changed depends on the platform memory
 */
-#define FBGC_STATIC_INTERNAL_MEMORY_SIZE 10*KILOBYTE
+#define FBGC_STATIC_INTERNAL_MEMORY_SIZE (size_t)(100*1024*KILOBYTE)
 
 
 /*! @def FBGC_MAX_MEMORY_SIZE 
@@ -144,7 +144,7 @@ void print_fbgc_memory_block();
 		memory api can check the capacity and returns it.
 	\param ptr : Allocated data pointer returned by fbgc_malloc allocater
 	\param block_size : Block size of the allocated content. For example if ptr is an integer array then block size is simply sizeof(int)
-	\return Capacity in bytes
+	\return Number of blocks that ptr can hold
 */
 uint32_t capacity_fbgc_raw_memory(void * ptr,size_t block_size);
 
@@ -154,6 +154,7 @@ uint32_t capacity_fbgc_raw_memory(void * ptr,size_t block_size);
 #define	FBGC_MALLOC_OPTIMIZATION_FOR_SPEED 	0x02
 #define	FBGC_MALLOC_OPTIMIZATION_MEMORY_AND_SPEED 0x01 | 0x02
 
+extern size_t allocation;
 
 struct __fbgc_mem_free_list_entry{
 	void * start;
@@ -161,7 +162,7 @@ struct __fbgc_mem_free_list_entry{
 	size_t size;
 };
 
-#define TRACEABLE_POINTER_LIST_INITIAL_CAPACITY 16
+#define TRACEABLE_POINTER_LIST_INITIAL_CAPACITY 1024*100
 
 /*! @def struct traceable_pointer_entry 
     \brief fbgc.
@@ -186,7 +187,7 @@ typedef enum {
 	GC_STATE_STOPPED
 }GC_STATES;
 
-#define FBGC_GC_MAXIMUM_CYCLE 100
+#define FBGC_GC_MAXIMUM_CYCLE 1000000
 
 struct fbgc_garbage_collector{
 	size_t max_cycle;
