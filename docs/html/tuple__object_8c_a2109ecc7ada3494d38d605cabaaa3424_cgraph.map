@@ -1,9 +1,0 @@
-<map id="operator_fbgc_tuple_object" name="operator_fbgc_tuple_object">
-<area shape="rect" id="node2" href="$tuple__object_8c.html#aa73a33e3ceeba7ec53c8d96483263649" title="copy_fbgc_tuple_object" alt="" coords="189,67,348,94"/>
-<area shape="rect" id="node5" href="$tuple__object_8c.html#a0b406898ce0f388a06bbf0cdd3b5b8d5" title="push_back_fbgc_tuple\l_object" alt="" coords="193,119,345,160"/>
-<area shape="rect" id="node3" href="$utility_8c.html#ad5f1765c83e207a5c91f54e651fd4b49" title="fbgc_round_to_closest\l_power_of_two" alt="" coords="396,5,549,47"/>
-<area shape="rect" id="node4" href="$memory_8c.html#aa844eac7bc0bc2ffa7f4a41e710e3b7d" title="fbgc_malloc_object" alt="" coords="405,71,540,98"/>
-<area shape="rect" id="node6" href="$memory_8c.html#a46dcfb44df5cac4f04145f1aa208fb9f" title="fbgc_realloc" alt="" coords="427,126,519,153"/>
-<area shape="rect" id="node7" href="$memory_8c.html#a76a1e9664316b52338491e7b3c1d58dd" title="fbgc_malloc" alt="" coords="597,101,689,127"/>
-<area shape="rect" id="node8" href="$memory_8c.html#a45d076e11af8d11bd73f6529582edbef" title="fbgc_free" alt="" coords="605,151,681,178"/>
-</map>

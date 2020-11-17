@@ -1,7 +1,0 @@
-<map id="gc_mark_fbgc_object" name="gc_mark_fbgc_object">
-<area shape="rect" id="node2" href="$memory_8c.html#a4e4389eb30327879df1eaf1033810316" title="fbgc_gc_init" alt="" coords="229,5,321,32"/>
-<area shape="rect" id="node3" href="$memory_8c.html#a4a45140ba308a6210947a14e37b031ec" title="fbgc_gc_mark" alt="" coords="223,56,327,83"/>
-<area shape="rect" id="node5" href="$symbol__table_8c.html#a7db0b6f538413623a79af312bf42bee7" title="initialize_fbgc_symbol\l_table" alt="" coords="200,107,351,149"/>
-<area shape="rect" id="node4" href="$memory_8c.html#a7a8918367899ad99cdd2de865fb88c51" title="fbgc_gc_run" alt="" coords="399,56,492,83"/>
-<area shape="rect" id="node6" href="$fbgc_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="420,115,471,141"/>
-</map>

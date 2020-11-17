@@ -1,9 +1,0 @@
-<map id="__get_object_in_fbgc_tuple_object" name="__get_object_in_fbgc_tuple_object">
-<area shape="rect" id="node2" href="$interpreter_8c.html#a9258c216ff44c3e528b11c40bb008408" title="run_code" alt="" coords="199,111,273,138"/>
-<area shape="rect" id="node3" href="$interpreter_8c.html#acb0454b55a53dfb587644f66848a0646" title="interpreter" alt="" coords="336,61,416,87"/>
-<area shape="rect" id="node4" href="$interpreter_8c.html#a4f89f3bcab3bcea69d82ae01a7197bd8" title="call_fun_object" alt="" coords="321,111,431,138"/>
-<area shape="rect" id="node5" href="$class__object_8c.html#a9e16ab772b9f1e0e9b201c7ae7975ee4" title="operator_fbgc_instance\l_object" alt="" coords="487,5,645,47"/>
-<area shape="rect" id="node6" href="$class__object_8c.html#ab5ab4859ce82fab98281a60feae683cf" title="subscript_operator\l_fbgc_instance_object" alt="" coords="490,71,642,112"/>
-<area shape="rect" id="node7" href="$class__object_8c.html#aaaf99e7bf52215f441cf0071bc7614b0" title="subscript_assign_operator\l_fbgc_instance_object" alt="" coords="479,136,653,177"/>
-<area shape="rect" id="node8" href="$class__object_8c.html#ac4a3f951a94ea6c43c0c9d463a469f5c" title="print_fbgc_instance\l_object" alt="" coords="499,201,633,243"/>
-</map>

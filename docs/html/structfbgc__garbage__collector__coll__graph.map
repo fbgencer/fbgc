@@ -1,6 +1,0 @@
-<map id="fbgc_garbage_collector" name="fbgc_garbage_collector">
-<area shape="rect" id="node2" href="$structtraceable__pointer__list.html" title="traceable_pointer_list" alt="" coords="11,95,157,121"/>
-<area shape="rect" id="node3" href="$structtraceable__pointer__entry.html" title="traceable_pointer_entry" alt="" coords="5,5,163,32"/>
-<area shape="rect" id="node4" href="$structfbgc__memory__pool.html" title="fbgc_memory_pool" alt="" coords="181,95,313,121"/>
-<area shape="rect" id="node5" href="$structfbgc__queue.html" title="fbgc_queue" alt="" coords="390,95,479,121"/>
-</map>

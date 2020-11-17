@@ -1,8 +1,0 @@
-<map id="new_fbgc_str_object_empty" name="new_fbgc_str_object_empty">
-<area shape="rect" id="node2" href="$fbgc__file_8c.html#a2bd515c0839f441866a9a4f91337023a" title="new_fbgc_cfunction" alt="" coords="209,5,348,32"/>
-<area shape="rect" id="node3" href="$complex__object_8h.html#aa3ed0f6dc7dcc5a6b9ccf6c59d78a913" title="fbgc_complex_object\l_to_str" alt="" coords="206,57,351,98"/>
-<area shape="rect" id="node4" href="$double__object_8h.html#ad2311f4adc82010d5c967211142c0b81" title="fbgc_double_object\l_to_str" alt="" coords="211,122,346,163"/>
-<area shape="rect" id="node5" href="$int__object_8h.html#a167f851084d42d9412089007268f2c29" title="fbgc_int_object_to_str" alt="" coords="203,188,354,215"/>
-<area shape="rect" id="node6" href="$str__object_8h.html#a5bf960b58ffc3c7b696f3724f1eb8a66" title="new_fbgc_str_object\l_from_object" alt="" coords="207,239,350,281"/>
-<area shape="rect" id="node7" href="$str__object_8h.html#aa52ba68bd74a0ee1167ab4483fec93a3" title="operator_fbgc_str_object" alt="" coords="196,305,361,332"/>
-</map>

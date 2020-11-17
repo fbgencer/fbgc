@@ -1,8 +1,0 @@
-<map id="call_fun_object" name="call_fun_object">
-<area shape="rect" id="node2" href="$class__object_8c.html#a9e16ab772b9f1e0e9b201c7ae7975ee4" title="operator_fbgc_instance\l_object" alt="" coords="171,5,329,47"/>
-<area shape="rect" id="node3" href="$class__object_8c.html#ab5ab4859ce82fab98281a60feae683cf" title="subscript_operator\l_fbgc_instance_object" alt="" coords="174,71,326,112"/>
-<area shape="rect" id="node4" href="$class__object_8c.html#aaaf99e7bf52215f441cf0071bc7614b0" title="subscript_assign_operator\l_fbgc_instance_object" alt="" coords="163,136,337,177"/>
-<area shape="rect" id="node5" href="$class__object_8c.html#ac4a3f951a94ea6c43c0c9d463a469f5c" title="print_fbgc_instance\l_object" alt="" coords="183,201,317,243"/>
-<area shape="rect" id="node6" href="$interpreter_8c.html#a9258c216ff44c3e528b11c40bb008408" title="run_code" alt="" coords="213,267,287,294"/>
-<area shape="rect" id="node7" href="$interpreter_8c.html#acb0454b55a53dfb587644f66848a0646" title="interpreter" alt="" coords="385,267,465,294"/>
-</map>

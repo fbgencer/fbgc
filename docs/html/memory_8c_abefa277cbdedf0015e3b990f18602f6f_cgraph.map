@@ -1,7 +1,0 @@
-<map id="print_fbgc_memory_object_pool" name="print_fbgc_memory_object_pool">
-<area shape="rect" id="node2" href="$error_8c.html#adc20185f5574cf02856d5b7372d40f62" title="cprintf" alt="" coords="300,46,359,73"/>
-<area shape="rect" id="node3" href="$fbgc__object_8c.html#a7685f994a3356f2446d8c707a556a3c2" title="size_of_fbgc_object" alt="" coords="260,97,399,123"/>
-<area shape="rect" id="node5" href="$fbgc__object_8c.html#ab6746edc57eb290c36fbf1ffeecf792c" title="objtp2str" alt="" coords="663,71,735,98"/>
-<area shape="rect" id="node4" href="$fbgc__object_8c.html#ae62584eb36a8207152e121a4edc116ea" title="get_fbgc_object_property\l_holder" alt="" coords="447,5,615,47"/>
-<area shape="rect" id="node6" href="$fbgc__object_8c.html#afab5dfe891e5e6372e8bc3b3436ea5a0" title="_find_property" alt="" coords="479,122,583,149"/>
-</map>

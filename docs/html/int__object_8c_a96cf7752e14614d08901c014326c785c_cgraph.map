@@ -1,6 +1,0 @@
-<map id="operator_fbgc_int_object2" name="operator_fbgc_int_object2">
-<area shape="rect" id="node2" href="$fbgc__object_8c.html#acf2ffa8ce326979fc952be642213461a" title="convert_fbgc_object\l_to_int" alt="" coords="437,5,576,47"/>
-<area shape="rect" id="node4" href="$double__object_8c.html#a08dd93b8f6c56cf7cb6210b63c29dbaf" title="new_fbgc_double_object" alt="" coords="224,67,389,94"/>
-<area shape="rect" id="node3" href="$error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="624,42,683,69"/>
-<area shape="rect" id="node5" href="$memory_8c.html#a41dd65ee24d51160659bf94bed90e998" title="fbgc_malloc" alt="" coords="461,71,553,98"/>
-</map>

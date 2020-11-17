@@ -1,7 +1,0 @@
-<map id="matrix_creation_from_stack" name="matrix_creation_from_stack">
-<area shape="rect" id="node2" href="$matrix__object_8c.html#aa855543d4a0b84619248fdce7dc1c763" title="new_fbgc_matrix_object" alt="" coords="197,9,360,36"/>
-<area shape="rect" id="node5" href="$fbgc__object_8c.html#a3bb27f7967c007951389378fc9f358e3" title="convert_fbgc_object\l_to_double" alt="" coords="408,57,547,98"/>
-<area shape="rect" id="node6" href="$fbgc__object_8c.html#a5a9cf786785f00ec159d2845dc49f99c" title="convert_fbgc_object\l_to_complex" alt="" coords="209,115,348,157"/>
-<area shape="rect" id="node3" href="$memory_8c.html#a41dd65ee24d51160659bf94bed90e998" title="fbgc_malloc" alt="" coords="431,5,523,32"/>
-<area shape="rect" id="node4" href="$error_8c.html#a30fee765292b076e015fc846035f2550" title="cprintf" alt="" coords="595,64,653,91"/>
-</map>

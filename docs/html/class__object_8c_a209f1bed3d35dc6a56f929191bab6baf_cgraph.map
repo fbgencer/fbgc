@@ -1,6 +1,0 @@
-<map id="get_overloaded_member" name="get_overloaded_member">
-<area shape="rect" id="node2" href="$class__object_8c.html#aa9a032f084d8000eaa242d8fac058b46" title="get_set_fbgc_instance\l_object_member" alt="" coords="217,39,371,80"/>
-<area shape="rect" id="node3" href="$map__object_8c.html#ab8ac0b14e01222495c97d61dcdee0e8d" title="fbgc_map_object_get\l_key_index_str" alt="" coords="419,5,565,47"/>
-<area shape="rect" id="node4" href="$tuple__object_8c.html#a7c3e4244f896a18f0fd7892ba49ab652" title="set_object_in_fbgc\l_tuple_object" alt="" coords="427,71,557,112"/>
-<area shape="rect" id="node5" href="$tuple__object_8c.html#a20e500f33369ae9ec5f3fd3d0d4b3ecc" title="handle_tuple_index" alt="" coords="613,78,747,105"/>
-</map>

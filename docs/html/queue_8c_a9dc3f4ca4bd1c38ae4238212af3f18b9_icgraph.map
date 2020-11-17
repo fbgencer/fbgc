@@ -1,9 +1,0 @@
-<map id="capacity_fbgc_queue" name="capacity_fbgc_queue">
-<area shape="rect" id="node2" href="$queue_8c.html#ad6580790ec8fd09d9619857540bd8bbb" title="is_full_fbgc_queue" alt="" coords="217,5,347,32"/>
-<area shape="rect" id="node3" href="$queue_8c.html#a5f7328e47a0fe74bd39b7c5922f12587" title="push_back_fbgc_queue" alt="" coords="413,56,572,83"/>
-<area shape="rect" id="node7" href="$queue_8c.html#a864214690af954e503735515b6889d9f" title="back_fbgc_queue" alt="" coords="220,107,344,133"/>
-<area shape="rect" id="node8" href="$queue_8c.html#acab32db01004f523b9c4d2a42056e735" title="copy_queue_fbgc_queue" alt="" coords="199,157,365,184"/>
-<area shape="rect" id="node4" href="$queue_8c.html#ab37cb1f9e74ba89d507258e1948b7f07" title="push_fbgc_queue" alt="" coords="620,56,744,83"/>
-<area shape="rect" id="node5" href="$memory_8c.html#af42994e853e4792f2a4bfe9a92e709d0" title="fbgc_gc_mark_pointer" alt="" coords="792,31,943,57"/>
-<area shape="rect" id="node6" href="$queue_8c.html#a831ded10ecad88c14a8e22b96f4c1863" title="queue_test" alt="" coords="824,81,911,108"/>
-</map>
