@@ -90,7 +90,7 @@ inline struct fbgc_object *  get_front_in_fbgc_tuple_object(struct fbgc_object *
 
 
 
-struct fbgc_object * push_back_fbgc_tuple_object(struct fbgc_object * self,struct fbgc_object * obj){
+void push_back_fbgc_tuple_object(struct fbgc_object * self,struct fbgc_object * obj){
 
     //Check the capacity, if there is enough space push back the obj
 
@@ -115,8 +115,6 @@ struct fbgc_object * push_back_fbgc_tuple_object(struct fbgc_object * self,struc
     cast_fbgc_object_as_tuple(self)->size = old_size;
     
     FBGC_LOGV(TUPLE_OBJECT,"New size tuple %lu\n",size_fbgc_tuple_object(self));
-    
-    return self;
 }
 
 int index_fbgc_tuple_object(struct fbgc_object * self, struct fbgc_object * obj){
@@ -185,7 +183,8 @@ switch(op)
         if(a->type == TUPLE){
 
             struct fbgc_object * t = copy_fbgc_tuple_object(a);
-            return push_back_fbgc_tuple_object(t,b);
+            push_back_fbgc_tuple_object(t,b);
+            return t;
         }
         return NULL;
     }
@@ -309,7 +308,7 @@ static inline size_t size_of_fbgc_tuple_object(struct fbgc_object * self){
 }
 
 static inline void gc_mark_fbgc_tuple_object(struct fbgc_object * self){
-    fbgc_gc_mark_pointer((cast_fbgc_object_as_tuple(self)->content),sizeof(struct fbgc_object *));
+    fbgc_gc_mark_raw_memory_pointer((cast_fbgc_object_as_tuple(self)->content),sizeof(struct fbgc_object *));
 }
 
 

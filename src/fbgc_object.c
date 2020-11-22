@@ -21,12 +21,17 @@ struct fbgc_object * new_fbgc_object(const fbgc_token token){
     return (struct fbgc_object*) o;
 }
 const char * objtp2str(struct fbgc_object * obj){
-	return object_name_array[obj->type];
+	if(obj->type <= BUILD_FUN_DEFAULT_ARGS)
+		return object_name_array[obj->type];
+	
+	assert(0);
 }
 
 
 
 const struct fbgc_object_property_holder * get_fbgc_object_property_holder(struct fbgc_object * o){
+	if(o == NULL) return NULL;
+
 	switch(o->type){		
 		case INT: return &fbgc_int_object_property_holder;
 		case DOUBLE: return &fbgc_double_object_property_holder;

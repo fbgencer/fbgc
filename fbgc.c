@@ -15,15 +15,7 @@
 
 #include "fbgc.h"
 #include "cmodules.h"
-
-//Forward declarations
-void print_logo();
-
-
-struct fbgc_object * current_field = NULL;
-
-struct fbgc_object __nil__ = {.type = NIL};
-struct fbgc_object * __fbgc_nil = &__nil__;
+#include "fbgc_config.h"
 
 
 static void compile_file(struct fbgc_object * main_field,const char *file_name){
@@ -34,11 +26,7 @@ static void compile_file(struct fbgc_object * main_field,const char *file_name){
 	assert(main_field);
 
 	begin = clock();
-	 
-   int par = parse_file(&main_field,file_name);
-
-	
-	
+   	int par = parse_file(&main_field,file_name);
 	end = clock();
 	parser_time = (double)(end - begin) / CLOCKS_PER_SEC; 
 
@@ -617,296 +605,42 @@ int8_t parse_keywordargs_content(struct fbgc_cfun_arg * cfun_arg,const char ** k
 }
 
 
-static unsigned long fhash(const void * keyp,size_t len){
-	unsigned long hash = 5381;
-	
-	const char * key = (const char * )keyp;
-	while(len--){
-		char c = *key++;
-		hash = ((hash << 5) + hash) + c; // hash * 33 + c
-	}
-	return hash;
-}
+struct fbgc_object * current_field = NULL;
+struct fbgc_object __nil__ = {.type = NIL};
+struct fbgc_object * __fbgc_nil = &__nil__;
+struct fbgc_object ** __fbgc_runtime_program_stack = NULL;
 
-/*
-	GC 
-
-*/
-/*
-Senaryolar
-
-struct{
-	struct fbgc_object base;
-	int size;
-	struct fbgc_object ** contents;
-	
-	veya 
-
-	struct fbgc_object * io;
-	struct fbgc_object * do;
-	struct fbgc_object * ao;
-
-} tuple;
-Gc fonksiyonu içinde contents array olarak marklanır, burada contents queue içine atılır ve daha sonra 
-contentin referanslarına gidilerek onların gc fonksiyonları çağırılır.
-
-struct{
-	struct fbgc_object base;
-	int size;
-	int ** contents;
-} int_arrays;
-
-Gc fonksiyonu içinde pointer obje tutmadığı için pointer_register fonksiyonu ile marklanır
-Mark yerine burada register edilen pointer
-
-
-struct{
-	struct fbgc_object base;
-	int size;
-	int * contents;
-} int_arrays2;
-
-struct{
-	int x;
-	int y;
-	double * z;
-}foo;
-
-*/
-
-
-int values[] = { 40, 10, 100, 90, 20, 25 };
-double dvalues[] = { 0,0.001, 0.0001,40, 10, 100, 90, 20, 25, 3.312,-55.123,100.22 };
-
-int compare (const void * a, const void * b)
-{
-  return ( *(int*)a - *(int*)b );
-}
-
-#define pointer_list_size 5
-int is_in_pointer_list(void ** pointer_list,void * ptr){
-    for(int i = 0; i<pointer_list_size; ++i){
-        if(pointer_list[i] == ptr){
-            return 1;
-        }
-    }
-    return 0;
-}
-
-#ifndef MODULE_TEST
-int main(int argc, char const *argv[]){
-
-	#ifdef FBGC_LOGO
-		print_logo();
-	#endif   
-
-//******************************************************************
-	initialize_fbgc_memory_block();
-	//struct fbgc_object * tuple = new_fbgc_tuple_object(4);
-	fbgc_gc_init(NULL,__builtin_frame_address(0));
-
-	struct foo{
-		int x;
-		int ** ptr;
-		uint64_t data;
-	};
-
-	struct foo * foop = (struct foo*)fbgc_malloc(sizeof(struct foo));
-
-	int depth3 = 1000;
-	int depth2 = 1000;
-	int depth1 = 1000;
-
-	size_t how_much_wasted = 0;
-	size_t last = sizeof(struct foo);
-
-	for(uint64_t i = 0; i<depth3; ++i){
-		foop->x = i;
-		foop->data = i*10;
-		foop->ptr = (int**)fbgc_malloc(sizeof(int*)*depth2);
-		if(i != depth3-1)
-			how_much_wasted += sizeof(int*)*depth2;
-		else
-			last += (sizeof(int*)*depth2);
-		for(uint64_t j = 0; j<depth2; ++j){
-			foop->ptr[j] = (int*)fbgc_malloc(sizeof(int)*depth1);
-			if(i != depth3-1)
-				how_much_wasted += sizeof(int)*depth1;
-			else
-				last += (sizeof(int)*depth1);
-			for (size_t k = 0; k < depth1; k++){
-				foop->ptr[j][k] = k*5;
-			}
-		}
-	}
-	
-	//foop->ptr = NULL;
-	printf("Starting gc run :) %p\n",foop);
-	//print_fbgc_memory_block();
-	fbgc_gc_run(1000000000);
-	//foop = NULL;
-	fbgc_gc_run(1000000000);
-
-	
-	printf("Finished foo address %p|%p|%lu\n",foop,foop->ptr,foop->data);
-	printf("How much wasted %lu|%lu\n",how_much_wasted,last);
-	printf("allocation %lu\n",allocation);
-
-	// int ** base = (int**)fbgc_malloc(sizeof(int*)*2);
-	// base[0] = (int*)fbgc_malloc(sizeof(int));
-	// base[1] = (int*)fbgc_malloc(sizeof(int));
-
-	// base[0][0] = 255;
-	// base[1][0] = 220;
-
-	// int *** base3 = (int***)fbgc_malloc(sizeof(int**)*2);
-	// base3[0] = (int**)fbgc_malloc(sizeof(int*)*2);
-	// base3[1] = (int**)fbgc_malloc(sizeof(int*)*2);
-	// base3[0][0] = (int*)fbgc_malloc(sizeof(int)*2);
-	// base3[0][1] = (int*)fbgc_malloc(sizeof(int)*2);
-
-	// base3[1][0] = (int*)fbgc_malloc(sizeof(int));
-	// base3[1][1] = (int*)fbgc_malloc(sizeof(int));
-
-	// cprintf(100,"base3[1][0] :%p\n",base3[1][0]);
-
-	// //int * foo = (int*) fbgc_malloc(sizeof(int)*2);
-	// //intptr_t * ptr_as_data = (intptr_t *)fbgc_malloc(sizeof(intptr_t));
-	// //void * ptr = base3[1][0];
-	// uint64_t data = 0;
-	// //memcpy(&data,&ptr,8);
-	// cprintf(100,"data :%p | 0x%08x\n",(void*)data,data);
-
-	// fbgc_gc_mark_pointer(base3[1][0],sizeof(int));
-
-	// print_fbgc_memory_block();
-	// base3[1][0] = NULL;
-	// //memset(&ptr_as_data,0x0,sizeof(intptr_t));
-	// fbgc_gc_run(1000);
-
-	// print_fbgc_memory_block();
-	// fbgc_gc_run(1000);
-	// cprintf(100,"data :%p | 0x%08x | %lu\n",(void*)data,data,data);
-	
-	//void * ptr = (void*)ptr_as_data;
-	//cprintf(100,"ptr as data %ld | 0x%08x | %p \n",ptr_as_data,ptr_as_data,ptr);
-	
-	//initialize_fbgc_symbol_table();
-	//current_field = new_fbgc_field(2,&_fbgc_io_property_holder,&_fbgc_stl_property_holder);
-
-	// push_back_fbgc_tuple_object(tuple,new_fbgc_int_object(100));
-	// push_back_fbgc_tuple_object(tuple,new_fbgc_int_object(200));
-	// push_back_fbgc_tuple_object(tuple,new_fbgc_int_object(300));
-
-	// struct fbgc_object * a1 = new_fbgc_int_object(0);
-	// struct fbgc_object * a2 = new_fbgc_int_object(10);
-	// struct fbgc_object * a3 = new_fbgc_int_object(20);
-	// struct fbgc_object * a4 = new_fbgc_int_object(30);
-	// struct fbgc_object * a5 = new_fbgc_int_object(40);
-	// struct fbgc_object * a6 = new_fbgc_int_object(50);
-	// struct fbgc_object * a7 = new_fbgc_str_object("fbgencer :)");
-
-	// int * myptr = fbgc_malloc(sizeof(int)*10);
-	// int * i1 = fbgc_malloc(sizeof(int));	*i1 = 10;
-	// int * i2 = fbgc_malloc(sizeof(int));	*i2 = -230;
-	// int * i3 = fbgc_malloc(sizeof(int));	*i3 = 0xFB6C;
-	// int * i4 = fbgc_malloc(sizeof(int));	*i4 = 0xFB62;
-	// //int * i5 = fbgc_malloc(sizeof(int)*5);
-	// for (size_t i = 0; i < 10; i++){
-	// 	myptr[i] = i*2;
-	// }
-	
-	// printf("myptr %p\n",myptr);
-	// printf("i1 %p\n",i1);
-	// printf("i2 %p\n",i2);
-	// printf("i3 %p\n",i3);
-	// printf("i4 %p\n",i4);
-
-
-	// push_back_fbgc_tuple_object(tuple,a7);
-	
-	// print_fbgc_memory_block();
-
-
-	// // push_into_object_free_list(a1);
-	// // push_into_object_free_list(a3);
-	// // push_into_object_free_list(a5);
-	// fbgc_gc_run(100);
-
-	// printf_fbgc_object(a1); printf("\n");
-	// //printf_fbgc_object(a2); printf("\n");
-	// //printf_fbgc_object(a3); printf("\n");
-	// printf_fbgc_object(a4); printf("\n");
-	// printf_fbgc_object(a5); printf("\n");
-	// //printf_fbgc_object(a6); printf("\n");
-	// //printf_fbgc_object(a7); printf("\n");
-	// printf("i1:%d\n",*i1);
-	// printf("i3:%d\n",*i3);
-
-
-
-	// // // for (size_t i = 0; i < 10; i++){
-	// // // 	printf("myptr[%ld]:%d\n",i,myptr[i]);
-	// // // }
-	
-	// printf_fbgc_object(tuple); printf("\n");
-	// print_fbgc_memory_block();
-	// struct fbgc_object * den = new_fbgc_int_object(255);
-	// struct fbgc_object * den2 = new_fbgc_int_object(254);
-	// struct fbgc_object * den3 = new_fbgc_int_object(253);
-	// struct fbgc_object * st = new_fbgc_str_object("fbge");
-	// printf_fbgc_object(den); printf("\n");
-	// printf_fbgc_object(den2); printf("\n");
-	// printf_fbgc_object(den3); printf("\n");
-	// printf_fbgc_object(st); printf("\n");
-	// print_fbgc_memory_block();
-
-	
-
-	
-	//print_object_free_list();
-
-
-	//fbgc_gc_init(current_field);
-
-	//fbgc_gc_run();
-
-	//struct fbgc_object * map2 = new_fbgc_map_object(4,100);
-
-	// fbgc_map_object_insert_str(map2,"a",new_fbgc_int_object(1));
-	// fbgc_map_object_insert_str(map2,"b",new_fbgc_int_object(2));
-	// fbgc_map_object_insert_str(map2,"c",new_fbgc_int_object(3));
-	// fbgc_map_object_insert_str(map2,"d",new_fbgc_int_object(4));
-
-
-	// struct fbgc_object * x = new_fbgc_int_object(8);
-	// fbgc_free(x);
-	// x = new_fbgc_int_object(16);
-
-	// //fbgc_gc_init(NULL);
-	// //fbgc_gc_run();
-
-	// print_fbgc_memory_block();
-
-
-	if(argc > 1)
-	{   
+void fbgc_handle_program_args(int argc, char const *argv[]){
+	if(argc > 1){   
 		if(!strcmp(argv[1],"-s")){
 			//compile_one_line(main_field,argv[2]);
 		}
 		else{
-		   compile_file(current_field, argv[1]); 
-		}
-		//print_fbgc_memory_block();
-		
+			compile_file(current_field, argv[1]); 
+		}		
 	}
 	else{
 		//compile_file(current_field, "ex.fbgc");
 	   //realtime_fbgc(main_field);
 	}
+}
 
-	free_fbgc_memory_block();
-//******************************************************************
+
+int main(int argc, char const *argv[]){
+
+	initialize_fbgc_memory_block(); //Initialize the memory and other things for the program
+
+	fbgc_gc_init(__builtin_frame_address(0), 3,&current_field,&__fbgc_runtime_program_stack, &fbgc_symbols); //Initialize garbage collector
+
+	initialize_fbgc_symbol_table();
+	current_field = new_fbgc_field(2,&_fbgc_io_property_holder,&_fbgc_stl_property_holder);
+	
+	FBGC_LOGW("Initialization is finished\n");
+	FBGC_LOGW("sss Size %ld\n",size_fbgc_tuple_object(fbgc_symbols));
+	
+	fbgc_handle_program_args(argc,argv);
+
+	free_fbgc_memory_block(); //Free the all memory that we allocated and close the program
 
 	return 0;
 }
@@ -939,8 +673,4 @@ void print_logo(){
 	// terminate
 	fclose (pFile);
 	free (buffer);
-
 }
-
-#endif
-

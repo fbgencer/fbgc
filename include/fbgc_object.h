@@ -20,8 +20,7 @@ extern "C" {
 #endif
 
 struct fbgc_object{
-    uint8_t mark_bit : 2;
-    uint8_t type : 6;
+    uint8_t type;
 };
 
 

@@ -32,20 +32,21 @@ extern "C" {
 
 #define ANSI_COLOR_RED_UNDERLINE    "\e[4;31m"
 
-#define LOG_LEVEL_ERROR     0
-#define LOG_LEVEL_WARNING 	1
-#define LOG_LEVEL_DEBUG     2
-#define LOG_LEVEL_VERBOSE   3
 
-#ifdef LOG_LEVEL 
-    #define LOG_LEVEL LOG_LEVEL_ERROR
-#else
+#ifndef LOG_LEVEL 
     #define LOG_LEVEL LOG_LEVEL_VERBOSE
 #endif
 
-
-#define FBGC_LOGFORMATSIMPLE(color,format) color "" format "" ANSI_COLOR_RESET 
-#define FBGC_LOGFORMATDETAILED(color,format) color "%s/%s[%u]: " format "" ANSI_COLOR_RESET ,__FILE__,__FUNCTION__,  __LINE__
+#ifndef LOG_NO_COLOR
+	#define FBGC_LOGFORMATDETAILED(color,format) color "(%s/%s:%u): " format "" ANSI_COLOR_RESET ,__FILE__,__FUNCTION__,  __LINE__
+	#define FBGC_LOGFORMATSIMPLE(color,format) FBGC_LOGFORMATDETAILED(color,format)
+	//color "" format "" ANSI_COLOR_RESET 
+#else
+	#define FBGC_LOGFORMATDETAILED(color,format) "(%s/%s:%u): " format "" ,__FILE__,__FUNCTION__,  __LINE__
+	#define FBGC_LOGFORMATSIMPLE(color,format)  
+	//"" format ""
+	
+#endif
 
 //These loge and logw are for compiler not for users or developers
 

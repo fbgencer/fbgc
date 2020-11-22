@@ -37,6 +37,9 @@ extern "C" {
 #include <stdbool.h>
 #include <setjmp.h>
 
+
+#include "../fbgc_config.h"
+
 #include "../include/queue.h"
 #include "../include/vector.h"
 #include "../include/bool_vector.h"
@@ -78,6 +81,8 @@ extern "C" {
 
 extern struct fbgc_object * current_field;
 extern struct fbgc_object * __fbgc_nil;
+extern struct fbgc_object ** __fbgc_runtime_program_stack;
+
 struct fbgc_object * fbgc_load_module(const char * module_name,const char * fun_name, uint8_t load_key);
 struct fbgc_object * fbgc_load_file(const char * file_name,const char * fun_name, uint8_t load_key);
 int8_t parse_tuple_content(struct fbgc_cfun_arg * cfun_arg, const char * format, ...);

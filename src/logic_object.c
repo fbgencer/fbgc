@@ -14,8 +14,8 @@
 // along with fbgc.  If not, see <https://www.gnu.org/licenses/>.
 #include "fbgc.h"
 
-struct fbgc_logic_object fbgc_logic_true =  {.base = {.mark_bit = 0, .type = LOGIC}, .content = 1};
-struct fbgc_logic_object fbgc_logic_false = {.base = {.mark_bit = 0, .type = LOGIC}, .content = 0};
+struct fbgc_logic_object fbgc_logic_true =  {.base = {.type = LOGIC}, .content = 1};
+struct fbgc_logic_object fbgc_logic_false = {.base = {.type = LOGIC}, .content = 0};
 
 struct fbgc_object  * new_fbgc_logic_object(int i){
     return (struct fbgc_object * )((i) ? &fbgc_logic_true : &fbgc_logic_false);

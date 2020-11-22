@@ -21,34 +21,6 @@
 extern "C" {
 #endif
 
-#define KILOBYTE 1024
-#define MEGABYTE 1024*KILOBYTE
-
-
-/*! @def FBGC_DEFAULT_OBJECT_POOL_SIZE
-    \brief fbgc default object pool size in terms of bytes before compilation of the program, this parameter must be changed for different platforms depends on the memory of the system
-	\details If the requested memory is bigger than the default pool size, new pools have size by the integer multiplication of the default pool size
-*/
-#define FBGC_DEFAULT_OBJECT_POOL_SIZE  (size_t)1*KILOBYTE
-
-/*! @def FBGC_DEFAULT_RAW_MEMORY_POOL_SIZE
-    \brief fbgc default object pool size in terms of bytes before compilation of the program, this parameter must be changed for different platforms depends on the memory of the system
-	\details If the requested memory is bigger than the default pool size, new pools have size by the integer multiplication of the default pool size
-*/
-#define FBGC_DEFAULT_RAW_MEMORY_POOL_SIZE  (size_t)1024*1024*KILOBYTE
-
-/*! @def FBGC_STATIC_INTERNAL_MEMORY_SIZE
-    \brief fbgc static internal memory size in bytes. 
-	\details Size value can be changed depends on the platform memory
-*/
-#define FBGC_STATIC_INTERNAL_MEMORY_SIZE (size_t)(100*1024*KILOBYTE)
-
-
-/*! @def FBGC_MAX_MEMORY_SIZE 
-    \brief fbgc tries to increase its memory sizes unless if hits the max memory size, it is directive to hold memory not grow too much
-	\details Maximum size value can be changed depends on the platform memory, if it is an embedded system this value could be useful for a reliable run time
-*/
-#define FBGC_MAX_MEMORY_SIZE (size_t) 0
 
 struct fbgc_memory_pool{
 	uint8_t * data; 	//<! Actual data pointer which holds the pool buffer, all allocated objects live in this buffer
@@ -149,10 +121,6 @@ void print_fbgc_memory_block();
 uint32_t capacity_fbgc_raw_memory(void * ptr,size_t block_size);
 
 
-#define	FBGC_MALLOC_OPTIMIZATION_NONE 	0x00
-#define	FBGC_MALLOC_OPTIMIZATION_FOR_MEMORY 0x01
-#define	FBGC_MALLOC_OPTIMIZATION_FOR_SPEED 	0x02
-#define	FBGC_MALLOC_OPTIMIZATION_MEMORY_AND_SPEED 0x01 | 0x02
 
 extern size_t allocation;
 
@@ -162,7 +130,7 @@ struct __fbgc_mem_free_list_entry{
 	size_t size;
 };
 
-#define TRACEABLE_POINTER_LIST_INITIAL_CAPACITY 1024*100
+
 
 /*! @def struct traceable_pointer_entry 
     \brief fbgc.
@@ -178,7 +146,6 @@ struct traceable_pointer_entry{
  */
 typedef enum {
 	GC_STATE_NOT_INITIALIZED = 0,
-	GC_STATE_READY_TO_SWEEP,
 	GC_STATE_INITIALIZED,
 	GC_STATE_PAUSED,
 	GC_STATE_SCANNING_POOLS,
@@ -187,48 +154,26 @@ typedef enum {
 	GC_STATE_STOPPED
 }GC_STATES;
 
-#define FBGC_GC_MAXIMUM_CYCLE 1000000
 
 struct fbgc_garbage_collector{
+	struct fbgc_object ** roots[FBGC_GC_ROOT_SIZE];
 	size_t max_cycle;
 	size_t cycle;
-	//uint8_t * last_location;
 	void * stack_bottom;
-	//struct fbgc_memory_pool * current_raw_memory;
-	//struct fbgc_memory_pool * current_object_pool;
-	//struct traceable_pointer_list ptr_list;
 	struct fbgc_queue tpe_queue;
 	uint8_t state;
+	
+	uint8_t roots_scanned:1;
+	uint8_t run_gc_for_next_cycle:1;
 	uint8_t pools_scan_finished:1;
 	uint8_t cstack_scan_finished:1;
 	uint8_t free_list_is_ready:1;
 };
 
+void fbgc_gc_mark_raw_memory_pointer(void * base_ptr, size_t block_size);
+void fbgc_gc_mark_fbgc_object(struct fbgc_object * obj_ptr);
 
-
-#define GC_WHITE 0
-#define GC_GRAY  1
-#define GC_BLACK 2
-#define GC_DARK 3
-
-#define set_gc_white(x)	( (x)->mark_bit = GC_WHITE)
-#define set_gc_gray(x)	( (x)->mark_bit = GC_GRAY)
-#define set_gc_black(x)	( (x)->mark_bit = GC_BLACK)
-#define set_gc_dark(x)	( (x)->mark_bit = GC_DARK)
-
-#define is_gc_white(x)	( (x)->mark_bit == GC_WHITE)
-#define is_gc_gray(x)	( (x)->mark_bit == GC_GRAY)
-#define is_gc_black(x)	( (x)->mark_bit == GC_BLACK)
-#define is_gc_dark(x)	( (x)->mark_bit == GC_DARK)
-
-#define set_raw_memory_gc_white(x) ( set_gc_white(cast_from_raw_memory_data_to_raw_memory(x)) )
-#define set_raw_memory_gc_gray(x) ( set_gc_gray(cast_from_raw_memory_data_to_raw_memory(x)) )
-#define set_raw_memory_gc_black(x) ( set_gc_black(cast_from_raw_memory_data_to_raw_memory(x)) )
-#define set_raw_memory_gc_dark(x) ( set_gc_dark(cast_from_raw_memory_data_to_raw_memory(x)) )
-
-
-void fbgc_gc_mark_pointer(void * base_ptr, size_t block_size);
-void fbgc_gc_init(struct fbgc_object * root,void * stack_bottom);
+void fbgc_gc_init(void * stack_bottom, uint8_t roots_len, ...);
 void fbgc_gc_run(size_t run_cycle);
 
 

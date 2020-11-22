@@ -23,8 +23,6 @@ struct iter_function_ptr_struct{
 	int iterator;
 };
 
-#define PROGRAM_STACK_SIZE 100
-
 
 struct fun_call_packet{
 	// maybe we can add later, struct fbgc_object * fun; //!< Called function
@@ -53,20 +51,21 @@ struct fbgc_object * prepare_fun_call_packet(struct fbgc_ll_base * _pc, struct f
 struct interpreter_packet * global_interpreter_packet = NULL;
 
 
-
 uint8_t interpreter(struct fbgc_object ** field_obj){
-	current_field = * field_obj;
+	
+	
+	current_field = *field_obj;
 	struct fbgc_ll * head = _cast_llbase_as_ll( cast_fbgc_object_as_field(*field_obj)->code );
 
 	//Drop the tail object, make it null so if we want to run a function we can just use this
-	head->tail->next->next = NULL; 
-	
-	//This is the stack of all operations in this field object
-	struct fbgc_object * stack = new_fbgc_tuple_object(PROGRAM_STACK_SIZE);
-	//sp is just stack pointer
-	struct fbgc_object ** sp = content_fbgc_tuple_object(stack);
+	head->tail->next->next = NULL;
+
+	if(__fbgc_runtime_program_stack == NULL){
+		__fbgc_runtime_program_stack = (struct fbgc_object**) fbgc_malloc(FBGC_RUNTIME_PROGRAM_STACK_SIZE * sizeof(struct fbgc_object *));
+	}
+
 	struct interpreter_packet ip = {	
-			sp, //sp
+			__fbgc_runtime_program_stack, //sp
 			NULL, //current_scope
 			head->base.next,  // pc
 			0,//sctr
@@ -115,9 +114,6 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 #define SET_AT_FP(n, x)	(sp[fctr+(n)] = (x))	//!< Detailed description after the member
 #define FETCH_NEXT()(pc = pc->next)				//!< Detailed description after the member,
 
-#define RECURSION_LIMIT 1000					//!< Recursion depth of function calls
-
-
 	FBGC_LOGV(INTERPRETER,"==========[INTERPRETER]==========\n");
 	int i = 0; 
 	while(pc != NULL){
@@ -127,12 +123,12 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 		goto INTERPRETER_ERROR_LABEL;
 	}*/
 
-	if(recursion_ctr>RECURSION_LIMIT){
+	if(recursion_ctr>FBGC_RUNTIME_PROGRAM_RECURSION_LIMIT){
 		printf("Reached Recursion limit!\n");
 		break;
 	}
 
-	if(sctr > PROGRAM_STACK_SIZE){
+	if(sctr > FBGC_RUNTIME_PROGRAM_STACK_SIZE){
 		printf("Stack Overflow!");
 		break;
 	}

@@ -209,7 +209,7 @@ static inline size_t size_of_fbgc_class_object(struct fbgc_object * self){
 }
 
 static inline void gc_mark_fbgc_class_object(struct fbgc_object * self){
-	fbgc_gc_mark_pointer(cast_fbgc_object_as_class(self)->variables,1);
+	fbgc_gc_mark_fbgc_object(cast_fbgc_object_as_class(self)->variables);
 }
 
 

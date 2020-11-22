@@ -196,7 +196,7 @@ switch(op)
                 if(s2 == NULL){
                     s2 = content_fbgc_str_object(a) + length_fbgc_str_object(a);
                 }
-                tp = push_back_fbgc_tuple_object(tp, new_fbgc_str_object_from_substr(s1,s2) );
+                push_back_fbgc_tuple_object(tp, new_fbgc_str_object_from_substr(s1,s2) );
                 if(*s2 == '\0') break;
                 s1 = (s2 += length_fbgc_str_object(b));
             }

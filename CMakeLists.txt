@@ -5,18 +5,21 @@ project(fbgc VERSION 0.1.0)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Os -fdata-sections -ffunction-sections -flto -fno-optimize-sibling-calls -fno-omit-frame-pointer")
 
-
-
 add_subdirectory("src")
 add_subdirectory("cmodules")
+
 
 add_executable (fbgc fbgc.c)
 
 target_link_libraries (fbgc LINK_PUBLIC fbgc_libs fbgc_cmodules)
 
+target_include_directories(fbgc_libs PUBLIC fbgc_config.h)
+
 #set (CMAKE_CXX_FLAGS "-Os -fdata-sections -ffunction-sections -flto -fno-optimize-sibling-calls -fno-omit-frame-pointer")
 #set (CMAKE_C_FLAGS "-Os -fdata-sections -ffunction-sections -flto -fno-optimize-sibling-calls -fno-omit-frame-pointer")
+
 #DELETE THE LAST UNDERSCORE TO OPEN LOG PRINTING FOR A SPECIFIC H FILE
+
 
 target_compile_definitions(fbgc_libs PUBLIC -DLOG_CLASS_OBJECT_)
 target_compile_definitions(fbgc_libs PUBLIC -DLOG_CMODULE_OBJECT_)
@@ -33,7 +36,7 @@ target_compile_definitions(fbgc_libs PUBLIC -DLOG_LINKEDLIST_)
 target_compile_definitions(fbgc_libs PUBLIC -DLOG_LOGIC_OBJECT_)
 target_compile_definitions(fbgc_libs PUBLIC -DLOG_MATRIX_OBJECT_)
 target_compile_definitions(fbgc_libs PUBLIC -DLOG_MAP_OBJECT_)
-target_compile_definitions(fbgc_libs PUBLIC -DLOG_MEMORY_)
+target_compile_definitions(fbgc_libs PUBLIC -DLOG_MEMORY)
 target_compile_definitions(fbgc_libs PUBLIC -DLOG_OPERATOR_)
 target_compile_definitions(fbgc_libs PUBLIC -DLOG_PARSER_)
 target_compile_definitions(fbgc_libs PUBLIC -DLOG_RANGE_OBJECT_)

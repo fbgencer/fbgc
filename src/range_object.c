@@ -169,9 +169,9 @@ static inline size_t size_of_fbgc_range_object(struct fbgc_object * self){
 }
 
 static inline void gc_mark_fbgc_range_object(struct fbgc_object * self){
-    fbgc_gc_mark_pointer(cast_fbgc_object_as_range(self)->start,1);
-    fbgc_gc_mark_pointer(cast_fbgc_object_as_range(self)->step,1);
-    fbgc_gc_mark_pointer(cast_fbgc_object_as_range(self)->end,1);
+    fbgc_gc_mark_fbgc_object(cast_fbgc_object_as_range(self)->start);
+    fbgc_gc_mark_fbgc_object(cast_fbgc_object_as_range(self)->step);
+    fbgc_gc_mark_fbgc_object(cast_fbgc_object_as_range(self)->end);
 }
 
 

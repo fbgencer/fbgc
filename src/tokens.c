@@ -19,7 +19,7 @@
 //When we print AST we need to know the string repr. of the token so we are using below functions and arrays.
 
 const char * object_name_array[]={
- TOKEN_LIST_AS_STRINGS()
+	TOKEN_LIST_AS_STRINGS()
 };
 
 

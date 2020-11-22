@@ -558,7 +558,7 @@ static inline size_t size_of_fbgc_map_object(struct fbgc_object * self){
 }
 
 static inline void gc_mark_fbgc_map_object(struct fbgc_object * self){
-    fbgc_gc_mark_pointer((cast_fbgc_object_as_map(self)->content),sizeof(struct fbgc_map_pair *));
+    fbgc_gc_mark_raw_memory_pointer((cast_fbgc_object_as_map(self)->content),sizeof(struct fbgc_map_pair *));
 }
 
 

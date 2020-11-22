@@ -31,9 +31,6 @@ struct fbgc_instance_object{
 	struct fbgc_object * template_class; //The class which creates this instance
 	struct fbgc_object * variables; //tuple from class variable map-values, does not contain keys we will find with indexes
 };
-
-
-
 extern const struct fbgc_object_property_holder fbgc_instance_object_property_holder;
 
 #define cast_fbgc_object_as_class(x)(((struct fbgc_class_object*) x))

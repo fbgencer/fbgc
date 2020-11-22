@@ -34,11 +34,9 @@ struct fbgc_map_object{
 	uint8_t rehash_at_next_insertion : 1;
 	
 };
-
+extern const struct fbgc_object_property_holder fbgc_map_object_property_holder;
 
 #define MAX_ALLOWED_PSL 5
-
-extern const struct fbgc_object_property_holder fbgc_map_object_property_holder;
 
 #define cast_fbgc_object_as_map(x)(((struct fbgc_map_object*) x))
 

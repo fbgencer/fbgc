@@ -19,8 +19,6 @@
 extern "C" {
 #endif
 
-#define INITIAL_SYMBOL_TABLE_SIZE 16
-
 
 struct general_symbol_container{
 	struct fbgc_object * sym;
@@ -41,11 +39,23 @@ struct fbgc_identifier{
 };
 
 
-struct fbgc_object * initialize_fbgc_symbol_table();
+void initialize_fbgc_symbol_table();
 struct fbgc_ll_base * new_fbgc_symbol_from_substr(const char * str1, const char * str2);
 
 void print_fbgc_symbol_table(struct fbgc_object * );
-void free_fbgc_symbol_table(struct fbgc_object * );
+
+
+#ifdef LOG_SYMBOL_TABLE
+#define SYMBOL_TABLE_LOGV(format,...) LOGV(format,##__VA_ARGS__)
+#define SYMBOL_TABLE_LOGD(format,...) LOGD(format,##__VA_ARGS__)
+#define _SYMBOL_TABLE_LOGV(format,...) _LOGV(format,##__VA_ARGS__)
+#define _SYMBOL_TABLE_LOGD(format,...) _LOGD(format,##__VA_ARGS__) 
+#else
+#define SYMBOL_TABLE_LOGV(...)
+#define SYMBOL_TABLE_LOGD(...)
+#define _SYMBOL_TABLE_LOGV(...)
+#define _SYMBOL_TABLE_LOGD(...)
+#endif
 
 
 #ifdef  __cplusplus

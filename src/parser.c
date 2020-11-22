@@ -735,8 +735,6 @@ uint8_t parse_file(struct fbgc_object ** field_obj, const char * file_name){
 		return 0;
 	}
 
-
-
 	//printf("Adding new file name %s\n",file_name );
 	//add_variable_in_field_object(*field_obj,"__file__",new_fbgc_str_object(file_name));
 	
@@ -749,10 +747,11 @@ uint8_t parse_file(struct fbgc_object ** field_obj, const char * file_name){
 		if(p.line[0] == '#' || p.line[0] == '\0') {
 			continue; //fast passing the comment
 		}
-
+		
 		p.head->tail->next = p.iter_prev;
 		regex_lexer(field_obj,p.line);
 		p.iter = p.iter_prev->next;
+		
 		if(parser(&p) != _FBGC_NO_ERROR){
 			break;
 		}
