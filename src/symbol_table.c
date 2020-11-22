@@ -27,8 +27,6 @@ struct fbgc_ll_base * new_fbgc_symbol_from_substr(const char * str1,const char *
 	//General symbol holder see symbol_table.h
 	struct fbgc_object ** symbols = content_fbgc_tuple_object(fbgc_symbols);
 
-	printf("fooo Size %d\n",size_fbgc_tuple_object(fbgc_symbols));
-	
 	for(size_t i = 0; i<size_fbgc_tuple_object(fbgc_symbols); i++){
 		//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 		// Find something proper, don't check the string size first but without checking the first match of n characters will return true 

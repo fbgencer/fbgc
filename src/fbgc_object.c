@@ -47,6 +47,7 @@ const struct fbgc_object_property_holder * get_fbgc_object_property_holder(struc
 		case CSTRUCT: return cast_fbgc_object_as_cstruct(o)->properties;
 		case FUN : return &fbgc_fun_object_property_holder;
 		case CLASS : return &fbgc_class_object_property_holder;
+		case CFUN: return &fbgc_cfun_object_property_holder;
 	}
 	FBGC_LOGE("Type %s does not have property holder\n",objtp2str(o));
 	assert(0);

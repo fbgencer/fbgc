@@ -74,6 +74,28 @@ struct fbgc_object * new_cfun_object_from_str(struct fbgc_object * field_obj, co
 	return NULL;
 }
 
+uint8_t print_fbgc_cfun_object(struct fbgc_object * obj){
+		return printf("%p",cast_fbgc_object_as_cfun(obj)->function);  
+}
+
+static inline size_t size_of_fbgc_cfun_object(struct fbgc_object * self){
+    return sizeof(struct fbgc_cfun_object);
+}
+
+
+
+const struct fbgc_object_property_holder fbgc_cfun_object_property_holder = {
+	.bits = _BIT_PRINT | 
+	_BIT_SIZE_OF
+	,
+	.properties ={
+		{.print = &print_fbgc_cfun_object},
+		{.size_of = &size_of_fbgc_cfun_object},
+	}
+};
+
+
+
 
 void print_fbgc_cmodule(const struct fbgc_cmodule * obj){
 	/*cprintf(100,"[Cmodule Object]:{%s}\n",obj->initializer.name);

@@ -630,16 +630,18 @@ int main(int argc, char const *argv[]){
 
 	initialize_fbgc_memory_block(); //Initialize the memory and other things for the program
 
-	fbgc_gc_init(__builtin_frame_address(0), 3,&current_field,&__fbgc_runtime_program_stack, &fbgc_symbols); //Initialize garbage collector
+	fbgc_gc_init(__builtin_frame_address(0), 3,&fbgc_symbols,&current_field,&__fbgc_runtime_program_stack); //Initialize garbage collector
 
 	initialize_fbgc_symbol_table();
 	current_field = new_fbgc_field(2,&_fbgc_io_property_holder,&_fbgc_stl_property_holder);
 	
 	FBGC_LOGW("Initialization is finished\n");
-	FBGC_LOGW("sss Size %ld\n",size_fbgc_tuple_object(fbgc_symbols));
 	
-	fbgc_handle_program_args(argc,argv);
-
+	//fbgc_handle_program_args(argc,argv);
+	fbgc_gc_run(1000000);
+	//print_fbgc_memory_block();
+	print_fbgc_memory_object_pool();
+	//print_fbgc_memory_raw_memory();
 	free_fbgc_memory_block(); //Free the all memory that we allocated and close the program
 
 	return 0;

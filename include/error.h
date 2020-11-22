@@ -39,8 +39,7 @@ extern "C" {
 
 #ifndef LOG_NO_COLOR
 	#define FBGC_LOGFORMATDETAILED(color,format) color "(%s/%s:%u): " format "" ANSI_COLOR_RESET ,__FILE__,__FUNCTION__,  __LINE__
-	#define FBGC_LOGFORMATSIMPLE(color,format) FBGC_LOGFORMATDETAILED(color,format)
-	//color "" format "" ANSI_COLOR_RESET 
+	#define FBGC_LOGFORMATSIMPLE(color,format) color "" format "" ANSI_COLOR_RESET 
 #else
 	#define FBGC_LOGFORMATDETAILED(color,format) "(%s/%s:%u): " format "" ,__FILE__,__FUNCTION__,  __LINE__
 	#define FBGC_LOGFORMATSIMPLE(color,format)  

@@ -8,7 +8,7 @@
 //############## SYMBOL TABLE ######################
 
 //SYMBOL TABLE STATIC SIZE
-#define INITIAL_SYMBOL_TABLE_SIZE 32
+#define INITIAL_SYMBOL_TABLE_SIZE 8
 
 
 //############## MEMORY ######################
@@ -20,13 +20,13 @@
     \brief fbgc default object pool size in terms of bytes before compilation of the program, this parameter must be changed for different platforms depends on the memory of the system
 	\details If the requested memory is bigger than the default pool size, new pools have size by the integer multiplication of the default pool size
 */
-#define FBGC_DEFAULT_OBJECT_POOL_SIZE  ((size_t)1*KILOBYTE)
+#define FBGC_DEFAULT_OBJECT_POOL_SIZE  ((size_t)256)
 
 /*! @def FBGC_DEFAULT_RAW_MEMORY_POOL_SIZE
     \brief fbgc default object pool size in terms of bytes before compilation of the program, this parameter must be changed for different platforms depends on the memory of the system
 	\details If the requested memory is bigger than the default pool size, new pools have size by the integer multiplication of the default pool size
 */
-#define FBGC_DEFAULT_RAW_MEMORY_POOL_SIZE  ((size_t)20*KILOBYTE)
+#define FBGC_DEFAULT_RAW_MEMORY_POOL_SIZE  ((size_t)1*KILOBYTE)
 
 /*! @def FBGC_STATIC_INTERNAL_MEMORY_SIZE
     \brief fbgc static internal memory size in bytes. 
@@ -52,7 +52,7 @@
 //############## GARBAGE COLLECTOR ######################
 
 #define FBGC_GC_ROOT_SIZE 3
-#define FBGC_GC_MAXIMUM_CYCLE 1000
+#define FBGC_GC_MAXIMUM_CYCLE 100000
 
 #define FBGC_GC_RUN_IN_ALLOCATORS TRUE
 

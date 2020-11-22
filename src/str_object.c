@@ -524,7 +524,7 @@ struct fbgc_object * abs_operator_fbgc_str_object(struct fbgc_object * self){
 
 
 static inline size_t size_of_fbgc_str_object(struct fbgc_object * self){
-    return sizeof(struct fbgc_str_object) + cast_fbgc_object_as_str(self)->len+1;
+    return (sizeof(struct fbgc_str_object) + cast_fbgc_object_as_str(self)->len+1);
 }
 
 const struct fbgc_object_property_holder fbgc_str_object_property_holder = {

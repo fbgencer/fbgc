@@ -199,9 +199,13 @@ static uint8_t check_pointer_align_in_object_pool(const void * ptr){
 		if((uint8_t*)ptr >= start && (uint8_t*)ptr <= end){
 			//Ok ptr is in the pool, scan from the beginning (so exhausting)
 			for(const uint8_t * it = start; it <= end;){
-				if(it == NULL)	
+				//cprintf(100,"Now :%p:%p|%d|%d\n",ptr,it,it == NULL,it == iter->tptr);
+				if(it == NULL || (*(struct fbgc_object **)it) == NULL || it == iter->tptr){
 					break;
-				if(it == ptr) return 1;	
+				}
+				if(it == ptr){
+					return 1;
+				}
 				it += size_of_fbgc_object((struct fbgc_object*)it);
 			}
 		};
@@ -262,26 +266,28 @@ static void * _fbgc_malloc_from_object_pool(size_t size){
 	#if FBGC_GC_RUN_IN_ALLOCATORS == TRUE
 	//Check that if we don't have enough space or half of the space is full, we will run GC
 	if(fbgc_gc.run_gc_for_next_cycle){
-		FBGC_LOGW("*** calling run! ***\n");
-		fbgc_gc_run(100000);
+		FBGC_LOGV(MEMORY,"calling run! ***\n");
+		fbgc_gc_run(10000000);
+		FBGC_LOGV(MEMORY,"*** gc finished %d ***\n",fbgc_gc.free_list_is_ready);
 	}
 	#endif
 
 
 	#if FBGC_MALLOC_OPTIMIZATION == FBGC_MALLOC_OPTIMIZATION_FOR_MEMORY
-	
 	//Remove second condition, we will remove tptr anyway
-		if(fbgc_gc.free_list_is_ready && pool->tptr != pool->data){
+		if(fbgc_gc.free_list_is_ready){
 			FBGC_LOGD(MEMORY,"Checking the free-lists\n");
 			struct fbgc_vector * v = &fbgc_memb.object_free_list;
 			//Traverse back
+			print_free_list(v);
 			for (int i = size_fbgc_vector(v)-1; i>=0; --i){
 				struct __fbgc_mem_free_list_entry * fle = (struct __fbgc_mem_free_list_entry *) at_fbgc_vector(v,i);
-				int32_t diff = (fle->size - size);
-				FBGC_LOGV(MEMORY,"Checking fle->size :%ld,diff:%d\n",fle->size,diff);
+				if(size > fle->size) continue;
+				size_t diff = (fle->size - size);
+				FBGC_LOGV(MEMORY,"Checking fle->size :%lu,diff:%lu\n",fle->size,diff);
 				//Do not divide if divided space is too small to fit at least one int object, or already smaller than the size
-				if(diff == 0 || (size_t)diff >= sizeof(struct fbgc_int_object)){
-					FBGC_LOGV(MEMORY,"Requested memory found in the free list size:%ld | ptr:%p\n", size,fle->start);
+				if(diff == 0 || diff >= sizeof(struct fbgc_int_object)){
+					FBGC_LOGV(MEMORY,"Requested memory found in the free list size:%lu | ptr:%p\n", size,fle->start);
 					//exact match or a good match so we can divide easily this portion
 					void * return_ptr = fle->start;
 					claim_pointer_and_arrange_free_list(v,return_ptr,size);
@@ -305,7 +311,7 @@ static void * _fbgc_malloc_from_object_pool(size_t size){
 			#if FBGC_GC_RUN_IN_ALLOCATORS == TRUE
 			size_t rest_size = pool->size - available_pool_size;
 			if( (rest_size*2) >= pool->size){
-				FBGC_LOGE("Half of the memory is full!\n");
+				FBGC_LOGD(MEMORY,"Half of the memory is full!\n");
 				fbgc_gc.run_gc_for_next_cycle = true;
 			}
 			#endif
@@ -342,16 +348,65 @@ static void * _fbgc_malloc_from_raw_memory_pool(size_t size){
 
 	size_t requested_size = size+sizeof(struct fbgc_raw_memory);
 
+	#if FBGC_GC_RUN_IN_ALLOCATORS == TRUE
+	//Check that if we don't have enough space or half of the space is full, we will run GC
+	if(fbgc_gc.run_gc_for_next_cycle){
+		FBGC_LOGV(MEMORY,"calling run! ***\n");
+		fbgc_gc_run(10000000);
+		FBGC_LOGV(MEMORY,"*** gc finished %d ***\n",fbgc_gc.free_list_is_ready);
+	}
+	#endif
+
+	#if FBGC_MALLOC_OPTIMIZATION == FBGC_MALLOC_OPTIMIZATION_FOR_MEMORY
+	
+	//Remove second condition, we will remove tptr anyway
+		if(fbgc_gc.free_list_is_ready && pool->tptr != pool->data){
+			FBGC_LOGD(MEMORY,"Checking the free-lists\n");
+			struct fbgc_vector * v = &fbgc_memb.raw_memory_free_list;
+			//Traverse back
+			FBGC_LOGD(MEMORY,"Printing raw memory free list:\n");
+			print_free_list(v);
+			for (int i = size_fbgc_vector(v)-1; i>=0; --i){
+				struct __fbgc_mem_free_list_entry * fle = (struct __fbgc_mem_free_list_entry *) at_fbgc_vector(v,i);
+				
+				if(size > fle->size) continue;
+				size_t diff = (fle->size - size);
+				FBGC_LOGV(MEMORY,"Checking fle->size :%lu,diff:%lu\n",fle->size,diff);
+				//Do not divide if divided space is too small to fit at least one int object, or already smaller than the size
+				if(diff == 0 || diff >= sizeof(int)){
+					FBGC_LOGV(MEMORY,"Requested memory found in the free list size:%lu | ptr:%p\n", size,fle->start);
+					//exact match or a good match so we can divide easily this portion
+					void * return_ptr = fle->start;
+					claim_pointer_and_arrange_free_list(v,return_ptr,size);
+					FBGC_LOGD(MEMORY,"Printing raw memory free list:\n");
+					print_free_list(v);
+					return return_ptr;
+				}
+			}
+		}
+	#endif
+
+
 	do{
 		FBGC_LOGV(MEMORY,"Current pool total memory:%lu,available mem:%lu\n",pool->size,(pool->end - pool->tptr));
 		
+		const ptrdiff_t available_pool_size = (ptrdiff_t)(pool->end - pool->tptr);
 		//Before calculating the space also include the byte size of the chunk
-		if( (ptrdiff_t)(pool->end - pool->tptr) >= (ptrdiff_t)requested_size){
+		if( available_pool_size >= (ptrdiff_t)requested_size){
 			
 			struct fbgc_raw_memory * rb =  (struct fbgc_raw_memory *)pool->tptr;
 			rb->capacity = size;
 			//memory is available, give it and shift tptr
 			pool->tptr += requested_size;
+			
+			#if FBGC_GC_RUN_IN_ALLOCATORS == TRUE
+			size_t rest_size = pool->size - available_pool_size;
+			if( (rest_size*2) >= pool->size){
+				FBGC_LOGD(MEMORY,"Half of the memory is full!\n");
+				fbgc_gc.run_gc_for_next_cycle = true;
+			}
+			#endif
+
 			FBGC_LOGV(MEMORY,"Returning address:%p\n\n",rb->data);
 			return rb->data;
 		}
@@ -545,7 +600,7 @@ static void claim_pointer_and_arrange_free_list(struct fbgc_vector * v, void * p
 
 	//@TODO if free list_entry size is zero we cannot remove it..
 	uint8_t * p1 = (uint8_t*)ptr, * p2 = (uint8_t*) ptr+size;
-	FBGC_LOGD(MEMORY,"Claimed pointer{%p:%p}:%ld\n",p1,p2,size);
+	FBGC_LOGD(MEMORY,"Claimed pointer between{%p - %p}:%ld\n",p1,p2,size);
 
 
 	for(size_t i = 0; i<size_fbgc_vector(v); ++i){
@@ -644,8 +699,14 @@ static void internal_fbgc_gc_trace_stack(void){
 			else if(is_fbgc_object_pointer(data_maybe)){
 				//print_fbgc_memory_block();
 				FBGC_LOGV(MEMORY,"Object found :%p | type:%d\n",data_maybe,((struct fbgc_object*)data_maybe)->type);
-				claim_fbgc_object_and_arrange_free_list(data_maybe);
-				gc_mark_fbgc_object(data_maybe);
+				if(check_pointer_align_in_object_pool(data_maybe)){
+					claim_fbgc_object_and_arrange_free_list(data_maybe);
+					gc_mark_fbgc_object(data_maybe);
+				}
+				else{
+					FBGC_LOGV(MEMORY,"Object alignment problem xx\n");
+				}
+				
 			}
 			//Most of the time we have the else situation
         }
@@ -731,9 +792,9 @@ static void fbgc_gc_trace_pools(){
 			do{
 				FBGC_LOGV(MEMORY,"Traveler ptr %p | %p\n",tpe->tptr,tpe_end);
 				//That is OK, pointer could be NULL, just shift and look for the new references
-				if(tpe->tptr != NULL){
+				void * ptr = *(void **)tpe->tptr; //We will dereference this pointer and check its location
+				if(tpe->tptr != NULL && ptr != NULL){
 					--fbgc_gc.cycle; _FBGC_LOGV(MEMORY,"--cycle\n");
-					void * ptr = *(void **)tpe->tptr; //We will dereference this pointer and check its location
 					FBGC_LOGV(MEMORY,"Dereferencing tpe ptr : %p, to %p\n",tpe->tptr,ptr);
 					//So this pointer where does it live ?
 					if(is_fbgc_object_pointer(ptr)){
@@ -755,13 +816,15 @@ static void fbgc_gc_trace_pools(){
 							struct fbgc_raw_memory * maybe_raw_memory = cast_from_raw_memory_data_to_raw_memory(ptr);
 							//So this is really a pointer inside the raw memory pool
 							claim_fbgc_raw_memory_and_arrange_free_list(maybe_raw_memory);
-							if(maybe_raw_memory->capacity >= sizeof(void*))
-								fbgc_gc_mark_pointer(maybe_raw_memory->data,sizeof(void*));
+							if(maybe_raw_memory->capacity >= sizeof(void*)){
+								fbgc_gc_mark_pointer(maybe_raw_memory->data,1);
+							}
+								
 						}
 					}
 				}
 				tpe->tptr += tpe->block_size;
-				FBGC_LOGV(MEMORY,"Traveler ptr %p is iterated\n",tpe->tptr);
+				FBGC_LOGV(MEMORY,"Traveler ptr %p is iterated,tpe block size %lu\n",tpe->tptr,tpe->block_size);
 				if(tpe->tptr >= tpe_end){
 					FBGC_LOGV(MEMORY,"End of object:%p, popping from the queue\n",tpe->base_ptr);
 					//We have finished this buffer remove the buffer from the queue
@@ -903,13 +966,17 @@ void print_fbgc_memory_object_pool(){
 				cprintf(101,">>[%s] obj size in memory %d\n",objtp2str(dummy),size_of_fbgc_object(dummy));				
 				//print the address and the data in the memory!
 				//cprintf(101,"[%d][%p]:%0x",j,((iter->data)+j),val);
-
 			}
 			//else
 			{
 	   			cprintf(010,"[%d][%p]",j,((iter->data)+j));
-	   			cprintf(110,":%0x = %u",(uint8_t)val,(uint8_t)val);
-	   			
+	   			cprintf(110,":%0x",(uint8_t)val);
+	   			if(val != 0){
+					cprintf(110," = %03u",(uint8_t)val);
+				}
+				if(isprint(val)){
+					cprintf(110," = %c",val);
+				}
 			}
 			
 
