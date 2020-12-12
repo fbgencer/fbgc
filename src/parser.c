@@ -142,7 +142,7 @@ static void handle_function_args(struct parser_packet * p){
 
 		bool arg_finished_ok = false;
 
-		FBGC_LOGV(PARSER,"Current : Now iter:%s | iter_next :%s\n",lltp2str(iter),lltp2str(iter_next));
+		FBGC_LOGV(PARSER,"Current : Now iter:%s | iter_next :%s | flag:%d\n",lltp2str(iter),lltp2str(iter_next),get_ll_identifier_flag(iter_next));
 		if(iter_next->type == IDENTIFIER && is_id_flag_LOCAL(iter_next)){
 			FBGC_LOGV(PARSER,"Argument:(%s) validated!\n",content_fbgc_str_object(content_fbgc_tuple_object(tp)[get_ll_identifier_loc(iter->next)]));
 			from = iter_next;
@@ -953,6 +953,7 @@ static uint8_t parser(struct parser_packet * p){
 						FBGC_LOGD(PARSER,"%c\n",print_fbgc_object(fun_stack));
 						FBGC_LOGD(PARSER,"Symbol is created @ [%ld]\n",where);
 						set_ll_identifier_loc(p->iter,where);
+						
 						break;//Break do-while loop to go to at the end of case IDENTIFIER
 					}
 
@@ -992,8 +993,9 @@ static uint8_t parser(struct parser_packet * p){
 					symbol_map = cast_fbgc_object_as_field(current_scope)->variables;
 					set_id_flag_GLOBAL(p->iter);
 				}
-				else 
+				else{
 					break;
+				}
 			}
 
 			//New definition of our symbol
@@ -1015,7 +1017,7 @@ static uint8_t parser(struct parser_packet * p){
 			//Now current identifier object needs know the location of its definition
 			//set_ll_identifier_loc(p->iter,where);
 		}
-
+		cprintf(100,"id local ? %d\n",get_ll_identifier_flag(p->iter));
 		//Connect the list and insert current identifier
 		p->iter_prev->next = p->iter->next;
 		//push the identifier into op stack
@@ -1294,7 +1296,7 @@ static uint8_t parser(struct parser_packet * p){
 		//Normally code should point code but at this point it just holds one type 
 		cast_fbgc_object_as_fun(fun_obj)->code = _new_fbgc_ll_constant(new_fbgc_tuple_object(0));
 
-		if(current_scope->type == CLASS){
+		if(current_scope->type == CLASS && current_scope != current_field){
 			struct fbgc_object ** tp = &(_cast_llbase_as_llconstant(cast_fbgc_object_as_fun(fun_obj)->code)->content);
 			push_back_fbgc_tuple_object(*tp,new_fbgc_str_object("."));
 		}

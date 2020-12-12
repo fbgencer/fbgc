@@ -1,5 +1,6 @@
-i = 0
-while(i<15)
-    print(i)
-    i += 1
+F = fun(x:10,y:20, c() )
+    print(c)
+    return x+y
 end
+
+F(3,5,10,'fbg')

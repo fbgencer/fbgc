@@ -681,6 +681,7 @@ struct fbgc_object * run_code(struct interpreter_packet * ip){
 					struct fbgc_object * deftuple = _cast_llbase_as_llconstant(cast_fbgc_object_as_fun(funo)->code)->content;
 					print_fbgc_object(deftuple);
 
+					while(1);
 					int push_no = funo_no_arg - arg_no;
 					if(push_no > size_fbgc_tuple_object(deftuple)){
 						assert(0);

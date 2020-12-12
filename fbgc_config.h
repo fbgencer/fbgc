@@ -20,13 +20,13 @@
     \brief fbgc default object pool size in terms of bytes before compilation of the program, this parameter must be changed for different platforms depends on the memory of the system
 	\details If the requested memory is bigger than the default pool size, new pools have size by the integer multiplication of the default pool size
 */
-#define FBGC_DEFAULT_OBJECT_POOL_SIZE  ((size_t)256)
+#define FBGC_DEFAULT_OBJECT_POOL_SIZE  ((size_t)2048)
 
 /*! @def FBGC_DEFAULT_RAW_MEMORY_POOL_SIZE
     \brief fbgc default object pool size in terms of bytes before compilation of the program, this parameter must be changed for different platforms depends on the memory of the system
 	\details If the requested memory is bigger than the default pool size, new pools have size by the integer multiplication of the default pool size
 */
-#define FBGC_DEFAULT_RAW_MEMORY_POOL_SIZE  ((size_t)1*KILOBYTE)
+#define FBGC_DEFAULT_RAW_MEMORY_POOL_SIZE  ((size_t)5*KILOBYTE)
 
 /*! @def FBGC_STATIC_INTERNAL_MEMORY_SIZE
     \brief fbgc static internal memory size in bytes. 

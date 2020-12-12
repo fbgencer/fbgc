@@ -82,7 +82,7 @@ struct fbgc_ll_opcode_int{
 #define is_id_flag_GLOBAL(x)(_cast_fbgc_object_as_llidentifier(x)->flag == ID_FLAG_GLOBAL )
 #define is_id_flag_LOCAL(x)(_cast_fbgc_object_as_llidentifier(x)->flag == ID_FLAG_LOCAL )
 #define is_id_flag_CLASS(x)(_cast_fbgc_object_as_llidentifier(x)->flag == ID_FLAG_CLASS )
-#define is_id_flag_MEMBER(x)(_cast_fbgc_object_as_llidentifier(x)->flag & ID_FLAG_MEMBER)
+#define is_id_flag_MEMBER(x)(_cast_fbgc_object_as_llidentifier(x)->flag == ID_FLAG_MEMBER)
 #define is_id_flag_MEMBER_METHOD(x)(_cast_fbgc_object_as_llidentifier(x)->flag & ID_FLAG_MEMBER_METHOD )
 #define is_id_flag_PUSH_ITSELF(x)(_cast_fbgc_object_as_llidentifier(x)->flag & ID_FLAG_PUSH_ITSELF )
 
