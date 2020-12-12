@@ -37,51 +37,49 @@ extern "C" {
 #include <stdbool.h>
 #include <setjmp.h>
 
-
 #include "../fbgc_config.h"
 
-#include "../include/queue.h"
-#include "../include/vector.h"
-#include "../include/bool_vector.h"
+#include "queue.h"
+#include "vector.h"
+#include "bool_vector.h"
 
-#include "../include/utility.h"
-
-
-#include "../include/tokens.h"
-#include "../include/error.h"
-
-#include "../include/fbgc_object.h"
-
-#include "../include/memory.h"
-
-#include "../include/linked_list.h"
-#include "../include/array_object.h"
-#include "../include/double_object.h"
-#include "../include/int_object.h"
-#include "../include/logic_object.h"
-#include "../include/complex_object.h"	
-#include "../include/str_object.h"
-#include "../include/map_object.h"
-#include "../include/matrix_object.h"
-#include "../include/tuple_object.h"
-#include "../include/cmodule_object.h"
-#include "../include/fun_object.h"
-#include "../include/range_object.h"
-#include "../include/cstruct_object.h"
-#include "../include/class_object.h"
-
-#include "../include/symbol_table.h"
-#include "../include/field.h"
+#include "utility.h"
 
 
-#include "../include/relexer.h"
-#include "../include/grammar.h"
-#include "../include/parser.h"
-#include "../include/interpreter.h"
+#include "tokens.h"
+#include "error.h"
 
-extern struct fbgc_object * current_field;
-extern struct fbgc_object * __fbgc_nil;
-extern struct fbgc_object ** __fbgc_runtime_program_stack;
+#include "fbgc_object.h"
+
+#include "memory.h"
+
+#include "linked_list.h"
+#include "array_object.h"
+#include "double_object.h"
+#include "int_object.h"
+#include "logic_object.h"
+#include "complex_object.h"	
+#include "str_object.h"
+#include "map_object.h"
+#include "matrix_object.h"
+#include "tuple_object.h"
+#include "cmodule_object.h"
+#include "fun_object.h"
+#include "range_object.h"
+#include "cstruct_object.h"
+#include "class_object.h"
+
+#include "symbol_table.h"
+#include "field.h"
+
+
+#include "fbgc_runtime.h"
+
+#include "relexer.h"
+#include "grammar.h"
+#include "parser.h"
+#include "interpreter.h"
+
 
 struct fbgc_object * fbgc_load_module(const char * module_name,const char * fun_name, uint8_t load_key);
 struct fbgc_object * fbgc_load_file(const char * file_name,const char * fun_name, uint8_t load_key);

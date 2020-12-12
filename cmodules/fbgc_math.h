@@ -5,6 +5,7 @@
 extern "C" {
 #endif
 
+#include "fbgc.h"
 #define FBGC_MATH_PI 3.14159265358979323846264
 #define FBGC_MATH_E 2.7182818284590452354
 

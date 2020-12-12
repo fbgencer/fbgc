@@ -15,13 +15,11 @@
 #ifndef CMODULES_H
 #define CMODULES_H
 //stl and io should be loaded
-#include "../cmodules/fbgc_io.h"
-#include "../cmodules/fbgc_stl.h"
-
-
-#include "../cmodules/fbgc_math.h"
-#include "../cmodules/fbgc_file.h"
-#include "../cmodules/fbgc_time.h"
+#include "fbgc_io.h"
+#include "fbgc_stl.h"
+#include "fbgc_math.h"
+#include "fbgc_file.h"
+#include "fbgc_time.h"
 
 
 #ifdef __cplusplus
@@ -32,12 +30,8 @@ extern "C" {
 
 
 
-const struct fbgc_object_property_holder  * __property_holders[] =
-{
-	&_fbgc_math_property_holder,
-	&_fbgc_file_cstruct_property_holder,
-	//&fbgc_time_module			
-};
+#define CMODULE_PROPERTY_HOLDER_ARRAY_LEN 2
+extern const struct fbgc_object_property_holder  * cmodule_property_holder_array[CMODULE_PROPERTY_HOLDER_ARRAY_LEN];
 
 
 

@@ -1,4 +1,4 @@
-#include "../src/fbgc.h"
+#include "fbgc.h"
 void map_example1();
 
 void map_test(){

@@ -1,4 +1,4 @@
-#include "../src/fbgc.h"
+#include "fbgc.h"
 
 void keypair_test();
 void some_arbitrary_struct_test();

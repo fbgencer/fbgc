@@ -12,7 +12,7 @@
 
 // You should have received a copy of the GNU General Public License
 // along with fbgc.  If not, see <https://www.gnu.org/licenses/>.
-// #include "../src/fbgc.h"
+// #include "fbgc.h"
 // #include "fbgc_time.h"
 // #include <time.h>
 

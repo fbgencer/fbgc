@@ -1,6 +1,6 @@
-FILE(GLOB csources *.c)
-add_library(fbgc_cmodules ${csources})
+# FILE(GLOB csources *.c)
+# add_library(fbgc_cmodules ${csources})
 
-
-target_include_directories(fbgc_cmodules PUBLIC .)
-target_link_libraries(fbgc_cmodules m)
+# target_include_directories(fbgc_cmodules PUBLIC .)
+# target_include_directories(fbgc_cmodules PUBLIC ../include)
+# target_link_libraries(fbgc_cmodules m) #For math

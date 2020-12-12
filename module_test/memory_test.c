@@ -1,4 +1,4 @@
-#include "../src/fbgc.h"
+#include "fbgc.h"
 
 
 void memory_test(){

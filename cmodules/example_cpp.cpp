@@ -1,7 +1,7 @@
 // #ifdef __GNUG__
 // #ifdef __cplusplus
 
-// #include "../src/fbgc.h"
+// #include "fbgc.h"
 // #include "example_cpp.h"
 
 // #include <iostream>

@@ -1,6 +1,8 @@
 #ifndef FBGC_FILE_H
 #define FBGC_FILE_H
 
+#include "fbgc.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif

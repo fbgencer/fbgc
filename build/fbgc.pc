@@ -1,0 +1,12 @@
+prefix=/usr/local
+exec_prefix=/usr/local
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: fbgc
+Description: fbgc
+Version: 0.0.1
+
+Requires:
+Libs: -L${libdir} -lfbgc
+Cflags: -I${includedir}

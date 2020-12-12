@@ -5,6 +5,7 @@
 extern "C" {
 #endif
 
+#include "fbgc.h"
 extern const struct fbgc_object_property_holder _fbgc_io_property_holder;
 
 #ifdef  __cplusplus

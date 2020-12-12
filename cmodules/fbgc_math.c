@@ -12,7 +12,6 @@
 
 // You should have received a copy of the GNU General Public License
 // along with fbgc.  If not, see <https://www.gnu.org/licenses/>.
-#include "../src/fbgc.h"
 #include "fbgc_math.h"
 #include <tgmath.h>
 #include <complex.h>
